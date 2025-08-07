@@ -1,75 +1,364 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+import OnboardingQuiz from '@/components/OnboardingQuiz';
+import DailyTipCard from '@/components/DailyTipCard';
+import EveningCheckIn from '@/components/EveningCheckIn';
+import StorageService from '@/services/storage';
+import TipRecommendationService from '@/services/tipRecommendation';
+import NotificationService from '@/services/notifications';
+import { UserProfile, DailyTip, TipAttempt, TipFeedback } from '@/types/tip';
+import { format } from 'date-fns';
 
 export default function HomeScreen() {
+  const [loading, setLoading] = useState(true);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [dailyTip, setDailyTip] = useState<DailyTip | null>(null);
+  const [currentTip, setCurrentTip] = useState<any>(null);
+  const [tipReasons, setTipReasons] = useState<string[]>([]);
+  const [showCheckIn, setShowCheckIn] = useState(false);
+  const [previousTips, setPreviousTips] = useState<DailyTip[]>([]);
+  const [attempts, setAttempts] = useState<TipAttempt[]>([]);
+
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
+  const initializeApp = async () => {
+    try {
+      // Check if onboarding is completed
+      const onboardingCompleted = await StorageService.isOnboardingCompleted();
+      
+      if (onboardingCompleted) {
+        const profile = await StorageService.getUserProfile();
+        setUserProfile(profile);
+        
+        // Load previous tips and attempts
+        const tips = await StorageService.getDailyTips();
+        setPreviousTips(tips);
+        
+        const tipAttempts = await StorageService.getTipAttempts();
+        setAttempts(tipAttempts);
+        
+        // Load today's tip or get a new one
+        await loadDailyTip(profile!, tips, tipAttempts);
+        
+        // Setup notifications
+        await NotificationService.requestPermissions();
+      }
+    } catch (error) {
+      console.error('Error initializing app:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadDailyTip = async (
+    profile: UserProfile,
+    tips: DailyTip[],
+    tipAttempts: TipAttempt[]
+  ) => {
+    // Check if we already have a tip for today
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const todaysTip = tips.find(
+      t => format(new Date(t.presented_date), 'yyyy-MM-dd') === today
+    );
+
+    if (todaysTip) {
+      setDailyTip(todaysTip);
+      
+      // Load the actual tip data
+      const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+      if (tipScore) {
+        setCurrentTip(tipScore.tip);
+        setTipReasons(tipScore.reasons);
+      }
+      
+      // Check if we need to show check-in
+      if (todaysTip.user_response === 'try_it' && !todaysTip.evening_check_in) {
+        const now = new Date().getHours();
+        if (now >= 18) {
+          setShowCheckIn(true);
+        }
+      }
+    } else {
+      // Get a new tip for today
+      const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+      
+      if (tipScore) {
+        const newDailyTip: DailyTip = {
+          id: Date.now().toString(),
+          user_id: profile.id,
+          tip_id: tipScore.tip.tip_id,
+          presented_date: new Date(),
+        };
+        
+        await StorageService.saveDailyTip(newDailyTip);
+        setDailyTip(newDailyTip);
+        setCurrentTip(tipScore.tip);
+        setTipReasons(tipScore.reasons);
+      }
+    }
+  };
+
+  const handleOnboardingComplete = async (profile: UserProfile) => {
+    setUserProfile(profile);
+    await loadDailyTip(profile, [], []);
+  };
+
+  const handleTipResponse = async (response: 'try_it' | 'not_interested' | 'maybe_later') => {
+    if (!dailyTip) return;
+
+    // Update the daily tip with response
+    const updatedTip = {
+      ...dailyTip,
+      user_response: response,
+      responded_at: new Date(),
+    };
+    
+    await StorageService.updateDailyTip(dailyTip.id, {
+      user_response: response,
+      responded_at: new Date(),
+    });
+    
+    setDailyTip(updatedTip);
+
+    // If user is trying it, schedule evening check-in
+    if (response === 'try_it') {
+      await NotificationService.scheduleEveningCheckIn(dailyTip.tip_id, 19);
+      Alert.alert(
+        'Great! 🎉',
+        "We'll check in with you this evening to see how it went!",
+        [{ text: 'OK' }]
+      );
+    } else if (response === 'maybe_later') {
+      Alert.alert(
+        'Saved for Later',
+        'We\'ll keep this tip in mind for another day!',
+        [{ text: 'OK' }]
+      );
+    }
+
+    // Get next tip
+    setTimeout(() => {
+      loadDailyTip(userProfile!, previousTips, attempts);
+    }, 1000);
+  };
+
+  const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
+    if (!dailyTip || !currentTip) return;
+
+    // Save the check-in
+    await StorageService.updateDailyTip(dailyTip.id, {
+      evening_check_in: feedback,
+      check_in_at: new Date(),
+    });
+
+    // Save the attempt
+    const attempt: TipAttempt = {
+      id: Date.now().toString(),
+      tip_id: dailyTip.tip_id,
+      attempted_at: new Date(),
+      feedback,
+      notes,
+    };
+    
+    await StorageService.saveTipAttempt(attempt);
+    
+    // Update state
+    setShowCheckIn(false);
+    setAttempts([...attempts, attempt]);
+
+    // Show motivational message
+    if (feedback === 'went_great' || feedback === 'went_ok') {
+      Alert.alert(
+        'Awesome! 🌟',
+        'Keep up the great work! Every experiment teaches you something.',
+        [{ text: 'Thanks!' }]
+      );
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#4CAF50" />
+      </View>
+    );
+  }
+
+  if (!userProfile) {
+    return <OnboardingQuiz onComplete={handleOnboardingComplete} />;
+  }
+
+  if (showCheckIn && currentTip) {
+    return (
+      <EveningCheckIn
+        tip={currentTip}
+        onCheckIn={handleCheckIn}
+        onSkip={() => setShowCheckIn(false)}
+      />
+    );
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <LinearGradient
+        colors={['#E8F5E9', '#FFFFFF']}
+        style={styles.gradient}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.greeting}>
+                {new Date().getHours() < 12 ? 'Good Morning' :
+                 new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
+              </Text>
+              <Text style={styles.title}>Habit Helper</Text>
+            </View>
+            <TouchableOpacity style={styles.profileButton}>
+              <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Stats */}
+          <View style={styles.statsContainer}>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>{attempts.length}</Text>
+              <Text style={styles.statLabel}>Experiments</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>
+                {attempts.filter(a => a.feedback === 'went_great' || a.feedback === 'went_ok').length}
+              </Text>
+              <Text style={styles.statLabel}>Successful</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>{previousTips.length}</Text>
+              <Text style={styles.statLabel}>Days Active</Text>
+            </View>
+          </View>
+
+          {/* Daily Tip */}
+          {currentTip && dailyTip && !dailyTip.user_response ? (
+            <DailyTipCard
+              tip={currentTip}
+              onResponse={handleTipResponse}
+              reasons={tipReasons}
+            />
+          ) : (
+            <View style={styles.noTipCard}>
+              <Ionicons name="checkmark-circle" size={48} color="#4CAF50" />
+              <Text style={styles.noTipTitle}>You're all set for today!</Text>
+              <Text style={styles.noTipText}>
+                {dailyTip?.user_response === 'try_it' 
+                  ? "Great job trying today's experiment! We'll check in with you this evening."
+                  : "Come back tomorrow for your next experiment!"}
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+      </LinearGradient>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: '#E8F5E9',
   },
-  stepContainer: {
-    gap: 8,
+  gradient: {
+    flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+  },
+  greeting: {
+    fontSize: 14,
+    color: '#666',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#2E7D32',
+  },
+  profileButton: {
+    padding: 4,
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  statCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+    flex: 1,
+    marginHorizontal: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  statNumber: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#4CAF50',
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 4,
+  },
+  noTipCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 32,
+    margin: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+  noTipTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#212121',
+    marginTop: 16,
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  noTipText: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 20,
   },
 });
