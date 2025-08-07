@@ -104,8 +104,28 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
   const scale = useSharedValue(0);
   const checkmarkScale = useSharedValue(0);
   const progressWidth = useSharedValue(0);
-  const pulseScale = useSharedValue(1);
-  const glowOpacity = useSharedValue(0.3);
+  const successPulseScale = useSharedValue(1);
+  const cardEntranceScale = useSharedValue(0);
+
+  // Calculate actual progress based on time
+  const calculateProgress = () => {
+    const currentHour = new Date().getHours();
+    const checkInHour = 19; // 7 PM check-in
+    
+    // Assume experiment started now (or could be passed as prop)
+    // If it's morning, we have more time; if afternoon, less time
+    let totalHours = checkInHour - currentHour;
+    if (totalHours <= 0) {
+      return 100; // Check-in time has arrived
+    }
+    
+    // Assume a typical experiment day is ~10 hours (9 AM to 7 PM)
+    const typicalDayHours = 10;
+    const hoursElapsed = typicalDayHours - totalHours;
+    const progress = Math.max(0, Math.min(100, (hoursElapsed / typicalDayHours) * 100));
+    
+    return progress;
+  };
 
   useEffect(() => {
     // Trigger haptic feedback
@@ -122,35 +142,39 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
       )
     );
 
+    // Main card entrance (no continuous animation)
+    cardEntranceScale.value = withDelay(
+      200,
+      withSpring(1, { damping: 15, stiffness: 200 })
+    );
+
+    // Animate progress to actual current progress
+    const currentProgress = calculateProgress();
     progressWidth.value = withDelay(
       500,
-      withTiming(100, { duration: 1500, easing: Easing.bezier(0.4, 0, 0.2, 1) })
+      withTiming(currentProgress, { duration: 1500, easing: Easing.bezier(0.4, 0, 0.2, 1) })
     );
 
-    // Continuous pulse animation for the main card
-    pulseScale.value = withRepeat(
+    // Pulse animation only for success badge
+    successPulseScale.value = withRepeat(
       withSequence(
-        withTiming(1.02, { duration: 2000 }),
+        withTiming(1.03, { duration: 2000 }),
         withTiming(1, { duration: 2000 })
-      ),
-      -1,
-      true
-    );
-
-    // Glow animation
-    glowOpacity.value = withRepeat(
-      withSequence(
-        withTiming(0.6, { duration: 1500 }),
-        withTiming(0.3, { duration: 1500 })
       ),
       -1,
       true
     );
   }, []);
 
+  const successBadgeAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { scale: scale.value * successPulseScale.value },
+    ],
+  }));
+
   const cardAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
-      { scale: scale.value * pulseScale.value },
+      { scale: cardEntranceScale.value },
     ],
   }));
 
@@ -160,10 +184,6 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
 
   const progressAnimatedStyle = useAnimatedStyle(() => ({
     width: `${progressWidth.value}%`,
-  }));
-
-  const glowAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: glowOpacity.value,
   }));
 
   const formatTimeRemaining = (hours: number) => {
@@ -194,7 +214,7 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
         showsVerticalScrollIndicator={false}
       >
         {/* Success Badge */}
-        <Animated.View style={[styles.successBadge, cardAnimatedStyle]}>
+        <Animated.View style={[styles.successBadge, successBadgeAnimatedStyle]}>
           <LinearGradient
             colors={['#4CAF50', '#45B255']}
             style={styles.successGradient}
@@ -213,8 +233,6 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
             colors={['#FFFFFF', '#F8FFF8']}
             style={styles.cardGradient}
           >
-            {/* Glow effect */}
-            <Animated.View style={[styles.glowEffect, glowAnimatedStyle]} />
             
             <View style={styles.experimentHeader}>
               <View style={styles.liveBadge}>
@@ -243,7 +261,10 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
 
             {/* Progress Tracker */}
             <View style={styles.progressSection}>
-              <Text style={styles.progressTitle}>Your Progress Today</Text>
+              <View style={styles.progressHeader}>
+                <Text style={styles.progressTitle}>Time Until Check-in</Text>
+                <Text style={styles.progressTime}>{formatTimeRemaining(timeUntilCheckIn)}</Text>
+              </View>
               <View style={styles.progressBar}>
                 <Animated.View style={[styles.progressFill, progressAnimatedStyle]}>
                   <LinearGradient
@@ -253,9 +274,13 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
                     end={{ x: 1, y: 0 }}
                   />
                 </Animated.View>
+                <View style={styles.progressMarkers}>
+                  <Text style={styles.progressMarkerStart}>Started</Text>
+                  <Text style={styles.progressMarkerEnd}>7 PM</Text>
+                </View>
               </View>
               <Text style={styles.progressText}>
-                Experiment in progress • {formatTimeRemaining(timeUntilCheckIn)}
+                We'll check in with you this evening about how it went
               </Text>
             </View>
 
@@ -372,17 +397,6 @@ const styles = StyleSheet.create({
   },
   cardGradient: {
     padding: 20,
-    position: 'relative',
-  },
-  glowEffect: {
-    position: 'absolute',
-    top: -2,
-    left: -2,
-    right: -2,
-    bottom: -2,
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: '#4CAF50',
   },
   experimentHeader: {
     marginBottom: 16,
@@ -438,18 +452,29 @@ const styles = StyleSheet.create({
   progressSection: {
     marginBottom: 20,
   },
+  progressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
   progressTitle: {
     fontSize: 14,
     fontWeight: '600',
     color: '#424242',
-    marginBottom: 8,
+  },
+  progressTime: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#4CAF50',
   },
   progressBar: {
     height: 8,
     backgroundColor: '#E0E0E0',
     borderRadius: 4,
     overflow: 'hidden',
-    marginBottom: 8,
+    marginBottom: 4,
+    position: 'relative',
   },
   progressFill: {
     height: '100%',
@@ -458,9 +483,27 @@ const styles = StyleSheet.create({
   progressGradient: {
     flex: 1,
   },
+  progressMarkers: {
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    top: 12,
+  },
+  progressMarkerStart: {
+    fontSize: 10,
+    color: '#999',
+    fontWeight: '500',
+  },
+  progressMarkerEnd: {
+    fontSize: 10,
+    color: '#999',
+    fontWeight: '500',
+  },
   progressText: {
     fontSize: 12,
     color: '#666',
+    marginTop: 12,
   },
   actionButtons: {
     gap: 12,
