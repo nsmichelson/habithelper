@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import OnboardingQuiz from '@/components/OnboardingQuiz';
 import DailyTipCard from '@/components/DailyTipCard';
 import EveningCheckIn from '@/components/EveningCheckIn';
+import ExperimentMode from '@/components/ExperimentMode';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -136,23 +137,19 @@ export default function HomeScreen() {
     // If user is trying it, schedule evening check-in
     if (response === 'try_it') {
       await NotificationService.scheduleEveningCheckIn(dailyTip.tip_id, 19);
-      Alert.alert(
-        'Great! 🎉',
-        "We'll check in with you this evening to see how it went!",
-        [{ text: 'OK' }]
-      );
+      // Don't show alert - the ExperimentMode component will handle the celebration
     } else if (response === 'maybe_later') {
       Alert.alert(
         'Saved for Later',
         'We\'ll keep this tip in mind for another day!',
         [{ text: 'OK' }]
       );
+    } else if (response === 'not_interested') {
+      // Get next tip after a brief delay
+      setTimeout(() => {
+        loadDailyTip(userProfile!, previousTips, attempts);
+      }, 1000);
     }
-
-    // Get next tip
-    setTimeout(() => {
-      loadDailyTip(userProfile!, previousTips, attempts);
-    }, 1000);
   };
 
   const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
@@ -284,21 +281,49 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Daily Tip */}
-          {currentTip && dailyTip && !dailyTip.user_response ? (
-            <DailyTipCard
-              tip={currentTip}
-              onResponse={handleTipResponse}
-              reasons={tipReasons}
-            />
+          {/* Daily Tip or Experiment Mode */}
+          {currentTip && dailyTip ? (
+            dailyTip.user_response === 'try_it' ? (
+              // Show Experiment Mode when user has committed to trying
+              <ExperimentMode
+                tip={currentTip}
+                onViewDetails={() => {
+                  // Could open a modal or navigate to details
+                  Alert.alert(
+                    'Experiment Details',
+                    currentTip.details_md.replace(/\*\*/g, '').replace(/•/g, '\n•'),
+                    [{ text: 'Got it!' }]
+                  );
+                }}
+                timeUntilCheckIn={
+                  // Calculate hours until evening check-in (assuming 7 PM)
+                  19 - new Date().getHours()
+                }
+              />
+            ) : !dailyTip.user_response ? (
+              // Show tip card if no response yet
+              <DailyTipCard
+                tip={currentTip}
+                onResponse={handleTipResponse}
+                reasons={tipReasons}
+              />
+            ) : (
+              // User said "maybe later" or we're between tips
+              <View style={styles.noTipCard}>
+                <Ionicons name="bookmark" size={48} color="#FF9800" />
+                <Text style={styles.noTipTitle}>Tip saved for later</Text>
+                <Text style={styles.noTipText}>
+                  We'll keep this in mind for another day. Check back tomorrow for a new experiment!
+                </Text>
+              </View>
+            )
           ) : (
+            // No tip available
             <View style={styles.noTipCard}>
-              <Ionicons name="checkmark-circle" size={48} color="#4CAF50" />
-              <Text style={styles.noTipTitle}>You're all set for today!</Text>
+              <Ionicons name="sparkles" size={48} color="#4CAF50" />
+              <Text style={styles.noTipTitle}>Loading your experiment...</Text>
               <Text style={styles.noTipText}>
-                {dailyTip?.user_response === 'try_it' 
-                  ? "Great job trying today's experiment! We'll check in with you this evening."
-                  : "Come back tomorrow for your next experiment!"}
+                We're finding the perfect tip for you!
               </Text>
             </View>
           )}
