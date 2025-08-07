@@ -16,7 +16,14 @@ class StorageService {
   async getUserProfile(): Promise<UserProfile | null> {
     try {
       const data = await AsyncStorage.getItem(STORAGE_KEYS.USER_PROFILE);
-      return data ? JSON.parse(data) : null;
+      if (!data) return null;
+      
+      // Parse and convert date strings back to Date objects
+      const profile = JSON.parse(data);
+      return {
+        ...profile,
+        created_at: new Date(profile.created_at),
+      };
     } catch (error) {
       console.error('Error getting user profile:', error);
       return null;
@@ -36,7 +43,16 @@ class StorageService {
   async getDailyTips(): Promise<DailyTip[]> {
     try {
       const data = await AsyncStorage.getItem(STORAGE_KEYS.DAILY_TIPS);
-      return data ? JSON.parse(data) : [];
+      if (!data) return [];
+      
+      // Parse and convert date strings back to Date objects
+      const tips = JSON.parse(data);
+      return tips.map((tip: any) => ({
+        ...tip,
+        presented_date: new Date(tip.presented_date),
+        responded_at: tip.responded_at ? new Date(tip.responded_at) : undefined,
+        check_in_at: tip.check_in_at ? new Date(tip.check_in_at) : undefined,
+      }));
     } catch (error) {
       console.error('Error getting daily tips:', error);
       return [];
@@ -72,7 +88,14 @@ class StorageService {
   async getTipAttempts(): Promise<TipAttempt[]> {
     try {
       const data = await AsyncStorage.getItem(STORAGE_KEYS.TIP_ATTEMPTS);
-      return data ? JSON.parse(data) : [];
+      if (!data) return [];
+      
+      // Parse and convert date strings back to Date objects
+      const attempts = JSON.parse(data);
+      return attempts.map((attempt: any) => ({
+        ...attempt,
+        attempted_at: new Date(attempt.attempted_at),
+      }));
     } catch (error) {
       console.error('Error getting tip attempts:', error);
       return [];
@@ -166,6 +189,20 @@ class StorageService {
       await AsyncStorage.multiRemove(Object.values(STORAGE_KEYS));
     } catch (error) {
       console.error('Error clearing all data:', error);
+      throw error;
+    }
+  }
+
+  // Clear only tip-related data (keeps user profile and quiz)
+  async clearTipData(): Promise<void> {
+    try {
+      await AsyncStorage.multiRemove([
+        STORAGE_KEYS.DAILY_TIPS,
+        STORAGE_KEYS.TIP_ATTEMPTS,
+        STORAGE_KEYS.LIKED_TIPS,
+      ]);
+    } catch (error) {
+      console.error('Error clearing tip data:', error);
       throw error;
     }
   }

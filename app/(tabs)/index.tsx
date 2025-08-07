@@ -224,12 +224,46 @@ export default function HomeScreen() {
               <Text style={styles.greeting}>
                 {new Date().getHours() < 12 ? 'Good Morning' :
                  new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
+                {/* Debug: Show current hour */}
+                {__DEV__ && ` (${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')})`}
               </Text>
               <Text style={styles.title}>Habit Helper</Text>
             </View>
-            <TouchableOpacity style={styles.profileButton}>
-              <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              {/* Temporary reset button for testing */}
+              <TouchableOpacity 
+                style={styles.profileButton}
+                onPress={async () => {
+                  Alert.alert(
+                    'Reset Tips',
+                    'Clear all tip data for testing? (Quiz responses will be kept)',
+                    [
+                      { text: 'Cancel', style: 'cancel' },
+                      { 
+                        text: 'Reset', 
+                        style: 'destructive',
+                        onPress: async () => {
+                          await StorageService.clearTipData();
+                          setPreviousTips([]);
+                          setAttempts([]);
+                          setDailyTip(null);
+                          setCurrentTip(null);
+                          setShowCheckIn(false);
+                          // Reload with fresh tip
+                          await loadDailyTip(userProfile!, [], []);
+                          Alert.alert('Done', 'Tip data has been reset');
+                        }
+                      }
+                    ]
+                  );
+                }}
+              >
+                <Ionicons name="refresh-circle-outline" size={32} color="#FF9800" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.profileButton}>
+                <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+              </TouchableOpacity>
+            </View>
           </View>
 
           {/* Stats */}

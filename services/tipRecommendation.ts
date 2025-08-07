@@ -15,31 +15,43 @@ export class TipRecommendationService {
     tip: Tip,
     userProfile: UserProfile,
     previousTips: DailyTip[],
-    attempts: TipAttempt[]
+    attempts: TipAttempt[],
+    currentHour?: number
   ): TipScore {
     let score = 0;
     const reasons: string[] = [];
 
-    // Goal alignment (weight: 40%)
+    // Time of day relevance (weight: 25% - high priority for contextual relevance)
+    if (currentHour !== undefined) {
+      const timeScore = this.calculateTimeOfDayMatch(tip, currentHour);
+      score += timeScore * 25;
+      if (timeScore > 0.8) {
+        reasons.push('Perfect timing for this tip');
+      } else if (timeScore > 0.5) {
+        reasons.push('Good time of day for this');
+      }
+    }
+
+    // Goal alignment (weight: 30% - reduced from 40%)
     const goalMatches = tip.goal_tags.filter(tag => 
       userProfile.goals.includes(tag)
     ).length;
-    const goalScore = (goalMatches / tip.goal_tags.length) * 40;
+    const goalScore = (goalMatches / tip.goal_tags.length) * 30;
     score += goalScore;
     if (goalMatches > 0) {
       reasons.push(`Aligns with ${goalMatches} of your goals`);
     }
 
-    // Difficulty preference (weight: 20%)
+    // Difficulty preference (weight: 15% - reduced from 20%)
     const difficultyPreference = this.getUserDifficultyPreference(attempts);
     const difficultyDiff = Math.abs(tip.difficulty_tier - difficultyPreference);
-    const difficultyScore = Math.max(0, 20 - (difficultyDiff * 5));
+    const difficultyScore = Math.max(0, 15 - (difficultyDiff * 5));
     score += difficultyScore;
 
-    // Time availability match (weight: 15%)
+    // Time availability match (weight: 10% - reduced from 15%)
     if (userProfile.cooking_time_available) {
       const timeScore = this.calculateTimeMatch(tip, userProfile.cooking_time_available);
-      score += timeScore * 15;
+      score += timeScore * 10;
       if (timeScore > 0.5) {
         reasons.push('Fits your available time');
       }
@@ -55,13 +67,13 @@ export class TipRecommendationService {
       }
     }
 
-    // Novelty - hasn't been shown recently (weight: 10%)
+    // Novelty - hasn't been shown recently (weight: 5% - reduced from 10%)
     const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
     if (daysSinceShown === null || daysSinceShown > 7) {
-      score += 10;
+      score += 5;
       reasons.push('Fresh suggestion');
     } else if (daysSinceShown > 3) {
-      score += 5;
+      score += 2.5;
     }
 
     // Success with similar tips (weight: 5%)
@@ -119,6 +131,50 @@ export class TipRecommendationService {
   }
 
   /**
+   * Calculate how well a tip matches the current time of day
+   */
+  private calculateTimeOfDayMatch(tip: Tip, currentHour: number): number {
+    // Define time periods
+    const timePeriod = 
+      currentHour >= 5 && currentHour < 12 ? 'morning' :
+      currentHour >= 12 && currentHour < 17 ? 'afternoon' :
+      currentHour >= 17 && currentHour < 21 ? 'evening' :
+      'late_night';
+
+    // Debug logging in development
+    if (__DEV__ && tip.time_of_day.length > 0) {
+      console.log(`Time matching: Current hour=${currentHour}, Period=${timePeriod}, Tip times=${tip.time_of_day.join(', ')}`);
+    }
+
+    // Check if tip is appropriate for current time
+    if (tip.time_of_day.includes(timePeriod)) {
+      return 1; // Perfect match
+    }
+
+    // Check adjacent time periods (partial credit)
+    const adjacentPeriods: Record<string, string[]> = {
+      'morning': ['afternoon'],
+      'afternoon': ['morning', 'evening'],
+      'evening': ['afternoon', 'late_night'],
+      'late_night': ['evening']
+    };
+
+    const adjacent = adjacentPeriods[timePeriod] || [];
+    for (const period of adjacent) {
+      if (tip.time_of_day.includes(period as any)) {
+        return 0.5; // Partial match for adjacent periods
+      }
+    }
+
+    // Tips without specific time constraints are somewhat relevant
+    if (tip.time_of_day.length === 0) {
+      return 0.3;
+    }
+
+    return 0; // Not a good match for current time
+  }
+
+  /**
    * Check how many days since a tip was last shown
    */
   private getDaysSinceLastShown(tipId: string, previousTips: DailyTip[]): number | null {
@@ -172,14 +228,18 @@ export class TipRecommendationService {
     userProfile: UserProfile,
     previousTips: DailyTip[] = [],
     attempts: TipAttempt[] = [],
-    count: number = 3
+    count: number = 3,
+    currentHour?: number
   ): TipScore[] {
+    // Use current hour if not provided
+    const hour = currentHour !== undefined ? currentHour : new Date().getHours();
+    
     // First, filter out unsafe tips based on medical conditions
     const safeTips = getSafeTips(userProfile.medical_conditions);
 
     // Calculate scores for all safe tips
     const scoredTips = safeTips.map(tip => 
-      this.calculateTipScore(tip, userProfile, previousTips, attempts)
+      this.calculateTipScore(tip, userProfile, previousTips, attempts, hour)
     );
 
     // Sort by score and return top recommendations
@@ -194,13 +254,15 @@ export class TipRecommendationService {
   public getDailyTip(
     userProfile: UserProfile,
     previousTips: DailyTip[] = [],
-    attempts: TipAttempt[] = []
+    attempts: TipAttempt[] = [],
+    currentHour?: number
   ): TipScore | null {
     const recommendations = this.getRecommendations(
       userProfile,
       previousTips,
       attempts,
-      1
+      1,
+      currentHour
     );
 
     return recommendations[0] || null;
