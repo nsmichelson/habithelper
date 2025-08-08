@@ -206,3 +206,8 @@ export function getTipsForGoals(goals: string[]): Tip[] {
 export function getTipsByDifficulty(maxDifficulty: number): Tip[] {
   return TIPS_DATABASE.filter(tip => tip.difficulty_tier <= maxDifficulty);
 }
+
+// Helper function to get a specific tip by ID
+export function getTipById(tipId: string): Tip | undefined {
+  return TIPS_DATABASE.find(tip => tip.tip_id === tipId);
+}

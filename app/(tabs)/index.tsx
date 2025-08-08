@@ -19,6 +19,7 @@ import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
 import { UserProfile, DailyTip, TipAttempt, TipFeedback } from '@/types/tip';
+import { getTipById } from '@/data/tips';
 import { format } from 'date-fns';
 
 export default function HomeScreen() {
@@ -78,11 +79,21 @@ export default function HomeScreen() {
     if (todaysTip) {
       setDailyTip(todaysTip);
       
-      // Load the actual tip data
-      const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
-      if (tipScore) {
-        setCurrentTip(tipScore.tip);
-        setTipReasons(tipScore.reasons);
+      // Load the EXISTING tip by its ID, not a new recommendation
+      const existingTip = getTipById(todaysTip.tip_id);
+      if (existingTip) {
+        setCurrentTip(existingTip);
+        // We can still show reasons if we want to recalculate them
+        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+        setTipReasons(tipScore?.reasons || []);
+      } else {
+        // Fallback: if tip not found in database, get a new one
+        console.warn(`Tip with ID ${todaysTip.tip_id} not found in database`);
+        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+        if (tipScore) {
+          setCurrentTip(tipScore.tip);
+          setTipReasons(tipScore.reasons);
+        }
       }
       
       // Check if we need to show check-in
