@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -21,9 +21,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Tip } from '../types/tip';
+import { Tip, QuickComplete } from '../types/tip';
 import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
+import QuickCompleteModal from './QuickComplete';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -32,6 +33,8 @@ interface Props {
   onViewDetails: () => void;
   timeUntilCheckIn: number; // hours until evening check-in
   onCheckInNow?: () => void; // For testing - trigger check-in immediately
+  onQuickComplete: (note?: 'easy' | 'challenging' | 'just_right') => void;
+  quickCompletions?: QuickComplete[];
 }
 
 // Confetti particle component
@@ -101,7 +104,15 @@ const ConfettiParticle = ({ delay, startX }: { delay: number; startX: number }) 
   );
 };
 
-export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn, onCheckInNow }: Props) {
+export default function ExperimentMode({ 
+  tip, 
+  onViewDetails, 
+  timeUntilCheckIn, 
+  onCheckInNow,
+  onQuickComplete,
+  quickCompletions = []
+}: Props) {
+  const [showQuickComplete, setShowQuickComplete] = useState(false);
   const scale = useSharedValue(0);
   const checkmarkScale = useSharedValue(0);
   const progressWidth = useSharedValue(0);
@@ -285,6 +296,44 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn, o
               </Text>
             </View>
 
+            {/* Quick Complete Button or Status */}
+            {quickCompletions.length === 0 ? (
+              <TouchableOpacity 
+                style={styles.quickCompleteButton}
+                onPress={() => setShowQuickComplete(true)}
+              >
+                <LinearGradient
+                  colors={['#4CAF50', '#45B255']}
+                  style={styles.quickCompleteGradient}
+                >
+                  <Ionicons name="rocket" size={24} color="#FFF" />
+                  <Text style={styles.quickCompleteText}>I Did It!</Text>
+                  <Text style={styles.quickCompleteSubtext}>Mark as complete now</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.completedBadge}>
+                <LinearGradient
+                  colors={['#E8F5E9', '#C8E6C9']}
+                  style={styles.completedGradient}
+                >
+                  <View style={styles.completedHeader}>
+                    <Ionicons name="checkmark-circle" size={32} color="#4CAF50" />
+                    <Text style={styles.completedText}>
+                      Completed {quickCompletions.length}x today!
+                    </Text>
+                  </View>
+                  <TouchableOpacity 
+                    style={styles.addAnotherButton}
+                    onPress={() => setShowQuickComplete(true)}
+                  >
+                    <Ionicons name="add-circle-outline" size={20} color="#4CAF50" />
+                    <Text style={styles.addAnotherText}>Did it again</Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </View>
+            )}
+
             {/* Action Buttons */}
             <View style={styles.actionButtons}>
               <TouchableOpacity style={styles.primaryButton} onPress={onViewDetails}>
@@ -342,6 +391,16 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn, o
           </View>
         </View>
       </ScrollView>
+
+      {/* Quick Complete Modal */}
+      <QuickCompleteModal
+        visible={showQuickComplete}
+        onClose={() => setShowQuickComplete(false)}
+        onQuickComplete={(note) => {
+          onQuickComplete(note);
+          setShowQuickComplete(false);
+        }}
+      />
     </View>
   );
 }
@@ -613,5 +672,65 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#E65100',
+  },
+  quickCompleteButton: {
+    marginBottom: 20,
+    borderRadius: 16,
+    overflow: 'hidden',
+    shadowColor: '#4CAF50',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  quickCompleteGradient: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  quickCompleteText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#FFF',
+    marginTop: 8,
+  },
+  quickCompleteSubtext: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.8)',
+    marginTop: 2,
+  },
+  completedBadge: {
+    marginBottom: 20,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  completedGradient: {
+    padding: 16,
+  },
+  completedHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  completedText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#2E7D32',
+    flex: 1,
+  },
+  addAnotherButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    gap: 6,
+  },
+  addAnotherText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4CAF50',
   },
 });

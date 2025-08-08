@@ -142,6 +142,11 @@ export interface UserProfile {
   interested_in_nutrition_facts?: boolean;
 }
 
+export interface QuickComplete {
+  completed_at: Date;
+  quick_note?: 'easy' | 'challenging' | 'just_right';
+}
+
 export interface DailyTip {
   id: string;
   user_id: string;
@@ -149,6 +154,8 @@ export interface DailyTip {
   presented_date: Date;
   user_response?: 'try_it' | 'not_interested' | 'maybe_later';
   responded_at?: Date;
+  quick_completions?: QuickComplete[]; // Track immediate completions
   evening_check_in?: TipFeedback;
   check_in_at?: Date;
+  evening_reflection?: string; // Additional thoughts from evening
 }

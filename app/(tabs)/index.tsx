@@ -19,7 +19,7 @@ import ExperimentComplete from '@/components/ExperimentComplete';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
-import { UserProfile, DailyTip, TipAttempt, TipFeedback } from '@/types/tip';
+import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete } from '@/types/tip';
 import { getTipById } from '@/data/tips';
 import { format } from 'date-fns';
 
@@ -164,6 +164,37 @@ export default function HomeScreen() {
     }
   };
 
+  const handleQuickComplete = async (note?: 'easy' | 'challenging' | 'just_right') => {
+    if (!dailyTip) return;
+
+    const quickComplete: QuickComplete = {
+      completed_at: new Date(),
+      quick_note: note,
+    };
+
+    const updatedCompletions = [...(dailyTip.quick_completions || []), quickComplete];
+    
+    // Update the daily tip with quick completion
+    await StorageService.updateDailyTip(dailyTip.id, {
+      quick_completions: updatedCompletions,
+    });
+
+    setDailyTip({
+      ...dailyTip,
+      quick_completions: updatedCompletions,
+    });
+
+    // Show a brief celebration
+    Alert.alert(
+      'Awesome! 🎉',
+      note === 'easy' ? 'Great that it was easy!' :
+      note === 'challenging' ? 'Way to push through the challenge!' :
+      note === 'just_right' ? 'Perfect difficulty level!' :
+      'Way to go!',
+      [{ text: 'Thanks!' }]
+    );
+  };
+
   const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
     if (!dailyTip || !currentTip) return;
 
@@ -237,6 +268,45 @@ export default function HomeScreen() {
               <Text style={styles.title}>Habit Helper</Text>
             </View>
             <View style={{ flexDirection: 'row', gap: 8 }}>
+              {/* Testing: Simulate new day */}
+              {__DEV__ && (
+                <TouchableOpacity 
+                  style={styles.profileButton}
+                  onPress={async () => {
+                    // Simulate day 3 by getting a new tip without clearing history
+                    const tipScore = TipRecommendationService.getDailyTip(
+                      userProfile!, 
+                      previousTips, 
+                      attempts
+                    );
+                    
+                    if (tipScore) {
+                      // Create a fake "day 3" tip
+                      const newDailyTip: DailyTip = {
+                        id: `day3-${Date.now()}`,
+                        user_id: userProfile!.id,
+                        tip_id: tipScore.tip.tip_id,
+                        presented_date: new Date(), // This would normally be tomorrow
+                      };
+                      
+                      // Don't save to storage - just update state for testing
+                      setDailyTip(newDailyTip);
+                      setCurrentTip(tipScore.tip);
+                      setTipReasons(tipScore.reasons);
+                      setShowCheckIn(false);
+                      
+                      Alert.alert(
+                        'Test Mode: Day 3',
+                        'Simulating a new day with a fresh tip (not saved to storage)',
+                        [{ text: 'OK' }]
+                      );
+                    }
+                  }}
+                >
+                  <Ionicons name="calendar-outline" size={32} color="#9C27B0" />
+                </TouchableOpacity>
+              )}
+              
               {/* Temporary reset button for testing */}
               <TouchableOpacity 
                 style={styles.profileButton}
@@ -327,6 +397,8 @@ export default function HomeScreen() {
                   // For testing - show check-in immediately
                   setShowCheckIn(true);
                 }}
+                onQuickComplete={handleQuickComplete}
+                quickCompletions={dailyTip.quick_completions || []}
               />
             ) : !dailyTip.user_response ? (
               // Show tip card if no response yet
