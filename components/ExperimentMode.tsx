@@ -31,6 +31,7 @@ interface Props {
   tip: Tip;
   onViewDetails: () => void;
   timeUntilCheckIn: number; // hours until evening check-in
+  onCheckInNow?: () => void; // For testing - trigger check-in immediately
 }
 
 // Confetti particle component
@@ -100,7 +101,7 @@ const ConfettiParticle = ({ delay, startX }: { delay: number; startX: number }) 
   );
 };
 
-export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }: Props) {
+export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn, onCheckInNow }: Props) {
   const scale = useSharedValue(0);
   const checkmarkScale = useSharedValue(0);
   const progressWidth = useSharedValue(0);
@@ -301,6 +302,13 @@ export default function ExperimentMode({ tip, onViewDetails, timeUntilCheckIn }:
                 <Text style={styles.secondaryButtonText}>Reminder Set</Text>
               </TouchableOpacity>
             </View>
+
+            {/* Testing button for immediate check-in */}
+            {__DEV__ && onCheckInNow && (
+              <TouchableOpacity style={styles.testButton} onPress={onCheckInNow}>
+                <Text style={styles.testButtonText}>🧪 Test: Check In Now</Text>
+              </TouchableOpacity>
+            )}
 
             {/* Motivational Message */}
             <View style={styles.motivationalCard}>
@@ -589,5 +597,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
+  },
+  testButton: {
+    backgroundColor: '#FFE0B2',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginTop: 12,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#FF9800',
+    borderStyle: 'dashed',
+  },
+  testButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#E65100',
   },
 });
