@@ -15,6 +15,7 @@ import OnboardingQuiz from '@/components/OnboardingQuiz';
 import DailyTipCard from '@/components/DailyTipCard';
 import EveningCheckIn from '@/components/EveningCheckIn';
 import ExperimentMode from '@/components/ExperimentMode';
+import ExperimentComplete from '@/components/ExperimentComplete';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -183,18 +184,16 @@ export default function HomeScreen() {
     
     await StorageService.saveTipAttempt(attempt);
     
-    // Update state
+    // Update state to show completion view
+    setDailyTip({
+      ...dailyTip,
+      evening_check_in: feedback,
+      check_in_at: new Date(),
+    });
     setShowCheckIn(false);
     setAttempts([...attempts, attempt]);
 
-    // Show motivational message
-    if (feedback === 'went_great' || feedback === 'went_ok') {
-      Alert.alert(
-        'Awesome! 🌟',
-        'Keep up the great work! Every experiment teaches you something.',
-        [{ text: 'Thanks!' }]
-      );
-    }
+    // Don't show alert - the ExperimentComplete component will handle the celebration
   };
 
   if (loading) {
@@ -292,9 +291,23 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Daily Tip or Experiment Mode */}
+          {/* Daily Tip, Experiment Mode, or Completion View */}
           {currentTip && dailyTip ? (
-            dailyTip.user_response === 'try_it' ? (
+            dailyTip.evening_check_in ? (
+              // Show completion view after check-in
+              <ExperimentComplete
+                tip={currentTip}
+                feedback={dailyTip.evening_check_in}
+                onGetNewTip={() => {
+                  // Reset for tomorrow (this would ideally load tomorrow's tip)
+                  Alert.alert(
+                    'Come back tomorrow!',
+                    'Check back tomorrow for your next experiment.',
+                    [{ text: 'OK' }]
+                  );
+                }}
+              />
+            ) : dailyTip.user_response === 'try_it' ? (
               // Show Experiment Mode when user has committed to trying
               <ExperimentMode
                 tip={currentTip}
