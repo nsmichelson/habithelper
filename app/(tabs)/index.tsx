@@ -273,14 +273,27 @@ export default function HomeScreen() {
                 <TouchableOpacity 
                   style={styles.profileButton}
                   onPress={async () => {
-                    // Simulate day 3 by getting a new tip without clearing history
-                    const tipScore = TipRecommendationService.getDailyTip(
+                    // Get all recommendations and filter out previously shown tips
+                    const allRecommendations = TipRecommendationService.getRecommendations(
                       userProfile!, 
                       previousTips, 
-                      attempts
+                      attempts,
+                      10 // Get more recommendations to choose from
                     );
                     
-                    if (tipScore) {
+                    // Filter out tips that have already been shown
+                    const shownTipIds = previousTips.map(t => t.tip_id);
+                    if (dailyTip) {
+                      shownTipIds.push(dailyTip.tip_id);
+                    }
+                    
+                    const newTips = allRecommendations.filter(
+                      rec => !shownTipIds.includes(rec.tip.tip_id)
+                    );
+                    
+                    if (newTips.length > 0) {
+                      const tipScore = newTips[0]; // Get the best new tip
+                      
                       // Create a fake "day 3" tip
                       const newDailyTip: DailyTip = {
                         id: `day3-${Date.now()}`,
@@ -297,7 +310,13 @@ export default function HomeScreen() {
                       
                       Alert.alert(
                         'Test Mode: Day 3',
-                        'Simulating a new day with a fresh tip (not saved to storage)',
+                        `Showing a new tip you haven't seen before: "${tipScore.tip.summary.substring(0, 50)}..."`,
+                        [{ text: 'OK' }]
+                      );
+                    } else {
+                      Alert.alert(
+                        'No New Tips',
+                        'All tips have been shown. Add more tips to the database!',
                         [{ text: 'OK' }]
                       );
                     }
