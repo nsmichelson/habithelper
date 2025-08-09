@@ -32,7 +32,6 @@ interface Props {
   tip: Tip;
   onViewDetails: () => void;
   timeUntilCheckIn: number; // hours until evening check-in
-  onCheckInNow?: () => void; // For testing - trigger check-in immediately
   onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
   quickCompletions?: QuickComplete[];
 }
@@ -108,7 +107,6 @@ export default function ExperimentMode({
   tip, 
   onViewDetails, 
   timeUntilCheckIn, 
-  onCheckInNow,
   onQuickComplete,
   quickCompletions = []
 }: Props) {
@@ -364,12 +362,6 @@ export default function ExperimentMode({
               </TouchableOpacity>
             </View>
 
-            {/* Testing button for immediate check-in */}
-            {__DEV__ && onCheckInNow && (
-              <TouchableOpacity style={styles.testButton} onPress={onCheckInNow}>
-                <Text style={styles.testButtonText}>🧪 Test: Check In Now</Text>
-              </TouchableOpacity>
-            )}
 
             {/* Motivational Message */}
             <View style={styles.motivationalCard}>
@@ -668,22 +660,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
-  },
-  testButton: {
-    backgroundColor: '#FFE0B2',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    marginTop: 12,
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#FF9800',
-    borderStyle: 'dashed',
-  },
-  testButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#E65100',
   },
   quickCompleteButton: {
     marginBottom: 20,

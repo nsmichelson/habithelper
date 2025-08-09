@@ -424,10 +424,6 @@ export default function HomeScreen() {
                   // Calculate hours until evening check-in (assuming 7 PM)
                   19 - new Date().getHours()
                 }
-                onCheckInNow={() => {
-                  // For testing - show check-in immediately
-                  setShowCheckIn(true);
-                }}
                 onQuickComplete={handleQuickComplete}
                 quickCompletions={dailyTip.quick_completions || []}
               />
