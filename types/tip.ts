@@ -144,7 +144,7 @@ export interface UserProfile {
 
 export interface QuickComplete {
   completed_at: Date;
-  quick_note?: 'easy' | 'challenging' | 'just_right';
+  quick_note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me';
 }
 
 export interface DailyTip {

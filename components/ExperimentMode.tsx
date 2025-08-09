@@ -33,7 +33,7 @@ interface Props {
   onViewDetails: () => void;
   timeUntilCheckIn: number; // hours until evening check-in
   onCheckInNow?: () => void; // For testing - trigger check-in immediately
-  onQuickComplete: (note?: 'easy' | 'challenging' | 'just_right') => void;
+  onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
   quickCompletions?: QuickComplete[];
 }
 
@@ -319,9 +319,21 @@ export default function ExperimentMode({
                 >
                   <View style={styles.completedHeader}>
                     <Ionicons name="checkmark-circle" size={32} color="#4CAF50" />
-                    <Text style={styles.completedText}>
-                      Completed {quickCompletions.length}x today!
-                    </Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.completedText}>
+                        Completed {quickCompletions.length}x today!
+                      </Text>
+                      {quickCompletions[quickCompletions.length - 1]?.quick_note && (
+                        <Text style={styles.completedFeedback}>
+                          Last time: {
+                            quickCompletions[quickCompletions.length - 1].quick_note === 'worked_great' ? '🎉 Worked great!' :
+                            quickCompletions[quickCompletions.length - 1].quick_note === 'went_ok' ? '👍 Went ok' :
+                            quickCompletions[quickCompletions.length - 1].quick_note === 'not_sure' ? '🤔 Not sure' :
+                            '👎 Not for me'
+                          }
+                        </Text>
+                      )}
+                    </View>
                   </View>
                   <TouchableOpacity 
                     style={styles.addAnotherButton}

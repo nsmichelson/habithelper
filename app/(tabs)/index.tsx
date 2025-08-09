@@ -164,7 +164,7 @@ export default function HomeScreen() {
     }
   };
 
-  const handleQuickComplete = async (note?: 'easy' | 'challenging' | 'just_right') => {
+  const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
     if (!dailyTip) return;
 
     const quickComplete: QuickComplete = {
@@ -184,24 +184,34 @@ export default function HomeScreen() {
       quick_completions: updatedCompletions,
     });
 
-    // Show a brief celebration
+    // Show a brief celebration with feedback-specific message
     Alert.alert(
       'Awesome! 🎉',
-      note === 'easy' ? 'Great that it was easy!' :
-      note === 'challenging' ? 'Way to push through the challenge!' :
-      note === 'just_right' ? 'Perfect difficulty level!' :
+      note === 'worked_great' ? 'Fantastic! We\'ll find more experiments like this for you!' :
+      note === 'went_ok' ? 'Good! Every experiment helps you learn what works!' :
+      note === 'not_sure' ? 'That\'s okay! Sometimes it takes time to see the effects.' :
+      note === 'not_for_me' ? 'Thanks for trying! Not every experiment works for everyone.' :
       'Way to go!',
       [{ text: 'Thanks!' }]
     );
+
+    // Feedback value for algorithm:
+    // - worked_great: boost similar tips
+    // - went_ok: neutral, continue with variety
+    // - not_sure: maybe try similar tips later
+    // - not_for_me: reduce similar tips
   };
 
   const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
     if (!dailyTip || !currentTip) return;
 
-    // Save the check-in
+    const hasQuickCompletion = dailyTip.quick_completions && dailyTip.quick_completions.length > 0;
+
+    // Save the check-in with reflection notes if already completed
     await StorageService.updateDailyTip(dailyTip.id, {
       evening_check_in: feedback,
       check_in_at: new Date(),
+      ...(hasQuickCompletion && notes ? { evening_reflection: notes } : {}),
     });
 
     // Save the attempt
@@ -210,7 +220,7 @@ export default function HomeScreen() {
       tip_id: dailyTip.tip_id,
       attempted_at: new Date(),
       feedback,
-      notes,
+      notes: hasQuickCompletion ? `[Reflection] ${notes || ''}` : notes,
     };
     
     await StorageService.saveTipAttempt(attempt);
@@ -220,6 +230,7 @@ export default function HomeScreen() {
       ...dailyTip,
       evening_check_in: feedback,
       check_in_at: new Date(),
+      ...(hasQuickCompletion && notes ? { evening_reflection: notes } : {}),
     });
     setShowCheckIn(false);
     setAttempts([...attempts, attempt]);
@@ -245,6 +256,7 @@ export default function HomeScreen() {
         tip={currentTip}
         onCheckIn={handleCheckIn}
         onSkip={() => setShowCheckIn(false)}
+        quickCompletions={dailyTip?.quick_completions || []}
       />
     );
   }

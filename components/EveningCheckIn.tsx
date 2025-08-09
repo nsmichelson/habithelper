@@ -18,13 +18,14 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { Tip, TipFeedback } from '../types/tip';
+import { Tip, TipFeedback, QuickComplete } from '../types/tip';
 import * as Haptics from 'expo-haptics';
 
 interface Props {
   tip: Tip;
   onCheckIn: (feedback: TipFeedback, notes?: string) => void;
   onSkip: () => void;
+  quickCompletions?: QuickComplete[];
 }
 
 const feedbackOptions: Array<{ value: TipFeedback; label: string; emoji: string; color: string }> = [
@@ -34,13 +35,16 @@ const feedbackOptions: Array<{ value: TipFeedback; label: string; emoji: string;
   { value: 'didnt_try', label: "Didn't Try", emoji: '⏭️', color: '#757575' },
 ];
 
-export default function EveningCheckIn({ tip, onCheckIn, onSkip }: Props) {
+export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletions = [] }: Props) {
   const [selectedFeedback, setSelectedFeedback] = useState<TipFeedback | null>(null);
   const [notes, setNotes] = useState('');
   const [showNotes, setShowNotes] = useState(false);
   
   const cardScale = useSharedValue(1);
   const notesHeight = useSharedValue(0);
+  
+  // Check if user already completed the experiment
+  const hasQuickCompletion = quickCompletions.length > 0;
 
   const handleFeedbackSelect = (feedback: TipFeedback) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -94,49 +98,121 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip }: Props) {
                 <Ionicons name="moon" size={32} color="#FFF" />
               </View>
               <Text style={styles.title}>Evening Check-In</Text>
-              <Text style={styles.subtitle}>How did today's experiment go?</Text>
+              <Text style={styles.subtitle}>
+                {hasQuickCompletion 
+                  ? "Let's reflect on your completed experiment" 
+                  : "How did today's experiment go?"}
+              </Text>
             </View>
 
             {/* Tip Reminder */}
             <View style={styles.tipReminder}>
-              <Text style={styles.tipLabel}>You tried:</Text>
+              <Text style={styles.tipLabel}>
+                {hasQuickCompletion ? 'You completed:' : 'You tried:'}
+              </Text>
               <Text style={styles.tipSummary}>{tip.summary}</Text>
+              
+              {/* Show quick completion status */}
+              {hasQuickCompletion && (
+                <View style={styles.completionStatus}>
+                  <Ionicons name="checkmark-circle" size={16} color="#4CAF50" />
+                  <Text style={styles.completionStatusText}>
+                    Completed {quickCompletions.length}x today
+                    {quickCompletions[quickCompletions.length - 1]?.quick_note && 
+                      ` • ${
+                        quickCompletions[quickCompletions.length - 1].quick_note === 'worked_great' ? 'It worked great!' :
+                        quickCompletions[quickCompletions.length - 1].quick_note === 'went_ok' ? 'It went ok' :
+                        quickCompletions[quickCompletions.length - 1].quick_note === 'not_sure' ? 'You weren\'t sure' :
+                        'It wasn\'t for you'
+                      }`
+                    }
+                  </Text>
+                </View>
+              )}
             </View>
 
-            {/* Feedback Options */}
-            <View style={styles.feedbackContainer}>
-              {feedbackOptions.map((option) => (
-                <TouchableOpacity
-                  key={option.value}
-                  style={[
-                    styles.feedbackButton,
-                    selectedFeedback === option.value && styles.feedbackButtonSelected,
-                    selectedFeedback === option.value && { borderColor: option.color }
-                  ]}
-                  onPress={() => handleFeedbackSelect(option.value)}
-                >
-                  <Text style={styles.feedbackEmoji}>{option.emoji}</Text>
-                  <Text style={[
-                    styles.feedbackLabel,
-                    selectedFeedback === option.value && styles.feedbackLabelSelected
-                  ]}>
-                    {option.label}
+            {/* Different UI for already-completed vs not-completed */}
+            {hasQuickCompletion ? (
+              <>
+                {/* Reflection Questions for Already Completed */}
+                <View style={styles.reflectionSection}>
+                  <Text style={styles.reflectionTitle}>
+                    How did it affect the rest of your day?
                   </Text>
-                  {selectedFeedback === option.value && (
-                    <View style={[styles.checkMark, { backgroundColor: option.color }]}>
-                      <Ionicons name="checkmark" size={16} color="#FFF" />
-                    </View>
-                  )}
-                </TouchableOpacity>
-              ))}
-            </View>
+                  <View style={styles.feedbackContainer}>
+                    {feedbackOptions.filter(opt => opt.value !== 'didnt_try').map((option) => (
+                      <TouchableOpacity
+                        key={option.value}
+                        style={[
+                          styles.feedbackButton,
+                          selectedFeedback === option.value && styles.feedbackButtonSelected,
+                          selectedFeedback === option.value && { borderColor: option.color }
+                        ]}
+                        onPress={() => handleFeedbackSelect(option.value)}
+                      >
+                        <Text style={styles.feedbackEmoji}>{option.emoji}</Text>
+                        <Text style={[
+                          styles.feedbackLabel,
+                          selectedFeedback === option.value && styles.feedbackLabelSelected
+                        ]}>
+                          {option.label}
+                        </Text>
+                        {selectedFeedback === option.value && (
+                          <View style={[styles.checkMark, { backgroundColor: option.color }]}>
+                            <Ionicons name="checkmark" size={16} color="#FFF" />
+                          </View>
+                        )}
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+              </>
+            ) : (
+              <>
+                {/* Original Feedback Options for Not Completed */}
+                <View style={styles.feedbackContainer}>
+                  {feedbackOptions.map((option) => (
+                    <TouchableOpacity
+                      key={option.value}
+                      style={[
+                        styles.feedbackButton,
+                        selectedFeedback === option.value && styles.feedbackButtonSelected,
+                        selectedFeedback === option.value && { borderColor: option.color }
+                      ]}
+                      onPress={() => handleFeedbackSelect(option.value)}
+                    >
+                      <Text style={styles.feedbackEmoji}>{option.emoji}</Text>
+                      <Text style={[
+                        styles.feedbackLabel,
+                        selectedFeedback === option.value && styles.feedbackLabelSelected
+                      ]}>
+                        {option.label}
+                      </Text>
+                      {selectedFeedback === option.value && (
+                        <View style={[styles.checkMark, { backgroundColor: option.color }]}>
+                          <Ionicons name="checkmark" size={16} color="#FFF" />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </>
+            )}
 
             {/* Notes Section */}
             <Animated.View style={[styles.notesSection, notesAnimatedStyle]}>
-              <Text style={styles.notesLabel}>Any thoughts to share? (optional)</Text>
+              <Text style={styles.notesLabel}>
+                {hasQuickCompletion 
+                  ? 'Any additional observations from your day? (optional)' 
+                  : 'Any thoughts to share? (optional)'}
+              </Text>
               <TextInput
                 style={styles.notesInput}
-                placeholder="What made it work? What was challenging?"
+                placeholder={
+                  hasQuickCompletion 
+                    ? "Did you notice any lasting effects? Would you try it again?"
+                    : "What made it work? What was challenging?"
+                }
                 placeholderTextColor="rgba(255,255,255,0.5)"
                 value={notes}
                 onChangeText={setNotes}
@@ -243,6 +319,29 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFF',
     lineHeight: 22,
+  },
+  completionStatus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.2)',
+  },
+  completionStatusText: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.8)',
+    marginLeft: 6,
+  },
+  reflectionSection: {
+    marginBottom: 20,
+  },
+  reflectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFF',
+    marginBottom: 12,
+    textAlign: 'center',
   },
   feedbackContainer: {
     flexDirection: 'row',

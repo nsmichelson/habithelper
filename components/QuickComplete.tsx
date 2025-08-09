@@ -25,11 +25,11 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 interface Props {
   visible: boolean;
   onClose: () => void;
-  onQuickComplete: (note?: 'easy' | 'challenging' | 'just_right') => void;
+  onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
 }
 
 export default function QuickComplete({ visible, onClose, onQuickComplete }: Props) {
-  const [selectedNote, setSelectedNote] = useState<'easy' | 'challenging' | 'just_right' | null>(null);
+  const [selectedNote, setSelectedNote] = useState<'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me' | null>(null);
   const backdropOpacity = useSharedValue(0);
   const cardScale = useSharedValue(0);
   const checkScale = useSharedValue(0);
@@ -95,9 +95,10 @@ export default function QuickComplete({ visible, onClose, onQuickComplete }: Pro
   }));
 
   const noteOptions = [
-    { value: 'easy', label: 'Easy!', emoji: '😎', color: '#4CAF50' },
-    { value: 'just_right', label: 'Just Right', emoji: '👍', color: '#2196F3' },
-    { value: 'challenging', label: 'Challenging', emoji: '💪', color: '#FF9800' },
+    { value: 'worked_great', label: 'Worked great', emoji: '🎉', color: '#4CAF50' },
+    { value: 'went_ok', label: 'Went ok', emoji: '👍', color: '#2196F3' },
+    { value: 'not_sure', label: 'Not sure', emoji: '🤔', color: '#FF9800' },
+    { value: 'not_for_me', label: 'Not for me', emoji: '👎', color: '#9E9E9E' },
   ];
 
   return (
@@ -131,7 +132,7 @@ export default function QuickComplete({ visible, onClose, onQuickComplete }: Pro
 
             {/* Quick Note Options */}
             <Animated.View style={[styles.noteSection, buttonsAnimatedStyle]}>
-              <Text style={styles.noteLabel}>How was it?</Text>
+              <Text style={styles.noteLabel}>How did it go?</Text>
               <View style={styles.noteOptions}>
                 {noteOptions.map((option) => (
                   <TouchableOpacity
@@ -179,7 +180,7 @@ export default function QuickComplete({ visible, onClose, onQuickComplete }: Pro
 
             {/* Info Text */}
             <Text style={styles.infoText}>
-              We'll still check in this evening for any additional reflections
+              We'll check in later to see if you noticed any effects
             </Text>
           </LinearGradient>
         </Animated.View>
