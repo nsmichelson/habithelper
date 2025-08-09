@@ -140,6 +140,13 @@ export interface UserProfile {
   // Learning preferences
   wants_to_learn_cooking?: boolean;
   interested_in_nutrition_facts?: boolean;
+  
+  // New fields from fun quiz
+  difficulty_preference?: string;
+  non_negotiables?: string[]; // Foods they won't give up
+  eating_personality?: string[];
+  biggest_obstacle?: string;
+  home_situation?: string[];
 }
 
 export interface QuickComplete {

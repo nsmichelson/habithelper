@@ -18,7 +18,7 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 import { QuizQuestion, QuizResponse } from '../types/quiz';
-import { QUIZ_QUESTIONS } from '../data/quizQuestions';
+import { QUIZ_QUESTIONS, getConditionalQuestions } from '../data/quizQuestions';
 import StorageService from '../services/storage';
 import { UserProfile } from '../types/tip';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,12 +33,19 @@ export default function OnboardingQuiz({ onComplete }: Props) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState<QuizResponse[]>([]);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [availableQuestions, setAvailableQuestions] = useState<QuizQuestion[]>(QUIZ_QUESTIONS);
   
   const progress = useSharedValue(0);
   const questionOpacity = useSharedValue(1);
   
-  const currentQuestion = QUIZ_QUESTIONS[currentQuestionIndex];
-  const progressPercentage = ((currentQuestionIndex + 1) / QUIZ_QUESTIONS.length) * 100;
+  // Update available questions when responses change (for conditional questions)
+  useEffect(() => {
+    const questions = getConditionalQuestions(responses);
+    setAvailableQuestions(questions);
+  }, [responses]);
+  
+  const currentQuestion = availableQuestions[currentQuestionIndex];
+  const progressPercentage = ((currentQuestionIndex + 1) / availableQuestions.length) * 100;
 
   useEffect(() => {
     progress.value = withSpring(progressPercentage);
@@ -82,7 +89,7 @@ export default function OnboardingQuiz({ onComplete }: Props) {
     });
 
     // Move to next question or complete
-    if (currentQuestionIndex < QUIZ_QUESTIONS.length - 1) {
+    if (currentQuestionIndex < availableQuestions.length - 1) {
       setTimeout(() => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setSelectedValues([]);
@@ -124,35 +131,122 @@ export default function OnboardingQuiz({ onComplete }: Props) {
       goals: [],
     };
 
-    // Process each response
+    // Process each response based on new quiz structure
     allResponses.forEach(response => {
       const values = Array.isArray(response.value) ? response.value : [response.value];
       
       switch (response.questionId) {
-        case 'medical_conditions':
-          profile.medical_conditions = values.filter(v => v !== 'none');
+        // Medical stuff
+        case 'health_stuff':
+          // Map to actual medical conditions
+          if (values.includes('diabetes')) {
+            profile.medical_conditions.push('t2_diabetes');
+          }
+          if (values.includes('heart')) {
+            profile.medical_conditions.push('hypertension');
+          }
+          if (values.includes('digestive')) {
+            profile.medical_conditions.push('ibs');
+          }
+          if (values.includes('pregnancy')) {
+            profile.medical_conditions.push('pregnancy');
+          }
           break;
-        case 'food_allergies':
-          profile.medical_conditions.push(...values.filter(v => v !== 'none'));
+          
+        case 'which_allergies':
+          // Map allergies to medical conditions
+          values.forEach(allergy => {
+            switch(allergy) {
+              case 'nuts': profile.medical_conditions.push('nut_allergy'); break;
+              case 'dairy': profile.medical_conditions.push('lactose_intolerance'); break;
+              case 'gluten': profile.medical_conditions.push('celiac'); break;
+              case 'eggs': profile.medical_conditions.push('egg_allergy'); break;
+              case 'seafood': profile.medical_conditions.push('fish_allergy', 'shellfish_allergy'); break;
+              case 'soy': profile.medical_conditions.push('soy_allergy'); break;
+            }
+          });
           break;
-        case 'primary_goals':
-          profile.goals = values;
+          
+        case 'real_goals':
+          // Map real goals to nutrition goals
+          values.forEach(goal => {
+            switch(goal) {
+              case 'look_good':
+              case 'clothes_fit': 
+                profile.goals.push('weight_loss'); 
+                break;
+              case 'more_energy': 
+                profile.goals.push('improve_energy'); 
+                break;
+              case 'health_scare':
+                profile.goals.push('better_lipids', 'lower_blood_pressure');
+                break;
+              case 'less_bloated':
+                profile.goals.push('improve_gut_health');
+                break;
+              case 'athletic':
+                profile.goals.push('endurance_performance', 'strength_performance');
+                break;
+              case 'keep_up_kids':
+              case 'just_healthier':
+                profile.goals.push('improve_energy', 'increase_veggies');
+                break;
+            }
+          });
           break;
-        case 'cooking_time':
-          profile.cooking_time_available = values[0] as any;
+          
+        case 'kitchen_reality':
+          // Map kitchen skills to cooking time
+          switch(values[0]) {
+            case 'microwave_master':
+            case 'no_kitchen':
+              profile.cooking_time_available = 'none';
+              break;
+            case 'basic':
+              profile.cooking_time_available = 'minimal';
+              break;
+            case 'follow_recipe':
+              profile.cooking_time_available = 'moderate';
+              break;
+            case 'confident':
+            case 'chef':
+              profile.cooking_time_available = 'plenty';
+              profile.wants_to_learn_cooking = true;
+              break;
+          }
           break;
-        case 'meal_locations':
-          profile.eating_locations = values;
+          
+        case 'money_truth':
+          // Budget consciousness
+          profile.budget_conscious = ['tight', 'careful'].includes(values[0]);
           break;
-        case 'budget_conscious':
-          profile.budget_conscious = response.value as number >= 4;
-          break;
-        case 'food_preferences':
+          
+        case 'real_talk':
+          // Vegetable relationship affects goals
+          if (['avoid', 'hide_them'].includes(values[0])) {
+            profile.goals.push('increase_veggies');
+          }
           profile.dietary_preferences = values;
           break;
-        case 'learning_interests':
-          profile.wants_to_learn_cooking = values.includes('cooking_skills');
-          profile.interested_in_nutrition_facts = values.includes('nutrition_facts');
+          
+        case 'non_negotiables':
+          // Store food preferences
+          profile.dietary_preferences = [...(profile.dietary_preferences || []), ...values];
+          break;
+          
+        case 'eating_personality':
+          // Store eating patterns
+          profile.dietary_preferences = [...(profile.dietary_preferences || []), ...values];
+          break;
+          
+        case 'life_chaos':
+          // Store lifestyle info
+          profile.life_stage = values;
+          break;
+          
+        case 'experiment_style':
+          // Store difficulty preference
+          profile.difficulty_preference = values[0];
           break;
       }
     });
@@ -245,7 +339,7 @@ export default function OnboardingQuiz({ onComplete }: Props) {
             <Animated.View style={[styles.progressFill, progressAnimatedStyle]} />
           </View>
           <Text style={styles.progressText}>
-            {currentQuestionIndex + 1} of {QUIZ_QUESTIONS.length}
+            {currentQuestionIndex + 1} of {availableQuestions.length}
           </Text>
         </View>
 
@@ -285,7 +379,7 @@ export default function OnboardingQuiz({ onComplete }: Props) {
             onPress={handleNext}
           >
             <Text style={styles.nextButtonText}>
-              {currentQuestionIndex === QUIZ_QUESTIONS.length - 1 ? 'Complete' : 'Next'}
+              {currentQuestionIndex === availableQuestions.length - 1 ? "Let's do this!" : 'Next'}
             </Text>
             <Ionicons name="arrow-forward" size={24} color="#FFF" />
           </TouchableOpacity>
