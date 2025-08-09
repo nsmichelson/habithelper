@@ -71,6 +71,60 @@ export default function HomeScreen() {
     tips: DailyTip[],
     tipAttempts: TipAttempt[]
   ) => {
+    // Debug logging to understand user profile and history
+    console.log('=== USER PROFILE & LEARNING ===');
+    console.log('User Profile:', {
+      goals: profile.goals,
+      medical_conditions: profile.medical_conditions,
+      cooking_time: profile.cooking_time_available,
+      budget_conscious: profile.budget_conscious,
+      wants_to_learn_cooking: profile.wants_to_learn_cooking,
+      interested_in_nutrition: profile.interested_in_nutrition_facts,
+    });
+    
+    // Analyze what's working and not working
+    const lovedTips = tips.filter(tip => 
+      tip.quick_completions?.some(c => c.quick_note === 'worked_great') ||
+      tip.evening_check_in === 'went_great'
+    );
+    
+    const notForMeTips = tips.filter(tip =>
+      tip.quick_completions?.some(c => c.quick_note === 'not_for_me') ||
+      tip.evening_check_in === 'not_great'
+    );
+    
+    const triedTips = tips.filter(tip => tip.user_response === 'try_it');
+    
+    console.log('=== EXPERIMENT HISTORY ===');
+    console.log(`Total experiments presented: ${tips.length}`);
+    console.log(`Experiments tried: ${triedTips.length}`);
+    console.log(`Experiments loved: ${lovedTips.length}`);
+    console.log(`Experiments not for me: ${notForMeTips.length}`);
+    
+    if (lovedTips.length > 0) {
+      console.log('LOVED experiments (worked great):');
+      lovedTips.forEach(tip => {
+        const fullTip = getTipById(tip.tip_id);
+        if (fullTip) {
+          console.log(`  - ${fullTip.summary}`);
+          console.log(`    Goals: ${fullTip.goal_tags.join(', ')}`);
+          console.log(`    Type: ${fullTip.tip_type.join(', ')}`);
+        }
+      });
+    }
+    
+    if (notForMeTips.length > 0) {
+      console.log('NOT FOR ME experiments:');
+      notForMeTips.forEach(tip => {
+        const fullTip = getTipById(tip.tip_id);
+        if (fullTip) {
+          console.log(`  - ${fullTip.summary}`);
+          console.log(`    Goals: ${fullTip.goal_tags.join(', ')}`);
+          console.log(`    Type: ${fullTip.tip_type.join(', ')}`);
+        }
+      });
+    }
+    
     // Check if we already have a tip for today
     const today = format(new Date(), 'yyyy-MM-dd');
     const todaysTip = tips.find(
@@ -377,18 +431,26 @@ export default function HomeScreen() {
           {/* Stats */}
           <View style={styles.statsContainer}>
             <View style={styles.statCard}>
-              <Text style={styles.statNumber}>{attempts.length}</Text>
+              <Text style={styles.statNumber}>{previousTips.length + (dailyTip ? 1 : 0)}</Text>
               <Text style={styles.statLabel}>Experiments</Text>
             </View>
             <View style={styles.statCard}>
               <Text style={styles.statNumber}>
-                {attempts.filter(a => a.feedback === 'went_great' || a.feedback === 'went_ok').length}
+                {previousTips.filter(tip => tip.user_response === 'try_it').length + 
+                 (dailyTip?.user_response === 'try_it' ? 1 : 0)}
               </Text>
-              <Text style={styles.statLabel}>Successful</Text>
+              <Text style={styles.statLabel}>Tried</Text>
             </View>
             <View style={styles.statCard}>
-              <Text style={styles.statNumber}>{previousTips.length}</Text>
-              <Text style={styles.statLabel}>Days Active</Text>
+              <Text style={styles.statNumber}>
+                {previousTips.filter(tip => 
+                  tip.quick_completions?.some(c => c.quick_note === 'worked_great') ||
+                  tip.evening_check_in === 'went_great'
+                ).length + 
+                (dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') || 
+                 dailyTip?.evening_check_in === 'went_great' ? 1 : 0)}
+              </Text>
+              <Text style={styles.statLabel}>Loved</Text>
             </View>
           </View>
 

@@ -261,9 +261,21 @@ export class TipRecommendationService {
       userProfile,
       previousTips,
       attempts,
-      1,
+      10, // Get more recommendations for debugging
       currentHour
     );
+
+    // Debug logging for recommendation algorithm
+    console.log('=== TIP RECOMMENDATION ALGORITHM ===');
+    console.log(`Current hour: ${currentHour || new Date().getHours()}`);
+    console.log('Top 5 recommendations:');
+    recommendations.slice(0, 5).forEach((item, index) => {
+      console.log(`${index + 1}. ${item.tip.summary} (Score: ${item.score.toFixed(2)})`);
+      console.log(`   Reasons: ${item.reasons.join(', ')}`);
+      console.log(`   Goals: ${item.tip.goal_tags.join(', ')}`);
+      console.log(`   Type: ${item.tip.tip_type.join(', ')}`);
+      console.log(`   Time of day: ${item.tip.time_of_day.join(', ') || 'any'}`);
+    });
 
     return recommendations[0] || null;
   }
