@@ -422,7 +422,31 @@ export default function HomeScreen() {
               >
                 <Ionicons name="refresh-circle-outline" size={32} color="#FF9800" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileButton}>
+              <TouchableOpacity 
+                style={styles.profileButton}
+                onPress={async () => {
+                  Alert.alert(
+                    'Profile Settings',
+                    'What would you like to do?',
+                    [
+                      { 
+                        text: 'Retake Quiz', 
+                        onPress: async () => {
+                          // Clear profile to restart quiz
+                          await StorageService.setOnboardingCompleted(false);
+                          setUserProfile(null);
+                          setDailyTip(null);
+                          setCurrentTip(null);
+                        }
+                      },
+                      {
+                        text: 'Cancel',
+                        style: 'cancel'
+                      }
+                    ]
+                  );
+                }}
+              >
                 <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
               </TouchableOpacity>
             </View>
