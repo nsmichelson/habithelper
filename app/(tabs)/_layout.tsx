@@ -44,6 +44,15 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'My Why',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="heart" size={size || 28} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
