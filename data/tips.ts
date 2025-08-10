@@ -1331,6 +1331,1176 @@ export const TIPS_DATABASE: Tip[] = [
     helps_with: [],
     preserves_foods: ['cheese', 'bread', 'meat'],
     sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0034-4034-a034-1234567890cc',
+    summary: "Pack an 'emergency' healthy snack in your bag.",
+    details_md: `**The Experiment:** Place a non-perishable, healthy snack in your work bag, car, or purse to have on hand for unexpected hunger.
+
+**Why it Works:** This is an environmental design strategy to combat "hanger" and prevent you from grabbing a convenient but unhealthy option when you're out and about. Having a planned, healthy option available removes the decision-making process when you're low on energy and willpower.
+
+**How to Try It:**
+• Good options include a small bag of almonds, a protein bar, or a packet of nut butter
+• Choose something you genuinely like so you'll be happy to eat it
+• Replace it as soon as you use it so you're always prepared`,
+    contraindications: ['nut_allergy'],
+    goal_tags: ['weight_loss', 'reduce_sugar', 'less_processed_food'],
+    tip_type: ['planning_ahead', 'environment_design'],
+    motivational_mechanism: ['decision_ease', 'comfort'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['work', 'commute', 'travel'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon'],
+    cue_context: ['craving_event', 'stress'],
+    difficulty_tier: 1,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: [],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: ['mindless_eating', 'stress_eating'],
+    common_failure_points: ['easy_to_forget'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0035-4035-a035-1234567890cd',
+    summary: 'Replace cooking oil with a spray for one meal.',
+    details_md: `**The Experiment:** When pan-frying or sautéing a meal, use an oil spray instead of pouring oil from a bottle.
+
+**Why it Works:** Cooking oils are very calorie-dense (a tablespoon of olive oil has about 120 calories). While healthy fats are important, it's easy to pour far more than you need, adding hundreds of hidden calories to a meal. Using a spray provides a much lighter coating, significantly reducing the overall calorie count without sacrificing the non-stick benefit.
+
+**How to Try It:**
+• Use a commercial oil spray (like avocado or olive oil spray)
+• Lightly coat the surface of your pan just until it shimmers
+• This is a great trick for sautéing vegetables or cooking eggs or lean proteins`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'better_lipids'],
+    tip_type: ['healthy_swap', 'skill_building'],
+    motivational_mechanism: ['decision_ease'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['meat', 'cheese', 'bread', 'pasta'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: false,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['basic_stove'],
+    cooking_skill_required: 'basic',
+    cognitive_load: 2,
+    helps_with: [],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'c5d6e7f8-a9b0-1234-cdef-567890123456',
+    summary: "Try a vegetable-based 'noodle' instead of pasta.",
+    details_md: `**The Experiment:** For a pasta-style dish, try substituting traditional pasta with a vegetable alternative like spaghetti squash or zucchini noodles ("zoodles").
+
+**Why it Works:** This swap dramatically increases the vegetable and fiber content of your meal while significantly reducing the carbohydrate and calorie load. It's a great way to enjoy the comfort of a pasta dish while working towards goals like weight loss or increased vegetable intake.
+
+**How to Try It:**
+• You can buy pre-spiralized zucchini noodles or make your own with a spiralizer. Sauté them for a few minutes until tender
+• For spaghetti squash, cut it in half, roast it, and then scrape out the noodle-like strands with a fork
+• Top with your favorite sauce and protein`,
+    contraindications: [],
+    goal_tags: ['increase_veggies', 'weight_loss', 'reduce_sugar', 'plant_based', 'less_processed_food'],
+    tip_type: ['healthy_swap', 'novelty', 'skill_building'],
+    motivational_mechanism: ['novelty', 'sensory', 'mastery'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$$',
+    mental_effort: 3,
+    physical_effort: 3,
+    location_tags: ['home'],
+    social_mode: 'either',
+    time_of_day: ['afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'community_submitted',
+    // NEW DIMENSIONS
+    involves_foods: [],
+    preserves_foods: ['cheese', 'meat'],
+    veggie_intensity: 'heavy',
+    veggie_strategy: 'front_and_center',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: false,
+    chaos_level_max: 2,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['full_kitchen'],
+    cooking_skill_required: 'intermediate',
+    texture_profile: ['soft'],
+    satisfies_craving: ['carbs'],
+    substitution_quality: 'different_but_good',
+    cognitive_load: 3,
+    helps_with: [],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'a1b2c3d4-0037-4037-a037-1234567890cf',
+    summary: 'Deconstruct your craving: What do you really want?',
+    details_md: `**The Experiment:** When a strong craving hits, pause for a moment and try to identify the sensory properties you're seeking. Is it crunchy, creamy, sweet, salty, or warm?
+
+**Why it Works:** Cravings are often for a specific texture or sensation, not necessarily a specific unhealthy food. By deconstructing the craving, you can find a healthier alternative that satisfies the sensory need. This is a mindful approach to managing cravings rather than just suppressing them.
+
+**How to Try It:**
+• Craving crunchy and salty chips? Try roasted chickpeas or celery sticks with salt
+• Craving creamy ice cream? Try a bowl of rich Greek yogurt with berries
+• Craving something sweet? Try a piece of fruit or a date`,
+    contraindications: [],
+    goal_tags: ['reduce_sugar', 'weight_loss'],
+    tip_type: ['crave_buster', 'mindset_shift'],
+    motivational_mechanism: ['mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon', 'evening', 'late_night'],
+    cue_context: ['craving_event', 'boredom', 'stress'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: [],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: ['emotional_eating', 'stress_eating', 'boredom_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'f6a7b8c9-d0e1-2345-fabc-678901234567',
+    summary: 'Eat your protein and veggies first.',
+    details_md: `**The Experiment:** At one meal today, eat the protein and vegetables on your plate before you eat the carbohydrates.
+
+**Why it Works:** Starting with high-fiber vegetables and satiating protein can help you feel fuller sooner. By the time you get to the more calorie-dense carbs, you may be satisfied with a smaller portion. This meal sequencing can trigger satiety hormones and improve post-meal energy levels.
+
+**How to Try It:**
+• If you have a side salad, eat it first
+• If you have roasted broccoli and chicken, finish all the broccoli and chicken before starting the rice or potatoes
+• This works especially well at restaurants when bread is served—ask for a side salad to eat while you wait`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'increase_veggies', 'improve_gut_health', 'improve_energy', 'better_lipids'],
+    tip_type: ['mindset_shift', 'habit_stacking', 'skill_building'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'community_submitted',
+    // NEW DIMENSIONS
+    preserves_foods: ['bread', 'pasta', 'cheese'],
+    veggie_intensity: 'moderate',
+    veggie_strategy: 'front_and_center',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 2,
+    helps_with: ['speed_eating', 'mindless_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0039-4039-a039-1234567890d1',
+    summary: 'Keep a water bottle on your desk or in sight all day.',
+    details_md: `**The Experiment:** For the entire day, keep a filled water bottle within your arm's reach and line of sight.
+
+**Why it Works:** This is a classic and highly effective environmental design tactic. The visual cue of the water bottle constantly reminds you to drink, and its accessibility makes it effortless to do so. This simple change can dramatically increase your daily water intake.
+
+**How to Try It:**
+• Choose a reusable water bottle you enjoy using
+• Fill it up first thing in the morning and place it on your desk, in your car's cup holder, or on the counter where you spend the most time
+• Refill it as soon as it's empty`,
+    contraindications: [],
+    goal_tags: ['improve_hydration'],
+    tip_type: ['environment_design'],
+    motivational_mechanism: ['decision_ease'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'commute', 'travel'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: [],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat', 'soda'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: [],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0040-4040-a040-1234567890d2',
+    summary: 'Create a "protein pudding" for a sweet treat.',
+    details_md: `**The Experiment:** Make a healthy, high-protein dessert by creating a "pudding" from protein powder.
+
+**Why it Works:** This satisfies a craving for a sweet, creamy dessert while providing a significant dose of protein, which is much more satiating and beneficial for body composition than a typical sugar-laden pudding. It's a smart swap that aligns with fitness goals.
+
+**How to Try It:**
+• In a small bowl, mix one scoop of casein or a whey/casein blend protein powder (vanilla or chocolate work well) with a very small amount of milk or water
+• Stir vigorously, adding liquid a tiny bit at a time, until it reaches a thick, pudding-like consistency
+• For best results, chill in the freezer for 10-15 minutes`,
+    contraindications: ['lactose_intolerance', 'soy_allergy'],
+    goal_tags: ['reduce_sugar', 'muscle_gain', 'weight_loss'],
+    tip_type: ['healthy_swap', 'crave_buster'],
+    motivational_mechanism: ['sensory', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening', 'late_night'],
+    cue_context: ['craving_event'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: ['dairy'],
+    preserves_foods: ['chocolate'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['creamy'],
+    satisfies_craving: ['sweet', 'chocolate', 'creamy'],
+    substitution_quality: 'close_enough',
+    cognitive_load: 2,
+    helps_with: ['sugar_addiction', 'night_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0041-4041-a041-1234567890d3',
+    summary: "Make a 'no-tuna' chickpea salad sandwich.",
+    details_md: `**The Experiment:** For a plant-based lunch, try making a "tuna-style" salad using mashed chickpeas instead of tuna.
+
+**Why it Works:** This is a creative, plant-based swap that mimics a familiar comfort food. Chickpeas provide plant-based protein and a high amount of fiber, making it a filling and gut-healthy option. It's a great way to reduce meat consumption and increase plant food variety.
+
+**How to Try It:**
+• Drain a can of chickpeas and mash them with a fork
+• Mix with a small amount of Greek yogurt or vegan mayo, chopped celery, red onion, and seasonings like dill, salt, and pepper
+• Serve on whole-wheat bread or with crackers`,
+    contraindications: ['lactose_intolerance'],
+    goal_tags: ['plant_based', 'increase_veggies', 'improve_gut_health', 'better_lipids'],
+    tip_type: ['healthy_swap', 'novelty'],
+    motivational_mechanism: ['sensory', 'novelty'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['bread', 'cheese'],
+    veggie_intensity: 'light',
+    veggie_strategy: 'mixed_in',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'basic',
+    texture_profile: ['soft', 'creamy'],
+    substitution_quality: 'different_but_good',
+    cognitive_load: 2,
+    helps_with: [],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'e7f8a9b0-c1d2-3456-efab-789012345678',
+    summary: 'Stop eating 2-3 hours before bedtime.',
+    details_md: `**The Experiment:** Tonight, try to finish your last meal or snack at least 2-3 hours before you go to sleep.
+
+**Why it Works:** This creates a mini-fasting window overnight. For some people, this can improve sleep quality and digestion. It also helps to prevent late-night, often mindless, snacking which can contribute significant calories. Chronobiology research shows late-night eating can disrupt circadian rhythms.
+
+**How to Try It:**
+• If you normally go to bed at 11 PM, aim to have your dinner or last snack finished by 8 PM
+• If you feel hungry after this time, try having a glass of water or a cup of herbal tea`,
+    contraindications: ['t1_diabetes', 't2_diabetes', 'pregnancy', 'breastfeeding'],
+    goal_tags: ['weight_loss', 'improve_gut_health', 'improve_energy'],
+    tip_type: ['time_ritual', 'crave_buster'],
+    motivational_mechanism: ['mastery', 'comfort'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening', 'late_night'],
+    cue_context: ['meal_time', 'snack_time'],
+    difficulty_tier: 3,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: false,
+    chaos_level_max: 2,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: ['night_eating', 'mindless_eating'],
+    common_failure_points: ['requires_willpower', 'socially_awkward'],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'a1b2c3d4-0043-4043-a043-1234567890d5',
+    summary: 'Roast a big batch of mixed vegetables.',
+    details_md: `**The Experiment:** Roast a large sheet pan of mixed vegetables to have on hand for the next few days.
+
+**Why it Works:** Roasting brings out the natural sweetness of vegetables, making them delicious and appealing. Having a batch ready in the fridge makes it incredibly easy to add a serving of vegetables to any meal—breakfast, lunch, or dinner—with zero prep time.
+
+**How to Try It:**
+• Chop up hearty vegetables like broccoli, cauliflower, bell peppers, onions, and sweet potatoes
+• Toss with a little olive oil, salt, and pepper
+• Roast on a sheet pan at 400°F (200°C) for 20-30 minutes, until tender and slightly browned
+• Add them to eggs, salads, grain bowls, or eat as a side`,
+    contraindications: [],
+    goal_tags: ['increase_veggies', 'less_processed_food', 'plant_based', 'improve_gut_health'],
+    tip_type: ['planning_ahead', 'environment_design'],
+    motivational_mechanism: ['decision_ease', 'sensory'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 2,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    veggie_intensity: 'heavy',
+    veggie_strategy: 'front_and_center',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 2,
+    requires_planning: true,
+    requires_advance_prep: true,
+    prep_timing: 'weekend_required',
+    shelf_life: 'lasts_week',
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['full_kitchen'],
+    cooking_skill_required: 'basic',
+    texture_profile: ['soft', 'crispy'],
+    cognitive_load: 2,
+    helps_with: [],
+    preserves_foods: ['meat', 'cheese', 'bread', 'pasta'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'd4e5f6a7-b8c9-0123-defa-456789012345',
+    summary: 'Track your food for one day without judgment.',
+    details_md: `**The Experiment:** For just one day, keep a log of everything you eat and drink. Approach it with curiosity, not judgment.
+
+**Why it Works:** People often underestimate their total food intake by a significant margin. A single day of tracking can provide powerful awareness about "mindless" nibbles, portion sizes, and hidden calories from drinks and sauces. It's a data-gathering exercise to inform future choices, not a tool for restriction.
+
+**How to Try It:**
+• Use a simple notebook or a free app
+• Be honest and record everything, including the cream in your coffee and the handful of fries you stole from a friend
+• At the end of the day, simply review the log and notice any patterns or surprises`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'reduce_sugar', 'improve_energy'],
+    tip_type: ['self_monitoring', 'skill_building'],
+    motivational_mechanism: ['mastery'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$',
+    mental_effort: 4,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'restaurant'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon', 'evening', 'late_night'],
+    cue_context: [],
+    difficulty_tier: 4,
+    created_by: 'community_submitted',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat', 'soda'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 2,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 4,
+    helps_with: ['mindless_eating', 'grazing', 'emotional_eating'],
+    common_failure_points: ['easy_to_forget', 'requires_willpower'],
+    sustainability: 'one_time'
+  },
+  {
+    tip_id: 'a1b2c3d4-0045-4045-a045-1234567890d7',
+    summary: 'Have a savory, protein-rich breakfast.',
+    details_md: `**The Experiment:** Instead of a sweet breakfast (like sweetened cereal, pastries, or sugary yogurt), opt for a savory one centered around protein.
+
+**Why it Works:** Starting the day with a savory, high-protein meal can help regulate appetite and reduce sugar cravings throughout the day. It sets a different metabolic and psychological tone for the day compared to a breakfast that resembles a dessert.
+
+**How to Try It:**
+• A simple egg scramble with spinach and a side of avocado
+• A whole-wheat tortilla with black beans, salsa, and a fried egg
+• Leftover chicken and roasted vegetables from last night's dinner`,
+    contraindications: ['egg_allergy'],
+    goal_tags: ['reduce_sugar', 'weight_loss', 'muscle_gain', 'improve_energy'],
+    tip_type: ['healthy_swap', 'mindset_shift'],
+    motivational_mechanism: ['energy_boost', 'sensory'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['morning'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: ['meat', 'dairy'],
+    preserves_foods: ['coffee'],
+    veggie_intensity: 'light',
+    veggie_strategy: 'mixed_in',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove'],
+    cooking_skill_required: 'basic',
+    texture_profile: ['soft', 'creamy'],
+    cognitive_load: 2,
+    helps_with: ['sugar_addiction', 'grazing'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0046-4046-a046-1234567890d8',
+    summary: 'Social Swap: Suggest a walk instead of a coffee/drink meeting.',
+    details_md: `**The Experiment:** For your next casual social catch-up, suggest going for a walk together instead of meeting for coffee, drinks, or a meal.
+
+**Why it Works:** This reframes social time to include physical activity, helping you reach step goals and reduce sedentary time. It decouples socializing from consuming calories, which can be a major source of unplanned intake. It's a great way to connect with friends while supporting your health goals.
+
+**How to Try It:**
+• "Hey, instead of grabbing coffee, would you be up for a walk around the park on Saturday?"
+• Take phone calls while walking around your neighborhood
+• This works well for one-on-one meetings or casual friend dates`,
+    contraindications: ['elderly_frailty'],
+    goal_tags: ['weight_loss', 'improve_energy'],
+    tip_type: ['healthy_swap', 'environment_design'],
+    motivational_mechanism: ['social', 'energy_boost'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 2,
+    location_tags: ['work', 'social_event'],
+    social_mode: 'group',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['social_event'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat', 'soda'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: false,
+    chaos_level_max: 3,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 2,
+    helps_with: ['social_eating'],
+    common_failure_points: ['bad_weather', 'socially_awkward'],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'a1b2c3d4-0047-4047-a047-1234567890d9',
+    summary: 'Try a "dessert" of frozen fruit.',
+    details_md: `**The Experiment:** For a healthy dessert, try eating a bowl of frozen fruit.
+
+**Why it Works:** Frozen fruit like mango chunks, berries, or banana slices have a surprisingly creamy, sorbet-like texture when eaten partially thawed. This satisfies a craving for a cold, sweet treat with all the benefits of whole fruit (fiber, vitamins) and none of the added sugar of ice cream or sorbet.
+
+**How to Try It:**
+• Frozen mango or pineapple chunks are particularly creamy
+• Frozen grapes taste like little bites of sorbet
+• For a "nice cream," blend frozen bananas with a splash of milk until smooth`,
+    contraindications: [],
+    goal_tags: ['reduce_sugar', 'weight_loss', 'increase_veggies'],
+    tip_type: ['healthy_swap', 'crave_buster'],
+    motivational_mechanism: ['sensory', 'comfort'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening', 'late_night'],
+    cue_context: ['craving_event'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: [],
+    veggie_intensity: 'light',
+    veggie_strategy: 'not_applicable',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['creamy', 'soft'],
+    satisfies_craving: ['sweet', 'creamy'],
+    substitution_quality: 'different_but_good',
+    cognitive_load: 1,
+    helps_with: ['sugar_addiction', 'night_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0048-4048-a048-1234567890da',
+    summary: 'Put your fork down between every few bites.',
+    details_md: `**The Experiment:** During one meal today, consciously place your fork or spoon down on the table after every two or three bites.
+
+**Why it Works:** This is a simple, powerful mechanical trick to slow down your eating pace. It forces a pause, allowing you to breathe, check in with your fullness level, and engage more with your meal and dining companions. It's a key practice for developing mindful eating habits.
+
+**How to Try It:**
+• Take a bite. Chew it thoroughly. Swallow. Then, place your utensil completely down on the plate or table
+• Take a sip of water or a deep breath before picking it up again
+• It will feel awkward at first, but it's highly effective`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'improve_gut_health'],
+    tip_type: ['mindset_shift', 'time_ritual'],
+    motivational_mechanism: ['mastery'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: false,
+    chaos_level_max: 2,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: ['speed_eating', 'mindless_eating'],
+    common_failure_points: ['socially_awkward', 'easy_to_forget'],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'a1b2c3d4-0049-4049-a049-1234567890db',
+    summary: 'Add a healthy "topper" to your meal.',
+    details_md: `**The Experiment:** Enhance the nutritional value and flavor of one meal by adding a healthy "topper."
+
+**Why it Works:** Toppers like seeds, nuts, or nutritional yeast are a simple way to add a boost of healthy fats, protein, fiber, or vitamins without fundamentally changing the meal. It's an easy "add-in" strategy that improves nutrient density.
+
+**How to Try It:**
+• Sprinkle a tablespoon of hemp seeds or chopped walnuts on a salad or yogurt bowl
+• Add a spoonful of nutritional yeast to scrambled eggs or popcorn for a cheesy, B-vitamin-rich flavor
+• Top a soup or chili with fresh chopped herbs like cilantro or parsley`,
+    contraindications: ['nut_allergy'],
+    goal_tags: ['increase_veggies', 'better_lipids', 'improve_gut_health', 'muscle_gain'],
+    tip_type: ['healthy_swap', 'skill_building'],
+    motivational_mechanism: ['sensory', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 1,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'light',
+    veggie_strategy: 'gradual',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: [],
+    texture_profile: ['crunchy'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0050-4050-a050-1234567890dc',
+    summary: 'Review your day and plan one small improvement for tomorrow.',
+    details_md: `**The Experiment:** Before bed, take two minutes to reflect on your eating today. Identify one small, positive change you could make tomorrow.
+
+**Why it Works:** This practice of reflection and gentle course-correction fosters a growth mindset and prevents the all-or-nothing trap. It's about continuous, incremental improvement rather than perfection. Planning one small change makes the goal feel achievable and builds momentum over time.
+
+**How to Try It:**
+• Ask yourself: "What went well today? What was one challenge?"
+• Based on that, decide on one tiny improvement. Examples: "Tomorrow, I'll pack an apple for my afternoon snack," or "I'll try to have a glass of water with lunch."
+• Write it down to increase your commitment`,
+    contraindications: [],
+    goal_tags: ['weight_loss'],
+    tip_type: ['self_monitoring', 'mindset_shift', 'planning_ahead'],
+    motivational_mechanism: ['mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['late_night'],
+    cue_context: ['stress'],
+    difficulty_tier: 4,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat', 'soda'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: ['mindless_eating', 'emotional_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'b2c3d4e5-f6a7-8901-bcde-f23456789012',
+    summary: 'Drink 16-20oz Water 2-3 Hours Pre-Workout.',
+    details_md: `**The Experiment:** Consume 16-20oz (about 500ml) of water 2-3 hours before training, plus another 8oz (240ml) 30 minutes prior.
+
+**Why it Works:** Pre-hydration ensures optimal blood volume for nutrient delivery and thermoregulation. This timing allows for absorption while preventing GI discomfort during exercise. Monitor urine color - pale yellow is ideal.
+
+**How to Try It:**
+• Set a reminder on your phone for 2-3 hours before your planned workout
+• Drink a large glass of water
+• Have another glass as you're getting ready to go`,
+    contraindications: [],
+    goal_tags: ['improve_hydration', 'endurance_performance', 'strength_performance', 'improve_energy'],
+    tip_type: ['planning_ahead', 'time_ritual'],
+    motivational_mechanism: ['energy_boost', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 2,
+    helps_with: [],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'c3d4e5f6-a7b8-9012-cdef-345678901234',
+    summary: 'Practice Pre-Meal Water: 8-16oz Before Eating.',
+    details_md: `**The Experiment:** Consume 8-16 oz (1-2 glasses) of water 20-30 minutes before each main meal.
+
+**Why it Works:** Research shows pre-meal water consumption aids digestion, helps with portion control by increasing satiety signals, and contributes to daily hydration needs.
+
+**How to Try It:**
+• Set a timer for 30 minutes before you typically eat lunch and dinner
+• Drink a glass of water when the timer goes off
+• This simple habit can naturally reduce caloric intake`,
+    contraindications: [],
+    goal_tags: ['improve_hydration', 'weight_loss', 'improve_gut_health'],
+    tip_type: ['habit_stacking', 'time_ritual'],
+    motivational_mechanism: ['decision_ease', 'comfort'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: ['speed_eating', 'mindless_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'e5f6a7b8-c9d0-1234-efab-567890123456',
+    summary: 'Add Pinch of Salt to Water During 60+ Minute Workouts.',
+    details_md: `**The Experiment:** Add 1/4 tsp of salt to every 16-20oz (500ml) of water you drink during extended, sweaty exercise sessions (60+ minutes).
+
+**Why it Works:** Sodium enhances fluid absorption and replaces key electrolytes lost through sweat. This improves hydration efficiency compared to plain water during long workouts, especially in hot weather or for heavy sweaters.
+
+**How to Try It:**
+• Pre-mix your workout water bottle with a small pinch of salt
+• This is not necessary for casual, short-duration exercise`,
+    contraindications: ['hypertension', 'kidney_disease'],
+    goal_tags: ['improve_hydration', 'endurance_performance'],
+    tip_type: ['healthy_swap', 'skill_building'],
+    motivational_mechanism: ['energy_boost', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: [],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'b8c9d0e1-f2a3-4567-bcde-890123456789',
+    summary: 'Practice Protein Distribution: 25-30g Per Meal.',
+    details_md: `**The Experiment:** Aim for 25-30g of protein at breakfast, lunch, and dinner today.
+
+**Why it Works:** Sports nutrition research shows distributed protein intake increases muscle protein synthesis by 25% compared to concentrating it in one meal. This supports muscle maintenance, satiety, and metabolic health throughout the day.
+
+**How to Try It:**
+• Use the "palm-size" portion guide for a rough estimate
+• Include a protein source at each meal (e.g., eggs for breakfast, chicken for lunch, fish for dinner)`,
+    contraindications: ['kidney_disease'],
+    goal_tags: ['muscle_gain', 'weight_loss', 'improve_energy', 'strength_performance'],
+    tip_type: ['planning_ahead', 'skill_building'],
+    motivational_mechanism: ['mastery', 'energy_boost'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: ['meat', 'dairy'],
+    preserves_foods: ['chocolate', 'coffee', 'bread', 'pasta'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 2,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove'],
+    cooking_skill_required: 'basic',
+    cognitive_load: 3,
+    helps_with: ['grazing'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'c9d0e1f2-a3b4-5678-cdef-901234567890',
+    summary: 'Try Pre-Sleep Protein: 20-40g Before Bed.',
+    details_md: `**The Experiment:** Consume a source of slow-digesting protein 30-90 minutes before you go to sleep.
+
+**Why it Works:** Overnight muscle protein synthesis occurs during sleep. Casein protein, found in dairy, provides a sustained release of amino acids for 7+ hours, supporting muscle recovery and growth.
+
+**How to Try It:**
+• Have a bowl of Greek yogurt or cottage cheese
+• Mix a scoop of casein protein powder with a small amount of water or milk to make a pudding`,
+    contraindications: ['lactose_intolerance', 'ibs'],
+    goal_tags: ['muscle_gain', 'strength_performance', 'improve_energy'],
+    tip_type: ['time_ritual', 'skill_building'],
+    motivational_mechanism: ['comfort', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['late_night'],
+    cue_context: ['snack_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: ['dairy'],
+    preserves_foods: ['chocolate'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['creamy'],
+    cognitive_load: 1,
+    helps_with: ['night_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'f2a3b4c5-d6e7-8901-fabc-234567890123',
+    summary: 'Add One Extra Serving of Vegetables to Lunch.',
+    details_md: `**The Experiment:** Include one additional cup of vegetables in your lunch today.
+
+**Why it Works:** Increasing vegetable intake is linked to reduced risk of chronic diseases. Adding raw veggies, a side salad, or steamed vegetables boosts fiber and micronutrients, helping you feel fuller and more energized.
+
+**How to Try It:**
+• Add a handful of baby carrots or cherry tomatoes to your lunch bag
+• Mix leftover roasted vegetables into your salad or grain bowl
+• Add a layer of spinach or sprouts to your sandwich`,
+    contraindications: [],
+    goal_tags: ['increase_veggies', 'improve_gut_health', 'better_lipids', 'weight_loss'],
+    tip_type: ['healthy_swap', 'planning_ahead'],
+    motivational_mechanism: ['sensory', 'comfort'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'moderate',
+    veggie_strategy: 'gradual',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['crunchy', 'soft'],
+    cognitive_load: 2,
+    helps_with: [],
+    preserves_foods: ['bread', 'meat', 'cheese'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a3b4c5d6-e7f8-9012-abcd-345678901234',
+    summary: 'Start Dinner with a Salad.',
+    details_md: `**The Experiment:** Begin your evening meal with a side salad or raw vegetables before eating the main course.
+
+**Why it Works:** Meal sequencing research shows starting with low-calorie, high-fiber foods increases overall vegetable consumption and enhances satiety. This can naturally reduce intake of higher-calorie foods later in the meal.
+
+**How to Try It:**
+• Prepare a simple salad with greens and a light vinaigrette
+• Eat the entire salad before your main dish is served
+• At a restaurant, order a side salad as an appetizer`,
+    contraindications: [],
+    goal_tags: ['increase_veggies', 'weight_loss', 'improve_gut_health'],
+    tip_type: ['time_ritual', 'habit_stacking'],
+    motivational_mechanism: ['sensory', 'comfort'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'heavy',
+    veggie_strategy: 'front_and_center',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['crunchy', 'soft'],
+    cognitive_load: 1,
+    helps_with: ['speed_eating', 'mindless_eating'],
+    preserves_foods: ['meat', 'cheese', 'bread', 'pasta'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'd6e7f8a9-b0c1-2345-defa-678901234567',
+    summary: 'Eat Breakfast Within 1 Hour of Waking.',
+    details_md: `**The Experiment:** Consume a balanced breakfast within 60 minutes of waking up.
+
+**Why it Works:** Circadian rhythm research suggests eating within an hour of waking aligns with natural metabolic patterns, which can improve glucose control and optimize insulin sensitivity for the day ahead.
+
+**How to Try It:**
+• Have a simple, pre-planned breakfast ready to go (like overnight oats)
+• Even a protein shake or a piece of fruit with nut butter counts`,
+    contraindications: [],
+    goal_tags: ['improve_energy', 'weight_loss', 'improve_gut_health'],
+    tip_type: ['time_ritual', 'planning_ahead'],
+    motivational_mechanism: ['energy_boost', 'comfort'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['morning'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: ['coffee', 'chocolate'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 2,
+    helps_with: ['grazing'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a9b0c1d2-e3f4-5678-abcd-901234567890',
+    summary: 'Front-Load Carbs: Consume Most Before Evening.',
+    details_md: `**The Experiment:** Try to consume the majority (e.g., 60-70%) of your daily carbohydrates before 6 PM.
+
+**Why it Works:** This strategy aligns carb intake with the time of day your body is typically more active and insulin-sensitive. It can support training energy while potentially improving sleep quality by reducing late-night blood sugar fluctuations.
+
+**How to Try It:**
+• Focus on including healthy carbs with your breakfast and lunch
+• Have a lighter-carb dinner, focusing more on protein and vegetables`,
+    contraindications: ['t1_diabetes', 't2_diabetes'],
+    goal_tags: ['improve_energy', 'weight_loss', 'endurance_performance'],
+    tip_type: ['time_ritual', 'planning_ahead'],
+    motivational_mechanism: ['energy_boost', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: ['bread', 'pasta', 'carbs'],
+    preserves_foods: ['meat', 'cheese', 'chocolate'],
+    veggie_intensity: 'moderate',
+    veggie_strategy: 'gradual',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 2,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: [],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'c1d2e3f4-a5b6-7890-cdef-123456789012',
+    summary: 'Create an "If-Then" Food Plan.',
+    details_md: `**The Experiment:** Create a specific plan for a potential food challenge, such as: "If I feel hungry at 3pm, then I'll eat the apple I have at my desk."
+
+**Why it Works:** These "implementation intentions" are scientifically proven to be effective. They create an automatic response to environmental cues, reducing decision fatigue and impulsive choices when you're tired or stressed.
+
+**How to Try It:**
+• Identify a common trigger (e.g., mid-afternoon slump)
+• Decide on a specific, healthy response
+• Write it down: "If [situation], then I will [action]"`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'reduce_sugar'],
+    tip_type: ['planning_ahead', 'mindset_shift'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['morning'],
+    cue_context: ['stress', 'boredom', 'craving_event'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 2,
+    helps_with: ['stress_eating', 'boredom_eating', 'emotional_eating'],
+    sustainability: 'daily_habit'
   }
 ];
 
