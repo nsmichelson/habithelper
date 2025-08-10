@@ -305,6 +305,1032 @@ export const TIPS_DATABASE: Tip[] = [
     helps_with: ['mindless_eating', 'boredom_eating', 'stress_eating', 'grazing'],
     common_failure_points: ['easy_to_forget', 'requires_willpower'],
     sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0004-4004-a004-1234567890ae',
+    summary: "Prep a 'Salad in a Jar' for tomorrow's lunch.",
+    details_md: `**The Experiment:** Prepare a "salad in a jar" tonight for a ready-to-go, healthy lunch tomorrow.
+
+**Why it Works:** This is a classic meal prep technique that makes a healthy choice incredibly convenient, overcoming the common barrier of not having time to make a healthy lunch during a busy day. It's a form of environmental design for your future self.
+
+**How to Try It:**
+• Get a large mason jar
+• Layer ingredients from wettest to driest: Pour dressing in the bottom. Add hard vegetables (carrots, cucumbers, peppers). Add grains/proteins (quinoa, chickpeas, grilled chicken). Add softer items (cheese, seeds, nuts). Top with leafy greens
+• Seal and store in the fridge. To eat, just shake and pour into a bowl`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'increase_veggies', 'less_processed_food', 'plant_based', 'improve_gut_health'],
+    tip_type: ['planning_ahead', 'environment_design', 'skill_building'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    veggie_intensity: 'heavy',
+    veggie_strategy: 'front_and_center',
+    family_friendly: true,
+    kid_approved: false, // Kids might not love salad
+    partner_resistant_ok: true,
+    chaos_level_max: 3, // Need evening prep time
+    requires_planning: true,
+    requires_advance_prep: true,
+    prep_timing: 'night_before',
+    shelf_life: 'lasts_2_3_days',
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'], // Just need a jar
+    cooking_skill_required: 'basic',
+    cognitive_load: 3,
+    helps_with: [],
+    preserves_foods: ['cheese'], // Can include cheese
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0005-4005-a005-1234567890af',
+    summary: 'Eat to 80% full at one meal.',
+    details_md: `**The Experiment:** At one of your main meals today, practice eating slowly and stop when you feel about 80% full—satisfied, but not stuffed.
+
+**Why it Works:** It takes about 15-20 minutes for your stomach to signal to your brain that it's full. Eating slowly and stopping at 80% full gives your body time to register satiety, helping you naturally reduce calorie intake without feeling deprived. This is a core habit for long-term weight management.
+
+**How to Try It:**
+• Serve yourself a slightly smaller portion than usual to start
+• Eat slowly and mindfully, paying attention to how your stomach feels
+• Pause halfway through your meal for a minute and assess your hunger level
+• Aim for a feeling of "no longer hungry" rather than "full"`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'improve_gut_health'],
+    tip_type: ['mindset_shift', 'self_monitoring'],
+    motivational_mechanism: ['mastery', 'comfort'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$',
+    mental_effort: 4,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'bread', 'pasta', 'meat'], // All foods ok
+    veggie_intensity: 'not_applicable',
+    family_friendly: false, // Hard with family distractions
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 2, // Needs calm eating environment
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: false, // Can feel restrictive
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 4,
+    helps_with: ['speed_eating', 'mindless_eating'],
+    common_failure_points: ['requires_willpower', 'socially_awkward'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a7b8c9d0-e1f2-3456-abcd-789012345678',
+    summary: 'Add 20-30g of protein to your breakfast.',
+    details_md: `**The Experiment:** Include a significant source of protein—like eggs, Greek yogurt, or protein powder—in your breakfast today. Aim for 20-30 grams.
+
+**Why it Works:** Protein is the most satiating macronutrient. Including it in your first meal helps you feel full longer, reducing cravings and the likelihood of snacking on less healthy options before lunch. After an overnight fast, it also helps stabilize blood sugar and provides sustained energy.
+
+**How to Try It:**
+• Scramble 2-3 eggs instead of having just toast or cereal
+• Stir a scoop of protein powder into your oatmeal or yogurt
+• A cup of Greek yogurt or cottage cheese can provide over 20g of protein`,
+    contraindications: ['egg_allergy', 'lactose_intolerance', 'phenylketonuria', 'kidney_disease'],
+    goal_tags: ['weight_loss', 'muscle_gain', 'reduce_sugar', 'improve_energy'],
+    tip_type: ['healthy_swap', 'planning_ahead'],
+    motivational_mechanism: ['energy_boost', 'mastery'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'either',
+    time_of_day: ['morning'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: ['dairy', 'meat'],
+    preserves_foods: ['coffee', 'bread'], // Can still have these
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 3, // Need some morning cooking time
+    requires_planning: false,
+    impulse_friendly: false, // Need ingredients on hand
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove', 'microwave_only'],
+    cooking_skill_required: 'basic',
+    cognitive_load: 2,
+    helps_with: ['grazing'],
+    texture_profile: ['creamy', 'soft'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0008-4008-a008-1234567890b2',
+    summary: 'Swap a processed snack for a piece of whole fruit.',
+    details_md: `**The Experiment:** Today, when you feel like having a snack, replace your usual choice (like chips, cookies, or a granola bar) with a piece of whole fruit.
+
+**Why it Works:** Whole fruit provides fiber, vitamins, and water, making it a more nutrient-dense and filling choice than most processed snacks. This simple swap reduces your intake of added sugars, refined grains, and unhealthy fats while increasing your intake of beneficial nutrients.
+
+**How to Try It:**
+• Keep a bowl of fruit like apples, bananas, or oranges visible on your counter
+• Pack a portable fruit with you for work or errands
+• To make it more satisfying, pair it with a small handful of nuts or a spoonful of peanut butter`,
+    contraindications: [],
+    goal_tags: ['increase_veggies', 'weight_loss', 'reduce_sugar', 'less_processed_food', 'improve_gut_health'],
+    tip_type: ['healthy_swap', 'crave_buster'],
+    motivational_mechanism: ['sensory', 'decision_ease'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'commute'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon', 'morning'],
+    cue_context: ['snack_time', 'craving_event'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: [], // Not preserving junk food
+    veggie_intensity: 'light', // Fruit counts!
+    veggie_strategy: 'gradual',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    satisfies_craving: ['sweet', 'crunchy'],
+    substitution_quality: 'different_but_good',
+    cognitive_load: 1,
+    helps_with: ['mindless_eating', 'boredom_eating'],
+    texture_profile: ['crunchy', 'crispy', 'soft'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'b4c5d6e7-f8a9-0123-bcde-456789012345',
+    summary: 'Try the "Colorful Plate" Challenge.',
+    details_md: `**The Experiment:** For one meal today, try to include foods of at least three different colors on your plate.
+
+**Why it Works:** Different colors in fruits and vegetables signify the presence of different vitamins, minerals, and antioxidant compounds (phytonutrients). "Eating the rainbow" is a simple heuristic to ensure you're getting a wide variety of nutrients that support overall health, from your immune system to your cardiovascular system.
+
+**How to Try It:**
+• Make a salad with green lettuce, red tomatoes, and yellow bell peppers
+• Create a stir-fry with purple cabbage, orange carrots, and green broccoli
+• Roast a mix of red onions, green zucchini, and white cauliflower`,
+    contraindications: [],
+    goal_tags: ['increase_veggies', 'improve_gut_health', 'less_processed_food', 'plant_based'],
+    tip_type: ['skill_building', 'mindset_shift'],
+    motivational_mechanism: ['sensory', 'novelty', 'mastery'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'either',
+    time_of_day: ['evening', 'afternoon'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'heavy',
+    veggie_strategy: 'front_and_center',
+    family_friendly: true,
+    kid_approved: true, // Kids love colorful food
+    partner_resistant_ok: false, // Need buy-in for veggie-heavy meal
+    chaos_level_max: 3,
+    requires_planning: true, // Need variety of produce
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove', 'full_kitchen'],
+    cooking_skill_required: 'basic',
+    cognitive_load: 2,
+    helps_with: [],
+    texture_profile: ['crunchy', 'soft'],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'a1b2c3d4-e5f6-7890-abcd-123456789012',
+    summary: 'Choose whole grains over refined for one meal.',
+    details_md: `**The Experiment:** For one meal today, deliberately choose a whole-grain carbohydrate source instead of a refined one.
+
+**Why it Works:** Whole grains like brown rice, quinoa, and whole-wheat bread contain more fiber, vitamins, and minerals than their refined counterparts (white rice, white bread). The higher fiber content helps you feel full for longer, aids in digestion, and supports more stable blood sugar levels.
+
+**How to Try It:**
+• Swap white pasta for whole-wheat pasta
+• Choose brown rice instead of white rice with your stir-fry or curry
+• Make a sandwich using 100% whole-wheat bread. Look for "100% whole grain" as the first ingredient`,
+    contraindications: ['celiac'],
+    goal_tags: ['weight_loss', 'improve_gut_health', 'less_processed_food', 'better_lipids', 'reduce_sugar', 'improve_energy'],
+    tip_type: ['healthy_swap', 'skill_building'],
+    motivational_mechanism: ['mastery', 'sensory'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time', 'grocery_shopping'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: ['bread', 'pasta', 'carbs'],
+    preserves_foods: ['meat', 'cheese'], // Still eating normal meals
+    veggie_intensity: 'none',
+    family_friendly: false, // Family might resist whole grains
+    kid_approved: false,
+    partner_resistant_ok: true, // Can make just for yourself
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: false, // Need right products on hand
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove'],
+    cooking_skill_required: 'basic',
+    texture_profile: ['chewy'],
+    cognitive_load: 2,
+    helps_with: [],
+    substitution_quality: 'close_enough',
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0012-4012-a012-1234567890b6',
+    summary: 'Have a healthy fat snack like nuts or avocado.',
+    details_md: `**The Experiment:** For one of your snacks today, choose a source of healthy fats, such as a small handful of nuts (about 1/4 cup) or half an avocado.
+
+**Why it Works:** Healthy fats are essential for hormone production and overall health. They are also very satiating, helping to keep you full between meals. Nuts and avocados also provide fiber and other important nutrients. Contrary to old beliefs, dietary fat is not to be feared and is a key part of a balanced diet.
+
+**How to Try It:**
+• A small handful of almonds, walnuts, or mixed nuts
+• Half an avocado sprinkled with salt and pepper
+• Apple slices with a tablespoon of natural almond or peanut butter`,
+    contraindications: ['nut_allergy'],
+    goal_tags: ['weight_loss', 'better_lipids', 'improve_energy', 'reduce_sugar'],
+    tip_type: ['healthy_swap', 'crave_buster'],
+    motivational_mechanism: ['sensory', 'energy_boost'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'commute'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon'],
+    cue_context: ['snack_time'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: [],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    satisfies_craving: ['salty', 'creamy'],
+    texture_profile: ['crunchy', 'creamy'],
+    cognitive_load: 1,
+    helps_with: ['grazing'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'e9f0a1b2-c3d4-5678-efab-901234567890',
+    summary: 'Pre-portion snacks into daily servings.',
+    details_md: `**The Experiment:** If you plan to have snacks today, take five minutes in the morning to portion them out into small bags or containers.
+
+**Why it Works:** This simple act of planning prevents mindless overeating directly from a large bag or box. It's a form of portion control that requires a decision only once, making it easier to stick to your goals when you're hungry or distracted later in the day. It's a key strategy for managing calorie intake without obsessive counting.
+
+**How to Try It:**
+• Get out a box of crackers or a bag of nuts
+• Use a measuring cup or just count out a reasonable serving size (e.g., 1 ounce of nuts)
+• Put each portion into a separate small container or zip-top bag`,
+    contraindications: ['nut_allergy'],
+    goal_tags: ['weight_loss', 'reduce_sugar', 'less_processed_food', 'better_lipids'],
+    tip_type: ['planning_ahead', 'environment_design', 'self_monitoring'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['morning'],
+    cue_context: ['snack_time', 'grocery_shopping'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese'], // Can portion these too
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 3, // Need morning prep time
+    requires_planning: true,
+    requires_advance_prep: true,
+    prep_timing: 'night_before',
+    shelf_life: 'lasts_week',
+    impulse_friendly: false,
+    diet_trauma_safe: false, // Can feel like diet restriction
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 2,
+    helps_with: ['mindless_eating', 'grazing', 'boredom_eating'],
+    common_failure_points: ['easy_to_forget'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0014-4014-a014-1234567890b8',
+    summary: 'Make your own simple salad dressing.',
+    details_md: `**The Experiment:** Instead of using a store-bought bottled dressing, make your own simple vinaigrette for your salad today.
+
+**Why it Works:** Many commercial salad dressings are high in added sugar, unhealthy fats, and sodium. Making your own is surprisingly easy and gives you complete control over the ingredients. A simple olive oil and vinegar dressing provides heart-healthy monounsaturated fats.
+
+**How to Try It:**
+• The classic ratio is 3 parts oil to 1 part vinegar
+• In a small jar, combine 3 tablespoons of extra virgin olive oil with 1 tablespoon of balsamic or red wine vinegar
+• Add a pinch of salt, pepper, and maybe a little Dijon mustard. Shake well and serve`,
+    contraindications: [],
+    goal_tags: ['less_processed_food', 'better_lipids', 'reduce_sugar', 'increase_veggies'],
+    tip_type: ['skill_building', 'healthy_swap'],
+    motivational_mechanism: ['mastery', 'sensory'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'moderate',
+    veggie_strategy: 'front_and_center',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'basic',
+    cognitive_load: 2,
+    helps_with: [],
+    preserves_foods: ['cheese', 'meat'],
+    texture_profile: ['smooth'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'f8a9b0c1-d2e3-4567-fabc-890123456789',
+    summary: 'Eat Slowly: Take 20+ Minutes for Main Meals.',
+    details_md: `**The Experiment:** For one meal, set a timer for 20 minutes and aim to make the meal last the entire time.
+
+**Why it Works:** This is a structured way to practice eating slowly. It forces you to pace yourself, which gives your brain the time it needs to register fullness cues from your stomach, helping to prevent overeating. This practice builds body awareness and is a powerful tool for mindful eating.
+
+**How to Try It:**
+• Set a timer on your phone or kitchen timer for 20 minutes when you sit down to eat
+• Take smaller bites and chew each bite thoroughly
+• Put your utensils down between bites
+• Try to be the last person at the table to finish`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'improve_gut_health'],
+    tip_type: ['time_ritual', 'self_monitoring', 'skill_building'],
+    motivational_mechanism: ['mastery', 'comfort'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['evening', 'afternoon'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'bread', 'pasta', 'meat', 'coffee'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: false,
+    chaos_level_max: 2,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 4,
+    helps_with: ['speed_eating', 'mindless_eating'],
+    common_failure_points: ['socially_awkward', 'requires_willpower'],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'a1b2c3d4-0016-4016-a016-1234567890ba',
+    summary: 'Eat your water: snack on cucumber or watermelon.',
+    details_md: `**The Experiment:** Have a snack that consists of a high-water-content food, like cucumber slices, celery sticks, or watermelon chunks.
+
+**Why it Works:** Hydration doesn't only come from beverages. Many fruits and vegetables have very high water content, contributing to your daily fluid needs. These snacks are also typically low in calories and high in nutrients, making them a refreshing and healthy choice.
+
+**How to Try It:**
+• Slice up a cucumber and enjoy it plain or with a little hummus
+• Cut a watermelon into cubes for a sweet, hydrating treat
+• Pack some celery sticks for a crunchy snack on the go`,
+    contraindications: [],
+    goal_tags: ['improve_hydration', 'increase_veggies', 'weight_loss'],
+    tip_type: ['healthy_swap'],
+    motivational_mechanism: ['sensory', 'energy_boost'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon'],
+    cue_context: ['snack_time'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'light',
+    veggie_strategy: 'front_and_center',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    satisfies_craving: ['crunchy', 'sweet'],
+    texture_profile: ['crunchy', 'crispy'],
+    cognitive_load: 1,
+    helps_with: ['mindless_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0017-4017-a017-1234567890bb',
+    summary: 'Add a "flavor boost" to water instead of juice.',
+    details_md: `**The Experiment:** Instead of reaching for a fruit juice or other sweet drink, flavor a glass of water with fresh ingredients.
+
+**Why it Works:** This provides flavor and novelty without the high sugar content of juice. Even 100% fruit juice is a concentrated source of sugar without the fiber of whole fruit. Infusing water is a great way to make hydration more appealing and reduce overall sugar intake.
+
+**How to Try It:**
+• Add slices of citrus (lemon, orange) and some fresh mint leaves to a pitcher of water
+• Muddle a few raspberries or strawberries at the bottom of your glass before adding water
+• Try cucumber slices and a sprig of rosemary for a more savory, spa-like flavor`,
+    contraindications: [],
+    goal_tags: ['improve_hydration', 'reduce_sugar', 'less_processed_food'],
+    tip_type: ['healthy_swap', 'crave_buster'],
+    motivational_mechanism: ['sensory', 'novelty'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'either',
+    time_of_day: ['afternoon', 'morning'],
+    cue_context: ['craving_event', 'snack_time'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: [],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    satisfies_craving: ['sweet'],
+    substitution_quality: 'different_but_good',
+    cognitive_load: 1,
+    helps_with: ['sugar_addiction'],
+    texture_profile: ['smooth'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0018-4018-a018-1234567890bc',
+    summary: 'Try Greek yogurt instead of sour cream or mayo.',
+    details_md: `**The Experiment:** If you have a meal or snack that typically uses sour cream or mayonnaise, try substituting plain Greek yogurt instead.
+
+**Why it Works:** Plain Greek yogurt has a similar tangy flavor and creamy texture to sour cream and mayo but is significantly higher in protein and lower in fat and calories. This swap boosts the nutritional value of your meal, helping you feel fuller and supporting muscle maintenance or growth.
+
+**How to Try It:**
+• Top a baked potato or chili with a dollop of Greek yogurt
+• Make a creamy dip for vegetables using Greek yogurt as the base
+• Use it in place of mayonnaise when making tuna or chicken salad`,
+    contraindications: ['lactose_intolerance'],
+    goal_tags: ['weight_loss', 'muscle_gain', 'less_processed_food', 'better_lipids'],
+    tip_type: ['healthy_swap'],
+    motivational_mechanism: ['mastery', 'sensory'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon', 'evening'],
+    cue_context: ['meal_time', 'snack_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: ['dairy'],
+    preserves_foods: ['bread', 'meat'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['creamy'],
+    satisfies_craving: ['creamy'],
+    substitution_quality: 'close_enough',
+    cognitive_load: 1,
+    helps_with: [],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0020-4020-a020-1234567890be',
+    summary: "Create 'overnight oats' for tomorrow's breakfast.",
+    details_md: `**The Experiment:** Tonight, take 5 minutes to prepare overnight oats for a grab-and-go breakfast tomorrow morning.
+
+**Why it Works:** This is a powerful meal prep strategy that eliminates morning decision-making and ensures you start the day with a high-fiber, protein-rich meal. It's convenient, customizable, and helps prevent skipping breakfast or grabbing a less healthy option on the way out the door.
+
+**How to Try It:**
+• In a jar or container, combine equal parts rolled oats and milk (or a milk alternative). A common starting point is 1/2 cup of each
+• Add a scoop of protein powder, a tablespoon of chia seeds, and some fruit like berries
+• Stir, cover, and refrigerate overnight. Eat it cold in the morning`,
+    contraindications: ['celiac'],
+    goal_tags: ['weight_loss', 'muscle_gain', 'improve_hydration', 'improve_gut_health', 'reduce_sugar'],
+    tip_type: ['planning_ahead', 'environment_design'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: ['dairy', 'carbs'],
+    preserves_foods: ['coffee'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: true,
+    requires_advance_prep: true,
+    prep_timing: 'night_before',
+    shelf_life: 'lasts_2_3_days',
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['creamy', 'soft'],
+    cognitive_load: 2,
+    helps_with: ['grazing'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0021-4021-a021-1234567890bf',
+    summary: 'Have a hard-boiled egg for a snack.',
+    details_md: `**The Experiment:** For a quick and easy snack, have one or two hard-boiled eggs.
+
+**Why it Works:** Eggs are a powerhouse of nutrition, providing high-quality protein and essential vitamins and minerals in a convenient, low-calorie package. The protein helps keep you full and satisfied, making it an excellent choice for curbing hunger between meals and preventing overeating later.
+
+**How to Try It:**
+• Boil a batch of eggs at the beginning of the week so they are ready to grab
+• A perfectly hard-boiled egg with a just-cooked yolk takes about 7-8 minutes in boiling water
+• Peel and eat with a sprinkle of salt and pepper`,
+    contraindications: ['egg_allergy'],
+    goal_tags: ['weight_loss', 'muscle_gain', 'reduce_sugar'],
+    tip_type: ['healthy_swap', 'planning_ahead'],
+    motivational_mechanism: ['decision_ease', 'energy_boost'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work'],
+    social_mode: 'solo',
+    time_of_day: ['morning', 'afternoon'],
+    cue_context: ['snack_time'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: ['meat'],
+    preserves_foods: [],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 4,
+    requires_planning: true,
+    requires_advance_prep: true,
+    prep_timing: 'weekend_required',
+    shelf_life: 'lasts_week',
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove'],
+    cooking_skill_required: 'basic',
+    texture_profile: ['soft'],
+    cognitive_load: 1,
+    helps_with: ['grazing'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'd0e1f2a3-b4c5-6789-defa-012345678901',
+    summary: 'Use Palm-Size Protein Portions.',
+    details_md: `**The Experiment:** Include one palm-sized portion of protein (e.g., chicken, fish, tofu) at every meal today.
+
+**Why it Works:** Consistent protein intake helps maintain muscle mass and promotes satiety. Using your palm as a guide is a simple, portable way to estimate a 20-30g protein portion without measuring or weighing, making it easy to apply anywhere.
+
+**How to Try It:**
+• At each meal, look at the protein source on your plate
+• A serving that is roughly the size and thickness of your palm (excluding fingers) is one portion
+• Adjust based on your hand size and activity level`,
+    contraindications: [],
+    goal_tags: ['muscle_gain', 'weight_loss', 'improve_energy'],
+    tip_type: ['skill_building', 'self_monitoring'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 1,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: ['meat'],
+    preserves_foods: ['bread', 'pasta', 'cheese'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: [],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'e1f2a3b4-c5d6-7890-efab-123456789012',
+    summary: 'Fill Half Your Plate with Vegetables First.',
+    details_md: `**The Experiment:** At one meal today, physically fill half of your plate with vegetables before adding any protein or carbohydrates.
+
+**Why it Works:** This "higher-order habit" is highly effective. This sequential plating strategy naturally controls portions of more calorie-dense foods while ensuring you meet your fiber and micronutrient needs. It makes a healthy choice the default.
+
+**How to Try It:**
+• Grab your plate. Before adding anything else, load up half of it with a large salad, steamed broccoli, or roasted mixed vegetables
+• Then, use the remaining half of the plate for your protein and carb sources`,
+    contraindications: [],
+    goal_tags: ['increase_veggies', 'weight_loss', 'improve_gut_health', 'plant_based'],
+    tip_type: ['habit_stacking', 'skill_building'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'heavy',
+    veggie_strategy: 'front_and_center',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: ['mindless_eating'],
+    preserves_foods: ['meat', 'cheese', 'bread', 'pasta'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0024-4024-a024-1234567890c2',
+    summary: "Plan tomorrow's meals before you go to bed.",
+    details_md: `**The Experiment:** Tonight, take 5-10 minutes to think about and write down what you plan to eat for your main meals tomorrow.
+
+**Why it Works:** Planning ahead significantly reduces in-the-moment decision making when you're hungry, stressed, or rushed—times when you're most likely to make less-healthy choices. This simple act of forethought makes you more likely to stick to your goals.
+
+**How to Try It:**
+• Use a notebook or a notes app on your phone
+• Jot down a simple plan: Breakfast (e.g., oatmeal), Lunch (e.g., leftovers from dinner), Dinner (e.g., chicken and veggies)
+• This can also help you identify if you need to do any small prep tasks, like taking something out of the freezer`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'reduce_sugar', 'less_processed_food'],
+    tip_type: ['planning_ahead', 'mindset_shift'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening'],
+    cue_context: ['boredom', 'stress'],
+    difficulty_tier: 2,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: ['stress_eating', 'mindless_eating'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0025-4025-a025-1234567890c3',
+    summary: "Try a 'Meat-Free Monday' (or any day) meal.",
+    details_md: `**The Experiment:** For one day this week, or just for one meal, replace the meat with a plant-based protein source.
+
+**Why it Works:** Incorporating more plant-based meals can increase your intake of fiber and beneficial plant compounds, while potentially reducing intake of saturated fat. Beans, peas, and lentils are excellent sources of fiber and protein and are very budget-friendly.
+
+**How to Try It:**
+• Make tacos or chili using black beans or lentils instead of ground beef
+• Try a veggie burger instead of a beef burger
+• Add chickpeas or tofu to a salad or stir-fry for your protein source`,
+    contraindications: [],
+    goal_tags: ['plant_based', 'increase_veggies', 'improve_gut_health', 'better_lipids', 'less_processed_food'],
+    tip_type: ['healthy_swap', 'novelty'],
+    motivational_mechanism: ['novelty', 'sensory'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 2,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: [],
+    preserves_foods: ['cheese', 'bread', 'pasta'],
+    veggie_intensity: 'moderate',
+    veggie_strategy: 'mixed_in',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: false,
+    chaos_level_max: 3,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove'],
+    cooking_skill_required: 'basic',
+    texture_profile: ['soft', 'chewy'],
+    cognitive_load: 2,
+    helps_with: [],
+    substitution_quality: 'different_but_good',
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'b2c3d4e5-f6a7-8901-bcde-234567890123',
+    summary: 'Eat one serving of oily fish this week.',
+    details_md: `**The Experiment:** Plan to have at least one meal this week that includes a serving of oily fish like salmon, mackerel, or sardines.
+
+**Why it Works:** Oily fish are rich in omega-3 fatty acids (EPA/DHA), which are crucial for heart and brain health and have anti-inflammatory properties. Most people don't get enough of these beneficial fats. Aim for 2-3 servings weekly.
+
+**How to Try It:**
+• Grill or bake a salmon fillet for dinner
+• Add canned sardines or mackerel to a salad for a quick and easy lunch
+• Choose from fresh, frozen, or canned options to fit your budget and convenience needs`,
+    contraindications: ['fish_allergy', 'shellfish_allergy'],
+    goal_tags: ['better_lipids', 'healthy_pregnancy', 'improve_energy'],
+    tip_type: ['planning_ahead', 'healthy_swap'],
+    motivational_mechanism: ['mastery'],
+    time_cost_enum: '5_15_min',
+    money_cost_enum: '$$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['evening', 'afternoon'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: ['meat'],
+    preserves_foods: ['bread', 'pasta', 'cheese'],
+    veggie_intensity: 'none',
+    family_friendly: false,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: true,
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove', 'full_kitchen'],
+    cooking_skill_required: 'intermediate',
+    texture_profile: ['soft'],
+    cognitive_load: 2,
+    helps_with: [],
+    sustainability: 'occasionally'
+  },
+  {
+    tip_id: 'a1b2c3d4-0031-4031-a031-1234567890c9',
+    summary: 'Batch cook a versatile grain for the week.',
+    details_md: `**The Experiment:** Cook a large batch of a whole grain like quinoa, brown rice, or farro to use in meals throughout the week.
+
+**Why it Works:** Having a pre-cooked, healthy carbohydrate source ready in the fridge makes assembling quick meals effortless. It's a foundational meal prep task that saves time and makes it easy to build balanced bowls, salads, and side dishes without starting from scratch each time.
+
+**How to Try It:**
+• Cook 2-3 cups of your chosen grain according to package directions
+• Let it cool completely, then store it in an airtight container in the refrigerator for up to 4 days
+• Add a scoop to salads, use as a base for a "rice bowl," or serve as a side with protein and veggies`,
+    contraindications: ['celiac'],
+    goal_tags: ['weight_loss', 'less_processed_food', 'improve_gut_health', 'plant_based'],
+    tip_type: ['planning_ahead', 'environment_design'],
+    motivational_mechanism: ['decision_ease', 'mastery'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$',
+    mental_effort: 2,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: ['carbs'],
+    preserves_foods: ['meat', 'cheese'],
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 2,
+    requires_planning: true,
+    requires_advance_prep: true,
+    prep_timing: 'weekend_required',
+    shelf_life: 'lasts_week',
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['basic_stove'],
+    cooking_skill_required: 'basic',
+    texture_profile: ['chewy'],
+    cognitive_load: 2,
+    helps_with: [],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a5b6c7d8-e9f0-1234-abcd-567890123456',
+    summary: "Use the 'Hunger Scale' before you eat.",
+    details_md: `**The Experiment:** Before you eat a meal or snack, take a moment to rate your physical hunger on a scale of 1 to 10.
+
+**Why it Works:** This mindful eating exercise helps you distinguish between true, physical hunger and emotional or environmental triggers for eating (like stress or seeing food). Practicing this helps you become more attuned to your body's signals, leading to more intentional eating choices.
+
+**How to Try It:**
+• Use a simple scale: 1 = ravenous, 5 = neutral, 10 = uncomfortably stuffed
+• Pause before eating and ask, "What number am I right now?"
+• Ideally, you want to start eating around a 3 or 4 ("getting hungry") and stop around a 6 or 7 ("pleasantly satisfied")`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'improve_energy'],
+    tip_type: ['self_monitoring', 'skill_building', 'mindset_shift'],
+    motivational_mechanism: ['mastery'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['morning', 'afternoon', 'evening', 'late_night'],
+    cue_context: ['meal_time', 'snack_time', 'craving_event'],
+    difficulty_tier: 2,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 3,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: ['emotional_eating', 'stress_eating', 'boredom_eating', 'mindless_eating'],
+    common_failure_points: ['easy_to_forget', 'requires_willpower'],
+    sustainability: 'daily_habit'
+  },
+  {
+    tip_id: 'a1b2c3d4-0033-4033-a033-1234567890cb',
+    summary: 'Add beans or lentils to a soup or salad.',
+    details_md: `**The Experiment:** Boost the fiber and protein content of a soup or salad by adding a half-cup of canned beans or lentils.
+
+**Why it Works:** Beans and lentils are nutritional powerhouses—high in plant-based protein, dietary fiber, and various micronutrients. Adding them to a meal makes it more filling and satisfying, helping with appetite control. They are also an inexpensive way to add bulk and nutrition.
+
+**How to Try It:**
+• Drain and rinse a can of chickpeas, black beans, or kidney beans
+• Toss them into your favorite green salad
+• Stir them into a canned or homemade soup to make it heartier`,
+    contraindications: [],
+    goal_tags: ['plant_based', 'increase_veggies', 'improve_gut_health', 'weight_loss', 'muscle_gain'],
+    tip_type: ['healthy_swap'],
+    motivational_mechanism: ['decision_ease', 'sensory'],
+    time_cost_enum: '0_5_min',
+    money_cost_enum: '$',
+    mental_effort: 1,
+    physical_effort: 1,
+    location_tags: ['home'],
+    social_mode: 'solo',
+    time_of_day: ['afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 1,
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'light',
+    veggie_strategy: 'mixed_in',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    texture_profile: ['soft', 'creamy'],
+    cognitive_load: 1,
+    helps_with: [],
+    preserves_foods: ['cheese', 'bread', 'meat'],
+    sustainability: 'daily_habit'
   }
 ];
 
