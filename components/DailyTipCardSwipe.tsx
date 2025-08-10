@@ -23,7 +23,6 @@ import { Tip } from '../types/tip';
 import * as Haptics from 'expo-haptics';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_WIDTH = SCREEN_WIDTH - 32;
 
 interface Props {
   tip: Tip;
@@ -82,7 +81,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
   };
 
   const renderSummaryCard = () => (
-    <View style={styles.pageContainer}>
+    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
       <LinearGradient
         colors={['#FFFFFF', '#F8FBF8']}
         style={styles.card}
@@ -116,11 +115,11 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
         </View>
 
         <TouchableOpacity 
-          style={styles.swipeHint} 
+          style={styles.expandButton} 
           onPress={handleSwipeToDetails}
           activeOpacity={0.7}
         >
-          <Text style={styles.swipeHintText}>See How To Do It</Text>
+          <Text style={styles.expandButtonText}>See How To Do It</Text>
           <Ionicons name="chevron-forward" size={20} color="#4CAF50" />
         </TouchableOpacity>
 
@@ -156,7 +155,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
   );
 
   const renderDetailsCard = () => (
-    <View style={styles.pageContainer}>
+    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
       <LinearGradient
         colors={['#FFFFFF', '#F8FBF8']}
         style={styles.card}
@@ -256,7 +255,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
 
   const DotIndicator = ({ index }: { index: number }) => {
     const animatedDotStyle = useAnimatedStyle(() => {
-      const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
+      const inputRange = [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH];
       
       const scale = interpolate(
         scrollX.value,
@@ -293,10 +292,10 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         keyExtractor={(item) => item.key}
-        snapToInterval={CARD_WIDTH}
+        snapToInterval={SCREEN_WIDTH}
         decelerationRate="fast"
         onMomentumScrollEnd={(event) => {
-          const newPage = Math.round(event.nativeEvent.contentOffset.x / CARD_WIDTH);
+          const newPage = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
           setCurrentPage(newPage);
         }}
       />
@@ -312,25 +311,22 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginVertical: 16,
   },
   pageContainer: {
-    width: CARD_WIDTH,
-    paddingHorizontal: 0,
+    paddingHorizontal: 16,
   },
   card: {
     borderRadius: 20,
     padding: 20,
-    marginHorizontal: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 5,
-    minHeight: 400,
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   headerTop: {
     flexDirection: 'row',
@@ -368,11 +364,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   summary: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '700',
     color: '#212121',
-    lineHeight: 30,
-    marginBottom: 8,
+    lineHeight: 28,
   },
   reasonsContainer: {
     flexDirection: 'row',
@@ -394,18 +389,15 @@ const styles = StyleSheet.create({
     color: '#2E7D32',
     fontWeight: '500',
   },
-  swipeHint: {
+  expandButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
-    marginVertical: 20,
-    backgroundColor: '#F1F8F4',
-    borderRadius: 12,
+    paddingVertical: 12,
     gap: 8,
   },
-  swipeHintText: {
-    fontSize: 15,
+  expandButtonText: {
+    fontSize: 14,
     fontWeight: '600',
     color: '#4CAF50',
   },
@@ -492,6 +484,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   responseContainer: {
+    marginTop: 20,
     gap: 12,
   },
   responseButton: {
@@ -536,7 +529,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 16,
     gap: 8,
   },
   dot: {
