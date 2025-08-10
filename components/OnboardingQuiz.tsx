@@ -248,6 +248,21 @@ export default function OnboardingQuiz({ onComplete }: Props) {
           // Store difficulty preference
           profile.difficulty_preference = values[0];
           break;
+          
+        case 'biggest_obstacle':
+          // Store main challenge
+          profile.biggest_obstacle = values[0];
+          break;
+          
+        case 'home_situation':
+          // Store home/family situation
+          profile.home_situation = values;
+          break;
+          
+        case 'diet_history':
+          // Store diet attempt history
+          profile.dietary_preferences = [...(profile.dietary_preferences || []), `history_${values[0]}`];
+          break;
       }
     });
 

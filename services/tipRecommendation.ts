@@ -21,10 +21,10 @@ export class TipRecommendationService {
     let score = 0;
     const reasons: string[] = [];
 
-    // Time of day relevance (weight: 25% - high priority for contextual relevance)
+    // Time of day relevance (weight: 20%)
     if (currentHour !== undefined) {
       const timeScore = this.calculateTimeOfDayMatch(tip, currentHour);
-      score += timeScore * 25;
+      score += timeScore * 20;
       if (timeScore > 0.8) {
         reasons.push('Perfect timing for this tip');
       } else if (timeScore > 0.5) {
@@ -32,28 +32,73 @@ export class TipRecommendationService {
       }
     }
 
-    // Goal alignment (weight: 30% - reduced from 40%)
+    // Goal alignment (weight: 25%)
     const goalMatches = tip.goal_tags.filter(tag => 
       userProfile.goals.includes(tag)
     ).length;
-    const goalScore = (goalMatches / tip.goal_tags.length) * 30;
+    const goalScore = (goalMatches / tip.goal_tags.length) * 25;
     score += goalScore;
     if (goalMatches > 0) {
       reasons.push(`Aligns with ${goalMatches} of your goals`);
     }
 
-    // Difficulty preference (weight: 15% - reduced from 20%)
-    const difficultyPreference = this.getUserDifficultyPreference(attempts);
-    const difficultyDiff = Math.abs(tip.difficulty_tier - difficultyPreference);
+    // Difficulty preference from quiz (weight: 15%)
+    let targetDifficulty = 2; // default
+    if (userProfile.difficulty_preference) {
+      switch(userProfile.difficulty_preference) {
+        case 'tiny_steps': targetDifficulty = 1; break;
+        case 'one_thing': targetDifficulty = 2; break;
+        case 'moderate': targetDifficulty = 3; break;
+        case 'adventurous': targetDifficulty = 4; break;
+        case 'all_in': targetDifficulty = 5; break;
+      }
+    }
+    const difficultyDiff = Math.abs(tip.difficulty_tier - targetDifficulty);
     const difficultyScore = Math.max(0, 15 - (difficultyDiff * 5));
     score += difficultyScore;
+    if (difficultyScore > 10) {
+      reasons.push('Matches your comfort level');
+    }
 
-    // Time availability match (weight: 10% - reduced from 15%)
-    if (userProfile.cooking_time_available) {
-      const timeScore = this.calculateTimeMatch(tip, userProfile.cooking_time_available);
-      score += timeScore * 10;
-      if (timeScore > 0.5) {
-        reasons.push('Fits your available time');
+    // Life chaos adjustment (weight: 10%)
+    if (userProfile.life_stage?.includes('dumpster_fire') || 
+        userProfile.life_stage?.includes('survival')) {
+      // Use chaos_level_max if available, otherwise fallback
+      if (tip.chaos_level_max && tip.chaos_level_max >= 4) {
+        score += 10;
+        reasons.push('Works even in chaos mode');
+      } else if (tip.time_cost_enum === '0_5_min' && tip.difficulty_tier <= 2) {
+        score += 10;
+        reasons.push('Quick & easy for your busy life');
+      }
+      
+      // Bonus for impulse-friendly tips
+      if (tip.impulse_friendly) {
+        score += 5;
+      }
+    } else if (userProfile.life_stage?.includes('zen')) {
+      // Can handle more complex tips
+      if (tip.difficulty_tier >= 3) {
+        score += 5;
+      }
+    }
+
+    // Eating personality match (weight: 10%)
+    const personalityScore = this.calculatePersonalityMatch(tip, userProfile);
+    score += personalityScore * 10;
+    if (personalityScore > 0.5) {
+      reasons.push('Fits your eating style');
+    }
+
+    // Non-negotiables check (weight: 15% PENALTY if conflicts)
+    if (userProfile.non_negotiables && userProfile.non_negotiables.length > 0) {
+      const conflictsWithNonNegotiables = this.checkNonNegotiableConflicts(tip, userProfile.non_negotiables);
+      if (conflictsWithNonNegotiables) {
+        score -= 15;
+        reasons.push('⚠️ Might conflict with foods you love');
+      } else {
+        score += 5;
+        reasons.push('Works with your food preferences');
       }
     }
 
@@ -67,13 +112,11 @@ export class TipRecommendationService {
       }
     }
 
-    // Novelty - hasn't been shown recently (weight: 5% - reduced from 10%)
-    const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
-    if (daysSinceShown === null || daysSinceShown > 7) {
-      score += 5;
-      reasons.push('Fresh suggestion');
-    } else if (daysSinceShown > 3) {
-      score += 2.5;
+    // Biggest obstacle consideration (weight: 10%)
+    const obstacleScore = this.calculateObstacleMatch(tip, userProfile.biggest_obstacle);
+    score += obstacleScore * 10;
+    if (obstacleScore > 0.5) {
+      reasons.push('Helps with your main challenge');
     }
 
     // Success with similar tips (weight: 5%)
@@ -81,6 +124,51 @@ export class TipRecommendationService {
     score += similarSuccessScore * 5;
     if (similarSuccessScore > 0.5) {
       reasons.push('Similar to tips that worked for you');
+    }
+    
+    // NEW: Vegetable approach for veggie-averse users (weight: 10% bonus/penalty)
+    if (userProfile.dietary_preferences?.includes('avoid') || 
+        userProfile.dietary_preferences?.includes('hide_them')) {
+      if (tip.veggie_intensity === 'heavy' || tip.veggie_strategy === 'front_and_center') {
+        score -= 10;
+        reasons.push('⚠️ Heavy on vegetables');
+      } else if (tip.veggie_intensity === 'hidden' || tip.veggie_strategy === 'disguised') {
+        score += 10;
+        reasons.push('Sneaky veggie approach');
+      }
+    }
+    
+    // NEW: Family compatibility (weight: 5%)
+    if (userProfile.home_situation) {
+      if (userProfile.home_situation.includes('picky_kids') && tip.kid_approved) {
+        score += 5;
+        reasons.push('Kid-friendly');
+      }
+      if (userProfile.home_situation.includes('resistant_partner') && tip.partner_resistant_ok) {
+        score += 5;
+        reasons.push('Works even if partner not on board');
+      }
+    }
+    
+    // NEW: Diet trauma considerations (weight: 10% bonus for safe tips)
+    if (userProfile.dietary_preferences?.includes('history_yo_yo') || 
+        userProfile.dietary_preferences?.includes('history_too_extreme')) {
+      if (tip.diet_trauma_safe && !tip.feels_like_diet) {
+        score += 10;
+        reasons.push('Gentle, sustainable approach');
+      } else if (tip.feels_like_diet) {
+        score -= 5;
+      }
+    }
+    
+    // NEW: Cognitive load check for overwhelmed users
+    if (userProfile.dietary_preferences?.includes('history_overwhelmed')) {
+      if (tip.cognitive_load && tip.cognitive_load <= 2) {
+        score += 5;
+        reasons.push('Simple and straightforward');
+      } else if (tip.cognitive_load && tip.cognitive_load >= 4) {
+        score -= 5;
+      }
     }
 
     return { tip, score, reasons };
@@ -189,6 +277,185 @@ export class TipRecommendationService {
     );
     
     return daysDiff;
+  }
+
+  /**
+   * Check if tip conflicts with non-negotiable foods
+   */
+  private checkNonNegotiableConflicts(tip: Tip, nonNegotiables: string[]): boolean {
+    // Check if tip asks to reduce/eliminate something they won't give up
+    const tipSummaryLower = tip.summary.toLowerCase();
+    const tipDetailsLower = tip.details_md.toLowerCase();
+    
+    for (const food of nonNegotiables) {
+      switch(food) {
+        case 'chocolate':
+          if (tipSummaryLower.includes('no chocolate') || 
+              tipSummaryLower.includes('avoid chocolate') ||
+              tipSummaryLower.includes('skip dessert')) {
+            return true;
+          }
+          break;
+        case 'coffee_drinks':
+          if (tipSummaryLower.includes('black coffee') || 
+              tipSummaryLower.includes('skip the latte')) {
+            return true;
+          }
+          break;
+        case 'cheese':
+          if (tipSummaryLower.includes('no cheese') || 
+              tipSummaryLower.includes('skip cheese')) {
+            return true;
+          }
+          break;
+        case 'soda':
+          if (tipSummaryLower.includes('no soda') || 
+              tipSummaryLower.includes('quit soda')) {
+            return true;
+          }
+          // But swapping for sparkling water might be OK
+          if (tipSummaryLower.includes('sparkling water')) {
+            return false;
+          }
+          break;
+        case 'bread_carbs':
+          if (tipSummaryLower.includes('no carbs') || 
+              tipSummaryLower.includes('avoid bread')) {
+            return true;
+          }
+          break;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Calculate personality match score
+   */
+  private calculatePersonalityMatch(tip: Tip, userProfile: UserProfile): number {
+    if (!userProfile.eating_personality) return 0.5;
+    
+    let matchScore = 0.5; // neutral default
+    
+    // Use new helps_with dimension if available
+    if (tip.helps_with && userProfile.eating_personality) {
+      for (const challenge of userProfile.eating_personality) {
+        if (tip.helps_with.includes(challenge as any)) {
+          matchScore += 0.3;
+        }
+      }
+    }
+    
+    // Check eating personality traits
+    if (userProfile.eating_personality.includes('grazer')) {
+      // Grazers do well with snack-focused tips
+      if (tip.cue_context?.includes('snack_time')) {
+        matchScore += 0.3;
+      }
+    }
+    
+    if (userProfile.eating_personality.includes('speed_eater')) {
+      // Speed eaters benefit from mindful eating tips
+      if (tip.tip_type.includes('mindset_shift') && 
+          tip.summary.toLowerCase().includes('slow')) {
+        matchScore += 0.3;
+      }
+    }
+    
+    if (userProfile.eating_personality.includes('stress_eater')) {
+      // Stress eaters need mood regulation tips
+      if (tip.tip_type.includes('mood_regulation')) {
+        matchScore += 0.3;
+      }
+    }
+    
+    if (userProfile.eating_personality.includes('night_owl')) {
+      // Night owls need evening-friendly tips
+      if (tip.time_of_day.includes('late_night') || 
+          tip.time_of_day.includes('evening')) {
+        matchScore += 0.2;
+      }
+    }
+    
+    if (userProfile.eating_personality.includes('picky')) {
+      // Picky eaters need simple, familiar tips
+      if (tip.difficulty_tier <= 2 && !tip.tip_type.includes('novelty')) {
+        matchScore += 0.2;
+      }
+      // Also check texture preferences if available
+      if (tip.texture_profile && userProfile.dietary_preferences) {
+        // Avoid textures they might not like
+        matchScore -= 0.1;
+      }
+    }
+    
+    return Math.min(1, matchScore);
+  }
+
+  /**
+   * Calculate how well tip addresses user's biggest obstacle
+   */
+  private calculateObstacleMatch(tip: Tip, obstacle?: string): number {
+    if (!obstacle) return 0.5;
+    
+    switch(obstacle) {
+      case 'no_time':
+        // Favor quick tips
+        if (tip.time_cost_enum === '0_5_min') return 1;
+        if (tip.time_cost_enum === '5_15_min') return 0.7;
+        return 0.3;
+        
+      case 'no_energy':
+        // Favor energy-boosting, easy tips
+        if (tip.motivational_mechanism.includes('energy_boost') && 
+            tip.mental_effort <= 2) {
+          return 1;
+        }
+        return 0.3;
+        
+      case 'no_willpower':
+        // Favor environment design and habit stacking
+        if (tip.tip_type.includes('environment_design') || 
+            tip.tip_type.includes('habit_stacking')) {
+          return 1;
+        }
+        return 0.3;
+        
+      case 'emotional':
+        // Favor mood regulation tips
+        if (tip.tip_type.includes('mood_regulation') || 
+            tip.motivational_mechanism.includes('comfort')) {
+          return 1;
+        }
+        return 0.3;
+        
+      case 'hate_cooking':
+        // Favor no-cook options
+        if (tip.time_cost_enum === '0_5_min' && 
+            tip.physical_effort === 1) {
+          return 1;
+        }
+        return 0.2;
+        
+      case 'love_junk':
+        // Favor healthy swaps that still taste good
+        if (tip.tip_type.includes('healthy_swap') && 
+            tip.motivational_mechanism.includes('sensory')) {
+          return 1;
+        }
+        return 0.4;
+        
+      case 'social_pressure':
+        // Favor social-friendly tips
+        if (tip.social_mode === 'group' || 
+            tip.location_tags.includes('social_event')) {
+          return 0.8;
+        }
+        return 0.4;
+        
+      default:
+        return 0.5;
+    }
   }
 
   /**

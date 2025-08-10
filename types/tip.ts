@@ -82,6 +82,50 @@ export type ContentSource =
   | 'community_submitted'
   | 'ai_generated';
 
+export type FoodItem = 
+  | 'chocolate'
+  | 'cheese'
+  | 'coffee'
+  | 'bread'
+  | 'pasta'
+  | 'sugar'
+  | 'soda'
+  | 'alcohol'
+  | 'dairy'
+  | 'meat'
+  | 'carbs';
+
+export type VeggieIntensity = 'none' | 'hidden' | 'light' | 'moderate' | 'heavy';
+export type VeggieStrategy = 'not_applicable' | 'disguised' | 'gradual' | 'mixed_in' | 'front_and_center';
+
+export type PrepTiming = 'immediate' | 'night_before' | 'weekend_required' | 'none_needed';
+export type ShelfLife = 'use_immediately' | 'lasts_2_3_days' | 'lasts_week' | 'freezer_friendly';
+
+export type EatingChallenge = 
+  | 'grazing'
+  | 'speed_eating'
+  | 'emotional_eating'
+  | 'night_eating'
+  | 'boredom_eating'
+  | 'stress_eating'
+  | 'social_eating'
+  | 'mindless_eating';
+
+export type TextureProfile = 'crunchy' | 'creamy' | 'chewy' | 'smooth' | 'crispy' | 'soft';
+
+export type KitchenEquipment = 
+  | 'none'
+  | 'microwave_only'
+  | 'basic_stove'
+  | 'full_kitchen'
+  | 'blender'
+  | 'instant_pot';
+
+export type CookingSkill = 'none' | 'microwave' | 'basic' | 'intermediate' | 'advanced';
+
+export type CravingType = 'sweet' | 'salty' | 'crunchy' | 'creamy' | 'chocolate' | 'cheese' | 'carbs';
+export type SubstitutionQuality = 'exact_match' | 'close_enough' | 'different_but_good' | 'not_substitute';
+
 export interface Tip {
   tip_id: string;
   summary: string;
@@ -100,6 +144,51 @@ export interface Tip {
   cue_context?: CueContext[];
   difficulty_tier: number; // 1-5
   created_by: ContentSource;
+  
+  // NEW: Food relationship dimensions
+  involves_foods?: FoodItem[]; // Foods that are part of this tip
+  preserves_foods?: FoodItem[]; // Foods you can still enjoy with this tip
+  
+  // NEW: Vegetable approach
+  veggie_intensity?: VeggieIntensity;
+  veggie_strategy?: VeggieStrategy;
+  
+  // NEW: Family/social compatibility
+  family_friendly?: boolean;
+  kid_approved?: boolean;
+  partner_resistant_ok?: boolean; // Works even if partner isn't on board
+  works_with?: string[]; // ['picky_eaters', 'teenagers', 'traditional_eaters']
+  
+  // NEW: Prep and timing reality
+  requires_advance_prep?: boolean;
+  prep_timing?: PrepTiming;
+  shelf_life?: ShelfLife;
+  
+  // NEW: Eating personality specific
+  helps_with?: EatingChallenge[];
+  texture_profile?: TextureProfile[];
+  
+  // NEW: Life chaos compatibility
+  chaos_level_max?: number; // 1-5, max chaos level where this still works
+  requires_planning?: boolean;
+  impulse_friendly?: boolean; // Can do this spontaneously
+  
+  // NEW: Diet history sensitive
+  diet_trauma_safe?: boolean; // Not extreme or restrictive
+  sustainability?: 'one_time' | 'occasionally' | 'daily_habit';
+  feels_like_diet?: boolean; // Does this feel restrictive/diety?
+  
+  // NEW: Kitchen reality
+  kitchen_equipment?: KitchenEquipment[];
+  cooking_skill_required?: CookingSkill;
+  
+  // NEW: Craving and substitution
+  satisfies_craving?: CravingType[];
+  substitution_quality?: SubstitutionQuality;
+  
+  // NEW: Success predictors
+  common_failure_points?: string[]; // ['requires_willpower', 'easy_to_forget', 'socially_awkward']
+  cognitive_load?: number; // 1-5, mental energy needed
 }
 
 export type TipFeedback = 'went_great' | 'went_ok' | 'not_great' | 'didnt_try';
