@@ -253,4 +253,6 @@ Learning loop – use feedback (“went great / ok / not great / didn’t try�
 Every evening (or when the user next uses app after getting a tip) in addition to asking how the tip went it can also ask if they used any of the other previous ones they liked (only keeping ones they tried and liked)
 
 
-
+I want this app to be THE go to app for "figuring out what works for me" when changing 
+  habits. I want it to be approachable, fun, easy and delightful to use for all sorts of people - not just the usual fitness or 
+  health fanatics but even normies like thoses that love sweets.  It should be extremely welcoming, easy to use and unintimidating to users.
