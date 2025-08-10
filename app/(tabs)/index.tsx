@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import OnboardingQuiz from '@/components/OnboardingQuiz';
 import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
 import EveningCheckIn from '@/components/EveningCheckIn';
-import ExperimentMode from '@/components/ExperimentMode';
+import ExperimentModeSwipe from '@/components/ExperimentModeSwipe';
 import ExperimentComplete from '@/components/ExperimentComplete';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
@@ -496,7 +496,7 @@ export default function HomeScreen() {
               />
             ) : dailyTip.user_response === 'try_it' ? (
               // Show Experiment Mode when user has committed to trying
-              <ExperimentMode
+              <ExperimentModeSwipe
                 tip={currentTip}
                 onViewDetails={() => {
                   // Could open a modal or navigate to details
