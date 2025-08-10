@@ -25,7 +25,25 @@ export const TIPS_DATABASE: Tip[] = [
     time_of_day: ['morning', 'afternoon', 'evening'],
     cue_context: ['craving_event', 'meal_time', 'snack_time'],
     difficulty_tier: 1,
-    created_by: 'dietitian_reviewed'
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    involves_foods: ['soda'],
+    preserves_foods: [], // Doesn't preserve soda, which could be a conflict
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5, // Works even in total chaos
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false, // Just a swap, not restrictive
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    satisfies_craving: ['sweet', 'soda'],
+    substitution_quality: 'close_enough',
+    cognitive_load: 1,
+    helps_with: ['mindless_eating', 'sugar_addiction']
   },
   {
     tip_id: 'a1b2c3d4-0002-4002-a002-1234567890ac',
@@ -52,7 +70,24 @@ export const TIPS_DATABASE: Tip[] = [
     time_of_day: ['evening'],
     cue_context: ['meal_time'],
     difficulty_tier: 1,
-    created_by: 'dietitian_reviewed'
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'light', // Just one serving
+    veggie_strategy: 'mixed_in', // Can be mixed into existing food
+    family_friendly: true,
+    kid_approved: false, // Depends on the kid!
+    partner_resistant_ok: true, // Just add to your own plate
+    chaos_level_max: 4, // Pretty easy even when busy
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['microwave_only'], // Can use frozen + microwave
+    cooking_skill_required: 'basic',
+    cognitive_load: 2,
+    helps_with: ['mindless_eating'],
+    preserves_foods: ['pasta', 'meat', 'cheese'], // Still eating your normal dinner
+    texture_profile: ['soft', 'crispy'] // Depends on cooking method
   },
   {
     tip_id: 'f4a5b6c7-d8e9-0123-fabc-456789012345',
@@ -79,7 +114,23 @@ export const TIPS_DATABASE: Tip[] = [
     time_of_day: ['morning', 'afternoon', 'evening'],
     cue_context: ['meal_time'],
     difficulty_tier: 3,
-    created_by: 'dietitian_reviewed'
+    created_by: 'dietitian_reviewed',
+    // NEW DIMENSIONS
+    veggie_intensity: 'not_applicable',
+    family_friendly: false, // Hard with kids around
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 2, // Needs quiet focus
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 4, // High mental effort
+    helps_with: ['speed_eating', 'mindless_eating', 'emotional_eating'],
+    preserves_foods: ['chocolate', 'cheese', 'bread', 'pasta', 'meat'], // All foods still allowed
+    sustainability: 'daily_habit'
   },
   {
     tip_id: 'a1b2c3d4-0006-4006-a006-1234567890b0',
@@ -104,7 +155,24 @@ export const TIPS_DATABASE: Tip[] = [
     time_of_day: ['morning'],
     cue_context: ['craving_event'],
     difficulty_tier: 1,
-    created_by: 'coach_curated'
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['coffee'], // Still get your coffee!
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5, // Works even in morning chaos
+    requires_planning: true, // Need to set up night before
+    prep_timing: 'night_before',
+    impulse_friendly: false,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: [],
+    sustainability: 'daily_habit'
   },
   {
     tip_id: 'a1b2c3d4-0010-4010-a010-1234567890b4',
@@ -130,7 +198,25 @@ export const TIPS_DATABASE: Tip[] = [
     time_of_day: ['morning', 'afternoon', 'evening', 'late_night'],
     cue_context: ['boredom', 'stress'],
     difficulty_tier: 1,
-    created_by: 'coach_curated'
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    involves_foods: [], // Works with any problem food
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread'], // Still have access, just hidden
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: false, // Kids might protest!
+    partner_resistant_ok: false, // Partner needs to be on board
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 1,
+    helps_with: ['mindless_eating', 'boredom_eating', 'stress_eating'],
+    common_failure_points: ['family_resistance', 'forgetting_location'],
+    sustainability: 'daily_habit'
   },
   {
     tip_id: 'a1b2c3d4-0019-4019-a019-1234567890bd',
@@ -156,7 +242,25 @@ export const TIPS_DATABASE: Tip[] = [
     time_of_day: ['afternoon', 'evening'],
     cue_context: ['meal_time'],
     difficulty_tier: 2,
-    created_by: 'coach_curated'
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'coffee', 'bread', 'pasta'], // All foods ok
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true, // Kids can join!
+    partner_resistant_ok: true,
+    works_with: ['picky_eaters', 'teenagers'],
+    chaos_level_max: 3, // Need some time/weather cooperation
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 2,
+    helps_with: ['emotional_eating', 'stress_eating'],
+    common_failure_points: ['bad_weather', 'time_constraints'],
+    sustainability: 'daily_habit'
   },
   {
     tip_id: 'a1b2c3d4-0030-4030-a030-1234567890c8',
@@ -182,7 +286,25 @@ export const TIPS_DATABASE: Tip[] = [
     time_of_day: ['afternoon', 'evening', 'late_night'],
     cue_context: ['craving_event', 'boredom', 'stress'],
     difficulty_tier: 2,
-    created_by: 'coach_curated'
+    created_by: 'coach_curated',
+    // NEW DIMENSIONS
+    preserves_foods: ['chocolate', 'cheese', 'bread'], // Can still have snack after if truly hungry
+    veggie_intensity: 'none',
+    family_friendly: true,
+    kid_approved: true,
+    partner_resistant_ok: true,
+    chaos_level_max: 5,
+    requires_planning: false,
+    impulse_friendly: true,
+    diet_trauma_safe: true,
+    feels_like_diet: false,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    satisfies_craving: [], // Might delay but not satisfy specific cravings
+    cognitive_load: 2,
+    helps_with: ['mindless_eating', 'boredom_eating', 'stress_eating', 'grazing'],
+    common_failure_points: ['easy_to_forget', 'requires_willpower'],
+    sustainability: 'daily_habit'
   }
 ];
 
