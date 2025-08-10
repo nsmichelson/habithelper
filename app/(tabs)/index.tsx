@@ -12,7 +12,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import OnboardingQuiz from '@/components/OnboardingQuiz';
-import DailyTipCard from '@/components/DailyTipCard';
+import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
 import EveningCheckIn from '@/components/EveningCheckIn';
 import ExperimentMode from '@/components/ExperimentMode';
 import ExperimentComplete from '@/components/ExperimentComplete';
@@ -515,7 +515,7 @@ export default function HomeScreen() {
               />
             ) : !dailyTip.user_response ? (
               // Show tip card if no response yet
-              <DailyTipCard
+              <DailyTipCardSwipe
                 tip={currentTip}
                 onResponse={handleTipResponse}
                 reasons={tipReasons}
