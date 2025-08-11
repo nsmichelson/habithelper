@@ -530,7 +530,10 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
         </ScrollView>
 
         {/* Navigation Buttons */}
-        <View style={styles.navigationContainer}>
+        <View style={[
+          styles.navigationContainer,
+          currentQuestionIndex > 0 && styles.navigationContainerWithBack
+        ]}>
           {currentQuestionIndex > 0 && (
             <TouchableOpacity style={styles.backButton} onPress={handleBack}>
               <Ionicons name="arrow-back" size={24} color="#666" />
@@ -563,6 +566,7 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+    paddingBottom: 20, // Add padding to ensure buttons aren't cut off
   },
   progressContainer: {
     paddingHorizontal: 20,
@@ -642,22 +646,35 @@ const styles = StyleSheet.create({
   },
   navigationContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    justifyContent: 'flex-end', // Align to the right when only Next button
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    paddingBottom: 40, // Extra padding to lift buttons higher from bottom
     borderTopWidth: 1,
     borderTopColor: '#E0E0E0',
+    backgroundColor: '#FFF', // Ensure background so buttons are visible
+  },
+  navigationContainerWithBack: {
+    justifyContent: 'space-between', // Space between when both buttons shown
   },
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   backButtonText: {
     fontSize: 16,
     color: '#666',
     marginLeft: 8,
+  },
+  backButtonSpacer: {
+    width: 80, // Approximate width of back button to keep Next button aligned
   },
   nextButton: {
     flexDirection: 'row',
