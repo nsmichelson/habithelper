@@ -111,11 +111,16 @@ export default function ExperimentMode({
   quickCompletions = []
 }: Props) {
   const [showQuickComplete, setShowQuickComplete] = useState(false);
+  const [badgeMinimized, setBadgeMinimized] = useState(false);
   const scale = useSharedValue(0);
   const checkmarkScale = useSharedValue(0);
   const progressWidth = useSharedValue(0);
   const successPulseScale = useSharedValue(1);
   const cardEntranceScale = useSharedValue(0);
+  const badgePosition = useSharedValue(0);
+  const badgeSize = useSharedValue(1);
+  const quickCompleteButtonScale = useSharedValue(0);
+  const quickCompleteButtonOpacity = useSharedValue(0);
 
   // Calculate actual progress based on time
   const calculateProgress = () => {
@@ -165,7 +170,36 @@ export default function ExperimentMode({
       withTiming(currentProgress, { duration: 1500, easing: Easing.bezier(0.4, 0, 0.2, 1) })
     );
 
-    // Pulse animation only for success badge
+    // After 3 seconds, minimize the success badge and show the "I Did It!" button prominently
+    setTimeout(() => {
+      // Animate badge to smaller size and move to top corner
+      badgeSize.value = withSpring(0.3, { damping: 15, stiffness: 200 });
+      badgePosition.value = withSpring(-150, { damping: 15, stiffness: 200 });
+      
+      // Fade in and scale up the "I Did It!" button with attention-grabbing animation
+      quickCompleteButtonScale.value = withSequence(
+        withSpring(1.2, { damping: 10, stiffness: 200 }),
+        withSpring(1, { damping: 15, stiffness: 200 }),
+        // Add a subtle pulse to draw attention
+        withDelay(
+          500,
+          withRepeat(
+            withSequence(
+              withTiming(1.05, { duration: 1000 }),
+              withTiming(1, { duration: 1000 })
+            ),
+            -1,
+            true
+          )
+        )
+      );
+      quickCompleteButtonOpacity.value = withTiming(1, { duration: 300 });
+      
+      // Update state to change text content
+      setBadgeMinimized(true);
+    }, 3000);
+
+    // Pulse animation only for success badge (stop when minimized)
     successPulseScale.value = withRepeat(
       withSequence(
         withTiming(1.03, { duration: 2000 }),
@@ -178,7 +212,8 @@ export default function ExperimentMode({
 
   const successBadgeAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
-      { scale: scale.value * successPulseScale.value },
+      { scale: scale.value * successPulseScale.value * badgeSize.value },
+      { translateY: badgePosition.value },
     ],
   }));
 
@@ -194,6 +229,11 @@ export default function ExperimentMode({
 
   const progressAnimatedStyle = useAnimatedStyle(() => ({
     width: `${progressWidth.value}%`,
+  }));
+
+  const quickCompleteButtonAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: quickCompleteButtonScale.value }],
+    opacity: quickCompleteButtonOpacity.value,
   }));
 
   const formatTimeRemaining = (hours: number) => {
@@ -227,13 +267,22 @@ export default function ExperimentMode({
         <Animated.View style={[styles.successBadge, successBadgeAnimatedStyle]}>
           <LinearGradient
             colors={['#4CAF50', '#45B255']}
-            style={styles.successGradient}
+            style={[styles.successGradient, badgeMinimized && styles.successGradientMini]}
           >
-            <Animated.View style={checkmarkAnimatedStyle}>
-              <Ionicons name="checkmark-circle" size={64} color="#FFF" />
-            </Animated.View>
-            <Text style={styles.successTitle}>You're Experimenting!</Text>
-            <Text style={styles.successSubtitle}>Amazing commitment! 🎉</Text>
+            {!badgeMinimized ? (
+              <>
+                <Animated.View style={checkmarkAnimatedStyle}>
+                  <Ionicons name="checkmark-circle" size={64} color="#FFF" />
+                </Animated.View>
+                <Text style={styles.successTitle}>You're Experimenting!</Text>
+                <Text style={styles.successSubtitle}>Amazing commitment! 🎉</Text>
+              </>
+            ) : (
+              <>
+                <Ionicons name="checkmark-circle" size={24} color="#FFF" />
+                <Text style={styles.successTitleMini}>Experimenting</Text>
+              </>
+            )}
           </LinearGradient>
         </Animated.View>
 
@@ -252,6 +301,58 @@ export default function ExperimentMode({
             </View>
 
             <Text style={styles.experimentTitle}>{tip.summary}</Text>
+
+            {/* Quick Complete Button - Now prominently placed at top */}
+            {quickCompletions.length === 0 ? (
+              <Animated.View style={[quickCompleteButtonAnimatedStyle]}>
+                <TouchableOpacity 
+                  style={styles.quickCompleteButtonProminent}
+                  onPress={() => setShowQuickComplete(true)}
+                >
+                  <LinearGradient
+                    colors={['#4CAF50', '#45B255']}
+                    style={styles.quickCompleteGradientProminent}
+                  >
+                    <Ionicons name="rocket" size={28} color="#FFF" />
+                    <Text style={styles.quickCompleteTextProminent}>I Did It!</Text>
+                    <Text style={styles.quickCompleteSubtextProminent}>Mark as complete now</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </Animated.View>
+            ) : (
+              <View style={styles.completedBadge}>
+                <LinearGradient
+                  colors={['#E8F5E9', '#C8E6C9']}
+                  style={styles.completedGradient}
+                >
+                  <View style={styles.completedHeader}>
+                    <Ionicons name="checkmark-circle" size={32} color="#4CAF50" />
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.completedText}>
+                        Completed {quickCompletions.length}x today!
+                      </Text>
+                      {quickCompletions[quickCompletions.length - 1]?.quick_note && (
+                        <Text style={styles.completedNote}>
+                          Last time: {
+                            quickCompletions[quickCompletions.length - 1].quick_note === 'worked_great' ? '🎉 Worked great!' :
+                            quickCompletions[quickCompletions.length - 1].quick_note === 'went_ok' ? '👍 Went ok' :
+                            quickCompletions[quickCompletions.length - 1].quick_note === 'not_sure' ? '🤔 Not sure' :
+                            '👎 Not for me'
+                          }
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                  <TouchableOpacity 
+                    style={styles.addAnotherButton}
+                    onPress={() => setShowQuickComplete(true)}
+                  >
+                    <Ionicons name="add-circle-outline" size={20} color="#4CAF50" />
+                    <Text style={styles.addAnotherText}>Did it again</Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </View>
+            )}
 
             {/* Quick reminder of key details */}
             <View style={styles.quickDetails}>
@@ -293,56 +394,6 @@ export default function ExperimentMode({
                 We'll check in with you this evening about how it went
               </Text>
             </View>
-
-            {/* Quick Complete Button or Status */}
-            {quickCompletions.length === 0 ? (
-              <TouchableOpacity 
-                style={styles.quickCompleteButton}
-                onPress={() => setShowQuickComplete(true)}
-              >
-                <LinearGradient
-                  colors={['#4CAF50', '#45B255']}
-                  style={styles.quickCompleteGradient}
-                >
-                  <Ionicons name="rocket" size={24} color="#FFF" />
-                  <Text style={styles.quickCompleteText}>I Did It!</Text>
-                  <Text style={styles.quickCompleteSubtext}>Mark as complete now</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.completedBadge}>
-                <LinearGradient
-                  colors={['#E8F5E9', '#C8E6C9']}
-                  style={styles.completedGradient}
-                >
-                  <View style={styles.completedHeader}>
-                    <Ionicons name="checkmark-circle" size={32} color="#4CAF50" />
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.completedText}>
-                        Completed {quickCompletions.length}x today!
-                      </Text>
-                      {quickCompletions[quickCompletions.length - 1]?.quick_note && (
-                        <Text style={styles.completedFeedback}>
-                          Last time: {
-                            quickCompletions[quickCompletions.length - 1].quick_note === 'worked_great' ? '🎉 Worked great!' :
-                            quickCompletions[quickCompletions.length - 1].quick_note === 'went_ok' ? '👍 Went ok' :
-                            quickCompletions[quickCompletions.length - 1].quick_note === 'not_sure' ? '🤔 Not sure' :
-                            '👎 Not for me'
-                          }
-                        </Text>
-                      )}
-                    </View>
-                  </View>
-                  <TouchableOpacity 
-                    style={styles.addAnotherButton}
-                    onPress={() => setShowQuickComplete(true)}
-                  >
-                    <Ionicons name="add-circle-outline" size={20} color="#4CAF50" />
-                    <Text style={styles.addAnotherText}>Did it again</Text>
-                  </TouchableOpacity>
-                </LinearGradient>
-              </View>
-            )}
 
             {/* Action Buttons */}
             <View style={styles.actionButtons}>
@@ -445,6 +496,12 @@ const styles = StyleSheet.create({
     padding: 24,
     alignItems: 'center',
   },
+  successGradientMini: {
+    padding: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   successTitle: {
     fontSize: 24,
     fontWeight: '700',
@@ -455,6 +512,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'rgba(255,255,255,0.9)',
     marginTop: 4,
+  },
+  successTitleMini: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FFF',
+    marginLeft: 4,
   },
   experimentCard: {
     margin: 16,
@@ -686,6 +749,32 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.8)',
     marginTop: 2,
   },
+  quickCompleteButtonProminent: {
+    marginVertical: 20,
+    borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: '#4CAF50',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  quickCompleteGradientProminent: {
+    paddingVertical: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quickCompleteTextProminent: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#FFF',
+    marginTop: 8,
+  },
+  quickCompleteSubtextProminent: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.9)',
+    marginTop: 4,
+  },
   completedBadge: {
     marginBottom: 20,
     borderRadius: 16,
@@ -705,6 +794,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#2E7D32',
     flex: 1,
+  },
+  completedNote: {
+    fontSize: 14,
+    color: '#66BB6A',
+    marginTop: 2,
   },
   addAnotherButton: {
     flexDirection: 'row',

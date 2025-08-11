@@ -114,16 +114,11 @@ export default function ExperimentModeSwipe({
 }: Props) {
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [badgeMinimized, setBadgeMinimized] = useState(false);
   const scrollX = useSharedValue(0);
   const scale = useSharedValue(0);
   const progressWidth = useSharedValue(0);
   const successPulseScale = useSharedValue(1);
   const flatListRef = useRef<FlatList>(null);
-  const badgePosition = useSharedValue(0);
-  const badgeSize = useSharedValue(1);
-  const quickCompleteButtonScale = useSharedValue(0);
-  const quickCompleteButtonOpacity = useSharedValue(0);
 
   // Calculate actual progress based on time
   const calculateProgress = () => {
@@ -152,35 +147,6 @@ export default function ExperimentModeSwipe({
       500,
       withTiming(currentProgress, { duration: 1500, easing: Easing.bezier(0.4, 0, 0.2, 1) })
     );
-
-    // After 3 seconds, minimize the success badge and show the "I Did It!" button prominently
-    setTimeout(() => {
-      // Animate badge to smaller size and move to top corner
-      badgeSize.value = withSpring(0.3, { damping: 15, stiffness: 200 });
-      badgePosition.value = withSpring(-150, { damping: 15, stiffness: 200 });
-      
-      // Fade in and scale up the "I Did It!" button with attention-grabbing animation
-      quickCompleteButtonScale.value = withSequence(
-        withSpring(1.2, { damping: 10, stiffness: 200 }),
-        withSpring(1, { damping: 15, stiffness: 200 }),
-        // Add a subtle pulse to draw attention
-        withDelay(
-          500,
-          withRepeat(
-            withSequence(
-              withTiming(1.05, { duration: 1000 }),
-              withTiming(1, { duration: 1000 })
-            ),
-            -1,
-            true
-          )
-        )
-      );
-      quickCompleteButtonOpacity.value = withTiming(1, { duration: 300 });
-      
-      // Update state to change text content
-      setBadgeMinimized(true);
-    }, 3000);
 
     successPulseScale.value = withRepeat(
       withSequence(
@@ -218,15 +184,7 @@ export default function ExperimentModeSwipe({
   }));
 
   const successBadgeAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { scale: scale.value * successPulseScale.value * badgeSize.value },
-      { translateY: badgePosition.value },
-    ],
-  }));
-
-  const quickCompleteButtonAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: quickCompleteButtonScale.value }],
-    opacity: quickCompleteButtonOpacity.value,
+    transform: [{ scale: scale.value * successPulseScale.value }],
   }));
 
   // Motivational messages to rotate through
@@ -246,20 +204,11 @@ export default function ExperimentModeSwipe({
       <Animated.View style={[styles.successBadge, successBadgeAnimatedStyle]}>
         <LinearGradient
           colors={['#4CAF50', '#45B255']}
-          style={[styles.successGradient, badgeMinimized && styles.successGradientMini]}
+          style={styles.successGradient}
         >
-          {!badgeMinimized ? (
-            <>
-              <Ionicons name="checkmark-circle" size={64} color="#FFF" />
-              <Text style={styles.successTitle}>You're Experimenting!</Text>
-              <Text style={styles.successSubtitle}>Amazing commitment! 🎉</Text>
-            </>
-          ) : (
-            <>
-              <Ionicons name="checkmark-circle" size={24} color="#FFF" />
-              <Text style={styles.successTitleMini}>Experimenting</Text>
-            </>
-          )}
+          <Ionicons name="checkmark-circle" size={64} color="#FFF" />
+          <Text style={styles.successTitle}>You're Experimenting!</Text>
+          <Text style={styles.successSubtitle}>Amazing commitment! 🎉</Text>
         </LinearGradient>
       </Animated.View>
 
@@ -277,25 +226,44 @@ export default function ExperimentModeSwipe({
 
         <Text style={styles.experimentTitle}>{tip.summary}</Text>
 
-        {/* Quick Complete Button - Now prominently placed at top */}
-        {quickCompletions.length === 0 ? (
-          <Animated.View style={[quickCompleteButtonAnimatedStyle]}>
-            <TouchableOpacity 
-              style={styles.quickCompleteButtonProminent}
-              onPress={() => setShowQuickComplete(true)}
-            >
+        {/* Progress Tracker */}
+        <Animated.View style={[styles.progressSection, progressSectionAnimatedStyle]}>
+          <View style={styles.progressHeader}>
+            <Text style={styles.progressTitle}>Time Until Check-in</Text>
+            <Text style={styles.progressTime}>{formatTimeRemaining(timeUntilCheckIn)}</Text>
+          </View>
+          <View style={styles.progressBar}>
+            <Animated.View style={[styles.progressFill, progressAnimatedStyle]}>
               <LinearGradient
-                colors={['#4CAF50', '#45B255']}
-                style={styles.quickCompleteGradientProminent}
-              >
-                <Ionicons name="rocket" size={28} color="#FFF" />
-                <Text style={styles.quickCompleteTextProminent}>I Did It!</Text>
-                <Text style={styles.quickCompleteSubtextProminent}>Mark as complete now</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </Animated.View>
+                colors={['#4CAF50', '#66BB6A']}
+                style={styles.progressGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              />
+            </Animated.View>
+          </View>
+          <Text style={styles.progressText}>
+            We'll check in with you this evening about how it went
+          </Text>
+        </Animated.View>
+
+        {/* Quick Complete Button or Status */}
+        {quickCompletions.length === 0 ? (
+          <TouchableOpacity 
+            style={styles.quickCompleteButton}
+            onPress={() => setShowQuickComplete(true)}
+          >
+            <LinearGradient
+              colors={['#4CAF50', '#45B255']}
+              style={styles.quickCompleteGradient}
+            >
+              <Ionicons name="rocket" size={24} color="#FFF" />
+              <Text style={styles.quickCompleteText}>I Did It!</Text>
+              <Text style={styles.quickCompleteSubtext}>Mark as complete now</Text>
+            </LinearGradient>
+          </TouchableOpacity>
         ) : (
-          <View style={styles.completedBadgeTop}>
+          <View style={styles.completedBadge}>
             <LinearGradient
               colors={['#E8F5E9', '#C8E6C9']}
               style={styles.completedGradient}
@@ -307,7 +275,7 @@ export default function ExperimentModeSwipe({
                     Completed {quickCompletions.length}x today!
                   </Text>
                   {quickCompletions[quickCompletions.length - 1]?.quick_note && (
-                    <Text style={styles.completedNote}>
+                    <Text style={styles.completedFeedback}>
                       Last time: {
                         quickCompletions[quickCompletions.length - 1].quick_note === 'worked_great' ? '🎉 Worked great!' :
                         quickCompletions[quickCompletions.length - 1].quick_note === 'went_ok' ? '👍 Went ok' :
@@ -328,28 +296,6 @@ export default function ExperimentModeSwipe({
             </LinearGradient>
           </View>
         )}
-
-        {/* Progress Tracker */}
-        <View style={styles.progressSection}>
-          <View style={styles.progressHeader}>
-            <Text style={styles.progressTitle}>Time Until Check-in</Text>
-            <Text style={styles.progressTime}>{formatTimeRemaining(timeUntilCheckIn)}</Text>
-          </View>
-          <View style={styles.progressBar}>
-            <Animated.View style={[styles.progressFill, progressAnimatedStyle]}>
-              <LinearGradient
-                colors={['#4CAF50', '#66BB6A']}
-                style={styles.progressGradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              />
-            </Animated.View>
-          </View>
-          <Text style={styles.progressText}>
-            We'll check in with you this evening about how it went
-          </Text>
-        </View>
-
 
         {/* Swipe hint */}
         <TouchableOpacity 
@@ -692,18 +638,6 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.9)',
     marginTop: 4,
   },
-  successGradientMini: {
-    padding: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  successTitleMini: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFF',
-    marginLeft: 4,
-  },
   experimentHeader: {
     marginBottom: 16,
   },
@@ -837,42 +771,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#4CAF50',
-  },
-  quickCompleteButtonProminent: {
-    marginVertical: 20,
-    borderRadius: 20,
-    overflow: 'hidden',
-    shadowColor: '#4CAF50',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  quickCompleteGradientProminent: {
-    paddingVertical: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  quickCompleteTextProminent: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#FFF',
-    marginTop: 8,
-  },
-  quickCompleteSubtextProminent: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.9)',
-    marginTop: 4,
-  },
-  completedBadgeTop: {
-    marginVertical: 20,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  completedNote: {
-    fontSize: 14,
-    color: '#66BB6A',
-    marginTop: 2,
   },
   swipeHint: {
     flexDirection: 'row',
