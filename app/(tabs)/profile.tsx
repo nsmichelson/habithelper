@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,17 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  Animated,
+  TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import StorageService from '@/services/storage';
 import { UserProfile } from '@/types/tip';
 import * as Haptics from 'expo-haptics';
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function ProfileScreen() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -24,11 +29,48 @@ export default function ProfileScreen() {
     totalTried: 0,
     totalLoved: 0,
   });
+  
+  // Animation values for modal
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
 
   useEffect(() => {
     loadProfile();
     loadStats();
   }, []);
+
+  useEffect(() => {
+    if (showCircumstanceModal) {
+      // Fade in overlay and slide up content
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideAnim, {
+          toValue: 0,
+          damping: 20,
+          stiffness: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      // Fade out overlay and slide down content
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: SCREEN_HEIGHT,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [showCircumstanceModal]);
 
   const loadProfile = async () => {
     try {
@@ -108,15 +150,36 @@ export default function ProfileScreen() {
     return primary;
   };
 
-  const CircumstanceModal = () => (
-    <Modal
-      visible={showCircumstanceModal}
-      animationType="slide"
-      transparent={true}
-      onRequestClose={() => setShowCircumstanceModal(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+  const CircumstanceModal = () => {
+    if (!showCircumstanceModal) return null;
+    
+    return (
+      <Modal
+        visible={showCircumstanceModal}
+        animationType="none"
+        transparent={true}
+        onRequestClose={() => setShowCircumstanceModal(false)}
+      >
+        <Animated.View 
+          style={[
+            styles.modalOverlay,
+            {
+              opacity: fadeAnim,
+            }
+          ]}
+        >
+          <TouchableWithoutFeedback onPress={() => setShowCircumstanceModal(false)}>
+            <View style={styles.backdrop} />
+          </TouchableWithoutFeedback>
+          
+          <Animated.View 
+            style={[
+              styles.modalContent,
+              {
+                transform: [{ translateY: slideAnim }],
+              }
+            ]}
+          >
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Update Circumstances</Text>
             <TouchableOpacity onPress={() => setShowCircumstanceModal(false)}>
@@ -161,10 +224,11 @@ export default function ProfileScreen() {
               These help us filter out experiments that might not be safe or appropriate for you.
             </Text>
           </ScrollView>
-        </View>
-      </View>
+        </Animated.View>
+      </Animated.View>
     </Modal>
-  );
+    );
+  };
 
   if (loading || !userProfile) {
     return (
@@ -539,8 +603,11 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'flex-end',
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
     backgroundColor: '#FFF',
