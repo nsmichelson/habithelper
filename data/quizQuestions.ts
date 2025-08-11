@@ -281,7 +281,7 @@ export function getQuestionsByCategory(category: string): QuizQuestion[] {
   return QUIZ_QUESTIONS.filter(q => q.category === category);
 }
 
-export function getConditionalQuestions(responses: Array<{questionId: string, value: any}>): QuizQuestion[] {
+export function getConditionalQuestions(responses: Array<{questionId: string, values?: string[], value?: any}>): QuizQuestion[] {
   // Filter questions based on conditional logic
   return QUIZ_QUESTIONS.filter(question => {
     if (!question.conditionalOn) return true;
@@ -289,7 +289,8 @@ export function getConditionalQuestions(responses: Array<{questionId: string, va
     const response = responses.find(r => r.questionId === question.conditionalOn!.questionId);
     if (!response) return false;
     
-    const responseValues = Array.isArray(response.value) ? response.value : [response.value];
+    // Handle both .values and .value for backward compatibility
+    const responseValues = response.values || (Array.isArray(response.value) ? response.value : [response.value]);
     return question.conditionalOn.values.some(v => responseValues.includes(v));
   });
 }

@@ -13,7 +13,7 @@ export interface QuizQuestion {
   options?: QuizOption[];
   required: boolean;
   helpText?: string;
-  category: 'medical' | 'goals' | 'lifestyle' | 'preferences' | 'demographics' | 'learning';
+  category: 'medical' | 'goals' | 'lifestyle' | 'preferences' | 'demographics' | 'learning' | 'food personality' | 'experience' | 'skills' | 'personality' | 'challenges';
   conditionalOn?: {
     questionId: string;
     values: string[];
@@ -24,7 +24,7 @@ export interface QuizQuestion {
 
 export interface QuizResponse {
   questionId: string;
-  value: string | string[] | number;
+  values: string[]; // Always store as array for consistency
 }
 
 export interface OnboardingState {

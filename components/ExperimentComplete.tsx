@@ -257,7 +257,7 @@ export default function ExperimentComplete({
         {/* Main Completion Card */}
         <Animated.View style={[styles.completionCard, cardAnimatedStyle]}>
           <LinearGradient
-            colors={config.gradientColors}
+            colors={config.gradientColors as any}
             style={styles.gradientBackground}
           >
             {/* Ribbon Effect */}

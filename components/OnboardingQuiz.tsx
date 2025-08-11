@@ -27,9 +27,17 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   onComplete: (profile: UserProfile) => void;
+  existingProfile?: UserProfile;  // Optional: for retaking the quiz
+  isRetake?: boolean;  // Optional: to show different title
 }
 
-export default function OnboardingQuiz({ onComplete }: Props) {
+// Helper to normalize response values to always be an array
+const toArray = (value: string | string[] | undefined): string[] => {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+};
+
+export default function OnboardingQuiz({ onComplete, existingProfile, isRetake = false }: Props) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState<QuizResponse[]>([]);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -37,6 +45,120 @@ export default function OnboardingQuiz({ onComplete }: Props) {
   
   const progress = useSharedValue(0);
   const questionOpacity = useSharedValue(1);
+
+  // Initialize with existing profile data if retaking
+  useEffect(() => {
+    const loadExistingResponses = async () => {
+      if (existingProfile && responses.length === 0) {
+        // First try to load previously saved quiz responses
+        const savedResponses = await StorageService.getQuizResponses();
+        if (savedResponses && savedResponses.length > 0) {
+          // Normalize saved responses to ensure they all have 'values' as array
+          const normalizedResponses = savedResponses.map(r => ({
+            questionId: r.questionId,
+            values: r.values || toArray((r as any).value)
+          }));
+          setResponses(normalizedResponses);
+          console.log('Loaded saved quiz responses:', normalizedResponses);
+          return;
+        }
+        
+        // Otherwise, map from profile
+        const initialResponses: QuizResponse[] = [];
+      
+      // Map profile data back to quiz responses using correct question IDs
+      // Medical conditions are stored as 'health_stuff' and 'which_allergies'
+      const healthConditions: string[] = [];
+      const allergies: string[] = [];
+      
+      existingProfile.medical_conditions?.forEach(condition => {
+        switch(condition) {
+          case 't2_diabetes': healthConditions.push('diabetes'); break;
+          case 'hypertension': healthConditions.push('heart'); break;
+          case 'ibs': healthConditions.push('digestive'); break;
+          case 'pregnancy': healthConditions.push('pregnancy'); break;
+          case 'nut_allergy': allergies.push('nuts'); break;
+          case 'lactose_intolerance': allergies.push('dairy'); break;
+          case 'celiac': allergies.push('gluten'); break;
+          case 'egg_allergy': allergies.push('eggs'); break;
+          case 'fish_allergy':
+          case 'shellfish_allergy': allergies.push('seafood'); break;
+          case 'soy_allergy': allergies.push('soy'); break;
+        }
+      });
+      
+      if (healthConditions.length > 0) {
+        initialResponses.push({ questionId: 'health_stuff', values: healthConditions });
+      }
+      if (allergies.length > 0) {
+        initialResponses.push({ questionId: 'which_allergies', values: allergies });
+      }
+      
+      // Map goals to 'real_goals' question
+      if (existingProfile.goals?.length > 0) {
+        const realGoals: string[] = [];
+        existingProfile.goals.forEach(goal => {
+          switch(goal) {
+            case 'weight_loss': 
+              if (!realGoals.includes('look_good')) realGoals.push('look_good');
+              break;
+            case 'improve_energy': 
+              if (!realGoals.includes('more_energy')) realGoals.push('more_energy');
+              break;
+            case 'better_lipids':
+            case 'lower_blood_pressure':
+              if (!realGoals.includes('health_scare')) realGoals.push('health_scare');
+              break;
+            case 'improve_gut_health':
+              if (!realGoals.includes('less_bloated')) realGoals.push('less_bloated');
+              break;
+            case 'endurance_performance':
+            case 'strength_performance':
+              if (!realGoals.includes('athletic')) realGoals.push('athletic');
+              break;
+            case 'increase_veggies':
+              if (!realGoals.includes('just_healthier')) realGoals.push('just_healthier');
+              break;
+          }
+        });
+        if (realGoals.length > 0) {
+          initialResponses.push({ questionId: 'real_goals', values: realGoals });
+        }
+      }
+      
+      // Map kitchen/cooking to 'kitchen_reality'
+      if (existingProfile.cooking_time_available) {
+        let kitchenSkill = 'basic';
+        switch(existingProfile.cooking_time_available) {
+          case 'none': kitchenSkill = 'microwave_master'; break;
+          case 'minimal': kitchenSkill = 'basic'; break;
+          case 'moderate': kitchenSkill = 'follow_recipe'; break;
+          case 'plenty': kitchenSkill = existingProfile.wants_to_learn_cooking ? 'confident' : 'follow_recipe'; break;
+        }
+        initialResponses.push({ questionId: 'kitchen_reality', values: [kitchenSkill] });
+      }
+      
+      // Map budget to 'money_truth'
+      if (existingProfile.budget_conscious !== undefined) {
+        initialResponses.push({ 
+          questionId: 'money_truth', 
+          values: [existingProfile.budget_conscious ? 'careful' : 'comfortable'] 
+        });
+      }
+      
+      // Store other mapped values for potential use
+      if (existingProfile.dietary_preferences && existingProfile.dietary_preferences.length > 0) {
+        // These might map to 'real_talk', 'non_negotiables', or 'eating_personality'
+        // Need to analyze the actual values to map correctly
+      }
+      
+      console.log('Initialized responses for retake:', initialResponses);
+      setResponses(initialResponses);
+    }
+  };
+  
+  loadExistingResponses();
+}, [existingProfile]);
   
   // Update available questions when responses change (for conditional questions)
   useEffect(() => {
@@ -50,6 +172,20 @@ export default function OnboardingQuiz({ onComplete }: Props) {
   useEffect(() => {
     progress.value = withSpring(progressPercentage);
   }, [currentQuestionIndex]);
+
+  // Pre-select existing values when showing a question
+  useEffect(() => {
+    if (currentQuestion) {
+      const existingResponse = responses.find(r => r.questionId === currentQuestion.id);
+      if (existingResponse) {
+        // Use toArray helper to normalize both .value and .values
+        const values = existingResponse.values || toArray((existingResponse as any).value);
+        setSelectedValues(values);
+      } else {
+        setSelectedValues([]);
+      }
+    }
+  }, [currentQuestionIndex, currentQuestion?.id, responses]);
 
   const handleSingleChoice = (value: string) => {
     setSelectedValues([value]);
@@ -74,13 +210,23 @@ export default function OnboardingQuiz({ onComplete }: Props) {
       return;
     }
 
-    // Save response
+    // Create response with consistent structure (always use 'values' as array)
     const response: QuizResponse = {
       questionId: currentQuestion.id,
-      value: currentQuestion.type === 'single_choice' ? selectedValues[0] : selectedValues,
+      values: selectedValues,
     };
     
-    const newResponses = [...responses, response];
+    // Upsert response by questionId instead of appending
+    const existingIndex = responses.findIndex(r => r.questionId === currentQuestion.id);
+    let newResponses: QuizResponse[];
+    if (existingIndex >= 0) {
+      // Update existing response
+      newResponses = [...responses];
+      newResponses[existingIndex] = response;
+    } else {
+      // Add new response
+      newResponses = [...responses, response];
+    }
     setResponses(newResponses);
 
     // Animate transition
@@ -107,15 +253,20 @@ export default function OnboardingQuiz({ onComplete }: Props) {
       });
 
       setTimeout(() => {
-        setCurrentQuestionIndex(currentQuestionIndex - 1);
-        // Restore previous response
-        const prevResponse = responses[currentQuestionIndex - 1];
-        if (prevResponse) {
-          setSelectedValues(
-            Array.isArray(prevResponse.value) 
-              ? prevResponse.value 
-              : [prevResponse.value as string]
-          );
+        const prevIndex = currentQuestionIndex - 1;
+        setCurrentQuestionIndex(prevIndex);
+        
+        // Find response by questionId, not by index
+        const prevQuestion = availableQuestions[prevIndex];
+        if (prevQuestion) {
+          const prevResponse = responses.find(r => r.questionId === prevQuestion.id);
+          if (prevResponse) {
+            // Use toArray helper to normalize both .value and .values
+            const values = prevResponse.values || toArray((prevResponse as any).value);
+            setSelectedValues(values);
+          } else {
+            setSelectedValues([]);
+          }
         }
       }, 200);
     }
@@ -133,7 +284,8 @@ export default function OnboardingQuiz({ onComplete }: Props) {
 
     // Process each response based on new quiz structure
     allResponses.forEach(response => {
-      const values = Array.isArray(response.value) ? response.value : [response.value];
+      // Use toArray helper to normalize both .value and .values
+      const values = response.values || toArray((response as any).value);
       
       switch (response.questionId) {
         // Medical stuff

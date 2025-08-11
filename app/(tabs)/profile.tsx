@@ -17,6 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import StorageService from '@/services/storage';
 import { UserProfile } from '@/types/tip';
 import * as Haptics from 'expo-haptics';
+import OnboardingQuiz from '@/components/OnboardingQuiz';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -24,6 +25,7 @@ export default function ProfileScreen() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [showCircumstanceModal, setShowCircumstanceModal] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
   const [stats, setStats] = useState({
     totalExperiments: 0,
     totalTried: 0,
@@ -83,6 +85,28 @@ export default function ProfileScreen() {
     }
   };
 
+  const handleQuizComplete = async (updatedProfile: UserProfile) => {
+    try {
+      // Save the updated profile
+      await StorageService.saveUserProfile(updatedProfile);
+      setUserProfile(updatedProfile);
+      setShowQuiz(false);
+      
+      // Show success message
+      Alert.alert(
+        'Quiz Updated!',
+        'Your preferences have been updated successfully.',
+        [{ text: 'OK' }]
+      );
+      
+      // Reload stats in case they changed
+      loadStats();
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      Alert.alert('Error', 'Failed to update your preferences. Please try again.');
+    }
+  };
+
   const loadStats = async () => {
     try {
       const tips = await StorageService.getDailyTips();
@@ -107,10 +131,10 @@ export default function ProfileScreen() {
     let updatedProfile = { ...userProfile };
     
     if (type === 'medical') {
-      if (updatedProfile.medical_conditions.includes(value)) {
+      if (updatedProfile.medical_conditions.includes(value as any)) {
         updatedProfile.medical_conditions = updatedProfile.medical_conditions.filter(c => c !== value);
       } else {
-        updatedProfile.medical_conditions = [...updatedProfile.medical_conditions, value];
+        updatedProfile.medical_conditions = [...updatedProfile.medical_conditions, value as any];
       }
     }
     
@@ -199,22 +223,22 @@ export default function ProfileScreen() {
                 key={condition.id}
                 style={[
                   styles.conditionItem,
-                  userProfile?.medical_conditions.includes(condition.id) && styles.conditionItemActive
+                  userProfile?.medical_conditions.includes(condition.id as any) && styles.conditionItemActive
                 ]}
                 onPress={() => handleUpdateCircumstance('medical', condition.id)}
               >
                 <Ionicons 
                   name={condition.icon as any} 
                   size={20} 
-                  color={userProfile?.medical_conditions.includes(condition.id) ? '#4CAF50' : '#666'} 
+                  color={userProfile?.medical_conditions.includes(condition.id as any) ? '#4CAF50' : '#666'} 
                 />
                 <Text style={[
                   styles.conditionText,
-                  userProfile?.medical_conditions.includes(condition.id) && styles.conditionTextActive
+                  userProfile?.medical_conditions.includes(condition.id as any) && styles.conditionTextActive
                 ]}>
                   {condition.label}
                 </Text>
-                {userProfile?.medical_conditions.includes(condition.id) && (
+                {userProfile?.medical_conditions.includes(condition.id as any) && (
                   <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
                 )}
               </TouchableOpacity>
@@ -235,6 +259,17 @@ export default function ProfileScreen() {
       <View style={styles.loadingContainer}>
         <Text>Loading...</Text>
       </View>
+    );
+  }
+
+  // Show quiz if user wants to retake it
+  if (showQuiz) {
+    return (
+      <OnboardingQuiz 
+        onComplete={handleQuizComplete}
+        existingProfile={userProfile}
+        isRetake={true}
+      />
     );
   }
 
@@ -354,7 +389,10 @@ export default function ProfileScreen() {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Quick Actions</Text>
             
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => setShowQuiz(true)}
+            >
               <LinearGradient
                 colors={['#F5F5F5', '#FAFAFA']}
                 style={styles.actionGradient}
