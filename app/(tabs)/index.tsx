@@ -218,6 +218,33 @@ export default function HomeScreen() {
     }
   };
 
+  const calculateDaysSinceStart = () => {
+    // Calculate days since first tip was presented
+    if (!previousTips || previousTips.length === 0) return 1;
+    
+    // Find the earliest tip with a valid date (using presented_date field)
+    const validTips = previousTips.filter(tip => tip.presented_date);
+    if (validTips.length === 0) return 1;
+    
+    const sortedTips = [...validTips].sort((a, b) => 
+      new Date(a.presented_date).getTime() - new Date(b.presented_date).getTime()
+    );
+    
+    const firstTipDate = new Date(sortedTips[0].presented_date);
+    const today = new Date();
+    
+    // Check if the date is valid
+    if (isNaN(firstTipDate.getTime())) {
+      console.log('Invalid first tip date:', sortedTips[0].presented_date);
+      return 1;
+    }
+    
+    const dayDiff = Math.floor((today.getTime() - firstTipDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    // Return at least 1, and handle negative or NaN values
+    return Math.max(1, dayDiff + 1);
+  };
+
   const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
     if (!dailyTip) return;
 
@@ -485,6 +512,28 @@ export default function HomeScreen() {
               <ExperimentComplete
                 tip={currentTip}
                 feedback={dailyTip.evening_check_in}
+                totalExperiments={previousTips.length + 1} // +1 for today's experiment
+                successfulExperiments={previousTips.filter(t => t.user_response === 'try_it').length + 1} // +1 since they completed today's
+                currentStreak={(() => {
+                  const days = calculateDaysSinceStart();
+                  console.log('Days since start:', days, 'Previous tips:', previousTips.length);
+                  return days;
+                })()}
+                tipHistory={(() => {
+                  // Build tip history with full tip objects
+                  const history = previousTips.map(dt => ({
+                    dailyTip: dt,
+                    tip: getTipById(dt.tip_id)!
+                  })).filter(item => item.tip); // Filter out any where tip wasn't found
+                  
+                  // Add today's tip to the history
+                  history.push({
+                    dailyTip: dailyTip,
+                    tip: currentTip
+                  });
+                  
+                  return history;
+                })()}
                 onGetNewTip={() => {
                   // Reset for tomorrow (this would ideally load tomorrow's tip)
                   Alert.alert(
@@ -512,6 +561,17 @@ export default function HomeScreen() {
                 }
                 onQuickComplete={handleQuickComplete}
                 quickCompletions={dailyTip.quick_completions || []}
+                totalExperiments={previousTips.length + 1}
+                successfulExperiments={previousTips.filter(t => t.user_response === 'try_it').length}
+                tipHistory={(() => {
+                  // Build tip history with full tip objects
+                  const history = previousTips.map(dt => ({
+                    dailyTip: dt,
+                    tip: getTipById(dt.tip_id)!
+                  })).filter(item => item.tip); // Filter out any where tip wasn't found
+                  
+                  return history;
+                })()}
               />
             ) : !dailyTip.user_response ? (
               // Show tip card if no response yet

@@ -24,8 +24,9 @@ import Animated, {
   withSpring,
   withTiming
 } from 'react-native-reanimated';
-import { QuickComplete, Tip } from '../types/tip';
+import { QuickComplete, Tip, DailyTip } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
+import TipHistoryModal from './TipHistoryModal';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -35,6 +36,12 @@ interface Props {
   timeUntilCheckIn: number;
   onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
   quickCompletions?: QuickComplete[];
+  totalExperiments?: number;
+  successfulExperiments?: number;
+  tipHistory?: Array<{
+    dailyTip: DailyTip;
+    tip: Tip;
+  }>;
 }
 
 // Confetti particle component
@@ -109,10 +116,17 @@ export default function ExperimentModeSwipe({
   onViewDetails, 
   timeUntilCheckIn, 
   onQuickComplete,
-  quickCompletions = []
+  quickCompletions = [],
+  totalExperiments = 0,
+  successfulExperiments = 0,
+  tipHistory = []
 }: Props) {
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  
   const scrollX = useSharedValue(0);
   const scale = useSharedValue(0);
   const progressWidth = useSharedValue(0);
@@ -196,6 +210,31 @@ export default function ExperimentModeSwipe({
   ];
 
   const randomMotivational = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+
+  const handleShowAllExperiments = () => {
+    setModalTitle('All Experiments');
+    setModalTips(tipHistory);
+    setModalVisible(true);
+  };
+
+  const handleShowTriedExperiments = () => {
+    setModalTitle('Experiments You Tried');
+    const triedTips = tipHistory.filter(({ dailyTip }) => 
+      dailyTip.user_response === 'try_it'
+    );
+    setModalTips(triedTips);
+    setModalVisible(true);
+  };
+
+  const handleShowLovedExperiments = () => {
+    setModalTitle('Experiments You Loved');
+    const lovedTips = tipHistory.filter(({ dailyTip }) => 
+      dailyTip.evening_check_in === 'went_great' || 
+      dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')
+    );
+    setModalTips(lovedTips);
+    setModalVisible(true);
+  };
 
   const renderProgressCard = () => (
     <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
@@ -295,6 +334,36 @@ export default function ExperimentModeSwipe({
             </LinearGradient>
           </View>
         )}
+
+        {/* Progress Stats */}
+        <View style={styles.statsSection}>
+          <Text style={styles.statsTitle}>Your Journey</Text>
+          <View style={styles.statsRow}>
+            <TouchableOpacity style={styles.statItem} onPress={handleShowAllExperiments}>
+              <Text style={styles.statNumber}>{totalExperiments}</Text>
+              <Text style={styles.statLabel}>Presented</Text>
+            </TouchableOpacity>
+            
+            <View style={styles.statDivider} />
+            
+            <TouchableOpacity style={styles.statItem} onPress={handleShowTriedExperiments}>
+              <Text style={styles.statNumber}>{successfulExperiments}</Text>
+              <Text style={styles.statLabel}>Tried</Text>
+            </TouchableOpacity>
+            
+            <View style={styles.statDivider} />
+            
+            <TouchableOpacity style={styles.statItem} onPress={handleShowLovedExperiments}>
+              <Text style={styles.statNumber}>
+                {tipHistory.filter(({ dailyTip }) => 
+                  dailyTip.evening_check_in === 'went_great' || 
+                  dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')
+                ).length}
+              </Text>
+              <Text style={styles.statLabel}>Loved</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
         {/* Swipe hint */}
         <TouchableOpacity 
@@ -575,6 +644,14 @@ export default function ExperimentModeSwipe({
           setShowQuickComplete(false);
         }}
       />
+
+      {/* Tip History Modal */}
+      <TipHistoryModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        title={modalTitle}
+        tips={modalTips}
+      />
     </View>
   );
 }
@@ -770,6 +847,45 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#4CAF50',
+  },
+  statsSection: {
+    marginTop: 20,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#E8F5E9',
+  },
+  statsTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#424242',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  statNumber: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#4CAF50',
+    marginBottom: 4,
+  },
+  statLabel: {
+    fontSize: 11,
+    color: '#666',
+    fontWeight: '500',
+  },
+  statDivider: {
+    width: 1,
+    height: 30,
+    backgroundColor: '#E0E0E0',
   },
   swipeHint: {
     flexDirection: 'row',

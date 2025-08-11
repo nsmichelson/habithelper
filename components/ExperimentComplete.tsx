@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -19,8 +19,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Tip, TipFeedback } from '../types/tip';
+import { Tip, TipFeedback, DailyTip } from '../types/tip';
 import * as Haptics from 'expo-haptics';
+import TipHistoryModal from './TipHistoryModal';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -28,6 +29,13 @@ interface Props {
   tip: Tip;
   feedback: TipFeedback;
   onGetNewTip?: () => void;
+  totalExperiments?: number;
+  successfulExperiments?: number;
+  currentStreak?: number;
+  tipHistory?: Array<{
+    dailyTip: DailyTip;
+    tip: Tip;
+  }>;
 }
 
 // Star animation component
@@ -85,7 +93,19 @@ const AnimatedStar = ({ delay, index }: { delay: number; index: number }) => {
   );
 };
 
-export default function ExperimentComplete({ tip, feedback, onGetNewTip }: Props) {
+export default function ExperimentComplete({ 
+  tip, 
+  feedback, 
+  onGetNewTip,
+  totalExperiments = 1,
+  successfulExperiments = 1,
+  currentStreak = 1,  // This is now "days since start"
+  tipHistory = []
+}: Props) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  
   const cardScale = useSharedValue(0);
   const ribbonWidth = useSharedValue(0);
   const resultScale = useSharedValue(0);
@@ -194,6 +214,31 @@ export default function ExperimentComplete({ tip, feedback, onGetNewTip }: Props
     opacity: statsOpacity.value,
   }));
 
+  const handleShowAllExperiments = () => {
+    setModalTitle('All Experiments');
+    setModalTips(tipHistory);
+    setModalVisible(true);
+  };
+
+  const handleShowTriedExperiments = () => {
+    setModalTitle('Experiments You Tried');
+    const triedTips = tipHistory.filter(({ dailyTip }) => 
+      dailyTip.user_response === 'try_it'
+    );
+    setModalTips(triedTips);
+    setModalVisible(true);
+  };
+
+  const handleShowLovedExperiments = () => {
+    setModalTitle('Experiments You Loved');
+    const lovedTips = tipHistory.filter(({ dailyTip }) => 
+      dailyTip.evening_check_in === 'went_great' || 
+      dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')
+    );
+    setModalTips(lovedTips);
+    setModalVisible(true);
+  };
+
   return (
     <View style={styles.container}>
       {/* Stars for "went_great" */}
@@ -257,25 +302,47 @@ export default function ExperimentComplete({ tip, feedback, onGetNewTip }: Props
           <View style={styles.statRow}>
             <View style={styles.statItem}>
               <Ionicons name="calendar-outline" size={24} color={config.color} />
-              <Text style={styles.statNumber}>Day 1</Text>
-              <Text style={styles.statLabel}>Streak</Text>
+              <Text style={styles.statNumber}>Day {currentStreak}</Text>
+              <Text style={styles.statLabel}>Journey</Text>
             </View>
             
             <View style={styles.statDivider} />
             
-            <View style={styles.statItem}>
+            <TouchableOpacity style={styles.statItem} onPress={handleShowAllExperiments}>
               <Ionicons name="flask-outline" size={24} color={config.color} />
-              <Text style={styles.statNumber}>1</Text>
-              <Text style={styles.statLabel}>Experiments</Text>
-            </View>
+              <Text style={styles.statNumber}>{totalExperiments}</Text>
+              <Text style={styles.statLabel}>Presented</Text>
+              <View style={styles.tapIndicator}>
+                <Ionicons name="chevron-forward" size={12} color={config.color} />
+              </View>
+            </TouchableOpacity>
             
             <View style={styles.statDivider} />
             
-            <View style={styles.statItem}>
-              <Ionicons name="trending-up-outline" size={24} color={config.color} />
-              <Text style={styles.statNumber}>100%</Text>
-              <Text style={styles.statLabel}>Today</Text>
-            </View>
+            <TouchableOpacity style={styles.statItem} onPress={handleShowTriedExperiments}>
+              <Ionicons name="checkmark-circle-outline" size={24} color={config.color} />
+              <Text style={styles.statNumber}>{successfulExperiments}</Text>
+              <Text style={styles.statLabel}>Tried</Text>
+              <View style={styles.tapIndicator}>
+                <Ionicons name="chevron-forward" size={12} color={config.color} />
+              </View>
+            </TouchableOpacity>
+            
+            <View style={styles.statDivider} />
+            
+            <TouchableOpacity style={styles.statItem} onPress={handleShowLovedExperiments}>
+              <Ionicons name="heart-outline" size={24} color={config.color} />
+              <Text style={styles.statNumber}>
+                {tipHistory.filter(({ dailyTip }) => 
+                  dailyTip.evening_check_in === 'went_great' || 
+                  dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')
+                ).length}
+              </Text>
+              <Text style={styles.statLabel}>Loved</Text>
+              <View style={styles.tapIndicator}>
+                <Ionicons name="chevron-forward" size={12} color={config.color} />
+              </View>
+            </TouchableOpacity>
           </View>
 
           {/* Motivational Quote */}
@@ -319,6 +386,14 @@ export default function ExperimentComplete({ tip, feedback, onGetNewTip }: Props
           </Text>
         </View>
       </ScrollView>
+
+      {/* Tip History Modal */}
+      <TipHistoryModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        title={modalTitle}
+        tips={modalTips}
+      />
     </View>
   );
 }
@@ -444,6 +519,13 @@ const styles = StyleSheet.create({
   statItem: {
     flex: 1,
     alignItems: 'center',
+    position: 'relative',
+  },
+  tapIndicator: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    opacity: 0.5,
   },
   statDivider: {
     width: 1,
