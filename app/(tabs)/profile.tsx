@@ -215,9 +215,47 @@ export default function ProfileScreen() {
             <Text style={styles.modalSectionTitle}>Medical Conditions</Text>
             {[
               { id: 'pregnancy', label: 'Pregnant', icon: 'heart' },
-              { id: 't2_diabetes', label: 'Type 2 Diabetes', icon: 'medical' },
+              { id: 'breastfeeding', label: 'Breastfeeding', icon: 'heart-outline' },
+              { id: 't1_diabetes', label: 'Type 1 Diabetes', icon: 'medical' },
+              { id: 't2_diabetes', label: 'Type 2 Diabetes', icon: 'medical-outline' },
               { id: 'hypertension', label: 'High Blood Pressure', icon: 'pulse' },
+              { id: 'celiac', label: 'Celiac Disease', icon: 'alert-circle' },
+              { id: 'ibs', label: 'IBS (Irritable Bowel)', icon: 'body' },
+              { id: 'kidney_disease', label: 'Kidney Disease', icon: 'water' },
+            ].map(condition => (
+              <TouchableOpacity
+                key={condition.id}
+                style={[
+                  styles.conditionItem,
+                  userProfile?.medical_conditions.includes(condition.id as any) && styles.conditionItemActive
+                ]}
+                onPress={() => handleUpdateCircumstance('medical', condition.id)}
+              >
+                <Ionicons 
+                  name={condition.icon as any} 
+                  size={20} 
+                  color={userProfile?.medical_conditions.includes(condition.id as any) ? '#4CAF50' : '#666'} 
+                />
+                <Text style={[
+                  styles.conditionText,
+                  userProfile?.medical_conditions.includes(condition.id as any) && styles.conditionTextActive
+                ]}>
+                  {condition.label}
+                </Text>
+                {userProfile?.medical_conditions.includes(condition.id as any) && (
+                  <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
+                )}
+              </TouchableOpacity>
+            ))}
+            
+            <Text style={[styles.modalSectionTitle, { marginTop: 20 }]}>Allergies & Intolerances</Text>
+            {[
               { id: 'lactose_intolerance', label: 'Lactose Intolerant', icon: 'nutrition' },
+              { id: 'nut_allergy', label: 'Nut Allergy', icon: 'warning' },
+              { id: 'shellfish_allergy', label: 'Shellfish Allergy', icon: 'fish' },
+              { id: 'egg_allergy', label: 'Egg Allergy', icon: 'egg' },
+              { id: 'fish_allergy', label: 'Fish Allergy', icon: 'fish-outline' },
+              { id: 'soy_allergy', label: 'Soy Allergy', icon: 'leaf' },
             ].map(condition => (
               <TouchableOpacity
                 key={condition.id}
