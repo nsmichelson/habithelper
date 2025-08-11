@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Modal,
   View,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  Animated,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -33,6 +35,41 @@ export default function TipHistoryModal({
   tips,
   emptyMessage = "No experiments yet"
 }: Props) {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+
+  useEffect(() => {
+    if (visible) {
+      // Fade in overlay and slide up content
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideAnim, {
+          toValue: 0,
+          damping: 20,
+          stiffness: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      // Fade out overlay and slide down content
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: SCREEN_HEIGHT,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [visible]);
   const getFeedbackIcon = (dailyTip: DailyTip) => {
     if (dailyTip.evening_check_in === 'went_great' || 
         dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')) {
@@ -69,15 +106,35 @@ export default function TipHistoryModal({
     return 'Presented';
   };
 
+  if (!visible) return null;
+
   return (
     <Modal
       visible={visible}
-      animationType="slide"
+      animationType="none"
       transparent={true}
       onRequestClose={onClose}
     >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+      <Animated.View 
+        style={[
+          styles.modalOverlay,
+          {
+            opacity: fadeAnim,
+          }
+        ]}
+      >
+        <TouchableWithoutFeedback onPress={onClose}>
+          <View style={styles.backdrop} />
+        </TouchableWithoutFeedback>
+        
+        <Animated.View 
+          style={[
+            styles.modalContent,
+            {
+              transform: [{ translateY: slideAnim }],
+            }
+          ]}
+        >
           {/* Header */}
           <LinearGradient
             colors={['#4CAF50', '#45B255']}
@@ -152,8 +209,8 @@ export default function TipHistoryModal({
               </Text>
             </View>
           )}
-        </View>
-      </View>
+        </Animated.View>
+      </Animated.View>
     </Modal>
   );
 }
@@ -161,8 +218,11 @@ export default function TipHistoryModal({
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'flex-end',
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
     backgroundColor: '#FFF',
