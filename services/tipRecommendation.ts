@@ -21,6 +21,25 @@ export class TipRecommendationService {
     let score = 0;
     const reasons: string[] = [];
 
+    // Check if recently shown (PENALTY for repeats)
+    const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
+    if (daysSinceShown !== null) {
+      if (daysSinceShown === 0) {
+        // Shown today - should never happen but just in case
+        score -= 1000;
+        reasons.push('⚠️ Already shown today');
+      } else if (daysSinceShown < 7) {
+        // Shown within a week - heavy penalty
+        score -= (50 - (daysSinceShown * 7));
+        reasons.push(`⚠️ Shown ${daysSinceShown} day${daysSinceShown > 1 ? 's' : ''} ago`);
+      } else if (daysSinceShown < 14) {
+        // Shown within 2 weeks - moderate penalty
+        score -= (20 - daysSinceShown);
+        reasons.push(`Recently shown (${daysSinceShown} days ago)`);
+      }
+      // After 2 weeks, no penalty (okay to repeat)
+    }
+
     // Time of day relevance (weight: 20%)
     if (currentHour !== undefined) {
       const timeScore = this.calculateTimeOfDayMatch(tip, currentHour);
@@ -534,6 +553,22 @@ export class TipRecommendationService {
 
     // Debug logging for recommendation algorithm
     console.log('=== TIP RECOMMENDATION ALGORITHM ===');
+    console.log(`Previous tips shown: ${previousTips.length}`);
+    
+    // Log recently shown tips
+    const recentTips = previousTips
+      .sort((a, b) => b.presented_date.getTime() - a.presented_date.getTime())
+      .slice(0, 7)
+      .map(t => {
+        const tip = TIPS_DATABASE.find(tip => tip.tip_id === t.tip_id);
+        const daysAgo = Math.floor((Date.now() - t.presented_date.getTime()) / (1000 * 60 * 60 * 24));
+        return `  - ${tip?.summary || 'Unknown'} (${daysAgo} days ago)`;
+      });
+    
+    if (recentTips.length > 0) {
+      console.log('Recently shown tips:');
+      recentTips.forEach(t => console.log(t));
+    }
     console.log(`Current hour: ${currentHour || new Date().getHours()}`);
     console.log('Top 5 recommendations:');
     recommendations.slice(0, 5).forEach((item, index) => {
