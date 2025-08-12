@@ -3199,16 +3199,22 @@ export const TIPS_DATABASE: Tip[] = [
 
 // Helper function to get tips that are safe for a user's medical conditions
 export function getSafeTips(medicalConditions: string[]): Tip[] {
-  return TIPS_DATABASE.filter(tip => 
-    !tip.contraindications.some(contra => 
+  return TIPS_DATABASE.filter(tip => {
+    // If no contraindications, tip is safe
+    if (!tip.contraindications || tip.contraindications.length === 0) {
+      return true;
+    }
+    // Check if any contraindications match user's medical conditions
+    return !tip.contraindications.some(contra => 
       medicalConditions.includes(contra)
-    )
-  );
+    );
+  });
 }
 
 // Helper function to get tips matching user goals
 export function getTipsForGoals(goals: string[]): Tip[] {
   return TIPS_DATABASE.filter(tip =>
+    tip.goal_tags && tip.goal_tags.length > 0 && 
     tip.goal_tags.some(tag => goals.includes(tag))
   );
 }

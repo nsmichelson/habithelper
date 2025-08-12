@@ -52,10 +52,10 @@ export class TipRecommendationService {
     }
 
     // Goal alignment (weight: 25%)
-    const goalMatches = tip.goal_tags.filter(tag => 
-      userProfile.goals.includes(tag)
-    ).length;
-    const goalScore = (goalMatches / tip.goal_tags.length) * 25;
+    const goalMatches = tip.goal_tags && userProfile.goals ? 
+      tip.goal_tags.filter(tag => userProfile.goals.includes(tag)).length : 0;
+    const goalScore = tip.goal_tags && tip.goal_tags.length > 0 ? 
+      (goalMatches / tip.goal_tags.length) * 25 : 0;
     score += goalScore;
     if (goalMatches > 0) {
       reasons.push(`Aligns with ${goalMatches} of your goals`);
@@ -488,12 +488,11 @@ export class TipRecommendationService {
       if (!attemptedTip) return false;
 
       // Check for overlap in tip types and mechanisms
-      const typeOverlap = tip.tip_type.some(type => 
-        attemptedTip.tip_type.includes(type)
-      );
-      const mechanismOverlap = tip.motivational_mechanism.some(mech => 
-        attemptedTip.motivational_mechanism.includes(mech)
-      );
+      const typeOverlap = tip.tip_type && attemptedTip.tip_type ? 
+        tip.tip_type.some(type => attemptedTip.tip_type.includes(type)) : false;
+      
+      const mechanismOverlap = tip.motivational_mechanism && attemptedTip.motivational_mechanism ? 
+        tip.motivational_mechanism.some(mech => attemptedTip.motivational_mechanism.includes(mech)) : false;
 
       return typeOverlap || mechanismOverlap;
     });
