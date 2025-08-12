@@ -43,6 +43,7 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [availableQuestions, setAvailableQuestions] = useState<QuizQuestion[]>(QUIZ_QUESTIONS);
   
+  const scrollViewRef = React.useRef<ScrollView>(null);
   const progress = useSharedValue(0);
   const questionOpacity = useSharedValue(1);
 
@@ -239,6 +240,8 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       setTimeout(() => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setSelectedValues([]);
+        // Scroll to top for new question
+        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
       }, 200);
     } else {
       // Complete onboarding
@@ -268,6 +271,9 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
             setSelectedValues([]);
           }
         }
+        
+        // Scroll to top for previous question
+        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
       }, 200);
     }
   };
@@ -511,7 +517,10 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
         </View>
 
         {/* Question */}
-        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <ScrollView 
+          ref={scrollViewRef}
+          style={styles.content} 
+          showsVerticalScrollIndicator={false}>
           <Animated.View style={[styles.questionContainer, questionAnimatedStyle]}>
             <Text style={styles.category}>{currentQuestion.category.toUpperCase()}</Text>
             <Text style={styles.question}>{currentQuestion.question}</Text>
@@ -544,12 +553,16 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           <TouchableOpacity
             style={[
               styles.nextButton,
-              selectedValues.length === 0 && currentQuestion.required && styles.nextButtonDisabled
+              (selectedValues.length === 0 && currentQuestion.required) && styles.nextButtonDisabled
             ]}
             onPress={handleNext}
           >
             <Text style={styles.nextButtonText}>
-              {currentQuestionIndex === availableQuestions.length - 1 ? "Let's do this!" : 'Next'}
+              {currentQuestionIndex === availableQuestions.length - 1 
+                ? "Let's do this!" 
+                : (selectedValues.length === 0 && !currentQuestion.required) 
+                  ? 'Skip' 
+                  : 'Next'}
             </Text>
             <Ionicons name="arrow-forward" size={24} color="#FFF" />
           </TouchableOpacity>
