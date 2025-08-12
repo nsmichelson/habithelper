@@ -28,11 +28,11 @@ interface Props {
   quickCompletions?: QuickComplete[];
 }
 
-const feedbackOptions: Array<{ value: TipFeedback; label: string; emoji: string; color: string }> = [
-  { value: 'went_great', label: 'Went Great!', emoji: '🎉', color: '#4CAF50' },
-  { value: 'went_ok', label: 'Went OK', emoji: '👍', color: '#FF9800' },
-  { value: 'not_great', label: 'Not Great', emoji: '😕', color: '#F44336' },
-  { value: 'didnt_try', label: "Didn't Try", emoji: '⏭️', color: '#757575' },
+const feedbackOptions: Array<{ value: TipFeedback; label: string; emoji: string; color: string; bgColor: string; lightBg: string; subtitle?: string }> = [
+  { value: 'went_great', label: 'Loved it!', emoji: '💚', color: '#00C853', bgColor: '#00E676', lightBg: '#E8F5E9', subtitle: 'Amazing' },
+  { value: 'went_ok', label: 'Pretty good', emoji: '☀️', color: '#FF6F00', bgColor: '#FFA726', lightBg: '#FFF3E0', subtitle: 'Solid try' },
+  { value: 'not_great', label: 'Not for me', emoji: '💭', color: '#AB47BC', bgColor: '#BA68C8', lightBg: '#F3E5F5', subtitle: 'Good data' },
+  { value: 'didnt_try', label: "Skipped it", emoji: '💙', color: '#1E88E5', bgColor: '#42A5F5', lightBg: '#E3F2FD', subtitle: 'Tomorrow' },
 ];
 
 export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletions = [] }: Props) {
@@ -89,27 +89,37 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Animated.View style={[styles.card, cardAnimatedStyle]}>
           <LinearGradient
-            colors={['#1E3A8A', '#3B82F6']}
+            colors={['#FFE0B2', '#FFCCBC', '#F8BBD0']}
             style={styles.gradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
           >
             {/* Header */}
             <View style={styles.header}>
-              <View style={styles.moonIcon}>
-                <Ionicons name="moon" size={32} color="#FFF" />
-              </View>
-              <Text style={styles.title}>Evening Check-In</Text>
+              <LinearGradient
+                colors={['#7E57C2', '#9575CD', '#B39DDB']}
+                style={styles.moonIcon}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              >
+                <Text style={styles.moonEmoji}>🌙</Text>
+              </LinearGradient>
+              <Text style={styles.title}>Evening Reflection</Text>
               <Text style={styles.subtitle}>
                 {hasQuickCompletion 
-                  ? "Let's reflect on your completed experiment" 
-                  : "How did today's experiment go?"}
+                  ? "✨ You completed today's experiment!" 
+                  : "How did your experiment go today?"}
               </Text>
             </View>
 
             {/* Tip Reminder */}
             <View style={styles.tipReminder}>
-              <Text style={styles.tipLabel}>
-                {hasQuickCompletion ? 'You completed:' : 'You tried:'}
-              </Text>
+              <View style={styles.tipReminderHeader}>
+                <Ionicons name="flask" size={16} color="#4CAF50" />
+                <Text style={styles.tipLabel}>
+                  {hasQuickCompletion ? "Today's completed experiment" : "Today's experiment"}
+                </Text>
+              </View>
               <Text style={styles.tipSummary}>{tip.summary}</Text>
               
               {/* Show quick completion status */}
@@ -137,7 +147,7 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
                 {/* Reflection Questions for Already Completed */}
                 <View style={styles.reflectionSection}>
                   <Text style={styles.reflectionTitle}>
-                    How did it affect the rest of your day?
+                    💭 How did it affect the rest of your day?
                   </Text>
                   <View style={styles.feedbackContainer}>
                     {feedbackOptions.filter(opt => opt.value !== 'didnt_try').map((option) => (
@@ -145,23 +155,33 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
                         key={option.value}
                         style={[
                           styles.feedbackButton,
+                          { backgroundColor: option.lightBg, borderColor: option.bgColor },
                           selectedFeedback === option.value && styles.feedbackButtonSelected,
-                          selectedFeedback === option.value && { borderColor: option.color }
+                          selectedFeedback === option.value && { 
+                            backgroundColor: option.bgColor,
+                            borderColor: option.color,
+                            transform: [{ scale: 1.02 }]
+                          }
                         ]}
                         onPress={() => handleFeedbackSelect(option.value)}
                       >
                         <Text style={styles.feedbackEmoji}>{option.emoji}</Text>
-                        <Text style={[
-                          styles.feedbackLabel,
-                          selectedFeedback === option.value && styles.feedbackLabelSelected
-                        ]}>
-                          {option.label}
-                        </Text>
-                        {selectedFeedback === option.value && (
-                          <View style={[styles.checkMark, { backgroundColor: option.color }]}>
-                            <Ionicons name="checkmark" size={16} color="#FFF" />
-                          </View>
-                        )}
+                        <View style={styles.feedbackTextContainer}>
+                          <Text style={[
+                            styles.feedbackLabel,
+                            selectedFeedback === option.value && styles.feedbackLabelSelected
+                          ]}>
+                            {option.label}
+                          </Text>
+                          {option.subtitle && (
+                            <Text style={[
+                              styles.feedbackSubtitle,
+                              selectedFeedback === option.value && styles.feedbackSubtitleSelected
+                            ]}>
+                              {option.subtitle}
+                            </Text>
+                          )}
+                        </View>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -176,35 +196,57 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
                       key={option.value}
                       style={[
                         styles.feedbackButton,
+                        { backgroundColor: option.lightBg, borderColor: option.bgColor },
                         selectedFeedback === option.value && styles.feedbackButtonSelected,
-                        selectedFeedback === option.value && { borderColor: option.color }
+                        selectedFeedback === option.value && { 
+                          backgroundColor: option.bgColor,
+                          borderColor: option.color,
+                          transform: [{ scale: 1.02 }]
+                        }
                       ]}
                       onPress={() => handleFeedbackSelect(option.value)}
                     >
                       <Text style={styles.feedbackEmoji}>{option.emoji}</Text>
-                      <Text style={[
-                        styles.feedbackLabel,
-                        selectedFeedback === option.value && styles.feedbackLabelSelected
-                      ]}>
-                        {option.label}
-                      </Text>
-                      {selectedFeedback === option.value && (
-                        <View style={[styles.checkMark, { backgroundColor: option.color }]}>
-                          <Ionicons name="checkmark" size={16} color="#FFF" />
-                        </View>
-                      )}
+                      <View style={styles.feedbackTextContainer}>
+                        <Text style={[
+                          styles.feedbackLabel,
+                          selectedFeedback === option.value && styles.feedbackLabelSelected
+                        ]}>
+                          {option.label}
+                        </Text>
+                        {option.subtitle && (
+                          <Text style={[
+                            styles.feedbackSubtitle,
+                            selectedFeedback === option.value && styles.feedbackSubtitleSelected
+                          ]}>
+                            {option.subtitle}
+                          </Text>
+                        )}
+                      </View>
                     </TouchableOpacity>
                   ))}
                 </View>
               </>
             )}
 
+            {/* Reflection Prompt */}
+            {selectedFeedback && (
+              <View style={styles.reflectionPrompt}>
+                <Text style={styles.reflectionPromptText}>
+                  {selectedFeedback === 'went_great' && "💭 What specifically made this work so well for you?"}
+                  {selectedFeedback === 'went_ok' && "💭 What would make this experiment easier next time?"}
+                  {selectedFeedback === 'not_great' && "💭 What did you learn about your preferences?"}
+                  {selectedFeedback === 'didnt_try' && "💭 What got in the way today?"}
+                </Text>
+              </View>
+            )}
+
             {/* Notes Section */}
             <Animated.View style={[styles.notesSection, notesAnimatedStyle]}>
               <Text style={styles.notesLabel}>
                 {hasQuickCompletion 
-                  ? 'Any additional observations from your day? (optional)' 
-                  : 'Any thoughts to share? (optional)'}
+                  ? 'Share your reflection (optional)' 
+                  : 'Share your thoughts (optional)'}
               </Text>
               <TextInput
                 style={styles.notesInput}
@@ -213,7 +255,7 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
                     ? "Did you notice any lasting effects? Would you try it again?"
                     : "What made it work? What was challenging?"
                 }
-                placeholderTextColor="rgba(255,255,255,0.5)"
+                placeholderTextColor="#999"
                 value={notes}
                 onChangeText={setNotes}
                 multiline
@@ -244,10 +286,10 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
             {selectedFeedback && (
               <View style={styles.motivationalMessage}>
                 <Text style={styles.motivationalText}>
-                  {selectedFeedback === 'went_great' && "Fantastic! You're building great habits! 🌟"}
-                  {selectedFeedback === 'went_ok' && "Good effort! Every step counts! 💪"}
-                  {selectedFeedback === 'not_great' && "That's okay! You learned something valuable! 🧠"}
-                  {selectedFeedback === 'didnt_try' && "No worries! Tomorrow is a new opportunity! 🌅"}
+                  {selectedFeedback === 'went_great' && "Amazing! This experiment really worked for you 🌟"}
+                  {selectedFeedback === 'went_ok' && "Nice! You're figuring out what works 💚"}
+                  {selectedFeedback === 'not_great' && "That's helpful data! Now you know this isn't your thing 📊"}
+                  {selectedFeedback === 'didnt_try' && "No problem! Ready for tomorrow's experiment? 🌱"}
                 </Text>
               </View>
             )}
@@ -261,7 +303,6 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   scrollContent: {
     flexGrow: 1,
@@ -272,10 +313,10 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     overflow: 'hidden',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 10,
   },
   gradient: {
     padding: 24,
@@ -285,104 +326,173 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   moonIcon: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
+    shadowColor: '#7E57C2',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  moonEmoji: {
+    fontSize: 36,
   },
   title: {
     fontSize: 28,
-    fontWeight: '700',
+    fontWeight: '800',
     color: '#FFF',
-    marginBottom: 4,
+    marginBottom: 6,
+    textShadowColor: 'rgba(0,0,0,0.1)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
   subtitle: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.9)',
+    color: '#FFF',
+    textAlign: 'center',
+    lineHeight: 22,
+    fontWeight: '500',
+    opacity: 0.95,
   },
   tipReminder: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    borderRadius: 20,
+    padding: 18,
     marginBottom: 24,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.5)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  tipReminderHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 8,
   },
   tipLabel: {
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.7)',
-    marginBottom: 4,
+    fontSize: 13,
+    color: '#4CAF50',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   tipSummary: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
-    color: '#FFF',
-    lineHeight: 22,
+    color: '#212121',
+    lineHeight: 24,
   },
   completionStatus: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 8,
-    paddingTop: 8,
+    marginTop: 12,
+    paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.2)',
+    borderTopColor: '#E0E0E0',
   },
   completionStatusText: {
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.8)',
+    fontSize: 13,
+    color: '#4CAF50',
     marginLeft: 6,
+    fontWeight: '500',
   },
   reflectionSection: {
     marginBottom: 20,
   },
   reflectionTitle: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
-    color: '#FFF',
-    marginBottom: 12,
+    color: '#424242',
+    marginBottom: 16,
     textAlign: 'center',
+    lineHeight: 24,
   },
   feedbackContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: 10,
     marginBottom: 20,
   },
   feedbackButton: {
     flex: 1,
-    minWidth: '45%',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 12,
+    minWidth: '47%',
+    backgroundColor: '#FFF',
+    borderRadius: 20,
     padding: 16,
     alignItems: 'center',
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: 'transparent',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
   feedbackButtonSelected: {
-    backgroundColor: 'rgba(255,255,255,0.25)',
+    borderWidth: 2,
+    shadowColor: '#4CAF50',
+    shadowOpacity: 0.2,
+    elevation: 5,
   },
   feedbackEmoji: {
     fontSize: 32,
     marginBottom: 8,
   },
+  feedbackTextContainer: {
+    alignItems: 'center',
+  },
   feedbackLabel: {
     fontSize: 14,
-    fontWeight: '600',
-    color: 'rgba(255,255,255,0.9)',
+    fontWeight: '700',
+    color: '#424242',
   },
   feedbackLabelSelected: {
     color: '#FFF',
   },
+  feedbackSubtitle: {
+    fontSize: 11,
+    color: '#999',
+    marginTop: 2,
+  },
+  feedbackSubtitleSelected: {
+    color: 'rgba(255,255,255,0.9)',
+  },
   checkMark: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
     width: 24,
     height: 24,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 'auto',
+  },
+  reflectionPrompt: {
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: '#FFD54F',
+    borderLeftWidth: 5,
+    borderLeftColor: '#FFB300',
+    shadowColor: '#FFB300',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  reflectionPromptText: {
+    fontSize: 14,
+    color: '#F57C00',
+    lineHeight: 20,
+    fontWeight: '600',
   },
   notesSection: {
     marginBottom: 20,
@@ -390,17 +500,25 @@ const styles = StyleSheet.create({
   },
   notesLabel: {
     fontSize: 14,
-    color: 'rgba(255,255,255,0.9)',
+    color: '#666',
     marginBottom: 8,
+    fontWeight: '500',
   },
   notesInput: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 12,
-    padding: 12,
-    color: '#FFF',
-    fontSize: 14,
-    minHeight: 80,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: 16,
+    padding: 16,
+    color: '#424242',
+    fontSize: 15,
+    minHeight: 100,
     textAlignVertical: 'top',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.5)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   actionButtons: {
     gap: 12,
@@ -409,13 +527,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#4CAF50',
-    paddingVertical: 16,
-    borderRadius: 12,
+    backgroundColor: '#7E57C2',
+    paddingVertical: 18,
+    borderRadius: 20,
     gap: 8,
+    shadowColor: '#7E57C2',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 6,
   },
   submitButtonDisabled: {
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: '#C0C0C0',
+    shadowOpacity: 0,
   },
   submitButtonText: {
     fontSize: 16,
@@ -428,20 +552,28 @@ const styles = StyleSheet.create({
   },
   skipButtonText: {
     fontSize: 14,
-    color: 'rgba(255,255,255,0.7)',
+    color: 'rgba(255,255,255,0.8)',
+    fontWeight: '500',
     textDecorationLine: 'underline',
   },
   motivationalMessage: {
     marginTop: 20,
-    padding: 12,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 8,
+    padding: 16,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#E1BEE7',
+    shadowColor: '#9C27B0',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
   },
   motivationalText: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '600',
-    color: '#FFF',
+    color: '#6A1B9A',
     textAlign: 'center',
-    lineHeight: 20,
+    lineHeight: 22,
   },
 });
