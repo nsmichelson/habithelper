@@ -11,6 +11,9 @@ interface TipScore {
 // Pre-index tips for performance
 const TIP_MAP = new Map(TIPS_DATABASE.map(t => [t.tip_id, t]));
 
+// Time constants
+const DAY_MS = 86400000;
+
 export class TipRecommendationService {
   /**
    * Helper to safely convert to Date
@@ -117,7 +120,7 @@ export class TipRecommendationService {
     previousTips: DailyTip[],
     windowDays: number = RECOMMENDATION_CONFIG.TOPIC_COOLDOWN_DAYS
   ): number {
-    const cutoff = Date.now() - windowDays * 86400000;
+    const cutoff = Date.now() - windowDays * DAY_MS;
     const recents = previousTips.filter(
       t => this.asDate(t.presented_date).getTime() >= cutoff
     );
