@@ -157,7 +157,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     category: 'skills',
     required: false,
     condition: (responses) => {
-      const skills = responses.find(r => r.questionId === 'kitchen_skills')?.value;
+      const skills = responses.find(r => r.questionId === 'kitchen_reality')?.value;
       return skills === 'microwave_master' || skills === 'basic' || skills === 'no_kitchen';
     },
     helpText: "This helps us know whether to suggest cooking tips",

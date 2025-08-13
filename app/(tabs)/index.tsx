@@ -53,8 +53,12 @@ export default function HomeScreen() {
         const tipAttempts = await StorageService.getTipAttempts();
         setAttempts(tipAttempts);
         
-        // Load today's tip or get a new one
-        await loadDailyTip(profile!, tips, tipAttempts);
+        // Load today's tip or get a new one - only if profile exists
+        if (profile) {
+          await loadDailyTip(profile, tips, tipAttempts);
+        } else {
+          console.error('User profile is null, cannot load daily tip');
+        }
         
         // Setup notifications
         await NotificationService.requestPermissions();
@@ -71,6 +75,16 @@ export default function HomeScreen() {
     tips: DailyTip[],
     tipAttempts: TipAttempt[]
   ) => {
+    // Ensure profile has required fields
+    if (!profile.goals) {
+      console.warn('User profile missing goals, initializing empty array');
+      profile.goals = [];
+    }
+    if (!profile.medical_conditions) {
+      console.warn('User profile missing medical_conditions, initializing empty array');
+      profile.medical_conditions = [];
+    }
+    
     // Debug logging to understand user profile and history
     console.log('=== USER PROFILE & LEARNING ===');
     console.log('User Profile:', {
@@ -80,6 +94,7 @@ export default function HomeScreen() {
       budget_conscious: profile.budget_conscious,
       wants_to_learn_cooking: profile.wants_to_learn_cooking,
       interested_in_nutrition: profile.interested_in_nutrition_facts,
+      quiz_responses: profile.quiz_responses?.length || 0,
     });
     
     // Analyze what's working and not working

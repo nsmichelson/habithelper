@@ -27,7 +27,7 @@ class StorageService {
         if (quizResponses.length > 0) {
           profile.quiz_responses = quizResponses.map(r => ({
             questionId: r.questionId,
-            value: r.response.value || r.response.values?.[0] || r.response
+            value: r.response?.value || r.response?.values?.[0] || r.response
           }));
         }
       }

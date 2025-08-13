@@ -315,7 +315,7 @@ export class TipRecommendationService {
     }
     
     // NEW: Cooking skill and interest check
-    const kitchenSkills = userProfile.quiz_responses?.find(r => r.questionId === 'kitchen_skills')?.value;
+    const kitchenSkills = userProfile.quiz_responses?.find(r => r.questionId === 'kitchen_reality')?.value;
     const cookingInterest = userProfile.quiz_responses?.find(r => r.questionId === 'cooking_interest')?.value;
     
     if (kitchenSkills === 'microwave_master' || kitchenSkills === 'no_kitchen') {
@@ -327,6 +327,12 @@ export class TipRecommendationService {
             tip.cooking_skill_required !== 'microwave') {
           score -= 30;
           reasons.push('⚠️ Requires cooking skills');
+        }
+        // Also penalize if requires kitchen equipment they don't have
+        if (tip.kitchen_equipment?.includes('basic_stove') || 
+            tip.kitchen_equipment?.includes('full_kitchen')) {
+          score -= 25;
+          reasons.push('⚠️ Requires stove/kitchen');
         }
         // Also penalize tips that take time in kitchen
         if (tip.time_cost_enum === '15_60_min' || tip.time_cost_enum === '>60_min') {
