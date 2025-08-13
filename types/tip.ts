@@ -228,6 +228,7 @@ export interface UserProfile {
   
   // Food preferences
   dietary_preferences?: string[];
+  veggie_preference?: 'avoid' | 'hide_them' | 'neutral' | 'love_them'; // Explicit veggie preference
   likes_variety?: boolean;
   cultural_preferences?: string[];
   

@@ -2,6 +2,9 @@ import { Tip, UserProfile, DailyTip, TipAttempt } from '../types/tip';
 import { TIPS_DATABASE, getSafeTips } from '../data/tips';
 import { RECOMMENDATION_CONFIG } from './recommendationConfig';
 
+// Type aliases for clarity
+type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'late_night';
+
 interface TipScore {
   tip: Tip;
   score: number;
@@ -16,6 +19,54 @@ const TIP_MAP = new Map(TIPS_DATABASE.map(t => [t.tip_id, t]));
 
 // Time constants
 const DAY_MS = 86_400_000;
+
+// Allergen mapping for comprehensive coverage
+const ALLERGEN_MAP: Record<string, string> = {
+  cheese: 'dairy',
+  milk: 'dairy',
+  yogurt: 'dairy',
+  butter: 'dairy',
+  cream: 'dairy',
+  pasta: 'gluten',
+  bread: 'gluten',
+  wheat: 'gluten',
+  barley: 'gluten',
+  rye: 'gluten',
+  flour: 'gluten',
+  shrimp: 'shellfish',
+  crab: 'shellfish',
+  lobster: 'shellfish',
+  oyster: 'shellfish',
+  fish: 'fish',
+  salmon: 'fish',
+  tuna: 'fish',
+  peanut: 'nuts',
+  almond: 'nuts',
+  walnut: 'nuts',
+  cashew: 'nuts',
+  pecan: 'nuts',
+  egg: 'eggs',
+  eggs: 'eggs',
+  soy: 'soy',
+  tofu: 'soy',
+  edamame: 'soy',
+};
+
+// Dietary rule violations mapping
+const DIETARY_RULE_VIOLATIONS: Record<string, (foods: string[]) => boolean> = {
+  vegetarian: (foods) => foods.some(f => ['meat', 'poultry', 'fish', 'gelatin', 'beef', 'pork', 'chicken', 'turkey'].includes(f)),
+  vegan: (foods) => foods.some(f => ['meat', 'poultry', 'fish', 'dairy', 'cheese', 'milk', 'eggs', 'honey', 'gelatin', 'butter', 'cream'].includes(f)),
+  halal: (foods) => foods.some(f => ['pork', 'alcohol', 'bacon', 'ham'].includes(f)),
+  kosher: (foods) => {
+    const hasPork = foods.some(f => ['pork', 'bacon', 'ham'].includes(f));
+    const hasShellfish = foods.some(f => ['shellfish', 'shrimp', 'crab', 'lobster', 'oyster'].includes(f));
+    const hasMeatAndDairy = foods.includes('meat') && foods.some(f => ['dairy', 'cheese', 'milk', 'butter', 'cream'].includes(f));
+    return hasPork || hasShellfish || hasMeatAndDairy;
+  },
+  pescatarian: (foods) => foods.some(f => ['meat', 'poultry', 'beef', 'pork', 'chicken', 'turkey', 'lamb'].includes(f)),
+  gluten_free: (foods) => foods.some(f => ['bread', 'pasta', 'gluten', 'wheat', 'barley', 'rye', 'flour'].includes(f)),
+  lactose_free: (foods) => foods.some(f => ['dairy', 'cheese', 'milk', 'butter', 'cream', 'yogurt'].includes(f)),
+};
 
 export class TipRecommendationService {
   /**
@@ -140,43 +191,12 @@ export class TipRecommendationService {
     }
 
     // 3. Allergen check (strict)
-    const involvedFoods = tip.involves_foods ?? [];
-    const userAllergies = userProfile.allergies ?? [];
-    const hasAllergen = involvedFoods.some(food => {
-      // Map tip foods to allergen categories
-      if (food === 'dairy' || food === 'cheese') return userAllergies.includes('dairy');
-      if (food === 'bread' || food === 'pasta') return userAllergies.includes('gluten');
-      if (food === 'meat' && userAllergies.includes('meat')) return true;
-      // Direct match for other foods
-      return userAllergies.includes(food);
-    });
-    if (hasAllergen) {
+    if (this.hasAllergenConflict(tip, userProfile.allergies)) {
       return { eligible: false, reason: 'Contains allergen' };
     }
 
     // 4. Dietary rules check (strict)
-    const violatesDietaryRule = (userProfile.dietary_rules ?? []).some(rule => {
-      switch (rule) {
-        case 'vegetarian':
-          return involvedFoods.some(f => ['meat', 'gelatin'].includes(f));
-        case 'vegan':
-          return involvedFoods.some(f => ['meat', 'dairy', 'cheese', 'eggs', 'honey'].includes(f));
-        case 'halal':
-          return involvedFoods.some(f => ['pork', 'alcohol'].includes(f));
-        case 'kosher':
-          return involvedFoods.some(f => ['pork', 'shellfish'].includes(f)) ||
-                 (involvedFoods.includes('meat') && involvedFoods.includes('dairy'));
-        case 'pescatarian':
-          return involvedFoods.some(f => ['meat', 'poultry'].includes(f));
-        case 'gluten_free':
-          return involvedFoods.some(f => ['bread', 'pasta', 'gluten'].includes(f));
-        case 'lactose_free':
-          return involvedFoods.some(f => ['dairy', 'cheese', 'milk'].includes(f));
-        default:
-          return false;
-      }
-    });
-    if (violatesDietaryRule) {
+    if (this.violatesDietaryRules(tip, userProfile.dietary_rules)) {
       return { eligible: false, reason: 'Violates dietary rules' };
     }
 
@@ -224,6 +244,30 @@ export class TipRecommendationService {
   private hasKitchenRequirement(tip: Tip, req: 'basic_stove' | 'full_kitchen' | 'blender' | 'instant_pot'): boolean {
     const eq = tip.kitchen_equipment;
     return Array.isArray(eq) ? eq.includes(req as any) : eq === req;
+  }
+
+  /**
+   * Check if tip contains allergens the user cannot have
+   */
+  private hasAllergenConflict(tip: Tip, allergies: string[] = []): boolean {
+    if (allergies.length === 0) return false;
+    const foods = tip.involves_foods ?? [];
+    return foods.some(food => {
+      const allergenCategory = ALLERGEN_MAP[food] ?? food;
+      return allergies.includes(allergenCategory);
+    });
+  }
+
+  /**
+   * Check if tip violates user's dietary rules
+   */
+  private violatesDietaryRules(tip: Tip, rules: Array<string> = []): boolean {
+    if (rules.length === 0) return false;
+    const foods = tip.involves_foods ?? [];
+    return rules.some(rule => {
+      const violationCheck = DIETARY_RULE_VIOLATIONS[rule];
+      return violationCheck ? violationCheck(foods) : false;
+    });
   }
 
   /**
@@ -373,7 +417,13 @@ export class TipRecommendationService {
     // Goal alignment using F1
     const { f1: goalF1, matches: goalMatches } = this.computeGoalAlignment(tip, userProfile);
     score += goalF1 * RECOMMENDATION_CONFIG.WEIGHTS.GOAL_ALIGNMENT;
-    if (goalMatches > 0) this.addReason(reasons, `Aligns with ${goalMatches} goals`);
+    if (goalMatches > 0) {
+      const matchedGoalNames = (tip.goal_tags ?? []).filter(g => (userProfile.goals ?? []).includes(g));
+      if (matchedGoalNames.length > 0) {
+        const names = matchedGoalNames.slice(0, 2).join(', ');
+        this.addReason(reasons, `Targets: ${names}${matchedGoalNames.length > 2 ? '...' : ''}`);
+      }
+    }
 
     // Difficulty preference (normalized 0-1)
     const learned = this.getUserDifficultyPreference(attempts); // 1..5
@@ -472,28 +522,29 @@ export class TipRecommendationService {
     // Weekly coverage fairness - favor under-served goals
     const weeklyGoalCounts = this.getRecentGoalCoverage(previousTips, 7);
     const tipGoalTags = tip.goal_tags ?? [];
-    if (tipGoalTags.length > 0 && userProfile.goals && userProfile.goals.length > 0) {
-      let fairnessBonus = 0;
-      for (const goal of tipGoalTags) {
-        if (userProfile.goals.includes(goal)) {
-          const shown = weeklyGoalCounts[goal] ?? 0;
-          // More shown = less bonus (cap at 3 shows per week)
-          const goalFairness = Math.max(0, 1 - (shown / 3));
-          fairnessBonus += goalFairness;
-        }
-      }
-      if (tipGoalTags.length > 0) {
-        fairnessBonus = fairnessBonus / tipGoalTags.length; // Average fairness
-        score += fairnessBonus * RECOMMENDATION_CONFIG.WEIGHTS.TOPIC_DIVERSITY * 0.5;
-        if (fairnessBonus > 0.7) {
-          this.addReason(reasons, 'Addresses neglected goal');
-        }
+    const userGoals = userProfile.goals ?? [];
+    
+    const matchedGoals = tipGoalTags.filter(g => userGoals.includes(g));
+    if (matchedGoals.length > 0) {
+      const fairnessValues = matchedGoals.map(goal => {
+        const shown = weeklyGoalCounts[goal] ?? 0;
+        return Math.max(0, 1 - (shown / 3)); // Cap at 3 shows per week
+      });
+      const fairnessBonus = fairnessValues.reduce((a, b) => a + b, 0) / fairnessValues.length;
+      
+      score += fairnessBonus * RECOMMENDATION_CONFIG.WEIGHTS.TOPIC_DIVERSITY * 0.5;
+      if (fairnessBonus > 0.7) {
+        this.addReason(reasons, 'Addresses neglected goal');
       }
     }
     
     // Vegetable approach for veggie-averse users
-    if (userProfile.dietary_preferences?.includes('avoid') || 
-        userProfile.dietary_preferences?.includes('hide_them')) {
+    const veggieAverse = userProfile.veggie_preference === 'avoid' || 
+                         userProfile.veggie_preference === 'hide_them' ||
+                         // Backward compatibility
+                         userProfile.dietary_preferences?.includes('avoid') || 
+                         userProfile.dietary_preferences?.includes('hide_them');
+    if (veggieAverse) {
       if (tip.veggie_intensity === 'heavy' || tip.veggie_strategy === 'front_and_center') {
         score -= RECOMMENDATION_CONFIG.WEIGHTS.VEGGIE_AVERSION;
         this.addReason(reasons, '⚠️ Heavy veggies');
@@ -945,7 +996,7 @@ export class TipRecommendationService {
     if (eligibleTips.length === 0) {
       console.warn('No eligible tips found. Using universal safe fallbacks.');
       // Filter for the most universally safe tips
-      eligibleTips = safeTips.filter(tip => {
+      const universalTips = safeTips.filter(tip => {
         // Only basic hydration, mindfulness, or very simple tips
         const isUniversal = (
           (tip.contraindications ?? []).length === 0 &&
@@ -959,11 +1010,12 @@ export class TipRecommendationService {
         
         if (!isUniversal) return false;
         
-        // Still check for permanent opt-outs
-        const last = this.getLastAttemptForTip(tip.tip_id, attempts);
-        return last?.feedback !== 'not_for_me';
+        // Still respect snooze and availability through regular gate in relaxed mode
+        const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, true);
+        return eligibility.eligible;
       });
       
+      eligibleTips = universalTips;
       if (eligibleTips.length === 0) {
         console.error('CRITICAL: No tips available, not even universal fallbacks');
       }
