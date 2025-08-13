@@ -219,6 +219,7 @@ export interface UserProfile {
   
   // Goals
   goals: GoalTag[];
+  goal_weights?: Record<string, number>; // Priority weights for goals (e.g., {reduce_sugar: 2, improve_energy: 1})
   
   // Lifestyle preferences
   cooking_time_available?: 'none' | 'minimal' | 'moderate' | 'plenty';
@@ -229,6 +230,10 @@ export interface UserProfile {
   dietary_preferences?: string[];
   likes_variety?: boolean;
   cultural_preferences?: string[];
+  
+  // Dietary restrictions
+  allergies?: string[]; // Simple food allergens (e.g., 'nuts', 'dairy', 'gluten', 'eggs', 'soy', 'seafood')
+  dietary_rules?: Array<'vegetarian' | 'vegan' | 'halal' | 'kosher' | 'pescatarian' | 'gluten_free' | 'lactose_free'>;
   
   // Demographics
   age_range?: string;
@@ -244,6 +249,14 @@ export interface UserProfile {
   eating_personality?: string[];
   biggest_obstacle?: string;
   home_situation?: string[];
+  
+  // Context awareness
+  current_context?: 'home' | 'travel' | 'hotel' | 'work' | 'busy_period';
+  meal_windows?: {
+    breakfast?: [number, number]; // [start_hour, end_hour] in 24h format
+    lunch?: [number, number];
+    dinner?: [number, number];
+  };
   
   // Store quiz responses for conditional logic
   quiz_responses?: Array<{ questionId: string; value: any }>;

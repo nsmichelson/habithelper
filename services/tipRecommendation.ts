@@ -42,22 +42,29 @@ export class TipRecommendationService {
 
   /**
    * Compute goal alignment using F1 score (harmonic mean of precision and recall)
-   * Prevents gaming with tips that have many generic goal tags
+   * Supports weighted goals to reflect user priorities
    */
   private computeGoalAlignment(tip: Tip, userProfile: UserProfile) {
     const userGoals = userProfile.goals ?? [];
     const tipGoals = tip.goal_tags ?? [];
+    const weights = userProfile.goal_weights ?? {};
     
     if (userGoals.length === 0 || tipGoals.length === 0) {
       return { f1: 0, matches: 0, precision: 0, recall: 0 };
     }
     
+    // Calculate weighted matches and totals
+    const totalUserWeight = userGoals.reduce((sum, g) => sum + (weights[g] ?? 1), 0);
+    const matchedWeight = tipGoals
+      .filter(g => userGoals.includes(g))
+      .reduce((sum, g) => sum + (weights[g] ?? 1), 0);
     const matches = tipGoals.filter(g => userGoals.includes(g)).length;
-    const precision = matches / tipGoals.length;  // How focused the tip is on their goals
-    const recall = matches / userGoals.length;     // How many of their goals it covers
-    const f1 = (precision + recall) ? (2 * precision * recall) / (precision + recall) : 0;
     
-    return { f1, matches, precision, recall };
+    const precision = matches / tipGoals.length;  // How focused the tip is on their goals
+    const recallWeighted = totalUserWeight ? matchedWeight / totalUserWeight : 0; // Weighted coverage
+    const f1 = (precision + recallWeighted) ? (2 * precision * recallWeighted) / (precision + recallWeighted) : 0;
+    
+    return { f1, matches, precision, recall: recallWeighted };
   }
 
   /**
@@ -132,7 +139,53 @@ export class TipRecommendationService {
       return { eligible: false, reason: 'Medical contraindication' };
     }
 
-    // 3. Snooze handling (strict)
+    // 3. Allergen check (strict)
+    const involvedFoods = tip.involves_foods ?? [];
+    const userAllergies = userProfile.allergies ?? [];
+    const hasAllergen = involvedFoods.some(food => {
+      // Map tip foods to allergen categories
+      if (food === 'dairy' || food === 'cheese') return userAllergies.includes('dairy');
+      if (food === 'bread' || food === 'pasta') return userAllergies.includes('gluten');
+      if (food === 'meat' && userAllergies.includes('meat')) return true;
+      // Direct match for other foods
+      return userAllergies.includes(food);
+    });
+    if (hasAllergen) {
+      return { eligible: false, reason: 'Contains allergen' };
+    }
+
+    // 4. Dietary rules check (strict)
+    const violatesDietaryRule = (userProfile.dietary_rules ?? []).some(rule => {
+      switch (rule) {
+        case 'vegetarian':
+          return involvedFoods.some(f => ['meat', 'gelatin'].includes(f));
+        case 'vegan':
+          return involvedFoods.some(f => ['meat', 'dairy', 'cheese', 'eggs', 'honey'].includes(f));
+        case 'halal':
+          return involvedFoods.some(f => ['pork', 'alcohol'].includes(f));
+        case 'kosher':
+          return involvedFoods.some(f => ['pork', 'shellfish'].includes(f)) ||
+                 (involvedFoods.includes('meat') && involvedFoods.includes('dairy'));
+        case 'pescatarian':
+          return involvedFoods.some(f => ['meat', 'poultry'].includes(f));
+        case 'gluten_free':
+          return involvedFoods.some(f => ['bread', 'pasta', 'gluten'].includes(f));
+        case 'lactose_free':
+          return involvedFoods.some(f => ['dairy', 'cheese', 'milk'].includes(f));
+        default:
+          return false;
+      }
+    });
+    if (violatesDietaryRule) {
+      return { eligible: false, reason: 'Violates dietary rules' };
+    }
+
+    // 5. Availability check - can the user do this today?
+    if (!this.isAvailableNow(tip, userProfile)) {
+      return { eligible: false, reason: 'Not doable today' };
+    }
+
+    // 6. Snooze handling (strict)
     if (last?.feedback === 'maybe_later') {
       const fallbackSnooze = new Date(
         this.asDate(last.created_at).getTime() + 
@@ -147,7 +200,7 @@ export class TipRecommendationService {
       return { eligible: true, reason: 'Snooze expired' };
     }
 
-    // 4. Non-repeat window
+    // 7. Non-repeat window
     const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
     if (daysSinceShown !== null) {
       const minDays = nonRepeatOverride ?? (relaxedMode 
@@ -171,6 +224,64 @@ export class TipRecommendationService {
   private hasKitchenRequirement(tip: Tip, req: 'basic_stove' | 'full_kitchen' | 'blender' | 'instant_pot'): boolean {
     const eq = tip.kitchen_equipment;
     return Array.isArray(eq) ? eq.includes(req as any) : eq === req;
+  }
+
+  /**
+   * Check if a tip is available to do today based on timing and context
+   */
+  private isAvailableNow(tip: Tip, userProfile: UserProfile, now = new Date()): boolean {
+    const dow = now.getDay(); // 0=Sun..6=Sat
+    const hour = now.getHours();
+    const isWeekend = dow === 0 || dow === 6;
+
+    // Check if weekend prep is required but it's not weekend
+    if (tip.requires_advance_prep && tip.prep_timing === 'weekend_required' && !isWeekend) {
+      return false;
+    }
+
+    // Too late in the day for planning-heavy tips
+    if (tip.requires_planning && hour >= 21) {
+      return false;
+    }
+
+    // Check context-specific availability
+    if (userProfile.current_context) {
+      // Travel/hotel context - no full kitchen
+      if ((userProfile.current_context === 'travel' || userProfile.current_context === 'hotel') &&
+          this.hasKitchenRequirement(tip, 'full_kitchen')) {
+        return false;
+      }
+      
+      // Busy period - only quick tips
+      if (userProfile.current_context === 'busy_period' &&
+          (tip.time_cost_enum === '15_60_min' || tip.time_cost_enum === '>60_min')) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Get recent goal coverage counts for fairness balancing
+   */
+  private getRecentGoalCoverage(previousTips: DailyTip[], windowDays: number = 7): Record<string, number> {
+    const cutoff = Date.now() - windowDays * DAY_MS;
+    const recents = previousTips.filter(
+      t => this.asDate(t.presented_date).getTime() >= cutoff
+    );
+    
+    const goalCounts: Record<string, number> = {};
+    for (const recent of recents) {
+      const recentTip = TIP_MAP.get(recent.tip_id);
+      if (!recentTip) continue;
+      
+      for (const goal of (recentTip.goal_tags ?? [])) {
+        goalCounts[goal] = (goalCounts[goal] ?? 0) + 1;
+      }
+    }
+    
+    return goalCounts;
   }
 
   /**
@@ -358,6 +469,28 @@ export class TipRecommendationService {
       this.addReason(reasons, 'Fresh approach');
     }
     
+    // Weekly coverage fairness - favor under-served goals
+    const weeklyGoalCounts = this.getRecentGoalCoverage(previousTips, 7);
+    const tipGoalTags = tip.goal_tags ?? [];
+    if (tipGoalTags.length > 0 && userProfile.goals && userProfile.goals.length > 0) {
+      let fairnessBonus = 0;
+      for (const goal of tipGoalTags) {
+        if (userProfile.goals.includes(goal)) {
+          const shown = weeklyGoalCounts[goal] ?? 0;
+          // More shown = less bonus (cap at 3 shows per week)
+          const goalFairness = Math.max(0, 1 - (shown / 3));
+          fairnessBonus += goalFairness;
+        }
+      }
+      if (tipGoalTags.length > 0) {
+        fairnessBonus = fairnessBonus / tipGoalTags.length; // Average fairness
+        score += fairnessBonus * RECOMMENDATION_CONFIG.WEIGHTS.TOPIC_DIVERSITY * 0.5;
+        if (fairnessBonus > 0.7) {
+          this.addReason(reasons, 'Addresses neglected goal');
+        }
+      }
+    }
+    
     // Vegetable approach for veggie-averse users
     if (userProfile.dietary_preferences?.includes('avoid') || 
         userProfile.dietary_preferences?.includes('hide_them')) {
@@ -503,7 +636,7 @@ export class TipRecommendationService {
       'late_night';
 
     // Check if tip is appropriate for current time
-    if (tod.includes(period)) {
+    if (tod.includes(period as TimeOfDay)) {
       return 1; // Perfect match
     }
 
@@ -516,7 +649,7 @@ export class TipRecommendationService {
     };
 
     const adjacent = adjacentPeriods[period] ?? [];
-    if (adjacent.some(p => tod.includes(p as any))) {
+    if (adjacent.some(p => tod.includes(p as TimeOfDay))) {
       return 0.5; // Partial match for adjacent periods
     }
 
@@ -611,34 +744,35 @@ export class TipRecommendationService {
     }
     
     // Check eating personality traits
-    if (userProfile.eating_personality.includes('grazer')) {
-      if (tip.cue_context?.includes('snack_time')) {
+    const personality = userProfile.eating_personality ?? [];
+    if (personality.includes('grazer')) {
+      if ((tip.cue_context ?? []).includes('snack_time')) {
         matchScore = Math.min(1, matchScore + 0.3);
       }
     }
     
-    if (userProfile.eating_personality.includes('speed_eater')) {
-      if (tip.tip_type.includes('mindset_shift') && 
+    if (personality.includes('speed_eater')) {
+      if ((tip.tip_type ?? []).includes('mindset_shift') && 
           tip.summary.toLowerCase().includes('slow')) {
         matchScore = Math.min(1, matchScore + 0.3);
       }
     }
     
-    if (userProfile.eating_personality.includes('stress_eater')) {
-      if (tip.tip_type.includes('mood_regulation')) {
+    if (personality.includes('stress_eater')) {
+      if ((tip.tip_type ?? []).includes('mood_regulation')) {
         matchScore = Math.min(1, matchScore + 0.3);
       }
     }
     
-    if (userProfile.eating_personality.includes('night_owl')) {
-      if (tip.time_of_day?.includes('late_night') || 
+    if (personality.includes('night_owl')) {
+      if ((tip.time_of_day ?? []).includes('late_night') || 
           tip.time_of_day?.includes('evening')) {
         matchScore = Math.min(1, matchScore + 0.2);
       }
     }
     
-    if (userProfile.eating_personality.includes('picky')) {
-      if (tip.difficulty_tier <= 2 && !tip.tip_type.includes('novelty')) {
+    if (personality.includes('picky')) {
+      if (tip.difficulty_tier <= 2 && !(tip.tip_type ?? []).includes('novelty')) {
         matchScore = Math.min(1, matchScore + 0.2);
       }
       
@@ -670,22 +804,22 @@ export class TipRecommendationService {
         return 0.3;
         
       case 'no_energy':
-        if (tip.motivational_mechanism?.includes('energy_boost') && 
+        if ((tip.motivational_mechanism ?? []).includes('energy_boost') && 
             tip.mental_effort <= 2) {
           return 1;
         }
         return 0.3;
         
       case 'no_willpower':
-        if (tip.tip_type?.includes('environment_design') || 
-            tip.tip_type?.includes('habit_stacking')) {
+        if ((tip.tip_type ?? []).includes('environment_design') || 
+            (tip.tip_type ?? []).includes('habit_stacking')) {
           return 1;
         }
         return 0.3;
         
       case 'emotional':
-        if (tip.tip_type?.includes('mood_regulation') || 
-            tip.motivational_mechanism?.includes('comfort')) {
+        if ((tip.tip_type ?? []).includes('mood_regulation') || 
+            (tip.motivational_mechanism ?? []).includes('comfort')) {
           return 1;
         }
         return 0.3;
@@ -698,15 +832,15 @@ export class TipRecommendationService {
         return 0.2;
         
       case 'love_junk':
-        if (tip.tip_type?.includes('healthy_swap') && 
-            tip.motivational_mechanism?.includes('sensory')) {
+        if ((tip.tip_type ?? []).includes('healthy_swap') && 
+            (tip.motivational_mechanism ?? []).includes('sensory')) {
           return 1;
         }
         return 0.4;
         
       case 'social_pressure':
         if (tip.social_mode === 'group' || 
-            tip.location_tags?.includes('social_event')) {
+            (tip.location_tags ?? []).includes('social_event')) {
           return 0.8;
         }
         return 0.4;
@@ -727,11 +861,15 @@ export class TipRecommendationService {
       if (!attemptedTip) return false;
 
       // Check for overlap in tip types and mechanisms
-      const typeOverlap = tip.tip_type && attemptedTip.tip_type ? 
-        tip.tip_type.some(type => attemptedTip.tip_type.includes(type)) : false;
+      const tipTypes = tip.tip_type ?? [];
+      const attemptedTypes = attemptedTip.tip_type ?? [];
+      const typeOverlap = tipTypes.length > 0 && attemptedTypes.length > 0 ? 
+        tipTypes.some(type => attemptedTypes.includes(type)) : false;
       
-      const mechanismOverlap = tip.motivational_mechanism && attemptedTip.motivational_mechanism ? 
-        tip.motivational_mechanism.some(mech => attemptedTip.motivational_mechanism.includes(mech)) : false;
+      const tipMechanisms = tip.motivational_mechanism ?? [];
+      const attemptedMechanisms = attemptedTip.motivational_mechanism ?? [];
+      const mechanismOverlap = tipMechanisms.length > 0 && attemptedMechanisms.length > 0 ? 
+        tipMechanisms.some(mech => attemptedMechanisms.includes(mech)) : false;
 
       return typeOverlap || mechanismOverlap;
     });
@@ -801,6 +939,34 @@ export class TipRecommendationService {
           RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR
         ).eligible
       );
+    }
+    
+    // Emergency fallback: Universal safe tips if still nothing eligible
+    if (eligibleTips.length === 0) {
+      console.warn('No eligible tips found. Using universal safe fallbacks.');
+      // Filter for the most universally safe tips
+      eligibleTips = safeTips.filter(tip => {
+        // Only basic hydration, mindfulness, or very simple tips
+        const isUniversal = (
+          (tip.contraindications ?? []).length === 0 &&
+          (tip.involves_foods ?? []).length === 0 &&
+          tip.difficulty_tier <= 2 &&
+          tip.time_cost_enum === '0_5_min' &&
+          tip.money_cost_enum === '$' &&
+          !tip.requires_planning &&
+          !tip.requires_advance_prep
+        );
+        
+        if (!isUniversal) return false;
+        
+        // Still check for permanent opt-outs
+        const last = this.getLastAttemptForTip(tip.tip_id, attempts);
+        return last?.feedback !== 'not_for_me';
+      });
+      
+      if (eligibleTips.length === 0) {
+        console.error('CRITICAL: No tips available, not even universal fallbacks');
+      }
     }
 
     // Calculate scores for all eligible tips
