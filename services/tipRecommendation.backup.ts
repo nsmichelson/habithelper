@@ -6,16 +6,13 @@ interface TipScore {
   tip: Tip;
   score: number;
   reasons: string[];
-  // Internal sort keys used for deterministic, priority-aligned ordering
-  _goalF1: number;
-  _lifestyleFit: number;
 }
 
 // Pre-index tips for performance
 const TIP_MAP = new Map(TIPS_DATABASE.map(t => [t.tip_id, t]));
 
 // Time constants
-const DAY_MS = 86_400_000;
+const DAY_MS = 86400000;
 
 export class TipRecommendationService {
   /**
@@ -124,19 +121,11 @@ export class TipRecommendationService {
       return { eligible: false, reason: 'User opted out permanently' };
     }
 
-    // 2. Medical contraindications (ALWAYS strict - check early)
-    const hasContraindication = tip.contraindications?.some(
-      condition => userProfile.medical_conditions?.includes(condition)
-    );
-    if (hasContraindication) {
-      return { eligible: false, reason: 'Medical contraindication' };
-    }
-
-    // 3. Snooze handling (strict)
+    // 2. Snooze handling (always strict)
     if (last?.feedback === 'maybe_later') {
       const fallbackSnooze = new Date(
         this.asDate(last.created_at).getTime() + 
-        RECOMMENDATION_CONFIG.DEFAULT_SNOOZE_DAYS * DAY_MS
+        RECOMMENDATION_CONFIG.DEFAULT_SNOOZE_DAYS * 86400000
       );
       const snoozeUntil = last.snooze_until ? this.asDate(last.snooze_until) : fallbackSnooze;
 
@@ -147,7 +136,7 @@ export class TipRecommendationService {
       return { eligible: true, reason: 'Snooze expired' };
     }
 
-    // 4. Non-repeat window
+    // 3. Non-repeat window
     const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
     if (daysSinceShown !== null) {
       const minDays = nonRepeatOverride ?? (relaxedMode 
@@ -160,6 +149,14 @@ export class TipRecommendationService {
           reason: `Shown ${daysSinceShown} days ago (min: ${minDays})` 
         };
       }
+    }
+
+    // 4. Medical contraindications (always strict)
+    const hasContraindication = tip.contraindications?.some(
+      condition => userProfile.medical_conditions?.includes(condition)
+    );
+    if (hasContraindication) {
+      return { eligible: false, reason: 'Medical contraindication' };
     }
 
     return { eligible: true };
@@ -255,65 +252,70 @@ export class TipRecommendationService {
     }
 
     // Time of day relevance (normalized 0-1)
-    const timeScore = currentHour !== undefined ? this.calculateTimeOfDayMatch(tip, currentHour) : 0.5;
-    if (timeScore > 0.8) this.addReason(reasons, 'Perfect timing');
-    else if (timeScore > 0.5) this.addReason(reasons, 'Good timing');
-
-    // Goal alignment using F1
-    const { f1: goalF1, matches: goalMatches } = this.computeGoalAlignment(tip, userProfile);
-    score += goalF1 * RECOMMENDATION_CONFIG.WEIGHTS.GOAL_ALIGNMENT;
-    if (goalMatches > 0) this.addReason(reasons, `Aligns with ${goalMatches} goals`);
-
-    // Difficulty preference (normalized 0-1)
-    const learned = this.getUserDifficultyPreference(attempts); // 1..5
-    const quizTarget = (() => {
-      switch (userProfile.difficulty_preference) {
-        case 'tiny_steps': return 1;
-        case 'one_thing': return 2;
-        case 'moderate': return 3;
-        case 'adventurous': return 4;
-        case 'all_in': return 5;
-        default: return 2;
+    if (currentHour !== undefined) {
+      const timeScore = this.calculateTimeOfDayMatch(tip, currentHour);
+      score += timeScore * RECOMMENDATION_CONFIG.WEIGHTS.TIME_OF_DAY;
+      if (timeScore > 0.8) {
+        this.addReason(reasons, 'Perfect timing for this tip');
+      } else if (timeScore > 0.5) {
+        this.addReason(reasons, 'Good time of day for this');
       }
-    })();
-    
-    // Weight learned more when attempts are plenty
-    const attemptsCount = attempts.length;
-    const alpha = attemptsCount >= 8 ? 0.7 : attemptsCount >= 4 ? 0.5 : 0.3;
-    const targetDifficulty = alpha * learned + (1 - alpha) * quizTarget;
-    
-    const difficultyDiff = Math.abs(tip.difficulty_tier - targetDifficulty);
-    const difficultyScore = this.clamp01(1 - (difficultyDiff / 4));
-    score += difficultyScore * RECOMMENDATION_CONFIG.WEIGHTS.DIFFICULTY_MATCH;
-    if (difficultyScore > 0.7) {
-      this.addReason(reasons, 'Matches comfort level');
     }
 
-    // Life chaos (0..1)
-    let chaosScore = 0.5;
+    // Goal alignment (normalized 0-1)
+    const goalMatches = tip.goal_tags && userProfile.goals ? 
+      tip.goal_tags.filter(tag => userProfile.goals.includes(tag)).length : 0;
+    const goalScore = tip.goal_tags && tip.goal_tags.length > 0 ? 
+      (goalMatches / tip.goal_tags.length) : 0;
+    score += goalScore * RECOMMENDATION_CONFIG.WEIGHTS.GOAL_ALIGNMENT;
+    if (goalMatches > 0) {
+      this.addReason(reasons, `Aligns with ${goalMatches} of your goals`);
+    }
+
+    // Difficulty preference (normalized 0-1)
+    let targetDifficulty = 2; // default
+    if (userProfile.difficulty_preference) {
+      switch(userProfile.difficulty_preference) {
+        case 'tiny_steps': targetDifficulty = 1; break;
+        case 'one_thing': targetDifficulty = 2; break;
+        case 'moderate': targetDifficulty = 3; break;
+        case 'adventurous': targetDifficulty = 4; break;
+        case 'all_in': targetDifficulty = 5; break;
+      }
+    }
+    const difficultyDiff = Math.abs(tip.difficulty_tier - targetDifficulty);
+    const difficultyScore = Math.max(0, 1 - (difficultyDiff / 4)); // Normalize to 0-1
+    score += difficultyScore * RECOMMENDATION_CONFIG.WEIGHTS.DIFFICULTY_MATCH;
+    if (difficultyScore > 0.7) {
+      this.addReason(reasons, 'Matches your comfort level');
+    }
+
+    // Life chaos adjustment (normalized 0-1)
+    let chaosScore = 0.5; // neutral default
     if (userProfile.life_stage?.includes('dumpster_fire') || 
         userProfile.life_stage?.includes('survival')) {
       if (tip.chaos_level_max && tip.chaos_level_max >= 4) {
         chaosScore = 1;
-        this.addReason(reasons, 'Works in chaos');
+        this.addReason(reasons, 'Works even in chaos mode');
       } else if (tip.time_cost_enum === '0_5_min' && tip.difficulty_tier <= 2) {
         chaosScore = 0.8;
-        this.addReason(reasons, 'Quick & easy');
+        this.addReason(reasons, 'Quick & easy for your busy life');
       }
       if (tip.impulse_friendly) {
-        chaosScore = this.clamp01(chaosScore + 0.2);
+        chaosScore = Math.min(1, chaosScore + 0.2);
       }
     } else if (userProfile.life_stage?.includes('zen')) {
       if (tip.difficulty_tier >= 3) {
         chaosScore = 0.7;
       }
     }
+    score += chaosScore * RECOMMENDATION_CONFIG.WEIGHTS.LIFE_CHAOS;
 
     // Eating personality match (normalized 0-1)
     const personalityScore = this.calculatePersonalityMatch(tip, userProfile);
     score += personalityScore * RECOMMENDATION_CONFIG.WEIGHTS.PERSONALITY_MATCH;
     if (personalityScore > 0.7) {
-      this.addReason(reasons, 'Fits eating style');
+      this.addReason(reasons, 'Fits your eating style');
     }
 
     // Non-negotiables check (penalty if conflicts)
@@ -321,39 +323,43 @@ export class TipRecommendationService {
       const conflictsWithNonNegotiables = this.checkNonNegotiableConflicts(tip, userProfile.non_negotiables);
       if (conflictsWithNonNegotiables) {
         score -= RECOMMENDATION_CONFIG.WEIGHTS.NON_NEGOTIABLES;
-        this.addReason(reasons, '⚠️ May conflict');
+        this.addReason(reasons, '⚠️ Might conflict with foods you love');
       } else {
         score += RECOMMENDATION_CONFIG.WEIGHTS.NON_NEGOTIABLES * 0.3; // Small bonus
-        this.addReason(reasons, 'Preserves favorites');
+        this.addReason(reasons, 'Works with your food preferences');
       }
     }
 
-    // Budget match (0..1)
-    let budgetScore = 0.5;
+    // Budget match (normalized 0-1)
+    let budgetScore = 0.5; // neutral default
     if (userProfile.budget_conscious) {
-      budgetScore = tip.money_cost_enum === '$' ? 1 : tip.money_cost_enum === '$$' ? 0.5 : 0;
-      if (budgetScore >= 0.5) this.addReason(reasons, 'Budget-friendly');
+      budgetScore = tip.money_cost_enum === '$' ? 1 : 
+                    tip.money_cost_enum === '$$' ? 0.5 : 0;
+    }
+    score += budgetScore * RECOMMENDATION_CONFIG.WEIGHTS.BUDGET;
+    if (budgetScore >= 0.5 && userProfile.budget_conscious) {
+      this.addReason(reasons, 'Budget-friendly');
     }
 
     // Biggest obstacle consideration (normalized 0-1)
     const obstacleScore = this.calculateObstacleMatch(tip, userProfile.biggest_obstacle);
     score += obstacleScore * RECOMMENDATION_CONFIG.WEIGHTS.OBSTACLE_MATCH;
     if (obstacleScore > 0.7) {
-      this.addReason(reasons, 'Tackles main challenge');
+      this.addReason(reasons, 'Helps with your main challenge');
     }
 
     // Success with similar tips (normalized 0-1)
     const similarSuccessScore = this.calculateSimilarTipSuccess(tip, attempts);
     score += similarSuccessScore * RECOMMENDATION_CONFIG.WEIGHTS.SUCCESS_HISTORY;
     if (similarSuccessScore > 0.7) {
-      this.addReason(reasons, 'Similar worked before');
+      this.addReason(reasons, 'Similar to tips that worked for you');
     }
     
     // Topic diversity (normalized 0-1)
     const diversityScore = this.calculateTopicDiversityScore(tip, previousTips);
     score += diversityScore * RECOMMENDATION_CONFIG.WEIGHTS.TOPIC_DIVERSITY;
     if (diversityScore < 0.3) {
-      this.addReason(reasons, '⚠️ Similar to recent');
+      this.addReason(reasons, '⚠️ Similar to recent tips');
     } else if (diversityScore > 0.7) {
       this.addReason(reasons, 'Fresh approach');
     }
@@ -363,10 +369,10 @@ export class TipRecommendationService {
         userProfile.dietary_preferences?.includes('hide_them')) {
       if (tip.veggie_intensity === 'heavy' || tip.veggie_strategy === 'front_and_center') {
         score -= RECOMMENDATION_CONFIG.WEIGHTS.VEGGIE_AVERSION;
-        this.addReason(reasons, '⚠️ Heavy veggies');
+        this.addReason(reasons, '⚠️ Heavy on vegetables');
       } else if (tip.veggie_intensity === 'hidden' || tip.veggie_strategy === 'disguised') {
         score += RECOMMENDATION_CONFIG.WEIGHTS.VEGGIE_AVERSION * 0.5;
-        this.addReason(reasons, 'Sneaky veggies');
+        this.addReason(reasons, 'Sneaky veggie approach');
       }
     }
     
@@ -379,10 +385,9 @@ export class TipRecommendationService {
       }
       if (userProfile.home_situation.includes('resistant_partner') && tip.partner_resistant_ok) {
         familyScore += 0.25;
-        this.addReason(reasons, 'Partner-flexible');
+        this.addReason(reasons, 'Works even if partner not on board');
       }
     }
-    familyScore = this.clamp01(familyScore);
     score += familyScore * RECOMMENDATION_CONFIG.WEIGHTS.FAMILY_COMPAT;
     
     // Diet trauma considerations
@@ -390,24 +395,23 @@ export class TipRecommendationService {
         userProfile.dietary_preferences?.includes('history_too_extreme')) {
       if (tip.diet_trauma_safe && !tip.feels_like_diet) {
         score += RECOMMENDATION_CONFIG.WEIGHTS.DIET_TRAUMA * 0.8;
-        this.addReason(reasons, 'Gentle approach');
+        this.addReason(reasons, 'Gentle, sustainable approach');
       } else if (tip.feels_like_diet) {
         score -= RECOMMENDATION_CONFIG.WEIGHTS.DIET_TRAUMA * 0.5;
       }
     }
     
-    // Cognitive load (0..1)
-    let cognitiveScore = 0.5;
+    // Cognitive load check for overwhelmed users
     if (userProfile.dietary_preferences?.includes('history_overwhelmed')) {
       if (tip.cognitive_load && tip.cognitive_load <= 2) {
-        cognitiveScore = 1;
-        this.addReason(reasons, 'Simple');
+        score += RECOMMENDATION_CONFIG.WEIGHTS.COGNITIVE_LOAD * 0.5;
+        this.addReason(reasons, 'Simple and straightforward');
       } else if (tip.cognitive_load && tip.cognitive_load >= 4) {
-        cognitiveScore = 0;
+        score -= RECOMMENDATION_CONFIG.WEIGHTS.COGNITIVE_LOAD * 0.5;
       }
     }
     
-    // Kitchen compatibility (0..1)
+    // Kitchen compatibility (normalized 0-1)
     let kitchenCompat = 1;
     const kitchenSkills = userProfile.quiz_responses?.find(r => r.questionId === 'kitchen_reality')?.value;
     const cookingInterest = userProfile.quiz_responses?.find(r => r.questionId === 'cooking_interest')?.value;
@@ -444,22 +448,14 @@ export class TipRecommendationService {
       kitchenCompat = Math.max(kitchenCompat, 0.7);
     }
     
-    kitchenCompat = this.clamp01(kitchenCompat);
-    if (kitchenCompat >= 0.8) this.addReason(reasons, 'No cooking!');
-    else if (kitchenCompat <= 0.2) this.addReason(reasons, '⚠️ Needs cooking');
+    score += kitchenCompat * RECOMMENDATION_CONFIG.WEIGHTS.KITCHEN_COMPAT;
+    if (kitchenCompat >= 0.8) {
+      this.addReason(reasons, 'No cooking required!');
+    } else if (kitchenCompat <= 0.2) {
+      this.addReason(reasons, '⚠️ Requires cooking skills');
+    }
 
-    // --- Lifestyle composite (dominant) ---
-    const lifestyleFit = this.computeLifestyleFit({
-      chaos: chaosScore,
-      kitchen: kitchenCompat,
-      cognitive: cognitiveScore,
-      budget: budgetScore,
-      timeOfDay: timeScore,
-    });
-    score += lifestyleFit * RECOMMENDATION_CONFIG.WEIGHTS.LIFESTYLE_FIT;
-
-    // Return with internal sort keys
-    return { tip, score, reasons, _goalF1: goalF1, _lifestyleFit: lifestyleFit };
+    return { tip, score, reasons };
   }
 
   /**
@@ -495,15 +491,15 @@ export class TipRecommendationService {
    * Calculate how well a tip matches the current time of day
    */
   private calculateTimeOfDayMatch(tip: Tip, currentHour: number): number {
-    const tod = tip.time_of_day ?? []; // Guard against missing array
-    const period = 
+    // Define time periods
+    const timePeriod = 
       currentHour >= 5 && currentHour < 12 ? 'morning' :
       currentHour >= 12 && currentHour < 17 ? 'afternoon' :
       currentHour >= 17 && currentHour < 21 ? 'evening' :
       'late_night';
 
     // Check if tip is appropriate for current time
-    if (tod.includes(period)) {
+    if (tip.time_of_day.includes(timePeriod)) {
       return 1; // Perfect match
     }
 
@@ -515,13 +511,15 @@ export class TipRecommendationService {
       'late_night': ['evening']
     };
 
-    const adjacent = adjacentPeriods[period] ?? [];
-    if (adjacent.some(p => tod.includes(p as any))) {
-      return 0.5; // Partial match for adjacent periods
+    const adjacent = adjacentPeriods[timePeriod] || [];
+    for (const period of adjacent) {
+      if (tip.time_of_day.includes(period as any)) {
+        return 0.5; // Partial match for adjacent periods
+      }
     }
 
     // Tips without specific time constraints are somewhat relevant
-    if (tod.length === 0) {
+    if (tip.time_of_day.length === 0) {
       return 0.3;
     }
 
@@ -539,7 +537,7 @@ export class TipRecommendationService {
     if (!lastShown) return null;
 
     const daysDiff = Math.floor(
-      (Date.now() - this.asDate(lastShown.presented_date).getTime()) / DAY_MS
+      (Date.now() - this.asDate(lastShown.presented_date).getTime()) / 86400000
     );
     
     return daysDiff;
@@ -631,8 +629,8 @@ export class TipRecommendationService {
     }
     
     if (userProfile.eating_personality.includes('night_owl')) {
-      if (tip.time_of_day?.includes('late_night') || 
-          tip.time_of_day?.includes('evening')) {
+      if (tip.time_of_day.includes('late_night') || 
+          tip.time_of_day.includes('evening')) {
         matchScore = Math.min(1, matchScore + 0.2);
       }
     }
@@ -670,22 +668,22 @@ export class TipRecommendationService {
         return 0.3;
         
       case 'no_energy':
-        if (tip.motivational_mechanism?.includes('energy_boost') && 
+        if (tip.motivational_mechanism.includes('energy_boost') && 
             tip.mental_effort <= 2) {
           return 1;
         }
         return 0.3;
         
       case 'no_willpower':
-        if (tip.tip_type?.includes('environment_design') || 
-            tip.tip_type?.includes('habit_stacking')) {
+        if (tip.tip_type.includes('environment_design') || 
+            tip.tip_type.includes('habit_stacking')) {
           return 1;
         }
         return 0.3;
         
       case 'emotional':
-        if (tip.tip_type?.includes('mood_regulation') || 
-            tip.motivational_mechanism?.includes('comfort')) {
+        if (tip.tip_type.includes('mood_regulation') || 
+            tip.motivational_mechanism.includes('comfort')) {
           return 1;
         }
         return 0.3;
@@ -698,15 +696,15 @@ export class TipRecommendationService {
         return 0.2;
         
       case 'love_junk':
-        if (tip.tip_type?.includes('healthy_swap') && 
-            tip.motivational_mechanism?.includes('sensory')) {
+        if (tip.tip_type.includes('healthy_swap') && 
+            tip.motivational_mechanism.includes('sensory')) {
           return 1;
         }
         return 0.4;
         
       case 'social_pressure':
         if (tip.social_mode === 'group' || 
-            tip.location_tags?.includes('social_event')) {
+            tip.location_tags.includes('social_event')) {
           return 0.8;
         }
         return 0.4;
@@ -770,16 +768,6 @@ export class TipRecommendationService {
       return eligibility.eligible;
     });
 
-    // Optional gate: if user has stated goals, require at least one goal match
-    const requireGoalMatch = (userProfile.goals?.length ?? 0) > 0;
-    if (requireGoalMatch) {
-      const hasMatch = (t: Tip) => (t.goal_tags ?? []).some(g => userProfile.goals?.includes(g));
-      const subset = eligibleTips.filter(hasMatch);
-      if (subset.length >= RECOMMENDATION_CONFIG.MIN_CANDIDATES_THRESHOLD) {
-        eligibleTips = subset;
-      }
-    }
-
     // Stage B: If not enough, relax to softer constraints
     if (eligibleTips.length < RECOMMENDATION_CONFIG.MIN_CANDIDATES_THRESHOLD) {
       console.log(`Only ${eligibleTips.length} eligible tips. Relaxing constraints...`);
@@ -808,14 +796,9 @@ export class TipRecommendationService {
       this.calculateTipScore(tip, userProfile, previousTips, attempts, hour)
     );
 
-    // Lexicographic priority: goal F1, then lifestyle fit, then overall score, then id
+    // Sort by score with deterministic tie-breaker
     return scoredTips
-      .sort((a, b) =>
-        (b._goalF1 - a._goalF1) ||
-        (b._lifestyleFit - a._lifestyleFit) ||
-        (b.score - a.score) ||
-        a.tip.tip_id.localeCompare(b.tip.tip_id)
-      )
+      .sort((a, b) => (b.score - a.score) || a.tip.tip_id.localeCompare(b.tip.tip_id))
       .slice(0, count);
   }
 
@@ -847,7 +830,7 @@ export class TipRecommendationService {
         .slice(0, 7)
         .map(t => {
           const tip = TIP_MAP.get(t.tip_id);
-          const daysAgo = Math.floor((Date.now() - this.asDate(t.presented_date).getTime()) / DAY_MS);
+          const daysAgo = Math.floor((Date.now() - this.asDate(t.presented_date).getTime()) / 86400000);
           return `  - ${tip?.summary || 'Unknown'} (${daysAgo} days ago)`;
         });
       
@@ -859,11 +842,10 @@ export class TipRecommendationService {
       console.log('Top 5 recommendations:');
       recommendations.slice(0, 5).forEach((item, index) => {
         console.log(`${index + 1}. ${item.tip.summary} (Score: ${item.score.toFixed(2)})`);
-        console.log(`   F1: ${item._goalF1.toFixed(3)}, Lifestyle: ${item._lifestyleFit.toFixed(3)}`);
         console.log(`   Reasons: ${item.reasons.join(', ')}`);
-        console.log(`   Goals: ${item.tip.goal_tags?.join(', ') || 'none'}`);
-        console.log(`   Type: ${item.tip.tip_type?.join(', ') || 'none'}`);
-        console.log(`   Time of day: ${item.tip.time_of_day?.join(', ') || 'any'}`);
+        console.log(`   Goals: ${item.tip.goal_tags.join(', ')}`);
+        console.log(`   Type: ${item.tip.tip_type.join(', ')}`);
+        console.log(`   Time of day: ${item.tip.time_of_day.join(', ') || 'any'}`);
       });
     }
 

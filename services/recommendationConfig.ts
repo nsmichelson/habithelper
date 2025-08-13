@@ -49,119 +49,6 @@ export const RECOMMENDATION_CONFIG = {
    */
   MIN_CANDIDATES_THRESHOLD: 12,
   
-  // ============== SCORING WEIGHTS ==============
-  /**
-   * Weights for different scoring factors (higher = more important)
-   * All weights are on the same scale for easy A/B testing and tuning
-   * Each factor produces a score 0-1 which is multiplied by its weight
-   */
-  WEIGHTS: {
-    /**
-     * Time of day relevance (default: 8)
-     * Rewards tips that match current time (morning/afternoon/evening/night)
-     * Perfect match = 1.0, adjacent period = 0.5, no preference = 0.3
-     */
-    TIME_OF_DAY: 8,
-    
-    /**
-     * Goal alignment (default: 14) - HIGHEST PRIORITY
-     * How well tip aligns with user's stated health goals
-     * Score = (matching goals / total tip goals)
-     */
-    GOAL_ALIGNMENT: 14,
-    
-    /**
-     * Difficulty match (default: 10)
-     * How well tip difficulty matches user preference & past success
-     * Blends quiz preference with learned behavior from attempts
-     */
-    DIFFICULTY_MATCH: 10,
-    
-    /**
-     * Life chaos compatibility (default: 8)
-     * Favors quick/easy tips for chaotic lifestyles
-     * Bonus for tips marked as chaos_level_max >= 4 or impulse_friendly
-     */
-    LIFE_CHAOS: 8,
-    
-    /**
-     * Eating personality match (default: 6)
-     * How well tip addresses user's eating challenges
-     * (grazer, speed_eater, stress_eater, night_owl, picky)
-     */
-    PERSONALITY_MATCH: 6,
-    
-    /**
-     * Non-negotiables conflict (default: 12) - Used as PENALTY
-     * Applied as negative when tip conflicts with foods user won't give up
-     * Small bonus (×0.3) when tip preserves their favorite foods
-     */
-    NON_NEGOTIABLES: 12,
-    
-    /**
-     * Budget compatibility (default: 6)
-     * For budget-conscious users: $ = 1.0, $$ = 0.5, $$$ = 0
-     * Ignored for users who aren't budget-conscious
-     */
-    BUDGET: 6,
-    
-    /**
-     * Obstacle targeting (default: 10)
-     * How well tip addresses user's stated biggest obstacle
-     * (no_time, no_energy, no_willpower, emotional, hate_cooking, etc.)
-     */
-    OBSTACLE_MATCH: 10,
-    
-    /**
-     * Success history (default: 5)
-     * Based on user's past success with similar tip types/mechanisms
-     * Learns what categories of tips work for this specific user
-     */
-    SUCCESS_HISTORY: 5,
-    
-    /**
-     * Topic diversity (default: 8)
-     * Prevents repetitive themes by penalizing tips similar to recent ones
-     * Uses Jaccard similarity with exponential decay by recency
-     */
-    TOPIC_DIVERSITY: 8,
-    
-    /**
-     * Kitchen compatibility (default: 10)
-     * Critical for non-cooks: 0 if requires cooking they can't/won't do
-     * Considers both skill level and equipment availability
-     */
-    KITCHEN_COMPAT: 10,
-    
-    /**
-     * Vegetable aversion handling (default: 8)
-     * Penalty for veggie-heavy tips if user avoids vegetables
-     * Bonus for "hidden" veggie approaches for veggie-averse users
-     */
-    VEGGIE_AVERSION: 8,
-    
-    /**
-     * Family compatibility (default: 4)
-     * Bonus for kid_approved tips if user has picky kids
-     * Bonus for partner_resistant_ok if partner isn't supportive
-     */
-    FAMILY_COMPAT: 4,
-    
-    /**
-     * Diet trauma sensitivity (default: 6)
-     * For users with yo-yo/extreme diet history
-     * Favors gentle, sustainable approaches over restrictive tips
-     */
-    DIET_TRAUMA: 6,
-    
-    /**
-     * Cognitive load consideration (default: 5)
-     * For overwhelmed users, favors low cognitive_load tips
-     * Penalizes complex tips requiring lots of mental energy
-     */
-    COGNITIVE_LOAD: 5,
-  } as const,
-  
   // ============== RECENCY PENALTY ==============
   /**
    * Parameters for penalizing recently shown tips (even outside non-repeat window)
@@ -181,5 +68,132 @@ export const RECOMMENDATION_CONFIG = {
      * Tips older than (HARD_NON_REPEAT_DAYS + COOLDOWN_DAYS) get no penalty
      */
     COOLDOWN_DAYS: 14,
-  }
+  },
+
+  // ============== SCORING WEIGHTS ==============
+  /**
+   * Weights for different scoring factors (higher = more important)
+   * All weights are on the same scale for easy A/B testing and tuning
+   * Each factor produces a score 0-1 which is multiplied by its weight
+   */
+  WEIGHTS: {
+    // ====== CORE PRIORITIES ======
+    /**
+     * Goal alignment via F1 score (default: 28) - HIGHEST PRIORITY
+     * Uses F1 score (harmonic mean of precision and recall) to measure goal fit
+     * Precision = how focused the tip is on user's goals
+     * Recall = how many of user's goals the tip addresses
+     * F1 prevents gaming with generic tips that have many goal tags
+     */
+    GOAL_ALIGNMENT: 28,
+    
+    /**
+     * Lifestyle fit composite (default: 24) - SECOND PRIORITY
+     * Single composite score combining multiple lifestyle factors:
+     * - Life chaos compatibility (30% of composite)
+     * - Kitchen/cooking compatibility (30% of composite)  
+     * - Cognitive load suitability (20% of composite)
+     * - Budget match (10% of composite)
+     * - Time of day relevance (10% of composite)
+     */
+    LIFESTYLE_FIT: 24,
+
+    // ====== INDIVIDUAL LIFESTYLE COMPONENTS ======
+    // These are now rolled into LIFESTYLE_FIT composite to avoid double counting
+    // Set to 0 to prevent duplicate scoring, or small values for tiny nudges
+    
+    /**
+     * Time of day relevance (default: 0) - NOW IN LIFESTYLE_FIT
+     * Previously rewarded tips matching current time
+     */
+    TIME_OF_DAY: 0,
+    
+    /**
+     * Life chaos compatibility (default: 0) - NOW IN LIFESTYLE_FIT
+     * Previously favored quick/easy tips for chaotic lifestyles
+     */
+    LIFE_CHAOS: 0,
+    
+    /**
+     * Budget compatibility (default: 0) - NOW IN LIFESTYLE_FIT
+     * Previously scored budget-friendliness for cost-conscious users
+     */
+    BUDGET: 0,
+    
+    /**
+     * Cognitive load consideration (default: 0) - NOW IN LIFESTYLE_FIT
+     * Previously favored simple tips for overwhelmed users
+     */
+    COGNITIVE_LOAD: 0,
+    
+    /**
+     * Kitchen compatibility (default: 0) - NOW IN LIFESTYLE_FIT
+     * Previously scored cooking requirements vs user capabilities
+     */
+    KITCHEN_COMPAT: 0,
+
+    // ====== HELPFUL BUT SECONDARY ======
+    /**
+     * Difficulty matching (default: 8)
+     * How well tip difficulty matches user's preference and past success
+     * Blends quiz preference with learned preference from attempts
+     */
+    DIFFICULTY_MATCH: 8,
+    
+    /**
+     * Obstacle targeting (default: 10)
+     * How well tip addresses user's stated biggest obstacle
+     * (no_time, no_energy, no_willpower, emotional, hate_cooking, etc.)
+     */
+    OBSTACLE_MATCH: 10,
+    
+    /**
+     * Eating personality match (default: 6)
+     * How well tip addresses user's eating challenges
+     * (grazer, speed_eater, stress_eater, night_owl, picky)
+     */
+    PERSONALITY_MATCH: 6,
+    
+    /**
+     * Success history (default: 6)
+     * Based on user's past success with similar tip types/mechanisms
+     * Learns what categories of tips work for this specific user
+     */
+    SUCCESS_HISTORY: 6,
+    
+    /**
+     * Topic diversity (default: 6)
+     * Prevents repetitive themes by penalizing tips similar to recent ones
+     * Uses Jaccard similarity with exponential decay by recency
+     */
+    TOPIC_DIVERSITY: 6,
+    
+    /**
+     * Non-negotiables conflict (default: 12) - Used as PENALTY
+     * Applied as negative when tip conflicts with foods user won't give up
+     * Small bonus handled in code when tip preserves their favorite foods
+     */
+    NON_NEGOTIABLES: 12,
+    
+    /**
+     * Vegetable aversion handling (default: 6)
+     * Penalty for veggie-heavy tips if user avoids vegetables
+     * Bonus for "hidden" veggie approaches for veggie-averse users
+     */
+    VEGGIE_AVERSION: 6,
+    
+    /**
+     * Family compatibility (default: 6)
+     * Bonus for kid_approved tips if user has picky kids
+     * Bonus for partner_resistant_ok if partner isn't supportive
+     */
+    FAMILY_COMPAT: 6,
+    
+    /**
+     * Diet trauma sensitivity (default: 6)
+     * For users with yo-yo/extreme diet history
+     * Favors gentle, sustainable approaches over restrictive tips
+     */
+    DIET_TRAUMA: 6,
+  } as const,
 } as const;
