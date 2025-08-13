@@ -31,8 +31,9 @@ interface Props {
 const feedbackOptions: Array<{ value: TipFeedback; label: string; emoji: string; color: string; bgColor: string; lightBg: string; subtitle?: string }> = [
   { value: 'went_great', label: 'Loved it!', emoji: '💚', color: '#00C853', bgColor: '#00E676', lightBg: '#E8F5E9', subtitle: 'Amazing' },
   { value: 'went_ok', label: 'Pretty good', emoji: '☀️', color: '#FF6F00', bgColor: '#FFA726', lightBg: '#FFF3E0', subtitle: 'Solid try' },
-  { value: 'not_great', label: 'Not for me', emoji: '💭', color: '#AB47BC', bgColor: '#BA68C8', lightBg: '#F3E5F5', subtitle: 'Good data' },
-  { value: 'didnt_try', label: "Skipped it", emoji: '💙', color: '#1E88E5', bgColor: '#42A5F5', lightBg: '#E3F2FD', subtitle: 'Tomorrow' },
+  { value: 'not_for_me', label: 'Not for me', emoji: '🚫', color: '#E91E63', bgColor: '#F06292', lightBg: '#FCE4EC', subtitle: 'Won\'t repeat' },
+  { value: 'maybe_later', label: 'Maybe later', emoji: '⏰', color: '#9C27B0', bgColor: '#BA68C8', lightBg: '#F3E5F5', subtitle: 'Try another time' },
+  { value: 'skipped', label: "Skipped it", emoji: '💙', color: '#1E88E5', bgColor: '#42A5F5', lightBg: '#E3F2FD', subtitle: 'Didn\'t try' },
 ];
 
 export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletions = [] }: Props) {
@@ -51,7 +52,7 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
     setSelectedFeedback(feedback);
     
     // Show notes field for detailed feedback
-    if (feedback !== 'didnt_try' && !showNotes) {
+    if (feedback !== 'skipped' && !showNotes) {
       setShowNotes(true);
       notesHeight.value = withSpring(1);
     }
@@ -150,7 +151,7 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
                     💭 How did it affect the rest of your day?
                   </Text>
                   <View style={styles.feedbackContainer}>
-                    {feedbackOptions.filter(opt => opt.value !== 'didnt_try').map((option) => (
+                    {feedbackOptions.filter(opt => opt.value !== 'skipped').map((option) => (
                       <TouchableOpacity
                         key={option.value}
                         style={[
@@ -235,8 +236,9 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
                 <Text style={styles.reflectionPromptText}>
                   {selectedFeedback === 'went_great' && "💭 What specifically made this work so well for you?"}
                   {selectedFeedback === 'went_ok' && "💭 What would make this experiment easier next time?"}
-                  {selectedFeedback === 'not_great' && "💭 What did you learn about your preferences?"}
-                  {selectedFeedback === 'didnt_try' && "💭 What got in the way today?"}
+                  {selectedFeedback === 'not_for_me' && "💭 What aspects didn't work for your lifestyle?"}
+                  {selectedFeedback === 'maybe_later' && "💭 What would need to change for you to try this?"}
+                  {selectedFeedback === 'skipped' && "💭 What got in the way today?"}
                 </Text>
               </View>
             )}
@@ -288,8 +290,9 @@ export default function EveningCheckIn({ tip, onCheckIn, onSkip, quickCompletion
                 <Text style={styles.motivationalText}>
                   {selectedFeedback === 'went_great' && "Amazing! This experiment really worked for you 🌟"}
                   {selectedFeedback === 'went_ok' && "Nice! You're figuring out what works 💚"}
-                  {selectedFeedback === 'not_great' && "That's helpful data! Now you know this isn't your thing 📊"}
-                  {selectedFeedback === 'didnt_try' && "No problem! Ready for tomorrow's experiment? 🌱"}
+                  {selectedFeedback === 'not_for_me' && "That's helpful data! We won't show this tip again 📊"}
+                  {selectedFeedback === 'maybe_later' && "No problem! We'll suggest this again in a week 🗓️"}
+                  {selectedFeedback === 'skipped' && "No worries! Ready for tomorrow's experiment? 🌱"}
                 </Text>
               </View>
             )}

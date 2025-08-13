@@ -1,5 +1,6 @@
 import { Tip, UserProfile, DailyTip, TipAttempt } from '../types/tip';
 import { TIPS_DATABASE, getSafeTips } from '../data/tips';
+import { RECOMMENDATION_CONFIG } from './recommendationConfig';
 
 interface TipScore {
   tip: Tip;
@@ -8,6 +9,120 @@ interface TipScore {
 }
 
 export class TipRecommendationService {
+  /**
+   * Check if a tip is eligible to be shown (hard filters)
+   * Returns true if tip passes all eligibility criteria
+   */
+  private isTipEligible(
+    tip: Tip,
+    userProfile: UserProfile,
+    previousTips: DailyTip[],
+    attempts: TipAttempt[],
+    relaxedMode: boolean = false
+  ): { eligible: boolean; reason?: string } {
+    // 1. Check for permanent opt-out (not_for_me)
+    const permanentOptOut = attempts.find(
+      a => a.tip_id === tip.tip_id && a.feedback === 'not_for_me'
+    );
+    if (permanentOptOut) {
+      return { eligible: false, reason: 'User opted out permanently' };
+    }
+
+    // 2. Check for active snooze
+    const snoozedAttempt = attempts.find(
+      a => a.tip_id === tip.tip_id && 
+      a.feedback === 'maybe_later' && 
+      a.snooze_until
+    );
+    if (snoozedAttempt?.snooze_until) {
+      const snoozeUntil = new Date(snoozedAttempt.snooze_until);
+      if (snoozeUntil > new Date()) {
+        return { eligible: false, reason: `Snoozed until ${snoozeUntil.toLocaleDateString()}` };
+      }
+    }
+
+    // 3. Check non-repeat window
+    const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
+    if (daysSinceShown !== null) {
+      const minDays = relaxedMode 
+        ? RECOMMENDATION_CONFIG.RELAXED_NON_REPEAT_DAYS 
+        : RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS;
+      
+      if (daysSinceShown < minDays) {
+        return { 
+          eligible: false, 
+          reason: `Shown ${daysSinceShown} days ago (min: ${minDays})` 
+        };
+      }
+    }
+
+    // 4. Check medical contraindications (always strict)
+    const hasContraindication = tip.contraindications?.some(
+      condition => userProfile.medical_conditions?.includes(condition)
+    );
+    if (hasContraindication) {
+      return { eligible: false, reason: 'Medical contraindication' };
+    }
+
+    return { eligible: true };
+  }
+
+  /**
+   * Check topic diversity - prevent too many similar tips in recent history
+   */
+  private calculateTopicDiversityScore(
+    tip: Tip,
+    previousTips: DailyTip[],
+    windowDays: number = RECOMMENDATION_CONFIG.TOPIC_COOLDOWN_DAYS
+  ): number {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - windowDays);
+    
+    const recentTips = previousTips.filter(
+      t => t.presented_date > cutoffDate
+    );
+    
+    if (recentTips.length === 0) return 1; // No recent tips, full diversity score
+    
+    let similarityPenalty = 0;
+    
+    for (const recentTip of recentTips) {
+      const recentTipData = TIPS_DATABASE.find(t => t.tip_id === recentTip.tip_id);
+      if (!recentTipData) continue;
+      
+      // Check for same tip types
+      const typeOverlap = tip.tip_type?.filter(
+        type => recentTipData.tip_type?.includes(type)
+      ).length || 0;
+      
+      // Check for same goals
+      const goalOverlap = tip.goal_tags?.filter(
+        tag => recentTipData.goal_tags?.includes(tag)
+      ).length || 0;
+      
+      // Check for same mechanisms
+      const mechanismOverlap = tip.motivational_mechanism?.filter(
+        mech => recentTipData.motivational_mechanism?.includes(mech)
+      ).length || 0;
+      
+      // Calculate days ago weight (more recent = higher penalty)
+      const daysAgo = Math.floor(
+        (Date.now() - recentTip.presented_date.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      const recencyWeight = 1 - (daysAgo / windowDays);
+      
+      // Add weighted penalty for similarity
+      similarityPenalty += recencyWeight * (
+        (typeOverlap * 0.4) + 
+        (goalOverlap * 0.3) + 
+        (mechanismOverlap * 0.3)
+      );
+    }
+    
+    // Convert penalty to score (0-1 range)
+    return Math.max(0, 1 - (similarityPenalty / recentTips.length));
+  }
+
   /**
    * Calculate a relevance score for a tip based on user profile
    */
@@ -21,29 +136,27 @@ export class TipRecommendationService {
     let score = 0;
     const reasons: string[] = [];
 
-    // Check if recently shown (PENALTY for repeats)
+    // Recency penalty (for tips shown beyond the hard non-repeat window)
     const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
-    if (daysSinceShown !== null) {
-      if (daysSinceShown === 0) {
-        // Shown today - should never happen but just in case
-        score -= 1000;
-        reasons.push('⚠️ Already shown today');
-      } else if (daysSinceShown < 7) {
-        // Shown within a week - heavy penalty
-        score -= (50 - (daysSinceShown * 7));
-        reasons.push(`⚠️ Shown ${daysSinceShown} day${daysSinceShown > 1 ? 's' : ''} ago`);
-      } else if (daysSinceShown < 14) {
-        // Shown within 2 weeks - moderate penalty
-        score -= (20 - daysSinceShown);
-        reasons.push(`Recently shown (${daysSinceShown} days ago)`);
+    if (daysSinceShown !== null && daysSinceShown >= RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS) {
+      // Apply a small penalty to recently shown tips to encourage diversity
+      const recentDays = daysSinceShown - RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS;
+      if (recentDays < RECOMMENDATION_CONFIG.RECENCY_PENALTY.COOLDOWN_DAYS) {
+        const penalty = Math.max(0, 
+          RECOMMENDATION_CONFIG.RECENCY_PENALTY.MAX_PENALTY * 
+          (1 - recentDays / RECOMMENDATION_CONFIG.RECENCY_PENALTY.COOLDOWN_DAYS)
+        );
+        score -= penalty;
+        if (penalty > 0) {
+          reasons.push(`Recently shown (${daysSinceShown} days ago)`);
+        }
       }
-      // After 2 weeks, no penalty (okay to repeat)
     }
 
-    // Time of day relevance (weight: 20%)
+    // Time of day relevance
     if (currentHour !== undefined) {
       const timeScore = this.calculateTimeOfDayMatch(tip, currentHour);
-      score += timeScore * 20;
+      score += timeScore * RECOMMENDATION_CONFIG.WEIGHTS.TIME_OF_DAY;
       if (timeScore > 0.8) {
         reasons.push('Perfect timing for this tip');
       } else if (timeScore > 0.5) {
@@ -51,17 +164,17 @@ export class TipRecommendationService {
       }
     }
 
-    // Goal alignment (weight: 25%)
+    // Goal alignment
     const goalMatches = tip.goal_tags && userProfile.goals ? 
       tip.goal_tags.filter(tag => userProfile.goals.includes(tag)).length : 0;
     const goalScore = tip.goal_tags && tip.goal_tags.length > 0 ? 
-      (goalMatches / tip.goal_tags.length) * 25 : 0;
+      (goalMatches / tip.goal_tags.length) * RECOMMENDATION_CONFIG.WEIGHTS.GOAL_ALIGNMENT : 0;
     score += goalScore;
     if (goalMatches > 0) {
       reasons.push(`Aligns with ${goalMatches} of your goals`);
     }
 
-    // Difficulty preference from quiz (weight: 15%)
+    // Difficulty preference from quiz
     let targetDifficulty = 2; // default
     if (userProfile.difficulty_preference) {
       switch(userProfile.difficulty_preference) {
@@ -73,21 +186,23 @@ export class TipRecommendationService {
       }
     }
     const difficultyDiff = Math.abs(tip.difficulty_tier - targetDifficulty);
-    const difficultyScore = Math.max(0, 15 - (difficultyDiff * 5));
+    const difficultyScore = Math.max(0, 
+      RECOMMENDATION_CONFIG.WEIGHTS.DIFFICULTY_MATCH - (difficultyDiff * 5)
+    );
     score += difficultyScore;
     if (difficultyScore > 10) {
       reasons.push('Matches your comfort level');
     }
 
-    // Life chaos adjustment (weight: 10%)
+    // Life chaos adjustment
     if (userProfile.life_stage?.includes('dumpster_fire') || 
         userProfile.life_stage?.includes('survival')) {
       // Use chaos_level_max if available, otherwise fallback
       if (tip.chaos_level_max && tip.chaos_level_max >= 4) {
-        score += 10;
+        score += RECOMMENDATION_CONFIG.WEIGHTS.LIFE_CHAOS;
         reasons.push('Works even in chaos mode');
       } else if (tip.time_cost_enum === '0_5_min' && tip.difficulty_tier <= 2) {
-        score += 10;
+        score += RECOMMENDATION_CONFIG.WEIGHTS.LIFE_CHAOS;
         reasons.push('Quick & easy for your busy life');
       }
       
@@ -102,18 +217,18 @@ export class TipRecommendationService {
       }
     }
 
-    // Eating personality match (weight: 10%)
+    // Eating personality match
     const personalityScore = this.calculatePersonalityMatch(tip, userProfile);
-    score += personalityScore * 10;
+    score += personalityScore * RECOMMENDATION_CONFIG.WEIGHTS.PERSONALITY_MATCH;
     if (personalityScore > 0.5) {
       reasons.push('Fits your eating style');
     }
 
-    // Non-negotiables check (weight: 15% PENALTY if conflicts)
+    // Non-negotiables check
     if (userProfile.non_negotiables && userProfile.non_negotiables.length > 0) {
       const conflictsWithNonNegotiables = this.checkNonNegotiableConflicts(tip, userProfile.non_negotiables);
       if (conflictsWithNonNegotiables) {
-        score -= 15;
+        score -= RECOMMENDATION_CONFIG.WEIGHTS.NON_NEGOTIABLES;
         reasons.push('⚠️ Might conflict with foods you love');
       } else {
         score += 5;
@@ -121,28 +236,37 @@ export class TipRecommendationService {
       }
     }
 
-    // Budget match (weight: 10%)
+    // Budget match
     if (userProfile.budget_conscious) {
-      const budgetScore = tip.money_cost_enum === '$' ? 10 : 
-                          tip.money_cost_enum === '$$' ? 5 : 0;
+      const budgetScore = tip.money_cost_enum === '$' ? RECOMMENDATION_CONFIG.WEIGHTS.BUDGET : 
+                          tip.money_cost_enum === '$$' ? RECOMMENDATION_CONFIG.WEIGHTS.BUDGET / 2 : 0;
       score += budgetScore;
       if (budgetScore >= 5) {
         reasons.push('Budget-friendly');
       }
     }
 
-    // Biggest obstacle consideration (weight: 10%)
+    // Biggest obstacle consideration
     const obstacleScore = this.calculateObstacleMatch(tip, userProfile.biggest_obstacle);
-    score += obstacleScore * 10;
+    score += obstacleScore * RECOMMENDATION_CONFIG.WEIGHTS.PERSONALITY_MATCH;
     if (obstacleScore > 0.5) {
       reasons.push('Helps with your main challenge');
     }
 
-    // Success with similar tips (weight: 5%)
+    // Success with similar tips
     const similarSuccessScore = this.calculateSimilarTipSuccess(tip, attempts);
-    score += similarSuccessScore * 5;
+    score += similarSuccessScore * RECOMMENDATION_CONFIG.WEIGHTS.SUCCESS_HISTORY;
     if (similarSuccessScore > 0.5) {
       reasons.push('Similar to tips that worked for you');
+    }
+    
+    // Topic diversity bonus/penalty
+    const diversityScore = this.calculateTopicDiversityScore(tip, previousTips);
+    score += diversityScore * RECOMMENDATION_CONFIG.WEIGHTS.TOPIC_DIVERSITY;
+    if (diversityScore < 0.3) {
+      reasons.push('⚠️ Similar to recent tips');
+    } else if (diversityScore > 0.7) {
+      reasons.push('Fresh approach');
     }
     
     // NEW: Vegetable approach for veggie-averse users (weight: 10% bonus/penalty)
@@ -522,8 +646,53 @@ export class TipRecommendationService {
     // First, filter out unsafe tips based on medical conditions
     const safeTips = getSafeTips(userProfile.medical_conditions);
 
-    // Calculate scores for all safe tips
-    const scoredTips = safeTips.map(tip => 
+    // Apply eligibility filtering (hard constraints)
+    let eligibleTips = safeTips.filter(tip => {
+      const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, false);
+      if (!eligibility.eligible && __DEV__) {
+        console.log(`Tip "${tip.summary}" ineligible: ${eligibility.reason}`);
+      }
+      return eligibility.eligible;
+    });
+
+    // If we don't have enough eligible tips, relax constraints
+    if (eligibleTips.length < RECOMMENDATION_CONFIG.MIN_CANDIDATES_THRESHOLD) {
+      console.log(`Only ${eligibleTips.length} eligible tips. Relaxing constraints...`);
+      
+      // Try with relaxed non-repeat window
+      eligibleTips = safeTips.filter(tip => {
+        const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, true);
+        return eligibility.eligible;
+      });
+      
+      // If still not enough, use absolute minimum floor (but never violate medical or opt-outs)
+      if (eligibleTips.length < RECOMMENDATION_CONFIG.MIN_CANDIDATES_THRESHOLD) {
+        console.log('Still insufficient tips. Using minimum floor...');
+        eligibleTips = safeTips.filter(tip => {
+          // Check only permanent opt-outs and medical contraindications
+          const permanentOptOut = attempts.find(
+            a => a.tip_id === tip.tip_id && a.feedback === 'not_for_me'
+          );
+          if (permanentOptOut) return false;
+          
+          const hasContraindication = tip.contraindications?.some(
+            condition => userProfile.medical_conditions?.includes(condition)
+          );
+          if (hasContraindication) return false;
+          
+          // Check minimum floor for repeats
+          const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
+          if (daysSinceShown !== null && daysSinceShown < RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR) {
+            return false;
+          }
+          
+          return true;
+        });
+      }
+    }
+
+    // Calculate scores for all eligible tips
+    const scoredTips = eligibleTips.map(tip => 
       this.calculateTipScore(tip, userProfile, previousTips, attempts, hour)
     );
 

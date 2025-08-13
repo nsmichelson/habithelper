@@ -191,14 +191,22 @@ export interface Tip {
   cognitive_load?: number; // 1-5, mental energy needed
 }
 
-export type TipFeedback = 'went_great' | 'went_ok' | 'not_great' | 'didnt_try';
+export type TipFeedback = 
+  | 'went_great' 
+  | 'went_ok' 
+  | 'not_for_me'  // permanent opt-out (replaces 'not_great')
+  | 'maybe_later'  // snooze for later
+  | 'skipped';     // saw it but didn't act (replaces 'didnt_try')
 
 export interface TipAttempt {
   id: string;
   tip_id: string;
   attempted_at: Date;
-  feedback?: TipFeedback;
+  created_at: Date | string; // hydrate to Date on read
+  feedback: TipFeedback;
   notes?: string;
+  // For maybe_later
+  snooze_until?: Date | string;
 }
 
 export interface UserProfile {

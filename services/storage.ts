@@ -105,6 +105,14 @@ class StorageService {
   async saveTipAttempt(attempt: TipAttempt): Promise<void> {
     try {
       const attempts = await this.getTipAttempts();
+      
+      // If this is a maybe_later feedback, set snooze_until
+      if (attempt.feedback === 'maybe_later' && !attempt.snooze_until) {
+        const snoozeDate = new Date();
+        snoozeDate.setDate(snoozeDate.getDate() + 7); // Default 7 days
+        attempt.snooze_until = snoozeDate.toISOString();
+      }
+      
       attempts.push(attempt);
       await AsyncStorage.setItem(STORAGE_KEYS.TIP_ATTEMPTS, JSON.stringify(attempts));
     } catch (error) {
