@@ -20,6 +20,18 @@ class StorageService {
       
       // Parse and convert date strings back to Date objects
       const profile = JSON.parse(data);
+      
+      // If profile doesn't have quiz_responses, try to load them separately
+      if (!profile.quiz_responses) {
+        const quizResponses = await this.getQuizResponses();
+        if (quizResponses.length > 0) {
+          profile.quiz_responses = quizResponses.map(r => ({
+            questionId: r.questionId,
+            value: r.response.value || r.response.values?.[0] || r.response
+          }));
+        }
+      }
+      
       return {
         ...profile,
         created_at: new Date(profile.created_at),

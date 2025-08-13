@@ -313,6 +313,46 @@ export class TipRecommendationService {
         score -= 5;
       }
     }
+    
+    // NEW: Cooking skill and interest check
+    const kitchenSkills = userProfile.quiz_responses?.find(r => r.questionId === 'kitchen_skills')?.value;
+    const cookingInterest = userProfile.quiz_responses?.find(r => r.questionId === 'cooking_interest')?.value;
+    
+    if (kitchenSkills === 'microwave_master' || kitchenSkills === 'no_kitchen') {
+      // Check if user is interested in learning
+      if (cookingInterest === 'no_interest' || cookingInterest === 'no_time') {
+        // Heavy penalty for cooking-required tips
+        if (tip.cooking_skill_required && 
+            tip.cooking_skill_required !== 'none' && 
+            tip.cooking_skill_required !== 'microwave') {
+          score -= 30;
+          reasons.push('⚠️ Requires cooking skills');
+        }
+        // Also penalize tips that take time in kitchen
+        if (tip.time_cost_enum === '15_60_min' || tip.time_cost_enum === '>60_min') {
+          if (tip.physical_effort > 2) {
+            score -= 20;
+            reasons.push('⚠️ Too much kitchen time');
+          }
+        }
+      } else if (cookingInterest === 'curious') {
+        // Mild penalty for complex cooking, bonus for simple cooking
+        if (tip.cooking_skill_required === 'basic' || tip.cooking_skill_required === 'microwave') {
+          score += 5;
+          reasons.push('Simple cooking practice');
+        } else if (tip.cooking_skill_required === 'intermediate' || tip.cooking_skill_required === 'advanced') {
+          score -= 15;
+          reasons.push('Too advanced for now');
+        }
+      }
+    }
+    
+    // Bonus for no-cook options for microwave users
+    if ((kitchenSkills === 'microwave_master' || kitchenSkills === 'no_kitchen') && 
+        (tip.cooking_skill_required === 'none' || tip.cooking_skill_required === 'microwave')) {
+      score += 10;
+      reasons.push('No cooking required!');
+    }
 
     return { tip, score, reasons };
   }

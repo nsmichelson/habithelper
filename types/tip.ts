@@ -244,6 +244,9 @@ export interface UserProfile {
   eating_personality?: string[];
   biggest_obstacle?: string;
   home_situation?: string[];
+  
+  // Store quiz responses for conditional logic
+  quiz_responses?: Array<{ questionId: string; value: any }>;
 }
 
 export interface QuickComplete {

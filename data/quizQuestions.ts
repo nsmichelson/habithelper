@@ -149,6 +149,26 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
+  // Conditional: Interest in learning to cook (shows if kitchen_skills is microwave_master, basic, or no_kitchen)
+  {
+    id: 'cooking_interest',
+    question: 'How do you feel about learning to cook?',
+    type: 'single_choice',
+    category: 'skills',
+    required: false,
+    condition: (responses) => {
+      const skills = responses.find(r => r.questionId === 'kitchen_skills')?.value;
+      return skills === 'microwave_master' || skills === 'basic' || skills === 'no_kitchen';
+    },
+    helpText: "This helps us know whether to suggest cooking tips",
+    options: [
+      { value: 'no_interest', label: "Not interested - just give me easy solutions" },
+      { value: 'no_time', label: "Maybe someday, but not right now" },
+      { value: 'curious', label: "Curious but need super simple starts" },
+      { value: 'want_to_learn', label: "Yes! Teach me easy things" },
+    ]
+  },
+
   // Time reality
   {
     id: 'meal_time_truth',

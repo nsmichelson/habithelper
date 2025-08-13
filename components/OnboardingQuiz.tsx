@@ -424,6 +424,12 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       }
     });
 
+    // Add quiz responses to profile for conditional logic
+    profile.quiz_responses = allResponses.map(r => ({
+      questionId: r.questionId,
+      value: r.response.value || r.response.values?.[0] || r.response
+    }));
+    
     // Save to storage
     await StorageService.saveUserProfile(profile);
     await StorageService.saveQuizResponses(allResponses);
