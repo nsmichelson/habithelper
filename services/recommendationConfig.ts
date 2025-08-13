@@ -1,39 +1,41 @@
 // Centralized configuration for tip recommendation algorithm
 export const RECOMMENDATION_CONFIG = {
-  // Hard non-repeat window (90 days)
+  // Non-repeat windows (in days)
   HARD_NON_REPEAT_DAYS: 90,
-  
-  // Relaxed non-repeat when not enough tips (60 days)
   RELAXED_NON_REPEAT_DAYS: 60,
-  
-  // Absolute minimum non-repeat floor (30 days)
   MIN_NON_REPEAT_FLOOR: 30,
   
-  // Default snooze period for "maybe later" (7 days)
+  // Snooze settings
   DEFAULT_SNOOZE_DAYS: 7,
   
-  // Topic diversity cooldown to avoid sameness (10 days)
+  // Topic diversity
   TOPIC_COOLDOWN_DAYS: 10,
   
   // Minimum candidates before relaxing constraints
-  MIN_CANDIDATES_THRESHOLD: 3,
+  MIN_CANDIDATES_THRESHOLD: 12,
   
-  // Scoring weights
+  // Scoring weights (all on same scale for easier tuning)
   WEIGHTS: {
-    TIME_OF_DAY: 20,
-    GOAL_ALIGNMENT: 25,
-    DIFFICULTY_MATCH: 15,
-    LIFE_CHAOS: 10,
-    PERSONALITY_MATCH: 10,
-    NON_NEGOTIABLES: 15,
-    BUDGET: 10,
-    SUCCESS_HISTORY: 15,
-    TOPIC_DIVERSITY: 10,
-  },
+    TIME_OF_DAY: 8,
+    GOAL_ALIGNMENT: 14,
+    DIFFICULTY_MATCH: 10,
+    LIFE_CHAOS: 8,
+    PERSONALITY_MATCH: 6,
+    NON_NEGOTIABLES: 12, // Used as penalty when conflicts
+    BUDGET: 6,
+    OBSTACLE_MATCH: 10,
+    SUCCESS_HISTORY: 5,
+    TOPIC_DIVERSITY: 8,
+    KITCHEN_COMPAT: 10,
+    VEGGIE_AVERSION: 8,
+    FAMILY_COMPAT: 4,
+    DIET_TRAUMA: 6,
+    COGNITIVE_LOAD: 5,
+  } as const,
   
   // Recency penalty parameters
   RECENCY_PENALTY: {
+    MAX_PENALTY: 8,
     COOLDOWN_DAYS: 14,
-    MAX_PENALTY: 50,
   }
-};
+} as const;
