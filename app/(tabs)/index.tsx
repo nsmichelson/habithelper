@@ -16,6 +16,7 @@ import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
 import EveningCheckIn from '@/components/EveningCheckIn';
 import ExperimentModeSwipe from '@/components/ExperimentModeSwipe';
 import ExperimentComplete from '@/components/ExperimentComplete';
+import NotForMeFeedback from '@/components/NotForMeFeedback';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -41,18 +42,24 @@ export default function HomeScreen() {
 
   const initializeApp = async () => {
     try {
+      console.log('Starting app initialization...');
+      
       // Check if onboarding is completed
       const onboardingCompleted = await StorageService.isOnboardingCompleted();
+      console.log('Onboarding completed:', onboardingCompleted);
       
       if (onboardingCompleted) {
         const profile = await StorageService.getUserProfile();
+        console.log('User profile loaded:', profile ? 'Yes' : 'No');
         setUserProfile(profile);
         
         // Load previous tips and attempts
         const tips = await StorageService.getDailyTips();
+        console.log('Previous tips loaded:', tips.length);
         setPreviousTips(tips);
         
         const tipAttempts = await StorageService.getTipAttempts();
+        console.log('Tip attempts loaded:', tipAttempts.length);
         setAttempts(tipAttempts);
         
         // Load today's tip or get a new one - only if profile exists
@@ -65,9 +72,13 @@ export default function HomeScreen() {
         // Setup notifications
         await NotificationService.requestPermissions();
       }
-    } catch (error) {
+      
+      console.log('Initialization complete, setting loading to false');
+    } catch (error: any) {
       console.error('Error initializing app:', error);
+      console.error('Error stack:', error?.stack);
     } finally {
+      console.log('Finally block - setting loading to false');
       setLoading(false);
     }
   };
@@ -203,19 +214,22 @@ export default function HomeScreen() {
   const handleTipResponse = async (response: 'try_it' | 'not_for_me' | 'maybe_later') => {
     if (!dailyTip || !userProfile || !currentTip) return;
 
-    // Update the daily tip with response
-    const updatedTip = {
-      ...dailyTip,
-      user_response: response as any,
-      responded_at: new Date(),
-    };
-    
-    await StorageService.updateDailyTip(dailyTip.id, {
-      user_response: response as any,
-      responded_at: new Date(),
-    });
-    
-    setDailyTip(updatedTip);
+    // Only update the daily tip with response for try_it and maybe_later
+    // not_for_me will be handled after feedback
+    if (response !== 'not_for_me') {
+      const updatedTip = {
+        ...dailyTip,
+        user_response: response as any,
+        responded_at: new Date(),
+      };
+      
+      await StorageService.updateDailyTip(dailyTip.id, {
+        user_response: response as any,
+        responded_at: new Date(),
+      });
+      
+      setDailyTip(updatedTip);
+    }
 
     // If user is trying it, schedule evening check-in
     if (response === 'try_it') {
@@ -246,28 +260,17 @@ export default function HomeScreen() {
         loadDailyTip(userProfile, previousTips, updatedAttempts);
       }, 500);
     } else if (response === 'not_for_me') {
-      // Create a permanent opt-out attempt for the recommendation algorithm
-      const optOutAttempt: TipAttempt = {
-        id: Date.now().toString(),
-        tip_id: currentTip.tip_id,
-        attempted_at: new Date(),
-        created_at: new Date(),
-        feedback: 'not_for_me',
-      };
-      await StorageService.saveTipAttempt(optOutAttempt);
-      const updatedAttempts = [...attempts, optOutAttempt];
-      setAttempts(updatedAttempts);
+      // Store the tip for feedback collection
+      setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
       
-      Alert.alert(
-        'Got it!',
-        'We won\'t show you this experiment again.',
-        [{ text: 'OK' }]
-      );
-      
-      // Get next tip after alert
-      setTimeout(() => {
-        loadDailyTip(userProfile, previousTips, updatedAttempts);
-      }, 500);
+      // Check if user wants to skip feedback questions
+      if (userProfile.skip_feedback_questions) {
+        // Skip directly to opt-out without modal
+        await handleNotForMeFeedback(null);
+      } else {
+        // Show feedback modal
+        setShowFeedbackModal(true);
+      }
     }
   };
 
@@ -343,6 +346,10 @@ export default function HomeScreen() {
         [{ text: 'OK' }]
       );
     }
+    
+    // Clear the current tip immediately to show loading state
+    setDailyTip(null);
+    setCurrentTip(null);
     
     // Get next tip after a brief delay
     setTimeout(() => {
@@ -424,7 +431,11 @@ export default function HomeScreen() {
     // Don't show alert - the ExperimentComplete component will handle the celebration
   };
 
+  console.log('Render - loading state:', loading, 'userProfile:', userProfile ? 'exists' : 'null');
+  console.log('Render - showCheckIn:', showCheckIn, 'currentTip:', currentTip ? 'exists' : 'null');
+  
   if (loading) {
+    console.log('Returning loading screen');
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#4CAF50" />
@@ -433,10 +444,12 @@ export default function HomeScreen() {
   }
 
   if (!userProfile) {
+    console.log('Returning onboarding quiz');
     return <OnboardingQuiz onComplete={handleOnboardingComplete} />;
   }
 
   if (showCheckIn && currentTip) {
+    console.log('Returning evening check-in');
     return (
       <EveningCheckIn
         tip={currentTip}
@@ -447,6 +460,7 @@ export default function HomeScreen() {
     );
   }
 
+  console.log('Returning main app view');
   return (
     <SafeAreaView style={styles.container}>
       {/* Feedback Modal */}
@@ -624,6 +638,7 @@ export default function HomeScreen() {
           </View>
 
           {/* Daily Tip, Experiment Mode, or Completion View */}
+          {console.log('Main content check - currentTip:', currentTip ? 'exists' : 'null', 'dailyTip:', dailyTip ? 'exists' : 'null')}
           {currentTip && dailyTip ? (
             dailyTip.evening_check_in ? (
               // Show completion view after check-in
