@@ -170,7 +170,50 @@ export default function TestDataCalendar({
             }
           },
           {
-            text: 'Skipped',
+            text: 'Not for Me',
+            onPress: async () => {
+              // Create a rejection attempt for the algorithm to learn from
+              const tipAttempt = {
+                id: `test-attempt-${date.getTime()}`,
+                tip_id: tipScore.tip.tip_id,
+                attempted_at: date,
+                created_at: date,
+                feedback: 'not_for_me' as any,
+                rejection_reason: 'not_interested', // Default reason for test data
+              };
+              
+              await StorageService.saveTipAttempt(tipAttempt);
+              
+              // Generate a replacement tip for that same day
+              const replacementTipScore = TipRecommendationService.getDailyTip(
+                userProfile,
+                priorTips,
+                [tipAttempt] // Include the rejection in the algorithm
+              );
+              
+              if (replacementTipScore) {
+                const dateStr = format(date, 'yyyy-MM-dd');
+                const tip = existingTips.find(t => 
+                  format(new Date(t.presented_date), 'yyyy-MM-dd') === dateStr
+                ) || { id: `test-${date.getTime()}` };
+                
+                // Update with the replacement tip
+                await StorageService.updateDailyTip(tip.id, {
+                  tip_id: replacementTipScore.tip.tip_id,
+                  user_response: undefined, // Reset - they haven't responded to replacement
+                  responded_at: undefined,
+                });
+                
+                onTipGenerated();
+                Alert.alert('Done', `Original tip rejected. Replaced with: "${replacementTipScore.tip.summary.substring(0, 50)}..."`);
+              } else {
+                onTipGenerated();
+                Alert.alert('Done', 'Tip marked as not for me (no replacement available)');
+              }
+            }
+          },
+          {
+            text: 'Maybe Later',
             onPress: async () => {
               const dateStr = format(date, 'yyyy-MM-dd');
               const tip = existingTips.find(t => 
@@ -183,7 +226,7 @@ export default function TestDataCalendar({
               });
               
               onTipGenerated();
-              Alert.alert('Done', 'Tip marked as skipped');
+              Alert.alert('Done', 'Tip marked as maybe later');
             }
           }
         ]
