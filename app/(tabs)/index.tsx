@@ -17,6 +17,7 @@ import EveningCheckIn from '@/components/EveningCheckIn';
 import ExperimentModeSwipe from '@/components/ExperimentModeSwipe';
 import ExperimentComplete from '@/components/ExperimentComplete';
 import NotForMeFeedback from '@/components/NotForMeFeedback';
+import TipHistoryModal from '@/components/TipHistoryModal';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -53,6 +54,9 @@ export default function HomeScreen() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [pendingOptOut, setPendingOptOut] = useState<{ tip: Tip; tipId: string } | null>(null);
   const [isReplacingTip, setIsReplacingTip] = useState(false);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
 
   useEffect(() => {
     initializeApp();
@@ -296,6 +300,62 @@ export default function HomeScreen() {
         loadDailyTip(userProfile, previousTips, updatedAttempts);
       }, 500);
     }
+  };
+
+  const handleShowAllExperiments = () => {
+    const allTips = previousTips.map(dt => ({
+      dailyTip: dt,
+      tip: getTipById(dt.tip_id)!
+    })).filter(item => item.tip);
+    
+    if (dailyTip && currentTip) {
+      allTips.push({ dailyTip, tip: currentTip });
+    }
+    
+    setModalTitle('All Experiments');
+    setModalTips(allTips);
+    setShowHistoryModal(true);
+  };
+
+  const handleShowTriedExperiments = () => {
+    const triedTips = previousTips
+      .filter(dt => dt.user_response === 'try_it')
+      .map(dt => ({
+        dailyTip: dt,
+        tip: getTipById(dt.tip_id)!
+      }))
+      .filter(item => item.tip);
+    
+    if (dailyTip?.user_response === 'try_it' && currentTip) {
+      triedTips.push({ dailyTip, tip: currentTip });
+    }
+    
+    setModalTitle('Experiments You Tried');
+    setModalTips(triedTips);
+    setShowHistoryModal(true);
+  };
+
+  const handleShowLovedExperiments = () => {
+    const lovedTips = previousTips
+      .filter(dt => 
+        dt.evening_check_in === 'went_great' || 
+        dt.quick_completions?.some(c => c.quick_note === 'worked_great')
+      )
+      .map(dt => ({
+        dailyTip: dt,
+        tip: getTipById(dt.tip_id)!
+      }))
+      .filter(item => item.tip);
+    
+    if ((dailyTip?.evening_check_in === 'went_great' || 
+         dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great')) && 
+        currentTip) {
+      lovedTips.push({ dailyTip, tip: currentTip });
+    }
+    
+    setModalTitle('Experiments You Loved');
+    setModalTips(lovedTips);
+    setShowHistoryModal(true);
   };
 
   const calculateDaysSinceStart = () => {
@@ -549,6 +609,14 @@ export default function HomeScreen() {
         />
       )}
       
+      {/* Tip History Modal */}
+      <TipHistoryModal
+        visible={showHistoryModal}
+        onClose={() => setShowHistoryModal(false)}
+        title={modalTitle}
+        tips={modalTips}
+      />
+      
       <LinearGradient
         colors={['#E8F5E9', '#FFFFFF']}
         style={styles.gradient}
@@ -686,18 +754,30 @@ export default function HomeScreen() {
 
           {/* Stats */}
           <View style={styles.statsContainer}>
-            <View style={styles.statCard}>
+            <TouchableOpacity 
+              style={styles.statCard}
+              onPress={handleShowAllExperiments}
+              activeOpacity={0.7}
+            >
               <Text style={styles.statNumber}>{previousTips.length + (dailyTip ? 1 : 0)}</Text>
               <Text style={styles.statLabel}>Experiments</Text>
-            </View>
-            <View style={styles.statCard}>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.statCard}
+              onPress={handleShowTriedExperiments}
+              activeOpacity={0.7}
+            >
               <Text style={styles.statNumber}>
                 {previousTips.filter(tip => tip.user_response === 'try_it').length + 
                  (dailyTip?.user_response === 'try_it' ? 1 : 0)}
               </Text>
               <Text style={styles.statLabel}>Tried</Text>
-            </View>
-            <View style={styles.statCard}>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.statCard}
+              onPress={handleShowLovedExperiments}
+              activeOpacity={0.7}
+            >
               <Text style={styles.statNumber}>
                 {previousTips.filter(tip => 
                   tip.quick_completions?.some(c => c.quick_note === 'worked_great') ||
@@ -707,7 +787,7 @@ export default function HomeScreen() {
                  dailyTip?.evening_check_in === 'went_great' ? 1 : 0)}
               </Text>
               <Text style={styles.statLabel}>Loved</Text>
-            </View>
+            </TouchableOpacity>
           </View>
 
           {/* Daily Tip, Experiment Mode, or Completion View */}
