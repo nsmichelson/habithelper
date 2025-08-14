@@ -79,12 +79,16 @@ export default function TestDataCalendar({
         new Date(tip.presented_date) < date
       );
 
+      // Get attempts that happened before this date, so the algo knows about opt-outs
+      const priorAttempts = await StorageService.getTipAttemptsBefore(date);
+
       // Get a recommendation using the selected date as "today" for proper duplicate checking
+      // Use noon (12) as the hour for test mode to ensure afternoon tips are available
       const tipScore = TipRecommendationService.getDailyTip(
         userProfile,
         priorTips,
-        [], // No attempts for test data
-        undefined, // currentHour
+        priorAttempts, // Pass attempts so 'not_for_me' acts as a permanent opt-out
+        12, // Use noon for consistent test data generation
         date // Pass the selected date for test mode
       );
 
@@ -187,11 +191,12 @@ export default function TestDataCalendar({
               await StorageService.saveTipAttempt(tipAttempt);
               
               // Generate a replacement tip for that same day
+              // Use noon (12) as the hour for test mode to ensure afternoon tips are available
               const replacementTipScore = TipRecommendationService.getDailyTip(
                 userProfile,
                 priorTips,
-                [tipAttempt], // Include the rejection in the algorithm
-                undefined, // currentHour
+                [...priorAttempts, tipAttempt], // Include everything we knew + new attempt
+                12, // Use noon for consistent test data generation
                 date // Use selected date for test mode
               );
               

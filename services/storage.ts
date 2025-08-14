@@ -133,6 +133,19 @@ class StorageService {
     }
   }
 
+  async getTipAttemptsBefore(before: Date): Promise<TipAttempt[]> {
+    try {
+      const attempts = await this.getTipAttempts();
+      return attempts.filter(a => {
+        const attemptDate = a.created_at ? new Date(a.created_at) : new Date(a.attempted_at);
+        return attemptDate < before;
+      });
+    } catch (error) {
+      console.error('Error getting tip attempts before date:', error);
+      return [];
+    }
+  }
+
   // Quiz Responses
   async getQuizResponses(): Promise<QuizResponse[]> {
     try {

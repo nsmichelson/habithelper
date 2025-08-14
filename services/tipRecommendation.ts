@@ -203,7 +203,7 @@ export class TipRecommendationService {
     }
 
     // 5. Availability check - can the user do this today?
-    if (!this.isAvailableNow(tip, userProfile)) {
+    if (!this.isAvailableNow(tip, userProfile, currentDate || new Date())) {
       return { eligible: false, reason: 'Not doable today' };
     }
 
@@ -215,7 +215,8 @@ export class TipRecommendationService {
       );
       const snoozeUntil = last.snooze_until ? this.asDate(last.snooze_until) : fallbackSnooze;
 
-      if (new Date() < snoozeUntil) {
+      const nowForEligibility = currentDate ?? new Date();
+      if (nowForEligibility < snoozeUntil) {
         return { eligible: false, reason: `Snoozed until ${snoozeUntil.toLocaleDateString()}` };
       }
       // Snooze expired → allow regardless of non-repeat window
@@ -311,8 +312,8 @@ export class TipRecommendationService {
   /**
    * Get recent goal coverage counts for fairness balancing
    */
-  private getRecentGoalCoverage(previousTips: DailyTip[], windowDays: number = 7): Record<string, number> {
-    const cutoff = Date.now() - windowDays * DAY_MS;
+  private getRecentGoalCoverage(previousTips: DailyTip[], windowDays: number = 7, now: Date = new Date()): Record<string, number> {
+    const cutoff = now.getTime() - windowDays * DAY_MS;
     const recents = previousTips.filter(
       t => this.asDate(t.presented_date).getTime() >= cutoff
     );
@@ -336,9 +337,10 @@ export class TipRecommendationService {
   private calculateTopicDiversityScore(
     tip: Tip,
     previousTips: DailyTip[],
-    windowDays: number = RECOMMENDATION_CONFIG.TOPIC_COOLDOWN_DAYS
+    windowDays: number = RECOMMENDATION_CONFIG.TOPIC_COOLDOWN_DAYS,
+    now: Date = new Date()
   ): number {
-    const cutoff = Date.now() - windowDays * DAY_MS;
+    const cutoff = now.getTime() - windowDays * DAY_MS;
     const recents = previousTips.filter(
       t => this.asDate(t.presented_date).getTime() >= cutoff
     );
@@ -365,7 +367,7 @@ export class TipRecommendationService {
       if (!recentTip) continue;
 
       const daysAgo = Math.max(0, Math.floor(
-        (Date.now() - this.asDate(recent.presented_date).getTime()) / DAY_MS
+        (now.getTime() - this.asDate(recent.presented_date).getTime()) / DAY_MS
       ));
       // Exponential decay: more recent = higher weight
       const decay = Math.exp(-daysAgo / (windowDays / 3));
@@ -400,14 +402,23 @@ export class TipRecommendationService {
 
     // Recency penalty (for tips shown beyond the hard non-repeat window)
     const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips, currentDate);
-    if (daysSinceShown !== null && daysSinceShown >= RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS) {
-      const recentDays = daysSinceShown - RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS;
-      if (recentDays < RECOMMENDATION_CONFIG.RECENCY_PENALTY.COOLDOWN_DAYS) {
-        const penalty = RECOMMENDATION_CONFIG.RECENCY_PENALTY.MAX_PENALTY * 
-          (1 - recentDays / RECOMMENDATION_CONFIG.RECENCY_PENALTY.COOLDOWN_DAYS);
+    if (daysSinceShown !== null) {
+      // Soft penalty for tips within the non-repeat window (shouldn't be eligible, but in case of relaxed mode)
+      if (daysSinceShown < RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS) {
+        const penalty = 50 * (1 - daysSinceShown / RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS);
         score -= penalty;
-        if (penalty > 0) {
-          this.addReason(reasons, `Recently shown (${daysSinceShown} days ago)`);
+        this.addReason(reasons, `⚠️ Very recent (${daysSinceShown} days ago)`);
+      } 
+      // Original penalty for tips beyond the window
+      else if (daysSinceShown >= RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS) {
+        const recentDays = daysSinceShown - RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS;
+        if (recentDays < RECOMMENDATION_CONFIG.RECENCY_PENALTY.COOLDOWN_DAYS) {
+          const penalty = RECOMMENDATION_CONFIG.RECENCY_PENALTY.MAX_PENALTY * 
+            (1 - recentDays / RECOMMENDATION_CONFIG.RECENCY_PENALTY.COOLDOWN_DAYS);
+          score -= penalty;
+          if (penalty > 0) {
+            this.addReason(reasons, `Recently shown (${daysSinceShown} days ago)`);
+          }
         }
       }
     }
@@ -514,7 +525,7 @@ export class TipRecommendationService {
     }
     
     // Topic diversity (normalized 0-1)
-    const diversityScore = this.calculateTopicDiversityScore(tip, previousTips);
+    const diversityScore = this.calculateTopicDiversityScore(tip, previousTips, RECOMMENDATION_CONFIG.TOPIC_COOLDOWN_DAYS, currentDate ?? new Date());
     score += diversityScore * RECOMMENDATION_CONFIG.WEIGHTS.TOPIC_DIVERSITY;
     if (diversityScore < 0.3) {
       this.addReason(reasons, '⚠️ Similar to recent');
@@ -523,7 +534,7 @@ export class TipRecommendationService {
     }
     
     // Weekly coverage fairness - favor under-served goals
-    const weeklyGoalCounts = this.getRecentGoalCoverage(previousTips, 7);
+    const weeklyGoalCounts = this.getRecentGoalCoverage(previousTips, 7, currentDate ?? new Date());
     const tipGoalTags = tip.goal_tags ?? [];
     const userGoals = userProfile.goals ?? [];
     
@@ -1093,6 +1104,8 @@ export class TipRecommendationService {
     // Stage C: If still not enough, use minimum floor (but respect snoozes/opts/medical)
     if (eligibleTips.length < RECOMMENDATION_CONFIG.MIN_CANDIDATES_THRESHOLD) {
       console.log('Still insufficient tips. Using minimum floor...');
+      // Ensure at least 1 day between repeats even in emergency mode
+      const minFloor = Math.max(1, RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR);
       eligibleTips = safeTips.filter(tip => 
         this.isTipEligible(
           tip, 
@@ -1100,7 +1113,7 @@ export class TipRecommendationService {
           previousTips, 
           attempts, 
           true, 
-          RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR,
+          minFloor,
           testModeDate
         ).eligible
       );
