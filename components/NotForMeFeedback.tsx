@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Modal,
   ScrollView,
   Dimensions,
+  Animated,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -87,8 +88,43 @@ const getReasonOptions = (tip: Tip): { label: string; value: string; icon: strin
 export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: Props) {
   const [selectedReason, setSelectedReason] = useState<string>('');
   const [dontAskAgain, setDontAskAgain] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(300)).current;
   
   const reasons = getReasonOptions(tip);
+  
+  useEffect(() => {
+    if (visible) {
+      // Animate in
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideAnim, {
+          toValue: 0,
+          damping: 20,
+          stiffness: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      // Animate out
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 300,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [visible]);
   
   const handleSelectReason = (reason: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -113,11 +149,30 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
     <Modal
       visible={visible}
       transparent
-      animationType="slide"
+      animationType="none"
       onRequestClose={handleSkip}
     >
-      <View style={styles.overlay}>
-        <View style={styles.container}>
+      <Animated.View 
+        style={[
+          styles.overlay,
+          {
+            opacity: fadeAnim,
+          }
+        ]}
+      >
+        <TouchableOpacity 
+          style={StyleSheet.absoluteFillObject} 
+          onPress={handleSkip}
+          activeOpacity={1}
+        />
+        <Animated.View 
+          style={[
+            styles.container,
+            {
+              transform: [{ translateY: slideAnim }],
+            }
+          ]}
+        >
           <LinearGradient
             colors={['#FFFFFF', '#F8FBF8']}
             style={styles.content}
@@ -194,8 +249,8 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
               <Text style={styles.dontAskText}>Don't ask me this again</Text>
             </TouchableOpacity>
           </LinearGradient>
-        </View>
-      </View>
+        </Animated.View>
+      </Animated.View>
     </Modal>
   );
 }
