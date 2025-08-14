@@ -79,11 +79,13 @@ export default function TestDataCalendar({
         new Date(tip.presented_date) < date
       );
 
-      // Get a recommendation
+      // Get a recommendation using the selected date as "today" for proper duplicate checking
       const tipScore = TipRecommendationService.getDailyTip(
         userProfile,
         priorTips,
-        [] // No attempts for test data
+        [], // No attempts for test data
+        undefined, // currentHour
+        date // Pass the selected date for test mode
       );
 
       if (!tipScore) {
@@ -188,7 +190,9 @@ export default function TestDataCalendar({
               const replacementTipScore = TipRecommendationService.getDailyTip(
                 userProfile,
                 priorTips,
-                [tipAttempt] // Include the rejection in the algorithm
+                [tipAttempt], // Include the rejection in the algorithm
+                undefined, // currentHour
+                date // Use selected date for test mode
               );
               
               if (replacementTipScore) {

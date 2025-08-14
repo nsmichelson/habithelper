@@ -173,7 +173,8 @@ export class TipRecommendationService {
     previousTips: DailyTip[],
     attempts: TipAttempt[],
     relaxedMode: boolean = false,
-    nonRepeatOverride?: number // Allow explicit override for fallback
+    nonRepeatOverride?: number,
+    currentDate?: Date // Allow explicit override for fallback
   ): { eligible: boolean; reason?: string } {
     const last = this.getLastAttemptForTip(tip.tip_id, attempts);
 
@@ -222,7 +223,7 @@ export class TipRecommendationService {
     }
 
     // 7. Non-repeat window
-    const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
+    const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips, currentDate);
     if (daysSinceShown !== null) {
       const minDays = nonRepeatOverride ?? (relaxedMode 
         ? RECOMMENDATION_CONFIG.RELAXED_NON_REPEAT_DAYS 
@@ -391,13 +392,14 @@ export class TipRecommendationService {
     userProfile: UserProfile,
     previousTips: DailyTip[],
     attempts: TipAttempt[],
-    currentHour?: number
+    currentHour?: number,
+    currentDate?: Date
   ): TipScore {
     let score = 0;
     const reasons: string[] = [];
 
     // Recency penalty (for tips shown beyond the hard non-repeat window)
-    const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips);
+    const daysSinceShown = this.getDaysSinceLastShown(tip.tip_id, previousTips, currentDate);
     if (daysSinceShown !== null && daysSinceShown >= RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS) {
       const recentDays = daysSinceShown - RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS;
       if (recentDays < RECOMMENDATION_CONFIG.RECENCY_PENALTY.COOLDOWN_DAYS) {
@@ -722,16 +724,19 @@ export class TipRecommendationService {
 
   /**
    * Check how many days since a tip was last shown
+   * @param currentDate - Optional date to use as "now" (for test mode only)
    */
-  private getDaysSinceLastShown(tipId: string, previousTips: DailyTip[]): number | null {
+  private getDaysSinceLastShown(tipId: string, previousTips: DailyTip[], currentDate?: Date): number | null {
     const lastShown = previousTips
       .filter(t => t.tip_id === tipId)
       .sort((a, b) => this.asDate(b.presented_date).getTime() - this.asDate(a.presented_date).getTime())[0];
 
     if (!lastShown) return null;
 
+    // Use currentDate if provided (test mode), otherwise use actual now
+    const nowTime = currentDate ? currentDate.getTime() : Date.now();
     const daysDiff = Math.floor(
-      (Date.now() - this.asDate(lastShown.presented_date).getTime()) / DAY_MS
+      (nowTime - this.asDate(lastShown.presented_date).getTime()) / DAY_MS
     );
     
     return daysDiff;
@@ -1049,7 +1054,8 @@ export class TipRecommendationService {
     previousTips: DailyTip[] = [],
     attempts: TipAttempt[] = [],
     count: number = 3,
-    currentHour?: number
+    currentHour?: number,
+    testModeDate?: Date  // Optional - ONLY for test calendar mode
   ): TipScore[] {
     // Use current hour if not provided
     const hour = currentHour !== undefined ? currentHour : new Date().getHours();
@@ -1059,7 +1065,7 @@ export class TipRecommendationService {
 
     // Stage A: Apply hard eligibility filtering
     let eligibleTips = safeTips.filter(tip => {
-      const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, false);
+      const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, false, undefined, testModeDate);
       if (!eligibility.eligible && __DEV__) {
         console.log(`Tip "${tip.summary}" ineligible: ${eligibility.reason}`);
       }
@@ -1080,7 +1086,7 @@ export class TipRecommendationService {
     if (eligibleTips.length < RECOMMENDATION_CONFIG.MIN_CANDIDATES_THRESHOLD) {
       console.log(`Only ${eligibleTips.length} eligible tips. Relaxing constraints...`);
       eligibleTips = safeTips.filter(tip => 
-        this.isTipEligible(tip, userProfile, previousTips, attempts, true).eligible
+        this.isTipEligible(tip, userProfile, previousTips, attempts, true, undefined, testModeDate).eligible
       );
     }
     
@@ -1094,7 +1100,8 @@ export class TipRecommendationService {
           previousTips, 
           attempts, 
           true, 
-          RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR
+          RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR,
+          testModeDate
         ).eligible
       );
     }
@@ -1118,7 +1125,7 @@ export class TipRecommendationService {
         if (!isUniversal) return false;
         
         // Still respect snooze and availability through regular gate in relaxed mode
-        const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, true);
+        const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, true, undefined, testModeDate);
         return eligibility.eligible;
       });
       
@@ -1130,7 +1137,7 @@ export class TipRecommendationService {
 
     // Calculate scores for all eligible tips
     const scoredTips = eligibleTips.map(tip => 
-      this.calculateTipScore(tip, userProfile, previousTips, attempts, hour)
+      this.calculateTipScore(tip, userProfile, previousTips, attempts, hour, testModeDate)
     );
 
     // Lexicographic priority: goal F1, then lifestyle fit, then overall score, then id
@@ -1151,14 +1158,16 @@ export class TipRecommendationService {
     userProfile: UserProfile,
     previousTips: DailyTip[] = [],
     attempts: TipAttempt[] = [],
-    currentHour?: number
+    currentHour?: number,
+    testModeDate?: Date  // Optional - ONLY for test calendar mode
   ): TipScore | null {
     const recommendations = this.getRecommendations(
       userProfile,
       previousTips,
       attempts,
       10, // Get more recommendations for debugging
-      currentHour
+      currentHour,
+      testModeDate  // Pass through to getRecommendations
     );
 
     // Debug logging for recommendation algorithm
