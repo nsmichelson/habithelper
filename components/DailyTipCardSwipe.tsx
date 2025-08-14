@@ -26,8 +26,8 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   tip: Tip;
-  onResponse: (response: 'try_it' | 'not_for_me' | 'maybe_later') => void;
-  onNotForMe?: () => void; // Separate callback for opening feedback modal
+  onResponse: (response: 'try_it' | 'maybe_later') => void;
+  onNotForMe: () => void; // Required callback for opening feedback modal
   reasons?: string[];
 }
 
@@ -37,21 +37,22 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const cardScale = useSharedValue(1);
   const flatListRef = useRef<FlatList>(null);
 
-  const handleResponse = (response: 'try_it' | 'not_for_me' | 'maybe_later') => {
+  const handleResponse = (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
-    // For 'not_for_me', use the separate callback if provided
-    if (response === 'not_for_me' && onNotForMe) {
-      cardScale.value = withSpring(0.95, {}, () => {
-        cardScale.value = withSpring(1);
-        runOnJS(onNotForMe)();
-      });
-    } else {
-      cardScale.value = withSpring(0.95, {}, () => {
-        cardScale.value = withSpring(1);
-        runOnJS(onResponse)(response);
-      });
-    }
+    cardScale.value = withSpring(0.95, {}, () => {
+      cardScale.value = withSpring(1);
+      runOnJS(onResponse)(response);
+    });
+  };
+  
+  const handleNotForMe = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    cardScale.value = withSpring(0.95, {}, () => {
+      cardScale.value = withSpring(1);
+      runOnJS(onNotForMe)();
+    });
   };
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -152,7 +153,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             
             <TouchableOpacity
               style={[styles.responseButton, styles.skipButton]}
-              onPress={() => handleResponse('not_for_me')}
+              onPress={handleNotForMe}
             >
               <Ionicons name="close-circle-outline" size={20} color="#757575" />
               <Text style={styles.skipButtonText}>Not for Me</Text>
@@ -246,7 +247,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             
             <TouchableOpacity
               style={[styles.responseButton, styles.skipButton]}
-              onPress={() => handleResponse('not_for_me')}
+              onPress={handleNotForMe}
             >
               <Ionicons name="close-circle-outline" size={20} color="#757575" />
               <Text style={styles.skipButtonText}>Skip This</Text>

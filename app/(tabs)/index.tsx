@@ -52,6 +52,7 @@ export default function HomeScreen() {
   const [attempts, setAttempts] = useState<TipAttempt[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [pendingOptOut, setPendingOptOut] = useState<{ tip: Tip; tipId: string } | null>(null);
+  const [isReplacingTip, setIsReplacingTip] = useState(false);
 
   useEffect(() => {
     initializeApp();
@@ -172,9 +173,25 @@ export default function HomeScreen() {
     
     // Check if we already have a tip for today
     const today = format(new Date(), 'yyyy-MM-dd');
-    const todaysTip = tips.find(
-      t => format(new Date(t.presented_date), 'yyyy-MM-dd') === today
-    );
+    
+    // Handle multiple "today" entries (from earlier bugs)
+    const todaysTips = tips
+      .filter(t => format(new Date(t.presented_date), 'yyyy-MM-dd') === today)
+      .sort((a, b) => new Date(b.presented_date).getTime() - new Date(a.presented_date).getTime());
+    
+    // Debug logging for sanity check
+    if (todaysTips.length > 1) {
+      console.log('WARNING: Multiple entries for today:', todaysTips.map(t => ({
+        id: t.id,
+        tip_id: t.tip_id,
+        user_response: t.user_response,
+        presented: t.presented_date,
+      })));
+    }
+    
+    // Prefer an entry that isn't "not_for_me"
+    const todaysTip = todaysTips.find(t => normalizeResponseStatus(t.user_response) !== 'not_for_me')
+                    ?? todaysTips[0];
 
     if (todaysTip) {
       // Normalize any legacy response values
@@ -354,33 +371,61 @@ export default function HomeScreen() {
       );
     }
     
-    // Now save the 'not_for_me' response to the daily tip
-    // This is a transient state just for the loading animation
-    const updatedTip = {
-      ...dailyTip,
-      user_response: 'not_for_me' as any,
-      responded_at: new Date(),
-    };
-    setDailyTip(updatedTip);
+    // Use a transient UI flag instead of persisting state
+    setIsReplacingTip(true);
     
-    // Don't persist the 'not_for_me' state - immediately get next tip
-    // The loading state will show briefly while we fetch
+    // Get next tip and update the existing record
     setTimeout(async () => {
-      // Clear the current tip and fetch a new one
-      const tipScore = TipRecommendationService.getDailyTip(userProfile, previousTips, updatedAttempts);
-      
-      if (tipScore) {
-        const newDailyTip: DailyTip = {
-          id: Date.now().toString(),
-          user_id: userProfile.id,
-          tip_id: tipScore.tip.tip_id,
-          presented_date: new Date(),
-        };
+      try {
+        const tipScore = TipRecommendationService.getDailyTip(userProfile, previousTips, updatedAttempts);
         
-        await StorageService.saveDailyTip(newDailyTip);
-        setDailyTip(newDailyTip);
-        setCurrentTip(tipScore.tip);
-        setTipReasons(tipScore.reasons);
+        if (tipScore) {
+          // UPDATE the existing daily tip record instead of creating a new one
+          await StorageService.updateDailyTip(dailyTip.id, {
+            tip_id: tipScore.tip.tip_id,
+            // Clear any state that belongs to the previous tip
+            user_response: undefined,
+            responded_at: undefined,
+            quick_completions: [],
+            evening_check_in: undefined,
+            check_in_at: undefined,
+            evening_reflection: undefined,
+            // Keep the same date
+            presented_date: dailyTip.presented_date,
+          });
+          
+          // Update local state
+          const replaced: DailyTip = {
+            ...dailyTip,
+            tip_id: tipScore.tip.tip_id,
+            user_response: undefined,
+            responded_at: undefined,
+            quick_completions: [],
+            evening_check_in: undefined,
+            check_in_at: undefined,
+            evening_reflection: undefined,
+          };
+          setDailyTip(replaced);
+          setCurrentTip(tipScore.tip);
+          setTipReasons(tipScore.reasons);
+        } else {
+          // Fallback: no more tips available
+          Alert.alert(
+            'No more experiments today',
+            'We ran out of good suggestions. Check back tomorrow!',
+            [{ text: 'OK' }]
+          );
+        }
+      } catch (error) {
+        console.error('Error finding replacement tip:', error);
+        Alert.alert(
+          'Could not find a new experiment',
+          'Please try again later.',
+          [{ text: 'OK' }]
+        );
+      } finally {
+        // Always clear the loading state
+        setIsReplacingTip(false);
       }
     }, 100);
   };
@@ -759,8 +804,8 @@ export default function HomeScreen() {
                   We'll keep this in mind for another day. Check back tomorrow for a new experiment!
                 </Text>
               </View>
-            ) : dailyTip.user_response === 'not_for_me' ? (
-              // User said "not for me" - loading next tip (transient state)
+            ) : isReplacingTip ? (
+              // Loading next tip after "not for me" feedback
               <View style={styles.noTipCard}>
                 <ActivityIndicator size="large" color="#4CAF50" />
                 <Text style={styles.noTipTitle}>Finding another experiment...</Text>
