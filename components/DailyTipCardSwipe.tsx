@@ -184,21 +184,21 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
               <Ionicons name="restaurant-outline" size={20} color="#666" />
               <Text style={styles.infoLabel}>Best Time</Text>
               <Text style={styles.infoValue}>
-                {tip.time_of_day.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}
+                {(tip.time_of_day ?? []).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ') || 'Any time'}
               </Text>
             </View>
             
             <View style={styles.infoItem}>
               <Ionicons name="cash-outline" size={20} color="#666" />
               <Text style={styles.infoLabel}>Cost</Text>
-              <Text style={styles.infoValue}>{tip.money_cost_enum}</Text>
+              <Text style={styles.infoValue}>{tip.money_cost_enum ?? '$'}</Text>
             </View>
             
             <View style={styles.infoItem}>
               <Ionicons name="location-outline" size={20} color="#666" />
               <Text style={styles.infoLabel}>Where</Text>
               <Text style={styles.infoValue}>
-                {tip.location_tags.map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(', ')}
+                {(tip.location_tags ?? []).map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(', ') || 'Anywhere'}
               </Text>
             </View>
           </View>
@@ -206,7 +206,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
           <View style={styles.goalsSection}>
             <Text style={styles.goalsSectionTitle}>This helps with:</Text>
             <View style={styles.goalsGrid}>
-              {tip.goal_tags.map(goal => (
+              {(tip.goal_tags ?? []).map(goal => (
                 <View key={goal} style={styles.goalChip}>
                   <Text style={styles.goalChipText}>
                     {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -237,7 +237,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
             
             <TouchableOpacity
               style={[styles.responseButton, styles.skipButton]}
-              onPress={() => handleResponse('not_interested')}
+              onPress={() => handleResponse('not_for_me')}
             >
               <Ionicons name="close-circle-outline" size={20} color="#757575" />
               <Text style={styles.skipButtonText}>Skip This</Text>

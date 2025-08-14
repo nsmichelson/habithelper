@@ -24,6 +24,23 @@ import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete, Tip } fr
 import { getTipById } from '@/data/tips';
 import { format } from 'date-fns';
 
+// Proper type definitions to prevent confusion
+type ResponseStatus = 'try_it' | 'not_for_me' | 'maybe_later';
+
+// Validation helper
+const isValidResponseStatus = (value: any): value is ResponseStatus => {
+  return value === 'try_it' || value === 'not_for_me' || value === 'maybe_later';
+};
+
+// Normalize legacy or invalid response values
+const normalizeResponseStatus = (value: any): ResponseStatus | undefined => {
+  if (!value) return undefined;
+  // Handle legacy 'not_interested' values
+  if (value === 'not_interested') return 'not_for_me';
+  // Only return if it's a valid status
+  return isValidResponseStatus(value) ? value : undefined;
+};
+
 export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -160,7 +177,12 @@ export default function HomeScreen() {
     );
 
     if (todaysTip) {
-      setDailyTip(todaysTip);
+      // Normalize any legacy response values
+      const normalizedTip = {
+        ...todaysTip,
+        user_response: normalizeResponseStatus(todaysTip.user_response)
+      };
+      setDailyTip(normalizedTip);
       
       // Load the EXISTING tip by its ID, not a new recommendation
       const existingTip = getTipById(todaysTip.tip_id);
@@ -211,7 +233,7 @@ export default function HomeScreen() {
     await loadDailyTip(profile, [], []);
   };
 
-  const handleTipResponse = async (response: 'try_it' | 'not_for_me' | 'maybe_later') => {
+  const handleTipResponse = async (response: ResponseStatus) => {
     if (!dailyTip || !userProfile || !currentTip) return;
 
     // Only update the daily tip with response for try_it and maybe_later
@@ -732,10 +754,26 @@ export default function HomeScreen() {
                 </Text>
               </View>
             ) : (
-              // Unknown state - shouldn't happen
-              <View style={styles.noTipCard}>
-                <ActivityIndicator size="large" color="#4CAF50" />
-              </View>
+              // Unknown state - reset to show tip card
+              (() => {
+                console.warn('Unknown response state:', dailyTip.user_response);
+                // Reset the invalid state
+                if (dailyTip) {
+                  StorageService.updateDailyTip(dailyTip.id, {
+                    user_response: undefined,
+                    responded_at: undefined,
+                  });
+                  setDailyTip({ ...dailyTip, user_response: undefined });
+                }
+                // Show the tip card again
+                return (
+                  <DailyTipCardSwipe
+                    tip={currentTip}
+                    onResponse={handleTipResponse}
+                    reasons={tipReasons}
+                  />
+                );
+              })()
             )
           ) : (
             // No tip available
