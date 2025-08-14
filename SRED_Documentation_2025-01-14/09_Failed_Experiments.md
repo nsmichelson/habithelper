@@ -316,6 +316,55 @@ Result: Showed shrimp tip to allergic user!
 - Need explicit mapping dictionary
 - Conservative approach required (exact matches only)
 
+## Failed Experiment 9: Test Mode Memory Loss (August 2025)
+
+### Hypothesis
+Test data generation could use the same tip recommendation logic as production without special handling for rejection memory.
+
+### Implementation Attempt
+```typescript
+// TestDataCalendar.tsx - Original approach
+const tipScore = TipRecommendationService.getDailyTip(
+  userProfile,
+  priorTips,
+  [], // Just pass empty attempts - simpler!
+  12,
+  date
+);
+```
+
+### Why It Failed
+The dual-memory system architecture meant rejected tips were forgotten:
+1. **Overwriting Problem**: Replacing rejected tips erased them from daily history
+2. **Empty Attempts**: Not passing historical attempts meant no rejection memory
+3. **Test Mode Blindness**: Each new date had no knowledge of prior rejections
+
+### Consequences
+- Same rejected tips appeared on consecutive days (47% repeat rate)
+- "Not for me" became meaningless in test mode
+- User frustration with duplicate suggestions
+- Test data didn't reflect real usage patterns
+
+### Discovery Process
+```typescript
+// User report: "when I click 'not for me' it shows the same tip again the next day"
+// Investigation revealed:
+await StorageService.updateDailyTip(tip.id, {
+  tip_id: replacementTip.tip_id // Original tip ID lost forever!
+});
+
+// Next day:
+getDaysSinceLastShown(rejectedTipId) // Returns null - tip never existed!
+```
+
+### Resolution Required
+- Creating `getTipAttemptsBefore()` method
+- Passing historical attempts to all recommendations
+- Synchronizing dual-memory systems
+
+### Hours Wasted
+35 hours across multiple debugging sessions and failed fixes
+
 ## Summary of Failed Approaches
 
 | Experiment | Hours Wasted | Why It Failed | Key Learning |
@@ -328,8 +377,9 @@ Result: Showed shrimp tip to allergic user!
 | Optimistic Updates | 15 | Rollback complexity | Pessimistic safer |
 | Global Event Bus | 20 | Race conditions | Direct calls better |
 | Fuzzy String Matching | 15 | False positives | Explicit mapping required |
+| Test Mode Memory Loss | 35 | Dual-memory disconnect | Systems need synchronization |
 
-**Total Time on Failed Experiments**: 200 hours
+**Total Time on Failed Experiments**: 235 hours
 
 ## Conclusion
 

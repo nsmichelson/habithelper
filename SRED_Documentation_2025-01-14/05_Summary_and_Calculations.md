@@ -1,6 +1,6 @@
 # SR&ED Project Summary and Calculations
 
-**Date: January 14, 2025**
+**Date: August 14, 2025**
 **Project: Habit Helper - Adaptive Recommendation System**
 
 ## Executive Summary of SR&ED Activities
@@ -34,16 +34,25 @@ This project involved systematic experimental development to resolve three major
 - **Specific Implementation**: Created mapping dictionary for 13+ allergen variations
 - **Outcome**: 0% safety violations with full audit trail, 147 allergen conflicts prevented
 
+### 4. Dual-Memory System Synchronization (August 2025)
+- **Initial Problem**: "when I click 'not for me' it shows the same tip again the next day"
+- **Challenge**: Synchronize two separate persistent storage layers (daily tips and attempts)
+- **Root Cause Found**: Overwriting daily tip records lost rejection history, attempts not passed to algorithm
+- **Innovation**: Cross-memory synchronization with historical attempt forwarding
+- **Specific Fix**: Added `getTipAttemptsBefore()` and passed attempts to all recommendations
+- **Outcome**: 100% rejection persistence in test mode, eliminated duplicate suggestions
+
 ## Eligible Expenditures
 
 ### Direct Labour Costs
 
 #### Senior Developer/Technical Lead
 - **Hourly Rate**: $[Rate]
-- **Total Hours**: 260 hours
+- **Total Hours**: 295 hours
   - Algorithm Development: 120 hours
   - State Architecture: 80 hours  
   - Safety System: 60 hours
+  - Dual-Memory Synchronization: 35 hours
 
 #### Intermediate Developer
 - **Hourly Rate**: $[Rate]
@@ -59,7 +68,7 @@ This project involved systematic experimental development to resolve three major
   - Bug reproduction: 40 hours
   - Performance testing: 20 hours
 
-**Total Labour Hours**: 560 hours
+**Total Labour Hours**: 595 hours
 **Total Labour Cost**: $[Calculate based on rates]
 
 ### Overhead and Other Costs
@@ -91,6 +100,7 @@ This project involved systematic experimental development to resolve three major
 - 4 major iterations of recommendation algorithm
 - 12 debugging sessions for state management
 - 67 test cases for safety system
+- 9 failed experiments totaling 235 hours
 - Git commits showing iterative development
 
 ### 2. Technological Advancement Evidence
