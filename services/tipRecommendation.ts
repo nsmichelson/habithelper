@@ -179,7 +179,8 @@ export class TipRecommendationService {
 
     // 1. Permanent opt-out (always strict)
     if (last?.feedback === 'not_for_me') {
-      return { eligible: false, reason: 'User opted out permanently' };
+      const rejectionDetail = last.rejection_reason ? ` (${last.rejection_reason})` : '';
+      return { eligible: false, reason: `User opted out${rejectionDetail}` };
     }
 
     // 2. Medical contraindications (ALWAYS strict - check early)
@@ -536,6 +537,13 @@ export class TipRecommendationService {
       if (fairnessBonus > 0.7) {
         this.addReason(reasons, 'Addresses neglected goal');
       }
+    }
+    
+    // Learn from rejection reasons - penalize tips similar to what user rejected
+    const rejectionPenalty = this.calculateRejectionPenalty(tip, attempts);
+    if (rejectionPenalty > 0) {
+      score -= rejectionPenalty;
+      this.addReason(reasons, '⚠️ Similar to rejected');
     }
     
     // Vegetable approach for veggie-averse users
@@ -899,6 +907,105 @@ export class TipRecommendationService {
       default:
         return 0.5;
     }
+  }
+
+  /**
+   * Calculate penalty based on rejection reasons from past attempts
+   */
+  private calculateRejectionPenalty(tip: Tip, attempts: TipAttempt[]): number {
+    let penalty = 0;
+    
+    // Find rejected tips with reasons
+    const rejectedWithReasons = attempts.filter(a => 
+      a.feedback === 'not_for_me' && a.rejection_reason
+    );
+    
+    for (const rejection of rejectedWithReasons) {
+      const reason = rejection.rejection_reason;
+      
+      // Apply penalties based on rejection reasons
+      switch (reason) {
+        case 'dislike_taste':
+        case 'dislike_texture':
+          // Penalize tips with same foods
+          const rejectedTip = TIP_MAP.get(rejection.tip_id);
+          if (rejectedTip && tip.involves_foods && rejectedTip.involves_foods) {
+            const sharedFoods = tip.involves_foods.filter(f => 
+              rejectedTip.involves_foods?.includes(f)
+            );
+            if (sharedFoods.length > 0) {
+              penalty += 10 * sharedFoods.length; // Heavy penalty for same disliked foods
+            }
+          }
+          break;
+          
+        case 'too_much_cooking':
+          if (tip.cooking_skill_required && 
+              tip.cooking_skill_required !== 'none' && 
+              tip.cooking_skill_required !== 'microwave') {
+            penalty += 8;
+          }
+          break;
+          
+        case 'too_long':
+        case 'too_complex':
+          if (tip.time_cost_enum === '15_60_min' || tip.time_cost_enum === '>60_min') {
+            penalty += 6;
+          }
+          if (tip.difficulty_tier >= 4) {
+            penalty += 4;
+          }
+          break;
+          
+        case 'too_much_planning':
+          if (tip.requires_planning || tip.requires_advance_prep) {
+            penalty += 7;
+          }
+          break;
+          
+        case 'too_expensive':
+          if (tip.money_cost_enum === '$$$' || tip.money_cost_enum === '$$') {
+            penalty += 5;
+          }
+          break;
+          
+        case 'too_social':
+          if (tip.social_mode === 'group' || tip.location_tags?.includes('social_event')) {
+            penalty += 6;
+          }
+          break;
+          
+        case 'tried_failed':
+          // Penalize very similar tips (same type and mechanism)
+          const failedTip = TIP_MAP.get(rejection.tip_id);
+          if (failedTip) {
+            const sameTypes = (tip.tip_type ?? []).filter(t => 
+              failedTip.tip_type?.includes(t)
+            ).length;
+            const sameMechanisms = (tip.motivational_mechanism ?? []).filter(m => 
+              failedTip.motivational_mechanism?.includes(m)
+            ).length;
+            penalty += (sameTypes * 3) + (sameMechanisms * 2);
+          }
+          break;
+          
+        case 'not_my_style':
+          // Learn their style over time - mild penalty for similar categories
+          const styleRejectedTip = TIP_MAP.get(rejection.tip_id);
+          if (styleRejectedTip) {
+            const styleOverlap = (tip.tip_type ?? []).some(t => 
+              styleRejectedTip.tip_type?.includes(t)
+            );
+            if (styleOverlap) {
+              penalty += 3;
+            }
+          }
+          break;
+      }
+    }
+    
+    // Cap the penalty to avoid over-penalization
+    return Math.min(penalty, 25);
   }
 
   /**

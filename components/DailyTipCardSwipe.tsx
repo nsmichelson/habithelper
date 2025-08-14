@@ -26,7 +26,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   tip: Tip;
-  onResponse: (response: 'try_it' | 'not_interested' | 'maybe_later') => void;
+  onResponse: (response: 'try_it' | 'not_for_me' | 'maybe_later') => void;
   reasons?: string[];
 }
 
@@ -36,7 +36,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
   const cardScale = useSharedValue(1);
   const flatListRef = useRef<FlatList>(null);
 
-  const handleResponse = (response: 'try_it' | 'not_interested' | 'maybe_later') => {
+  const handleResponse = (response: 'try_it' | 'not_for_me' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
     cardScale.value = withSpring(0.95, {}, () => {
@@ -143,7 +143,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
             
             <TouchableOpacity
               style={[styles.responseButton, styles.skipButton]}
-              onPress={() => handleResponse('not_interested')}
+              onPress={() => handleResponse('not_for_me')}
             >
               <Ionicons name="close-circle-outline" size={20} color="#757575" />
               <Text style={styles.skipButtonText}>Not for Me</Text>

@@ -19,7 +19,7 @@ import ExperimentComplete from '@/components/ExperimentComplete';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
-import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete } from '@/types/tip';
+import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete, Tip } from '@/types/tip';
 import { getTipById } from '@/data/tips';
 import { format } from 'date-fns';
 
@@ -32,6 +32,8 @@ export default function HomeScreen() {
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [previousTips, setPreviousTips] = useState<DailyTip[]>([]);
   const [attempts, setAttempts] = useState<TipAttempt[]>([]);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [pendingOptOut, setPendingOptOut] = useState<{ tip: Tip; tipId: string } | null>(null);
 
   useEffect(() => {
     initializeApp();
@@ -198,18 +200,18 @@ export default function HomeScreen() {
     await loadDailyTip(profile, [], []);
   };
 
-  const handleTipResponse = async (response: 'try_it' | 'not_interested' | 'maybe_later') => {
-    if (!dailyTip) return;
+  const handleTipResponse = async (response: 'try_it' | 'not_for_me' | 'maybe_later') => {
+    if (!dailyTip || !userProfile || !currentTip) return;
 
     // Update the daily tip with response
     const updatedTip = {
       ...dailyTip,
-      user_response: response,
+      user_response: response as any,
       responded_at: new Date(),
     };
     
     await StorageService.updateDailyTip(dailyTip.id, {
-      user_response: response,
+      user_response: response as any,
       responded_at: new Date(),
     });
     
@@ -220,16 +222,52 @@ export default function HomeScreen() {
       await NotificationService.scheduleEveningCheckIn(dailyTip.tip_id, 19);
       // Don't show alert - the ExperimentMode component will handle the celebration
     } else if (response === 'maybe_later') {
+      // Create a snooze attempt for the recommendation algorithm
+      const snoozeAttempt: TipAttempt = {
+        id: Date.now().toString(),
+        tip_id: currentTip.tip_id,
+        attempted_at: new Date(),
+        created_at: new Date(),
+        feedback: 'maybe_later',
+        snooze_until: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+      };
+      await StorageService.saveTipAttempt(snoozeAttempt);
+      const updatedAttempts = [...attempts, snoozeAttempt];
+      setAttempts(updatedAttempts);
+      
       Alert.alert(
         'Saved for Later',
-        'We\'ll keep this tip in mind for another day!',
+        'We\'ll revisit this experiment in about a week!',
         [{ text: 'OK' }]
       );
-    } else if (response === 'not_interested') {
-      // Get next tip after a brief delay
+      
+      // Get next tip after alert
       setTimeout(() => {
-        loadDailyTip(userProfile!, previousTips, attempts);
-      }, 1000);
+        loadDailyTip(userProfile, previousTips, updatedAttempts);
+      }, 500);
+    } else if (response === 'not_for_me') {
+      // Create a permanent opt-out attempt for the recommendation algorithm
+      const optOutAttempt: TipAttempt = {
+        id: Date.now().toString(),
+        tip_id: currentTip.tip_id,
+        attempted_at: new Date(),
+        created_at: new Date(),
+        feedback: 'not_for_me',
+      };
+      await StorageService.saveTipAttempt(optOutAttempt);
+      const updatedAttempts = [...attempts, optOutAttempt];
+      setAttempts(updatedAttempts);
+      
+      Alert.alert(
+        'Got it!',
+        'We won\'t show you this experiment again.',
+        [{ text: 'OK' }]
+      );
+      
+      // Get next tip after alert
+      setTimeout(() => {
+        loadDailyTip(userProfile, previousTips, updatedAttempts);
+      }, 500);
     }
   };
 
@@ -258,6 +296,58 @@ export default function HomeScreen() {
     
     // Return at least 1, and handle negative or NaN values
     return Math.max(1, dayDiff + 1);
+  };
+
+  const handleNotForMeFeedback = async (reason: string | null, skipFuture?: boolean) => {
+    if (!pendingOptOut || !userProfile) return;
+    
+    // Create a permanent opt-out attempt with reason
+    const optOutAttempt: TipAttempt = {
+      id: Date.now().toString(),
+      tip_id: pendingOptOut.tipId,
+      attempted_at: new Date(),
+      created_at: new Date(),
+      feedback: 'not_for_me',
+      rejection_reason: reason || undefined,
+    };
+    
+    await StorageService.saveTipAttempt(optOutAttempt);
+    const updatedAttempts = [...attempts, optOutAttempt];
+    setAttempts(updatedAttempts);
+    
+    // Update user preference if they don't want to be asked again
+    if (skipFuture) {
+      const updatedProfile = {
+        ...userProfile,
+        skip_feedback_questions: true,
+      };
+      await StorageService.saveUserProfile(updatedProfile);
+      setUserProfile(updatedProfile);
+    }
+    
+    // Close modal and clear pending
+    setShowFeedbackModal(false);
+    setPendingOptOut(null);
+    
+    // Show confirmation (only if reason was provided)
+    if (reason) {
+      Alert.alert(
+        'Thanks for the feedback!',
+        'This helps me find better experiments for you.',
+        [{ text: 'OK' }]
+      );
+    } else {
+      Alert.alert(
+        'Got it!',
+        'We won\'t show you this experiment again.',
+        [{ text: 'OK' }]
+      );
+    }
+    
+    // Get next tip after a brief delay
+    setTimeout(() => {
+      loadDailyTip(userProfile, previousTips, updatedAttempts);
+    }, 500);
   };
 
   const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
@@ -359,6 +449,19 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Feedback Modal */}
+      {showFeedbackModal && pendingOptOut && (
+        <NotForMeFeedback
+          visible={showFeedbackModal}
+          tip={pendingOptOut.tip}
+          onClose={() => {
+            setShowFeedbackModal(false);
+            handleNotForMeFeedback(null);
+          }}
+          onFeedback={handleNotForMeFeedback}
+        />
+      )}
+      
       <LinearGradient
         colors={['#E8F5E9', '#FFFFFF']}
         style={styles.gradient}
@@ -595,14 +698,28 @@ export default function HomeScreen() {
                 onResponse={handleTipResponse}
                 reasons={tipReasons}
               />
-            ) : (
-              // User said "maybe later" or we're between tips
+            ) : dailyTip.user_response === 'maybe_later' ? (
+              // User said "maybe later"
               <View style={styles.noTipCard}>
                 <Ionicons name="bookmark" size={48} color="#FF9800" />
                 <Text style={styles.noTipTitle}>Tip saved for later</Text>
                 <Text style={styles.noTipText}>
                   We'll keep this in mind for another day. Check back tomorrow for a new experiment!
                 </Text>
+              </View>
+            ) : dailyTip.user_response === 'not_for_me' ? (
+              // User said "not for me" - loading next tip
+              <View style={styles.noTipCard}>
+                <ActivityIndicator size="large" color="#4CAF50" />
+                <Text style={styles.noTipTitle}>Finding another experiment...</Text>
+                <Text style={styles.noTipText}>
+                  Let's find something that works better for you!
+                </Text>
+              </View>
+            ) : (
+              // Unknown state - shouldn't happen
+              <View style={styles.noTipCard}>
+                <ActivityIndicator size="large" color="#4CAF50" />
               </View>
             )
           ) : (

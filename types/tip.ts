@@ -207,6 +207,8 @@ export interface TipAttempt {
   notes?: string;
   // For maybe_later
   snooze_until?: Date | string;
+  // For not_for_me - why they didn't want it
+  rejection_reason?: string;
 }
 
 export interface UserProfile {
@@ -261,6 +263,9 @@ export interface UserProfile {
   
   // Store quiz responses for conditional logic
   quiz_responses?: Array<{ questionId: string; value: any }>;
+  
+  // User preferences
+  skip_feedback_questions?: boolean; // If true, don't ask why they rejected tips
 }
 
 export interface QuickComplete {
