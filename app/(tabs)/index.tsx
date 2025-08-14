@@ -18,6 +18,7 @@ import ExperimentModeSwipe from '@/components/ExperimentModeSwipe';
 import ExperimentComplete from '@/components/ExperimentComplete';
 import NotForMeFeedback from '@/components/NotForMeFeedback';
 import TipHistoryModal from '@/components/TipHistoryModal';
+import TestDataCalendar from '@/components/TestDataCalendar';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -57,6 +58,7 @@ export default function HomeScreen() {
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  const [showTestCalendar, setShowTestCalendar] = useState(false);
 
   useEffect(() => {
     initializeApp();
@@ -617,6 +619,25 @@ export default function HomeScreen() {
         tips={modalTips}
       />
       
+      {/* Test Data Calendar - Dev Only */}
+      {__DEV__ && userProfile && (
+        <TestDataCalendar
+          visible={showTestCalendar}
+          onClose={() => setShowTestCalendar(false)}
+          userProfile={userProfile}
+          existingTips={previousTips}
+          onTipGenerated={async () => {
+            // Reload tips after generating test data
+            const tips = await StorageService.getDailyTips();
+            setPreviousTips(tips);
+            // Reload current day's tip if needed
+            if (userProfile) {
+              await loadDailyTip(userProfile, tips, attempts);
+            }
+          }}
+        />
+      )}
+      
       <LinearGradient
         colors={['#E8F5E9', '#FFFFFF']}
         style={styles.gradient}
@@ -634,59 +655,11 @@ export default function HomeScreen() {
               <Text style={styles.title}>Habit Helper</Text>
             </View>
             <View style={{ flexDirection: 'row', gap: 8 }}>
-              {/* Testing: Simulate new day */}
+              {/* Testing: Open test data calendar */}
               {__DEV__ && (
                 <TouchableOpacity 
                   style={styles.profileButton}
-                  onPress={async () => {
-                    // Get all recommendations and filter out previously shown tips
-                    const allRecommendations = TipRecommendationService.getRecommendations(
-                      userProfile!, 
-                      previousTips, 
-                      attempts,
-                      10 // Get more recommendations to choose from
-                    );
-                    
-                    // Filter out tips that have already been shown
-                    const shownTipIds = previousTips.map(t => t.tip_id);
-                    if (dailyTip) {
-                      shownTipIds.push(dailyTip.tip_id);
-                    }
-                    
-                    const newTips = allRecommendations.filter(
-                      rec => !shownTipIds.includes(rec.tip.tip_id)
-                    );
-                    
-                    if (newTips.length > 0) {
-                      const tipScore = newTips[0]; // Get the best new tip
-                      
-                      // Create a fake "day 3" tip
-                      const newDailyTip: DailyTip = {
-                        id: `day3-${Date.now()}`,
-                        user_id: userProfile!.id,
-                        tip_id: tipScore.tip.tip_id,
-                        presented_date: new Date(), // This would normally be tomorrow
-                      };
-                      
-                      // Don't save to storage - just update state for testing
-                      setDailyTip(newDailyTip);
-                      setCurrentTip(tipScore.tip);
-                      setTipReasons(tipScore.reasons);
-                      setShowCheckIn(false);
-                      
-                      Alert.alert(
-                        'Test Mode: Day 3',
-                        `Showing a new tip you haven't seen before: "${tipScore.tip.summary.substring(0, 50)}..."`,
-                        [{ text: 'OK' }]
-                      );
-                    } else {
-                      Alert.alert(
-                        'No New Tips',
-                        'All tips have been shown. Add more tips to the database!',
-                        [{ text: 'OK' }]
-                      );
-                    }
-                  }}
+                  onPress={() => setShowTestCalendar(true)}
                 >
                   <Ionicons name="calendar-outline" size={32} color="#9C27B0" />
                 </TouchableOpacity>
