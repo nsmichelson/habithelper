@@ -236,24 +236,21 @@ export default function HomeScreen() {
   const handleTipResponse = async (response: ResponseStatus) => {
     if (!dailyTip || !userProfile || !currentTip) return;
 
-    // Only update the daily tip with response for try_it and maybe_later
-    // not_for_me will be handled after feedback
-    if (response !== 'not_for_me') {
-      const updatedTip = {
-        ...dailyTip,
-        user_response: response as any,
-        responded_at: new Date(),
-      };
-      
-      await StorageService.updateDailyTip(dailyTip.id, {
-        user_response: response as any,
-        responded_at: new Date(),
-      });
-      
-      setDailyTip(updatedTip);
-    }
+    // Now only handles try_it and maybe_later
+    // not_for_me is handled by the separate onNotForMe callback
+    const updatedTip = {
+      ...dailyTip,
+      user_response: response as any,
+      responded_at: new Date(),
+    };
+    
+    await StorageService.updateDailyTip(dailyTip.id, {
+      user_response: response as any,
+      responded_at: new Date(),
+    });
+    
+    setDailyTip(updatedTip);
 
-    // If user is trying it, schedule evening check-in
     if (response === 'try_it') {
       await NotificationService.scheduleEveningCheckIn(dailyTip.tip_id, 19);
       // Don't show alert - the ExperimentMode component will handle the celebration
@@ -281,18 +278,6 @@ export default function HomeScreen() {
       setTimeout(() => {
         loadDailyTip(userProfile, previousTips, updatedAttempts);
       }, 500);
-    } else if (response === 'not_for_me') {
-      // Store the tip for feedback collection
-      setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
-      
-      // Check if user wants to skip feedback questions
-      if (userProfile.skip_feedback_questions) {
-        // Skip directly to opt-out without modal
-        await handleNotForMeFeedback(null);
-      } else {
-        // Show feedback modal
-        setShowFeedbackModal(true);
-      }
     }
   };
 
@@ -324,7 +309,7 @@ export default function HomeScreen() {
   };
 
   const handleNotForMeFeedback = async (reason: string | null, skipFuture?: boolean) => {
-    if (!pendingOptOut || !userProfile) return;
+    if (!pendingOptOut || !userProfile || !dailyTip) return;
     
     // Create a permanent opt-out attempt with reason
     const optOutAttempt: TipAttempt = {
@@ -369,14 +354,35 @@ export default function HomeScreen() {
       );
     }
     
-    // Clear the current tip immediately to show loading state
-    setDailyTip(null);
-    setCurrentTip(null);
+    // Now save the 'not_for_me' response to the daily tip
+    // This is a transient state just for the loading animation
+    const updatedTip = {
+      ...dailyTip,
+      user_response: 'not_for_me' as any,
+      responded_at: new Date(),
+    };
+    setDailyTip(updatedTip);
     
-    // Get next tip after a brief delay
-    setTimeout(() => {
-      loadDailyTip(userProfile, previousTips, updatedAttempts);
-    }, 500);
+    // Don't persist the 'not_for_me' state - immediately get next tip
+    // The loading state will show briefly while we fetch
+    setTimeout(async () => {
+      // Clear the current tip and fetch a new one
+      const tipScore = TipRecommendationService.getDailyTip(userProfile, previousTips, updatedAttempts);
+      
+      if (tipScore) {
+        const newDailyTip: DailyTip = {
+          id: Date.now().toString(),
+          user_id: userProfile.id,
+          tip_id: tipScore.tip.tip_id,
+          presented_date: new Date(),
+        };
+        
+        await StorageService.saveDailyTip(newDailyTip);
+        setDailyTip(newDailyTip);
+        setCurrentTip(tipScore.tip);
+        setTipReasons(tipScore.reasons);
+      }
+    }, 100);
   };
 
   const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
@@ -733,6 +739,15 @@ export default function HomeScreen() {
               <DailyTipCardSwipe
                 tip={currentTip}
                 onResponse={handleTipResponse}
+                onNotForMe={() => {
+                  // Only open modal, don't trigger replacement
+                  setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
+                  if (userProfile.skip_feedback_questions) {
+                    handleNotForMeFeedback(null);
+                  } else {
+                    setShowFeedbackModal(true);
+                  }
+                }}
                 reasons={tipReasons}
               />
             ) : dailyTip.user_response === 'maybe_later' ? (
@@ -745,7 +760,7 @@ export default function HomeScreen() {
                 </Text>
               </View>
             ) : dailyTip.user_response === 'not_for_me' ? (
-              // User said "not for me" - loading next tip
+              // User said "not for me" - loading next tip (transient state)
               <View style={styles.noTipCard}>
                 <ActivityIndicator size="large" color="#4CAF50" />
                 <Text style={styles.noTipTitle}>Finding another experiment...</Text>
@@ -770,6 +785,15 @@ export default function HomeScreen() {
                   <DailyTipCardSwipe
                     tip={currentTip}
                     onResponse={handleTipResponse}
+                    onNotForMe={() => {
+                      // Only open modal, don't trigger replacement
+                      setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
+                      if (userProfile.skip_feedback_questions) {
+                        handleNotForMeFeedback(null);
+                      } else {
+                        setShowFeedbackModal(true);
+                      }
+                    }}
                     reasons={tipReasons}
                   />
                 );

@@ -27,10 +27,11 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 interface Props {
   tip: Tip;
   onResponse: (response: 'try_it' | 'not_for_me' | 'maybe_later') => void;
+  onNotForMe?: () => void; // Separate callback for opening feedback modal
   reasons?: string[];
 }
 
-export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Props) {
+export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [] }: Props) {
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
   const cardScale = useSharedValue(1);
@@ -39,10 +40,18 @@ export default function DailyTipCardSwipe({ tip, onResponse, reasons = [] }: Pro
   const handleResponse = (response: 'try_it' | 'not_for_me' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
-    cardScale.value = withSpring(0.95, {}, () => {
-      cardScale.value = withSpring(1);
-      runOnJS(onResponse)(response);
-    });
+    // For 'not_for_me', use the separate callback if provided
+    if (response === 'not_for_me' && onNotForMe) {
+      cardScale.value = withSpring(0.95, {}, () => {
+        cardScale.value = withSpring(1);
+        runOnJS(onNotForMe)();
+      });
+    } else {
+      cardScale.value = withSpring(0.95, {}, () => {
+        cardScale.value = withSpring(1);
+        runOnJS(onResponse)(response);
+      });
+    }
   };
 
   const scrollHandler = useAnimatedScrollHandler({
