@@ -9,12 +9,13 @@ import {
   Dimensions,
   Animated,
   TextInput,
-  KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tip } from '../types/tip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -95,6 +96,9 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
   const [dontAskAgain, setDontAskAgain] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(300)).current;
+  const keyboardOffset = useRef(new Animated.Value(0)).current;
+  
+  const insets = useSafeAreaInsets();
   
   const reasons = getReasonOptions(tip);
   
@@ -131,6 +135,43 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
     }
   }, [visible]);
   
+  useEffect(() => {
+    // Keyboard listeners for manual offset animation
+    const updateFromEvent = (e: any) => {
+      // How much of the keyboard overlaps the screen bottom
+      const screenH = Dimensions.get('window').height;
+      const overlap = Math.max(0, screenH - (e.endCoordinates?.screenY ?? screenH));
+      // Subtract bottom inset so we don't double-count the home indicator
+      const target = Math.max(0, overlap - (insets.bottom || 0));
+
+      Animated.timing(keyboardOffset, {
+        toValue: -target, // Negative to move up
+        duration: e.duration ?? 250,
+        useNativeDriver: true, // Can use native driver with transform
+      }).start();
+    };
+
+    const showEvt = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+    const hideEvt = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+    const changeEvt = Platform.OS === 'ios' ? 'keyboardWillChangeFrame' : null;
+
+    const s1 = Keyboard.addListener(showEvt, updateFromEvent);
+    const s2 = changeEvt ? Keyboard.addListener(changeEvt, updateFromEvent) : { remove() {} };
+    const s3 = Keyboard.addListener(hideEvt, () =>
+      Animated.timing(keyboardOffset, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start()
+    );
+
+    return () => {
+      s1.remove();
+      s2.remove();
+      s3.remove();
+    };
+  }, [insets.bottom]);
+  
   const handleSelectReason = (reason: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedReason(reason);
@@ -151,6 +192,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
   const handleSubmitCustomReason = () => {
     if (customReason.trim()) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      Keyboard.dismiss(); // Dismiss keyboard on submit
       onFeedback(`other: ${customReason.trim()}`, dontAskAgain);
       setSelectedReason('');
       setCustomReason('');
@@ -191,8 +233,12 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
         <Animated.View 
           style={[
             styles.container,
+            showCustomInput && styles.containerWithKeyboard,
             {
-              transform: [{ translateY: slideAnim }],
+              transform: [
+                { translateY: slideAnim },
+                { translateY: keyboardOffset } // Combine both translations
+              ],
             }
           ]}
         >
@@ -211,9 +257,14 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
             
             {/* Reason Options or Custom Input */}
             {showCustomInput ? (
-              <KeyboardAvoidingView 
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              <ScrollView 
                 style={styles.customInputContainer}
+                contentContainerStyle={[
+                  styles.customInputContent,
+                  { flexGrow: 1, paddingBottom: (insets.bottom || 0) + 24 }
+                ]}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
               >
                 <View style={styles.customInputHeader}>
                   <TouchableOpacity
@@ -243,6 +294,9 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
                   multiline
                   autoFocus
                   maxLength={200}
+                  scrollEnabled={false}
+                  blurOnSubmit={false}
+                  returnKeyType="done"
                 />
                 
                 <Text style={styles.characterCount}>
@@ -265,12 +319,18 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
                     Submit Feedback
                   </Text>
                 </TouchableOpacity>
-              </KeyboardAvoidingView>
+                
+                {/* Extra padding for keyboard */}
+                <View style={{ height: 20 }} />
+              </ScrollView>
             ) : (
               <ScrollView 
                 style={styles.reasonsContainer}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.reasonsContent}
+                contentContainerStyle={[
+                  styles.reasonsContent,
+                  { paddingBottom: (insets.bottom || 0) + 12 }
+                ]}
               >
                 <View style={styles.reasonsGrid}>
                   {reasons.map((reason) => (
@@ -353,6 +413,9 @@ const styles = StyleSheet.create({
   },
   container: {
     maxHeight: '80%',
+  },
+  containerWithKeyboard: {
+    maxHeight: '95%', // Allow more room when keyboard is shown
   },
   content: {
     borderTopLeftRadius: 32,
@@ -508,8 +571,11 @@ const styles = StyleSheet.create({
     color: '#757575',
   },
   customInputContainer: {
+    flex: 1,
     paddingHorizontal: 24,
-    minHeight: 200,
+  },
+  customInputContent: {
+    paddingBottom: 20,
   },
   customInputHeader: {
     flexDirection: 'row',
@@ -537,8 +603,8 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
     color: '#1A1A1A',
-    minHeight: 120,
-    maxHeight: 180,
+    minHeight: 100,
+    maxHeight: 120,
     textAlignVertical: 'top',
     borderWidth: 2,
     borderColor: 'transparent',
