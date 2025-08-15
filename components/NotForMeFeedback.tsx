@@ -24,62 +24,62 @@ interface Props {
 }
 
 // Define reason categories based on tip characteristics
-const getReasonOptions = (tip: Tip): { label: string; value: string; icon: string }[] => {
-  const options: { label: string; value: string; icon: string }[] = [];
+const getReasonOptions = (tip: Tip): { label: string; value: string; icon: string; emoji: string }[] => {
+  const options: { label: string; value: string; icon: string; emoji: string }[] = [];
   
   // Food-related reasons (if tip involves specific foods)
   if (tip.involves_foods && tip.involves_foods.length > 0) {
     options.push(
-      { label: "Don't like the taste", value: 'dislike_taste', icon: 'close-circle-outline' },
-      { label: "Don't like the texture", value: 'dislike_texture', icon: 'water-outline' },
-      { label: "Don't have that food", value: 'no_access', icon: 'basket-outline' },
-      { label: "Allergic/can't eat it", value: 'cant_eat', icon: 'warning-outline' },
+      { label: "Not a fan of the taste", value: 'dislike_taste', icon: 'close-circle-outline', emoji: '😝' },
+      { label: "Texture isn't for me", value: 'dislike_texture', icon: 'water-outline', emoji: '🤔' },
+      { label: "Don't have ingredients", value: 'no_access', icon: 'basket-outline', emoji: '🛒' },
+      { label: "Can't eat this", value: 'cant_eat', icon: 'warning-outline', emoji: '⚠️' },
     );
   }
   
   // Cooking-related reasons
   if (tip.cooking_skill_required && tip.cooking_skill_required !== 'none') {
     options.push(
-      { label: 'Too much cooking', value: 'too_much_cooking', icon: 'restaurant-outline' },
-      { label: "Don't have equipment", value: 'no_equipment', icon: 'construct-outline' },
+      { label: 'Too much cooking', value: 'too_much_cooking', icon: 'restaurant-outline', emoji: '👨‍🍳' },
+      { label: "Missing equipment", value: 'no_equipment', icon: 'construct-outline', emoji: '🔧' },
     );
   }
   
   // Time-related reasons
   if (tip.time_cost_enum !== '0_5_min') {
     options.push(
-      { label: 'Takes too long', value: 'too_long', icon: 'time-outline' },
-      { label: 'Too complicated', value: 'too_complex', icon: 'layers-outline' },
+      { label: 'Takes too long', value: 'too_long', icon: 'time-outline', emoji: '⏰' },
+      { label: 'Too complicated', value: 'too_complex', icon: 'layers-outline', emoji: '🤯' },
     );
   }
   
   // Planning-related reasons
   if (tip.requires_planning || tip.requires_advance_prep) {
     options.push(
-      { label: 'Too much planning', value: 'too_much_planning', icon: 'calendar-outline' },
+      { label: 'Too much planning', value: 'too_much_planning', icon: 'calendar-outline', emoji: '📅' },
     );
   }
   
   // Cost-related reasons
   if (tip.money_cost_enum !== '$') {
     options.push(
-      { label: 'Too expensive', value: 'too_expensive', icon: 'cash-outline' },
+      { label: 'Too expensive', value: 'too_expensive', icon: 'cash-outline', emoji: '💰' },
     );
   }
   
   // Social reasons
   if (tip.social_mode === 'group' || tip.location_tags?.includes('social_event')) {
     options.push(
-      { label: 'Too social/public', value: 'too_social', icon: 'people-outline' },
+      { label: 'Too social for me', value: 'too_social', icon: 'people-outline', emoji: '👥' },
     );
   }
   
   // Universal reasons (always show these)
   options.push(
-    { label: "Tried before, didn't work", value: 'tried_failed', icon: 'refresh-outline' },
-    { label: "Not my style", value: 'not_my_style', icon: 'person-outline' },
-    { label: "Just not interested", value: 'not_interested', icon: 'heart-dislike-outline' },
-    { label: "Other reason", value: 'other', icon: 'ellipsis-horizontal-outline' },
+    { label: "Tried it, didn't work", value: 'tried_failed', icon: 'refresh-outline', emoji: '🔄' },
+    { label: "Not my vibe", value: 'not_my_style', icon: 'person-outline', emoji: '✨' },
+    { label: "Just not feeling it", value: 'not_interested', icon: 'heart-dislike-outline', emoji: '💭' },
+    { label: "Something else", value: 'other', icon: 'ellipsis-horizontal-outline', emoji: '💬' },
   );
   
   return options;
@@ -179,13 +179,10 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
           >
             {/* Header */}
             <View style={styles.header}>
-              <View style={styles.iconContainer}>
-                <Ionicons name="chatbubbles-outline" size={32} color="#4CAF50" />
-              </View>
-              <Text style={styles.title}>Mind sharing why?</Text>
+              <View style={styles.pullIndicator} />
+              <Text style={styles.title}>What didn't click?</Text>
               <Text style={styles.subtitle}>
-                This helps me find better experiments for you! 
-                {'\n'}No pressure though 😊
+                Your feedback helps me learn what works for you
               </Text>
             </View>
             
@@ -195,59 +192,69 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.reasonsContent}
             >
-              {reasons.map((reason) => (
-                <TouchableOpacity
-                  key={reason.value}
-                  style={[
-                    styles.reasonButton,
-                    selectedReason === reason.value && styles.reasonButtonSelected
-                  ]}
-                  onPress={() => handleSelectReason(reason.value)}
-                  activeOpacity={0.7}
-                >
-                  <Ionicons 
-                    name={reason.icon as any} 
-                    size={20} 
-                    color={selectedReason === reason.value ? '#4CAF50' : '#666'} 
-                  />
-                  <Text style={[
-                    styles.reasonText,
-                    selectedReason === reason.value && styles.reasonTextSelected
-                  ]}>
-                    {reason.label}
-                  </Text>
-                  {selectedReason === reason.value && (
-                    <Ionicons name="checkmark-circle" size={20} color="#4CAF50" style={styles.checkIcon} />
-                  )}
-                </TouchableOpacity>
-              ))}
+              <View style={styles.reasonsGrid}>
+                {reasons.map((reason) => (
+                  <TouchableOpacity
+                    key={reason.value}
+                    style={[
+                      styles.reasonCard,
+                      selectedReason === reason.value && styles.reasonCardSelected
+                    ]}
+                    onPress={() => handleSelectReason(reason.value)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={[
+                      styles.emojiContainer,
+                      selectedReason === reason.value && styles.emojiContainerSelected
+                    ]}>
+                      <Text style={styles.emoji}>{reason.emoji}</Text>
+                    </View>
+                    <Text style={[
+                      styles.reasonText,
+                      selectedReason === reason.value && styles.reasonTextSelected
+                    ]}>
+                      {reason.label}
+                    </Text>
+                    {selectedReason === reason.value && (
+                      <View style={styles.selectedIndicator}>
+                        <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
             </ScrollView>
             
-            {/* Skip button */}
-            <TouchableOpacity
-              style={styles.skipButton}
-              onPress={handleSkip}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.skipText}>Skip this question</Text>
-            </TouchableOpacity>
-            
-            {/* Don't ask again option */}
-            <TouchableOpacity
-              style={styles.dontAskContainer}
-              onPress={() => {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                setDontAskAgain(!dontAskAgain);
-              }}
-              activeOpacity={0.7}
-            >
-              <Ionicons 
-                name={dontAskAgain ? "checkbox" : "square-outline"} 
-                size={20} 
-                color="#999" 
-              />
-              <Text style={styles.dontAskText}>Don't ask me this again</Text>
-            </TouchableOpacity>
+            {/* Footer Actions */}
+            <View style={styles.footer}>
+              <TouchableOpacity
+                style={styles.skipButton}
+                onPress={handleSkip}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.skipText}>I'll skip the feedback</Text>
+                <Ionicons name="arrow-forward" size={16} color="#666" style={{ marginLeft: 4 }} />
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={styles.dontAskContainer}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  setDontAskAgain(!dontAskAgain);
+                }}
+                activeOpacity={0.7}
+              >
+                <View style={[
+                  styles.checkbox,
+                  dontAskAgain && styles.checkboxChecked
+                ]}>
+                  {dontAskAgain && (
+                    <Ionicons name="checkmark" size={12} color="#FFFFFF" />
+                  )}
+                </View>
+                <Text style={styles.dontAskText}>Don't ask me again</Text>
+              </TouchableOpacity>
+            </View>
           </LinearGradient>
         </Animated.View>
       </Animated.View>
@@ -258,51 +265,166 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     justifyContent: 'flex-end',
   },
   container: {
-    maxHeight: '75%',
+    maxHeight: '80%',
   },
   content: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingTop: 24,
-    paddingBottom: 40,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingTop: 12,
+    paddingBottom: 34,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 8,
   },
   header: {
     alignItems: 'center',
     paddingHorizontal: 24,
+    marginBottom: 24,
+  },
+  pullIndicator: {
+    width: 36,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#E0E0E0',
     marginBottom: 20,
   },
-  iconContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: '#E8F5E9',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
   title: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 26,
+    fontWeight: '800',
     color: '#1A1A1A',
     marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 15,
-    color: '#666',
+    fontSize: 16,
+    color: '#757575',
     textAlign: 'center',
-    lineHeight: 21,
+    lineHeight: 22,
   },
   reasonsContainer: {
-    maxHeight: 300,
-    paddingHorizontal: 24,
+    maxHeight: 340,
+    marginBottom: 16,
   },
   reasonsContent: {
-    paddingBottom: 16,
+    paddingHorizontal: 20,
+    paddingBottom: 8,
   },
+  reasonsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  reasonCard: {
+    width: (SCREEN_WIDTH - 52) / 2, // 2 columns with padding
+    backgroundColor: '#F8F9FA',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 2,
+    borderColor: 'transparent',
+    alignItems: 'center',
+  },
+  reasonCardSelected: {
+    backgroundColor: '#E8F5E9',
+    borderColor: '#4CAF50',
+    transform: [{ scale: 0.98 }],
+  },
+  emojiContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  emojiContainerSelected: {
+    backgroundColor: '#4CAF50',
+  },
+  emoji: {
+    fontSize: 24,
+  },
+  reasonText: {
+    fontSize: 13,
+    color: '#424242',
+    textAlign: 'center',
+    fontWeight: '500',
+    lineHeight: 18,
+  },
+  reasonTextSelected: {
+    color: '#2E7D32',
+    fontWeight: '700',
+  },
+  selectedIndicator: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#4CAF50',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footer: {
+    paddingHorizontal: 24,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+    marginTop: 8,
+  },
+  skipButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 16,
+    marginBottom: 16,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 28,
+  },
+  skipText: {
+    fontSize: 15,
+    color: '#666',
+    fontWeight: '600',
+  },
+  dontAskContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 8,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: '#D0D0D0',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  checkboxChecked: {
+    backgroundColor: '#4CAF50',
+    borderColor: '#4CAF50',
+  },
+  dontAskText: {
+    fontSize: 14,
+    color: '#757575',
+  },
+  // Legacy styles (kept for compatibility if needed)
   reasonButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -317,39 +439,7 @@ const styles = StyleSheet.create({
     borderColor: '#4CAF50',
     backgroundColor: '#F1F8F4',
   },
-  reasonText: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-    marginLeft: 12,
-  },
-  reasonTextSelected: {
-    color: '#2E7D32',
-    fontWeight: '500',
-  },
   checkIcon: {
-    marginLeft: 8,
-  },
-  skipButton: {
-    alignItems: 'center',
-    paddingVertical: 16,
-    marginTop: 8,
-  },
-  skipText: {
-    fontSize: 16,
-    color: '#999',
-    fontWeight: '500',
-  },
-  dontAskContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-    paddingTop: 8,
-  },
-  dontAskText: {
-    fontSize: 14,
-    color: '#999',
     marginLeft: 8,
   },
 });
