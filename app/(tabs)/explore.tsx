@@ -8,15 +8,18 @@ import {
   Dimensions,
   Animated,
   RefreshControl,
+  FlatList,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { BlurView } from 'expo-blur';
 import StorageService from '@/services/storage';
 import { DailyTip, TipAttempt, UserProfile } from '@/types/tip';
 import { getTipById } from '@/data/tips';
+import Svg, { Circle, Path, G, Text as SvgText } from 'react-native-svg';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface InsightCard {
   id: string;
@@ -35,22 +38,70 @@ interface SuccessPattern {
   count: number;
 }
 
+interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  color: string[];
+  unlocked: boolean;
+  progress: number;
+  target: number;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+}
+
+interface WeekComparison {
+  metric: string;
+  thisWeek: number;
+  lastWeek: number;
+  change: number;
+  improved: boolean;
+}
+
+const MOTIVATIONAL_QUOTES = [
+  { text: "Every expert was once a beginner.", author: "Unknown" },
+  { text: "Progress, not perfection.", author: "Unknown" },
+  { text: "Small steps daily lead to big changes yearly.", author: "Unknown" },
+  { text: "Your only limit is you.", author: "Unknown" },
+  { text: "Make it happen.", author: "Unknown" },
+  { text: "Success is a series of small wins.", author: "Unknown" },
+];
+
 export default function ProgressScreen() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [dailyTips, setDailyTips] = useState<DailyTip[]>([]);
   const [attempts, setAttempts] = useState<TipAttempt[]>([]);
   const [insights, setInsights] = useState<InsightCard[]>([]);
   const [successPatterns, setSuccessPatterns] = useState<SuccessPattern[]>([]);
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [weekComparison, setWeekComparison] = useState<WeekComparison[]>([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'patterns' | 'journey'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'analytics' | 'journey'>('overview');
+  const [selectedInsight, setSelectedInsight] = useState<string | null>(null);
+  const [currentQuote, setCurrentQuote] = useState(MOTIVATIONAL_QUOTES[0]);
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
   const scaleAnims = useRef([...Array(6)].map(() => new Animated.Value(0.9))).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+  const chartAnimValues = useRef([...Array(7)].map(() => new Animated.Value(0))).current;
+  const confettiAnims = useRef([...Array(20)].map(() => ({
+    x: new Animated.Value(0),
+    y: new Animated.Value(0),
+    opacity: new Animated.Value(0),
+    rotate: new Animated.Value(0),
+  }))).current;
 
   useEffect(() => {
     loadData();
+    // Rotate through quotes
+    const quoteInterval = setInterval(() => {
+      const randomQuote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)];
+      setCurrentQuote(randomQuote);
+    }, 10000);
+    return () => clearInterval(quoteInterval);
   }, []);
 
   useEffect(() => {
@@ -79,6 +130,31 @@ export default function ProgressScreen() {
         useNativeDriver: true,
       }).start();
     });
+
+    // Pulse animation for selected cards
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1.05,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+
+    // Rotate animation for achievements
+    Animated.loop(
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 20000,
+        useNativeDriver: true,
+      }),
+    ).start();
   }, [insights]);
 
   const loadData = async () => {
@@ -93,6 +169,8 @@ export default function ProgressScreen() {
     if (profile && tips.length > 0) {
       calculateInsights(tips, tipAttempts);
       findSuccessPatterns(tips, tipAttempts);
+      calculateAchievements(tips, tipAttempts);
+      calculateWeekComparison(tips, tipAttempts);
     }
   };
 
@@ -341,6 +419,200 @@ export default function ProgressScreen() {
     setSuccessPatterns(patterns);
   };
 
+  const calculateAchievements = (tips: DailyTip[], attempts: TipAttempt[]) => {
+    const totalTried = tips.filter(t => t.user_response === 'try_it').length;
+    const totalSuccess = tips.filter(t => 
+      t.evening_check_in === 'went_great' || t.evening_check_in === 'went_ok'
+    ).length;
+    const currentStreak = calculateStreak(tips);
+    const bestStreak = calculateBestStreak(tips);
+    
+    const achievementList: Achievement[] = [
+      {
+        id: 'first_step',
+        title: 'First Step',
+        description: 'Try your first experiment',
+        icon: 'footsteps',
+        color: ['#4CAF50', '#66BB6A'],
+        unlocked: totalTried >= 1,
+        progress: Math.min(totalTried, 1),
+        target: 1,
+        rarity: 'common',
+      },
+      {
+        id: 'week_warrior',
+        title: 'Week Warrior',
+        description: 'Complete 7 experiments',
+        icon: 'calendar',
+        color: ['#2196F3', '#42A5F5'],
+        unlocked: totalTried >= 7,
+        progress: Math.min(totalTried, 7),
+        target: 7,
+        rarity: 'common',
+      },
+      {
+        id: 'success_seeker',
+        title: 'Success Seeker',
+        description: '10 successful experiments',
+        icon: 'trophy',
+        color: ['#FFD700', '#FFC107'],
+        unlocked: totalSuccess >= 10,
+        progress: Math.min(totalSuccess, 10),
+        target: 10,
+        rarity: 'rare',
+      },
+      {
+        id: 'streak_master',
+        title: 'Streak Master',
+        description: '7 day streak',
+        icon: 'flame',
+        color: ['#FF6B6B', '#FF8E53'],
+        unlocked: bestStreak >= 7,
+        progress: Math.min(bestStreak, 7),
+        target: 7,
+        rarity: 'rare',
+      },
+      {
+        id: 'experiment_expert',
+        title: 'Experiment Expert',
+        description: 'Try 30 experiments',
+        icon: 'flask',
+        color: ['#9C27B0', '#BA68C8'],
+        unlocked: totalTried >= 30,
+        progress: Math.min(totalTried, 30),
+        target: 30,
+        rarity: 'epic',
+      },
+      {
+        id: 'habit_hero',
+        title: 'Habit Hero',
+        description: 'Maintain a 30 day streak',
+        icon: 'shield-checkmark',
+        color: ['#E91E63', '#F06292'],
+        unlocked: bestStreak >= 30,
+        progress: Math.min(bestStreak, 30),
+        target: 30,
+        rarity: 'legendary',
+      },
+      {
+        id: 'perfect_week',
+        title: 'Perfect Week',
+        description: '7 successful experiments in a row',
+        icon: 'star',
+        color: ['#00BCD4', '#26C6DA'],
+        unlocked: false, // Calculate consecutive successes
+        progress: 0,
+        target: 7,
+        rarity: 'epic',
+      },
+      {
+        id: 'explorer',
+        title: 'Explorer',
+        description: 'Try 5 different experiment types',
+        icon: 'compass',
+        color: ['#FF9800', '#FFB74D'],
+        unlocked: false, // Calculate unique categories
+        progress: 0,
+        target: 5,
+        rarity: 'rare',
+      },
+    ];
+    
+    setAchievements(achievementList);
+  };
+
+  const calculateWeekComparison = (tips: DailyTip[], attempts: TipAttempt[]) => {
+    const now = new Date();
+    const thisWeekStart = new Date(now.getTime() - now.getDay() * 24 * 60 * 60 * 1000);
+    const lastWeekStart = new Date(thisWeekStart.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const lastWeekEnd = new Date(thisWeekStart.getTime() - 1);
+    
+    const thisWeekTips = tips.filter(t => new Date(t.presented_date) >= thisWeekStart);
+    const lastWeekTips = tips.filter(t => {
+      const date = new Date(t.presented_date);
+      return date >= lastWeekStart && date <= lastWeekEnd;
+    });
+    
+    const comparisons: WeekComparison[] = [
+      {
+        metric: 'Experiments Tried',
+        thisWeek: thisWeekTips.filter(t => t.user_response === 'try_it').length,
+        lastWeek: lastWeekTips.filter(t => t.user_response === 'try_it').length,
+        change: 0,
+        improved: false,
+      },
+      {
+        metric: 'Success Rate',
+        thisWeek: thisWeekTips.length > 0 ? 
+          Math.round((thisWeekTips.filter(t => t.evening_check_in === 'went_great').length / thisWeekTips.length) * 100) : 0,
+        lastWeek: lastWeekTips.length > 0 ?
+          Math.round((lastWeekTips.filter(t => t.evening_check_in === 'went_great').length / lastWeekTips.length) * 100) : 0,
+        change: 0,
+        improved: false,
+      },
+      {
+        metric: 'Active Days',
+        thisWeek: new Set(thisWeekTips.map(t => new Date(t.presented_date).toDateString())).size,
+        lastWeek: new Set(lastWeekTips.map(t => new Date(t.presented_date).toDateString())).size,
+        change: 0,
+        improved: false,
+      },
+    ];
+    
+    // Calculate changes
+    comparisons.forEach(comp => {
+      comp.change = comp.thisWeek - comp.lastWeek;
+      comp.improved = comp.change > 0;
+    });
+    
+    setWeekComparison(comparisons);
+  };
+
+  const triggerConfetti = () => {
+    confettiAnims.forEach((anim, index) => {
+      const delay = index * 50;
+      const randomX = (Math.random() - 0.5) * SCREEN_WIDTH;
+      const randomRotation = Math.random() * 720;
+      
+      Animated.sequence([
+        Animated.delay(delay),
+        Animated.parallel([
+          Animated.timing(anim.opacity, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.timing(anim.y, {
+            toValue: SCREEN_HEIGHT,
+            duration: 2000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(anim.x, {
+            toValue: randomX,
+            duration: 2000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(anim.rotate, {
+            toValue: randomRotation,
+            duration: 2000,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.timing(anim.opacity, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        // Reset for next trigger
+        anim.y.setValue(0);
+        anim.x.setValue(0);
+        anim.rotate.setValue(0);
+        anim.opacity.setValue(0);
+      });
+    });
+  };
+
   const renderInsightCard = (insight: InsightCard, index: number) => (
     <Animated.View
       key={insight.id}
@@ -349,7 +621,7 @@ export default function ProgressScreen() {
         {
           opacity: fadeAnim,
           transform: [
-            { scale: scaleAnims[index] || 1 },
+            { scale: selectedInsight === insight.id ? pulseAnim : (scaleAnims[index] || 1) },
             { translateY: slideAnim },
           ],
         },
@@ -357,11 +629,17 @@ export default function ProgressScreen() {
     >
       <TouchableOpacity
         activeOpacity={0.9}
-        onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          setSelectedInsight(insight.id === selectedInsight ? null : insight.id);
+          if (insight.value > 20 && insight.id === '1') {
+            triggerConfetti();
+          }
+        }}
       >
         <LinearGradient
           colors={insight.color}
-          style={styles.insightGradient}
+          style={[styles.insightGradient, selectedInsight === insight.id && styles.insightGradientSelected]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
@@ -383,6 +661,175 @@ export default function ProgressScreen() {
       </TouchableOpacity>
     </Animated.View>
   );
+  
+  const renderAchievement = (achievement: Achievement, index: number) => {
+    const progress = (achievement.progress / achievement.target) * 100;
+    const spin = rotateAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    });
+    
+    return (
+      <TouchableOpacity
+        key={achievement.id}
+        style={[
+          styles.achievementCard,
+          achievement.unlocked && styles.achievementUnlocked,
+          !achievement.unlocked && styles.achievementLocked,
+        ]}
+        onPress={() => {
+          if (achievement.unlocked) {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            triggerConfetti();
+          } else {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }
+        }}
+        activeOpacity={0.8}
+      >
+        {achievement.unlocked ? (
+          <LinearGradient
+            colors={achievement.color}
+            style={styles.achievementGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          >
+            <Animated.View style={achievement.rarity === 'legendary' ? { transform: [{ rotate: spin }] } : {}}>
+              <Ionicons name={achievement.icon as any} size={40} color="#FFFFFF" />
+            </Animated.View>
+            <Text style={styles.achievementTitle}>{achievement.title}</Text>
+            <View style={styles.rarityBadge}>
+              <Text style={styles.rarityText}>{achievement.rarity.toUpperCase()}</Text>
+            </View>
+          </LinearGradient>
+        ) : (
+          <View style={styles.achievementLockedContent}>
+            <Ionicons name="lock-closed" size={30} color="#CCCCCC" />
+            <Text style={styles.achievementLockedTitle}>{achievement.title}</Text>
+            <Text style={styles.achievementDescription}>{achievement.description}</Text>
+            <View style={styles.progressBar}>
+              <View style={[styles.progressFill, { width: `${progress}%` }]} />
+            </View>
+            <Text style={styles.progressText}>{achievement.progress}/{achievement.target}</Text>
+          </View>
+        )}
+      </TouchableOpacity>
+    );
+  };
+
+  const renderWeekComparison = () => (
+    <View style={styles.comparisonContainer}>
+      <Text style={styles.sectionTitle}>This Week vs Last Week</Text>
+      {weekComparison.map((comp, index) => (
+        <Animated.View
+          key={comp.metric}
+          style={[
+            styles.comparisonCard,
+            {
+              opacity: fadeAnim,
+              transform: [
+                { translateX: Animated.multiply(slideAnim, index % 2 === 0 ? 1 : -1) },
+              ],
+            },
+          ]}
+        >
+          <Text style={styles.comparisonMetric}>{comp.metric}</Text>
+          <View style={styles.comparisonValues}>
+            <View style={styles.weekValue}>
+              <Text style={styles.weekLabel}>Last</Text>
+              <Text style={styles.weekNumber}>{comp.lastWeek}</Text>
+            </View>
+            <View style={styles.changeIndicator}>
+              <Ionicons 
+                name={comp.improved ? 'arrow-up' : comp.change < 0 ? 'arrow-down' : 'remove'} 
+                size={24} 
+                color={comp.improved ? '#4CAF50' : comp.change < 0 ? '#F44336' : '#999999'} 
+              />
+              {comp.change !== 0 && (
+                <Text style={[styles.changeText, comp.improved ? styles.changePositive : styles.changeNegative]}>
+                  {comp.change > 0 ? '+' : ''}{comp.change}
+                </Text>
+              )}
+            </View>
+            <View style={styles.weekValue}>
+              <Text style={styles.weekLabel}>This</Text>
+              <Text style={[styles.weekNumber, comp.improved && styles.weekNumberHighlight]}>
+                {comp.thisWeek}
+              </Text>
+            </View>
+          </View>
+        </Animated.View>
+      ))}
+    </View>
+  );
+
+  const renderChart = () => {
+    const last7Days = dailyTips.slice(-7);
+    const maxHeight = 100;
+    
+    return (
+      <View style={styles.chartContainer}>
+        <Text style={styles.chartTitle}>7-Day Activity</Text>
+        <View style={styles.chart}>
+          {[...Array(7)].map((_, index) => {
+            const tip = last7Days[index];
+            const height = tip?.user_response === 'try_it' ? 
+              (tip.evening_check_in === 'went_great' ? maxHeight : 
+               tip.evening_check_in === 'went_ok' ? maxHeight * 0.7 : 
+               maxHeight * 0.4) : 0;
+            
+            const animatedHeight = chartAnimValues[index].interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, height],
+            });
+            
+            // Animate chart bars
+            Animated.timing(chartAnimValues[index], {
+              toValue: 1,
+              duration: 500,
+              delay: index * 100,
+              useNativeDriver: false,
+            }).start();
+            
+            const date = new Date();
+            date.setDate(date.getDate() - (6 - index));
+            const dayLabel = date.toLocaleDateString('en-US', { weekday: 'short' }).slice(0, 1);
+            
+            return (
+              <View key={index} style={styles.chartBar}>
+                <Animated.View 
+                  style={[
+                    styles.bar,
+                    { 
+                      height: animatedHeight,
+                      backgroundColor: tip?.evening_check_in === 'went_great' ? '#4CAF50' :
+                                     tip?.evening_check_in === 'went_ok' ? '#FFC107' :
+                                     tip?.user_response === 'try_it' ? '#FF9800' : '#E0E0E0'
+                    }
+                  ]} 
+                />
+                <Text style={styles.barLabel}>{dayLabel}</Text>
+              </View>
+            );
+          })}
+        </View>
+        <View style={styles.chartLegend}>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#4CAF50' }]} />
+            <Text style={styles.legendText}>Great</Text>
+          </View>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#FFC107' }]} />
+            <Text style={styles.legendText}>OK</Text>
+          </View>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: '#FF9800' }]} />
+            <Text style={styles.legendText}>Tried</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   const renderSuccessPattern = (pattern: SuccessPattern, index: number) => (
     <Animated.View
@@ -434,9 +881,20 @@ export default function ProgressScreen() {
             </Text>
           </View>
 
+          {/* Motivational Quote */}
+          <Animated.View style={[styles.quoteContainer, { opacity: fadeAnim }]}>
+            <Text style={styles.quoteText}>"{currentQuote.text}"</Text>
+            <Text style={styles.quoteAuthor}>— {currentQuote.author}</Text>
+          </Animated.View>
+
           {/* Tab Selector */}
-          <View style={styles.tabContainer}>
-            {(['overview', 'patterns', 'journey'] as const).map((tab) => (
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.tabScrollContainer}
+            contentContainerStyle={styles.tabScrollContent}
+          >
+            {(['overview', 'achievements', 'analytics', 'journey'] as const).map((tab) => (
               <TouchableOpacity
                 key={tab}
                 style={[
@@ -448,6 +906,15 @@ export default function ProgressScreen() {
                   setActiveTab(tab);
                 }}
               >
+                <Ionicons 
+                  name={
+                    tab === 'overview' ? 'home' :
+                    tab === 'achievements' ? 'trophy' :
+                    tab === 'analytics' ? 'stats-chart' : 'map'
+                  } 
+                  size={20} 
+                  color={activeTab === tab ? '#4CAF50' : '#666'} 
+                />
                 <Text style={[
                   styles.tabText,
                   activeTab === tab && styles.activeTabText,
@@ -456,7 +923,7 @@ export default function ProgressScreen() {
                 </Text>
               </TouchableOpacity>
             ))}
-          </View>
+          </ScrollView>
 
           {/* Content based on active tab */}
           {activeTab === 'overview' && (
@@ -479,30 +946,53 @@ export default function ProgressScreen() {
             </>
           )}
 
-          {activeTab === 'patterns' && (
-            <View style={styles.patternsContainer}>
-              {successPatterns.length > 0 ? (
-                <>
-                  <Text style={styles.sectionTitle}>Your Success Patterns</Text>
-                  {successPatterns.map((pattern, index) => renderSuccessPattern(pattern, index))}
-                  
-                  <View style={styles.insightBox}>
-                    <Ionicons name="bulb" size={24} color="#FFA000" />
-                    <Text style={styles.insightText}>
-                      Based on your patterns, you might enjoy experiments that are quick, 
-                      social, and focused on {insights[5]?.value || 'healthy swaps'}.
-                    </Text>
-                  </View>
-                </>
-              ) : (
-                <View style={styles.emptyState}>
-                  <Text style={styles.emptyEmoji}>🔍</Text>
-                  <Text style={styles.emptyTitle}>Patterns emerging...</Text>
-                  <Text style={styles.emptyText}>
-                    Try a few more experiments and we'll spot your success patterns!
+          {activeTab === 'achievements' && (
+            <View style={styles.achievementsContainer}>
+              <Text style={styles.sectionTitle}>Your Achievements</Text>
+              <View style={styles.achievementsGrid}>
+                {achievements.map((achievement, index) => renderAchievement(achievement, index))}
+              </View>
+              
+              {achievements.filter(a => a.unlocked).length >= 3 && (
+                <View style={styles.motivationCard}>
+                  <Text style={styles.motivationText}>
+                    🏆 You've unlocked {achievements.filter(a => a.unlocked).length} achievements! 
+                    Keep going to unlock them all!
                   </Text>
                 </View>
               )}
+            </View>
+          )}
+
+          {activeTab === 'analytics' && (
+            <View style={styles.analyticsContainer}>
+              {renderChart()}
+              {renderWeekComparison()}
+              
+              <View style={styles.patternsContainer}>
+                {successPatterns.length > 0 ? (
+                  <>
+                    <Text style={styles.sectionTitle}>Your Success Patterns</Text>
+                    {successPatterns.map((pattern, index) => renderSuccessPattern(pattern, index))}
+                    
+                    <View style={styles.insightBox}>
+                      <Ionicons name="bulb" size={24} color="#FFA000" />
+                      <Text style={styles.insightText}>
+                        Based on your patterns, you might enjoy experiments that are quick, 
+                        social, and focused on {insights[5]?.value || 'healthy swaps'}.
+                      </Text>
+                    </View>
+                  </>
+                ) : (
+                  <View style={styles.emptyState}>
+                    <Text style={styles.emptyEmoji}>📊</Text>
+                    <Text style={styles.emptyTitle}>Building your profile...</Text>
+                    <Text style={styles.emptyText}>
+                      Complete more experiments to see detailed analytics!
+                    </Text>
+                  </View>
+                )}
+              </View>
             </View>
           )}
 
@@ -576,6 +1066,30 @@ export default function ProgressScreen() {
           <View style={{ height: 100 }} />
         </ScrollView>
       </LinearGradient>
+      
+      {/* Confetti Overlay */}
+      <View style={styles.confettiContainer} pointerEvents="none">
+        {confettiAnims.map((anim, index) => (
+          <Animated.View
+            key={index}
+            style={[
+              styles.confetti,
+              {
+                opacity: anim.opacity,
+                transform: [
+                  { translateY: anim.y },
+                  { translateX: anim.x },
+                  { rotate: anim.rotate.interpolate({
+                    inputRange: [0, 720],
+                    outputRange: ['0deg', '720deg'],
+                  }) },
+                ],
+                backgroundColor: ['#FF6B6B', '#4CAF50', '#2196F3', '#FFD700', '#9C27B0'][index % 5],
+              },
+            ]}
+          />
+        ))}
+      </View>
     </View>
   );
 }
@@ -602,6 +1116,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
+  quoteContainer: {
+    marginHorizontal: 24,
+    marginBottom: 20,
+    padding: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: '#4CAF50',
+  },
+  quoteText: {
+    fontSize: 14,
+    fontStyle: 'italic',
+    color: '#424242',
+    lineHeight: 20,
+  },
+  quoteAuthor: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
+  },
+  tabScrollContainer: {
+    marginBottom: 20,
+    maxHeight: 60,
+  },
+  tabScrollContent: {
+    paddingHorizontal: 20,
+    gap: 8,
+  },
   tabContainer: {
     flexDirection: 'row',
     marginHorizontal: 24,
@@ -611,10 +1153,13 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   tab: {
-    flex: 1,
+    flexDirection: 'row',
     paddingVertical: 10,
+    paddingHorizontal: 16,
     alignItems: 'center',
+    gap: 6,
     borderRadius: 8,
+    marginHorizontal: 4,
   },
   activeTab: {
     backgroundColor: '#FFFFFF',
@@ -646,6 +1191,13 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 20,
     minHeight: 120,
+  },
+  insightGradientSelected: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 6,
   },
   insightHeader: {
     flexDirection: 'row',
@@ -823,5 +1375,231 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 40,
     lineHeight: 20,
+  },
+  achievementsContainer: {
+    paddingHorizontal: 24,
+  },
+  achievementsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  achievementCard: {
+    width: (SCREEN_WIDTH - 64) / 3,
+    height: (SCREEN_WIDTH - 64) / 3,
+    marginBottom: 16,
+    borderRadius: 16,
+  },
+  achievementUnlocked: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  achievementLocked: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    borderStyle: 'dashed',
+  },
+  achievementGradient: {
+    flex: 1,
+    borderRadius: 16,
+    padding: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  achievementTitle: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  achievementLockedContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+  },
+  achievementLockedTitle: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#999',
+    marginTop: 4,
+    textAlign: 'center',
+  },
+  achievementDescription: {
+    fontSize: 9,
+    color: '#BBBBBB',
+    textAlign: 'center',
+    marginTop: 2,
+  },
+  progressBar: {
+    width: '80%',
+    height: 4,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 2,
+    marginTop: 6,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#4CAF50',
+    borderRadius: 2,
+  },
+  progressText: {
+    fontSize: 8,
+    color: '#999',
+    marginTop: 2,
+  },
+  rarityBadge: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  rarityText: {
+    fontSize: 8,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  analyticsContainer: {
+    paddingHorizontal: 24,
+  },
+  chartContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    marginBottom: 16,
+  },
+  chart: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    height: 120,
+    marginBottom: 12,
+  },
+  chartBar: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  bar: {
+    width: '70%',
+    borderRadius: 4,
+    marginBottom: 4,
+  },
+  barLabel: {
+    fontSize: 11,
+    color: '#666',
+    fontWeight: '600',
+  },
+  chartLegend: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 16,
+    marginTop: 8,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  legendDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  legendText: {
+    fontSize: 11,
+    color: '#666',
+  },
+  comparisonContainer: {
+    marginBottom: 20,
+  },
+  comparisonCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  comparisonMetric: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 12,
+  },
+  comparisonValues: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  weekValue: {
+    alignItems: 'center',
+  },
+  weekLabel: {
+    fontSize: 11,
+    color: '#999',
+    marginBottom: 4,
+  },
+  weekNumber: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#424242',
+  },
+  weekNumberHighlight: {
+    color: '#4CAF50',
+  },
+  changeIndicator: {
+    alignItems: 'center',
+  },
+  changeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  changePositive: {
+    color: '#4CAF50',
+  },
+  changeNegative: {
+    color: '#F44336',
+  },
+  confettiContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  confetti: {
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    top: -10,
+    left: SCREEN_WIDTH / 2 - 5,
   },
 });
