@@ -202,12 +202,13 @@ export interface TipAttempt {
   id: string;
   tip_id: string;
   attempted_at: Date;
-  created_at: Date | string; // hydrate to Date on read
-  feedback: TipFeedback;
+  created_at?: Date | string; // hydrate to Date on read
+  updated_at?: Date | string; // Track when feedback was updated
+  feedback?: TipFeedback | 'maybe_later' | 'not_for_me';
   notes?: string;
   // For maybe_later
   snooze_until?: Date | string;
-  // For not_for_me - why they didn't want it
+  // For not_for_me - why they didn't want it (can include follow-up details separated by colon)
   rejection_reason?: string;
 }
 

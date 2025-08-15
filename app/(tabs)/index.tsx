@@ -54,7 +54,7 @@ export default function HomeScreen() {
   const [previousTips, setPreviousTips] = useState<DailyTip[]>([]);
   const [attempts, setAttempts] = useState<TipAttempt[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [pendingOptOut, setPendingOptOut] = useState<{ tip: Tip; tipId: string } | null>(null);
+  const [pendingOptOut, setPendingOptOut] = useState<{ tip: Tip; tipId: string; existingFeedback?: string } | null>(null);
   const [rejectedTipInfo, setRejectedTipInfo] = useState<{ tip: Tip; attempt?: TipAttempt } | null>(null);
   const [isReplacingTip, setIsReplacingTip] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -392,26 +392,41 @@ export default function HomeScreen() {
   const handleNotForMeFeedback = async (reason: string | null, skipFuture?: boolean) => {
     if (!pendingOptOut || !userProfile || !dailyTip) return;
     
-    // Create a permanent opt-out attempt with reason
-    const optOutAttempt: TipAttempt = {
-      id: Date.now().toString(),
-      tip_id: pendingOptOut.tipId,
-      attempted_at: new Date(),
-      created_at: new Date(),
-      feedback: 'not_for_me',
-      rejection_reason: reason || undefined,
-    };
-    
-    await StorageService.saveTipAttempt(optOutAttempt);
-    const updatedAttempts = [...attempts, optOutAttempt];
-    setAttempts(updatedAttempts);
-    
-    // Store the rejected tip info to show the rejection view
-    setRejectedTipInfo({ tip: pendingOptOut.tip, attempt: optOutAttempt });
-    
-    // If we already have rejected tip info and user is updating feedback, update it
-    if (rejectedTipInfo && rejectedTipInfo.tip.tip_id === pendingOptOut.tipId) {
-      setRejectedTipInfo({ ...rejectedTipInfo, attempt: optOutAttempt });
+    // If we're updating existing feedback, find and update the existing attempt
+    if (pendingOptOut.existingFeedback && rejectedTipInfo?.attempt) {
+      // Update the existing attempt with more detailed feedback
+      const updatedAttempt: TipAttempt = {
+        ...rejectedTipInfo.attempt,
+        rejection_reason: reason || rejectedTipInfo.attempt.rejection_reason,
+        updated_at: new Date(),
+      };
+      
+      // Update in storage (you might need to add an updateTipAttempt method)
+      await StorageService.saveTipAttempt(updatedAttempt);
+      
+      // Update local state
+      const updatedAttempts = attempts.map(a => 
+        a.id === updatedAttempt.id ? updatedAttempt : a
+      );
+      setAttempts(updatedAttempts);
+      setRejectedTipInfo({ ...rejectedTipInfo, attempt: updatedAttempt });
+    } else {
+      // Create a new permanent opt-out attempt with reason
+      const optOutAttempt: TipAttempt = {
+        id: Date.now().toString(),
+        tip_id: pendingOptOut.tipId,
+        attempted_at: new Date(),
+        created_at: new Date(),
+        feedback: 'not_for_me',
+        rejection_reason: reason || undefined,
+      };
+      
+      await StorageService.saveTipAttempt(optOutAttempt);
+      const updatedAttempts = [...attempts, optOutAttempt];
+      setAttempts(updatedAttempts);
+      
+      // Store the rejected tip info to show the rejection view
+      setRejectedTipInfo({ tip: pendingOptOut.tip, attempt: optOutAttempt });
     }
     
     // Update user preference if they don't want to be asked again
@@ -606,6 +621,7 @@ export default function HomeScreen() {
         <NotForMeFeedback
           visible={showFeedbackModal}
           tip={pendingOptOut.tip}
+          existingFeedback={pendingOptOut.existingFeedback}
           onClose={() => {
             setShowFeedbackModal(false);
             handleNotForMeFeedback(null);
@@ -841,7 +857,11 @@ export default function HomeScreen() {
                 tip={rejectedTipInfo.tip}
                 rejection={rejectedTipInfo.attempt}
                 onRequestFeedback={() => {
-                  setPendingOptOut({ tip: rejectedTipInfo.tip, tipId: rejectedTipInfo.tip.tip_id });
+                  setPendingOptOut({ 
+                    tip: rejectedTipInfo.tip, 
+                    tipId: rejectedTipInfo.tip.tip_id,
+                    existingFeedback: rejectedTipInfo.attempt?.rejection_reason 
+                  });
                   setShowFeedbackModal(true);
                 }}
                 onFindNewTip={handleFindNewTip}

@@ -25,7 +25,87 @@ interface Props {
   tip: Tip;
   onClose: () => void;
   onFeedback: (reason: string, skipFutureQuestion?: boolean) => void;
+  existingFeedback?: string; // To show follow-ups for existing feedback
 }
+
+// Follow-up questions for deeper insights
+const getFollowUpQuestions = (primaryReason: string): { label: string; value: string; emoji: string }[] => {
+  switch (primaryReason) {
+    case 'dislike_taste':
+      return [
+        { label: "I prefer sweeter flavors", value: 'prefer_sweet', emoji: '🍬' },
+        { label: "I prefer savory flavors", value: 'prefer_savory', emoji: '🧂' },
+        { label: "Too spicy for me", value: 'too_spicy', emoji: '🌶️' },
+        { label: "Not spicy enough", value: 'not_spicy_enough', emoji: '🫑' },
+        { label: "Too bland", value: 'too_bland', emoji: '😐' },
+        { label: "Too rich/heavy", value: 'too_rich', emoji: '🧈' },
+        { label: "Prefer lighter flavors", value: 'prefer_light', emoji: '🌱' },
+        { label: "Don't like that specific ingredient", value: 'specific_ingredient', emoji: '🚫' },
+      ];
+    
+    case 'dislike_texture':
+      return [
+        { label: "Too mushy/soft", value: 'too_soft', emoji: '🥣' },
+        { label: "Too crunchy/hard", value: 'too_hard', emoji: '🥜' },
+        { label: "Too chewy", value: 'too_chewy', emoji: '🍬' },
+        { label: "Too slimy", value: 'too_slimy', emoji: '🫘' },
+        { label: "Prefer smoother textures", value: 'prefer_smooth', emoji: '🥤' },
+        { label: "Prefer more texture variety", value: 'prefer_varied', emoji: '🎲' },
+      ];
+    
+    case 'too_long':
+    case 'too_complex':
+      return [
+        { label: "Would try if under 5 minutes", value: 'if_under_5min', emoji: '⚡' },
+        { label: "Would try if under 15 minutes", value: 'if_under_15min', emoji: '⏱️' },
+        { label: "Too many steps involved", value: 'too_many_steps', emoji: '📝' },
+        { label: "Need simpler instructions", value: 'need_simpler', emoji: '🎯' },
+        { label: "Would try on weekends", value: 'weekend_only', emoji: '📅' },
+        { label: "Prefer one-step solutions", value: 'one_step_only', emoji: '1️⃣' },
+      ];
+    
+    case 'too_much_cooking':
+      return [
+        { label: "Prefer no-cook options", value: 'no_cook_only', emoji: '🥗' },
+        { label: "Microwave only", value: 'microwave_only', emoji: '📻' },
+        { label: "Would try simpler cooking", value: 'simple_cooking_ok', emoji: '🍳' },
+        { label: "Don't know how to cook this", value: 'dont_know_how', emoji: '❓' },
+        { label: "Afraid of messing it up", value: 'afraid_to_fail', emoji: '😰' },
+        { label: "Would try with guidance", value: 'need_guidance', emoji: '👨‍🏫' },
+      ];
+    
+    case 'too_expensive':
+      return [
+        { label: "Would try cheaper version", value: 'if_cheaper', emoji: '💵' },
+        { label: "Can't afford ingredients", value: 'cant_afford', emoji: '💸' },
+        { label: "Not worth the cost", value: 'not_worth_cost', emoji: '⚖️' },
+        { label: "Would try if on sale", value: 'if_on_sale', emoji: '🏷️' },
+        { label: "Prefer budget options only", value: 'budget_only', emoji: '🪙' },
+      ];
+    
+    case 'no_access':
+      return [
+        { label: "Not available near me", value: 'not_available_locally', emoji: '📍' },
+        { label: "Would need to shop first", value: 'need_shopping', emoji: '🛒' },
+        { label: "Don't know where to find it", value: 'dont_know_where', emoji: '🗺️' },
+        { label: "Would try with substitutions", value: 'ok_with_substitutes', emoji: '🔄' },
+        { label: "Need delivery option", value: 'need_delivery', emoji: '🚚' },
+      ];
+    
+    case 'tried_failed':
+      return [
+        { label: "Didn't see results", value: 'no_results', emoji: '📊' },
+        { label: "Made me feel worse", value: 'felt_worse', emoji: '📉' },
+        { label: "Too hard to maintain", value: 'hard_to_maintain', emoji: '🎢' },
+        { label: "Didn't fit my schedule", value: 'schedule_conflict', emoji: '📆' },
+        { label: "Would try modified version", value: 'try_modified', emoji: '🔧' },
+        { label: "Need more time to see effects", value: 'need_more_time', emoji: '⏳' },
+      ];
+    
+    default:
+      return [];
+  }
+};
 
 // Define reason categories based on tip characteristics
 const getReasonOptions = (tip: Tip): { label: string; value: string; icon: string; emoji: string }[] => {
@@ -89,17 +169,22 @@ const getReasonOptions = (tip: Tip): { label: string; value: string; icon: strin
   return options;
 };
 
-export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: Props) {
+export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, existingFeedback }: Props) {
   const [selectedReason, setSelectedReason] = useState<string>('');
   const [customReason, setCustomReason] = useState<string>('');
   const [showCustomInput, setShowCustomInput] = useState(false);
+  const [showFollowUp, setShowFollowUp] = useState(false);
+  const [selectedFollowUp, setSelectedFollowUp] = useState<string>('');
   const [dontAskAgain, setDontAskAgain] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(300)).current;
   
   const insets = useSafeAreaInsets();
   
-  const reasons = getReasonOptions(tip);
+  // If we have existing feedback, show follow-up questions instead
+  const primaryReason = existingFeedback?.split(':')[0] || '';
+  const reasons = existingFeedback ? [] : getReasonOptions(tip);
+  const followUpQuestions = existingFeedback ? getFollowUpQuestions(primaryReason) : [];
   
   useEffect(() => {
     if (visible) {
@@ -144,13 +229,48 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
       // Show custom input for 'other' reason
       setShowCustomInput(true);
     } else {
-      // Auto-submit after a brief delay for smooth UX
-      setTimeout(() => {
-        onFeedback(reason, dontAskAgain);
-        setSelectedReason('');
-        setDontAskAgain(false);
-      }, 300);
+      // Check if this reason has follow-up questions
+      const followUps = getFollowUpQuestions(reason);
+      if (followUps.length > 0 && !existingFeedback) {
+        // Show follow-up questions
+        setShowFollowUp(true);
+      } else {
+        // Auto-submit after a brief delay for smooth UX
+        setTimeout(() => {
+          onFeedback(reason, dontAskAgain);
+          setSelectedReason('');
+          setDontAskAgain(false);
+        }, 300);
+      }
     }
+  };
+  
+  const handleSelectFollowUp = (followUp: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setSelectedFollowUp(followUp);
+    
+    // Submit both primary and follow-up reason
+    setTimeout(() => {
+      const fullFeedback = existingFeedback 
+        ? `${existingFeedback}:${followUp}`
+        : `${selectedReason}:${followUp}`;
+      onFeedback(fullFeedback, dontAskAgain);
+      setSelectedReason('');
+      setSelectedFollowUp('');
+      setShowFollowUp(false);
+      setDontAskAgain(false);
+    }, 300);
+  };
+  
+  const handleSkipFollowUp = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    // Submit just the primary reason
+    const feedback = existingFeedback || selectedReason;
+    onFeedback(feedback, dontAskAgain);
+    setSelectedReason('');
+    setSelectedFollowUp('');
+    setShowFollowUp(false);
+    setDontAskAgain(false);
   };
   
   const handleSubmitCustomReason = () => {
@@ -209,14 +329,83 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
             {/* Header */}
             <View style={styles.header}>
               <View style={styles.pullIndicator} />
-              <Text style={styles.title}>What didn't click?</Text>
+              <Text style={styles.title}>
+                {existingFeedback ? 'Tell me more' : 
+                 showFollowUp ? 'Can you be more specific?' : 
+                 'What didn\'t click?'}
+              </Text>
               <Text style={styles.subtitle}>
-                Your feedback helps me learn what works for you
+                {existingFeedback ? 'Deeper insights help find better matches' :
+                 showFollowUp ? 'This helps me understand your preferences better' :
+                 'Your feedback helps me learn what works for you'}
               </Text>
             </View>
             
-            {/* Reason Options or Custom Input */}
-            {showCustomInput ? (
+            {/* Reason Options, Follow-ups, or Custom Input */}
+            {showFollowUp ? (
+              <View style={{ flex: 1 }}>
+                <ScrollView 
+                  style={styles.reasonsContainer}
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={[
+                    styles.reasonsContent,
+                    { paddingBottom: (insets.bottom || 0) + 12 }
+                  ]}
+                >
+                  <View style={styles.followUpSection}>
+                    <Text style={styles.followUpPrompt}>
+                      {existingFeedback ? 
+                        `You mentioned this before. Any specific details?` :
+                        `Got it! What specifically about that?`}
+                    </Text>
+                    <View style={styles.reasonsGrid}>
+                      {(existingFeedback ? followUpQuestions : getFollowUpQuestions(selectedReason)).map((followUp) => (
+                        <TouchableOpacity
+                          key={followUp.value}
+                          style={[
+                            styles.reasonCard,
+                            selectedFollowUp === followUp.value && styles.reasonCardSelected
+                          ]}
+                          onPress={() => handleSelectFollowUp(followUp.value)}
+                          activeOpacity={0.7}
+                        >
+                          <View style={[
+                            styles.emojiContainer,
+                            selectedFollowUp === followUp.value && styles.emojiContainerSelected
+                          ]}
+                          >
+                            <Text style={styles.emoji}>{followUp.emoji}</Text>
+                          </View>
+                          <Text style={[
+                            styles.reasonText,
+                            selectedFollowUp === followUp.value && styles.reasonTextSelected
+                          ]}>
+                            {followUp.label}
+                          </Text>
+                          {selectedFollowUp === followUp.value && (
+                            <View style={styles.selectedIndicator}>
+                              <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+                            </View>
+                          )}
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+                </ScrollView>
+                
+                {/* Skip follow-up button */}
+                <View style={styles.footer}>
+                  <TouchableOpacity
+                    style={styles.skipButton}
+                    onPress={handleSkipFollowUp}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.skipText}>That's all for now</Text>
+                    <Ionicons name="arrow-forward" size={16} color="#666" style={{ marginLeft: 4 }} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : showCustomInput ? (
               <View style={{ flex: 1 }}>
                 <ScrollView 
                   style={styles.customInputContainer}
@@ -285,6 +474,56 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
                   <View style={{ height: 20 }} />
                 </ScrollView>
               </View>
+            ) : existingFeedback && followUpQuestions.length > 0 ? (
+              // Show follow-up questions for existing feedback
+              <View style={{ flex: 1 }}>
+                <ScrollView 
+                  style={styles.reasonsContainer}
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={[
+                    styles.reasonsContent,
+                    { paddingBottom: (insets.bottom || 0) + 12 }
+                  ]}
+                >
+                  <View style={styles.followUpSection}>
+                    <Text style={styles.followUpPrompt}>
+                      You said this didn't work before. Any specific details to add?
+                    </Text>
+                    <View style={styles.reasonsGrid}>
+                      {followUpQuestions.map((followUp) => (
+                        <TouchableOpacity
+                          key={followUp.value}
+                          style={[
+                            styles.reasonCard,
+                            selectedFollowUp === followUp.value && styles.reasonCardSelected
+                          ]}
+                          onPress={() => handleSelectFollowUp(followUp.value)}
+                          activeOpacity={0.7}
+                        >
+                          <View style={[
+                            styles.emojiContainer,
+                            selectedFollowUp === followUp.value && styles.emojiContainerSelected
+                          ]}
+                          >
+                            <Text style={styles.emoji}>{followUp.emoji}</Text>
+                          </View>
+                          <Text style={[
+                            styles.reasonText,
+                            selectedFollowUp === followUp.value && styles.reasonTextSelected
+                          ]}>
+                            {followUp.label}
+                          </Text>
+                          {selectedFollowUp === followUp.value && (
+                            <View style={styles.selectedIndicator}>
+                              <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+                            </View>
+                          )}
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+                </ScrollView>
+              </View>
             ) : (
               <View style={{ flex: 1 }}>
                 <ScrollView 
@@ -330,8 +569,8 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
               </View>
             )}
             
-            {/* Footer Actions - only show when not in custom input mode */}
-            {!showCustomInput && (
+            {/* Footer Actions - only show when not in custom input mode or follow-up mode */}
+            {!showCustomInput && !showFollowUp && !existingFeedback && (
               <View style={styles.footer}>
                 <TouchableOpacity
                   style={styles.skipButton}
@@ -598,6 +837,17 @@ const styles = StyleSheet.create({
   },
   submitButtonTextDisabled: {
     color: '#999',
+  },
+  followUpSection: {
+    flex: 1,
+  },
+  followUpPrompt: {
+    fontSize: 16,
+    color: '#424242',
+    marginBottom: 20,
+    textAlign: 'center',
+    lineHeight: 22,
+    fontWeight: '500',
   },
   // Legacy styles (kept for compatibility if needed)
   reasonButton: {
