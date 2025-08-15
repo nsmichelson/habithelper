@@ -373,24 +373,25 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    justifyContent: 'flex-end',
+    justifyContent: 'center', // Center vertically instead of bottom
+    paddingBottom: 80, // Shift up from true center to leave room for keyboard
   },
   container: {
-    height: '75%', // Single fixed height always
-    width: '100%',
+    height: '60%', // Smaller to leave room below for keyboard
+    width: '90%', // Not full width for floating card effect
+    alignSelf: 'center',
   },
   content: {
     flex: 1, // Fill the container
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderRadius: 32, // All corners rounded since modal is centered
     paddingTop: 12,
     paddingBottom: 34,
     backgroundColor: '#FFFFFF',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 0 }, // Shadow all around
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 12,
   },
   header: {
     alignItems: 'center',
@@ -431,11 +432,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   reasonCard: {
-    width: (SCREEN_WIDTH - 52) / 2, // 2 columns with padding
+    width: '48%', // Use percentage for 2 columns with gap
     backgroundColor: '#F8F9FA',
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 12,
+    borderRadius: 16,
+    padding: 12,
+    marginBottom: 10,
     borderWidth: 2,
     borderColor: 'transparent',
     alignItems: 'center',
@@ -446,31 +447,31 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.98 }],
   },
   emojiContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
-    shadowRadius: 4,
+    shadowRadius: 3,
     elevation: 2,
   },
   emojiContainerSelected: {
     backgroundColor: '#4CAF50',
   },
   emoji: {
-    fontSize: 24,
+    fontSize: 20,
   },
   reasonText: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#424242',
     textAlign: 'center',
     fontWeight: '500',
-    lineHeight: 18,
+    lineHeight: 16,
   },
   reasonTextSelected: {
     color: '#2E7D32',
