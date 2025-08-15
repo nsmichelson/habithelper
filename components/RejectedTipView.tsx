@@ -66,265 +66,244 @@ export default function RejectedTipView({ tip, rejection, onRequestFeedback, onF
   };
   
   return (
-    <ScrollView 
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.contentContainer}
-    >
+    <View style={styles.container}>
       <LinearGradient
         colors={['#FFFFFF', '#F8FBF8']}
         style={styles.card}
       >
-        {/* Header */}
+        {/* Header - matching original tip card */}
         <View style={styles.header}>
-          <View style={styles.statusBadge}>
-            <Ionicons name="close-circle" size={20} color="#E57373" />
-            <Text style={styles.statusText}>Not for you</Text>
+          <View style={styles.headerTop}>
+            <Text style={styles.label}>TODAY'S EXPERIMENT</Text>
+            <View style={styles.statusBadge}>
+              <Ionicons name="close-circle" size={16} color="#E57373" />
+              <Text style={styles.statusText}>Not for you</Text>
+            </View>
           </View>
+          
+          <Text style={styles.summary}>{tip.summary}</Text>
         </View>
         
-        {/* Tip Summary */}
-        <View style={styles.tipSummaryContainer}>
-          <Text style={styles.tipLabel}>TODAY'S EXPERIMENT</Text>
-          <Text style={styles.tipSummary}>{tip.summary}</Text>
-        </View>
-        
-        {/* Rejection Reason or Prompt */}
+        {/* Feedback Section */}
         {hasReason ? (
-          <View style={styles.reasonContainer}>
-            <Text style={styles.reasonLabel}>Why it didn't work:</Text>
-            <View style={styles.reasonCard}>
-              {rejectionDisplay && (
-                <>
-                  <Text style={styles.reasonEmoji}>{rejectionDisplay.emoji}</Text>
-                  <Text style={styles.reasonText}>{rejectionDisplay.label}</Text>
-                </>
-              )}
+          <View style={styles.feedbackSection}>
+            {/* Previous Feedback Display */}
+            <View style={styles.previousFeedbackCard}>
+              <Text style={styles.feedbackLabel}>You said:</Text>
+              <View style={styles.reasonDisplay}>
+                {rejectionDisplay && (
+                  <>
+                    <Text style={styles.reasonEmoji}>{rejectionDisplay.emoji}</Text>
+                    <Text style={styles.reasonText}>{rejectionDisplay.label}</Text>
+                  </>
+                )}
+              </View>
             </View>
             
-            {/* Reflection prompt */}
-            <View style={styles.reflectionContainer}>
-              <Text style={styles.reflectionTitle}>Reflection</Text>
-              <Text style={styles.reflectionText}>
-                That's totally okay! Not every experiment works for everyone. 
-                {rejection?.rejection_reason?.includes('taste') && " Your taste preferences are unique and valid."}
-                {rejection?.rejection_reason?.includes('time') && " Time constraints are real and important to respect."}
-                {rejection?.rejection_reason?.includes('expensive') && " Budget considerations matter."}
-                {rejection?.rejection_reason?.includes('cooking') && " Cooking skills can be built over time when you're ready."}
-                {!rejection?.rejection_reason?.includes('taste') && 
-                 !rejection?.rejection_reason?.includes('time') && 
-                 !rejection?.rejection_reason?.includes('expensive') && 
-                 !rejection?.rejection_reason?.includes('cooking') && 
-                 " Every bit of feedback helps us find better experiments for you."}
-              </Text>
-            </View>
+            {/* Add More Feedback Prompt */}
+            <TouchableOpacity
+              style={styles.addMoreFeedbackButton}
+              onPress={handleRequestFeedback}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="add-circle-outline" size={18} color="#4CAF50" />
+              <Text style={styles.addMoreFeedbackText}>Add more feedback</Text>
+            </TouchableOpacity>
           </View>
         ) : (
-          <View style={styles.noReasonContainer}>
-            <View style={styles.promptCard}>
-              <Ionicons name="help-circle-outline" size={32} color="#4CAF50" />
-              <Text style={styles.promptTitle}>Help us understand</Text>
-              <Text style={styles.promptText}>
-                What made this experiment not right for you? Your feedback helps us find better matches.
+          <View style={styles.feedbackSection}>
+            {/* No Feedback Yet - Prompt */}
+            <View style={styles.feedbackPromptCard}>
+              <Text style={styles.feedbackPromptTitle}>
+                <Ionicons name="help-circle" size={18} color="#4CAF50" /> Help us learn what works for you
               </Text>
-              <TouchableOpacity
-                style={styles.feedbackButton}
-                onPress={handleRequestFeedback}
-                activeOpacity={0.7}
-              >
-                <Ionicons name="chatbubble-outline" size={20} color="#FFFFFF" />
-                <Text style={styles.feedbackButtonText}>Share Feedback</Text>
-              </TouchableOpacity>
+              <Text style={styles.feedbackPromptText}>
+                Mind sharing why this experiment wasn't a fit? It helps us find better matches!
+              </Text>
             </View>
+            
+            <TouchableOpacity
+              style={styles.shareFeedbackButton}
+              onPress={handleRequestFeedback}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="chatbubble-outline" size={20} color="#FFFFFF" />
+              <Text style={styles.shareFeedbackButtonText}>Share Feedback</Text>
+            </TouchableOpacity>
           </View>
         )}
         
-        {/* Action Button */}
+        {/* Main Action Button */}
         <TouchableOpacity
           style={styles.newTipButton}
           onPress={handleFindNewTip}
           activeOpacity={0.7}
         >
-          <Ionicons name="refresh-outline" size={20} color="#4CAF50" />
-          <Text style={styles.newTipButtonText}>Find Another Experiment</Text>
+          <Ionicons name="sparkles" size={20} color="#FFFFFF" />
+          <Text style={styles.newTipButtonText}>Try Another Experiment</Text>
         </TouchableOpacity>
         
-        {/* Encouragement */}
-        <View style={styles.encouragementContainer}>
-          <Text style={styles.encouragementText}>
-            Remember: Finding what works is a journey of discovery. Each "not for me" brings you closer to what will work! 🌟
-          </Text>
-        </View>
+        {/* Secondary skip option */}
+        <TouchableOpacity
+          style={styles.skipButton}
+          onPress={handleFindNewTip}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.skipButtonText}>Skip to next →</Text>
+        </TouchableOpacity>
       </LinearGradient>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  contentContainer: {
+    marginVertical: 16,
     paddingHorizontal: 16,
-    paddingVertical: 8,
   },
   card: {
-    borderRadius: 24,
+    borderRadius: 20,
     padding: 20,
-    backgroundColor: '#FFFFFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 5,
   },
   header: {
+    marginBottom: 20,
+  },
+  headerTop: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginBottom: 16,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#4CAF50',
+    letterSpacing: 1,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFEBEE',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+    gap: 4,
   },
   statusText: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: '600',
     color: '#E57373',
-    marginLeft: 6,
   },
-  tipSummaryContainer: {
-    marginBottom: 24,
-    paddingBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
-  },
-  tipLabel: {
-    fontSize: 11,
+  summary: {
+    fontSize: 20,
     fontWeight: '700',
-    color: '#9E9E9E',
-    letterSpacing: 1.2,
-    marginBottom: 8,
+    color: '#212121',
+    lineHeight: 28,
   },
-  tipSummary: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#424242',
-    lineHeight: 26,
-  },
-  reasonContainer: {
-    marginBottom: 24,
-  },
-  reasonLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#757575',
-    marginBottom: 12,
-  },
-  reasonCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF3E0',
-    padding: 16,
-    borderRadius: 16,
+  feedbackSection: {
     marginBottom: 20,
   },
-  reasonEmoji: {
-    fontSize: 24,
-    marginRight: 12,
-  },
-  reasonText: {
-    fontSize: 16,
-    color: '#424242',
-    flex: 1,
-    fontWeight: '500',
-  },
-  reflectionContainer: {
-    backgroundColor: '#F5F5F5',
+  previousFeedbackCard: {
+    backgroundColor: '#FFF3E0',
     padding: 16,
-    borderRadius: 16,
+    borderRadius: 12,
+    marginBottom: 12,
   },
-  reflectionTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#616161',
+  feedbackLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#E65100',
     marginBottom: 8,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
-  reflectionText: {
-    fontSize: 14,
-    color: '#616161',
-    lineHeight: 20,
-  },
-  noReasonContainer: {
-    marginBottom: 24,
-  },
-  promptCard: {
-    backgroundColor: '#E8F5E9',
-    padding: 24,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
-  promptTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#2E7D32',
-    marginTop: 12,
-    marginBottom: 8,
-  },
-  promptText: {
-    fontSize: 14,
-    color: '#424242',
-    textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 20,
-  },
-  feedbackButton: {
+  reasonDisplay: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 24,
   },
-  feedbackButtonText: {
+  reasonEmoji: {
+    fontSize: 20,
+    marginRight: 10,
+  },
+  reasonText: {
+    fontSize: 15,
+    color: '#424242',
+    flex: 1,
+    fontWeight: '500',
+  },
+  addMoreFeedbackButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F5F5F5',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 6,
+  },
+  addMoreFeedbackText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4CAF50',
+  },
+  feedbackPromptCard: {
+    backgroundColor: '#E8F5E9',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+  },
+  feedbackPromptTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#2E7D32',
+    marginBottom: 6,
+  },
+  feedbackPromptText: {
+    fontSize: 14,
+    color: '#424242',
+    lineHeight: 20,
+  },
+  shareFeedbackButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#4CAF50',
+    paddingVertical: 12,
+    borderRadius: 12,
+    gap: 8,
+  },
+  shareFeedbackButtonText: {
     fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
-    marginLeft: 8,
   },
   newTipButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-    borderWidth: 2,
-    borderColor: '#4CAF50',
+    backgroundColor: '#4CAF50',
     paddingVertical: 14,
-    borderRadius: 28,
-    marginBottom: 20,
+    borderRadius: 12,
+    gap: 8,
+    marginBottom: 8,
   },
   newTipButtonText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#4CAF50',
-    marginLeft: 8,
+    color: '#FFFFFF',
   },
-  encouragementContainer: {
-    backgroundColor: '#FFF9C4',
-    padding: 16,
-    borderRadius: 16,
+  skipButton: {
+    alignItems: 'center',
+    paddingVertical: 10,
   },
-  encouragementText: {
-    fontSize: 13,
-    color: '#795548',
-    textAlign: 'center',
-    lineHeight: 19,
-    fontStyle: 'italic',
+  skipButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#757575',
   },
 });
