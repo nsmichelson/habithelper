@@ -96,7 +96,6 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
   const [dontAskAgain, setDontAskAgain] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(300)).current;
-  const keyboardOffset = useRef(new Animated.Value(0)).current;
   
   const insets = useSafeAreaInsets();
   
@@ -135,42 +134,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
     }
   }, [visible]);
   
-  useEffect(() => {
-    // Keyboard listeners for manual offset animation
-    const updateFromEvent = (e: any) => {
-      // How much of the keyboard overlaps the screen bottom
-      const screenH = Dimensions.get('window').height;
-      const overlap = Math.max(0, screenH - (e.endCoordinates?.screenY ?? screenH));
-      // Subtract bottom inset so we don't double-count the home indicator
-      const target = Math.max(0, overlap - (insets.bottom || 0));
-
-      Animated.timing(keyboardOffset, {
-        toValue: -target, // Negative to move up
-        duration: e.duration ?? 250,
-        useNativeDriver: true, // Can use native driver with transform
-      }).start();
-    };
-
-    const showEvt = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
-    const hideEvt = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
-    const changeEvt = Platform.OS === 'ios' ? 'keyboardWillChangeFrame' : null;
-
-    const s1 = Keyboard.addListener(showEvt, updateFromEvent);
-    const s2 = changeEvt ? Keyboard.addListener(changeEvt, updateFromEvent) : { remove() {} };
-    const s3 = Keyboard.addListener(hideEvt, () =>
-      Animated.timing(keyboardOffset, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start()
-    );
-
-    return () => {
-      s1.remove();
-      s2.remove();
-      s3.remove();
-    };
-  }, [insets.bottom]);
+  // Removed keyboard animation - modal stays fixed in place
   
   const handleSelectReason = (reason: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -234,10 +198,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
           style={[
             styles.container,
             {
-              transform: [
-                { translateY: slideAnim },
-                { translateY: keyboardOffset } // Combine both translations
-              ],
+              transform: [{ translateY: slideAnim }],
             }
           ]}
         >
