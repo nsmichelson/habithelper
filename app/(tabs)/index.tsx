@@ -17,6 +17,7 @@ import EveningCheckIn from '@/components/EveningCheckIn';
 import ExperimentModeSwipe from '@/components/ExperimentModeSwipe';
 import ExperimentComplete from '@/components/ExperimentComplete';
 import NotForMeFeedback from '@/components/NotForMeFeedback';
+import RejectedTipView from '@/components/RejectedTipView';
 import TipHistoryModal from '@/components/TipHistoryModal';
 import TestDataCalendar from '@/components/TestDataCalendar';
 import StorageService from '@/services/storage';
@@ -54,6 +55,7 @@ export default function HomeScreen() {
   const [attempts, setAttempts] = useState<TipAttempt[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [pendingOptOut, setPendingOptOut] = useState<{ tip: Tip; tipId: string } | null>(null);
+  const [rejectedTipInfo, setRejectedTipInfo] = useState<{ tip: Tip; attempt?: TipAttempt } | null>(null);
   const [isReplacingTip, setIsReplacingTip] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -404,6 +406,14 @@ export default function HomeScreen() {
     const updatedAttempts = [...attempts, optOutAttempt];
     setAttempts(updatedAttempts);
     
+    // Store the rejected tip info to show the rejection view
+    setRejectedTipInfo({ tip: pendingOptOut.tip, attempt: optOutAttempt });
+    
+    // If we already have rejected tip info and user is updating feedback, update it
+    if (rejectedTipInfo && rejectedTipInfo.tip.tip_id === pendingOptOut.tipId) {
+      setRejectedTipInfo({ ...rejectedTipInfo, attempt: optOutAttempt });
+    }
+    
     // Update user preference if they don't want to be asked again
     if (skipFuture) {
       const updatedProfile = {
@@ -418,25 +428,18 @@ export default function HomeScreen() {
     setShowFeedbackModal(false);
     setPendingOptOut(null);
     
-    // Show confirmation (only if reason was provided)
-    if (reason) {
-      Alert.alert(
-        'Thanks for the feedback!',
-        'This helps me find better experiments for you.',
-        [{ text: 'OK' }]
-      );
-    } else {
-      Alert.alert(
-        'Got it!',
-        'We won\'t show you this experiment again.',
-        [{ text: 'OK' }]
-      );
-    }
+    // Don't show alerts anymore - the UI will handle feedback
+  };
+  
+  const handleFindNewTip = async () => {
+    if (!userProfile || !dailyTip) return;
     
     // Use a transient UI flag instead of persisting state
     setIsReplacingTip(true);
+    setRejectedTipInfo(null);
     
     // Get next tip and update the existing record
+    const updatedAttempts = attempts;
     setTimeout(async () => {
       try {
         const tipScore = TipRecommendationService.getDailyTip(userProfile, previousTips, updatedAttempts);
@@ -831,6 +834,17 @@ export default function HomeScreen() {
                   
                   return history;
                 })()}
+              />
+            ) : rejectedTipInfo ? (
+              // Show the rejected tip view with feedback
+              <RejectedTipView
+                tip={rejectedTipInfo.tip}
+                rejection={rejectedTipInfo.attempt}
+                onRequestFeedback={() => {
+                  setPendingOptOut({ tip: rejectedTipInfo.tip, tipId: rejectedTipInfo.tip.tip_id });
+                  setShowFeedbackModal(true);
+                }}
+                onFindNewTip={handleFindNewTip}
               />
             ) : !dailyTip.user_response ? (
               // Show tip card if no response yet
