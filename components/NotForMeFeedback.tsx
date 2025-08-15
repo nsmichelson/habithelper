@@ -233,7 +233,6 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
         <Animated.View 
           style={[
             styles.container,
-            showCustomInput && styles.containerWithKeyboard,
             {
               transform: [
                 { translateY: slideAnim },
@@ -416,11 +415,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   container: {
-    height: '75%', // Fixed height for consistency
+    height: '75%', // Single fixed height always
     width: '100%',
-  },
-  containerWithKeyboard: {
-    height: '90%', // Taller when keyboard is shown
   },
   content: {
     flex: 1, // Fill the container
