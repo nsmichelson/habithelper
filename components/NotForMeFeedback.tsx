@@ -374,12 +374,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     justifyContent: 'center', // Center vertically instead of bottom
-    paddingBottom: 80, // Shift up from true center to leave room for keyboard
+    paddingBottom: 40, // Shift up slightly from true center to leave room for keyboard
   },
   container: {
-    height: '60%', // Smaller to leave room below for keyboard
+    height: '75%', // Increased from 60% to show more content
     width: '90%', // Not full width for floating card effect
     alignSelf: 'center',
+    maxHeight: 600, // Add max height to prevent it from being too tall on large screens
   },
   content: {
     flex: 1, // Fill the container
