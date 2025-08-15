@@ -8,6 +8,9 @@ import {
   ScrollView,
   Dimensions,
   Animated,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -87,6 +90,8 @@ const getReasonOptions = (tip: Tip): { label: string; value: string; icon: strin
 
 export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: Props) {
   const [selectedReason, setSelectedReason] = useState<string>('');
+  const [customReason, setCustomReason] = useState<string>('');
+  const [showCustomInput, setShowCustomInput] = useState(false);
   const [dontAskAgain, setDontAskAgain] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(300)).current;
@@ -130,18 +135,36 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedReason(reason);
     
-    // Auto-submit after a brief delay for smooth UX
-    setTimeout(() => {
-      onFeedback(reason, dontAskAgain);
+    if (reason === 'other') {
+      // Show custom input for 'other' reason
+      setShowCustomInput(true);
+    } else {
+      // Auto-submit after a brief delay for smooth UX
+      setTimeout(() => {
+        onFeedback(reason, dontAskAgain);
+        setSelectedReason('');
+        setDontAskAgain(false);
+      }, 300);
+    }
+  };
+  
+  const handleSubmitCustomReason = () => {
+    if (customReason.trim()) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      onFeedback(`other: ${customReason.trim()}`, dontAskAgain);
       setSelectedReason('');
+      setCustomReason('');
+      setShowCustomInput(false);
       setDontAskAgain(false);
-    }, 300);
+    }
   };
   
   const handleSkip = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onClose();
     setSelectedReason('');
+    setCustomReason('');
+    setShowCustomInput(false);
     setDontAskAgain(false);
   };
   
@@ -186,75 +209,135 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
               </Text>
             </View>
             
-            {/* Reason Options */}
-            <ScrollView 
-              style={styles.reasonsContainer}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.reasonsContent}
-            >
-              <View style={styles.reasonsGrid}>
-                {reasons.map((reason) => (
+            {/* Reason Options or Custom Input */}
+            {showCustomInput ? (
+              <KeyboardAvoidingView 
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.customInputContainer}
+              >
+                <View style={styles.customInputHeader}>
                   <TouchableOpacity
-                    key={reason.value}
-                    style={[
-                      styles.reasonCard,
-                      selectedReason === reason.value && styles.reasonCardSelected
-                    ]}
-                    onPress={() => handleSelectReason(reason.value)}
-                    activeOpacity={0.7}
+                    onPress={() => {
+                      setShowCustomInput(false);
+                      setSelectedReason('');
+                      setCustomReason('');
+                    }}
+                    style={styles.backButton}
                   >
-                    <View style={[
-                      styles.emojiContainer,
-                      selectedReason === reason.value && styles.emojiContainerSelected
-                    ]}>
-                      <Text style={styles.emoji}>{reason.emoji}</Text>
-                    </View>
-                    <Text style={[
-                      styles.reasonText,
-                      selectedReason === reason.value && styles.reasonTextSelected
-                    ]}>
-                      {reason.label}
-                    </Text>
-                    {selectedReason === reason.value && (
-                      <View style={styles.selectedIndicator}>
-                        <Ionicons name="checkmark" size={14} color="#FFFFFF" />
-                      </View>
-                    )}
+                    <Ionicons name="arrow-back" size={24} color="#666" />
                   </TouchableOpacity>
-                ))}
-              </View>
-            </ScrollView>
-            
-            {/* Footer Actions */}
-            <View style={styles.footer}>
-              <TouchableOpacity
-                style={styles.skipButton}
-                onPress={handleSkip}
-                activeOpacity={0.7}
-              >
-                <Text style={styles.skipText}>I'll skip the feedback</Text>
-                <Ionicons name="arrow-forward" size={16} color="#666" style={{ marginLeft: 4 }} />
-              </TouchableOpacity>
-              
-              <TouchableOpacity
-                style={styles.dontAskContainer}
-                onPress={() => {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                  setDontAskAgain(!dontAskAgain);
-                }}
-                activeOpacity={0.7}
-              >
-                <View style={[
-                  styles.checkbox,
-                  dontAskAgain && styles.checkboxChecked
-                ]}>
-                  {dontAskAgain && (
-                    <Ionicons name="checkmark" size={12} color="#FFFFFF" />
-                  )}
+                  <Text style={styles.customInputTitle}>Tell me more</Text>
+                  <View style={{ width: 24 }} />
                 </View>
-                <Text style={styles.dontAskText}>Don't ask me again</Text>
-              </TouchableOpacity>
-            </View>
+                
+                <Text style={styles.customInputPrompt}>
+                  What specifically didn't work about this experiment?
+                </Text>
+                
+                <TextInput
+                  style={styles.customInput}
+                  placeholder="Type your reason here..."
+                  placeholderTextColor="#999"
+                  value={customReason}
+                  onChangeText={setCustomReason}
+                  multiline
+                  autoFocus
+                  maxLength={200}
+                />
+                
+                <Text style={styles.characterCount}>
+                  {customReason.length}/200
+                </Text>
+                
+                <TouchableOpacity
+                  style={[
+                    styles.submitButton,
+                    !customReason.trim() && styles.submitButtonDisabled
+                  ]}
+                  onPress={handleSubmitCustomReason}
+                  disabled={!customReason.trim()}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[
+                    styles.submitButtonText,
+                    !customReason.trim() && styles.submitButtonTextDisabled
+                  ]}>
+                    Submit Feedback
+                  </Text>
+                </TouchableOpacity>
+              </KeyboardAvoidingView>
+            ) : (
+              <ScrollView 
+                style={styles.reasonsContainer}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.reasonsContent}
+              >
+                <View style={styles.reasonsGrid}>
+                  {reasons.map((reason) => (
+                    <TouchableOpacity
+                      key={reason.value}
+                      style={[
+                        styles.reasonCard,
+                        selectedReason === reason.value && styles.reasonCardSelected
+                      ]}
+                      onPress={() => handleSelectReason(reason.value)}
+                      activeOpacity={0.7}
+                    >
+                      <View style={[
+                        styles.emojiContainer,
+                        selectedReason === reason.value && styles.emojiContainerSelected
+                      ]}>
+                        <Text style={styles.emoji}>{reason.emoji}</Text>
+                      </View>
+                      <Text style={[
+                        styles.reasonText,
+                        selectedReason === reason.value && styles.reasonTextSelected
+                      ]}>
+                        {reason.label}
+                      </Text>
+                      {selectedReason === reason.value && reason.value !== 'other' && (
+                        <View style={styles.selectedIndicator}>
+                          <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </ScrollView>
+            )}
+            
+            {/* Footer Actions - only show when not in custom input mode */}
+            {!showCustomInput && (
+              <View style={styles.footer}>
+                <TouchableOpacity
+                  style={styles.skipButton}
+                  onPress={handleSkip}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.skipText}>I'll skip the feedback</Text>
+                  <Ionicons name="arrow-forward" size={16} color="#666" style={{ marginLeft: 4 }} />
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={styles.dontAskContainer}
+                  onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    setDontAskAgain(!dontAskAgain);
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <View style={[
+                    styles.checkbox,
+                    dontAskAgain && styles.checkboxChecked
+                  ]}>
+                    {dontAskAgain && (
+                      <Ionicons name="checkmark" size={12} color="#FFFFFF" />
+                    )}
+                  </View>
+                  <Text style={styles.dontAskText}>Don't ask me again</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </LinearGradient>
         </Animated.View>
       </Animated.View>
@@ -423,6 +506,67 @@ const styles = StyleSheet.create({
   dontAskText: {
     fontSize: 14,
     color: '#757575',
+  },
+  customInputContainer: {
+    paddingHorizontal: 24,
+    minHeight: 200,
+  },
+  customInputHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  backButton: {
+    padding: 4,
+  },
+  customInputTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1A1A1A',
+  },
+  customInputPrompt: {
+    fontSize: 15,
+    color: '#666',
+    marginBottom: 16,
+    lineHeight: 21,
+  },
+  customInput: {
+    backgroundColor: '#F8F9FA',
+    borderRadius: 16,
+    padding: 16,
+    fontSize: 16,
+    color: '#1A1A1A',
+    minHeight: 120,
+    maxHeight: 180,
+    textAlignVertical: 'top',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  characterCount: {
+    fontSize: 12,
+    color: '#999',
+    textAlign: 'right',
+    marginTop: 8,
+    marginBottom: 20,
+  },
+  submitButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 28,
+    paddingVertical: 16,
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  submitButtonDisabled: {
+    backgroundColor: '#E0E0E0',
+  },
+  submitButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  submitButtonTextDisabled: {
+    color: '#999',
   },
   // Legacy styles (kept for compatibility if needed)
   reasonButton: {
