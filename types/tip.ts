@@ -266,6 +266,21 @@ export interface UserProfile {
   
   // User preferences
   skip_feedback_questions?: boolean; // If true, don't ask why they rejected tips
+  
+  // Focus Mode
+  focusMode?: {
+    enabled: boolean;
+    activatedDate: string;
+    lovedTipIds: string[];
+    weeklyDiscoveryDay?: number; // 0-6 (Sunday-Saturday)
+    habitProgress?: Record<string, {
+      level: number;
+      completedToday: boolean;
+      lastCompleted: string;
+      totalCompletions: number;
+      currentStreak: number;
+    }>;
+  };
 }
 
 export interface QuickComplete {
