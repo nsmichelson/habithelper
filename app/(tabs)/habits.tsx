@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -11,16 +11,23 @@ import {
   Pressable,
   Modal,
   FlatList,
+  PanResponder,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist';
 import StorageService from '@/services/storage';
 import { UserProfile, DailyTip } from '@/types/tip';
 import { getTipById } from '@/data/tips';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import LottieView from 'lottie-react-native';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -36,22 +43,55 @@ interface HabitData {
   lastCompleted?: string;
   isLoved: boolean;
   category?: string;
+  timeOfDay?: 'morning' | 'afternoon' | 'evening' | 'anytime';
+  note?: string;
+  difficulty?: number;
+  completionTime?: number; // minutes taken today
+  mood?: 'amazing' | 'good' | 'okay' | 'tough';
 }
 
-const HABIT_EMOJIS = ['💪', '🥗', '💧', '🚶', '🧘', '😴', '📚', '🎯', '⭐', '🌟'];
+interface HabitGroup {
+  id: string;
+  name: string;
+  icon: string;
+  color: string[];
+  habits: HabitData[];
+  timeOfDay?: 'morning' | 'afternoon' | 'evening';
+}
+
+const HABIT_EMOJIS = ['💪', '🥗', '💧', '🚶', '🧘', '😴', '📚', '🎯', '⭐', '🌟', '🏃', '🎨', '✍️', '🧠', '🌱'];
 const CELEBRATION_MESSAGES = [
   "You're crushing it! 🎉",
   "Habit hero in action! 🦸",
   "Look at you go! 🚀",
   "Unstoppable! 💪",
   "You're on fire! 🔥",
-  "Keep the magic alive! ✨"
+  "Keep the magic alive! ✨",
+  "Champion mode: ON! 🏆",
+  "You're a rockstar! 🌟",
+  "Incredible progress! 📈",
+  "Making it happen! 💯"
 ];
 
-export default function HabitsScreen() {
+const MOTIVATIONAL_COACHES = [
+  { name: "Alex", emoji: "🦁", style: "fierce" },
+  { name: "Sage", emoji: "🦉", style: "wise" },
+  { name: "Spark", emoji: "⚡", style: "energetic" },
+  { name: "Zen", emoji: "🧘", style: "calm" },
+];
+
+const TIME_OF_DAY_ICONS = {
+  morning: '🌅',
+  afternoon: '☀️',
+  evening: '🌙',
+  anytime: '⏰',
+};
+
+function HabitsScreenContent() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [habits, setHabits] = useState<HabitData[]>([]);
   const [lovedHabits, setLovedHabits] = useState<HabitData[]>([]);
+  const [habitGroups, setHabitGroups] = useState<HabitGroup[]>([]);
   const [suggestedHabits, setSuggestedHabits] = useState<HabitData[]>([]);
   const [completedToday, setCompletedToday] = useState(0);
   const [totalStreak, setTotalStreak] = useState(0);
@@ -60,6 +100,12 @@ export default function HabitsScreen() {
   const [celebrationMessage, setCelebrationMessage] = useState('');
   const [selectedHabit, setSelectedHabit] = useState<HabitData | null>(null);
   const [showAddHabit, setShowAddHabit] = useState(false);
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'timeline'>('grid');
+  const [selectedCoach, setSelectedCoach] = useState(MOTIVATIONAL_COACHES[0]);
+  const [showReflection, setShowReflection] = useState(false);
+  const [habitNote, setHabitNote] = useState('');
+  const [showHeatMap, setShowHeatMap] = useState(false);
+  const [timeOfDayFilter, setTimeOfDayFilter] = useState<'all' | 'morning' | 'afternoon' | 'evening'>('all');
   
   const insets = useSafeAreaInsets();
   
@@ -70,7 +116,11 @@ export default function HabitsScreen() {
   const scaleAnims = useRef<Record<string, Animated.Value>>({}).current;
   const rotateAnims = useRef<Record<string, Animated.Value>>({}).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
+  const swipeAnims = useRef<Record<string, Animated.Value>>({}).current;
+  const sparkleAnim = useRef(new Animated.Value(0)).current;
+  const waveAnim = useRef(new Animated.Value(0)).current;
   const confettiRef = useRef<any>(null);
+  const swipeableRefs = useRef<Record<string, Swipeable>>({}).current;
 
   useEffect(() => {
     loadHabits();
@@ -163,11 +213,15 @@ export default function HabitsScreen() {
       if (!scaleAnims[tipId]) {
         scaleAnims[tipId] = new Animated.Value(0.9);
         rotateAnims[tipId] = new Animated.Value(0);
+        swipeAnims[tipId] = new Animated.Value(0);
       }
       
       // Calculate streak
       const streak = calculateStreak(tipHistory);
       const bestStreak = calculateBestStreak(tipHistory);
+      
+      // Determine time of day based on when usually completed
+      const timeOfDay = determineTimeOfDay(tipData);
       
       lovedHabitsList.push({
         tipId,
@@ -180,6 +234,8 @@ export default function HabitsScreen() {
         totalDays: completions,
         isLoved: true,
         category: tipData?.tip_type?.[0],
+        timeOfDay,
+        difficulty: tipData?.difficulty_tier || 1,
       });
     });
 
@@ -191,17 +247,52 @@ export default function HabitsScreen() {
 
     setLovedHabits(lovedHabitsList);
     setCompletedToday(lovedHabitsList.filter(h => h.completedToday).length);
+    
+    // Organize into groups
+    const groups = organizeIntoGroups(lovedHabitsList);
+    setHabitGroups(groups);
 
-    // Animate entrance
-    lovedHabitsList.forEach((habit, index) => {
-      Animated.sequence([
-        Animated.delay(index * 100),
-        Animated.spring(scaleAnims[habit.tipId], {
-          toValue: 1,
-          damping: 10,
-          useNativeDriver: true,
-        }),
-      ]).start();
+    // Animate entrance with wave effect
+    let delay = 0;
+    groups.forEach(group => {
+      group.habits.forEach((habit, index) => {
+        Animated.sequence([
+          Animated.delay(delay),
+          Animated.parallel([
+            Animated.spring(scaleAnims[habit.tipId], {
+              toValue: 1,
+              damping: 10,
+              useNativeDriver: true,
+            }),
+            Animated.timing(swipeAnims[habit.tipId], {
+              toValue: 1,
+              duration: 300,
+              useNativeDriver: true,
+            }),
+          ]),
+        ]).start();
+        delay += 50;
+      });
+    });
+
+    // Sparkle animation for high streak habits
+    lovedHabitsList.forEach(habit => {
+      if (habit.streak >= 7) {
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(sparkleAnim, {
+              toValue: 1,
+              duration: 1000,
+              useNativeDriver: true,
+            }),
+            Animated.timing(sparkleAnim, {
+              toValue: 0,
+              duration: 1000,
+              useNativeDriver: true,
+            }),
+          ])
+        ).start();
+      }
     });
 
     // Calculate total streak
@@ -264,6 +355,71 @@ export default function HabitsScreen() {
       case '15_60_min': return '30 min';
       default: return '60+ min';
     }
+  };
+
+  const determineTimeOfDay = (tipData: any): 'morning' | 'afternoon' | 'evening' | 'anytime' => {
+    if (!tipData?.time_of_day) return 'anytime';
+    if (tipData.time_of_day.includes('morning')) return 'morning';
+    if (tipData.time_of_day.includes('afternoon')) return 'afternoon';
+    if (tipData.time_of_day.includes('evening')) return 'evening';
+    return 'anytime';
+  };
+
+  const organizeIntoGroups = (habits: HabitData[]): HabitGroup[] => {
+    const groups: HabitGroup[] = [];
+    
+    // Morning routine
+    const morningHabits = habits.filter(h => h.timeOfDay === 'morning');
+    if (morningHabits.length > 0) {
+      groups.push({
+        id: 'morning',
+        name: 'Morning Routine',
+        icon: '🌅',
+        color: ['#FFE082', '#FFCA28'],
+        habits: morningHabits,
+        timeOfDay: 'morning',
+      });
+    }
+    
+    // Afternoon habits
+    const afternoonHabits = habits.filter(h => h.timeOfDay === 'afternoon');
+    if (afternoonHabits.length > 0) {
+      groups.push({
+        id: 'afternoon',
+        name: 'Afternoon Power',
+        icon: '☀️',
+        color: ['#81C784', '#66BB6A'],
+        habits: afternoonHabits,
+        timeOfDay: 'afternoon',
+      });
+    }
+    
+    // Evening routine
+    const eveningHabits = habits.filter(h => h.timeOfDay === 'evening');
+    if (eveningHabits.length > 0) {
+      groups.push({
+        id: 'evening',
+        name: 'Evening Wind-down',
+        icon: '🌙',
+        color: ['#9FA8DA', '#7986CB'],
+        habits: eveningHabits,
+        timeOfDay: 'evening',
+      });
+    }
+    
+    // Anytime habits
+    const anytimeHabits = habits.filter(h => h.timeOfDay === 'anytime');
+    if (anytimeHabits.length > 0) {
+      groups.push({
+        id: 'anytime',
+        name: 'Flexible Habits',
+        icon: '⏰',
+        color: ['#F48FB1', '#F06292'],
+        habits: anytimeHabits,
+      });
+    }
+    
+    return groups;
   };
 
   const loadTodayCompletions = async (): Promise<Set<string>> => {
@@ -361,21 +517,47 @@ export default function HabitsScreen() {
   const renderHabitCard = (habit: HabitData) => {
     const scaleValue = scaleAnims[habit.tipId] || new Animated.Value(1);
     const rotateValue = rotateAnims[habit.tipId] || new Animated.Value(0);
+    const swipeValue = swipeAnims[habit.tipId] || new Animated.Value(0);
     
     const spin = rotateValue.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '360deg'],
     });
     
-    return (
+    const renderRightActions = () => (
+      <View style={styles.swipeActions}>
+        <TouchableOpacity
+          style={[styles.swipeAction, styles.swipeNote]}
+          onPress={() => {
+            setSelectedHabit(habit);
+            setShowReflection(true);
+          }}
+        >
+          <Ionicons name="pencil" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.swipeAction, styles.swipeSkip]}
+          onPress={() => skipHabit(habit.tipId)}
+        >
+          <Ionicons name="time" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+      </View>
+    );
+    
+    const cardContent = (
       <Animated.View
-        key={habit.tipId}
         style={[
           styles.habitCard,
           {
             transform: [
               { scale: scaleValue },
-              { rotate: spin }
+              { rotate: spin },
+              { 
+                translateX: swipeValue.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [viewMode === 'grid' ? 0 : -20, 0]
+                })
+              }
             ]
           }
         ]}
@@ -396,6 +578,19 @@ export default function HabitsScreen() {
             }
             style={styles.habitGradient}
           >
+            {/* High streak sparkle */}
+            {habit.streak >= 7 && (
+              <Animated.View style={[
+                styles.sparkle,
+                {
+                  opacity: sparkleAnim,
+                  transform: [{ scale: sparkleAnim }]
+                }
+              ]}>
+                <Ionicons name="sparkles" size={16} color="#FFD700" />
+              </Animated.View>
+            )}
+            
             {/* Emoji Badge */}
             <View style={[
               styles.habitEmoji,
@@ -409,6 +604,15 @@ export default function HabitsScreen() {
               )}
             </View>
             
+            {/* Time of day indicator */}
+            {habit.timeOfDay && habit.timeOfDay !== 'anytime' && (
+              <View style={styles.timeIndicator}>
+                <Text style={styles.timeEmoji}>
+                  {TIME_OF_DAY_ICONS[habit.timeOfDay]}
+                </Text>
+              </View>
+            )}
+            
             {/* Habit Info */}
             <Text style={[
               styles.habitTitle,
@@ -417,12 +621,27 @@ export default function HabitsScreen() {
               {habit.title}
             </Text>
             
+            {/* Difficulty dots */}
+            <View style={styles.difficultyContainer}>
+              {[...Array(5)].map((_, i) => (
+                <View
+                  key={i}
+                  style={[
+                    styles.difficultyDot,
+                    i < (habit.difficulty || 1) && styles.difficultyDotActive
+                  ]}
+                />
+              ))}
+            </View>
+            
             {/* Stats Row */}
             <View style={styles.habitStats}>
               {habit.streak > 0 && (
-                <View style={styles.statBadge}>
-                  <Ionicons name="flame" size={12} color="#FF6B6B" />
-                  <Text style={styles.statText}>{habit.streak}</Text>
+                <View style={[styles.statBadge, habit.streak >= 7 && styles.statBadgeGold]}>
+                  <Ionicons name="flame" size={12} color={habit.streak >= 7 ? "#FFD700" : "#FF6B6B"} />
+                  <Text style={[styles.statText, habit.streak >= 7 && styles.statTextGold]}>
+                    {habit.streak}
+                  </Text>
                 </View>
               )}
               <View style={styles.statBadge}>
@@ -430,10 +649,45 @@ export default function HabitsScreen() {
                 <Text style={styles.statText}>{habit.timeEstimate}</Text>
               </View>
             </View>
+            
+            {/* Note indicator */}
+            {habit.note && (
+              <View style={styles.noteIndicator}>
+                <Ionicons name="document-text" size={10} color="#999" />
+              </View>
+            )}
           </LinearGradient>
         </Pressable>
       </Animated.View>
     );
+    
+    if (viewMode === 'list') {
+      return (
+        <Swipeable
+          key={habit.tipId}
+          ref={ref => swipeableRefs[habit.tipId] = ref!}
+          renderRightActions={renderRightActions}
+          onSwipeableOpen={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+        >
+          {cardContent}
+        </Swipeable>
+      );
+    }
+    
+    return cardContent;
+  };
+  
+  const skipHabit = (habitId: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    // Mark as skipped for today
+    const updatedHabits = lovedHabits.map(h => {
+      if (h.tipId === habitId) {
+        return { ...h, completedToday: false, mood: 'tough' as const };
+      }
+      return h;
+    });
+    setLovedHabits(updatedHabits);
+    swipeableRefs[habitId]?.close();
   };
 
   const getGreeting = () => {
@@ -562,12 +816,68 @@ export default function HabitsScreen() {
             </View>
           </LinearGradient>
 
+          {/* View Mode Toggle */}
+          <View style={styles.viewModeContainer}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <TouchableOpacity
+                style={[styles.viewModeButton, viewMode === 'grid' && styles.viewModeActive]}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  setViewMode('grid');
+                }}
+              >
+                <Ionicons name="grid" size={16} color={viewMode === 'grid' ? '#FFFFFF' : '#666'} />
+                <Text style={[styles.viewModeText, viewMode === 'grid' && styles.viewModeTextActive]}>
+                  Grid
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.viewModeButton, viewMode === 'list' && styles.viewModeActive]}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  setViewMode('list');
+                }}
+              >
+                <Ionicons name="list" size={16} color={viewMode === 'list' ? '#FFFFFF' : '#666'} />
+                <Text style={[styles.viewModeText, viewMode === 'list' && styles.viewModeTextActive]}>
+                  List
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.viewModeButton, viewMode === 'timeline' && styles.viewModeActive]}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  setViewMode('timeline');
+                }}
+              >
+                <Ionicons name="time" size={16} color={viewMode === 'timeline' ? '#FFFFFF' : '#666'} />
+                <Text style={[styles.viewModeText, viewMode === 'timeline' && styles.viewModeTextActive]}>
+                  Timeline
+                </Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+
           {/* Loved Habits Grid */}
           <View style={styles.habitsSection}>
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Your Daily Habits</Text>
-              <TouchableOpacity onPress={() => {}}>
-                <Text style={styles.seeAll}>Edit</Text>
+              <Text style={styles.sectionTitle}>
+                {timeOfDayFilter === 'all' 
+                  ? 'Your Daily Habits' 
+                  : `${timeOfDayFilter.charAt(0).toUpperCase() + timeOfDayFilter.slice(1)} Habits`}
+              </Text>
+              <TouchableOpacity onPress={() => {
+                const filters: Array<'all' | 'morning' | 'afternoon' | 'evening'> = 
+                  ['all', 'morning', 'afternoon', 'evening'];
+                const currentIndex = filters.indexOf(timeOfDayFilter);
+                const nextIndex = (currentIndex + 1) % filters.length;
+                setTimeOfDayFilter(filters[nextIndex]);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }}>
+                <View style={styles.filterButton}>
+                  <Ionicons name="filter" size={16} color="#4CAF50" />
+                  <Text style={styles.seeAll}>{timeOfDayFilter === 'all' ? 'Filter' : timeOfDayFilter}</Text>
+                </View>
               </TouchableOpacity>
             </View>
             
@@ -683,6 +993,15 @@ export default function HabitsScreen() {
         </Modal>
       )}
     </View>
+  );
+}
+
+// Wrap with GestureHandlerRootView for swipe gestures to work
+export default function HabitsScreen() {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <HabitsScreenContent />
+    </GestureHandlerRootView>
   );
 }
 
@@ -1018,5 +1337,93 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#FFFFFF',
+  },
+  viewModeContainer: {
+    paddingHorizontal: 24,
+    marginBottom: 16,
+  },
+  viewModeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginRight: 8,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 20,
+    gap: 4,
+  },
+  viewModeActive: {
+    backgroundColor: '#4CAF50',
+  },
+  viewModeText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#666',
+  },
+  viewModeTextActive: {
+    color: '#FFFFFF',
+  },
+  filterButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  sparkle: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+  },
+  timeIndicator: {
+    position: 'absolute',
+    top: 4,
+    left: 4,
+  },
+  timeEmoji: {
+    fontSize: 12,
+  },
+  difficultyContainer: {
+    flexDirection: 'row',
+    gap: 2,
+    marginVertical: 4,
+  },
+  difficultyDot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#E0E0E0',
+  },
+  difficultyDotActive: {
+    backgroundColor: '#4CAF50',
+  },
+  statBadgeGold: {
+    backgroundColor: 'rgba(255, 215, 0, 0.2)',
+  },
+  statTextGold: {
+    color: '#FFD700',
+    fontWeight: '700',
+  },
+  noteIndicator: {
+    position: 'absolute',
+    bottom: 4,
+    right: 4,
+  },
+  swipeActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  swipeAction: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 60,
+    height: '100%',
+    marginLeft: 5,
+    borderRadius: 12,
+  },
+  swipeNote: {
+    backgroundColor: '#2196F3',
+  },
+  swipeSkip: {
+    backgroundColor: '#FF9800',
   },
 });
