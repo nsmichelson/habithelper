@@ -257,15 +257,16 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
             
             {/* Reason Options or Custom Input */}
             {showCustomInput ? (
-              <ScrollView 
-                style={styles.customInputContainer}
-                contentContainerStyle={[
-                  styles.customInputContent,
-                  { flexGrow: 1, paddingBottom: (insets.bottom || 0) + 24 }
-                ]}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
-              >
+              <View style={{ flex: 1 }}>
+                <ScrollView 
+                  style={styles.customInputContainer}
+                  contentContainerStyle={[
+                    styles.customInputContent,
+                    { flexGrow: 1, paddingBottom: (insets.bottom || 0) + 24 }
+                  ]}
+                  keyboardShouldPersistTaps="handled"
+                  showsVerticalScrollIndicator={false}
+                >
                 <View style={styles.customInputHeader}>
                   <TouchableOpacity
                     onPress={() => {
@@ -320,18 +321,20 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
                   </Text>
                 </TouchableOpacity>
                 
-                {/* Extra padding for keyboard */}
-                <View style={{ height: 20 }} />
-              </ScrollView>
+                  {/* Extra padding for keyboard */}
+                  <View style={{ height: 20 }} />
+                </ScrollView>
+              </View>
             ) : (
-              <ScrollView 
-                style={styles.reasonsContainer}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={[
-                  styles.reasonsContent,
-                  { paddingBottom: (insets.bottom || 0) + 12 }
-                ]}
-              >
+              <View style={{ flex: 1 }}>
+                <ScrollView 
+                  style={styles.reasonsContainer}
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={[
+                    styles.reasonsContent,
+                    { paddingBottom: (insets.bottom || 0) + 12 }
+                  ]}
+                >
                 <View style={styles.reasonsGrid}>
                   {reasons.map((reason) => (
                     <TouchableOpacity
@@ -363,7 +366,8 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback }: 
                     </TouchableOpacity>
                   ))}
                 </View>
-              </ScrollView>
+                </ScrollView>
+              </View>
             )}
             
             {/* Footer Actions - only show when not in custom input mode */}
@@ -412,12 +416,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   container: {
-    maxHeight: '80%',
+    height: '75%', // Fixed height for consistency
+    width: '100%',
   },
   containerWithKeyboard: {
-    maxHeight: '95%', // Allow more room when keyboard is shown
+    height: '90%', // Taller when keyboard is shown
   },
   content: {
+    flex: 1, // Fill the container
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingTop: 12,
@@ -455,7 +461,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   reasonsContainer: {
-    maxHeight: 340,
+    flex: 1, // Let it flex and scroll
     marginBottom: 16,
   },
   reasonsContent: {
