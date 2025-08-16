@@ -17,6 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tip } from '../types/tip';
+import { getRelevantRejectionReasons, getFollowUpQuestions as getFollowUps } from '../data/rejectionReasons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -28,146 +29,7 @@ interface Props {
   existingFeedback?: string; // To show follow-ups for existing feedback
 }
 
-// Follow-up questions for deeper insights
-const getFollowUpQuestions = (primaryReason: string): { label: string; value: string; emoji: string }[] => {
-  switch (primaryReason) {
-    case 'dislike_taste':
-      return [
-        { label: "I prefer sweeter flavors", value: 'prefer_sweet', emoji: '🍬' },
-        { label: "I prefer savory flavors", value: 'prefer_savory', emoji: '🧂' },
-        { label: "Too spicy for me", value: 'too_spicy', emoji: '🌶️' },
-        { label: "Not spicy enough", value: 'not_spicy_enough', emoji: '🫑' },
-        { label: "Too bland", value: 'too_bland', emoji: '😐' },
-        { label: "Too rich/heavy", value: 'too_rich', emoji: '🧈' },
-        { label: "Prefer lighter flavors", value: 'prefer_light', emoji: '🌱' },
-        { label: "Don't like that specific ingredient", value: 'specific_ingredient', emoji: '🚫' },
-      ];
-    
-    case 'dislike_texture':
-      return [
-        { label: "Too mushy/soft", value: 'too_soft', emoji: '🥣' },
-        { label: "Too crunchy/hard", value: 'too_hard', emoji: '🥜' },
-        { label: "Too chewy", value: 'too_chewy', emoji: '🍬' },
-        { label: "Too slimy", value: 'too_slimy', emoji: '🫘' },
-        { label: "Prefer smoother textures", value: 'prefer_smooth', emoji: '🥤' },
-        { label: "Prefer more texture variety", value: 'prefer_varied', emoji: '🎲' },
-      ];
-    
-    case 'too_long':
-    case 'too_complex':
-      return [
-        { label: "Would try if under 5 minutes", value: 'if_under_5min', emoji: '⚡' },
-        { label: "Would try if under 15 minutes", value: 'if_under_15min', emoji: '⏱️' },
-        { label: "Too many steps involved", value: 'too_many_steps', emoji: '📝' },
-        { label: "Need simpler instructions", value: 'need_simpler', emoji: '🎯' },
-        { label: "Would try on weekends", value: 'weekend_only', emoji: '📅' },
-        { label: "Prefer one-step solutions", value: 'one_step_only', emoji: '1️⃣' },
-      ];
-    
-    case 'too_much_cooking':
-      return [
-        { label: "Prefer no-cook options", value: 'no_cook_only', emoji: '🥗' },
-        { label: "Microwave only", value: 'microwave_only', emoji: '📻' },
-        { label: "Would try simpler cooking", value: 'simple_cooking_ok', emoji: '🍳' },
-        { label: "Don't know how to cook this", value: 'dont_know_how', emoji: '❓' },
-        { label: "Afraid of messing it up", value: 'afraid_to_fail', emoji: '😰' },
-        { label: "Would try with guidance", value: 'need_guidance', emoji: '👨‍🏫' },
-      ];
-    
-    case 'too_expensive':
-      return [
-        { label: "Would try cheaper version", value: 'if_cheaper', emoji: '💵' },
-        { label: "Can't afford ingredients", value: 'cant_afford', emoji: '💸' },
-        { label: "Not worth the cost", value: 'not_worth_cost', emoji: '⚖️' },
-        { label: "Would try if on sale", value: 'if_on_sale', emoji: '🏷️' },
-        { label: "Prefer budget options only", value: 'budget_only', emoji: '🪙' },
-      ];
-    
-    case 'no_access':
-      return [
-        { label: "Not available near me", value: 'not_available_locally', emoji: '📍' },
-        { label: "Would need to shop first", value: 'need_shopping', emoji: '🛒' },
-        { label: "Don't know where to find it", value: 'dont_know_where', emoji: '🗺️' },
-        { label: "Would try with substitutions", value: 'ok_with_substitutes', emoji: '🔄' },
-        { label: "Need delivery option", value: 'need_delivery', emoji: '🚚' },
-      ];
-    
-    case 'tried_failed':
-      return [
-        { label: "Didn't see results", value: 'no_results', emoji: '📊' },
-        { label: "Made me feel worse", value: 'felt_worse', emoji: '📉' },
-        { label: "Too hard to maintain", value: 'hard_to_maintain', emoji: '🎢' },
-        { label: "Didn't fit my schedule", value: 'schedule_conflict', emoji: '📆' },
-        { label: "Would try modified version", value: 'try_modified', emoji: '🔧' },
-        { label: "Need more time to see effects", value: 'need_more_time', emoji: '⏳' },
-      ];
-    
-    default:
-      return [];
-  }
-};
-
-// Define reason categories based on tip characteristics
-const getReasonOptions = (tip: Tip): { label: string; value: string; icon: string; emoji: string }[] => {
-  const options: { label: string; value: string; icon: string; emoji: string }[] = [];
-  
-  // Food-related reasons (if tip involves specific foods)
-  if (tip.involves_foods && tip.involves_foods.length > 0) {
-    options.push(
-      { label: "Not a fan of the taste", value: 'dislike_taste', icon: 'close-circle-outline', emoji: '😝' },
-      { label: "Texture isn't for me", value: 'dislike_texture', icon: 'water-outline', emoji: '🤔' },
-      { label: "Don't have ingredients", value: 'no_access', icon: 'basket-outline', emoji: '🛒' },
-      { label: "Can't eat this", value: 'cant_eat', icon: 'warning-outline', emoji: '⚠️' },
-    );
-  }
-  
-  // Cooking-related reasons
-  if (tip.cooking_skill_required && tip.cooking_skill_required !== 'none') {
-    options.push(
-      { label: 'Too much cooking', value: 'too_much_cooking', icon: 'restaurant-outline', emoji: '👨‍🍳' },
-      { label: "Missing equipment", value: 'no_equipment', icon: 'construct-outline', emoji: '🔧' },
-    );
-  }
-  
-  // Time-related reasons
-  if (tip.time_cost_enum !== '0_5_min') {
-    options.push(
-      { label: 'Takes too long', value: 'too_long', icon: 'time-outline', emoji: '⏰' },
-      { label: 'Too complicated', value: 'too_complex', icon: 'layers-outline', emoji: '🤯' },
-    );
-  }
-  
-  // Planning-related reasons
-  if (tip.requires_planning || tip.requires_advance_prep) {
-    options.push(
-      { label: 'Too much planning', value: 'too_much_planning', icon: 'calendar-outline', emoji: '📅' },
-    );
-  }
-  
-  // Cost-related reasons
-  if (tip.money_cost_enum !== '$') {
-    options.push(
-      { label: 'Too expensive', value: 'too_expensive', icon: 'cash-outline', emoji: '💰' },
-    );
-  }
-  
-  // Social reasons
-  if (tip.social_mode === 'group' || tip.location_tags?.includes('social_event')) {
-    options.push(
-      { label: 'Too social for me', value: 'too_social', icon: 'people-outline', emoji: '👥' },
-    );
-  }
-  
-  // Universal reasons (always show these)
-  options.push(
-    { label: "Tried it, didn't work", value: 'tried_failed', icon: 'refresh-outline', emoji: '🔄' },
-    { label: "Not my vibe", value: 'not_my_style', icon: 'person-outline', emoji: '✨' },
-    { label: "Just not feeling it", value: 'not_interested', icon: 'heart-dislike-outline', emoji: '💭' },
-    { label: "Something else", value: 'other', icon: 'ellipsis-horizontal-outline', emoji: '💬' },
-  );
-  
-  return options;
-};
+// Now using centralized data from rejectionReasons.ts
 
 export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, existingFeedback }: Props) {
   const [selectedReason, setSelectedReason] = useState<string>('');
@@ -183,8 +45,8 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, ex
   
   // If we have existing feedback, show follow-up questions instead
   const primaryReason = existingFeedback?.split(':')[0] || '';
-  const reasons = existingFeedback ? [] : getReasonOptions(tip);
-  const followUpQuestions = existingFeedback ? getFollowUpQuestions(primaryReason) : [];
+  const reasons = existingFeedback ? [] : getRelevantRejectionReasons(tip);
+  const followUpQuestions = existingFeedback ? getFollowUps(primaryReason) : [];
   
   useEffect(() => {
     if (visible) {
@@ -230,7 +92,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, ex
       setShowCustomInput(true);
     } else {
       // Check if this reason has follow-up questions
-      const followUps = getFollowUpQuestions(reason);
+      const followUps = getFollowUps(reason);
       if (followUps.length > 0 && !existingFeedback) {
         // Show follow-up questions
         setShowFollowUp(true);
@@ -359,7 +221,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, ex
                         `Got it! What specifically about that?`}
                     </Text>
                     <View style={styles.reasonsGrid}>
-                      {(existingFeedback ? followUpQuestions : getFollowUpQuestions(selectedReason)).map((followUp) => (
+                      {(existingFeedback ? followUpQuestions : getFollowUps(selectedReason)).map((followUp) => (
                         <TouchableOpacity
                           key={followUp.value}
                           style={[

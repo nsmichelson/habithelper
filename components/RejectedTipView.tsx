@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Tip, TipAttempt } from '../types/tip';
 import * as Haptics from 'expo-haptics';
+import { getRejectionReasonDisplay } from '../data/rejectionReasons';
 
 interface Props {
   tip: Tip;
@@ -18,109 +19,10 @@ interface Props {
   onFindNewTip: () => void;
 }
 
-const getRejectionReasonDisplay = (reason?: string): { icon: string; label: string; emoji: string; detail?: string } | null => {
-  if (!reason) return null;
-  
-  // Parse primary reason and follow-up detail if they exist
-  const [primaryReason, followUpDetail] = reason.split(':').map(s => s.trim());
-  
-  // Handle custom "other:" reasons
-  if (primaryReason === 'other') {
-    return {
-      icon: 'chatbubble-ellipses-outline',
-      label: followUpDetail || 'Personal reason',
-      emoji: '💬',
-      detail: undefined
-    };
-  }
-  
-  // Map follow-up details to friendly labels
-  const followUpLabels: Record<string, string> = {
-    // Taste follow-ups
-    'prefer_sweet': 'Prefers sweeter flavors',
-    'prefer_savory': 'Prefers savory flavors',
-    'too_spicy': 'Too spicy',
-    'not_spicy_enough': 'Not spicy enough',
-    'too_bland': 'Too bland',
-    'too_rich': 'Too rich or heavy',
-    'prefer_light': 'Prefers lighter flavors',
-    'specific_ingredient': 'Specific ingredient issue',
-    // Texture follow-ups
-    'too_soft': 'Too mushy or soft',
-    'too_hard': 'Too crunchy or hard',
-    'too_chewy': 'Too chewy',
-    'too_slimy': 'Texture issue',
-    'prefer_smooth': 'Prefers smoother textures',
-    'prefer_varied': 'Needs more texture variety',
-    // Time follow-ups
-    'if_under_5min': 'Would try if under 5 minutes',
-    'if_under_15min': 'Would try if under 15 minutes',
-    'too_many_steps': 'Too many steps',
-    'need_simpler': 'Needs simpler instructions',
-    'weekend_only': 'Weekend only option',
-    'one_step_only': 'Prefers one-step solutions',
-    // Cooking follow-ups
-    'no_cook_only': 'Prefers no-cook options',
-    'microwave_only': 'Microwave only',
-    'simple_cooking_ok': 'Would try simpler cooking',
-    'dont_know_how': "Doesn't know how",
-    'afraid_to_fail': 'Worried about messing up',
-    'need_guidance': 'Needs more guidance',
-    // Cost follow-ups
-    'if_cheaper': 'Would try cheaper version',
-    'cant_afford': "Can't afford ingredients",
-    'not_worth_cost': 'Not worth the cost',
-    'if_on_sale': 'Would try if on sale',
-    'budget_only': 'Budget options only',
-    // Access follow-ups
-    'not_available_locally': 'Not available nearby',
-    'need_shopping': 'Would need to shop first',
-    'dont_know_where': "Doesn't know where to find",
-    'ok_with_substitutes': 'Would try with substitutions',
-    'need_delivery': 'Needs delivery option',
-    // Tried/failed follow-ups
-    'no_results': "Didn't see results",
-    'felt_worse': 'Made them feel worse',
-    'hard_to_maintain': 'Too hard to maintain',
-    'schedule_conflict': "Doesn't fit schedule",
-    'try_modified': 'Would try modified version',
-    'need_more_time': 'Needs more time to see effects',
-  };
-  
-  // Map predefined reasons to display values
-  const reasonMap: Record<string, { icon: string; label: string; emoji: string }> = {
-    'dislike_taste': { icon: 'close-circle-outline', label: "Not a fan of the taste", emoji: '😝' },
-    'dislike_texture': { icon: 'water-outline', label: "Texture isn't for me", emoji: '🤔' },
-    'no_access': { icon: 'basket-outline', label: "Don't have ingredients", emoji: '🛒' },
-    'cant_eat': { icon: 'warning-outline', label: "Can't eat this", emoji: '⚠️' },
-    'too_much_cooking': { icon: 'restaurant-outline', label: 'Too much cooking', emoji: '👨‍🍳' },
-    'no_equipment': { icon: 'construct-outline', label: "Missing equipment", emoji: '🔧' },
-    'too_long': { icon: 'time-outline', label: 'Takes too long', emoji: '⏰' },
-    'too_complex': { icon: 'layers-outline', label: 'Too complicated', emoji: '🤯' },
-    'too_much_planning': { icon: 'calendar-outline', label: 'Too much planning', emoji: '📅' },
-    'too_expensive': { icon: 'cash-outline', label: 'Too expensive', emoji: '💰' },
-    'too_social': { icon: 'people-outline', label: 'Too social for me', emoji: '👥' },
-    'tried_failed': { icon: 'refresh-outline', label: "Tried it, didn't work", emoji: '🔄' },
-    'not_my_style': { icon: 'person-outline', label: "Not my vibe", emoji: '✨' },
-    'not_interested': { icon: 'heart-dislike-outline', label: "Just not feeling it", emoji: '💭' },
-  };
-  
-  const baseDisplay = reasonMap[primaryReason];
-  if (!baseDisplay) return null;
-  
-  // Add follow-up detail if it exists
-  if (followUpDetail && followUpLabels[followUpDetail]) {
-    return {
-      ...baseDisplay,
-      detail: followUpLabels[followUpDetail]
-    };
-  }
-  
-  return baseDisplay;
-};
+// Now using centralized getRejectionReasonDisplay from rejectionReasons.ts
 
 export default function RejectedTipView({ tip, rejection, onRequestFeedback, onFindNewTip }: Props) {
-  const rejectionDisplay = getRejectionReasonDisplay(rejection?.rejection_reason);
+  const displayInfo = getRejectionReasonDisplay(rejection?.rejection_reason);
   const hasReason = !!rejection?.rejection_reason;
   
   const handleRequestFeedback = () => {
@@ -159,13 +61,13 @@ export default function RejectedTipView({ tip, rejection, onRequestFeedback, onF
             <View style={styles.previousFeedbackCard}>
               <Text style={styles.feedbackLabel}>You said:</Text>
               <View style={styles.reasonDisplay}>
-                {rejectionDisplay && (
+                {displayInfo && (
                   <>
-                    <Text style={styles.reasonEmoji}>{rejectionDisplay.emoji}</Text>
+                    <Text style={styles.reasonEmoji}>{displayInfo.primary.emoji}</Text>
                     <View style={styles.reasonTextContainer}>
-                      <Text style={styles.reasonText}>{rejectionDisplay.label}</Text>
-                      {rejectionDisplay.detail && (
-                        <Text style={styles.reasonDetail}>• {rejectionDisplay.detail}</Text>
+                      <Text style={styles.reasonText}>{displayInfo.primary.label}</Text>
+                      {displayInfo.followUp && (
+                        <Text style={styles.reasonDetail}>• {displayInfo.followUp.label}</Text>
                       )}
                     </View>
                   </>
