@@ -13,6 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import OnboardingQuiz from '@/components/OnboardingQuiz';
 import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
+import DailyTipCardEnhanced from '@/components/DailyTipCardEnhanced';
 import EveningCheckIn from '@/components/EveningCheckIn';
 import ExperimentModeSwipe from '@/components/ExperimentModeSwipe';
 import ExperimentComplete from '@/components/ExperimentComplete';
@@ -867,8 +868,8 @@ export default function HomeScreen() {
                 onFindNewTip={handleFindNewTip}
               />
             ) : !dailyTip.user_response ? (
-              // Show tip card if no response yet
-              <DailyTipCardSwipe
+              // Show enhanced tip card if no response yet
+              <DailyTipCardEnhanced
                 tip={currentTip}
                 onResponse={handleTipResponse}
                 onNotForMe={() => {
@@ -881,6 +882,7 @@ export default function HomeScreen() {
                   }
                 }}
                 reasons={tipReasons}
+                userGoals={userProfile.goals}
               />
             ) : dailyTip.user_response === 'maybe_later' ? (
               // User said "maybe later"
@@ -912,9 +914,9 @@ export default function HomeScreen() {
                   });
                   setDailyTip({ ...dailyTip, user_response: undefined });
                 }
-                // Show the tip card again
+                // Show the enhanced tip card again
                 return (
-                  <DailyTipCardSwipe
+                  <DailyTipCardEnhanced
                     tip={currentTip}
                     onResponse={handleTipResponse}
                     onNotForMe={() => {
@@ -927,6 +929,7 @@ export default function HomeScreen() {
                       }
                     }}
                     reasons={tipReasons}
+                    userGoals={userProfile.goals}
                   />
                 );
               })()
