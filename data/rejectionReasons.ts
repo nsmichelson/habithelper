@@ -90,6 +90,24 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
     ]
   },
   
+  // VEGGIE ISSUES
+  {
+    value: 'too_many_veggies',
+    label: "Too veggie-heavy",
+    icon: 'leaf-outline',
+    emoji: '🥬',
+    showWhen: { tipHasFood: true },
+    followUps: [
+      { label: "Don't like vegetables at all", value: 'no_veggies', emoji: '🚫' },
+      { label: "Can only handle hidden veggies", value: 'hidden_only', emoji: '🫣' },
+      { label: "Specific vegetables I avoid", value: 'specific_veggies', emoji: '🥦' },
+      { label: "Texture of vegetables bothers me", value: 'veggie_texture', emoji: '🥒' },
+      { label: "Prefer fruits over veggies", value: 'fruits_instead', emoji: '🍎' },
+      { label: "Only like cooked veggies", value: 'cooked_only', emoji: '🍳' },
+      { label: "Only like raw veggies", value: 'raw_only', emoji: '🥗' },
+    ]
+  },
+  
   // DIETARY RESTRICTIONS
   {
     value: 'cant_eat',
@@ -105,6 +123,44 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
       { label: "Medication interaction", value: 'medication_interaction', emoji: '💊' },
       { label: "Makes me feel sick", value: 'makes_sick', emoji: '🤢' },
       { label: "Family member can't eat", value: 'family_cant_eat', emoji: '👨‍👩‍👧' },
+    ]
+  },
+  
+  // RESTRICTS MY FAVORITES
+  {
+    value: 'restricts_favorites',
+    label: "Takes away foods I love",
+    icon: 'heart-dislike-outline',
+    emoji: '💔',
+    showWhen: { tipHasFood: true },
+    followUps: [
+      { label: "Can't give up chocolate", value: 'need_chocolate', emoji: '🍫' },
+      { label: "Need my coffee", value: 'need_coffee', emoji: '☕' },
+      { label: "Cheese is non-negotiable", value: 'need_cheese', emoji: '🧀' },
+      { label: "Won't give up bread/carbs", value: 'need_carbs', emoji: '🍞' },
+      { label: "Need my sweet treats", value: 'need_sweets', emoji: '🍰' },
+      { label: "Can't skip alcohol", value: 'need_alcohol', emoji: '🍷' },
+      { label: "Soda is my thing", value: 'need_soda', emoji: '🥤' },
+      { label: "Fast food is necessary", value: 'need_fast_food', emoji: '🍔' },
+    ]
+  },
+  
+  // DIET TYPE CONFLICTS
+  {
+    value: 'diet_type_conflict',
+    label: "Against my diet type",
+    icon: 'restaurant-outline',
+    emoji: '🚫',
+    showWhen: { tipHasFood: true },
+    followUps: [
+      { label: "I'm vegetarian", value: 'vegetarian', emoji: '🌱' },
+      { label: "I'm vegan", value: 'vegan', emoji: '🌿' },
+      { label: "Not halal", value: 'not_halal', emoji: '🕌' },
+      { label: "Not kosher", value: 'not_kosher', emoji: '✡️' },
+      { label: "I don't eat meat", value: 'no_meat', emoji: '🥩' },
+      { label: "Dairy-free lifestyle", value: 'dairy_free', emoji: '🥛' },
+      { label: "Gluten-free needed", value: 'gluten_free', emoji: '🌾' },
+      { label: "Keto/low-carb conflict", value: 'keto_conflict', emoji: '🥓' },
     ]
   },
   
@@ -250,6 +306,110 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
     ]
   },
   
+  // FAMILY/HOUSEHOLD CHALLENGES
+  {
+    value: 'family_wont_work',
+    label: "Family/household challenges",
+    icon: 'people-outline',
+    emoji: '👨‍👩‍👧',
+    followUps: [
+      { label: "Kids won't eat this", value: 'kids_refuse', emoji: '👶' },
+      { label: "Partner won't participate", value: 'partner_no', emoji: '💑' },
+      { label: "Different dietary needs at home", value: 'different_diets', emoji: '🍽️' },
+      { label: "Cook for picky eaters", value: 'picky_eaters', emoji: '😤' },
+      { label: "Teenagers will revolt", value: 'teen_revolt', emoji: '🙄' },
+      { label: "Elderly parents need different", value: 'elderly_needs', emoji: '👵' },
+      { label: "Too many people to please", value: 'too_many_people', emoji: '👥' },
+    ]
+  },
+  
+  // CRAVING MISMATCH
+  {
+    value: 'wrong_craving',
+    label: "Not what I'm craving",
+    icon: 'pizza-outline',
+    emoji: '🤤',
+    showWhen: { tipHasFood: true },
+    followUps: [
+      { label: "Need something sweet", value: 'craving_sweet', emoji: '🍭' },
+      { label: "Craving salty/crunchy", value: 'craving_salty', emoji: '🥨' },
+      { label: "Want comfort food", value: 'want_comfort', emoji: '🍲' },
+      { label: "Need something more filling", value: 'need_filling', emoji: '🍖' },
+      { label: "Craving something warm", value: 'want_warm', emoji: '♨️' },
+      { label: "Want something cold/fresh", value: 'want_cold', emoji: '🧊' },
+      { label: "Need more flavor", value: 'need_flavor', emoji: '🌶️' },
+    ]
+  },
+  
+  // DIET TRAUMA/MENTALITY
+  {
+    value: 'diet_trauma',
+    label: "Feels too diet-like",
+    icon: 'warning-outline',
+    emoji: '😓',
+    followUps: [
+      { label: "Too restrictive", value: 'too_restrictive', emoji: '🔒' },
+      { label: "Reminds me of failed diets", value: 'diet_ptsd', emoji: '😔' },
+      { label: "Need more flexibility", value: 'need_flexibility', emoji: '🔄' },
+      { label: "Feels like deprivation", value: 'feels_deprived', emoji: '😢' },
+      { label: "Triggers diet mentality", value: 'triggers_diet', emoji: '⚠️' },
+      { label: "Want intuitive eating", value: 'intuitive_eating', emoji: '🧘' },
+      { label: "No more rules", value: 'no_rules', emoji: '🚫' },
+    ]
+  },
+  
+  // TIMING/SCHEDULE CONFLICTS
+  {
+    value: 'wrong_timing',
+    label: "Wrong time for me",
+    icon: 'time-outline',
+    emoji: '⏰',
+    followUps: [
+      { label: "Mornings too rushed", value: 'morning_rush', emoji: '🌅' },
+      { label: "Can't do evening routine", value: 'evening_busy', emoji: '🌙' },
+      { label: "Lunch break too short", value: 'short_lunch', emoji: '🕐' },
+      { label: "Weekends only", value: 'weekends_only', emoji: '📅' },
+      { label: "Work schedule conflicts", value: 'work_schedule', emoji: '💼' },
+      { label: "Kids' schedule chaos", value: 'kids_schedule', emoji: '🚸' },
+      { label: "Shift work complications", value: 'shift_work', emoji: '🔄' },
+    ]
+  },
+  
+  // LIFE CHAOS
+  {
+    value: 'life_too_chaotic',
+    label: "Life too chaotic right now",
+    icon: 'flame-outline',
+    emoji: '🔥',
+    followUps: [
+      { label: "In survival mode", value: 'survival_mode', emoji: '🆘' },
+      { label: "Kids make this impossible", value: 'kids_chaos', emoji: '👶' },
+      { label: "Work is overwhelming", value: 'work_overwhelm', emoji: '💼' },
+      { label: "Too stressed for this", value: 'too_stressed', emoji: '😰' },
+      { label: "Major life event happening", value: 'life_event', emoji: '🎭' },
+      { label: "Health issues taking priority", value: 'health_priority', emoji: '🏥' },
+      { label: "Mental health comes first", value: 'mental_health', emoji: '🧠' },
+    ]
+  },
+  
+  // SPECIFIC FOOD ISSUES (beyond allergies)
+  {
+    value: 'food_reaction',
+    label: "Specific food issues",
+    icon: 'alert-circle-outline',
+    emoji: '⚠️',
+    showWhen: { tipHasFood: true },
+    followUps: [
+      { label: "Gives me heartburn/reflux", value: 'heartburn', emoji: '🔥' },
+      { label: "Upsets my stomach", value: 'stomach_upset', emoji: '🤢' },
+      { label: "Bad memories with this food", value: 'bad_memories', emoji: '😣' },
+      { label: "Cultural reasons", value: 'cultural', emoji: '🌍' },
+      { label: "Religious reasons", value: 'religious', emoji: '🙏' },
+      { label: "Pregnancy aversion", value: 'pregnancy_aversion', emoji: '🤰' },
+      { label: "Medication interaction", value: 'medication', emoji: '💊' },
+    ]
+  },
+  
   // LIFESTYLE FIT
   {
     value: 'not_my_style',
@@ -392,7 +552,8 @@ export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
   });
   
   // Always include universal reasons that should appear for every tip
-  const universalReasons = ['tried_failed', 'not_my_style', 'not_interested', 'skeptical', 
+  const universalReasons = ['family_wont_work', 'life_too_chaotic', 'wrong_timing', 'diet_trauma',
+                           'tried_failed', 'not_my_style', 'not_interested', 'skeptical', 
                            'physical_concerns', 'environment_issue', 'other'];
   
   // Combine filtered context-specific reasons with universal ones
