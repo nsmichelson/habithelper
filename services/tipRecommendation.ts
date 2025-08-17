@@ -936,11 +936,40 @@ export class TipRecommendationService {
       a.feedback === 'not_for_me' && a.rejection_reason
     );
     
+    // Count veggie rejections for strong filtering
+    const veggieRejections = rejectedWithReasons.filter(r => {
+      const reason = r.rejection_reason || '';
+      return reason.includes('too_many_veggies') || reason.includes('no_veggies');
+    });
+    
     for (const rejection of rejectedWithReasons) {
-      const reason = rejection.rejection_reason;
+      const reasonStr = rejection.rejection_reason || '';
+      
+      // Parse compound reasons (e.g., "too_many_veggies:no_veggies")
+      const [primaryReason, followUpReason] = reasonStr.split(':').map(s => s.trim());
       
       // Apply penalties based on rejection reasons
-      switch (reason) {
+      switch (primaryReason) {
+        case 'too_many_veggies':
+          // Strong penalty for veggie-heavy tips when user rejects veggies
+          if (tip.veggie_intensity === 'heavy' || 
+              tip.veggie_strategy === 'front_and_center' ||
+              (tip.involves_foods && tip.involves_foods.some(f => 
+                ['salad', 'vegetables', 'greens', 'spinach', 'kale', 'broccoli'].includes(f.toLowerCase())))) {
+            
+            // If user said "no veggies at all", apply extreme penalty
+            if (followUpReason === 'no_veggies' || veggieRejections.length >= 2) {
+              penalty += 50; // Essentially blocks the tip
+            } else {
+              penalty += 20; // Strong penalty for veggie aversion
+            }
+          }
+          // Moderate penalty for any veggie content
+          else if (tip.veggie_intensity === 'moderate' || tip.veggie_intensity === 'light') {
+            penalty += 10;
+          }
+          break;
+          
         case 'dislike_taste':
         case 'dislike_texture':
           // Penalize tips with same foods

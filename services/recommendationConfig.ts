@@ -176,11 +176,11 @@ export const RECOMMENDATION_CONFIG = {
     NON_NEGOTIABLES: 12,
     
     /**
-     * Vegetable aversion handling (default: 6)
-     * Penalty for veggie-heavy tips if user avoids vegetables
+     * Vegetable aversion handling (default: 20)
+     * Strong penalty for veggie-heavy tips if user avoids vegetables
      * Bonus for "hidden" veggie approaches for veggie-averse users
      */
-    VEGGIE_AVERSION: 6,
+    VEGGIE_AVERSION: 20,
     
     /**
      * Family compatibility (default: 6)

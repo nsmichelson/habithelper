@@ -380,6 +380,8 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           break;
           
         case 'real_talk':
+          // Store vegetable preference directly
+          profile.veggie_preference = values[0];
           // Vegetable relationship affects goals
           if (['avoid', 'hide_them'].includes(values[0])) {
             profile.goals.push('increase_veggies');
