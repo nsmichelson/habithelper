@@ -519,7 +519,9 @@ export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
     
     // Check each condition
     if (conditions.tipHasFood !== undefined) {
-      const tipHasFood = tip.involves_foods && tip.involves_foods.length > 0;
+      // Check if tip has food involvement (either specific foods OR veggie content)
+      const tipHasFood = (tip.involves_foods && tip.involves_foods.length > 0) || 
+                         (tip.veggie_intensity && tip.veggie_intensity !== 'none' && tip.veggie_intensity !== 'not_applicable');
       if (conditions.tipHasFood !== tipHasFood) return false;
     }
     
