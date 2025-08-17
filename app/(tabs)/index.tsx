@@ -618,12 +618,14 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       {/* Feedback Modal */}
+      {console.log('Modal render check - showFeedbackModal:', showFeedbackModal, 'pendingOptOut:', pendingOptOut?.tipId)}
       {showFeedbackModal && pendingOptOut && (
         <NotForMeFeedback
           visible={showFeedbackModal}
           tip={pendingOptOut.tip}
           existingFeedback={pendingOptOut.existingFeedback}
           onClose={() => {
+            console.log('Modal onClose called');
             setShowFeedbackModal(false);
             handleNotForMeFeedback(null);
           }}
@@ -873,11 +875,17 @@ export default function HomeScreen() {
                 tip={currentTip}
                 onResponse={handleTipResponse}
                 onNotForMe={() => {
+                  console.log('Not for me clicked!');
+                  console.log('Current tip:', currentTip?.tip_id);
+                  console.log('Skip feedback questions:', userProfile?.skip_feedback_questions);
+                  
                   // Only open modal, don't trigger replacement
                   setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
                   if (userProfile.skip_feedback_questions) {
+                    console.log('Skipping feedback modal, going straight to rejection');
                     handleNotForMeFeedback(null);
                   } else {
+                    console.log('Setting showFeedbackModal to true');
                     setShowFeedbackModal(true);
                   }
                 }}
@@ -920,11 +928,17 @@ export default function HomeScreen() {
                     tip={currentTip}
                     onResponse={handleTipResponse}
                     onNotForMe={() => {
+                      console.log('Not for me clicked (fallback)!');
+                      console.log('Current tip:', currentTip?.tip_id);
+                      console.log('Skip feedback questions:', userProfile?.skip_feedback_questions);
+                      
                       // Only open modal, don't trigger replacement
                       setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
                       if (userProfile.skip_feedback_questions) {
+                        console.log('Skipping feedback modal, going straight to rejection');
                         handleNotForMeFeedback(null);
                       } else {
+                        console.log('Setting showFeedbackModal to true');
                         setShowFeedbackModal(true);
                       }
                     }}
