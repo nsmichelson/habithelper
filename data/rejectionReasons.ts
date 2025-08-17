@@ -451,6 +451,7 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
     icon: 'help-outline',
     emoji: '🤨',
     followUps: [
+      { label: "Too vague - need specific steps", value: 'too_vague', emoji: '🌫️' },
       { label: "Sounds too good to be true", value: 'too_good_true', emoji: '🎪' },
       { label: "Need scientific proof", value: 'need_proof', emoji: '🔬' },
       { label: "Tried similar before", value: 'tried_similar', emoji: '🔄' },
