@@ -151,6 +151,8 @@ export default function ProfileScreen() {
   };
 
   const formatGoal = (goals: string[]) => {
+    console.log('My Why - User goals from profile:', goals);
+    
     if (goals.length === 0) return 'improve my health';
     
     const goalLabels: Record<string, string> = {
@@ -170,8 +172,20 @@ export default function ProfileScreen() {
       improve_gut_health: 'improve digestion',
     };
     
-    const primary = goalLabels[goals[0]] || goals[0].replace(/_/g, ' ');
-    return primary;
+    // Format all goals, not just the first one
+    const formattedGoals = goals.map(g => goalLabels[g] || g.replace(/_/g, ' '));
+    console.log('My Why - Formatted goals:', formattedGoals);
+    
+    // Return them as a comma-separated list, or special formatting for 2 goals
+    if (formattedGoals.length === 1) {
+      return formattedGoals[0];
+    } else if (formattedGoals.length === 2) {
+      return `${formattedGoals[0]} and ${formattedGoals[1]}`;
+    } else {
+      // For 3+ goals, use commas and 'and' before last one
+      const lastGoal = formattedGoals.pop();
+      return `${formattedGoals.join(', ')}, and ${lastGoal}`;
+    }
   };
 
   const CircumstanceModal = () => {
