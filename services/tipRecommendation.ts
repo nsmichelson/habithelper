@@ -290,6 +290,51 @@ export class TipRecommendationService {
     if (tip.requires_planning && hour >= 21) {
       return false;
     }
+    
+    // Daily life persona filtering
+    if (userProfile.daily_life_persona) {
+      const persona = userProfile.daily_life_persona;
+      
+      // Parents with young kids - skip complex/time-consuming tips
+      if (persona === 'parent_young_kids') {
+        if (tip.time_cost_enum === '>60_min' || 
+            tip.difficulty_tier >= 4 ||
+            tip.requires_advance_prep) {
+          return false;
+        }
+      }
+      
+      // Remote workers - skip office-only tips
+      if (persona === 'remote_worker') {
+        if (tip.location_tags?.length === 1 && tip.location_tags[0] === 'work') {
+          return false;
+        }
+      }
+      
+      // Shift workers - be more flexible with timing
+      if (persona === 'shift_worker') {
+        // Allow tips at any time for shift workers
+      } else {
+        // For non-shift workers, apply normal time restrictions
+        if (tip.time_of_day?.length > 0 && !tip.time_of_day.includes('any')) {
+          const currentPeriod = 
+            hour >= 5 && hour < 12 ? 'morning' :
+            hour >= 12 && hour < 17 ? 'afternoon' :
+            hour >= 17 && hour < 21 ? 'evening' :
+            'late_night';
+          if (!tip.time_of_day.includes(currentPeriod as any)) {
+            return false;
+          }
+        }
+      }
+      
+      // Students - skip expensive tips
+      if (persona === 'student') {
+        if (tip.money_cost_enum === '$$' || tip.money_cost_enum === '$$$') {
+          return false;
+        }
+      }
+    }
 
     // Check location requirements
     const locations = tip.location_tags ?? [];
@@ -648,6 +693,72 @@ export class TipRecommendationService {
       }
     }
     
+    // Boost tips that match successful strategies
+    if (userProfile.successful_strategies?.length > 0) {
+      const strategies = userProfile.successful_strategies;
+      let strategyBonus = 0;
+      
+      if (strategies.includes('meal_prep') && tip.requires_advance_prep) {
+        strategyBonus += 0.3;
+        this.addReason(reasons, '✓ Prep worked before');
+      }
+      if (strategies.includes('tracking') && 
+          (tip.summary?.includes('track') || tip.summary?.includes('log'))) {
+        strategyBonus += 0.3;
+        this.addReason(reasons, '✓ Tracking worked');
+      }
+      if (strategies.includes('simple_swaps') && tip.tip_type?.includes('healthy_swap')) {
+        strategyBonus += 0.5;
+        this.addReason(reasons, '✓ Swaps worked');
+      }
+      if (strategies.includes('small_changes') && tip.difficulty_tier <= 2) {
+        strategyBonus += 0.3;
+        this.addReason(reasons, '✓ Small steps work');
+      }
+      if (strategies.includes('routine') && tip.tip_type?.includes('time_ritual')) {
+        strategyBonus += 0.4;
+        this.addReason(reasons, '✓ Routines work');
+      }
+      
+      score += strategyBonus * 8; // Significant bonus for proven strategies
+    }
+    
+    // Penalize tips that match failed approaches
+    if (userProfile.failed_approaches?.length > 0) {
+      const failed = userProfile.failed_approaches;
+      let failurePenalty = 0;
+      
+      if (failed.includes('counting') && 
+          (tip.summary?.toLowerCase().includes('calorie') || 
+           tip.summary?.toLowerCase().includes('count') ||
+           tip.summary?.toLowerCase().includes('track'))) {
+        failurePenalty += 10;
+        this.addReason(reasons, '⚠️ Counting failed before');
+      }
+      if (failed.includes('restrictions') && tip.tip_type?.includes('elimination')) {
+        failurePenalty += 8;
+        this.addReason(reasons, '⚠️ Restrictions failed');
+      }
+      if (failed.includes('complex_recipes') && 
+          tip.cooking_skill_required && 
+          tip.cooking_skill_required !== 'none' && 
+          tip.cooking_skill_required !== 'microwave') {
+        failurePenalty += 6;
+        this.addReason(reasons, '⚠️ Complex cooking failed');
+      }
+      if (failed.includes('rigid_plans') && tip.requires_planning) {
+        failurePenalty += 5;
+        this.addReason(reasons, '⚠️ Rigid plans failed');
+      }
+      if (failed.includes('expensive_foods') && 
+          (tip.money_cost_enum === '$$' || tip.money_cost_enum === '$$$')) {
+        failurePenalty += 7;
+        this.addReason(reasons, '⚠️ Expensive failed');
+      }
+      
+      score -= failurePenalty;
+    }
+    
     // Cognitive load (0..1)
     let cognitiveScore = 0.5;
     if (userProfile.dietary_preferences?.includes('history_overwhelmed')) {
@@ -657,6 +768,63 @@ export class TipRecommendationService {
       } else if (tip.cognitive_load && tip.cognitive_load >= 4) {
         cognitiveScore = 0;
       }
+    }
+    
+    // Motivation type alignment
+    if (userProfile.motivation_types?.length > 0) {
+      const motivations = userProfile.motivation_types;
+      let motivationBonus = 0;
+      
+      // Data-driven people
+      if (motivations.includes('data')) {
+        if (tip.summary?.toLowerCase().includes('gram') || 
+            tip.summary?.toLowerCase().includes('minute') ||
+            tip.summary?.toLowerCase().includes('serving')) {
+          motivationBonus += 0.3;
+          this.addReason(reasons, '📊 Measurable');
+        }
+      }
+      
+      // Social motivation
+      if (motivations.includes('social') || motivations.includes('competition')) {
+        if (tip.social_mode === 'group' || tip.location_tags?.includes('social_event')) {
+          motivationBonus += 0.4;
+          this.addReason(reasons, '👥 Social aspect');
+        }
+      }
+      
+      // Novelty seekers
+      if (motivations.includes('novelty')) {
+        // Penalize tips they've tried recently
+        const recentAttempts = attempts.filter(a => {
+          const daysSince = (Date.now() - new Date(a.attempted_at).getTime()) / DAY_MS;
+          return daysSince < 30;
+        });
+        if (recentAttempts.length === 0) {
+          motivationBonus += 0.2;
+          this.addReason(reasons, '✨ Something new');
+        }
+      }
+      
+      // Routine lovers
+      if (motivations.includes('routine')) {
+        if (tip.tip_type?.includes('time_ritual') || tip.tip_type?.includes('habit_stacking')) {
+          motivationBonus += 0.4;
+          this.addReason(reasons, '🔄 Routine builder');
+        }
+      }
+      
+      // Visible results seekers
+      if (motivations.includes('visible_results')) {
+        if (tip.goal_tags?.includes('weight_loss') || 
+            tip.summary?.toLowerCase().includes('visible') ||
+            tip.summary?.toLowerCase().includes('notice')) {
+          motivationBonus += 0.3;
+          this.addReason(reasons, '👁️ Visible impact');
+        }
+      }
+      
+      score += motivationBonus * 6; // Moderate boost for motivation alignment
     }
     
     // Kitchen compatibility (0..1)
@@ -883,6 +1051,85 @@ export class TipRecommendationService {
     if (personality.includes('stress_eater')) {
       if ((tip.tip_type ?? []).includes('mood_regulation')) {
         matchScore = Math.min(1, matchScore + 0.3);
+      }
+      
+      // If they have specific stress triggers, boost relevant tips
+      if (userProfile.stress_eating_triggers?.length > 0) {
+        const triggers = userProfile.stress_eating_triggers;
+        
+        if (triggers.includes('work_stress') && 
+            (tip.location_tags?.includes('work') || 
+             tip.summary?.toLowerCase().includes('desk') ||
+             tip.summary?.toLowerCase().includes('office'))) {
+          matchScore = Math.min(1, matchScore + 0.2);
+          this.addReason(reasons, '💼 Work stress help');
+        }
+        
+        if (triggers.includes('tired') && 
+            (tip.goal_tags?.includes('improve_energy') ||
+             tip.summary?.toLowerCase().includes('energy'))) {
+          matchScore = Math.min(1, matchScore + 0.2);
+          this.addReason(reasons, '⚡ Energy boost');
+        }
+        
+        if (triggers.includes('loneliness') && 
+            (tip.social_mode === 'group' || 
+             tip.tip_type?.includes('social'))) {
+          matchScore = Math.min(1, matchScore + 0.2);
+          this.addReason(reasons, '👥 Social connection');
+        }
+        
+        if ((triggers.includes('boredom') || triggers.includes('tired')) &&
+            tip.motivational_mechanism?.includes('novelty')) {
+          matchScore = Math.min(1, matchScore + 0.15);
+          this.addReason(reasons, '✨ Beats boredom');
+        }
+        
+        // Handle additional stress triggers
+        if (triggers.includes('family_stress') && 
+            (tip.tip_type?.includes('mindset_shift') ||
+             tip.summary?.toLowerCase().includes('family') ||
+             tip.summary?.toLowerCase().includes('meal'))) {
+          matchScore = Math.min(1, matchScore + 0.15);
+          this.addReason(reasons, '👨‍👩‍👧 Family stress help');
+        }
+        
+        if (triggers.includes('pms') && 
+            (tip.satisfies_craving?.includes('chocolate') ||
+             tip.satisfies_craving?.includes('sweet') ||
+             tip.motivational_mechanism?.includes('comfort'))) {
+          matchScore = Math.min(1, matchScore + 0.2);
+          this.addReason(reasons, '🌙 PMS comfort');
+        }
+        
+        if (triggers.includes('conflict') && 
+            (tip.tip_type?.includes('mood_regulation') ||
+             tip.tip_type?.includes('mindset_shift'))) {
+          matchScore = Math.min(1, matchScore + 0.15);
+          this.addReason(reasons, '☮️ Post-conflict help');
+        }
+        
+        if (triggers.includes('perfectionism') && 
+            (tip.difficulty_tier <= 2 ||
+             tip.summary?.toLowerCase().includes('good enough') ||
+             tip.summary?.toLowerCase().includes('progress'))) {
+          matchScore = Math.min(1, matchScore + 0.15);
+          this.addReason(reasons, '✅ Progress not perfection');
+        }
+        
+        if (triggers.includes('money_worry') && 
+            tip.money_cost_enum === '$') {
+          matchScore = Math.min(1, matchScore + 0.15);
+          this.addReason(reasons, '💰 Budget-friendly stress relief');
+        }
+        
+        if (triggers.includes('news_events') && 
+            (tip.tip_type?.includes('mood_regulation') ||
+             tip.location_tags?.includes('home') ||
+             tip.motivational_mechanism?.includes('comfort'))) {
+          matchScore = Math.min(1, matchScore + 0.15);
+          this.addReason(reasons, '🌍 Comfort during uncertainty');
+        }
       }
     }
     
