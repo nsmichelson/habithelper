@@ -437,6 +437,31 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           // Store diet attempt history
           profile.dietary_preferences = [...(profile.dietary_preferences || []), `history_${values[0]}`];
           break;
+          
+        case 'what_worked':
+          // Store successful strategies
+          profile.successful_strategies = values;
+          break;
+          
+        case 'what_failed':
+          // Store failed approaches to avoid
+          profile.failed_approaches = values;
+          break;
+          
+        case 'daily_life':
+          // Store daily life persona
+          profile.daily_life_persona = values[0];
+          break;
+          
+        case 'motivation_style':
+          // Store what motivates them
+          profile.motivation_types = values;
+          break;
+          
+        case 'stress_triggers':
+          // Store stress eating triggers
+          profile.stress_eating_triggers = values;
+          break;
       }
     });
 

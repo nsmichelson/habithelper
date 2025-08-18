@@ -254,8 +254,15 @@ export interface UserProfile {
   biggest_obstacle?: string;
   home_situation?: string[];
   
+  // New comprehensive quiz fields
+  successful_strategies?: string[]; // What worked for them before
+  failed_approaches?: string[]; // What didn't work (to avoid)
+  daily_life_persona?: string; // parent_young_kids, busy_professional, etc.
+  motivation_types?: string[]; // data, social, achievements, etc.
+  stress_eating_triggers?: string[]; // work_stress, loneliness, etc.
+  
   // Context awareness
-  current_context?: 'home' | 'travel' | 'hotel' | 'work' | 'busy_period';
+  current_context?: 'home' | 'travel' | 'hotel' | 'work' | 'busy_period' | 'wfh';
   meal_windows?: {
     breakfast?: [number, number]; // [start_hour, end_hour] in 24h format
     lunch?: [number, number];

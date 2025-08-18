@@ -56,6 +56,58 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
+  // What actually worked (if they've tried before)
+  {
+    id: 'what_worked',
+    question: "If you've tried before, what actually worked for you? (even temporarily)",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: { 
+      questionId: 'diet_history', 
+      values: ['yo_yo', 'too_extreme', 'slow_progress', 'doing_well'] 
+    },
+    helpText: 'Check all that helped, even a little',
+    options: [
+      { value: 'meal_prep', label: 'Meal prepping on weekends' },
+      { value: 'tracking', label: 'Tracking food/calories' },
+      { value: 'accountability', label: 'Having accountability (friend/app/coach)' },
+      { value: 'simple_swaps', label: 'Simple food swaps' },
+      { value: 'cut_out_foods', label: 'Cutting out specific foods completely' },
+      { value: 'small_changes', label: 'Tiny changes that added up' },
+      { value: 'routine', label: 'Having a strict routine' },
+      { value: 'flexibility', label: 'Having flexibility/no strict rules' },
+      { value: 'education', label: 'Learning about nutrition' },
+      { value: 'mindful', label: 'Being more mindful/present' },
+    ]
+  },
+
+  // What definitely didn't work
+  {
+    id: 'what_failed',
+    question: "What definitely DIDN'T work for you?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: { 
+      questionId: 'diet_history', 
+      values: ['yo_yo', 'too_extreme', 'slow_progress'] 
+    },
+    helpText: 'We\'ll avoid these approaches',
+    options: [
+      { value: 'counting', label: 'Counting calories/macros' },
+      { value: 'restrictions', label: 'Cutting out entire food groups' },
+      { value: 'meal_timing', label: 'Specific meal timing rules' },
+      { value: 'expensive_foods', label: 'Expensive special foods/supplements' },
+      { value: 'complex_recipes', label: 'Complicated recipes' },
+      { value: 'all_or_nothing', label: 'All-or-nothing approach' },
+      { value: 'public_accountability', label: 'Public accountability/sharing progress' },
+      { value: 'rigid_plans', label: 'Rigid meal plans' },
+      { value: 'workout_required', label: 'Plans that required exercise too' },
+      { value: 'special_equipment', label: 'Needing special equipment/tools' },
+    ]
+  },
+
   // Current life chaos level
   {
     id: 'life_chaos',
@@ -70,6 +122,48 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'juggling', label: 'Juggling a lot but managing' },
       { value: 'survival', label: 'Survival mode (kids/work/stress/all of it)' },
       { value: 'dumpster_fire', label: '🔥 Complete dumpster fire 🔥' },
+    ]
+  },
+
+  // Daily life persona
+  {
+    id: 'daily_life',
+    question: "Which best describes your typical day?",
+    type: 'single_choice',
+    category: 'lifestyle',
+    required: true,
+    options: [
+      { value: 'parent_young_kids', label: 'Parent with young kids (chaos commander)' },
+      { value: 'parent_teens', label: 'Parent with teens (taxi driver extraordinaire)' },
+      { value: 'busy_professional', label: 'Busy professional (meetings all day)' },
+      { value: 'remote_worker', label: 'Remote worker (kitchen is 10 steps away)' },
+      { value: 'shift_worker', label: 'Shift worker (weird hours)' },
+      { value: 'student', label: 'Student (broke and stressed)' },
+      { value: 'retiree', label: 'Retiree (time but maybe health limits)' },
+      { value: 'freelancer', label: 'Freelancer/gig worker (unpredictable schedule)' },
+      { value: 'caregiver', label: 'Caregiver (taking care of others)' },
+    ]
+  },
+
+  // Motivation style
+  {
+    id: 'motivation_style',
+    question: "What actually motivates you to stick with things?",
+    type: 'multiple_choice',
+    category: 'personality',
+    required: true,
+    helpText: 'Be honest - check your top 2-3',
+    options: [
+      { value: 'data', label: 'Seeing numbers/data improve' },
+      { value: 'achievements', label: 'Unlocking achievements/streaks' },
+      { value: 'social', label: 'Doing it with others/accountability' },
+      { value: 'competition', label: 'Friendly competition' },
+      { value: 'novelty', label: 'Trying new things/variety' },
+      { value: 'routine', label: 'Having a set routine' },
+      { value: 'visible_results', label: 'Seeing visible changes' },
+      { value: 'feeling_good', label: 'How I feel day-to-day' },
+      { value: 'proving_wrong', label: 'Proving doubters wrong' },
+      { value: 'rewards', label: 'Small rewards along the way' },
     ]
   },
 
@@ -203,6 +297,29 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'night_owl', label: 'Night owl - late night munchies' },
       { value: 'speed_eater', label: 'Speed eater - inhale food' },
       { value: 'picky', label: 'Picky - specific textures/foods only' },
+    ]
+  },
+
+  // Conditional: Stress eating triggers (only if they selected stress_eater)
+  {
+    id: 'stress_triggers',
+    question: 'What tends to trigger your stress/emotional eating?',
+    type: 'multiple_choice',
+    category: 'personality',
+    required: false,
+    conditionalOn: { questionId: 'eating_personality', values: ['stress_eater'] },
+    helpText: 'Understanding your triggers helps us give better tips',
+    options: [
+      { value: 'work_stress', label: 'Work deadlines/pressure' },
+      { value: 'family_stress', label: 'Family drama/responsibilities' },
+      { value: 'loneliness', label: 'Feeling lonely or isolated' },
+      { value: 'boredom', label: 'Actually boredom disguised as stress' },
+      { value: 'tired', label: 'Being overtired' },
+      { value: 'pms', label: 'PMS/hormonal changes' },
+      { value: 'conflict', label: 'After arguments/conflict' },
+      { value: 'perfectionism', label: 'When things aren\'t perfect' },
+      { value: 'money_worry', label: 'Financial stress' },
+      { value: 'news_events', label: 'World events/news' },
     ]
   },
 
