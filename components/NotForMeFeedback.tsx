@@ -46,7 +46,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, ex
   // If we have existing feedback, show follow-up questions instead
   const primaryReason = existingFeedback?.split(':')[0] || '';
   const reasons = existingFeedback ? [] : getRelevantRejectionReasons(tip);
-  const followUpQuestions = existingFeedback ? getFollowUps(primaryReason) : [];
+  const followUpQuestions = existingFeedback ? getFollowUps(primaryReason, tip) : [];
   
   useEffect(() => {
     if (visible) {
@@ -92,7 +92,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, ex
       setShowCustomInput(true);
     } else {
       // Check if this reason has follow-up questions
-      const followUps = getFollowUps(reason);
+      const followUps = getFollowUps(reason, tip);
       if (followUps.length > 0 && !existingFeedback) {
         // Show follow-up questions
         setShowFollowUp(true);
@@ -221,7 +221,7 @@ export default function NotForMeFeedback({ visible, tip, onClose, onFeedback, ex
                         `Got it! What specifically about that?`}
                     </Text>
                     <View style={styles.reasonsGrid}>
-                      {(existingFeedback ? followUpQuestions : getFollowUps(selectedReason)).map((followUp) => (
+                      {(existingFeedback ? followUpQuestions : getFollowUps(selectedReason, tip)).map((followUp) => (
                         <TouchableOpacity
                           key={followUp.value}
                           style={[

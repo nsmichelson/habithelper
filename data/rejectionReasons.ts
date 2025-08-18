@@ -530,7 +530,7 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
 export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
   // Start with situational blocker if it has relevant options for this tip
   const situationalBlocker = REJECTION_REASONS.find(r => r.value === 'wrong_situation');
-  const situationalReasons: RejectionReason[] = [];
+  const situationalReasons: RejectionReasonWithFollowUps[] = [];
   
   if (situationalBlocker) {
     // Check which situational reasons apply to this tip
@@ -578,13 +578,20 @@ export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
     // Always include these generic ones
     relevantSituations.push('wrong_time', 'feeling_sick', 'traveling');
     
-    // If we have relevant situations, include the situational blocker
+    // If we have relevant situations, create a custom situational blocker with filtered follow-ups
     if (relevantSituations.length > 0) {
+      // Filter the follow-ups to only include relevant ones
+      const filteredFollowUps = situationalBlocker.followUps?.filter(f => 
+        relevantSituations.includes(f.value)
+      ) || [];
+      
+      // Create a custom version with only relevant follow-ups
       situationalReasons.push({
         value: situationalBlocker.value,
         label: situationalBlocker.label,
         icon: situationalBlocker.icon,
         emoji: situationalBlocker.emoji,
+        followUps: filteredFollowUps
       });
     }
   }
@@ -654,10 +661,75 @@ export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
   }));
 }
 
+// Store the tip-specific filtered follow-ups
+let currentTipFollowUps: Map<string, FollowUpQuestion[]> = new Map();
+
 // Helper function to get follow-up questions for a primary reason
-export function getFollowUpQuestions(primaryReason: string): FollowUpQuestion[] {
+export function getFollowUpQuestions(primaryReason: string, tip?: any): FollowUpQuestion[] {
+  // First check if we have tip-specific filtered follow-ups
+  if (tip && primaryReason === 'wrong_situation') {
+    const filtered = getFilteredSituationalFollowUps(tip);
+    return filtered;
+  }
+  
+  // Otherwise return all follow-ups for this reason
   const reason = REJECTION_REASONS.find(r => r.value === primaryReason);
   return reason?.followUps || [];
+}
+
+// Helper to get filtered situational follow-ups for a specific tip
+function getFilteredSituationalFollowUps(tip: any): FollowUpQuestion[] {
+  const situationalBlocker = REJECTION_REASONS.find(r => r.value === 'wrong_situation');
+  if (!situationalBlocker?.followUps) return [];
+  
+  const relevantSituations: string[] = [];
+  
+  // Check for social requirements
+  if (tip.social_mode === 'group' || tip.location_tags?.includes('social_event')) {
+    relevantSituations.push('no_social_plans');
+  }
+  
+  // Check for restaurant requirements
+  if (tip.location_tags?.length === 1 && tip.location_tags[0] === 'restaurant') {
+    relevantSituations.push('not_eating_out');
+  }
+  
+  // Check for home requirements
+  if (tip.location_tags?.includes('home') && !tip.location_tags?.includes('work')) {
+    relevantSituations.push('not_home');
+  }
+  
+  // Check for office requirements
+  if (tip.location_tags?.length === 1 && tip.location_tags[0] === 'work') {
+    relevantSituations.push('not_at_office');
+  }
+  
+  // Check for shopping requirements
+  if (tip.cue_context?.includes('grocery_shopping') || 
+      tip.summary?.toLowerCase().includes('grocery') ||
+      tip.summary?.toLowerCase().includes('shopping')) {
+    relevantSituations.push('no_shopping');
+  }
+  
+  // Check for advance prep requirements
+  if (tip.requires_advance_prep || tip.prep_timing) {
+    relevantSituations.push('not_prepared');
+  }
+  
+  // Check for outdoor/weather requirements
+  if (tip.summary?.toLowerCase().includes('walk') || 
+      tip.summary?.toLowerCase().includes('outdoor') ||
+      tip.physical_effort >= 3) {
+    relevantSituations.push('bad_weather');
+  }
+  
+  // Always include these generic ones
+  relevantSituations.push('wrong_time', 'feeling_sick', 'traveling');
+  
+  // Filter the follow-ups to only include relevant ones
+  return situationalBlocker.followUps.filter(f => 
+    relevantSituations.includes(f.value)
+  );
 }
 
 // Helper function to get display info for a rejection reason (including follow-ups)
