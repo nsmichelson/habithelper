@@ -274,6 +274,24 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
     ]
   },
   
+  // TRACKING/MEASURING ISSUES
+  {
+    value: 'too_much_tracking',
+    label: 'Too much measuring/counting',
+    icon: 'calculator-outline',
+    emoji: '🔢',
+    followUps: [
+      { label: "Don't want to weigh food", value: 'no_weighing', emoji: '⚖️' },
+      { label: "Don't want to count calories", value: 'no_calories', emoji: '🔢' },
+      { label: "Don't know what 30g looks like", value: 'no_reference', emoji: '❓' },
+      { label: "Too technical for me", value: 'too_technical', emoji: '🤓' },
+      { label: "Just want simple rules", value: 'want_simple', emoji: '✨' },
+      { label: "Math stresses me out", value: 'math_stress', emoji: '😰' },
+      { label: "Don't have measuring tools", value: 'no_tools', emoji: '🥄' },
+      { label: "Feels too diet-like", value: 'feels_diet', emoji: '📊' },
+    ]
+  },
+  
   // PLANNING REQUIREMENTS
   {
     value: 'too_much_planning',

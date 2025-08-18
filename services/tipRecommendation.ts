@@ -1077,6 +1077,18 @@ export class TipRecommendationService {
           }
           break;
           
+        case 'too_much_tracking':
+          // Penalize tips that require measuring or counting
+          if (tip.summary?.toLowerCase().includes('gram') || 
+              tip.summary?.toLowerCase().includes('calories') ||
+              tip.summary?.toLowerCase().includes('measure') ||
+              tip.summary?.toLowerCase().includes('weigh') ||
+              tip.details_md?.toLowerCase().includes('30g') ||
+              tip.details_md?.toLowerCase().includes('20g')) {
+            penalty += 10;
+          }
+          break;
+          
         case 'too_expensive':
           if (tip.money_cost_enum === '$$$' || tip.money_cost_enum === '$$') {
             penalty += 5;
