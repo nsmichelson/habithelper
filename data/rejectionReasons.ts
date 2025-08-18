@@ -528,15 +528,72 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
 
 // Helper function to get reasons filtered by tip characteristics
 export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
-  const allReasons = REJECTION_REASONS.map(r => ({
-    value: r.value,
-    label: r.label,
-    icon: r.icon,
-    emoji: r.emoji,
-  }));
+  // Start with situational blocker if it has relevant options for this tip
+  const situationalBlocker = REJECTION_REASONS.find(r => r.value === 'wrong_situation');
+  const situationalReasons: RejectionReason[] = [];
   
-  // If tip has specific characteristics, filter accordingly
+  if (situationalBlocker) {
+    // Check which situational reasons apply to this tip
+    const relevantSituations: string[] = [];
+    
+    // Check for social requirements
+    if (tip.social_mode === 'group' || tip.location_tags?.includes('social_event')) {
+      relevantSituations.push('no_social_plans');
+    }
+    
+    // Check for restaurant requirements
+    if (tip.location_tags?.length === 1 && tip.location_tags[0] === 'restaurant') {
+      relevantSituations.push('not_eating_out');
+    }
+    
+    // Check for home requirements
+    if (tip.location_tags?.includes('home') && !tip.location_tags?.includes('work')) {
+      relevantSituations.push('not_home');
+    }
+    
+    // Check for office requirements
+    if (tip.location_tags?.length === 1 && tip.location_tags[0] === 'work') {
+      relevantSituations.push('not_at_office');
+    }
+    
+    // Check for shopping requirements
+    if (tip.cue_context?.includes('grocery_shopping') || 
+        tip.summary?.toLowerCase().includes('grocery') ||
+        tip.summary?.toLowerCase().includes('shopping')) {
+      relevantSituations.push('no_shopping');
+    }
+    
+    // Check for advance prep requirements
+    if (tip.requires_advance_prep || tip.prep_timing) {
+      relevantSituations.push('not_prepared');
+    }
+    
+    // Check for outdoor/weather requirements
+    if (tip.summary?.toLowerCase().includes('walk') || 
+        tip.summary?.toLowerCase().includes('outdoor') ||
+        tip.physical_effort >= 3) {
+      relevantSituations.push('bad_weather');
+    }
+    
+    // Always include these generic ones
+    relevantSituations.push('wrong_time', 'feeling_sick', 'traveling');
+    
+    // If we have relevant situations, include the situational blocker
+    if (relevantSituations.length > 0) {
+      situationalReasons.push({
+        value: situationalBlocker.value,
+        label: situationalBlocker.label,
+        icon: situationalBlocker.icon,
+        emoji: situationalBlocker.emoji,
+      });
+    }
+  }
+  
+  // Then filter other reasons based on tip characteristics
   const filtered = REJECTION_REASONS.filter(reason => {
+    // Skip the situational blocker as we handled it above
+    if (reason.value === 'wrong_situation') return false;
+    
     if (!reason.showWhen) return true; // Always show if no conditions
     
     const conditions = reason.showWhen;
@@ -578,12 +635,13 @@ export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
   });
   
   // Always include universal reasons that should appear for every tip
-  const universalReasons = ['family_wont_work', 'life_too_chaotic', 'wrong_timing', 'diet_trauma',
+  const universalReasons = ['family_wont_work', 'life_too_chaotic', 'diet_trauma',
                            'tried_failed', 'not_my_style', 'not_interested', 'skeptical', 
                            'physical_concerns', 'environment_issue', 'other'];
   
-  // Combine filtered context-specific reasons with universal ones
+  // Combine reasons with situational blockers FIRST (if applicable)
   const finalReasons = [
+    ...situationalReasons, // Situational blockers come first
     ...filtered.filter(r => !universalReasons.includes(r.value)),
     ...REJECTION_REASONS.filter(r => universalReasons.includes(r.value))
   ];
