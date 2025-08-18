@@ -31,7 +31,22 @@ export interface RejectionReasonWithFollowUps extends RejectionReason {
 
 // Primary rejection reasons with their follow-up questions
 export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
-  // SITUATIONAL BLOCKERS (Show these first - they're about TODAY, not the tip itself)
+  // ALREADY DOING IT (This is actually positive feedback!)
+  {
+    value: 'already_doing',
+    label: "I already do this",
+    icon: 'checkmark-circle-outline',
+    emoji: '✅',
+    followUps: [
+      { label: "Do it daily", value: 'daily_habit', emoji: '📅' },
+      { label: "Do it regularly", value: 'regular_habit', emoji: '🔄' },
+      { label: "Started recently", value: 'recent_start', emoji: '🌱' },
+      { label: "Been doing it for years", value: 'long_term', emoji: '💪' },
+      { label: "Do something similar", value: 'similar_habit', emoji: '🔀' },
+    ]
+  },
+  
+  // SITUATIONAL BLOCKERS (Show these next - they're about TODAY, not the tip itself)
   {
     value: 'wrong_situation',
     label: "Not possible today",
@@ -646,10 +661,14 @@ export function getRelevantRejectionReasons(tip: any): RejectionReason[] {
                            'tried_failed', 'not_my_style', 'not_interested', 'skeptical', 
                            'physical_concerns', 'environment_issue', 'other'];
   
-  // Combine reasons with situational blockers FIRST (if applicable)
+  // Check if "already doing" reason should be shown (always show it)
+  const alreadyDoingReason = REJECTION_REASONS.find(r => r.value === 'already_doing');
+  
+  // Combine reasons with "already doing" and situational blockers FIRST
   const finalReasons = [
-    ...situationalReasons, // Situational blockers come first
-    ...filtered.filter(r => !universalReasons.includes(r.value)),
+    ...(alreadyDoingReason ? [alreadyDoingReason] : []), // "Already doing" comes first if available
+    ...situationalReasons, // Situational blockers come next
+    ...filtered.filter(r => !universalReasons.includes(r.value) && r.value !== 'already_doing'),
     ...REJECTION_REASONS.filter(r => universalReasons.includes(r.value))
   ];
   

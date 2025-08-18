@@ -997,6 +997,27 @@ export class TipRecommendationService {
       
       // Apply penalties based on rejection reasons
       switch (primaryReason) {
+        case 'already_doing': {
+          // This is actually POSITIVE - they already have this habit!
+          // Give a small bonus to similar tips (they like this type of behavior)
+          // But still skip this specific tip since they don't need it
+          const rejectedTip = TIP_MAP.get(rejection.tip_id);
+          if (rejectedTip && tip.tip_id !== rejection.tip_id) {
+            // Check if tips are similar in type/mechanism
+            const sharedTypes = tip.tip_type?.filter(t => 
+              rejectedTip.tip_type?.includes(t)
+            ) || [];
+            if (sharedTypes.length > 0) {
+              penalty -= 3; // Small bonus for similar tips they already do
+            }
+          }
+          // But if it's the exact same tip, still exclude it
+          if (tip.tip_id === rejection.tip_id) {
+            penalty += 100; // They don't need this reminder
+          }
+          break;
+        }
+          
         case 'too_many_veggies':
           // Strong penalty for veggie-heavy tips when user rejects veggies
           if (tip.veggie_intensity === 'heavy' || 
@@ -1018,7 +1039,7 @@ export class TipRecommendationService {
           break;
           
         case 'dislike_taste':
-        case 'dislike_texture':
+        case 'dislike_texture': {
           // Penalize tips with same foods
           const rejectedTip = TIP_MAP.get(rejection.tip_id);
           if (rejectedTip && tip.involves_foods && rejectedTip.involves_foods) {
@@ -1030,6 +1051,7 @@ export class TipRecommendationService {
             }
           }
           break;
+        }
           
         case 'too_much_cooking':
           if (tip.cooking_skill_required && 
