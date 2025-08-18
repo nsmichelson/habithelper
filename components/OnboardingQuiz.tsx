@@ -230,6 +230,12 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
     }
     setResponses(newResponses);
 
+    // Debug logging for retake issues
+    console.log(`Quiz progress: Question ${currentQuestionIndex + 1} of ${availableQuestions.length}`);
+    console.log('Current question ID:', currentQuestion.id);
+    console.log('Is last question?', currentQuestionIndex === availableQuestions.length - 1);
+    console.log('Is retake?', isRetake);
+
     // Animate transition
     questionOpacity.value = withTiming(0, { duration: 200 }, () => {
       questionOpacity.value = withTiming(1, { duration: 200 });
@@ -244,6 +250,7 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
         scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
       }, 200);
     } else {
+      console.log('Completing quiz with responses:', newResponses);
       // Complete onboarding
       await completeOnboarding(newResponses);
     }
@@ -279,8 +286,12 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   };
 
   const completeOnboarding = async (allResponses: QuizResponse[]) => {
-    // Process responses into user profile
-    const profile: UserProfile = {
+    // For retakes, start with existing profile; otherwise create new
+    const profile: UserProfile = existingProfile ? {
+      ...existingProfile,
+      medical_conditions: [],  // Reset these as we'll rebuild from quiz
+      goals: [],  // Reset these as we'll rebuild from quiz
+    } : {
       id: Date.now().toString(),
       created_at: new Date(),
       onboarding_completed: true,
@@ -346,8 +357,13 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
                 profile.goals.push('endurance_performance', 'strength_performance');
                 break;
               case 'keep_up_kids':
+                profile.goals.push('improve_energy');
+                break;
+              case 'eat_more_veggies':
+                profile.goals.push('increase_veggies');
+                break;
               case 'just_healthier':
-                profile.goals.push('improve_energy', 'increase_veggies');
+                profile.goals.push('improve_energy');
                 break;
             }
           });
@@ -380,12 +396,10 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           break;
           
         case 'real_talk':
-          // Store vegetable preference directly
+          // Store vegetable preference directly - this affects HOW we approach tips, not goals
           profile.veggie_preference = values[0];
-          // Vegetable relationship affects goals
-          if (['avoid', 'hide_them'].includes(values[0])) {
-            profile.goals.push('increase_veggies');
-          }
+          // Don't assume they want to increase veggies - that's a separate choice
+          // This preference will be used to select appropriate tip strategies
           profile.dietary_preferences = values;
           break;
           
@@ -429,16 +443,22 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
     // Add quiz responses to profile for conditional logic
     profile.quiz_responses = allResponses.map(r => ({
       questionId: r.questionId,
-      value: r.response.value || r.response.values?.[0] || r.response
+      value: r.values?.[0] || r.values || ''
     }));
     
-    // Save to storage
-    await StorageService.saveUserProfile(profile);
-    await StorageService.saveQuizResponses(allResponses);
-    await StorageService.setOnboardingCompleted(true);
+    try {
+      // Save to storage
+      await StorageService.saveUserProfile(profile);
+      await StorageService.saveQuizResponses(allResponses);
+      await StorageService.setOnboardingCompleted(true);
 
-    // Call completion callback
-    onComplete(profile);
+      console.log('Quiz completed successfully, calling onComplete callback');
+      // Call completion callback
+      onComplete(profile);
+    } catch (error) {
+      console.error('Error saving quiz data:', error);
+      Alert.alert('Error', 'Failed to save your preferences. Please try again.');
+    }
   };
 
   const progressAnimatedStyle = useAnimatedStyle(() => ({
@@ -567,7 +587,7 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           >
             <Text style={styles.nextButtonText}>
               {currentQuestionIndex === availableQuestions.length - 1 
-                ? "Let's do this!" 
+                ? (isRetake ? "Update Preferences" : "Let's do this!") 
                 : (selectedValues.length === 0 && !currentQuestion.required) 
                   ? 'Skip' 
                   : 'Next'}
