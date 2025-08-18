@@ -291,17 +291,64 @@ export class TipRecommendationService {
       return false;
     }
 
+    // Check location requirements
+    const locations = tip.location_tags ?? [];
+    if (locations.length > 0 && !locations.includes('any')) {
+      // Restaurant-only tips - skip if user likely not eating out
+      if (locations.length === 1 && locations[0] === 'restaurant') {
+        // Could check user's typical restaurant days, for now just allow
+        // But skip late night restaurant tips
+        if (hour >= 22 || hour < 6) {
+          return false;
+        }
+      }
+      
+      // Work-only tips - skip on weekends or late hours
+      if (locations.length === 1 && locations[0] === 'work') {
+        if (isWeekend || hour >= 19 || hour < 7) {
+          return false;
+        }
+      }
+    }
+
+    // Social mode requirements
+    if (tip.social_mode === 'group') {
+      // Group activities less likely late night or very early
+      if (hour >= 22 || hour < 8) {
+        return false;
+      }
+    }
+
+    // Shopping-specific tips
+    if (tip.cue_context?.includes('grocery_shopping')) {
+      // Shopping unlikely very late or very early
+      if (hour >= 22 || hour < 7) {
+        return false;
+      }
+    }
+
     // Check context-specific availability
     if (userProfile.current_context) {
       // Travel/hotel context - no full kitchen
-      if ((userProfile.current_context === 'travel' || userProfile.current_context === 'hotel') &&
-          this.hasKitchenRequirement(tip, 'full_kitchen')) {
-        return false;
+      if ((userProfile.current_context === 'travel' || userProfile.current_context === 'hotel')) {
+        if (this.hasKitchenRequirement(tip, 'full_kitchen')) {
+          return false;
+        }
+        // Also skip home-only tips when traveling
+        if (locations.length === 1 && locations[0] === 'home') {
+          return false;
+        }
       }
       
       // Busy period - only quick tips
       if (userProfile.current_context === 'busy_period' &&
           (tip.time_cost_enum === '15_60_min' || tip.time_cost_enum === '>60_min')) {
+        return false;
+      }
+
+      // Working from home - skip office-only tips
+      if (userProfile.current_context === 'wfh' && 
+          locations.length === 1 && locations[0] === 'work') {
         return false;
       }
     }

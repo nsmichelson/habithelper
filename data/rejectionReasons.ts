@@ -31,6 +31,26 @@ export interface RejectionReasonWithFollowUps extends RejectionReason {
 
 // Primary rejection reasons with their follow-up questions
 export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
+  // SITUATIONAL BLOCKERS (Show these first - they're about TODAY, not the tip itself)
+  {
+    value: 'wrong_situation',
+    label: "Not possible today",
+    icon: 'calendar-outline',
+    emoji: '📅',
+    followUps: [
+      { label: "No social plans today", value: 'no_social_plans', emoji: '👤' },
+      { label: "Not eating out today", value: 'not_eating_out', emoji: '🏠' },
+      { label: "Not at home today", value: 'not_home', emoji: '✈️' },
+      { label: "Not at the office today", value: 'not_at_office', emoji: '💼' },
+      { label: "Not grocery shopping today", value: 'no_shopping', emoji: '🛒' },
+      { label: "Wrong time of day for this", value: 'wrong_time', emoji: '⏰' },
+      { label: "Weather doesn't permit", value: 'bad_weather', emoji: '🌧️' },
+      { label: "Didn't prepare ahead for this", value: 'not_prepared', emoji: '📝' },
+      { label: "Not feeling well today", value: 'feeling_sick', emoji: '🤒' },
+      { label: "Traveling/on the go", value: 'traveling', emoji: '✈️' },
+    ]
+  },
+  
   // TASTE & FLAVOR ISSUES
   {
     value: 'dislike_taste',
@@ -75,11 +95,12 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
   // ACCESS & AVAILABILITY
   {
     value: 'no_access',
-    label: "Don't have ingredients",
+    label: "Don't have what I need",
     icon: 'basket-outline',
     emoji: '🛒',
     showWhen: { tipHasFood: true },
     followUps: [
+      { label: "Don't have these ingredients today", value: 'no_ingredients_today', emoji: '🥫' },
       { label: "Not available near me", value: 'not_available_locally', emoji: '📍' },
       { label: "Would need to shop first", value: 'need_shopping', emoji: '🛒' },
       { label: "Don't know where to find it", value: 'dont_know_where', emoji: '🗺️' },
@@ -194,6 +215,8 @@ export const REJECTION_REASONS: RejectionReasonWithFollowUps[] = [
       { label: "Don't have required tools", value: 'missing_tools', emoji: '🔨' },
       { label: "No oven/stove access", value: 'no_oven_stove', emoji: '🔥' },
       { label: "Only have microwave", value: 'microwave_only', emoji: '📻' },
+      { label: "Kitchen not available now", value: 'kitchen_unavailable', emoji: '🚫' },
+      { label: "Equipment is broken", value: 'equipment_broken', emoji: '🔧' },
       { label: "Kitchen too small", value: 'small_kitchen', emoji: '🏠' },
       { label: "Shared kitchen issues", value: 'shared_kitchen', emoji: '👥' },
       { label: "Would need to buy equipment", value: 'need_buy_equipment', emoji: '💰' },
