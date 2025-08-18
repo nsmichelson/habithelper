@@ -2,6 +2,9 @@ import { Tip, UserProfile, DailyTip, TipAttempt } from '../types/tip';
 import { TIPS_DATABASE, getSafeTips } from '../data/tips';
 import { RECOMMENDATION_CONFIG } from './recommendationConfig';
 
+// Check if we're in development mode
+const __DEV__ = process.env.NODE_ENV !== 'production';
+
 // Type aliases for clarity
 type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'late_night';
 
@@ -1431,12 +1434,13 @@ export class TipRecommendationService {
     // First, filter out unsafe tips based on medical conditions
     const safeTips = getSafeTips(userProfile.medical_conditions);
 
+    // Comprehensive logging of eligibility filtering
+    const eligibilityLog: Array<{tip: Tip; eligible: boolean; reason?: string}> = [];
+
     // Stage A: Apply hard eligibility filtering
     let eligibleTips = safeTips.filter(tip => {
       const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, false, undefined, testModeDate);
-      if (!eligibility.eligible && __DEV__) {
-        console.log(`Tip "${tip.summary}" ineligible: ${eligibility.reason}`);
-      }
+      eligibilityLog.push({tip, eligible: eligibility.eligible, reason: eligibility.reason});
       return eligibility.eligible;
     });
 
@@ -1511,14 +1515,91 @@ export class TipRecommendationService {
     );
 
     // Lexicographic priority: goal F1, then lifestyle fit, then overall score, then id
-    return scoredTips
+    const sortedTips = scoredTips
       .sort((a, b) =>
         (b._goalF1 - a._goalF1) ||
         (b._lifestyleFit - a._lifestyleFit) ||
         (b.score - a.score) ||
         a.tip.tip_id.localeCompare(b.tip.tip_id)
-      )
-      .slice(0, count);
+      );
+
+    // Comprehensive logging for testing
+    if (__DEV__) {
+      console.log('\n🔍 ========== COMPREHENSIVE TIP RECOMMENDATION ANALYSIS ==========');
+      console.log(`\n📊 USER PROFILE SUMMARY:`);
+      console.log(`  - Goals: ${userProfile.goals?.join(', ') || 'none'}`);
+      console.log(`  - Life stage: ${userProfile.life_stage?.join(', ') || 'not specified'}`);
+      console.log(`  - Daily persona: ${userProfile.daily_life_persona || 'not specified'}`);
+      console.log(`  - Veggie preference: ${userProfile.veggie_preference || 'not specified'}`);
+      console.log(`  - Biggest obstacle: ${userProfile.biggest_obstacle || 'not specified'}`);
+      console.log(`  - Motivation types: ${userProfile.motivation_types?.join(', ') || 'none'}`);
+      console.log(`  - Successful strategies: ${userProfile.successful_strategies?.join(', ') || 'none'}`);
+      console.log(`  - Failed approaches: ${userProfile.failed_approaches?.join(', ') || 'none'}`);
+      console.log(`  - Stress triggers: ${userProfile.stress_eating_triggers?.join(', ') || 'none'}`);
+      
+      console.log(`\n⏰ CONTEXT:`);
+      console.log(`  - Current hour: ${hour}:00`);
+      console.log(`  - Test mode date: ${testModeDate ? testModeDate.toDateString() : 'N/A (using current date)'}`);
+      
+      console.log(`\n❌ FILTERED OUT TIPS (${eligibilityLog.filter(e => !e.eligible).length} total):`);
+      const filteredReasons = new Map<string, number>();
+      eligibilityLog
+        .filter(e => !e.eligible)
+        .forEach(entry => {
+          const reason = entry.reason || 'Unknown';
+          filteredReasons.set(reason, (filteredReasons.get(reason) || 0) + 1);
+        });
+      
+      // Show summary of filter reasons
+      Array.from(filteredReasons.entries())
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([reason, count]) => {
+          console.log(`  - ${reason}: ${count} tips`);
+        });
+      
+      // Show some specific filtered tips as examples
+      console.log(`\n  Example filtered tips:`);
+      eligibilityLog
+        .filter(e => !e.eligible)
+        .slice(0, 5)
+        .forEach(entry => {
+          console.log(`    • "${entry.tip.summary}" - ${entry.reason}`);
+        });
+      
+      console.log(`\n✅ ELIGIBLE TIPS (${eligibleTips.length} total):`);
+      
+      console.log(`\n📈 COMPLETE SCORING RESULTS (all ${sortedTips.length} eligible tips):`);
+      console.log('────────────────────────────────────────────');
+      
+      sortedTips.forEach((item, index) => {
+        const selected = index < count ? '⭐' : '  ';
+        console.log(`\n${selected} ${index + 1}. "${item.tip.summary}"`);
+        console.log(`     Score: ${item.score.toFixed(2)} | Goal F1: ${item._goalF1.toFixed(3)} | Lifestyle: ${item._lifestyleFit.toFixed(3)}`);
+        console.log(`     Difficulty: ${item.tip.difficulty_tier}/5 | Time: ${item.tip.time_cost_enum} | Cost: ${item.tip.money_cost_enum}`);
+        console.log(`     Goals: ${item.tip.goal_tags?.join(', ') || 'none'}`);
+        console.log(`     Type: ${item.tip.tip_type?.join(', ') || 'none'}`);
+        console.log(`     Time of day: ${item.tip.time_of_day?.join(', ') || 'any'}`);
+        console.log(`     Reasons: ${item.reasons.join(' | ')}`);
+        
+        // Show scoring breakdown for top 10
+        if (index < 10) {
+          console.log(`     Scoring factors:`);
+          item.reasons.forEach(reason => {
+            if (reason.startsWith('⚠️')) {
+              console.log(`       - PENALTY: ${reason}`);
+            } else if (reason.startsWith('✓') || reason.startsWith('✅') || reason.startsWith('📊') || reason.startsWith('👥') || reason.startsWith('✨')) {
+              console.log(`       + BONUS: ${reason}`);
+            } else {
+              console.log(`       • ${reason}`);
+            }
+          });
+        }
+      });
+      
+      console.log('\n========== END ANALYSIS ==========\n');
+    }
+
+    return sortedTips.slice(0, count);
   }
 
   /**
@@ -1540,35 +1621,13 @@ export class TipRecommendationService {
       testModeDate  // Pass through to getRecommendations
     );
 
-    // Debug logging for recommendation algorithm
-    if (__DEV__) {
-      console.log('=== TIP RECOMMENDATION ALGORITHM ===');
-      console.log(`Previous tips shown: ${previousTips.length}`);
-      
-      // Log recently shown tips
-      const recentTips = previousTips
-        .sort((a, b) => this.asDate(b.presented_date).getTime() - this.asDate(a.presented_date).getTime())
-        .slice(0, 7)
-        .map(t => {
-          const tip = TIP_MAP.get(t.tip_id);
-          const daysAgo = Math.floor((Date.now() - this.asDate(t.presented_date).getTime()) / DAY_MS);
-          return `  - ${tip?.summary || 'Unknown'} (${daysAgo} days ago)`;
-        });
-      
-      if (recentTips.length > 0) {
-        console.log('Recently shown tips:');
-        recentTips.forEach(t => console.log(t));
-      }
-      console.log(`Current hour: ${currentHour || new Date().getHours()}`);
-      console.log('Top 5 recommendations:');
-      recommendations.slice(0, 5).forEach((item, index) => {
-        console.log(`${index + 1}. ${item.tip.summary} (Score: ${item.score.toFixed(2)})`);
-        console.log(`   F1: ${item._goalF1.toFixed(3)}, Lifestyle: ${item._lifestyleFit.toFixed(3)}`);
-        console.log(`   Reasons: ${item.reasons.join(', ')}`);
-        console.log(`   Goals: ${item.tip.goal_tags?.join(', ') || 'none'}`);
-        console.log(`   Type: ${item.tip.tip_type?.join(', ') || 'none'}`);
-        console.log(`   Time of day: ${item.tip.time_of_day?.join(', ') || 'any'}`);
-      });
+    // Simple summary logging since detailed logging is in getRecommendations
+    if (__DEV__ && recommendations.length > 0) {
+      console.log('\n🎯 SELECTED TIP:');
+      const selected = recommendations[0];
+      console.log(`  "${selected.tip.summary}"`);
+      console.log(`  Score: ${selected.score.toFixed(2)} | Goal F1: ${selected._goalF1.toFixed(3)} | Lifestyle: ${selected._lifestyleFit.toFixed(3)}`);
+      console.log(`  Key reasons: ${selected.reasons.slice(0, 3).join(', ')}`);
     }
 
     return recommendations[0] || null;
