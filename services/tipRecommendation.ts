@@ -1557,46 +1557,281 @@ export class TipRecommendationService {
           console.log(`  - ${reason}: ${count} tips`);
         });
       
-      // Show some specific filtered tips as examples
-      console.log(`\n  Example filtered tips:`);
+      // Show ALL filtered tips grouped by reason
+      console.log(`\n  Detailed breakdown of filtered tips:`);
+      
+      // Group filtered tips by reason
+      const filteredByReason = new Map<string, Array<{tip: Tip; reason?: string}>>();
       eligibilityLog
         .filter(e => !e.eligible)
-        .slice(0, 5)
         .forEach(entry => {
-          console.log(`    • "${entry.tip.summary}" - ${entry.reason}`);
+          const reason = entry.reason || 'Unknown';
+          if (!filteredByReason.has(reason)) {
+            filteredByReason.set(reason, []);
+          }
+          filteredByReason.get(reason)!.push(entry);
         });
       
-      console.log(`\n✅ ELIGIBLE TIPS (${eligibleTips.length} total):`);
+      // Show tips grouped by filter reason
+      Array.from(filteredByReason.entries())
+        .sort((a, b) => b[1].length - a[1].length)
+        .forEach(([reason, entries]) => {
+          console.log(`\n  ${reason} (${entries.length} tips):`);
+          entries.slice(0, 3).forEach(entry => {
+            console.log(`    ❌ "${entry.tip.summary}"`);
+          });
+          if (entries.length > 3) {
+            console.log(`    ... and ${entries.length - 3} more`);
+          }
+        });
       
-      console.log(`\n📈 COMPLETE SCORING RESULTS (all ${sortedTips.length} eligible tips):`);
+      console.log(`\n✅ ELIGIBLE TIPS (${eligibleTips.length} total)`);
+      
+      // Show rejection penalty analysis
+      const rejectionAnalysis = eligibleTips.map(tip => {
+        const penalty = this.calculateRejectionPenalty(tip, attempts);
+        return { tip, penalty };
+      }).filter(item => item.penalty > 0);
+      
+      if (rejectionAnalysis.length > 0) {
+        console.log(`\n⚠️ TIPS WITH REJECTION PENALTIES (similar to previously rejected):`);
+        rejectionAnalysis
+          .sort((a, b) => b.penalty - a.penalty)
+          .slice(0, 5)
+          .forEach(item => {
+            console.log(`  - "${item.tip.summary}" (penalty: -${item.penalty.toFixed(0)})`);
+          });
+      }
+      
+      console.log(`\n📈 COMPLETE PRIORITIZED RANKING (all ${sortedTips.length} eligible tips):`);
+      console.log('════════════════════════════════════════════════════════════════');
+      
+      // Group tips by score ranges for easier analysis
+      const scoreRanges = {
+        excellent: sortedTips.filter(t => t.score >= 40),
+        good: sortedTips.filter(t => t.score >= 20 && t.score < 40),
+        moderate: sortedTips.filter(t => t.score >= 0 && t.score < 20),
+        poor: sortedTips.filter(t => t.score < 0)
+      };
+      
+      console.log(`\nScore Distribution:`);
+      console.log(`  🌟 Excellent (40+): ${scoreRanges.excellent.length} tips`);
+      console.log(`  ✅ Good (20-39): ${scoreRanges.good.length} tips`);
+      console.log(`  ➖ Moderate (0-19): ${scoreRanges.moderate.length} tips`);
+      console.log(`  ❌ Poor (<0): ${scoreRanges.poor.length} tips`);
+      
+      console.log(`\n🏆 TOP RECOMMENDATIONS (selected ${count} of ${sortedTips.length}):`);
       console.log('────────────────────────────────────────────');
       
-      sortedTips.forEach((item, index) => {
-        const selected = index < count ? '⭐' : '  ';
-        console.log(`\n${selected} ${index + 1}. "${item.tip.summary}"`);
-        console.log(`     Score: ${item.score.toFixed(2)} | Goal F1: ${item._goalF1.toFixed(3)} | Lifestyle: ${item._lifestyleFit.toFixed(3)}`);
-        console.log(`     Difficulty: ${item.tip.difficulty_tier}/5 | Time: ${item.tip.time_cost_enum} | Cost: ${item.tip.money_cost_enum}`);
-        console.log(`     Goals: ${item.tip.goal_tags?.join(', ') || 'none'}`);
-        console.log(`     Type: ${item.tip.tip_type?.join(', ') || 'none'}`);
-        console.log(`     Time of day: ${item.tip.time_of_day?.join(', ') || 'any'}`);
-        console.log(`     Reasons: ${item.reasons.join(' | ')}`);
+      sortedTips.slice(0, Math.min(10, sortedTips.length)).forEach((item, index) => {
+        const selected = index < count ? '⭐ SELECTED' : '   RUNNER-UP';
+        console.log(`\n${selected} #${index + 1}: "${item.tip.summary}"`);
+        console.log(`     📊 Score: ${item.score.toFixed(2)} | Goal F1: ${item._goalF1.toFixed(3)} | Lifestyle: ${item._lifestyleFit.toFixed(3)}`);
+        console.log(`     ⚙️ Difficulty: ${item.tip.difficulty_tier}/5 | Time: ${item.tip.time_cost_enum} | Cost: ${item.tip.money_cost_enum}`);
+        console.log(`     🎯 Goals: ${item.tip.goal_tags?.join(', ') || 'none'}`);
+        console.log(`     📝 Type: ${item.tip.tip_type?.join(', ') || 'none'}`);
+        console.log(`     🕐 Time of day: ${item.tip.time_of_day?.join(', ') || 'any'}`);
         
-        // Show scoring breakdown for top 10
-        if (index < 10) {
-          console.log(`     Scoring factors:`);
-          item.reasons.forEach(reason => {
-            if (reason.startsWith('⚠️')) {
-              console.log(`       - PENALTY: ${reason}`);
-            } else if (reason.startsWith('✓') || reason.startsWith('✅') || reason.startsWith('📊') || reason.startsWith('👥') || reason.startsWith('✨')) {
-              console.log(`       + BONUS: ${reason}`);
-            } else {
-              console.log(`       • ${reason}`);
-            }
-          });
+        // Show detailed scoring breakdown
+        console.log(`     💡 Scoring factors:`);
+        const bonuses = item.reasons.filter(r => r.startsWith('✓') || r.startsWith('✅') || r.startsWith('📊') || r.startsWith('👥') || r.startsWith('✨'));
+        const penalties = item.reasons.filter(r => r.startsWith('⚠️'));
+        const neutral = item.reasons.filter(r => !r.startsWith('✓') && !r.startsWith('✅') && !r.startsWith('📊') && !r.startsWith('👥') && !r.startsWith('✨') && !r.startsWith('⚠️'));
+        
+        if (bonuses.length > 0) {
+          console.log(`       🟢 Bonuses: ${bonuses.join(', ')}`);
+        }
+        if (penalties.length > 0) {
+          console.log(`       🔴 Penalties: ${penalties.join(', ')}`);
+        }
+        if (neutral.length > 0) {
+          console.log(`       ⚪ Factors: ${neutral.join(', ')}`);
         }
       });
       
+      // Show bottom-ranked tips to understand what's being deprioritized
+      if (sortedTips.length > 10) {
+        console.log(`\n📉 LOWEST PRIORITY TIPS (bottom 5):`);
+        console.log('────────────────────────────────────────────');
+        sortedTips.slice(-5).reverse().forEach((item, index) => {
+          console.log(`\n   #${sortedTips.length - index}: "${item.tip.summary}"`);
+          console.log(`     Score: ${item.score.toFixed(2)} | Reasons: ${item.reasons.filter(r => r.startsWith('⚠️')).join(', ') || 'Low alignment'}`);
+        });
+      }
+      
       console.log('\n========== END ANALYSIS ==========\n');
+      
+      // Log complete tip database inventory
+      console.log('\n📚 ========== COMPLETE TIP DATABASE INVENTORY ==========');
+      console.log(`Total tips in database: ${TIPS_DATABASE.length}`);
+      
+      // Group tips by various factors for analysis
+      const tipsByGoal = new Map<string, number>();
+      const tipsByType = new Map<string, number>();
+      const tipsByDifficulty = new Map<number, number>();
+      const tipsByTime = new Map<string, number>();
+      const tipsByCost = new Map<string, number>();
+      const tipsByVeggie = new Map<string, number>();
+      
+      console.log('\n📋 DETAILED TIP CATALOG:');
+      console.log('────────────────────────────────────────────');
+      
+      TIPS_DATABASE.forEach((tip, index) => {
+        console.log(`\n${index + 1}. "${tip.summary}" (ID: ${tip.tip_id})`);
+        
+        // Core attributes
+        console.log(`   📊 Core Attributes:`);
+        console.log(`      • Difficulty: ${tip.difficulty_tier}/5 | Time: ${tip.time_cost_enum} | Cost: ${tip.money_cost_enum}`);
+        console.log(`      • Mental effort: ${tip.mental_effort}/5 | Physical effort: ${tip.physical_effort}/5`);
+        
+        // Goals
+        if (tip.goal_tags?.length > 0) {
+          console.log(`   🎯 Goals: ${tip.goal_tags.join(', ')}`);
+          tip.goal_tags.forEach(g => tipsByGoal.set(g, (tipsByGoal.get(g) || 0) + 1));
+        }
+        
+        // Tip types and mechanisms
+        if (tip.tip_type?.length > 0) {
+          console.log(`   🏷️ Types: ${tip.tip_type.join(', ')}`);
+          tip.tip_type.forEach(t => tipsByType.set(t, (tipsByType.get(t) || 0) + 1));
+        }
+        if (tip.motivational_mechanism?.length > 0) {
+          console.log(`   💫 Mechanisms: ${tip.motivational_mechanism.join(', ')}`);
+        }
+        
+        // Constraints
+        const constraints = [];
+        if (tip.contraindications?.length > 0) {
+          constraints.push(`Medical: ${tip.contraindications.join(', ')}`);
+        }
+        if (tip.location_tags?.length > 0) {
+          constraints.push(`Locations: ${tip.location_tags.join(', ')}`);
+        }
+        if (tip.time_of_day?.length > 0) {
+          constraints.push(`Time: ${tip.time_of_day.join(', ')}`);
+        }
+        if (tip.social_mode && tip.social_mode !== 'either') {
+          constraints.push(`Social: ${tip.social_mode}`);
+        }
+        if (constraints.length > 0) {
+          console.log(`   ⚙️ Constraints: ${constraints.join(' | ')}`);
+        }
+        
+        // Food and veggie factors
+        const foodFactors = [];
+        if (tip.involves_foods?.length > 0) {
+          foodFactors.push(`Foods: ${tip.involves_foods.join(', ')}`);
+        }
+        if (tip.preserves_foods?.length > 0) {
+          foodFactors.push(`Preserves: ${tip.preserves_foods.join(', ')}`);
+        }
+        if (tip.veggie_intensity) {
+          foodFactors.push(`Veggie intensity: ${tip.veggie_intensity}`);
+          tipsByVeggie.set(tip.veggie_intensity, (tipsByVeggie.get(tip.veggie_intensity) || 0) + 1);
+        }
+        if (tip.veggie_strategy) {
+          foodFactors.push(`Veggie strategy: ${tip.veggie_strategy}`);
+        }
+        if (foodFactors.length > 0) {
+          console.log(`   🥗 Food factors: ${foodFactors.join(' | ')}`);
+        }
+        
+        // Special attributes
+        const specialAttrs = [];
+        if (tip.family_friendly) specialAttrs.push('Family-friendly');
+        if (tip.kid_approved) specialAttrs.push('Kid-approved');
+        if (tip.partner_resistant_ok) specialAttrs.push('Partner-resistant OK');
+        if (tip.requires_advance_prep) specialAttrs.push('Needs prep');
+        if (tip.requires_planning) specialAttrs.push('Needs planning');
+        if (tip.impulse_friendly) specialAttrs.push('Impulse-friendly');
+        if (tip.diet_trauma_safe) specialAttrs.push('Diet-trauma safe');
+        if (tip.feels_like_diet) specialAttrs.push('Feels restrictive');
+        if (specialAttrs.length > 0) {
+          console.log(`   ✨ Special: ${specialAttrs.join(', ')}`);
+        }
+        
+        // Kitchen requirements
+        if (tip.kitchen_equipment?.length > 0 || tip.cooking_skill_required) {
+          const kitchen = [];
+          if (tip.kitchen_equipment?.length > 0) {
+            kitchen.push(`Equipment: ${tip.kitchen_equipment.join(', ')}`);
+          }
+          if (tip.cooking_skill_required) {
+            kitchen.push(`Skill: ${tip.cooking_skill_required}`);
+          }
+          console.log(`   👨‍🍳 Kitchen: ${kitchen.join(' | ')}`);
+        }
+        
+        // Craving and texture
+        if (tip.satisfies_craving?.length > 0 || tip.texture_profile?.length > 0) {
+          const sensory = [];
+          if (tip.satisfies_craving?.length > 0) {
+            sensory.push(`Cravings: ${tip.satisfies_craving.join(', ')}`);
+          }
+          if (tip.texture_profile?.length > 0) {
+            sensory.push(`Textures: ${tip.texture_profile.join(', ')}`);
+          }
+          console.log(`   😋 Sensory: ${sensory.join(' | ')}`);
+        }
+        
+        // Success predictors
+        if (tip.common_failure_points?.length > 0) {
+          console.log(`   ⚠️ Common failures: ${tip.common_failure_points.join(', ')}`);
+        }
+        if (tip.cognitive_load) {
+          console.log(`   🧠 Cognitive load: ${tip.cognitive_load}/5`);
+        }
+        
+        // Track statistics
+        tipsByDifficulty.set(tip.difficulty_tier, (tipsByDifficulty.get(tip.difficulty_tier) || 0) + 1);
+        tipsByTime.set(tip.time_cost_enum, (tipsByTime.get(tip.time_cost_enum) || 0) + 1);
+        tipsByCost.set(tip.money_cost_enum, (tipsByCost.get(tip.money_cost_enum) || 0) + 1);
+      });
+      
+      // Summary statistics
+      console.log('\n📊 DATABASE STATISTICS:');
+      console.log('────────────────────────────────────────────');
+      
+      console.log('\n🎯 Tips by Goal:');
+      Array.from(tipsByGoal.entries())
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([goal, count]) => {
+          console.log(`   ${goal}: ${count} tips`);
+        });
+      
+      console.log('\n🏷️ Tips by Type:');
+      Array.from(tipsByType.entries())
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([type, count]) => {
+          console.log(`   ${type}: ${count} tips`);
+        });
+      
+      console.log('\n📈 Tips by Difficulty:');
+      Array.from(tipsByDifficulty.entries())
+        .sort((a, b) => a[0] - b[0])
+        .forEach(([diff, count]) => {
+          console.log(`   Level ${diff}: ${count} tips`);
+        });
+      
+      console.log('\n⏱️ Tips by Time Required:');
+      Array.from(tipsByTime.entries())
+        .forEach(([time, count]) => {
+          console.log(`   ${time}: ${count} tips`);
+        });
+      
+      console.log('\n💰 Tips by Cost:');
+      Array.from(tipsByCost.entries())
+        .forEach(([cost, count]) => {
+          console.log(`   ${cost}: ${count} tips`);
+        });
+      
+      console.log('\n🥗 Tips by Veggie Intensity:');
+      Array.from(tipsByVeggie.entries())
+        .forEach(([intensity, count]) => {
+          console.log(`   ${intensity}: ${count} tips`);
+        });
+      
+      console.log('\n========== END DATABASE INVENTORY ==========\n');
     }
 
     return sortedTips.slice(0, count);
