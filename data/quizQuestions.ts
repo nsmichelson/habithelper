@@ -223,6 +223,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'role_model', label: 'Be a good example for my family' },
       { value: 'athletic', label: 'Athletic performance' },
       { value: 'eat_more_veggies', label: 'Actually eat some vegetables' },
+      { value: 'healthy_pregnancy_nutrition', label: 'Support a healthy pregnancy' },
       { value: 'just_healthier', label: 'Just want to be healthier' },
     ]
   },

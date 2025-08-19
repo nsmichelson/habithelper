@@ -319,6 +319,10 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           }
           if (values.includes('pregnancy')) {
             profile.medical_conditions.push('pregnancy');
+            // Automatically add healthy pregnancy as a goal
+            if (!profile.goals.includes('healthy_pregnancy')) {
+              profile.goals.push('healthy_pregnancy');
+            }
           }
           break;
           
@@ -361,6 +365,9 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
                 break;
               case 'eat_more_veggies':
                 profile.goals.push('increase_veggies');
+                break;
+              case 'healthy_pregnancy_nutrition':
+                profile.goals.push('healthy_pregnancy');
                 break;
               case 'just_healthier':
                 profile.goals.push('improve_energy');
