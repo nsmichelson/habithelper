@@ -13,7 +13,9 @@ interface TipScore {
   score: number;
   reasons: string[];
   // Internal sort keys used for deterministic, priority-aligned ordering
-  _goalF1: number;
+  _goalMatches: number;  // Number of user goals this tip addresses
+  _goalMatchRatio: number;  // Percentage of user goals addressed
+  _goalF1: number;  // F1 score for secondary sorting
   _lifestyleFit: number;
 }
 
@@ -95,8 +97,8 @@ export class TipRecommendationService {
   }
 
   /**
-   * Compute goal alignment using F1 score (harmonic mean of precision and recall)
-   * Supports weighted goals to reflect user priorities
+   * Compute goal alignment - prioritizing NUMBER of goals matched
+   * Returns both raw matches and weighted scores
    */
   private computeGoalAlignment(tip: Tip, userProfile: UserProfile) {
     const userGoals = userProfile.goals ?? [];
@@ -104,21 +106,26 @@ export class TipRecommendationService {
     const weights = userProfile.goal_weights ?? {};
     
     if (userGoals.length === 0 || tipGoals.length === 0) {
-      return { f1: 0, matches: 0, precision: 0, recall: 0 };
+      return { matches: 0, matchRatio: 0, f1: 0, precision: 0, recall: 0 };
     }
     
-    // Calculate weighted matches and totals
-    const totalUserWeight = userGoals.reduce((sum, g) => sum + (weights[g] ?? 1), 0);
-    const matchedWeight = tipGoals
-      .filter(g => userGoals.includes(g))
-      .reduce((sum, g) => sum + (weights[g] ?? 1), 0);
-    const matches = tipGoals.filter(g => userGoals.includes(g)).length;
+    // Calculate matches
+    const matchedGoals = tipGoals.filter(g => userGoals.includes(g));
+    const matches = matchedGoals.length;
     
+    // Calculate match ratio (what % of user's goals does this tip address?)
+    const matchRatio = matches / userGoals.length;
+    
+    // Calculate weighted matches for secondary scoring
+    const totalUserWeight = userGoals.reduce((sum, g) => sum + (weights[g] ?? 1), 0);
+    const matchedWeight = matchedGoals.reduce((sum, g) => sum + (weights[g] ?? 1), 0);
+    
+    // Still calculate F1 for secondary sorting
     const precision = matches / tipGoals.length;  // How focused the tip is on their goals
     const recallWeighted = totalUserWeight ? matchedWeight / totalUserWeight : 0; // Weighted coverage
     const f1 = (precision + recallWeighted) ? (2 * precision * recallWeighted) / (precision + recallWeighted) : 0;
     
-    return { f1, matches, precision, recall: recallWeighted };
+    return { matches, matchRatio, f1, precision, recall: recallWeighted };
   }
 
   /**
@@ -530,14 +537,30 @@ export class TipRecommendationService {
     if (timeScore > 0.8) this.addReason(reasons, 'Perfect timing');
     else if (timeScore > 0.5) this.addReason(reasons, 'Good timing');
 
-    // Goal alignment using F1
-    const { f1: goalF1, matches: goalMatches } = this.computeGoalAlignment(tip, userProfile);
-    score += goalF1 * RECOMMENDATION_CONFIG.WEIGHTS.GOAL_ALIGNMENT;
+    // Goal alignment - prioritizing number of matches
+    const { matches: goalMatches, matchRatio: goalMatchRatio, f1: goalF1 } = this.computeGoalAlignment(tip, userProfile);
+    
+    // Give substantial bonus for tips that hit multiple goals
     if (goalMatches > 0) {
+      // Base score from F1 (for balance)
+      score += goalF1 * RECOMMENDATION_CONFIG.WEIGHTS.GOAL_ALIGNMENT;
+      
+      // Additional bonus for each goal matched (multiplicative bonus)
+      score += goalMatches * 15;  // 15 points per goal matched
+      
+      // Extra bonus for tips that address most/all of user's goals
+      if (goalMatchRatio >= 0.75) {
+        score += 20;  // Bonus for addressing 75%+ of goals
+        this.addReason(reasons, '🎯 Hits most goals!');
+      } else if (goalMatchRatio >= 0.5) {
+        score += 10;  // Bonus for addressing 50%+ of goals
+        this.addReason(reasons, '🎯 Multi-goal tip');
+      }
+      
       const matchedGoalNames = (tip.goal_tags ?? []).filter(g => (userProfile.goals ?? []).includes(g));
       if (matchedGoalNames.length > 0) {
-        const names = matchedGoalNames.slice(0, 2).join(', ');
-        this.addReason(reasons, `Targets: ${names}${matchedGoalNames.length > 2 ? '...' : ''}`);
+        const names = matchedGoalNames.slice(0, 3).join(', ');
+        this.addReason(reasons, `Targets ${goalMatches} goals: ${names}${matchedGoalNames.length > 3 ? '...' : ''}`);
       }
     }
 
@@ -889,7 +912,15 @@ export class TipRecommendationService {
     score += lifestyleFit * RECOMMENDATION_CONFIG.WEIGHTS.LIFESTYLE_FIT;
 
     // Return with internal sort keys
-    return { tip, score, reasons, _goalF1: goalF1, _lifestyleFit: lifestyleFit };
+    return { 
+      tip, 
+      score, 
+      reasons, 
+      _goalMatches: goalMatches,
+      _goalMatchRatio: goalMatchRatio,
+      _goalF1: goalF1, 
+      _lifestyleFit: lifestyleFit 
+    };
   }
 
   /**
@@ -1540,13 +1571,20 @@ export class TipRecommendationService {
       this.calculateTipScore(tip, userProfile, previousTips, attempts, hour, testModeDate)
     );
 
-    // Lexicographic priority: goal F1, then lifestyle fit, then overall score, then id
+    // Lexicographic priority: 
+    // 1. Number of goals matched (more is better)
+    // 2. Percentage of user goals covered (higher is better)  
+    // 3. Lifestyle fit
+    // 4. Overall score (includes all bonuses/penalties)
+    // 5. Goal F1 (for tie-breaking)
     const sortedTips = scoredTips
       .sort((a, b) =>
-        (b._goalF1 - a._goalF1) ||
-        (b._lifestyleFit - a._lifestyleFit) ||
-        (b.score - a.score) ||
-        a.tip.tip_id.localeCompare(b.tip.tip_id)
+        (b._goalMatches - a._goalMatches) ||  // First: tips that hit MORE goals
+        (b._goalMatchRatio - a._goalMatchRatio) ||  // Second: tips that cover higher % of goals
+        (b._lifestyleFit - a._lifestyleFit) ||  // Third: lifestyle compatibility
+        (b.score - a.score) ||  // Fourth: overall score
+        (b._goalF1 - a._goalF1) ||  // Fifth: goal focus (F1)
+        a.tip.tip_id.localeCompare(b.tip.tip_id)  // Last: deterministic tie-breaker
       );
 
     // Comprehensive logging for testing
@@ -1652,9 +1690,10 @@ export class TipRecommendationService {
       sortedTips.slice(0, Math.min(10, sortedTips.length)).forEach((item, index) => {
         const selected = index < count ? '⭐ SELECTED' : '   RUNNER-UP';
         console.log(`\n${selected} #${index + 1}: "${item.tip.summary}"`);
+        console.log(`     🎯 GOAL MATCH: ${item._goalMatches} of ${userProfile.goals?.length || 0} goals (${(item._goalMatchRatio * 100).toFixed(0)}% coverage)`);
         console.log(`     📊 Score: ${item.score.toFixed(2)} | Goal F1: ${item._goalF1.toFixed(3)} | Lifestyle: ${item._lifestyleFit.toFixed(3)}`);
         console.log(`     ⚙️ Difficulty: ${item.tip.difficulty_tier}/5 | Time: ${item.tip.time_cost_enum} | Cost: ${item.tip.money_cost_enum}`);
-        console.log(`     🎯 Goals: ${item.tip.goal_tags?.join(', ') || 'none'}`);
+        console.log(`     🎯 Goals targeted: ${item.tip.goal_tags?.join(', ') || 'none'}`);
         console.log(`     📝 Type: ${item.tip.tip_type?.join(', ') || 'none'}`);
         console.log(`     🕐 Time of day: ${item.tip.time_of_day?.join(', ') || 'any'}`);
         
@@ -1923,7 +1962,8 @@ export class TipRecommendationService {
       console.log('\n🎯 SELECTED TIP:');
       const selected = recommendations[0];
       console.log(`  "${selected.tip.summary}"`);
-      console.log(`  Score: ${selected.score.toFixed(2)} | Goal F1: ${selected._goalF1.toFixed(3)} | Lifestyle: ${selected._lifestyleFit.toFixed(3)}`);
+      console.log(`  Matches ${selected._goalMatches} of ${userProfile.goals?.length || 0} goals (${(selected._goalMatchRatio * 100).toFixed(0)}% coverage)`);
+      console.log(`  Score: ${selected.score.toFixed(2)} | Lifestyle: ${selected._lifestyleFit.toFixed(3)}`);
       console.log(`  Key reasons: ${selected.reasons.slice(0, 3).join(', ')}`);
     }
 
