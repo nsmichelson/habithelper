@@ -188,8 +188,15 @@ export class TipRecommendationService {
     }
 
     // 2. Medical contraindications (ALWAYS strict - check early)
-    const hasContraindication = tip.contraindications?.some(
-      condition => userProfile.medical_conditions?.includes(condition)
+    // Handle various contraindication formats (string, array, or null)
+    const contraindications = Array.isArray(tip.contraindications) 
+      ? tip.contraindications 
+      : typeof tip.contraindications === 'string' 
+        ? [tip.contraindications]
+        : [];
+    
+    const hasContraindication = contraindications.some(
+      condition => userProfile.medical_conditions?.includes(condition as any)
     );
     if (hasContraindication) {
       return { eligible: false, reason: 'Medical contraindication' };
@@ -1097,12 +1104,19 @@ export class TipRecommendationService {
           this.addReason(reasons, '👨‍👩‍👧 Family stress help');
         }
         
-        if (triggers.includes('pms') && 
-            (tip.satisfies_craving?.includes('chocolate') ||
-             tip.satisfies_craving?.includes('sweet') ||
-             tip.motivational_mechanism?.includes('comfort'))) {
-          matchScore = Math.min(1, matchScore + 0.2);
-          this.addReason(reasons, '🌙 PMS comfort');
+        if (triggers.includes('pms')) {
+          const cravings = Array.isArray(tip.satisfies_craving) 
+            ? tip.satisfies_craving 
+            : typeof tip.satisfies_craving === 'string' 
+              ? [tip.satisfies_craving]
+              : [];
+          
+          if (cravings.includes('chocolate') ||
+              cravings.includes('sweet') ||
+              tip.motivational_mechanism?.includes('comfort')) {
+            matchScore = Math.min(1, matchScore + 0.2);
+            this.addReason(reasons, '🌙 PMS comfort');
+          }
         }
         
         if (triggers.includes('conflict') && 
@@ -1154,7 +1168,12 @@ export class TipRecommendationService {
         .map(p => p.split(':')[1]);
       
       if (tip.texture_profile && dislikes.length > 0) {
-        if (dislikes.some(tex => tip.texture_profile?.includes(tex as any))) {
+        const textures = Array.isArray(tip.texture_profile) 
+          ? tip.texture_profile 
+          : typeof tip.texture_profile === 'string' 
+            ? [tip.texture_profile]
+            : [];
+        if (dislikes.some(tex => textures.includes(tex as any))) {
           matchScore = Math.max(0, matchScore - 0.2);
         }
       }
@@ -1486,8 +1505,15 @@ export class TipRecommendationService {
       // Filter for the most universally safe tips
       const universalTips = safeTips.filter(tip => {
         // Only basic hydration, mindfulness, or very simple tips
+        // Handle various contraindication formats
+        const tipContraindications = Array.isArray(tip.contraindications) 
+          ? tip.contraindications 
+          : typeof tip.contraindications === 'string' 
+            ? [tip.contraindications]
+            : [];
+        
         const isUniversal = (
-          (tip.contraindications ?? []).length === 0 &&
+          tipContraindications.length === 0 &&
           (tip.involves_foods ?? []).length === 0 &&
           tip.difficulty_tier <= 2 &&
           tip.time_cost_enum === '0_5_min' &&
@@ -1701,8 +1727,13 @@ export class TipRecommendationService {
         
         // Constraints
         const constraints = [];
-        if (tip.contraindications?.length > 0) {
-          constraints.push(`Medical: ${tip.contraindications.join(', ')}`);
+        const tipContraindications = Array.isArray(tip.contraindications) 
+          ? tip.contraindications 
+          : typeof tip.contraindications === 'string' 
+            ? [tip.contraindications]
+            : [];
+        if (tipContraindications.length > 0) {
+          constraints.push(`Medical: ${tipContraindications.join(', ')}`);
         }
         if (tip.location_tags?.length > 0) {
           constraints.push(`Locations: ${tip.location_tags.join(', ')}`);
@@ -1719,11 +1750,21 @@ export class TipRecommendationService {
         
         // Food and veggie factors
         const foodFactors = [];
-        if (tip.involves_foods?.length > 0) {
-          foodFactors.push(`Foods: ${tip.involves_foods.join(', ')}`);
+        const involvedFoods = Array.isArray(tip.involves_foods) 
+          ? tip.involves_foods 
+          : typeof tip.involves_foods === 'string' 
+            ? [tip.involves_foods]
+            : [];
+        const preservedFoods = Array.isArray(tip.preserves_foods) 
+          ? tip.preserves_foods 
+          : typeof tip.preserves_foods === 'string' 
+            ? [tip.preserves_foods]
+            : [];
+        if (involvedFoods.length > 0) {
+          foodFactors.push(`Foods: ${involvedFoods.join(', ')}`);
         }
-        if (tip.preserves_foods?.length > 0) {
-          foodFactors.push(`Preserves: ${tip.preserves_foods.join(', ')}`);
+        if (preservedFoods.length > 0) {
+          foodFactors.push(`Preserves: ${preservedFoods.join(', ')}`);
         }
         if (tip.veggie_intensity) {
           foodFactors.push(`Veggie intensity: ${tip.veggie_intensity}`);
@@ -1751,10 +1792,15 @@ export class TipRecommendationService {
         }
         
         // Kitchen requirements
-        if (tip.kitchen_equipment?.length > 0 || tip.cooking_skill_required) {
+        const kitchenEquipment = Array.isArray(tip.kitchen_equipment) 
+          ? tip.kitchen_equipment 
+          : typeof tip.kitchen_equipment === 'string' 
+            ? [tip.kitchen_equipment]
+            : [];
+        if (kitchenEquipment.length > 0 || tip.cooking_skill_required) {
           const kitchen = [];
-          if (tip.kitchen_equipment?.length > 0) {
-            kitchen.push(`Equipment: ${tip.kitchen_equipment.join(', ')}`);
+          if (kitchenEquipment.length > 0) {
+            kitchen.push(`Equipment: ${kitchenEquipment.join(', ')}`);
           }
           if (tip.cooking_skill_required) {
             kitchen.push(`Skill: ${tip.cooking_skill_required}`);
@@ -1763,20 +1809,36 @@ export class TipRecommendationService {
         }
         
         // Craving and texture
-        if (tip.satisfies_craving?.length > 0 || tip.texture_profile?.length > 0) {
+        const cravings = Array.isArray(tip.satisfies_craving) 
+          ? tip.satisfies_craving 
+          : typeof tip.satisfies_craving === 'string' 
+            ? [tip.satisfies_craving]
+            : [];
+        const textures = Array.isArray(tip.texture_profile) 
+          ? tip.texture_profile 
+          : typeof tip.texture_profile === 'string' 
+            ? [tip.texture_profile]
+            : [];
+            
+        if (cravings.length > 0 || textures.length > 0) {
           const sensory = [];
-          if (tip.satisfies_craving?.length > 0) {
-            sensory.push(`Cravings: ${tip.satisfies_craving.join(', ')}`);
+          if (cravings.length > 0) {
+            sensory.push(`Cravings: ${cravings.join(', ')}`);
           }
-          if (tip.texture_profile?.length > 0) {
-            sensory.push(`Textures: ${tip.texture_profile.join(', ')}`);
+          if (textures.length > 0) {
+            sensory.push(`Textures: ${textures.join(', ')}`);
           }
           console.log(`   😋 Sensory: ${sensory.join(' | ')}`);
         }
         
         // Success predictors
-        if (tip.common_failure_points?.length > 0) {
-          console.log(`   ⚠️ Common failures: ${tip.common_failure_points.join(', ')}`);
+        const failurePoints = Array.isArray(tip.common_failure_points) 
+          ? tip.common_failure_points 
+          : typeof tip.common_failure_points === 'string' 
+            ? [tip.common_failure_points]
+            : [];
+        if (failurePoints.length > 0) {
+          console.log(`   ⚠️ Common failures: ${failurePoints.join(', ')}`);
         }
         if (tip.cognitive_load) {
           console.log(`   🧠 Cognitive load: ${tip.cognitive_load}/5`);

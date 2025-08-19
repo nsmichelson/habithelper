@@ -6076,15 +6076,28 @@ export const TIPS_DATABASE: Tip[] = [
 ];
 
 // Helper function to get tips that are safe for a user's medical conditions
-export function getSafeTips(medicalConditions: string[]): Tip[] {
+export function getSafeTips(medicalConditions: string[] = []): Tip[] {
   return TIPS_DATABASE.filter(tip => {
-    // If no contraindications, tip is safe
-    if (!tip.contraindications || tip.contraindications.length === 0) {
+    // Handle various contraindication formats (string, array, or null)
+    if (!tip.contraindications) {
+      return true; // No contraindications means safe
+    }
+    
+    // Convert to array if it's a string
+    const contraindications = Array.isArray(tip.contraindications) 
+      ? tip.contraindications 
+      : typeof tip.contraindications === 'string' 
+        ? [tip.contraindications]
+        : [];
+    
+    // If no contraindications after conversion, tip is safe
+    if (contraindications.length === 0) {
       return true;
     }
+    
     // Check if any contraindications match user's medical conditions
-    return !tip.contraindications.some(contra => 
-      medicalConditions.includes(contra)
+    return !contraindications.some(contra => 
+      medicalConditions.includes(contra as string)
     );
   });
 }
