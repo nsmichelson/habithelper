@@ -1,6 +1,2884 @@
 import { Tip } from '../types/tip';
 
 export const TIPS_DATABASE: Tip[] = [
+//pregnancy ones
+  {
+    "tip_id": "e897e203-f6a3-4726-97cf-0be4bf6dade3",
+    "summary": "Keep ginger chews or candies on hand for nausea relief.",
+    "details_md": "**The Experiment:** Carry ginger chews in your bag and keep a few by your bed. When nausea hits, slowly suck or chew one.\n\n**Why it Works:** Ginger compounds can calm the stomach and reduce nausea; having them pre-positioned makes relief immediate.\n\n**How to Try It:**\n• Stock a few in your purse, desk, and nightstand.\n• If strong ginger is too spicy, try milder ginger drops.\n• Start with small amounts and see what your stomach tolerates.",
+    "contraindications": "Avoid if ginger worsens heartburn or if your clinician advised limiting ginger (e.g., on certain blood thinners). Large amounts of ginger may interact with blood thinners or increase reflux; limit if advised by your clinician.",
+    "goal_tags": [
+      "reduce_nausea",
+      "increase_hydration",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "relief"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "morning",
+      "any"
+    ],
+    "cue_context": [
+      "feeling_nauseous",
+      "waking_up"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "ginger_candy"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "nausea",
+      "vomiting",
+      "odor_triggers"
+    ]
+  },
+  {
+    "tip_id": "70bc2cae-2895-4041-9ba3-9cdc8c38ac23",
+    "summary": "Freeze strong ginger tea into cubes for instant nausea tea.",
+    "details_md": "**The Experiment:** Brew a pot of strong ginger tea, freeze in an ice tray, and pop a cube into hot water when queasy.\n\n**Why it Works:** Batch-prepped ginger removes friction on rough days so you can self-soothe fast.\n\n**How to Try It:**\n• Steep sliced fresh ginger or tea bags 10–15 minutes.\n• Freeze in an ice cube tray and store in a zip bag.\n• Use 1–2 cubes in hot water or suck a cube if cold helps.",
+    "contraindications": "Skip if ginger triggers reflux; mind dental sensitivity if sucking frozen cubes. Large amounts of ginger may interact with blood thinners or increase reflux; limit if advised by your clinician. Cool foods quickly, store safely, and reheat leftovers to 165°F; eat within 3–4 days once thawed.",
+    "goal_tags": [
+      "reduce_nausea",
+      "increase_hydration",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "meal_prep",
+      "symptom_management"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "relief"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "morning",
+      "any"
+    ],
+    "cue_context": [
+      "feeling_nauseous",
+      "meal_time"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "ginger",
+      "water"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "kettle",
+      "ice_cube_tray",
+      "freezer"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "nausea",
+      "vomiting"
+    ]
+  },
+  {
+    "tip_id": "c45987a7-3866-4379-996b-d2e36fefe057",
+    "summary": "Suck on frozen lemon-ginger cubes when liquids are hard to tolerate.",
+    "details_md": "**The Experiment:** Freeze diluted lemonade with grated ginger into ice cubes to sip/suck during nausea.\n\n**Why it Works:** Cold, tart flavors are often easier to handle and keep hydration going in tiny sips.\n\n**How to Try It:**\n• Mix water + a splash of lemonade; add optional ginger.\n• Freeze in trays; keep a bag in the freezer.\n• Use during commutes or morning routines.",
+    "contraindications": "Citrus may worsen reflux; rinse mouth after to protect enamel. Large amounts of ginger may interact with blood thinners or increase reflux; limit if advised by your clinician. Citrus can aggravate reflux or tooth enamel; rinse mouth after acidic drinks and avoid if symptoms worsen.",
+    "goal_tags": [
+      "reduce_nausea",
+      "increase_hydration",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "meal_prep"
+    ],
+    "motivational_mechanism": [
+      "comfort",
+      "relief"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "feeling_nauseous",
+      "commute"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "lemonade",
+      "ginger",
+      "water"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "ice_cube_tray",
+      "freezer"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "cold",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "nausea",
+      "dehydration"
+    ]
+  },
+  {
+    "tip_id": "c55f0762-08a2-4cb4-91e8-c8d633db4ffa",
+    "summary": "Chew peppermint gum or suck mints to mask odors and ease nausea.",
+    "details_md": "**The Experiment:** Use peppermint gum or mints when smells trigger queasiness (kitchen, car, workplace).\n\n**Why it Works:** Peppermint aroma can distract from odor triggers and may soothe the stomach while saliva neutralizes acid.\n\n**How to Try It:**\n• Keep a pack in your bag and car.\n• Try sugar-free gum if managing blood sugar or dental health.\n• Use before entering strong-smell environments.",
+    "contraindications": "Peppermint can worsen reflux; avoid if sensitive. Peppermint may relax the LES and worsen reflux; choose non‑mint flavors if GERD is an issue.",
+    "goal_tags": [
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "relief"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "odor_trigger",
+      "commute",
+      "meal_prep_time"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "peppermint_gum",
+      "mints"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "nausea",
+      "smell_aversion",
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "cf16c8b8-3424-49e4-8c81-b785a931e910",
+    "summary": "If plain water tastes bad, flavor it lightly (citrus, mint, flat ginger ale).",
+    "details_md": "**The Experiment:** Add lemon/lime, a splash of juice, or use flat ginger ale in small sips to meet hydration goals.\n\n**Why it Works:** Mild flavors reduce aversion and encourage steady sipping, preventing dehydration that worsens nausea.\n\n**How to Try It:**\n• Keep lemon wedges or mint in the fridge.\n• Try flavored ice cubes (juice + water).\n• Use a straw if that makes sipping easier.",
+    "contraindications": "Limit sugary beverages; carbonation may bloat—adjust to comfort. Large amounts of ginger may interact with blood thinners or increase reflux; limit if advised by your clinician. Citrus can aggravate reflux or tooth enamel; rinse mouth after acidic drinks and avoid if symptoms worsen. If managing gestational diabetes, limit added sugars in mixers (use diluted juice). Avoid caffeinated sodas late in the day; prefer caffeine‑free options.",
+    "goal_tags": [
+      "increase_hydration",
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "behavioral_strategy",
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "taste"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "water_bottle_sighting",
+      "feeling_thirsty"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "water",
+      "lemon",
+      "ginger_ale"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "dehydration",
+      "nausea"
+    ]
+  },
+  {
+    "tip_id": "84271016-fed4-4b53-a1e9-ad80725ee917",
+    "summary": "Keep crackers by the bed and nibble before sitting up.",
+    "details_md": "**The Experiment:** Eat a few plain crackers or dry cereal before getting out of bed.\n\n**Why it Works:** A little starch on board can blunt the acid surge and blood sugar dip that worsens morning nausea.\n\n**How to Try It:**\n• Pre-pack a zip bag of crackers at night.\n• Nibble slowly and wait 5–10 minutes before standing.\n• Keep a small water bottle nearby for sips.",
+    "contraindications": "Choose gluten‑free options if you have celiac disease; pick lower‑sodium crackers if on a sodium‑restricted plan per your clinician.",
+    "goal_tags": [
+      "reduce_nausea",
+      "morning_routine",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "routine_design"
+    ],
+    "motivational_mechanism": [
+      "relief",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "morning"
+    ],
+    "cue_context": [
+      "waking_up"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "crackers",
+      "dry_cereal"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "nausea"
+    ]
+  },
+  {
+    "tip_id": "b1fb0db1-90cd-4a87-a688-65510a7f134e",
+    "summary": "Have a protein-rich bedtime snack to ease morning nausea.",
+    "details_md": "**The Experiment:** Eat a small protein snack (Greek yogurt, cheese stick, peanut butter on crackers) before bed.\n\n**Why it Works:** Protein slows digestion and stabilizes blood sugar overnight, which may reduce morning queasiness.\n\n**How to Try It:**\n• Choose ~10–15g protein (yogurt, cheese, nut butter).\n• Keep portions small to prevent reflux.\n• Pair with a few crackers if needed.",
+    "contraindications": "Avoid large/fatty meals close to bed if prone to reflux.",
+    "goal_tags": [
+      "reduce_nausea",
+      "improve_energy",
+      "stable_blood_sugar",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "comfort",
+      "satiety"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "evening",
+      "pre_bed"
+    ],
+    "cue_context": [
+      "bedtime"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "greek_yogurt",
+      "cheese",
+      "peanut_butter",
+      "crackers"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "nausea",
+      "overnight_hunger"
+    ]
+  },
+  {
+    "tip_id": "35f529a1-e92f-403c-ba16-de140af4aeab",
+    "summary": "Use the 'P' fruits (prunes, pears, plums, pumpkin) for constipation.",
+    "details_md": "**The Experiment:** Add one serving of a 'P' fruit daily until regular (e.g., 4–6 prunes or a ripe pear).\n\n**Why it Works:** Fiber and natural sorbitol draw water into the stool and promote movement.\n\n**How to Try It:**\n• Start with one serving and increase as needed.\n• Combine with water to boost effect.\n• Rotate fruits to keep it enjoyable.",
+    "contraindications": "Reduce/stop if stools become too loose.",
+    "goal_tags": [
+      "constipation_relief",
+      "fiber_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "comfort",
+      "routine"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "snack_time"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "prunes",
+      "pears",
+      "plums",
+      "pumpkin"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "7f7df02d-5354-40ef-b35e-22a445d56241",
+    "summary": "Stir chia or ground flax into meals for invisible fiber.",
+    "details_md": "**The Experiment:** Add 1 tablespoon of chia or ground flaxseed to oatmeal, yogurt, or smoothies daily.\n\n**Why it Works:** Soluble fiber absorbs water to soften stool and promote regularity; it also adds omega‑3s.\n\n**How to Try It:**\n• Start with 1 tsp and build up to 1 Tbsp to avoid gas.\n• Drink water with added fiber.\n• Store ground flax in the fridge.",
+    "contraindications": "Increase gradually to minimize bloating; ensure adequate fluids.",
+    "goal_tags": [
+      "constipation_relief",
+      "fiber_intake",
+      "omega3_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "small_changes",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "habit"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "breakfast",
+      "snack_time"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "chia",
+      "flaxseed",
+      "oatmeal",
+      "yogurt"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "constipation",
+      "satiety"
+    ]
+  },
+  {
+    "tip_id": "4e4cc434-fa30-48a8-991f-afde0bb3eaad",
+    "summary": "Try a daily kiwi (or two) to stay regular.",
+    "details_md": "**The Experiment:** Eat 1–2 ripe kiwis each day, scooped with a spoon or added to yogurt.\n\n**Why it Works:** Kiwifruit offers fiber and enzymes that can support gentle bowel movement.\n\n**How to Try It:**\n• Keep a few ripening on the counter, then refrigerate.\n• Pair with yogurt or cereal for a quick snack.\n• Choose golden kiwi if you prefer milder flavor.",
+    "contraindications": "Stop if stools become loose; consider oral allergy syndrome if sensitive to kiwi.",
+    "goal_tags": [
+      "constipation_relief",
+      "fiber_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "snacks"
+    ],
+    "motivational_mechanism": [
+      "taste",
+      "routine"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "snack_time"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "kiwi",
+      "yogurt"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "29e9e140-16f4-44bf-b190-fe46cc911f51",
+    "summary": "Sip warm water (or warm prune juice) first thing in the morning.",
+    "details_md": "**The Experiment:** Drink a mug of warm water upon waking to gently nudge digestion.\n\n**Why it Works:** Warm fluids can stimulate gut motility and are soothing on sensitive mornings.\n\n**How to Try It:**\n• Add lemon if tolerated; avoid if it triggers reflux.\n• Try warm prune juice for extra effect.\n• Pair with light stretching.",
+    "contraindications": null,
+    "goal_tags": [
+      "constipation_relief",
+      "morning_routine",
+      "hydration",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "routine_design"
+    ],
+    "motivational_mechanism": [
+      "comfort",
+      "ritual"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "morning"
+    ],
+    "cue_context": [
+      "waking_up"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "water",
+      "prune_juice",
+      "lemon"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "constipation",
+      "nausea"
+    ]
+  },
+  {
+    "tip_id": "a2f0c824-31f2-4a88-b629-bc310a3d5431",
+    "summary": "Take a 10‑minute walk after meals to aid digestion.",
+    "details_md": "**The Experiment:** Set a 10‑minute timer and walk after lunch or dinner.\n\n**Why it Works:** Light movement leverages gravity and stimulates peristalsis, easing constipation and bloating.\n\n**How to Try It:**\n• Stroll indoors or around the block—keep it gentle.\n• Invite a partner/friend for accountability.\n• Skip right before bed if reflux is an issue—finish 2–3 hours before sleep.",
+    "contraindications": "Skip walking if you’ve been advised pelvic rest or activity restrictions (e.g., bleeding, placenta previa, risk of preterm labor).",
+    "goal_tags": [
+      "constipation_relief",
+      "heartburn_relief",
+      "improve_energy",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "behavioral_strategy",
+      "routine_design"
+    ],
+    "motivational_mechanism": [
+      "movement",
+      "accountability"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "work",
+      "outdoors"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "post_meal"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "constipation",
+      "bloating",
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "77f34008-5bb3-4a16-a5c8-d252fb74f85e",
+    "summary": "Chew gum or munch a few almonds after meals for heartburn relief.",
+    "details_md": "**The Experiment:** After eating, chew sugar‑free gum or eat 5–10 raw almonds.\n\n**Why it Works:** Chewing boosts saliva, which can neutralize acid; almonds may buffer stomach acid for some.\n\n**How to Try It:**\n• Keep gum or almonds in your bag or nightstand.\n• Chew 10–20 minutes after meals.\n• Pair with staying upright for at least an hour.",
+    "contraindications": "Avoid nuts if allergic; mint gum can aggravate reflux for some—try fruit flavors.",
+    "goal_tags": [
+      "heartburn_relief",
+      "comfort",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "relief",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "post_meal",
+      "heartburn_flare"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "almonds",
+      "gum"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "heartburn",
+      "reflux"
+    ]
+  },
+  {
+    "tip_id": "4a9675df-9669-4703-8022-77022718c89e",
+    "summary": "Try a warm ACV + honey drink for reflux relief.",
+    "details_md": "**The Experiment:** Mix 1 tsp apple cider vinegar + 1 tsp honey in warm water and sip slowly.\n\n**Why it Works:** Some find small amounts of ACV tone digestion and reduce symptoms; warmth is soothing.\n\n**How to Try It:**\n• Start with 1 tsp ACV; increase only if helpful.\n• Rinse mouth after to protect enamel.\n• Stop if it worsens symptoms.",
+    "contraindications": "May aggravate reflux or damage enamel; avoid if advised by clinician or with esophagitis. Avoid undiluted ACV; may irritate esophagus or enamel. Not a replacement for medical GERD treatment; stop if pain or burning worsens.",
+    "goal_tags": [
+      "heartburn_relief",
+      "hydration",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management"
+    ],
+    "motivational_mechanism": [
+      "comfort",
+      "ritual"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "evening",
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "apple_cider_vinegar",
+      "honey",
+      "water"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "106146f9-39fd-49c7-8c61-207bffd34b34",
+    "summary": "Sip lemon water to test if it soothes your heartburn.",
+    "details_md": "**The Experiment:** Add a squeeze of lemon to warm or room‑temp water and sip slowly.\n\n**Why it Works:** For some, mild acidity can support digestion and reduce reflux sensations.\n\n**How to Try It:**\n• Try small amounts first; stop if it burns.\n• Avoid near toothbrushing to protect enamel.\n• Prefer warm over cold if cold triggers cramps.",
+    "contraindications": "Citrus can worsen reflux or dental sensitivity—use only if it helps you. Citrus can aggravate reflux or tooth enamel; rinse mouth after acidic drinks and avoid if symptoms worsen.",
+    "goal_tags": [
+      "heartburn_relief",
+      "hydration",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management"
+    ],
+    "motivational_mechanism": [
+      "comfort",
+      "experimentation"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "lemon",
+      "water"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "da73c592-f80c-4d8a-9254-718195c4ec0e",
+    "summary": "Use chewable papaya enzymes as a natural antacid alternative.",
+    "details_md": "**The Experiment:** Chew 1–3 papaya enzyme tablets after meals as needed.\n\n**Why it Works:** Papain (from papaya) can support digestion and ease mild indigestion.\n\n**How to Try It:**\n• Choose a brand without extra herbs you don’t need.\n• Use after meals that tend to trigger heartburn.\n• Discuss with your provider if unsure.",
+    "contraindications": "Avoid if allergic to latex/papaya; check with clinician before regular use. Avoid if allergic to latex or papaya. Use packaged enzyme tablets; avoid unripe papaya in large amounts. Check with your clinician before regular use.",
+    "goal_tags": [
+      "heartburn_relief",
+      "comfort",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "symptom_management"
+    ],
+    "motivational_mechanism": [
+      "relief",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "post_meal",
+      "heartburn_flare"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "papaya_enzyme"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "heartburn",
+      "indigestion"
+    ]
+  },
+  {
+    "tip_id": "7bfa5b1a-a16f-4634-a724-37526d3f8cad",
+    "summary": "Craving sushi? Choose veggie or fully cooked rolls.",
+    "details_md": "**The Experiment:** Order avocado, cucumber, or tempura shrimp rolls; skip raw fish.\n\n**Why it Works:** You can keep the flavors you love while avoiding the higher risk of raw fish during pregnancy.\n\n**How to Try It:**\n• Ask for cooked fish (eel, shrimp) or veggie rolls.\n• Make sushi bowls at home with nori strips and cooked fillings.\n• Use low‑sodium soy sauce and plenty of ginger/wasabi for the vibe.",
+    "contraindications": "Avoid raw fish and high‑mercury species; confirm sauces/aioli use pasteurized eggs. Avoid raw fish/shellfish and high‑mercury species (shark, swordfish, king mackerel, tilefish, bigeye tuna). Ensure sauces use pasteurized eggs.",
+    "goal_tags": [
+      "food_safety",
+      "craving_satisfaction",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "food_swap",
+      "safety_strategy"
+    ],
+    "motivational_mechanism": [
+      "craving_substitution",
+      "safety"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "restaurant",
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "nori",
+      "avocado",
+      "shrimp_cooked",
+      "eel_cooked",
+      "rice"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "rice_cooker (optional)"
+    ],
+    "cooking_skill_required": "basic",
+    "satisfies_craving": "umami",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "food_safety_anxiety",
+      "cravings"
+    ]
+  },
+  {
+    "tip_id": "973ee1d3-d3e2-4754-9f11-f1936a5e867b",
+    "summary": "Create a mocktail ritual in your fanciest glass.",
+    "details_md": "**The Experiment:** Mix sparkling water with tart cherry or pomegranate juice and citrus; serve in stemware.\n\n**Why it Works:** Honors the social ritual of a drink while keeping pregnancy alcohol‑free.\n\n**How to Try It:**\n• Keep a few favorite juice mixers on hand.\n• Garnish (citrus, herbs) to make it feel special.\n• Use unsweetened juices if watching sugar.",
+    "contraindications": null,
+    "goal_tags": [
+      "alcohol_free",
+      "healthy_snacking",
+      "reduce_sugar",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "food_swap",
+      "ritual_design"
+    ],
+    "motivational_mechanism": [
+      "novelty",
+      "reward",
+      "social_norms"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "restaurant",
+      "social_event"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "bubbly",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "social_pressure",
+      "evening_cravings"
+    ]
+  },
+  {
+    "tip_id": "fa453cec-f876-446e-87ab-ce2ce540e5ea",
+    "summary": "Heat deli meats until steaming before building your sandwich.",
+    "details_md": "**The Experiment:** Microwave or pan‑heat lunch meats to 165°F, cool slightly, then assemble your sub.\n\n**Why it Works:** Heating reduces Listeria risk while letting you enjoy your favorite sandwich.\n\n**How to Try It:**\n• Ask shops to toast/steam your sandwich.\n• At home, microwave meat 30–60 seconds until steaming.\n• Use pasteurized cheeses and add veggies for crunch.",
+    "contraindications": "Use food thermometer if unsure; avoid cross‑contamination on cutting boards. Heat meats to steaming (165°F) to reduce Listeria risk and avoid cross‑contamination on boards/knives.",
+    "goal_tags": [
+      "food_safety",
+      "craving_satisfaction",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "safety_strategy",
+      "food_swap"
+    ],
+    "motivational_mechanism": [
+      "safety",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "restaurant"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "turkey",
+      "ham",
+      "cheese_pasteurized",
+      "bread"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "microwave",
+      "skillet",
+      "thermometer (optional)"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "savory",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "food_safety_anxiety",
+      "cravings"
+    ]
+  },
+  {
+    "tip_id": "f9f32fb5-f964-4098-9069-3a39e328afb9",
+    "summary": "Use edible cookie dough (egg‑free, heat‑treated flour) to satisfy dough cravings.",
+    "details_md": "**The Experiment:** Buy or make cookie dough designed to be eaten raw.\n\n**Why it Works:** You can enjoy the flavor/texture without risk from raw eggs or unheated flour.\n\n**How to Try It:**\n• Look for labels: pasteurized/egg‑free + heat‑treated flour.\n• DIY: bake flour 5–10 min at ~350°F; omit eggs.\n• Portion a spoonful into yogurt or freeze as bites.",
+    "contraindications": "Only use doughs labeled safe‑to‑eat raw or homemade with heat‑treated flour and no raw egg; portion mindfully if managing blood sugar.",
+    "goal_tags": [
+      "food_safety",
+      "craving_satisfaction",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "food_swap",
+      "safety_strategy"
+    ],
+    "motivational_mechanism": [
+      "craving_substitution",
+      "novelty"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "edible_cookie_dough"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "oven (for DIY)"
+    ],
+    "cooking_skill_required": "basic",
+    "satisfies_craving": "sweet",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "sweet_cravings",
+      "food_safety_anxiety"
+    ]
+  },
+  {
+    "tip_id": "f27ba582-897d-43ee-8240-e43fcdd52ac1",
+    "summary": "Switch to half‑caff or decaf (or roasted‑chicory 'coffee') to trim caffeine.",
+    "details_md": "**The Experiment:** Mix half regular + half decaf grounds, or try a chicory/dandelion blend.\n\n**Why it Works:** Keeps the comforting ritual with less (or no) caffeine.\n\n**How to Try It:**\n• Transition gradually over a week.\n• Order half‑caff lattes or decaf at cafés.\n• Track total caffeine from tea/chocolate/cola.",
+    "contraindications": "Decaf still contains small amounts of caffeine. Herbal 'coffee' blends vary—avoid unverified herbs (e.g., large amounts of licorice); choose simple roasted chicory/dandelion and confirm with your clinician if unsure.",
+    "goal_tags": [
+      "reduce_caffeine",
+      "sleep_quality",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "food_swap",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "ritual",
+      "comfort"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work",
+      "restaurant"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "coffee",
+      "decaf_coffee",
+      "chicory_coffee"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "warm_drink",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "jitters",
+      "sleep"
+    ]
+  },
+  {
+    "tip_id": "8753afeb-59d0-4d5c-9e0d-70b3fa0268c5",
+    "summary": "If prenatals make you sick, ask about children’s vitamins as a short‑term bridge.",
+    "details_md": "**The Experiment:** With clinician approval, use chewable kids’ multivitamins temporarily until nausea improves.\n\n**Why it Works:** Better than nothing when pills won’t stay down; easier on the stomach.\n\n**How to Try It:**\n• Confirm dose/brand with your provider.\n• Keep focusing on folate‑rich foods meanwhile.\n• Resume a full prenatal as soon as tolerated.",
+    "contraindications": "Only with clinician guidance; gummies may lack iron/iodine/choline. Use only with clinician guidance; children’s gummies often lack iron/iodine/choline and are a temporary bridge, not a full replacement.",
+    "goal_tags": [
+      "consistency",
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "safety_strategy",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "relief",
+      "self_efficacy"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "nausea",
+      "adherence"
+    ]
+  },
+  {
+    "tip_id": "bd42db75-c10e-498c-bd8c-8cf85af0f51f",
+    "summary": "If veggies are a no‑go, lean on fruits, beans, eggs, and dairy for nutrients.",
+    "details_md": "**The Experiment:** Build meals from tolerated foods that still supply folate, iron, calcium, and protein.\n\n**Why it Works:** You can meet needs without forcing trigger foods; variety returns as nausea lifts.\n\n**How to Try It:**\n• Prioritize fruit smoothies, beans/lentils, eggs, and yogurt.\n• Add a prenatal and 'gap' foods like choline‑rich eggs when possible.\n• Re‑test veggies later in tiny portions.",
+    "contraindications": "Use only pasteurized dairy. If lactose intolerant, choose lactose‑free or fortified non‑dairy alternatives.",
+    "goal_tags": [
+      "flexibility",
+      "reduce_nausea",
+      "nutrient_density",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "mindset_reframe",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "self_compassion",
+      "competence"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "restaurant",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "food_aversion",
+      "nausea",
+      "perfectionism"
+    ]
+  },
+  {
+    "tip_id": "ff2970ca-7637-48bc-84cf-3ecd5383205f",
+    "summary": "Blend extra veggies (and white beans) into pasta sauces and soups.",
+    "details_md": "**The Experiment:** Sauté mild veggies/beans, then purée into tomato sauce or soup.\n\n**Why it Works:** Increases fiber, folate, and iron without 'veggie' taste or smell.\n\n**How to Try It:**\n• Use carrots, zucchini, bell peppers, spinach, white beans.\n• Blend smooth; freeze portions for later.\n• Season boldly (garlic, herbs) to keep it craveable.",
+    "contraindications": null,
+    "goal_tags": [
+      "fiber_intake",
+      "folate_intake",
+      "iron_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "meal_prep",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "stealth",
+      "convenience"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "tomato_sauce",
+      "white_beans",
+      "spinach",
+      "zucchini",
+      "carrot"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "medium",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "blender",
+      "saucepan",
+      "freezer"
+    ],
+    "cooking_skill_required": "basic",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "aversion",
+      "constipation",
+      "micronutrient_gaps"
+    ]
+  },
+  {
+    "tip_id": "7280d3cf-4770-4ed8-baff-5fdeab61c9d6",
+    "summary": "Add spinach or peeled zucchini to fruit smoothies (you won’t taste it).",
+    "details_md": "**The Experiment:** Toss a handful of baby spinach or 1/2 cup peeled zucchini into your smoothie.\n\n**Why it Works:** Boosts folate and fiber invisibly while keeping the flavor you like.\n\n**How to Try It:**\n• Pair with banana/berries to mask color/flavor.\n• Add Greek yogurt or protein powder for staying power.\n• Prep freezer smoothie kits on weekends.",
+    "contraindications": null,
+    "goal_tags": [
+      "folate_intake",
+      "fiber_intake",
+      "protein_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "simple_swap",
+      "meal_prep"
+    ],
+    "motivational_mechanism": [
+      "stealth",
+      "taste"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "spinach",
+      "zucchini",
+      "banana",
+      "berries",
+      "yogurt"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "low",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "blender",
+      "freezer"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "aversion",
+      "constipation",
+      "energy"
+    ]
+  },
+  {
+    "tip_id": "1a2a9268-c165-46e3-a411-4c4bbce49c27",
+    "summary": "Blend cauliflower into mashed potatoes for a stealth veggie upgrade.",
+    "details_md": "**The Experiment:** Boil cauliflower with potatoes and mash together (50/50 or 25/75).\n\n**Why it Works:** Adds fiber and vitamins with classic comfort‑food taste.\n\n**How to Try It:**\n• Steam/boil cauliflower until very soft.\n• Mash with potatoes, butter, and seasonings.\n• Try the same trick in mac‑and‑cheese sauces.",
+    "contraindications": null,
+    "goal_tags": [
+      "fiber_intake",
+      "veggie_exposure",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "simple_swap",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "comfort",
+      "stealth"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "cauliflower",
+      "potatoes"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "medium",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "pot",
+      "masher"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "aversion",
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "bfc4d272-1da0-490f-8145-5e806ae4e5bb",
+    "summary": "Stir an egg into hot oatmeal for extra protein and choline.",
+    "details_md": "**The Experiment:** Whisk an egg into simmering oats on low heat, stirring until creamy and fully set.\n\n**Why it Works:** Turns oats into a higher‑protein, choline‑rich breakfast without tasting 'eggy'.\n\n**How to Try It:**\n• Temper egg with a little hot oats first to prevent curdling.\n• Cook until thick and no liquid egg remains.\n• Top with fruit/nut butter for balance.",
+    "contraindications": "Ensure egg is fully cooked; avoid if egg‑allergic.",
+    "goal_tags": [
+      "protein_intake",
+      "choline_intake",
+      "satiety",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "nutrition_upgrade",
+      "simple_swap"
+    ],
+    "motivational_mechanism": [
+      "satiety",
+      "stealth"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "oats",
+      "egg",
+      "fruit",
+      "nut_butter"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "saucepan",
+      "whisk"
+    ],
+    "cooking_skill_required": "basic",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "protein_gap",
+      "choline_gap",
+      "morning_energy"
+    ]
+  },
+  {
+    "tip_id": "f7b96ddc-e90d-4d21-aaff-ab77c31fd05f",
+    "summary": "Make maple pots de crème for a choline‑rich dessert.",
+    "details_md": "**The Experiment:** Bake a simple egg‑yolk custard sweetened with maple syrup until set.\n\n**Why it Works:** Egg yolks are choline‑dense; custard is an easy, craveable way to include them.\n\n**How to Try It:**\n• Use pasteurized dairy; bake until custard reaches ~160°F and sets.\n• Chill for a few hours before serving.\n• Top with berries for freshness.",
+    "contraindications": "Fully cook custard; avoid if egg/dairy‑allergic.",
+    "goal_tags": [
+      "choline_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "nutrition_upgrade",
+      "food_swap"
+    ],
+    "motivational_mechanism": [
+      "indulgence",
+      "stealth"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "eggs",
+      "milk",
+      "maple_syrup",
+      "berries"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "oven",
+      "ramekins",
+      "thermometer (optional)"
+    ],
+    "cooking_skill_required": "basic",
+    "satisfies_craving": "sweet",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "choline_gap",
+      "sweet_cravings"
+    ]
+  },
+  {
+    "tip_id": "b0e72e31-0479-4961-b9a2-e59f0764aba9",
+    "summary": "Double up on dairy: Greek yogurt, hard cheeses, high‑protein milk.",
+    "details_md": "**The Experiment:** Swap sour cream for Greek yogurt; add cheese to snacks; choose ultrafiltered milk.\n\n**Why it Works:** Effortless way to boost protein and calcium when meat sounds unappealing.\n\n**How to Try It:**\n• Keep single‑serve Greek yogurt cups handy.\n• Pair cheese with fruit or whole‑grain crackers.\n• Use high‑protein milk in oats/smoothies.",
+    "contraindications": "Use only pasteurized dairy. If lactose intolerant, choose lactose‑free or fortified non‑dairy alternatives.",
+    "goal_tags": [
+      "protein_intake",
+      "calcium_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "simple_swap",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "taste"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "greek_yogurt",
+      "cheese",
+      "milk"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "protein_gap",
+      "calcium_gap",
+      "nausea_aversion_to_meat"
+    ]
+  },
+  {
+    "tip_id": "c414a924-38c0-4385-b249-b13b3d9e39ec",
+    "summary": "Use protein‑fortified pancake mix, pasta, or cereal to quietly raise protein.",
+    "details_md": "**The Experiment:** Replace one staple with its higher‑protein version this week.\n\n**Why it Works:** Upgrades familiar foods without extra volume or effort.\n\n**How to Try It:**\n• Try chickpea/lentil pasta or protein pancake mix.\n• Pick cereals with ≥10g protein per serving.\n• Rotate options to prevent taste fatigue.",
+    "contraindications": "If you have celiac disease, choose certified gluten‑free options. Check labels for added sugars or artificial sweeteners if they bother you.",
+    "goal_tags": [
+      "protein_intake",
+      "satiety",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "simple_swap",
+      "planning"
+    ],
+    "motivational_mechanism": [
+      "stealth",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "protein_pasta",
+      "protein_pancake_mix",
+      "high_protein_cereal"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "protein_gap",
+      "energy_crashes"
+    ]
+  },
+  {
+    "tip_id": "4023164b-2b78-4b5f-b7e1-4ec1cad05e92",
+    "summary": "Add protein powder or nut butter to oatmeal/smoothies.",
+    "details_md": "**The Experiment:** Stir in one scoop of protein powder or a spoonful of nut butter.\n\n**Why it Works:** Small additions meaningfully increase protein and satiety.\n\n**How to Try It:**\n• Choose a pregnancy‑safe protein powder if using.\n• Blend into smoothies or stir into warm oats.\n• Adjust liquid for desired texture.",
+    "contraindications": "Check ingredients if sensitive; some powders contain herbs/sweeteners. Select pregnancy‑appropriate powders without high‑dose herbs/stimulants; verify vitamin A forms/amounts; some sweeteners may cause GI upset.",
+    "goal_tags": [
+      "protein_intake",
+      "satiety",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "nutrition_upgrade",
+      "small_changes"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "satiety"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "protein_powder",
+      "nut_butter",
+      "oats",
+      "milk"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "protein_gap",
+      "hunger"
+    ]
+  },
+  {
+    "tip_id": "df05f966-4c0b-4829-91be-a5ddc0171668",
+    "summary": "Snack on edamame for protein, iron, and folate in one bite.",
+    "details_md": "**The Experiment:** Microwave frozen edamame and sprinkle with a little salt.\n\n**Why it Works:** A salty, satisfying snack that covers multiple prenatal nutrients.\n\n**How to Try It:**\n• Buy frozen in‑pod edamame for convenience.\n• Portion into small bowls to grab‑and‑go.\n• Add chili flakes or lemon if you like.",
+    "contraindications": "Avoid if soy‑allergic. If on thyroid hormone (levothyroxine), separate soy intake and medication by at least 4 hours.",
+    "goal_tags": [
+      "protein_intake",
+      "iron_intake",
+      "folate_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "snacks",
+      "simple_swap"
+    ],
+    "motivational_mechanism": [
+      "taste",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "edamame",
+      "salt"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "protein_gap",
+      "anemia_risk",
+      "snack_attacks"
+    ]
+  },
+  {
+    "tip_id": "ab2ef623-ad42-4162-abe4-2c1e08a1fc24",
+    "summary": "Make white‑bean hummus for an iron‑rich dip.",
+    "details_md": "**The Experiment:** Blend cannellini beans with olive oil, lemon, garlic, and salt.\n\n**Why it Works:** White beans provide notable iron; lemon adds vitamin C for absorption.\n\n**How to Try It:**\n• Serve with bell peppers and whole‑grain crackers.\n• Batch on Sunday; use all week.\n• Add tahini for creaminess if you like.",
+    "contraindications": "Beans can worsen IBS symptoms for some; increase gradually and drink water.",
+    "goal_tags": [
+      "iron_intake",
+      "fiber_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "meal_prep",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "taste",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "white_beans",
+      "lemon",
+      "olive_oil",
+      "tahini"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "blender_or_processor"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "anemia_risk",
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "78d7ca48-0fcd-4189-a40c-4e3441557364",
+    "summary": "Cook tomato‑based meals in cast iron for a tiny iron boost.",
+    "details_md": "**The Experiment:** Use a cast‑iron skillet or Dutch oven for chili or marinara night.\n\n**Why it Works:** A small amount of iron leaches into acidic foods—an effortless micro‑boost.\n\n**How to Try It:**\n• Keep pans well seasoned to prevent sticking.\n• Avoid storing leftovers in cast iron.\n• Pair with vitamin C‑rich sides for better absorption.",
+    "contraindications": "If you’ve been advised to limit iron (e.g., hemochromatosis), use standard cookware instead.",
+    "goal_tags": [
+      "iron_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "kitchen_hack",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "cast_iron_pan"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "anemia_risk"
+    ]
+  },
+  {
+    "tip_id": "d67a23ae-4f49-416b-8e8d-fec79b5c916f",
+    "summary": "Pair plant iron with vitamin C; separate iron from dairy/tea/coffee.",
+    "details_md": "**The Experiment:** Add citrus, bell pepper, or berries when you eat beans/greens or take iron.\n\n**Why it Works:** Vitamin C increases non‑heme iron absorption; calcium/tannins inhibit it.\n\n**How to Try It:**\n• Squeeze lemon over lentils or spinach.\n• Have strawberries with fortified cereal.\n• Take iron 1–2 hours away from dairy/coffee/tea.",
+    "contraindications": "Use only pasteurized dairy. If lactose intolerant, choose lactose‑free or fortified non‑dairy alternatives.",
+    "goal_tags": [
+      "iron_intake",
+      "anemia_prevention",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "education",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "competence",
+      "self_efficacy"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "anemia_risk"
+    ]
+  },
+  {
+    "tip_id": "e0870a76-f08e-4907-97f7-926bd3c42487",
+    "summary": "Munch roasted seaweed snacks for an iodine boost.",
+    "details_md": "**The Experiment:** Keep seaweed snack packs as your salty, crunchy go‑to.\n\n**Why it Works:** Seaweed provides iodine to support thyroid and baby’s brain.\n\n**How to Try It:**\n• Rotate with other snacks to avoid overdoing iodine.\n• Check labels; avoid high‑dose kelp supplements.\n• Pair with cooked rice/avocado for a mini 'sushi' bite.",
+    "contraindications": "Moderate intake; avoid concentrated kelp supplements without clinician guidance. Choose nori/laver snacks; avoid kelp/kombu due to excessive iodine. If you have thyroid disease or take levothyroxine, discuss consistent iodine intake with your clinician.",
+    "goal_tags": [
+      "iodine_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "snacks",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "craving_substitution",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "seaweed_snacks"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "salty_crunchy",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "iodine_gap",
+      "chip_cravings"
+    ]
+  },
+  {
+    "tip_id": "09517674-539f-425f-9548-94ec13805eff",
+    "summary": "Make mini nori hand‑rolls with cooked fillings at home.",
+    "details_md": "**The Experiment:** Use seaweed sheets to wrap rice, avocado, and cooked tofu/shrimp/egg.\n\n**Why it Works:** A fun, fast way to combine iodine, healthy fats, and protein—sushi vibes, zero worry.\n\n**How to Try It:**\n• Prep a container of cooked rice for the week.\n• Lay out fillings and roll like a taco.\n• Serve with soy sauce and pickled ginger.",
+    "contraindications": "Ensure fillings are fully cooked and use pasteurized mayo; avoid raw sprouts.",
+    "goal_tags": [
+      "iodine_intake",
+      "DHA_intake",
+      "protein_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "meal_prep",
+      "food_swap"
+    ],
+    "motivational_mechanism": [
+      "fun",
+      "novelty"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "nori",
+      "rice",
+      "avocado",
+      "tofu",
+      "shrimp_cooked",
+      "egg"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "rice_cooker (optional)"
+    ],
+    "cooking_skill_required": "basic",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "cravings",
+      "nutrient_gaps"
+    ]
+  },
+  {
+    "tip_id": "ac1037c0-7e02-4b05-99a3-2b75021e6533",
+    "summary": "Smash avocado on whole‑grain toast for a folate‑rich breakfast.",
+    "details_md": "**The Experiment:** Top a slice of whole‑grain bread with 1/2 avocado, lemon, and salt.\n\n**Why it Works:** Combines natural folate from avocado with fortified folic acid in bread.\n\n**How to Try It:**\n• Add a cooked egg for protein/choline.\n• Sprinkle seeds for extra fiber.\n• Squeeze lemon if tolerated.",
+    "contraindications": null,
+    "goal_tags": [
+      "folate_intake",
+      "healthy_breakfast",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "simple_swap",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "taste",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "avocado",
+      "whole_grain_bread",
+      "egg"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "folate_gap",
+      "morning_energy"
+    ]
+  },
+  {
+    "tip_id": "693e8696-2938-430a-8de1-b80996742e0e",
+    "summary": "Blend dates into a banana‑peanut butter smoothie (third‑trimester fave).",
+    "details_md": "**The Experiment:** Blend milk, banana, 2–3 pitted dates, and peanut butter until creamy.\n\n**Why it Works:** Sneaks in dates for fiber/energy in a dessert‑like smoothie.\n\n**How to Try It:**\n• Use frozen banana for a milkshake vibe.\n• Add cocoa and ice for a 'chocolate shake'.\n• Adjust dates to taste if very sweet.",
+    "contraindications": "Mind total sugars if managing blood sugar; pit dates carefully.",
+    "goal_tags": [
+      "healthy_snacking",
+      "fiber_intake",
+      "labor_prep_habit",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "snacks",
+      "nutrition_upgrade"
+    ],
+    "motivational_mechanism": [
+      "indulgence",
+      "craving_substitution"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "dates",
+      "banana",
+      "peanut_butter",
+      "milk"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "blender"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "sweet",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "sweet_cravings",
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "fb3c859b-e936-48d2-b9eb-db3751b6e5bd",
+    "summary": "Try 6 dates/day in late pregnancy—make them fun so it sticks.",
+    "details_md": "**The Experiment:** Stuff dates with nut butter/cream cheese, or chop into oats/yogurt to reach your daily count.\n\n**Why it Works:** Dates are fiber‑rich and may support a smoother labor; creative prep prevents date fatigue.\n\n**How to Try It:**\n• Freeze stuffed dates for a 'caramel' treat.\n• Add to oatmeal or blend into smoothies.\n• Spread intake across the day.",
+    "contraindications": "High natural sugars; adjust if you have GD—discuss with your clinician. Dates are high in natural sugars—adjust portions if managing gestational diabetes and pair with protein/fat.",
+    "goal_tags": [
+      "fiber_intake",
+      "labor_prep_habit",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "behavioral_strategy",
+      "snacks"
+    ],
+    "motivational_mechanism": [
+      "reward",
+      "habit"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "dates",
+      "nut_butter",
+      "yogurt",
+      "oatmeal"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "sweet",
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "constipation",
+      "sweet_cravings"
+    ]
+  },
+  {
+    "tip_id": "a01d8e4c-69ab-478b-a7bf-9af0628b0295",
+    "summary": "Carry a mini snack kit to avoid emergency junk food.",
+    "details_md": "**The Experiment:** Pack nuts, dried fruit, whole‑grain crackers, and a shelf‑stable protein (e.g., nut butter packet).\n\n**Why it Works:** Prevents hanger and stabilizes blood sugar between meals.\n\n**How to Try It:**\n• Restock your kit every Sunday.\n• Keep another kit in your car/desk.\n• Add a small water bottle to the kit.",
+    "contraindications": "Customize for food allergies (nuts, dairy, gluten).",
+    "goal_tags": [
+      "healthy_snacking",
+      "stable_blood_sugar",
+      "reduce_ultra_processed",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "environmental_design",
+      "planning"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "self_efficacy"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "random_cravings",
+      "energy_crashes",
+      "nausea_from_empty_stomach"
+    ]
+  },
+  {
+    "tip_id": "d9013b80-59b4-485e-a829-4f6f8437983e",
+    "summary": "Batch‑cook on good days, freeze portions for tired days.",
+    "details_md": "**The Experiment:** Double a recipe (soup, chili, burritos) and freeze half in single servings.\n\n**Why it Works:** Removes decision fatigue and ensures nutritious meals when energy is low.\n\n**How to Try It:**\n• Label with date and contents.\n• Freeze flat in bags for quick thawing.\n• Keep a 'freezer menu' list on the fridge.",
+    "contraindications": "Cool foods quickly, store safely, and reheat leftovers to 165°F; eat within 3–4 days once thawed.",
+    "goal_tags": [
+      "meal_prep",
+      "consistency",
+      "reduce_takeout",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "planning",
+      "environmental_design"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "future_self_reward"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "freezer",
+      "labels",
+      "storage_bags"
+    ],
+    "cooking_skill_required": "basic",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "fatigue",
+      "decision_fatigue",
+      "budget"
+    ]
+  },
+  {
+    "tip_id": "ffc2cd67-ff11-4a61-babc-5987b819452e",
+    "summary": "Gamify nutrition: track daily servings (water, fruit/veg, protein).",
+    "details_md": "**The Experiment:** Use a habit app or fridge chart to check off targets each day.\n\n**Why it Works:** Visible progress boosts motivation and consistency without calorie counting.\n\n**How to Try It:**\n• Pick 2–3 targets (e.g., 8 cups water, 5 servings produce).\n• Celebrate streaks; keep goals gentle.\n• Reset weekly if you miss—no guilt.",
+    "contraindications": null,
+    "goal_tags": [
+      "increase_hydration",
+      "produce_intake",
+      "protein_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "tracking",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "gamification",
+      "visual_cues"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "consistency",
+      "awareness"
+    ]
+  },
+  {
+    "tip_id": "bb116996-3631-47df-a068-d23bce5b0ca9",
+    "summary": "Buy pre‑cut or frozen produce to remove prep barriers.",
+    "details_md": "**The Experiment:** Stock baby carrots, bagged salad, and frozen veg/fruit for instant sides and smoothies.\n\n**Why it Works:** When the healthy choice is the easy choice, you’ll choose it more often.\n\n**How to Try It:**\n• Place ready‑to‑eat produce at eye level in the fridge.\n• Keep frozen veg for quick steam‑in‑bag sides.\n• Wash grapes/berries as soon as you get home.",
+    "contraindications": null,
+    "goal_tags": [
+      "produce_intake",
+      "fiber_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "environmental_design",
+      "simple_swap"
+    ],
+    "motivational_mechanism": [
+      "convenience",
+      "visual_cues"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [
+      "microwave (optional)"
+    ],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "constipation",
+      "snacking",
+      "time_pressure"
+    ]
+  },
+  {
+    "tip_id": "bb59679d-d891-4526-9a09-7e5d2077b3cf",
+    "summary": "Team up with a friend or group to share meal pics and wins.",
+    "details_md": "**The Experiment:** Start a group chat to post dinner photos and hydration check‑ins.\n\n**Why it Works:** Social accountability and ideas from peers make habits stick.\n\n**How to Try It:**\n• Pick a theme challenge (e.g., 'eat the rainbow').\n• Cheer small wins; no food policing.\n• Share 1 recipe each week.",
+    "contraindications": null,
+    "goal_tags": [
+      "accountability",
+      "consistency",
+      "produce_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "social_support",
+      "accountability"
+    ],
+    "motivational_mechanism": [
+      "community",
+      "encouragement"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "motivation",
+      "variety"
+    ]
+  },
+  {
+    "tip_id": "2540ea74-28a4-46da-a5c4-ca690b81d649",
+    "summary": "Keep a 7‑day food + symptom journal to spot your triggers and wins.",
+    "details_md": "**The Experiment:** Note what you ate and how you felt (nausea, heartburn, energy) 1–3 hours later.\n\n**Why it Works:** Patterns reveal which foods help or hinder so you can personalize your plan.\n\n**How to Try It:**\n• Keep entries short—bullets or photos are fine.\n• Mark heartburn nights and what you ate before.\n• Use findings to make simple swaps next week.",
+    "contraindications": null,
+    "goal_tags": [
+      "self_awareness",
+      "heartburn_relief",
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "mindfulness_practice",
+      "tracking"
+    ],
+    "motivational_mechanism": [
+      "self_awareness",
+      "insight"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "reflux_triggers",
+      "nausea_triggers",
+      "energy_management"
+    ]
+  },
+  {
+    "tip_id": "9f34f055-f5d0-434a-94c4-7127415321f6",
+    "summary": "Find a healthier 'doppelganger' for your strongest craving.",
+    "details_md": "**The Experiment:** Match the texture/temp/flavor (e.g., 'nice cream' for ice cream, popcorn for chips).\n\n**Why it Works:** Satisfies the sensory need while upgrading nutrition.\n\n**How to Try It:**\n• Identify the craving core (cold/sweet, salty/crunchy).\n• Test 2–3 alternatives and rate satisfaction.\n• Keep your favorite swap stocked.",
+    "contraindications": "Limit sugar alcohols if they cause bloating/diarrhea; choose caffeine‑free swaps in the afternoon/evening.",
+    "goal_tags": [
+      "craving_management",
+      "less_processed_food",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "food_swap",
+      "behavioral_strategy"
+    ],
+    "motivational_mechanism": [
+      "craving_substitution",
+      "autonomy"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": "varies",
+    "substitution_quality": "high",
+    "cognitive_load": 1,
+    "helps_with": [
+      "sweet_cravings",
+      "salty_cravings",
+      "binges"
+    ]
+  },
+  {
+    "tip_id": "2a5cdbed-50a5-48ab-8ffe-253cb369d7bd",
+    "summary": "Boost omega‑3s with ground flax/chia or omega‑3 eggs if you skip fish.",
+    "details_md": "**The Experiment:** Add 1 Tbsp flax/chia to breakfast and choose omega‑3 eggs for scrambles.\n\n**Why it Works:** Covers omega‑3 needs via plants and fortified foods when fish isn’t appealing.\n\n**How to Try It:**\n• Grind flax for better absorption; store cold.\n• Use omega‑3 eggs in fully cooked dishes.\n• Ask your provider about algae‑based DHA if needed.",
+    "contraindications": "If using supplements (e.g., algae‑based DHA), select third‑party tested brands and confirm dose with your clinician.",
+    "goal_tags": [
+      "DHA_intake",
+      "omega3_intake",
+      "choline_intake",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "nutrition_upgrade",
+      "simple_swap"
+    ],
+    "motivational_mechanism": [
+      "stealth",
+      "convenience"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [
+      "flaxseed",
+      "chia",
+      "omega3_eggs"
+    ],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "DHA_gap",
+      "choline_gap"
+    ]
+  },
+  {
+    "tip_id": "c8e87457-4618-4149-945b-204d8a9cf126",
+    "summary": "Find a healthy 'safe meal' you love—and repeat it.",
+    "details_md": "**The Experiment:** Pick one balanced meal that always sounds good and put it on repeat this week.\n\n**Why it Works:** Consistency beats perfection; repeating a well‑tolerated meal ensures steady nutrients.\n\n**How to Try It:**\n• Example: veggie omelet + toast; or turkey‑cheese melt (heated) + salad.\n• Batch prep ingredients to reduce effort.\n• Rotate sides/sauces to prevent boredom.",
+    "contraindications": "Ensure meats/eggs are fully cooked and cheeses are pasteurized; vary sides to cover micronutrients over the week.",
+    "goal_tags": [
+      "consistency",
+      "reduce_nausea",
+      "nutrient_density",
+      "healthy_pregnancy"
+    ],
+    "tip_type": [
+      "mindset_reframe",
+      "planning"
+    ],
+    "motivational_mechanism": [
+      "simplicity",
+      "relief"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [],
+    "difficulty_tier": 1,
+    "created_by": "dietitian_reviewed",
+    "involves_foods": [],
+    "preserves_foods": [],
+    "veggie_intensity": "none",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "satisfies_craving": null,
+    "substitution_quality": null,
+    "cognitive_load": 1,
+    "helps_with": [
+      "decision_fatigue",
+      "aversion",
+      "energy"
+    ]
+  },
+  
+
 
   {
     "tip_id": "c3d4e5f6-f003-4003-b003-34567890abcd",
