@@ -17,11 +17,20 @@ interface Props {
   rejection?: TipAttempt;
   onRequestFeedback: () => void;
   onFindNewTip: () => void;
+  savedCount?: number;
+  onUseSavedTip?: () => void;
 }
 
 // Now using centralized getRejectionReasonDisplay from rejectionReasons.ts
 
-export default function RejectedTipView({ tip, rejection, onRequestFeedback, onFindNewTip }: Props) {
+export default function RejectedTipView({ 
+  tip, 
+  rejection, 
+  onRequestFeedback, 
+  onFindNewTip,
+  savedCount = 0,
+  onUseSavedTip,
+}: Props) {
   const displayInfo = getRejectionReasonDisplay(rejection?.rejection_reason);
   const hasReason = !!rejection?.rejection_reason;
   
@@ -34,6 +43,13 @@ export default function RejectedTipView({ tip, rejection, onRequestFeedback, onF
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onFindNewTip();
   };
+  
+  const handleUseSavedTip = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onUseSavedTip?.();
+  };
+  
+  const hasSaved = savedCount > 0;
   
   return (
     <View style={styles.container}>
@@ -108,24 +124,42 @@ export default function RejectedTipView({ tip, rejection, onRequestFeedback, onF
           </View>
         )}
         
-        {/* Main Action Button */}
-        <TouchableOpacity
-          style={styles.newTipButton}
-          onPress={handleFindNewTip}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="sparkles" size={20} color="#FFFFFF" />
-          <Text style={styles.newTipButtonText}>Try Another Experiment</Text>
-        </TouchableOpacity>
+        {/* Main Action Button - changes based on saved tips */}
+        {hasSaved ? (
+          <TouchableOpacity
+            style={styles.newTipButton}
+            onPress={handleUseSavedTip}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="bookmarks-outline" size={20} color="#FFFFFF" />
+            <Text style={styles.newTipButtonText}>Try a tip saved from earlier</Text>
+            {savedCount > 1 && (
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>{savedCount}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.newTipButton}
+            onPress={handleFindNewTip}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="sparkles" size={20} color="#FFFFFF" />
+            <Text style={styles.newTipButtonText}>Try Another Experiment</Text>
+          </TouchableOpacity>
+        )}
         
-        {/* Secondary skip option */}
-        <TouchableOpacity
-          style={styles.skipButton}
-          onPress={handleFindNewTip}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.skipButtonText}>Skip to next →</Text>
-        </TouchableOpacity>
+        {/* Secondary skip option - only show if saved tips available */}
+        {hasSaved && (
+          <TouchableOpacity
+            style={styles.skipButton}
+            onPress={handleFindNewTip}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.skipButtonText}>Or find a new experiment →</Text>
+          </TouchableOpacity>
+        )}
       </LinearGradient>
     </View>
   );
@@ -288,5 +322,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#757575',
+  },
+  badge: {
+    marginLeft: 8,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  badgeText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 12,
   },
 });
