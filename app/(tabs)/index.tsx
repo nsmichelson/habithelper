@@ -47,53 +47,52 @@ const normalizeResponseStatus = (value: any): ResponseStatus | undefined => {
 
 // ---- Saved tips helpers ----
 
-// Returns Tip[] that were "maybe_later" and are now due (snooze passed),
-// excluding any that were since tried or rejected in a later attempt.
-const getSavedTipsDue = (allAttempts: TipAttempt[]): Tip[] => {
+// Returns Tip[] that were "maybe_later" and are now due,
+// using DailyTips as the source since that's where the saved status is stored
+const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[]): Tip[] => {
   const now = new Date();
   
-  console.log('STAR - Getting saved tips due. Total attempts:', allAttempts.length);
-  console.log('STAR - Maybe later attempts:', allAttempts.filter(a => a.feedback === 'maybe_later').map(a => ({
-    tip_id: a.tip_id,
-    feedback: a.feedback,
-    snooze_until: a.snooze_until,
-    attempted_at: a.attempted_at
+  console.log('STAR - Getting saved tips due.');
+  console.log('STAR - Total attempts:', allAttempts.length);
+  console.log('STAR - Total daily tips:', dailyTips?.length || 0);
+  
+  if (!dailyTips || dailyTips.length === 0) {
+    console.log('STAR - No daily tips provided, returning empty array');
+    return [];
+  }
+  
+  // Find all daily tips that were saved for later
+  const savedTips = dailyTips.filter(dt => dt.user_response === 'maybe_later');
+  console.log('STAR - DailyTips with maybe_later:', savedTips.map(dt => ({
+    tip_id: dt.tip_id,
+    user_response: dt.user_response,
+    presented_date: dt.presented_date
   })));
-
-  // Keep the *latest* "maybe_later" per tip_id that is due
-  const latestMaybeByTip = new Map<string, TipAttempt>();
-  for (const a of allAttempts) {
-    if (a.feedback === 'maybe_later') {
-      const isDue = !a.snooze_until || new Date(a.snooze_until) <= now;
-      console.log('STAR - Checking maybe_later tip:', a.tip_id, 'isDue:', isDue, 'snooze_until:', a.snooze_until);
-      if (!isDue) continue;
-      const prev = latestMaybeByTip.get(a.tip_id);
-      if (!prev || new Date(a.attempted_at) > new Date(prev.attempted_at)) {
-        latestMaybeByTip.set(a.tip_id, a);
-      }
-    }
-  }
-
-  // Remove any whose tip_id has a later (post-maybe) attempt with feedback != 'maybe_later'
-  const toRemove = new Set<string>();
-  for (const a of allAttempts) {
-    const candidate = latestMaybeByTip.get(a.tip_id);
-    if (!candidate) continue;
-    const isLater = new Date(a.attempted_at) > new Date(candidate.attempted_at);
-    if (isLater && a.feedback !== 'maybe_later') toRemove.add(a.tip_id);
-  }
-
-  // Sort by (snooze_until || attempted_at) ascending = "oldest due first"
-  const sortedEntries = [...latestMaybeByTip.entries()]
-    .filter(([tipId]) => !toRemove.has(tipId))
-    .sort(([, A], [, B]) => {
-      const aKey = (A.snooze_until ? new Date(A.snooze_until) : new Date(A.attempted_at)).getTime();
-      const bKey = (B.snooze_until ? new Date(B.snooze_until) : new Date(B.attempted_at)).getTime();
-      return aKey - bKey;
-    });
-
-  const result = sortedEntries
-    .map(([tipId]) => getTipById(tipId))
+  
+  // For each saved tip, check if there's a corresponding TipAttempt to get snooze_until
+  const savedWithSnooze = savedTips.map(dt => {
+    const attempt = allAttempts.find(a => a.tip_id === dt.tip_id && a.feedback === 'maybe_later');
+    const snoozeUntil = attempt?.snooze_until ? new Date(attempt.snooze_until) : 
+                        new Date(dt.presented_date.getTime() + 7 * 24 * 60 * 60 * 1000); // Default 7 days
+    const isDue = snoozeUntil <= now;
+    
+    console.log('STAR - Checking saved tip:', dt.tip_id, 'isDue:', isDue, 'snooze_until:', snoozeUntil);
+    
+    return {
+      dailyTip: dt,
+      snoozeUntil,
+      isDue
+    };
+  });
+  
+  // Filter to only due tips
+  const dueTips = savedWithSnooze
+    .filter(item => item.isDue)
+    .sort((a, b) => a.snoozeUntil.getTime() - b.snoozeUntil.getTime()); // Oldest due first
+  
+  // Get the actual Tip objects
+  const result = dueTips
+    .map(item => getTipById(item.dailyTip.tip_id))
     .filter(Boolean) as Tip[];
   
   console.log('STAR - Final saved tips due count:', result.length, result.map(t => t.tip_id));
@@ -569,7 +568,7 @@ export default function HomeScreen() {
 
   // Helper to grab the next saved tip that hasn't been surfaced this session
   const getNextSavedTip = (): Tip | undefined => {
-    const due = getSavedTipsDue(attempts);
+    const due = getSavedTipsDue(attempts, previousTips);
     console.log('STAR - Saved tips due:', due.length, due.map(t => ({ id: t.tip_id, summary: t.summary })));
     console.log('STAR - Recently surfaced IDs:', recentlySurfacedSavedIds);
     const available = due.find(t => !recentlySurfacedSavedIds.includes(t.tip_id));
@@ -968,9 +967,10 @@ export default function HomeScreen() {
             ) : rejectedTipInfo ? (
               // Show the rejected tip view with feedback
               (() => {
-                const savedTips = getSavedTipsDue(attempts);
+                const savedTips = getSavedTipsDue(attempts, previousTips);
                 const availableSaved = savedTips.filter(t => !recentlySurfacedSavedIds.includes(t.tip_id));
                 console.log('STAR - RejectedTipView render - Available saved tips:', availableSaved.length);
+                console.log('STAR - Previous tips count:', previousTips.length);
                 return (
                   <RejectedTipView
                     tip={rejectedTipInfo.tip}
