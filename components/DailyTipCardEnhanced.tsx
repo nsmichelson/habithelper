@@ -25,6 +25,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tip } from '../types/tip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const CARD_WIDTH = SCREEN_WIDTH - 40;
 
 interface Props {
   tip: Tip;
@@ -91,7 +92,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
 
   const navigateCard = (direction: number) => {
     const newIndex = currentPage + direction;
-    if (newIndex >= 0 && newIndex < 3) {
+    if (newIndex >= 0 && newIndex < pages.length) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
     }
@@ -319,7 +320,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
 
   const DotIndicator = ({ index }: { index: number }) => {
     const animatedDotStyle = useAnimatedStyle(() => {
-      const inputRange = [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH];
+      const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
       
       const width = interpolate(
         scrollX.value,
@@ -342,7 +343,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     });
 
     const labelOpacity = useAnimatedStyle(() => {
-      const inputRange = [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH];
+      const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
       
       const opacity = interpolate(
         scrollX.value,
@@ -395,9 +396,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
               keyExtractor={(item) => item.key}
               decelerationRate="fast"
               bounces={false}
-              contentContainerStyle={{ flexGrow: 1 }}
               onMomentumScrollEnd={(event) => {
-                const newPage = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+                const newPage = Math.round(event.nativeEvent.contentOffset.x / CARD_WIDTH);
                 setCurrentPage(newPage);
               }}
             />
@@ -525,9 +525,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   pageContainer: {
-    width: SCREEN_WIDTH - 40, // Account for margins
+    width: CARD_WIDTH,
     paddingHorizontal: 0,
-    flex: 1,
+    height: '100%',
   },
   cardGradient: {
     flex: 1,
