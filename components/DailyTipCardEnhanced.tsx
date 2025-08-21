@@ -285,6 +285,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
               keyExtractor={(item) => item.key}
               decelerationRate="fast"
               bounces={false}
+              contentContainerStyle={{ flexGrow: 1 }}
               onMomentumScrollEnd={(event) => {
                 const newPage = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
                 setCurrentPage(newPage);
@@ -398,14 +399,17 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   cardContainer: {
+    flex: 1,
     marginHorizontal: 20,
     marginTop: 20,
     marginBottom: 10,
   },
   cardWrapper: {
+    flex: 1,
     position: 'relative',
   },
   cardMask: {
+    flex: 1,
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: 'transparent',
@@ -413,8 +417,10 @@ const styles = StyleSheet.create({
   pageContainer: {
     width: SCREEN_WIDTH - 40, // Account for margins
     paddingHorizontal: 0,
+    flex: 1,
   },
   cardGradient: {
+    flex: 1,
     borderRadius: 20,
     padding: 20,
     minHeight: 300,
@@ -599,7 +605,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   actionContainer: {
-    marginTop: 'auto',
     paddingTop: 16,
     paddingHorizontal: 20,
     paddingBottom: 24,

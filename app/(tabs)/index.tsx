@@ -725,6 +725,10 @@ export default function HomeScreen() {
   }
 
   console.log('Returning main app view');
+  
+  // Check if we should show DailyTipCardEnhanced (special layout without ScrollView)
+  const shouldShowEnhancedCard = currentTip && dailyTip && !dailyTip.user_response;
+  
   return (
     <SafeAreaView style={styles.container}>
       {/* Feedback Modal */}
@@ -774,9 +778,11 @@ export default function HomeScreen() {
         colors={['#E8F5E9', '#FFFFFF']}
         style={styles.gradient}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Header */}
-          <View style={styles.header}>
+        {shouldShowEnhancedCard ? (
+          // Special layout for DailyTipCardEnhanced - no ScrollView
+          <View style={{ flex: 1 }}>
+            {/* Header */}
+            <View style={styles.header}>
             <View>
               <Text style={styles.greeting}>
                 {new Date().getHours() < 12 ? 'Good Morning' :
@@ -895,9 +901,156 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* Daily Tip, Experiment Mode, or Completion View */}
-          {console.log('Main content check - currentTip:', currentTip ? 'exists' : 'null', 'dailyTip:', dailyTip ? 'exists' : 'null')}
-          {currentTip && dailyTip ? (
+            
+            {/* DailyTipCardEnhanced takes up remaining space */}
+            <DailyTipCardEnhanced
+              tip={currentTip}
+              onResponse={handleTipResponse}
+              onNotForMe={() => {
+                console.log('Not for me clicked!');
+                console.log('Current tip:', currentTip?.tip_id);
+                console.log('Skip feedback questions:', userProfile?.skip_feedback_questions);
+                
+                // Only open modal, don't trigger replacement
+                setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
+                if (userProfile.skip_feedback_questions) {
+                  console.log('Skipping feedback modal, going straight to rejection');
+                  handleNotForMeFeedback(null);
+                } else {
+                  console.log('Setting showFeedbackModal to true');
+                  setShowFeedbackModal(true);
+                }
+              }}
+              reasons={tipReasons}
+              userGoals={userProfile.goals}
+            />
+          </View>
+        ) : (
+          // Regular layout with ScrollView for other content
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* Header */}
+            <View style={styles.header}>
+              <View>
+                <Text style={styles.greeting}>
+                  {new Date().getHours() < 12 ? 'Good Morning' :
+                   new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
+                  {/* Debug: Show current hour */}
+                  {__DEV__ && ` (${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')})`}
+                </Text>
+                <Text style={styles.title}>Habit Helper</Text>
+              </View>
+              <View style={{ flexDirection: 'row', gap: 8 }}>
+                {/* Testing: Open test data calendar */}
+                {__DEV__ && (
+                  <TouchableOpacity 
+                    style={styles.profileButton}
+                    onPress={() => setShowTestCalendar(true)}
+                  >
+                    <Ionicons name="calendar-outline" size={32} color="#9C27B0" />
+                  </TouchableOpacity>
+                )}
+                
+                {/* Temporary reset button for testing */}
+                <TouchableOpacity 
+                  style={styles.profileButton}
+                  onPress={async () => {
+                    Alert.alert(
+                      'Reset Tips',
+                      'Clear all tip data for testing? (Quiz responses will be kept)',
+                      [
+                        { text: 'Cancel', style: 'cancel' },
+                        { 
+                          text: 'Reset', 
+                          style: 'destructive',
+                          onPress: async () => {
+                            await StorageService.clearTipData();
+                            setPreviousTips([]);
+                            setAttempts([]);
+                            setDailyTip(null);
+                            setCurrentTip(null);
+                            setShowCheckIn(false);
+                            // Reload with fresh tip
+                            await loadDailyTip(userProfile!, [], []);
+                            Alert.alert('Done', 'Tip data has been reset');
+                          }
+                        }
+                      ]
+                    );
+                  }}
+                >
+                  <Ionicons name="refresh-circle-outline" size={32} color="#FF9800" />
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.profileButton}
+                  onPress={async () => {
+                    Alert.alert(
+                      'Profile Settings',
+                      'What would you like to do?',
+                      [
+                        { 
+                          text: 'Retake Quiz', 
+                          onPress: async () => {
+                            // Clear profile to restart quiz
+                            await StorageService.setOnboardingCompleted(false);
+                            setUserProfile(null);
+                            setDailyTip(null);
+                            setCurrentTip(null);
+                          }
+                        },
+                        {
+                          text: 'Cancel',
+                          style: 'cancel'
+                        }
+                      ]
+                    );
+                  }}
+                >
+                  <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Stats */}
+            <View style={styles.statsContainer}>
+              <TouchableOpacity 
+                style={styles.statCard}
+                onPress={handleShowAllExperiments}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.statNumber}>{previousTips.length + (dailyTip ? 1 : 0)}</Text>
+                <Text style={styles.statLabel}>Experiments</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.statCard}
+                onPress={handleShowTriedExperiments}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.statNumber}>
+                  {previousTips.filter(tip => tip.user_response === 'try_it').length + 
+                   (dailyTip?.user_response === 'try_it' ? 1 : 0)}
+                </Text>
+                <Text style={styles.statLabel}>Tried</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.statCard}
+                onPress={handleShowLovedExperiments}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.statNumber}>
+                  {previousTips.filter(tip => 
+                    tip.quick_completions?.some(c => c.quick_note === 'worked_great') ||
+                    tip.evening_check_in === 'went_great'
+                  ).length + 
+                  (dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') || 
+                   dailyTip?.evening_check_in === 'went_great' ? 1 : 0)}
+                </Text>
+                <Text style={styles.statLabel}>Loved</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Daily Tip, Experiment Mode, or Completion View */}
+            {console.log('Main content check - currentTip:', currentTip ? 'exists' : 'null', 'dailyTip:', dailyTip ? 'exists' : 'null')}
+            {currentTip && dailyTip ? (
             dailyTip.evening_check_in ? (
               // Show completion view after check-in
               <ExperimentComplete
@@ -990,28 +1143,8 @@ export default function HomeScreen() {
                 );
               })()
             ) : !dailyTip.user_response ? (
-              // Show enhanced tip card if no response yet
-              <DailyTipCardEnhanced
-                tip={currentTip}
-                onResponse={handleTipResponse}
-                onNotForMe={() => {
-                  console.log('Not for me clicked!');
-                  console.log('Current tip:', currentTip?.tip_id);
-                  console.log('Skip feedback questions:', userProfile?.skip_feedback_questions);
-                  
-                  // Only open modal, don't trigger replacement
-                  setPendingOptOut({ tip: currentTip, tipId: currentTip.tip_id });
-                  if (userProfile.skip_feedback_questions) {
-                    console.log('Skipping feedback modal, going straight to rejection');
-                    handleNotForMeFeedback(null);
-                  } else {
-                    console.log('Setting showFeedbackModal to true');
-                    setShowFeedbackModal(true);
-                  }
-                }}
-                reasons={tipReasons}
-                userGoals={userProfile.goals}
-              />
+              // This case is handled above with shouldShowEnhancedCard
+              null
             ) : dailyTip.user_response === 'maybe_later' ? (
               // User said "maybe later"
               <View style={styles.noTipCard}>
@@ -1077,8 +1210,9 @@ export default function HomeScreen() {
                 We're finding the perfect tip for you!
               </Text>
             </View>
-          )}
-        </ScrollView>
+            )}
+          </ScrollView>
+        )}
       </LinearGradient>
     </SafeAreaView>
   );
