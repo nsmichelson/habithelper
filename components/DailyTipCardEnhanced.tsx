@@ -11,15 +11,20 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useSharedValue
+  useSharedValue,
+  withSpring,
+  withSequence,
+  withTiming
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tip } from '../types/tip';
@@ -40,6 +45,15 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
   const insets = useSafeAreaInsets();
+  
+  // State for personalization
+  const [scaleNames, setScaleNames] = useState({
+    level1: '',
+    level5: '',
+    level10: ''
+  });
+  const [savedScaleNames, setSavedScaleNames] = useState<typeof scaleNames | null>(null);
+  const [showSaveAnimation, setShowSaveAnimation] = useState(false);
   
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
@@ -73,6 +87,39 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const relevantGoals = userGoals.filter(userGoal => 
     tip.goal_tags.includes(userGoal)
   );
+  
+  // Check if this tip should have a personalization card
+  const shouldShowPersonalization = tip.summary.toLowerCase().includes('hunger scale');
+  
+  // Animation for save button
+  const saveButtonScale = useSharedValue(1);
+  const saveButtonOpacity = useSharedValue(1);
+  
+  const handleSavePersonalization = () => {
+    // Trigger delightful animation
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    
+    saveButtonScale.value = withSequence(
+      withSpring(1.2, { damping: 15 }),
+      withSpring(0.9, { damping: 15 }),
+      withSpring(1, { damping: 15 })
+    );
+    
+    setShowSaveAnimation(true);
+    setSavedScaleNames({ ...scaleNames });
+    
+    // Hide animation after a delay
+    setTimeout(() => {
+      setShowSaveAnimation(false);
+    }, 2000);
+  };
+  
+  const animatedSaveButtonStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: saveButtonScale.value }],
+      opacity: saveButtonOpacity.value
+    };
+  });
 
   const handleResponse = (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -310,12 +357,164 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       </LinearGradient>
     </View>
   );
+  
+  const renderPersonalizationCard = () => (
+    <View style={styles.pageContainer}>
+      <LinearGradient
+        colors={['#FFFFFF', '#FAFAFA']}
+        style={styles.cardGradient}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <ScrollView 
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <Text style={styles.sectionTitle}>Make It Your Own</Text>
+            
+            {!savedScaleNames ? (
+              <>
+                <Text style={styles.personalizationPrompt}>
+                  Let's personalize your hunger scale! What does each level feel like to you?
+                </Text>
+                
+                <View style={styles.scaleInputContainer}>
+                  <View style={styles.scaleLevel}>
+                    <View style={styles.scaleLevelHeader}>
+                      <View style={styles.scaleNumber}>
+                        <Text style={styles.scaleNumberText}>1</Text>
+                      </View>
+                      <Text style={styles.scaleLevelLabel}>Starving</Text>
+                    </View>
+                    <TextInput
+                      style={styles.scaleInput}
+                      placeholder="e.g., Stomach growling loudly"
+                      value={scaleNames.level1}
+                      onChangeText={(text) => setScaleNames({ ...scaleNames, level1: text })}
+                      multiline
+                      numberOfLines={2}
+                      placeholderTextColor="#999"
+                    />
+                  </View>
+                  
+                  <View style={styles.scaleLevel}>
+                    <View style={styles.scaleLevelHeader}>
+                      <View style={[styles.scaleNumber, styles.scaleNumberMid]}>
+                        <Text style={styles.scaleNumberText}>5</Text>
+                      </View>
+                      <Text style={styles.scaleLevelLabel}>Satisfied</Text>
+                    </View>
+                    <TextInput
+                      style={styles.scaleInput}
+                      placeholder="e.g., Content and comfortable"
+                      value={scaleNames.level5}
+                      onChangeText={(text) => setScaleNames({ ...scaleNames, level5: text })}
+                      multiline
+                      numberOfLines={2}
+                      placeholderTextColor="#999"
+                    />
+                  </View>
+                  
+                  <View style={styles.scaleLevel}>
+                    <View style={styles.scaleLevelHeader}>
+                      <View style={[styles.scaleNumber, styles.scaleNumberFull]}>
+                        <Text style={styles.scaleNumberText}>10</Text>
+                      </View>
+                      <Text style={styles.scaleLevelLabel}>Stuffed</Text>
+                    </View>
+                    <TextInput
+                      style={styles.scaleInput}
+                      placeholder="e.g., Uncomfortably full"
+                      value={scaleNames.level10}
+                      onChangeText={(text) => setScaleNames({ ...scaleNames, level10: text })}
+                      multiline
+                      numberOfLines={2}
+                      placeholderTextColor="#999"
+                    />
+                  </View>
+                </View>
+                
+                {(scaleNames.level1 || scaleNames.level5 || scaleNames.level10) && (
+                  <Animated.View style={animatedSaveButtonStyle}>
+                    <TouchableOpacity
+                      style={styles.saveButton}
+                      onPress={handleSavePersonalization}
+                      activeOpacity={0.8}
+                    >
+                      <Ionicons name="sparkles" size={20} color="#FFF" />
+                      <Text style={styles.saveButtonText}>Save My Scale</Text>
+                    </TouchableOpacity>
+                  </Animated.View>
+                )}
+              </>
+            ) : (
+              <View style={styles.savedScaleContainer}>
+                <View style={styles.savedHeader}>
+                  <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                  <Text style={styles.savedTitle}>Your Personal Hunger Scale</Text>
+                </View>
+                
+                <View style={styles.savedScaleItems}>
+                  {savedScaleNames.level1 && (
+                    <View style={styles.savedScaleItem}>
+                      <View style={[styles.savedScaleNumber, styles.scaleNumber]}>
+                        <Text style={styles.savedScaleNumberText}>1</Text>
+                      </View>
+                      <Text style={styles.savedScaleText}>{savedScaleNames.level1}</Text>
+                    </View>
+                  )}
+                  
+                  {savedScaleNames.level5 && (
+                    <View style={styles.savedScaleItem}>
+                      <View style={[styles.savedScaleNumber, styles.scaleNumberMid]}>
+                        <Text style={styles.savedScaleNumberText}>5</Text>
+                      </View>
+                      <Text style={styles.savedScaleText}>{savedScaleNames.level5}</Text>
+                    </View>
+                  )}
+                  
+                  {savedScaleNames.level10 && (
+                    <View style={styles.savedScaleItem}>
+                      <View style={[styles.savedScaleNumber, styles.scaleNumberFull]}>
+                        <Text style={styles.savedScaleNumberText}>10</Text>
+                      </View>
+                      <Text style={styles.savedScaleText}>{savedScaleNames.level10}</Text>
+                    </View>
+                  )}
+                </View>
+                
+                <TouchableOpacity
+                  style={styles.editButton}
+                  onPress={() => setSavedScaleNames(null)}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="pencil" size={16} color="#4CAF50" />
+                  <Text style={styles.editButtonText}>Edit My Scale</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            
+            {showSaveAnimation && (
+              <View style={styles.celebrationOverlay}>
+                <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+                <Text style={styles.celebrationText}>Personalized! 🎉</Text>
+              </View>
+            )}
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </LinearGradient>
+    </View>
+  );
 
   const pages = [
     { key: 'summary', render: renderSummaryCard },
     { key: 'goals', render: renderGoalsCard },
     { key: 'benefits', render: renderBenefitsCard },
     { key: 'howto', render: renderHowToCard },
+    ...(shouldShowPersonalization ? [{ key: 'personalize', render: renderPersonalizationCard }] : []),
   ];
 
   const DotIndicator = ({ index }: { index: number }) => {
@@ -355,7 +554,9 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       return { opacity };
     });
 
-    const labels = ['Summary', 'Goals', 'Why', 'How'];
+    const labels = shouldShowPersonalization 
+      ? ['Summary', 'Goals', 'Why', 'How', 'Plan']
+      : ['Summary', 'Goals', 'Why', 'How'];
 
     return (
       <TouchableOpacity
@@ -817,6 +1018,153 @@ const styles = StyleSheet.create({
     color: '#424242',
     lineHeight: 22,
     flex: 1,
+  },
+  personalizationPrompt: {
+    fontSize: 16,
+    color: '#424242',
+    lineHeight: 24,
+    marginBottom: 24,
+  },
+  scaleInputContainer: {
+    gap: 20,
+  },
+  scaleLevel: {
+    marginBottom: 8,
+  },
+  scaleLevelHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    gap: 10,
+  },
+  scaleNumber: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#FFE0B2',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scaleNumberMid: {
+    backgroundColor: '#C8E6C9',
+  },
+  scaleNumberFull: {
+    backgroundColor: '#FFCDD2',
+  },
+  scaleNumberText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#424242',
+  },
+  scaleLevelLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#757575',
+  },
+  scaleInput: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 12,
+    padding: 12,
+    fontSize: 15,
+    color: '#424242',
+    minHeight: 60,
+    textAlignVertical: 'top',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  saveButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#4CAF50',
+    borderRadius: 14,
+    paddingVertical: 14,
+    marginTop: 24,
+    gap: 8,
+  },
+  saveButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFF',
+  },
+  savedScaleContainer: {
+    backgroundColor: '#F0F7FF',
+    borderRadius: 16,
+    padding: 20,
+  },
+  savedHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 20,
+  },
+  savedTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#212121',
+  },
+  savedScaleItems: {
+    gap: 16,
+  },
+  savedScaleItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: 'white',
+    padding: 12,
+    borderRadius: 10,
+  },
+  savedScaleNumber: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  savedScaleNumberText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#424242',
+  },
+  savedScaleText: {
+    fontSize: 15,
+    color: '#424242',
+    flex: 1,
+    fontWeight: '500',
+  },
+  editButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    gap: 6,
+    paddingVertical: 8,
+  },
+  editButtonText: {
+    fontSize: 14,
+    color: '#4CAF50',
+    fontWeight: '600',
+  },
+  celebrationOverlay: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -80 }, { translateY: -50 }],
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  celebrationText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#4CAF50',
+    marginTop: 8,
   },
   actionContainer: {
     paddingTop: 16,
