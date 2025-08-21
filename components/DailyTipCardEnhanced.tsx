@@ -1641,29 +1641,26 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   cardContainer: {
-    flex: 1,
     marginHorizontal: 20,
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom: 10,
   },
   cardWrapper: {
-    flex: 1,
     position: 'relative',
   },
   cardMask: {
-    flex: 1,
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: 'transparent',
   },
   pageContainer: {
     width: SCREEN_WIDTH - 40, // Account for margins
-    height: '100%',
     paddingHorizontal: 0,
   },
   cardGradient: {
-    flex: 1,
     borderRadius: 20,
     padding: 20,
+    minHeight: 300,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -1677,7 +1674,7 @@ const styles = StyleSheet.create({
     }),
   },
   scrollContent: {
-    flexGrow: 1,
+    paddingBottom: 10,
   },
   navArrow: {
     position: 'absolute',
@@ -1845,7 +1842,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   actionContainer: {
-    paddingTop: 20,
+    marginTop: 'auto',
+    paddingTop: 16,
     paddingHorizontal: 20,
     paddingBottom: 24,
     borderTopWidth: 1,
