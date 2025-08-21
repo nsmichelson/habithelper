@@ -140,25 +140,24 @@ export default function RejectedTipView({
             )}
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
-            style={styles.newTipButton}
-            onPress={handleFindNewTip}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="sparkles" size={20} color="#FFFFFF" />
-            <Text style={styles.newTipButtonText}>Try Another Experiment</Text>
-          </TouchableOpacity>
-        )}
-        
-        {/* Secondary skip option - only show if saved tips available */}
-        {hasSaved && (
-          <TouchableOpacity
-            style={styles.skipButton}
-            onPress={handleFindNewTip}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.skipButtonText}>Or find a new experiment →</Text>
-          </TouchableOpacity>
+          // No saved tips - show message to wait until tomorrow
+          <View style={styles.noMoreTipsContainer}>
+            <View style={styles.waitMessage}>
+              <Ionicons name="time-outline" size={24} color="#757575" />
+              <Text style={styles.waitTitle}>That's it for today!</Text>
+              <Text style={styles.waitText}>
+                Come back tomorrow for your next experiment. Taking it one day at a time helps build lasting habits.
+              </Text>
+            </View>
+            
+            {/* Optional: Add a tip to save experiments for later */}
+            <View style={styles.tipBox}>
+              <Ionicons name="bulb-outline" size={16} color="#FF9800" />
+              <Text style={styles.tipText}>
+                Tip: Choose "Maybe later" on experiments you'd like to try in the future
+              </Text>
+            </View>
+          </View>
         )}
       </LinearGradient>
     </View>
@@ -334,5 +333,42 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: '700',
     fontSize: 12,
+  },
+  noMoreTipsContainer: {
+    marginTop: 16,
+  },
+  waitMessage: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+  },
+  waitTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#424242',
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  waitText: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  tipBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF3E0',
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 16,
+    gap: 8,
+  },
+  tipText: {
+    flex: 1,
+    fontSize: 13,
+    color: '#E65100',
+    lineHeight: 18,
   },
 });
