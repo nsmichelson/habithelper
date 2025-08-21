@@ -189,6 +189,11 @@ export interface Tip {
   // NEW: Success predictors
   common_failure_points?: string[]; // ['requires_willpower', 'easy_to_forget', 'socially_awkward']
   cognitive_load?: number; // 1-5, mental energy needed
+  
+  // NEW: Personalization/Planning
+  personalization_prompt?: string; // Question/prompt for the "Make It Your Own" card
+  personalization_type?: 'text' | 'scale' | 'choice' | 'multi_text'; // Type of input needed
+  personalization_placeholder?: string | string[]; // Placeholder text for inputs
 }
 
 export type TipFeedback = 

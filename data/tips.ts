@@ -4819,6 +4819,9 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a5b6c7d8-e9f0-1234-abcd-567890123456',
     summary: "Use the 'Hunger Scale' before you eat.",
+    personalization_prompt: "Let's personalize your hunger scale! What does each level feel like to you?",
+    personalization_type: "scale" as const,
+    personalization_placeholder: ["e.g., Stomach growling loudly", "e.g., Content and comfortable", "e.g., Uncomfortably full"],
     details_md: `**The Experiment:** Before you eat a meal or snack, take a moment to rate your physical hunger on a scale of 1 to 10.
 
 **Why it Works:** This mindful eating exercise helps you distinguish between true, physical hunger and emotional or environmental triggers for eating (like stress or seeing food). Practicing this helps you become more attuned to your body's signals, leading to more intentional eating choices.
@@ -5477,6 +5480,9 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0047-4047-a047-1234567890d9',
     summary: 'Try a "dessert" of frozen fruit.',
+    personalization_prompt: "What frozen fruit will you try as dessert tonight?",
+    personalization_type: "text" as const,
+    personalization_placeholder: "e.g., Frozen grapes, mango chunks, or mixed berries",
     details_md: `**The Experiment:** For a healthy dessert, try eating a bowl of frozen fruit.
 
 **Why it Works:** Frozen fruit like mango chunks, berries, or banana slices have a surprisingly creamy, sorbet-like texture when eaten partially thawed. This satisfies a craving for a cold, sweet treat with all the benefits of whole fruit (fiber, vitamins) and none of the added sugar of ice cream or sorbet.

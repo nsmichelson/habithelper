@@ -89,7 +89,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   );
   
   // Check if this tip should have a personalization card
-  const shouldShowPersonalization = tip.summary.toLowerCase().includes('hunger scale');
+  const shouldShowPersonalization = !!tip.personalization_prompt;
   
   // Animation for save button
   const saveButtonScale = useSharedValue(1);
@@ -378,7 +378,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             {!savedScaleNames ? (
               <>
                 <Text style={styles.personalizationPrompt}>
-                  Let's personalize your hunger scale! What does each level feel like to you?
+                  {tip.personalization_prompt || "Let's personalize your hunger scale! What does each level feel like to you?"}
                 </Text>
                 
                 <View style={styles.scaleInputContainer}>
