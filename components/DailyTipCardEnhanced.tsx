@@ -355,13 +355,21 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       return { opacity };
     });
 
-    const labels = ['Summary', 'Goals', 'Why It Works', 'How To'];
+    const labels = ['Summary', 'Goals', 'Why', 'How'];
 
     return (
-      <View style={styles.step}>
+      <TouchableOpacity
+        style={styles.step}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          flatListRef.current?.scrollToIndex({ index, animated: true });
+          setCurrentPage(index);
+        }}
+        activeOpacity={0.7}
+      >
         <Animated.View style={[styles.dot, animatedDotStyle]} />
         <Animated.Text style={[styles.stepLabel, labelOpacity]}>{labels[index]}</Animated.Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
