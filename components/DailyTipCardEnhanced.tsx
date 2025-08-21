@@ -1241,140 +1241,270 @@
 //   },
 // });
 
-import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+
+
+import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  Animated,
   Dimensions,
-  Easing,
-  LayoutChangeEvent,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
+  FlatList,
   Platform,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import Animated, {
+  Extrapolate,
+  interpolate,
+  runOnJS,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { Tip } from '../types/tip';
 
-type ActionType = 'try_it' | 'maybe_later' | 'not_for_me';
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-interface DailyTipProps {
-  onAction?: (action: ActionType) => void;
+interface Props {
+  tip: Tip;
+  onResponse: (response: 'try_it' | 'maybe_later') => void;
+  onNotForMe: () => void;
+  reasons?: string[];
 }
 
-/**
- * DailyTip: React Native + TypeScript version of your HTML demo.
- * - Option B implemented: card content is clipped by a mask; arrows are siblings and can overhang.
- * - Horizontal swipe with paging + left/right arrows.
- * - Progress indicator with active pill-dot + label.
- * - Sticky bottom action bar with primary + two secondary buttons.
- * - Swipe hint fades in/out after 2 seconds.
- * - Subtle shimmer on primary button (can be disabled).
- */
-const DailyTip: React.FC<DailyTipProps> = ({ onAction }) => {
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const scrollRef = useRef<ScrollView>(null);
-  const [maskWidth, setMaskWidth] = useState<number>(0);
-  const [maskHeight, setMaskHeight] = useState<number>(360); // initial guess
-  const totalCards = 3;
+export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [] }: Props) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const scrollX = useSharedValue(0);
+  const cardScale = useSharedValue(1);
+  const flatListRef = useRef<FlatList>(null);
 
-  // For swipe-hint fade
-  const hintOpacity = useRef(new Animated.Value(0)).current;
-
-  // For primary button shimmer
-  const shimmerX = useRef(new Animated.Value(0)).current;
-  const [primaryBtnWidth, setPrimaryBtnWidth] = useState<number>(0);
-
-  const arrowSize = 44;
-  const arrowOverhang = 12; // how much the circle overhangs the card edge
-
-  // Trigger the swipe hint after 2s
-  useEffect(() => {
-    const t = setTimeout(() => {
-      Animated.sequence([
-        Animated.timing(hintOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
-        Animated.timing(hintOpacity, { toValue: 0, duration: 1600, delay: 700, useNativeDriver: true }),
-      ]).start();
-    }, 2000);
-
-    return () => clearTimeout(t);
-  }, [hintOpacity]);
-
-  // Button shimmer loop
-  useEffect(() => {
-    const loop = Animated.loop(
-      Animated.timing(shimmerX, {
-        toValue: 1,
-        duration: 3000,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      })
-    );
-    loop.start();
-    return () => {
-      loop.stop();
-      shimmerX.setValue(0);
-    };
-  }, [shimmerX]);
-
-  const handleAction = (action: ActionType) => {
-    // simple visual feedback is handled by Pressable (scale on press).
-    onAction?.(action);
-    // eslint-disable-next-line no-console
-    console.log('Action:', action);
+  const handleResponse = (response: 'try_it' | 'maybe_later') => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    cardScale.value = withSpring(0.95, {}, () => {
+      cardScale.value = withSpring(1);
+      runOnJS(onResponse)(response);
+    });
+  };
+  
+  const handleNotForMe = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    cardScale.value = withSpring(0.95, {}, () => {
+      cardScale.value = withSpring(1);
+      runOnJS(onNotForMe)();
+    });
   };
 
-  const navigateCard = (direction: -1 | 1) => {
-    const next = Math.min(Math.max(currentIndex + direction, 0), totalCards - 1);
-    if (next !== currentIndex && scrollRef.current && maskWidth) {
-      scrollRef.current.scrollTo({ x: next * maskWidth, y: 0, animated: true });
-      setCurrentIndex(next);
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollX.value = event.contentOffset.x;
+    },
+  });
+
+  const navigateCard = (direction: number) => {
+    const newIndex = currentPage + direction;
+    if (newIndex >= 0 && newIndex < 3) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
     }
   };
 
-  const onMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const x = e.nativeEvent.contentOffset.x;
-    if (!maskWidth) return;
-    const idx = Math.round(x / maskWidth);
-    setCurrentIndex(idx);
+  const cardAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: cardScale.value }],
+  }));
+
+  const getDifficultyLabel = (tier: number) => {
+    const labels = ['Very Easy', 'Easy', 'Moderate', 'Challenging', 'Very Challenging'];
+    return labels[tier - 1] || 'Easy';
   };
 
-  const onMaskLayout = (e: LayoutChangeEvent) => {
-    const { width, height } = e.nativeEvent.layout;
-    setMaskWidth(width);
-    setMaskHeight(height);
+  const getTimeLabel = (time: string) => {
+    const labels: Record<string, string> = {
+      '0_5_min': '< 5 min',
+      '5_15_min': '5-15 min',
+      '15_60_min': '15-60 min',
+      '>60_min': '> 1 hour',
+    };
+    return labels[time] || time;
   };
 
-  const onPrimaryLayout = (e: LayoutChangeEvent) => {
-    setPrimaryBtnWidth(e.nativeEvent.layout.width);
+  const renderSummaryCard = () => (
+    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
+      <ScrollView 
+        style={styles.card}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.cardContent}
+      >
+        <View style={styles.badges}>
+          <View style={[styles.badge, styles.timeBadge]}>
+            <Ionicons name="time-outline" size={14} color="#666" />
+            <Text style={styles.badgeText}>{getTimeLabel(tip.time_cost_enum)}</Text>
+          </View>
+          <View style={[styles.badge, styles.difficultyBadge]}>
+            <Text style={styles.badgeText}>{getDifficultyLabel(tip.difficulty_tier)}</Text>
+          </View>
+        </View>
+        
+        <Text style={styles.summaryTitle}>{tip.summary}</Text>
+        
+        {reasons.length > 0 && (
+          <View style={styles.reasonsContainer}>
+            {reasons.map((reason, index) => (
+              <View key={index} style={styles.reasonChip}>
+                <Ionicons name="sparkles" size={12} color="#4CAF50" />
+                <Text style={styles.reasonText}>{reason}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+      </ScrollView>
+    </View>
+  );
+
+  const renderHowToCard = () => (
+    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
+      <ScrollView 
+        style={styles.card}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.cardContent}
+      >
+        <Text style={styles.sectionTitle}>How To Do It</Text>
+        
+        <Text style={styles.detailsText}>{tip.details_md}</Text>
+        
+        <View style={styles.infoGrid}>
+          <View style={styles.infoItem}>
+            <Ionicons name="sunny-outline" size={20} color="#666" />
+            <Text style={styles.infoLabel}>Best Time</Text>
+            <Text style={styles.infoValue}>
+              {(tip.time_of_day ?? []).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ') || 'Any time'}
+            </Text>
+          </View>
+          
+          <View style={styles.infoItem}>
+            <Ionicons name="cash-outline" size={20} color="#666" />
+            <Text style={styles.infoLabel}>Cost</Text>
+            <Text style={styles.infoValue}>{tip.money_cost_enum ?? 'Free'}</Text>
+          </View>
+          
+          <View style={styles.infoItem}>
+            <Ionicons name="location-outline" size={20} color="#666" />
+            <Text style={styles.infoLabel}>Where</Text>
+            <Text style={styles.infoValue}>
+              {(tip.location_tags ?? []).map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(', ') || 'Anywhere'}
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
+
+  const renderBenefitsCard = () => (
+    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
+      <ScrollView 
+        style={styles.card}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.cardContent}
+      >
+        <Text style={styles.sectionTitle}>Why This Works</Text>
+        
+        <View style={styles.benefitsSection}>
+          <Text style={styles.benefitsSectionTitle}>IMMEDIATE BENEFITS</Text>
+          <View style={styles.benefitsBox}>
+            <Text style={styles.benefitItem}>✓ Increases blood flow and oxygen to muscles</Text>
+            <Text style={styles.benefitItem}>✓ Releases endorphins for natural energy boost</Text>
+            <Text style={styles.benefitItem}>✓ Improves mental clarity and focus</Text>
+          </View>
+        </View>
+
+        <View style={styles.benefitsSection}>
+          <Text style={styles.benefitsSectionTitle}>LONG-TERM IMPACT</Text>
+          <View style={[styles.benefitsBox, styles.longTermBox]}>
+            <Text style={[styles.benefitItem, styles.longTermItem]}>• Better posture throughout the day</Text>
+            <Text style={[styles.benefitItem, styles.longTermItem]}>• Reduced risk of injury</Text>
+            <Text style={[styles.benefitItem, styles.longTermItem]}>• Improved flexibility and range of motion</Text>
+          </View>
+        </View>
+
+        {(tip.goal_tags ?? []).length > 0 && (
+          <View style={styles.goalsSection}>
+            <Text style={styles.goalsSectionTitle}>This helps with:</Text>
+            <View style={styles.goalsGrid}>
+              {tip.goal_tags.map(goal => (
+                <View key={goal} style={styles.goalChip}>
+                  <Text style={styles.goalChipText}>
+                    {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+      </ScrollView>
+    </View>
+  );
+
+  const pages = [
+    { key: 'summary', render: renderSummaryCard },
+    { key: 'howto', render: renderHowToCard },
+    { key: 'benefits', render: renderBenefitsCard },
+  ];
+
+  const DotIndicator = ({ index }: { index: number }) => {
+    const animatedDotStyle = useAnimatedStyle(() => {
+      const inputRange = [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH];
+      
+      const width = interpolate(
+        scrollX.value,
+        inputRange,
+        [8, 28, 8],
+        Extrapolate.CLAMP
+      );
+      
+      const opacity = interpolate(
+        scrollX.value,
+        inputRange,
+        [0.4, 1, 0.4],
+        Extrapolate.CLAMP
+      );
+
+      return {
+        width,
+        opacity,
+      };
+    });
+
+    const labelOpacity = useAnimatedStyle(() => {
+      const inputRange = [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH];
+      
+      const opacity = interpolate(
+        scrollX.value,
+        inputRange,
+        [0, 1, 0],
+        Extrapolate.CLAMP
+      );
+
+      return { opacity };
+    });
+
+    const labels = ['Summary', 'How To', 'Benefits'];
+
+    return (
+      <View style={styles.step}>
+        <Animated.View style={[styles.dot, animatedDotStyle]} />
+        <Animated.Text style={[styles.stepLabel, labelOpacity]}>{labels[index]}</Animated.Text>
+      </View>
+    );
   };
-
-  // Shimmer transform across the primary button
-  const shimmerTranslate = useMemo(() => {
-    // Move from -width to +width
-    const travel = primaryBtnWidth || 240;
-    return [
-      {
-        translateX: shimmerX.interpolate({
-          inputRange: [0, 1],
-          outputRange: [-travel, travel],
-        }),
-      },
-    ];
-  }, [primaryBtnWidth, shimmerX]);
-
-  const showLeft = currentIndex > 0;
-  const showRight = currentIndex < totalCards - 1;
-
-  // Simple responsive mask height target similar to your web max-height:380px
-  const { height: screenH } = Dimensions.get('window');
-  const targetMaskHeight = Math.min(380, Math.max(280, Math.floor(screenH * 0.45)));
 
   return (
-    <View style={styles.root}>
+    <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerLabel}>TODAY'S WELLNESS TIP</Text>
@@ -1382,307 +1512,107 @@ const DailyTip: React.FC<DailyTipProps> = ({ onAction }) => {
 
       {/* Progress Indicator */}
       <View style={styles.progressContainer}>
-        <View style={styles.progressRow}>
-          <Step label="Summary" active={currentIndex === 0} />
-          <Step label="How To" active={currentIndex === 1} />
-          <Step label="Benefits" active={currentIndex === 2} />
+        <View style={styles.progressSteps}>
+          {pages.map((_, index) => (
+            <DotIndicator key={index} index={index} />
+          ))}
         </View>
       </View>
 
       {/* Card Container */}
       <View style={styles.cardContainer}>
-        <View style={styles.cardWrapper}>
-          {/* Mask keeps slider content clipped & rounded */}
-          <View style={[styles.cardMask, { height: targetMaskHeight }]} onLayout={onMaskLayout}>
-            <ScrollView
-              ref={scrollRef}
+        <Animated.View style={[styles.cardWrapper, cardAnimatedStyle]}>
+          {/* Card Mask */}
+          <View style={styles.cardMask}>
+            <Animated.FlatList
+              ref={flatListRef}
+              data={pages}
+              renderItem={({ item }) => item.render()}
               horizontal
               pagingEnabled
               showsHorizontalScrollIndicator={false}
-              onMomentumScrollEnd={onMomentumEnd}
-              contentContainerStyle={{}}
+              onScroll={scrollHandler}
               scrollEventThrottle={16}
-              // Nested vertical scroll inside each card
-              nestedScrollEnabled
-            >
-              {/* Card 1 */}
-              <View style={[styles.card, { width: maskWidth || Dimensions.get('window').width - 40 }]}>
-                <View style={styles.badges}>
-                  <View style={[styles.badge, styles.badgeTime]}>
-                    <Feather name="clock" size={14} color="#666" />
-                    <Text style={styles.badgeTextTime}>5-15 min</Text>
-                  </View>
-                  <View style={[styles.badge, styles.badgeDiff]}>
-                    <Text style={styles.badgeTextDiff}>Easy</Text>
-                  </View>
-                </View>
-
-                <Text style={styles.summaryTitle}>
-                  Try a 5-minute morning stretch routine to boost energy and flexibility
-                </Text>
-
-                <View style={styles.reasonsRow}>
-                  <ReasonChip text="Perfect for beginners" />
-                  <ReasonChip text="Improves posture" />
-                  <ReasonChip text="No equipment needed" />
-                </View>
-
-                {/* bottom fade like ::after */}
-                <LinearGradient
-                  pointerEvents="none"
-                  colors={['transparent', 'rgba(255,255,255,1)']}
-                  style={styles.cardBottomFade}
-                />
-              </View>
-
-              {/* Card 2 */}
-              <View style={[styles.card, { width: maskWidth || Dimensions.get('window').width - 40 }]}>
-                <Text style={styles.sectionTitle}>How To Do It</Text>
-
-                <View style={styles.detailsContent}>
-                  <Text style={styles.paragraph}>
-                    <Text style={styles.bold}>1. Start with neck rolls: </Text>
-                    Gently roll your head in a circle, 5 times each direction. This releases tension from sleep.
-                  </Text>
-
-                  <Text style={styles.paragraph}>
-                    <Text style={styles.bold}>2. Shoulder shrugs: </Text>
-                    Lift shoulders to ears, hold for 3 seconds, release. Repeat 10 times.
-                  </Text>
-
-                  <Text style={styles.paragraph}>
-                    <Text style={styles.bold}>3. Cat-cow stretch: </Text>
-                    On hands and knees, alternate between arching and rounding your back. Do 10 reps.
-                  </Text>
-
-                  <Text style={styles.paragraph}>
-                    <Text style={styles.bold}>4. Standing forward fold: </Text>
-                    Bend forward from hips, let arms hang. Hold for 30 seconds.
-                  </Text>
-
-                  <Text style={styles.paragraph}>
-                    <Text style={styles.bold}>5. Side stretches: </Text>
-                    Reach one arm overhead and lean to opposite side. Hold 15 seconds each side.
-                  </Text>
-                </View>
-
-                <View style={styles.infoGrid}>
-                  <InfoItem icon={<Feather name="sun" size={20} color="#666" />} label="Best Time" value="Morning" />
-                  <InfoItem icon={<Feather name="dollar-sign" size={20} color="#666" />} label="Cost" value="Free" />
-                  <InfoItem icon={<Feather name="map-pin" size={20} color="#666" />} label="Where" value="Anywhere" />
-                </View>
-
-                <LinearGradient
-                  pointerEvents="none"
-                  colors={['transparent', 'rgba(255,255,255,1)']}
-                  style={styles.cardBottomFade}
-                />
-              </View>
-
-              {/* Card 3 */}
-              <View style={[styles.card, { width: maskWidth || Dimensions.get('window').width - 40 }]}>
-                <Text style={styles.sectionTitle}>Why This Works</Text>
-
-                <View style={{ marginBottom: 24 }}>
-                  <Text style={styles.subhead}>IMMEDIATE BENEFITS</Text>
-                  <View style={styles.benefitBoxNow}>
-                    <Text style={styles.benefitNow}>✓ Increases blood flow and oxygen to muscles</Text>
-                    <Text style={styles.benefitNow}>✓ Releases endorphins for natural energy boost</Text>
-                    <Text style={styles.benefitNow}>✓ Improves mental clarity and focus</Text>
-                  </View>
-                </View>
-
-                <View style={{ marginBottom: 24 }}>
-                  <Text style={styles.subhead}>LONG-TERM IMPACT</Text>
-                  <View style={styles.benefitBoxLong}>
-                    <Text style={styles.benefitLong}>• Better posture throughout the day</Text>
-                    <Text style={styles.benefitLong}>• Reduced risk of injury</Text>
-                    <Text style={styles.benefitLong}>• Improved flexibility and range of motion</Text>
-                  </View>
-                </View>
-
-                <View style={styles.proTipBox}>
-                  <Text style={styles.proTip}>
-                    <Text style={styles.bold}>Pro tip:</Text> Pair with deep breathing for maximum relaxation and energy boost!
-                  </Text>
-                </View>
-
-                <LinearGradient
-                  pointerEvents="none"
-                  colors={['transparent', 'rgba(255,255,255,1)']}
-                  style={styles.cardBottomFade}
-                />
-              </View>
-            </ScrollView>
+              keyExtractor={(item) => item.key}
+              snapToInterval={SCREEN_WIDTH}
+              decelerationRate="fast"
+              onMomentumScrollEnd={(event) => {
+                const newPage = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+                setCurrentPage(newPage);
+              }}
+            />
           </View>
-
-          {/* Arrows are siblings of mask: can overhang without clipping */}
-          {showLeft && (
-            <Pressable
+          
+          {/* Navigation Arrows */}
+          {currentPage > 0 && (
+            <TouchableOpacity 
+              style={[styles.navArrow, styles.navArrowLeft]}
               onPress={() => navigateCard(-1)}
-              style={[
-                styles.navArrow,
-                {
-                  left: -arrowOverhang,
-                  top: (maskHeight - arrowSize) / 2,
-                  width: arrowSize,
-                  height: arrowSize,
-                },
-              ]}
+              activeOpacity={0.7}
             >
-              <Feather name="chevron-left" size={22} color="#4CAF50" />
-            </Pressable>
+              <Ionicons name="chevron-back" size={22} color="#4CAF50" />
+            </TouchableOpacity>
           )}
-          {showRight && (
-            <Pressable
+          
+          {currentPage < pages.length - 1 && (
+            <TouchableOpacity 
+              style={[styles.navArrow, styles.navArrowRight]}
               onPress={() => navigateCard(1)}
-              style={[
-                styles.navArrow,
-                {
-                  right: -arrowOverhang,
-                  top: (maskHeight - arrowSize) / 2,
-                  width: arrowSize,
-                  height: arrowSize,
-                },
-              ]}
+              activeOpacity={0.7}
             >
-              <Feather name="chevron-right" size={22} color="#4CAF50" />
-            </Pressable>
+              <Ionicons name="chevron-forward" size={22} color="#4CAF50" />
+            </TouchableOpacity>
           )}
-        </View>
-
-        {/* Swipe hint */}
-        <Animated.View
-          pointerEvents="none"
-          style={[
-            styles.swipeHint,
-            {
-              bottom: Math.max(40, Math.floor(targetMaskHeight * 0.3)),
-              opacity: hintOpacity,
-            },
-          ]}
-        >
-          <Text style={styles.swipeHintText}>Swipe or tap arrows to explore</Text>
         </Animated.View>
       </View>
 
-      {/* Sticky Action Bar */}
-      <View style={styles.actionContainer}>
-        <Pressable
-          onPress={() => handleAction('try_it')}
-          onLayout={onPrimaryLayout}
-          style={({ pressed }) => [
-            styles.primaryAction,
-            pressed && { transform: [{ scale: 0.98 }] },
-            Platform.select({
-              android: { elevation: 3 },
-            }),
-          ]}
+      {/* Fixed Action Buttons */}
+      <LinearGradient
+        colors={['#f8faf9', '#f5f8f6']}
+        style={styles.actionContainer}
+      >
+        <TouchableOpacity
+          style={styles.primaryAction}
+          onPress={() => handleResponse('try_it')}
+          activeOpacity={0.8}
         >
-          {/* Button icon + label */}
-          <Feather name="check-circle" size={26} color="#fff" />
-          <Text style={styles.primaryActionText}>I’ll Try It!</Text>
-
-          {/* Optional shimmer overlay */}
-          <Animated.View
-            pointerEvents="none"
-            style={[
-              styles.shimmerOverlay,
-              {
-                transform: shimmerTranslate,
-              },
-            ]}
+          <Ionicons name="checkmark-circle" size={26} color="#FFF" />
+          <Text style={styles.primaryActionText}>I'll Try It!</Text>
+        </TouchableOpacity>
+        
+        <View style={styles.secondaryActions}>
+          <TouchableOpacity
+            style={[styles.secondaryAction, styles.maybeButton]}
+            onPress={() => handleResponse('maybe_later')}
+            activeOpacity={0.8}
           >
-            <LinearGradient
-              colors={['transparent', 'rgba(255,255,255,0.25)', 'transparent']}
-              start={{ x: 0, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-              style={StyleSheet.absoluteFill}
-            />
-          </Animated.View>
-        </Pressable>
-
-        <View style={styles.secondaryRow}>
-          <Pressable
-            onPress={() => handleAction('maybe_later')}
-            style={({ pressed }) => [
-              styles.secondaryAction,
-              styles.maybeButton,
-              pressed && { transform: [{ scale: 0.98 }] },
-              Platform.select({ android: { elevation: 1 } }),
-            ]}
+            <Ionicons name="bookmark-outline" size={18} color="#FF9800" />
+            <Text style={styles.maybeButtonText}>Maybe Later</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={[styles.secondaryAction, styles.skipButton]}
+            onPress={handleNotForMe}
+            activeOpacity={0.8}
           >
-            <MaterialCommunityIcons name="bookmark" size={18} color="#ff9800" />
-            <Text style={styles.secondaryTextMaybe}>Maybe Later</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => handleAction('not_for_me')}
-            style={({ pressed }) => [
-              styles.secondaryAction,
-              styles.skipButton,
-              pressed && { transform: [{ scale: 0.98 }] },
-              Platform.select({ android: { elevation: 1 } }),
-            ]}
-          >
-            <Feather name="x" size={18} color="#757575" />
-            <Text style={styles.secondaryTextSkip}>Not for Me</Text>
-          </Pressable>
+            <Ionicons name="close-circle-outline" size={18} color="#757575" />
+            <Text style={styles.skipButtonText}>Not for Me</Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      </LinearGradient>
     </View>
   );
-};
-
-/* ---------- Small subcomponents ---------- */
-
-const Step: React.FC<{ label: string; active: boolean }> = ({ label, active }) => {
-  return (
-    <View style={styles.step}>
-      <View style={[styles.stepDot, active && styles.stepDotActive]} />
-      <Text style={[styles.stepLabel, active && styles.stepLabelActive]}>{label}</Text>
-    </View>
-  );
-};
-
-const ReasonChip: React.FC<{ text: string }> = ({ text }) => {
-  return (
-    <View style={styles.reasonChip}>
-      <Ionicons name="star" size={12} color="#4CAF50" style={{ marginRight: 4 }} />
-      <Text style={styles.reasonText}>{text}</Text>
-    </View>
-  );
-};
-
-const InfoItem: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({
-  icon,
-  label,
-  value,
-}) => {
-  return (
-    <View style={styles.infoItem}>
-      <View style={{ marginBottom: 4 }}>{icon}</View>
-      <Text style={styles.infoLabel}>{label}</Text>
-      <Text style={styles.infoValue}>{value}</Text>
-    </View>
-  );
-};
-
-/* ---------- Styles ---------- */
+}
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
     flex: 1,
     backgroundColor: '#f8faf9',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
   },
-
-  /* Header */
   header: {
-    width: '100%',
     paddingTop: 20,
     paddingHorizontal: 20,
+    backgroundColor: '#f8faf9',
   },
   headerLabel: {
     fontSize: 12,
@@ -1692,112 +1622,89 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 8,
   },
-
-  /* Progress */
   progressContainer: {
-    width: '100%',
     paddingHorizontal: 20,
     paddingBottom: 20,
+    backgroundColor: '#f8faf9',
   },
-  progressRow: {
+  progressSteps: {
     flexDirection: 'row',
-    gap: 12,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    gap: 12,
   },
   step: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 4,
   },
-  stepDot: {
-    width: 8,
+  dot: {
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#e0e0e0',
-  },
-  stepDotActive: {
-    width: 28,
-    borderRadius: 4,
     backgroundColor: '#4CAF50',
+    minWidth: 8,
   },
   stepLabel: {
     fontSize: 11,
-    color: '#757575',
-    fontWeight: '500',
-    opacity: 0.6,
-  },
-  stepLabelActive: {
     color: '#4CAF50',
-    opacity: 1,
+    fontWeight: '500',
+    marginLeft: 4,
   },
-
-  /* Card Container */
   cardContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
+    flex: 1,
+    marginHorizontal: 20,
     marginBottom: 12,
+    maxHeight: 380,
   },
   cardWrapper: {
+    flex: 1,
     position: 'relative',
-    width: '100%',
-    // critical for Option B: allow overhang
-    overflow: 'visible',
   },
   cardMask: {
-    width: '100%',
-    backgroundColor: 'white',
+    flex: 1,
     borderRadius: 20,
-    overflow: 'hidden', // clip slider contents
-    // iOS shadow
+    overflow: 'hidden',
+    backgroundColor: 'white',
     shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
-    // Android shadow
-    elevation: 3,
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 5,
+  },
+  pageContainer: {
+    paddingHorizontal: 20,
   },
   card: {
-    height: '100%',
-    backgroundColor: 'white',
-    padding: 20,
+    flex: 1,
   },
-
-  // Nav arrows (siblings of mask)
+  cardContent: {
+    padding: 20,
+    paddingBottom: 40,
+  },
   navArrow: {
     position: 'absolute',
+    top: '50%',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: 'white',
-    borderRadius: 999,
-    alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 10,
-    // iOS shadow
-    shadowColor: '#000',
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    // Android
-    elevation: 4,
-  },
-
-  // Swipe hint
-  swipeHint: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    alignSelf: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    elevation: 5,
+    zIndex: 10,
   },
-  swipeHintText: {
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    color: '#fff',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    fontSize: 12,
+  navArrowLeft: {
+    left: -12,
+    transform: [{ translateY: -22 }],
   },
-
-  // Card content pieces
+  navArrowRight: {
+    right: -12,
+    transform: [{ translateY: -22 }],
+  },
   badges: {
     flexDirection: 'row',
     gap: 8,
@@ -1806,16 +1713,22 @@ const styles = StyleSheet.create({
   badge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
+    gap: 4,
   },
-  badgeTime: { backgroundColor: '#f5f5f5' },
-  badgeDiff: { backgroundColor: '#e8f5e9' },
-  badgeTextTime: { fontSize: 11, color: '#666', fontWeight: '600' },
-  badgeTextDiff: { fontSize: 11, color: '#2e7d32', fontWeight: '700' },
-
+  timeBadge: {
+    backgroundColor: '#F5F5F5',
+  },
+  difficultyBadge: {
+    backgroundColor: '#E8F5E9',
+  },
+  badgeText: {
+    fontSize: 11,
+    color: '#666',
+    fontWeight: '600',
+  },
   summaryTitle: {
     fontSize: 22,
     fontWeight: '700',
@@ -1823,182 +1736,167 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     marginBottom: 16,
   },
-
-  reasonsRow: {
+  reasonsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    marginBottom: 20,
   },
   reasonChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    backgroundColor: '#e8f5e9',
+    backgroundColor: '#E8F5E9',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
+    gap: 4,
   },
-  reasonText: { fontSize: 11, color: '#2e7d32', fontWeight: '500' },
-
-  detailsContent: {
-    marginBottom: 24,
+  reasonText: {
+    fontSize: 11,
+    color: '#2E7D32',
+    fontWeight: '500',
   },
-  paragraph: {
-    fontSize: 15,
-    color: '#424242',
-    lineHeight: 24,
-    marginBottom: 16,
-  },
-  bold: { fontWeight: '700', color: '#212121' },
-
-  infoGrid: {
-    flexDirection: 'row',
-    columnGap: 16,
-    justifyContent: 'space-between',
-    backgroundColor: '#fafafa',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 24,
-  },
-  infoItem: { alignItems: 'center', flex: 1 },
-  infoLabel: { fontSize: 11, color: '#757575', marginBottom: 2 },
-  infoValue: { fontSize: 12, color: '#424242', fontWeight: '700' },
-
   sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
     color: '#212121',
     marginBottom: 20,
   },
-  subhead: {
+  detailsText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 24,
+    marginBottom: 24,
+  },
+  infoGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 16,
+    backgroundColor: '#FAFAFA',
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+  infoItem: {
+    alignItems: 'center',
+  },
+  infoLabel: {
+    fontSize: 11,
+    color: '#757575',
+    marginTop: 4,
+  },
+  infoValue: {
+    fontSize: 12,
+    color: '#424242',
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  benefitsSection: {
+    marginBottom: 24,
+  },
+  benefitsSectionTitle: {
     fontSize: 14,
     fontWeight: '600',
     color: '#757575',
     marginBottom: 12,
   },
-  benefitBoxNow: {
-    backgroundColor: '#e8f5e9',
+  benefitsBox: {
+    backgroundColor: '#E8F5E9',
     padding: 16,
     borderRadius: 12,
   },
-  benefitNow: {
+  longTermBox: {
+    backgroundColor: '#FFF3E0',
+  },
+  benefitItem: {
     fontSize: 14,
-    color: '#2e7d32',
+    color: '#2E7D32',
     lineHeight: 20,
     marginBottom: 8,
   },
-  benefitBoxLong: {
-    backgroundColor: '#fff3e0',
-    padding: 16,
-    borderRadius: 12,
+  longTermItem: {
+    color: '#E65100',
   },
-  benefitLong: {
-    fontSize: 14,
-    color: '#e65100',
-    lineHeight: 20,
+  goalsSection: {
+    marginTop: 16,
+  },
+  goalsSectionTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#757575',
     marginBottom: 8,
   },
-  proTipBox: {
-    backgroundColor: '#f3e5f5',
-    padding: 16,
-    borderRadius: 12,
+  goalsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
   },
-  proTip: {
-    fontSize: 13,
-    color: '#6a1b9a',
-    lineHeight: 20,
-    textAlign: 'center',
+  goalChip: {
+    backgroundColor: '#FFF3E0',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
   },
-
-  cardBottomFade: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 30,
+  goalChipText: {
+    fontSize: 11,
+    color: '#E65100',
+    fontWeight: '500',
   },
-
-  /* Action Bar */
   actionContainer: {
-    width: '100%',
+    paddingTop: 28,
     paddingHorizontal: 20,
-    paddingTop: 24,
-    paddingBottom: 24,
-    // Gradient-like background — replace with LinearGradient container if you prefer:
-    // You can wrap this whole View with <LinearGradient colors={['#f8faf9', '#f5f8f6']} ... />
-    backgroundColor: '#f8faf9',
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'rgba(0,0,0,0.05)',
-    // subtle top shadow
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOpacity: 0.04,
-        shadowRadius: 8,
-        shadowOffset: { width: 0, height: -4 },
-      },
-      android: {
-        elevation: 2,
-      },
+    paddingBottom: Platform.select({
+      ios: 32,
+      android: 24,
     }),
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.05)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.04,
+    shadowRadius: 16,
+    elevation: 10,
   },
-
   primaryAction: {
-    width: '100%',
-    paddingVertical: 18,
-    backgroundColor: '#4CAF50',
-    borderRadius: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 18,
+    backgroundColor: '#4CAF50',
+    borderRadius: 14,
     gap: 8,
     marginBottom: 14,
-    overflow: 'hidden',
-    position: 'relative',
   },
   primaryActionText: {
-    color: '#fff',
     fontSize: 17,
     fontWeight: '700',
-    marginLeft: 8,
+    color: '#FFF',
   },
-  shimmerOverlay: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    width: '60%',
-  },
-
-  secondaryRow: {
+  secondaryActions: {
     flexDirection: 'row',
     gap: 12,
   },
   secondaryAction: {
     flex: 1,
-    paddingVertical: 14,
-    borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 12,
     gap: 6,
   },
   maybeButton: {
-    backgroundColor: '#fff3e0',
+    backgroundColor: '#FFF3E0',
+  },
+  maybeButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FF9800',
   },
   skipButton: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F5F5F5',
   },
-  secondaryTextMaybe: {
-    color: '#ff9800',
+  skipButtonText: {
     fontSize: 14,
     fontWeight: '600',
-  },
-  secondaryTextSkip: {
     color: '#757575',
-    fontSize: 14,
-    fontWeight: '600',
   },
 });
-
-export default DailyTip;
