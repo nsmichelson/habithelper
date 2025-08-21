@@ -31,13 +31,47 @@ interface Props {
   onResponse: (response: 'try_it' | 'maybe_later') => void;
   onNotForMe: () => void;
   reasons?: string[];
+  userGoals?: string[];
 }
 
-export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [] }: Props) {
+export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [] }: Props) {
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
   const insets = useSafeAreaInsets();
+  
+  // Parse details_md to extract sections
+  const parseDetailsContent = () => {
+    const content = tip.details_md || '';
+    const sections: { experiment?: string; whyItWorks?: string; howToTry?: string } = {};
+    
+    // Extract "The Experiment" section
+    const experimentMatch = content.match(/\*\*The Experiment:\*\*(.+?)(?=\*\*Why it Works:|\*\*How to|$)/s);
+    if (experimentMatch) {
+      sections.experiment = experimentMatch[1].trim();
+    }
+    
+    // Extract "Why it Works" section
+    const whyMatch = content.match(/\*\*Why it Works:\*\*(.+?)(?=\*\*How to|$)/s);
+    if (whyMatch) {
+      sections.whyItWorks = whyMatch[1].trim();
+    }
+    
+    // Extract "How to Try It" section
+    const howMatch = content.match(/\*\*How to Try It:\*\*(.+?)$/s);
+    if (howMatch) {
+      sections.howToTry = howMatch[1].trim();
+    }
+    
+    return sections;
+  };
+  
+  const detailsSections = parseDetailsContent();
+  
+  // Get relevant user goals that this tip meets
+  const relevantGoals = userGoals.filter(userGoal => 
+    tip.goal_tags.includes(userGoal)
+  );
 
   const handleResponse = (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -110,6 +144,57 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     </View>
   );
 
+  const renderGoalsCard = () => (
+    <View style={styles.pageContainer}>
+      <LinearGradient
+        colors={['#FFFFFF', '#FAFAFA']}
+        style={styles.cardGradient}
+      >
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          <Text style={styles.sectionTitle}>Goals This Meets</Text>
+          
+          {relevantGoals.length > 0 ? (
+            <View style={styles.goalsMatchSection}>
+              <Text style={styles.goalsMatchTitle}>YOUR GOALS:</Text>
+              <View style={styles.goalsMatchGrid}>
+                {relevantGoals.map(goal => (
+                  <View key={goal} style={styles.userGoalChip}>
+                    <Ionicons name="checkmark-circle" size={16} color="#4CAF50" />
+                    <Text style={styles.userGoalText}>
+                      {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          ) : null}
+          
+          <View style={styles.allGoalsSection}>
+            <Text style={styles.allGoalsTitle}>THIS TIP HELPS WITH:</Text>
+            <View style={styles.goalsGrid}>
+              {tip.goal_tags.map(goal => {
+                const isUserGoal = relevantGoals.includes(goal);
+                return (
+                  <View 
+                    key={goal} 
+                    style={[styles.goalChip, isUserGoal && styles.goalChipHighlight]}
+                  >
+                    <Text style={[styles.goalChipText, isUserGoal && styles.goalChipTextHighlight]}>
+                      {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        </ScrollView>
+      </LinearGradient>
+    </View>
+  );
+  
   const renderHowToCard = () => (
     <View style={styles.pageContainer}>
       <LinearGradient
@@ -122,7 +207,28 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         >
           <Text style={styles.sectionTitle}>How To Do It</Text>
           
-          <Text style={styles.detailsText}>{tip.details_md}</Text>
+          {detailsSections.howToTry ? (
+            <View style={styles.howToContent}>
+              {detailsSections.howToTry.split('\n').map((line, index) => {
+                const isBullet = line.trim().startsWith('•');
+                if (isBullet) {
+                  return (
+                    <View key={index} style={styles.bulletPoint}>
+                      <Text style={styles.bulletIcon}>•</Text>
+                      <Text style={styles.bulletText}>{line.replace('•', '').trim()}</Text>
+                    </View>
+                  );
+                }
+                return line.trim() ? (
+                  <Text key={index} style={styles.detailsText}>{line}</Text>
+                ) : null;
+              })}
+            </View>
+          ) : (
+            <Text style={styles.detailsText}>
+              {detailsSections.experiment || tip.details_md}
+            </Text>
+          )}
           
           <View style={styles.infoGrid}>
             <View style={styles.infoItem}>
@@ -164,21 +270,24 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         >
           <Text style={styles.sectionTitle}>Why This Works</Text>
           
-          <View style={styles.benefitsSection}>
-            <Text style={styles.benefitsSectionTitle}>IMMEDIATE BENEFITS</Text>
-            <View style={styles.benefitsBox}>
-              <Text style={styles.benefitItem}>✓ Increases blood flow and oxygen to muscles</Text>
-              <Text style={styles.benefitItem}>✓ Releases endorphins for natural energy boost</Text>
-              <Text style={styles.benefitItem}>✓ Improves mental clarity and focus</Text>
+          {detailsSections.whyItWorks ? (
+            <View style={styles.whyItWorksSection}>
+              <Text style={styles.whyItWorksText}>
+                {detailsSections.whyItWorks}
+              </Text>
             </View>
-          </View>
-
+          ) : null}
+          
           <View style={styles.benefitsSection}>
-            <Text style={styles.benefitsSectionTitle}>LONG-TERM IMPACT</Text>
-            <View style={[styles.benefitsBox, styles.longTermBox]}>
-              <Text style={[styles.benefitItem, styles.longTermItem]}>• Better posture throughout the day</Text>
-              <Text style={[styles.benefitItem, styles.longTermItem]}>• Reduced risk of injury</Text>
-              <Text style={[styles.benefitItem, styles.longTermItem]}>• Improved flexibility and range of motion</Text>
+            <Text style={styles.benefitsSectionTitle}>TIP TYPE</Text>
+            <View style={styles.tipTypeGrid}>
+              {(tip.tip_type || []).map(type => (
+                <View key={type} style={styles.tipTypeBadge}>
+                  <Text style={styles.tipTypeText}>
+                    {type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  </Text>
+                </View>
+              ))}
             </View>
           </View>
 
@@ -203,8 +312,9 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
 
   const pages = [
     { key: 'summary', render: renderSummaryCard },
-    { key: 'howto', render: renderHowToCard },
+    { key: 'goals', render: renderGoalsCard },
     { key: 'benefits', render: renderBenefitsCard },
+    { key: 'howto', render: renderHowToCard },
   ];
 
   const DotIndicator = ({ index }: { index: number }) => {
@@ -244,7 +354,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       return { opacity };
     });
 
-    const labels = ['Summary', 'How To', 'Benefits'];
+    const labels = ['Summary', 'Goals', 'Why It Works', 'How To'];
 
     return (
       <View style={styles.step}>
@@ -603,6 +713,102 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#E65100',
     fontWeight: '500',
+  },
+  goalsMatchSection: {
+    marginBottom: 24,
+  },
+  goalsMatchTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#4CAF50',
+    marginBottom: 12,
+    letterSpacing: 0.5,
+  },
+  goalsMatchGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  userGoalChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    gap: 6,
+    borderWidth: 1,
+    borderColor: '#4CAF50',
+  },
+  userGoalText: {
+    fontSize: 13,
+    color: '#2E7D32',
+    fontWeight: '600',
+  },
+  allGoalsSection: {
+    marginTop: 8,
+  },
+  allGoalsTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#757575',
+    marginBottom: 8,
+  },
+  goalChipHighlight: {
+    backgroundColor: '#C8E6C9',
+    borderWidth: 1,
+    borderColor: '#4CAF50',
+  },
+  goalChipTextHighlight: {
+    color: '#2E7D32',
+    fontWeight: '600',
+  },
+  whyItWorksSection: {
+    backgroundColor: '#F0F7FF',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 20,
+  },
+  whyItWorksText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 24,
+  },
+  tipTypeGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  tipTypeBadge: {
+    backgroundColor: '#E3F2FD',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  tipTypeText: {
+    fontSize: 11,
+    color: '#1976D2',
+    fontWeight: '500',
+  },
+  howToContent: {
+    marginBottom: 24,
+  },
+  bulletPoint: {
+    flexDirection: 'row',
+    marginBottom: 12,
+    paddingLeft: 8,
+  },
+  bulletIcon: {
+    fontSize: 16,
+    color: '#4CAF50',
+    marginRight: 10,
+    fontWeight: '700',
+  },
+  bulletText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 22,
+    flex: 1,
   },
   actionContainer: {
     paddingTop: 16,
