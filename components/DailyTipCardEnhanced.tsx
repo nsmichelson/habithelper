@@ -378,7 +378,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             {!savedScaleNames ? (
               <>
                 <Text style={styles.personalizationPrompt}>
-                  {tip.personalization_prompt || "Let's personalize your hunger scale! What does each level feel like to you?"}
+                  {tip.personalization_prompt || "Give your hunger levels fun, memorable names! What would you call each level?"}
                 </Text>
                 
                 <View style={styles.scaleInputContainer}>
@@ -387,17 +387,16 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                       <View style={styles.scaleNumber}>
                         <Text style={styles.scaleNumberText}>1</Text>
                       </View>
-                      <Text style={styles.scaleLevelLabel}>Starving</Text>
+                      <TextInput
+                        style={styles.scaleNameInput}
+                        placeholder="e.g., Lion"
+                        value={scaleNames.level1}
+                        onChangeText={(text) => setScaleNames({ ...scaleNames, level1: text })}
+                        placeholderTextColor="#999"
+                        maxLength={20}
+                      />
                     </View>
-                    <TextInput
-                      style={styles.scaleInput}
-                      placeholder="e.g., Stomach growling loudly"
-                      value={scaleNames.level1}
-                      onChangeText={(text) => setScaleNames({ ...scaleNames, level1: text })}
-                      multiline
-                      numberOfLines={2}
-                      placeholderTextColor="#999"
-                    />
+                    <Text style={styles.scaleDescriptor}>Extremely hungry - stomach growling</Text>
                   </View>
                   
                   <View style={styles.scaleLevel}>
@@ -405,17 +404,16 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                       <View style={[styles.scaleNumber, styles.scaleNumberMid]}>
                         <Text style={styles.scaleNumberText}>5</Text>
                       </View>
-                      <Text style={styles.scaleLevelLabel}>Satisfied</Text>
+                      <TextInput
+                        style={styles.scaleNameInput}
+                        placeholder="e.g., Kitty"
+                        value={scaleNames.level5}
+                        onChangeText={(text) => setScaleNames({ ...scaleNames, level5: text })}
+                        placeholderTextColor="#999"
+                        maxLength={20}
+                      />
                     </View>
-                    <TextInput
-                      style={styles.scaleInput}
-                      placeholder="e.g., Content and comfortable"
-                      value={scaleNames.level5}
-                      onChangeText={(text) => setScaleNames({ ...scaleNames, level5: text })}
-                      multiline
-                      numberOfLines={2}
-                      placeholderTextColor="#999"
-                    />
+                    <Text style={styles.scaleDescriptor}>Satisfied - comfortable and content</Text>
                   </View>
                   
                   <View style={styles.scaleLevel}>
@@ -423,17 +421,16 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                       <View style={[styles.scaleNumber, styles.scaleNumberFull]}>
                         <Text style={styles.scaleNumberText}>10</Text>
                       </View>
-                      <Text style={styles.scaleLevelLabel}>Stuffed</Text>
+                      <TextInput
+                        style={styles.scaleNameInput}
+                        placeholder="e.g., Sloth"
+                        value={scaleNames.level10}
+                        onChangeText={(text) => setScaleNames({ ...scaleNames, level10: text })}
+                        placeholderTextColor="#999"
+                        maxLength={20}
+                      />
                     </View>
-                    <TextInput
-                      style={styles.scaleInput}
-                      placeholder="e.g., Uncomfortably full"
-                      value={scaleNames.level10}
-                      onChangeText={(text) => setScaleNames({ ...scaleNames, level10: text })}
-                      multiline
-                      numberOfLines={2}
-                      placeholderTextColor="#999"
-                    />
+                    <Text style={styles.scaleDescriptor}>Overly full - uncomfortably stuffed</Text>
                   </View>
                 </View>
                 
@@ -459,29 +456,38 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                 
                 <View style={styles.savedScaleItems}>
                   {savedScaleNames.level1 && (
-                    <View style={styles.savedScaleItem}>
-                      <View style={[styles.savedScaleNumber, styles.scaleNumber]}>
-                        <Text style={styles.savedScaleNumberText}>1</Text>
+                    <View style={styles.savedScaleItemWrapper}>
+                      <View style={styles.savedScaleItem}>
+                        <View style={[styles.savedScaleNumber, styles.scaleNumber]}>
+                          <Text style={styles.savedScaleNumberText}>1</Text>
+                        </View>
+                        <Text style={styles.savedScaleName}>{savedScaleNames.level1}</Text>
                       </View>
-                      <Text style={styles.savedScaleText}>{savedScaleNames.level1}</Text>
+                      <Text style={styles.savedScaleDesc}>Extremely hungry</Text>
                     </View>
                   )}
                   
                   {savedScaleNames.level5 && (
-                    <View style={styles.savedScaleItem}>
-                      <View style={[styles.savedScaleNumber, styles.scaleNumberMid]}>
-                        <Text style={styles.savedScaleNumberText}>5</Text>
+                    <View style={styles.savedScaleItemWrapper}>
+                      <View style={styles.savedScaleItem}>
+                        <View style={[styles.savedScaleNumber, styles.scaleNumberMid]}>
+                          <Text style={styles.savedScaleNumberText}>5</Text>
+                        </View>
+                        <Text style={styles.savedScaleName}>{savedScaleNames.level5}</Text>
                       </View>
-                      <Text style={styles.savedScaleText}>{savedScaleNames.level5}</Text>
+                      <Text style={styles.savedScaleDesc}>Satisfied</Text>
                     </View>
                   )}
                   
                   {savedScaleNames.level10 && (
-                    <View style={styles.savedScaleItem}>
-                      <View style={[styles.savedScaleNumber, styles.scaleNumberFull]}>
-                        <Text style={styles.savedScaleNumberText}>10</Text>
+                    <View style={styles.savedScaleItemWrapper}>
+                      <View style={styles.savedScaleItem}>
+                        <View style={[styles.savedScaleNumber, styles.scaleNumberFull]}>
+                          <Text style={styles.savedScaleNumberText}>10</Text>
+                        </View>
+                        <Text style={styles.savedScaleName}>{savedScaleNames.level10}</Text>
                       </View>
-                      <Text style={styles.savedScaleText}>{savedScaleNames.level10}</Text>
+                      <Text style={styles.savedScaleDesc}>Overly full</Text>
                     </View>
                   )}
                 </View>
@@ -1034,8 +1040,8 @@ const styles = StyleSheet.create({
   scaleLevelHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
-    gap: 10,
+    marginBottom: 6,
+    gap: 12,
   },
   scaleNumber: {
     width: 32,
@@ -1072,6 +1078,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E0E0E0',
   },
+  scaleNameInput: {
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#424242',
+    borderWidth: 2,
+    borderColor: '#E8E8E8',
+    flex: 1,
+  },
+  scaleDescriptor: {
+    fontSize: 13,
+    color: '#757575',
+    marginLeft: 44,
+    fontStyle: 'italic',
+  },
   saveButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1106,13 +1130,22 @@ const styles = StyleSheet.create({
   savedScaleItems: {
     gap: 16,
   },
+  savedScaleItemWrapper: {
+    backgroundColor: 'white',
+    padding: 12,
+    borderRadius: 10,
+  },
   savedScaleItem: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 10,
+  },
+  savedScaleDesc: {
+    fontSize: 12,
+    color: '#757575',
+    fontStyle: 'italic',
+    marginLeft: 40,
+    marginTop: 4,
   },
   savedScaleNumber: {
     width: 28,
@@ -1131,6 +1164,12 @@ const styles = StyleSheet.create({
     color: '#424242',
     flex: 1,
     fontWeight: '500',
+  },
+  savedScaleName: {
+    fontSize: 20,
+    color: '#212121',
+    fontWeight: '700',
+    flex: 1,
   },
   editButton: {
     flexDirection: 'row',
