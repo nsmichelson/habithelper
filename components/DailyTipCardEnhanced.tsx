@@ -1260,12 +1260,11 @@ import {
 import Animated, {
   Extrapolate,
   interpolate,
-  runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useSharedValue,
-  withSpring,
+  useSharedValue
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tip } from '../types/tip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -1280,25 +1279,17 @@ interface Props {
 export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [] }: Props) {
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
-  const cardScale = useSharedValue(1);
   const flatListRef = useRef<FlatList>(null);
+  const insets = useSafeAreaInsets();
 
   const handleResponse = (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    
-    cardScale.value = withSpring(0.95, {}, () => {
-      cardScale.value = withSpring(1);
-      runOnJS(onResponse)(response);
-    });
+    onResponse(response);
   };
   
   const handleNotForMe = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    
-    cardScale.value = withSpring(0.95, {}, () => {
-      cardScale.value = withSpring(1);
-      runOnJS(onNotForMe)();
-    });
+    onNotForMe();
   };
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -1314,10 +1305,6 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
     }
   };
-
-  const cardAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: cardScale.value }],
-  }));
 
   const getDifficultyLabel = (tier: number) => {
     const labels = ['Very Easy', 'Easy', 'Moderate', 'Challenging', 'Very Challenging'];
@@ -1335,11 +1322,10 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   };
 
   const renderSummaryCard = () => (
-    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
-      <ScrollView 
-        style={styles.card}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.cardContent}
+    <View style={styles.pageContainer}>
+      <LinearGradient
+        colors={['#FFFFFF', '#FAFAFA']}
+        style={styles.cardGradient}
       >
         <View style={styles.badges}>
           <View style={[styles.badge, styles.timeBadge]}>
@@ -1347,7 +1333,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             <Text style={styles.badgeText}>{getTimeLabel(tip.time_cost_enum)}</Text>
           </View>
           <View style={[styles.badge, styles.difficultyBadge]}>
-            <Text style={styles.badgeText}>{getDifficultyLabel(tip.difficulty_tier)}</Text>
+            <Text style={[styles.badgeText, { color: '#2E7D32' }]}>{getDifficultyLabel(tip.difficulty_tier)}</Text>
           </View>
         </View>
         
@@ -1363,90 +1349,98 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             ))}
           </View>
         )}
-      </ScrollView>
+      </LinearGradient>
     </View>
   );
 
   const renderHowToCard = () => (
-    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
-      <ScrollView 
-        style={styles.card}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.cardContent}
+    <View style={styles.pageContainer}>
+      <LinearGradient
+        colors={['#FFFFFF', '#FAFAFA']}
+        style={styles.cardGradient}
       >
-        <Text style={styles.sectionTitle}>How To Do It</Text>
-        
-        <Text style={styles.detailsText}>{tip.details_md}</Text>
-        
-        <View style={styles.infoGrid}>
-          <View style={styles.infoItem}>
-            <Ionicons name="sunny-outline" size={20} color="#666" />
-            <Text style={styles.infoLabel}>Best Time</Text>
-            <Text style={styles.infoValue}>
-              {(tip.time_of_day ?? []).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ') || 'Any time'}
-            </Text>
-          </View>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          <Text style={styles.sectionTitle}>How To Do It</Text>
           
-          <View style={styles.infoItem}>
-            <Ionicons name="cash-outline" size={20} color="#666" />
-            <Text style={styles.infoLabel}>Cost</Text>
-            <Text style={styles.infoValue}>{tip.money_cost_enum ?? 'Free'}</Text>
-          </View>
+          <Text style={styles.detailsText}>{tip.details_md}</Text>
           
-          <View style={styles.infoItem}>
-            <Ionicons name="location-outline" size={20} color="#666" />
-            <Text style={styles.infoLabel}>Where</Text>
-            <Text style={styles.infoValue}>
-              {(tip.location_tags ?? []).map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(', ') || 'Anywhere'}
-            </Text>
+          <View style={styles.infoGrid}>
+            <View style={styles.infoItem}>
+              <Ionicons name="sunny-outline" size={20} color="#666" />
+              <Text style={styles.infoLabel}>Best Time</Text>
+              <Text style={styles.infoValue}>
+                {(tip.time_of_day ?? []).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ') || 'Any time'}
+              </Text>
+            </View>
+            
+            <View style={styles.infoItem}>
+              <Ionicons name="cash-outline" size={20} color="#666" />
+              <Text style={styles.infoLabel}>Cost</Text>
+              <Text style={styles.infoValue}>{tip.money_cost_enum ?? 'Free'}</Text>
+            </View>
+            
+            <View style={styles.infoItem}>
+              <Ionicons name="location-outline" size={20} color="#666" />
+              <Text style={styles.infoLabel}>Where</Text>
+              <Text style={styles.infoValue}>
+                {(tip.location_tags ?? []).map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(', ') || 'Anywhere'}
+              </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </LinearGradient>
     </View>
   );
 
   const renderBenefitsCard = () => (
-    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
-      <ScrollView 
-        style={styles.card}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.cardContent}
+    <View style={styles.pageContainer}>
+      <LinearGradient
+        colors={['#FFFFFF', '#FAFAFA']}
+        style={styles.cardGradient}
       >
-        <Text style={styles.sectionTitle}>Why This Works</Text>
-        
-        <View style={styles.benefitsSection}>
-          <Text style={styles.benefitsSectionTitle}>IMMEDIATE BENEFITS</Text>
-          <View style={styles.benefitsBox}>
-            <Text style={styles.benefitItem}>✓ Increases blood flow and oxygen to muscles</Text>
-            <Text style={styles.benefitItem}>✓ Releases endorphins for natural energy boost</Text>
-            <Text style={styles.benefitItem}>✓ Improves mental clarity and focus</Text>
-          </View>
-        </View>
-
-        <View style={styles.benefitsSection}>
-          <Text style={styles.benefitsSectionTitle}>LONG-TERM IMPACT</Text>
-          <View style={[styles.benefitsBox, styles.longTermBox]}>
-            <Text style={[styles.benefitItem, styles.longTermItem]}>• Better posture throughout the day</Text>
-            <Text style={[styles.benefitItem, styles.longTermItem]}>• Reduced risk of injury</Text>
-            <Text style={[styles.benefitItem, styles.longTermItem]}>• Improved flexibility and range of motion</Text>
-          </View>
-        </View>
-
-        {(tip.goal_tags ?? []).length > 0 && (
-          <View style={styles.goalsSection}>
-            <Text style={styles.goalsSectionTitle}>This helps with:</Text>
-            <View style={styles.goalsGrid}>
-              {tip.goal_tags.map(goal => (
-                <View key={goal} style={styles.goalChip}>
-                  <Text style={styles.goalChipText}>
-                    {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                  </Text>
-                </View>
-              ))}
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          <Text style={styles.sectionTitle}>Why This Works</Text>
+          
+          <View style={styles.benefitsSection}>
+            <Text style={styles.benefitsSectionTitle}>IMMEDIATE BENEFITS</Text>
+            <View style={styles.benefitsBox}>
+              <Text style={styles.benefitItem}>✓ Increases blood flow and oxygen to muscles</Text>
+              <Text style={styles.benefitItem}>✓ Releases endorphins for natural energy boost</Text>
+              <Text style={styles.benefitItem}>✓ Improves mental clarity and focus</Text>
             </View>
           </View>
-        )}
-      </ScrollView>
+
+          <View style={styles.benefitsSection}>
+            <Text style={styles.benefitsSectionTitle}>LONG-TERM IMPACT</Text>
+            <View style={[styles.benefitsBox, styles.longTermBox]}>
+              <Text style={[styles.benefitItem, styles.longTermItem]}>• Better posture throughout the day</Text>
+              <Text style={[styles.benefitItem, styles.longTermItem]}>• Reduced risk of injury</Text>
+              <Text style={[styles.benefitItem, styles.longTermItem]}>• Improved flexibility and range of motion</Text>
+            </View>
+          </View>
+
+          {(tip.goal_tags ?? []).length > 0 && (
+            <View style={styles.goalsSection}>
+              <Text style={styles.goalsSectionTitle}>This helps with:</Text>
+              <View style={styles.goalsGrid}>
+                {tip.goal_tags.map(goal => (
+                  <View key={goal} style={styles.goalChip}>
+                    <Text style={styles.goalChipText}>
+                      {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+        </ScrollView>
+      </LinearGradient>
     </View>
   );
 
@@ -1521,8 +1515,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
 
       {/* Card Container */}
       <View style={styles.cardContainer}>
-        <Animated.View style={[styles.cardWrapper, cardAnimatedStyle]}>
-          {/* Card Mask */}
+        <View style={styles.cardWrapper}>
+          {/* Card Content */}
           <View style={styles.cardMask}>
             <Animated.FlatList
               ref={flatListRef}
@@ -1534,8 +1528,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
               onScroll={scrollHandler}
               scrollEventThrottle={16}
               keyExtractor={(item) => item.key}
-              snapToInterval={SCREEN_WIDTH}
               decelerationRate="fast"
+              bounces={false}
               onMomentumScrollEnd={(event) => {
                 const newPage = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
                 setCurrentPage(newPage);
@@ -1563,13 +1557,13 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
               <Ionicons name="chevron-forward" size={22} color="#4CAF50" />
             </TouchableOpacity>
           )}
-        </Animated.View>
+        </View>
       </View>
 
       {/* Fixed Action Buttons */}
       <LinearGradient
         colors={['#f8faf9', '#f5f8f6']}
-        style={styles.actionContainer}
+        style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
       >
         <TouchableOpacity
           style={styles.primaryAction}
@@ -1653,8 +1647,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     marginHorizontal: 20,
-    marginBottom: 12,
-    maxHeight: 380,
+    marginBottom: 20,
   },
   cardWrapper: {
     flex: 1,
@@ -1664,22 +1657,30 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 20,
     overflow: 'hidden',
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 5,
+    backgroundColor: 'transparent',
   },
   pageContainer: {
-    paddingHorizontal: 20,
+    width: SCREEN_WIDTH - 40, // Account for margins
+    paddingHorizontal: 0,
   },
-  card: {
+  cardGradient: {
     flex: 1,
-  },
-  cardContent: {
+    borderRadius: 20,
     padding: 20,
-    paddingBottom: 40,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  scrollContent: {
+    paddingBottom: 20,
   },
   navArrow: {
     position: 'absolute',
@@ -1690,12 +1691,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.12,
-    shadowRadius: 10,
-    elevation: 5,
     zIndex: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.12,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
   navArrowLeft: {
     left: -12,
@@ -1843,17 +1850,20 @@ const styles = StyleSheet.create({
   actionContainer: {
     paddingTop: 28,
     paddingHorizontal: 20,
-    paddingBottom: Platform.select({
-      ios: 32,
-      android: 24,
-    }),
+    paddingBottom: 24,
     borderTopWidth: 1,
     borderTopColor: 'rgba(0, 0, 0, 0.05)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.04,
-    shadowRadius: 16,
-    elevation: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.04,
+        shadowRadius: 16,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
   },
   primaryAction: {
     flexDirection: 'row',
