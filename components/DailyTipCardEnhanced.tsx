@@ -1499,13 +1499,11 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+      {/* Fixed Header */}
+      <View style={styles.fixedHeader}>
         <Text style={styles.headerLabel}>TODAY'S WELLNESS TIP</Text>
-      </View>
-
-      {/* Progress Indicator */}
-      <View style={styles.progressContainer}>
+        
+        {/* Progress Indicator */}
         <View style={styles.progressSteps}>
           {pages.map((_, index) => (
             <DotIndicator key={index} index={index} />
@@ -1513,7 +1511,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         </View>
       </View>
 
-      {/* Card Container */}
+      {/* Scrollable Card Content Area */}
       <View style={styles.cardContainer}>
         <View style={styles.cardWrapper}>
           {/* Card Content */}
@@ -1603,10 +1601,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8faf9',
   },
-  header: {
+  fixedHeader: {
     paddingTop: 20,
     paddingHorizontal: 20,
+    paddingBottom: 20,
     backgroundColor: '#f8faf9',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.03)',
   },
   headerLabel: {
     fontSize: 12,
@@ -1614,12 +1615,7 @@ const styles = StyleSheet.create({
     color: '#4CAF50',
     letterSpacing: 1,
     textAlign: 'center',
-    marginBottom: 8,
-  },
-  progressContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    backgroundColor: '#f8faf9',
+    marginBottom: 16,
   },
   progressSteps: {
     flexDirection: 'row',
@@ -1647,7 +1643,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     marginHorizontal: 20,
-    marginBottom: 20,
+    marginVertical: 20,
   },
   cardWrapper: {
     flex: 1,
@@ -1661,6 +1657,7 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     width: SCREEN_WIDTH - 40, // Account for margins
+    height: '100%',
     paddingHorizontal: 0,
   },
   cardGradient: {
@@ -1680,7 +1677,7 @@ const styles = StyleSheet.create({
     }),
   },
   scrollContent: {
-    paddingBottom: 20,
+    flexGrow: 1,
   },
   navArrow: {
     position: 'absolute',
@@ -1848,7 +1845,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   actionContainer: {
-    paddingTop: 28,
+    paddingTop: 20,
     paddingHorizontal: 20,
     paddingBottom: 24,
     borderTopWidth: 1,
