@@ -38,9 +38,13 @@ interface Props {
   onNotForMe: () => void;
   reasons?: string[];
   userGoals?: string[];
+  rejectionInfo?: {
+    feedback: 'not_for_me';
+    reason?: string;
+  };
 }
 
-export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [] }: Props) {
+export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [], rejectionInfo }: Props) {
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
@@ -761,40 +765,65 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         </View>
       </View>
 
-      {/* Fixed Action Buttons */}
-      <LinearGradient
-        colors={['#f8faf9', '#f5f8f6']}
-        style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
-      >
-        <TouchableOpacity
-          style={styles.primaryAction}
-          onPress={() => handleResponse('try_it')}
-          activeOpacity={0.8}
+      {/* Fixed Action Buttons or Rejection Status */}
+      {rejectionInfo ? (
+        <LinearGradient
+          colors={['#fff5f5', '#fff8f8']}
+          style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
         >
-          <Ionicons name="checkmark-circle" size={26} color="#FFF" />
-          <Text style={styles.primaryActionText}>I'll Try It!</Text>
-        </TouchableOpacity>
-        
-        <View style={styles.secondaryActions}>
+          <View style={styles.rejectionHeader}>
+            <View style={styles.rejectionBadge}>
+              <Ionicons name="close-circle" size={20} color="#E53E3E" />
+              <Text style={styles.rejectionLabel}>Not For Me</Text>
+            </View>
+          </View>
+          {rejectionInfo.reason && (
+            <View style={styles.rejectionReasons}>
+              <Text style={styles.rejectionReasonTitle}>Why it didn't work:</Text>
+              {rejectionInfo.reason.split(':').map((reason, index) => (
+                <View key={index} style={styles.rejectionReasonItem}>
+                  <Text style={styles.rejectionReasonBullet}>•</Text>
+                  <Text style={styles.rejectionReasonText}>{reason.trim()}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </LinearGradient>
+      ) : (
+        <LinearGradient
+          colors={['#f8faf9', '#f5f8f6']}
+          style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
+        >
           <TouchableOpacity
-            style={[styles.secondaryAction, styles.maybeButton]}
-            onPress={() => handleResponse('maybe_later')}
+            style={styles.primaryAction}
+            onPress={() => handleResponse('try_it')}
             activeOpacity={0.8}
           >
-            <Ionicons name="bookmark-outline" size={18} color="#FF9800" />
-            <Text style={styles.maybeButtonText}>Maybe Later</Text>
+            <Ionicons name="checkmark-circle" size={26} color="#FFF" />
+            <Text style={styles.primaryActionText}>I'll Try It!</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity
-            style={[styles.secondaryAction, styles.skipButton]}
-            onPress={handleNotForMe}
-            activeOpacity={0.8}
-          >
-            <Ionicons name="close-circle-outline" size={18} color="#757575" />
-            <Text style={styles.skipButtonText}>Not for Me</Text>
-          </TouchableOpacity>
-        </View>
-      </LinearGradient>
+          <View style={styles.secondaryActions}>
+            <TouchableOpacity
+              style={[styles.secondaryAction, styles.maybeButton]}
+              onPress={() => handleResponse('maybe_later')}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="bookmark-outline" size={18} color="#FF9800" />
+              <Text style={styles.maybeButtonText}>Maybe Later</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              style={[styles.secondaryAction, styles.skipButton]}
+              onPress={handleNotForMe}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="close-circle-outline" size={18} color="#757575" />
+              <Text style={styles.skipButtonText}>Not for Me</Text>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+      )}
     </View>
   );
 }
@@ -1393,16 +1422,17 @@ const styles = StyleSheet.create({
   },
   choiceItem: {
     backgroundColor: '#FFF',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 8,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 4,
     borderWidth: 2,
     borderColor: '#E8E8E8',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 1,
   },
   choiceItemSelected: {
     backgroundColor: '#F0F7FF',
@@ -1411,18 +1441,18 @@ const styles = StyleSheet.create({
   choiceItemHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    marginBottom: 4,
+    gap: 8,
+    marginBottom: 2,
   },
   choiceCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
   choiceText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: '#424242',
     flex: 1,
@@ -1431,10 +1461,11 @@ const styles = StyleSheet.create({
     color: '#2E7D32',
   },
   choiceTimeDescription: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#757575',
-    marginLeft: 38,
+    marginLeft: 32,
     fontStyle: 'italic',
+    lineHeight: 14,
   },
   actionContainer: {
     paddingTop: 16,
@@ -1497,5 +1528,52 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#757575',
+  },
+  rejectionHeader: {
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  rejectionBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#FFF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#FED7D7',
+  },
+  rejectionLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#E53E3E',
+  },
+  rejectionReasons: {
+    backgroundColor: '#FFF',
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#FED7D7',
+  },
+  rejectionReasonTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#975A5A',
+    marginBottom: 8,
+  },
+  rejectionReasonItem: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  rejectionReasonBullet: {
+    fontSize: 14,
+    color: '#C53030',
+    marginRight: 8,
+  },
+  rejectionReasonText: {
+    fontSize: 14,
+    color: '#742A2A',
+    flex: 1,
   },
 });
