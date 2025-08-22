@@ -3795,7 +3795,7 @@ export const TIPS_DATABASE: Tip[] = [
     personalization_prompt: "I will try a 10-minute walk after:",
     personalization_type: "choice" as const,
     personalization_config: {
-      choices: ["Breakfast 🌅", "Lunch ☀️", "Dinner 🌙"],
+      choices: ["Breakfast", "Lunch", "Dinner"],
       multiple: false,
       style: "buttons" // or "dropdown"
     },

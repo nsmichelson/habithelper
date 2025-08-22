@@ -386,13 +386,20 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                   <View style={styles.choiceContainer}>
                     {choices.map((choice, index) => {
                       const isSelected = selectedChoice === choice;
+                      // Define colors for each meal time
+                      const getChoiceColor = () => {
+                        if (choice.toLowerCase().includes('breakfast')) return '#FFE0B2';
+                        if (choice.toLowerCase().includes('lunch')) return '#C8E6C9';
+                        if (choice.toLowerCase().includes('dinner')) return '#E1BEE7';
+                        return '#E0E0E0';
+                      };
                       
                       return (
                         <TouchableOpacity
                           key={index}
                           style={[
-                            styles.choiceButton,
-                            isSelected && styles.choiceButtonSelected
+                            styles.choiceItem,
+                            isSelected && styles.choiceItemSelected
                           ]}
                           onPress={() => {
                             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -406,19 +413,26 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                               setTimeout(() => setShowSaveAnimation(false), 2000);
                             }, 500);
                           }}
-                          activeOpacity={0.8}
+                          activeOpacity={0.7}
                         >
-                          <Text style={[
-                            styles.choiceButtonText,
-                            isSelected && styles.choiceButtonTextSelected
-                          ]}>
-                            {choice}
-                          </Text>
-                          {isSelected && (
-                            <View style={styles.choiceCheckmark}>
-                              <Ionicons name="checkmark" size={16} color="#FFF" />
+                          <View style={styles.choiceItemHeader}>
+                            <View style={[styles.choiceCircle, { backgroundColor: getChoiceColor() }]}>
+                              {isSelected && (
+                                <Ionicons name="checkmark" size={18} color="#424242" />
+                              )}
                             </View>
-                          )}
+                            <Text style={[
+                              styles.choiceText,
+                              isSelected && styles.choiceTextSelected
+                            ]}>
+                              {choice}
+                            </Text>
+                          </View>
+                          <Text style={styles.choiceTimeDescription}>
+                            {choice.toLowerCase().includes('breakfast') && 'Start your day with movement'}
+                            {choice.toLowerCase().includes('lunch') && 'Midday energy boost'}
+                            {choice.toLowerCase().includes('dinner') && 'Evening digestion aid'}
+                          </Text>
                         </TouchableOpacity>
                       );
                     })}
@@ -1376,6 +1390,51 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: '#2E7D32',
+  },
+  choiceItem: {
+    backgroundColor: '#FFF',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 8,
+    borderWidth: 2,
+    borderColor: '#E8E8E8',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  choiceItemSelected: {
+    backgroundColor: '#F0F7FF',
+    borderColor: '#4CAF50',
+  },
+  choiceItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+  },
+  choiceCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  choiceText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#424242',
+    flex: 1,
+  },
+  choiceTextSelected: {
+    color: '#2E7D32',
+  },
+  choiceTimeDescription: {
+    fontSize: 12,
+    color: '#757575',
+    marginLeft: 38,
+    fontStyle: 'italic',
   },
   actionContainer: {
     paddingTop: 16,
