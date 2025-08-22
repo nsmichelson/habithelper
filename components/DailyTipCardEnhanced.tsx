@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
+  KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
@@ -14,7 +15,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  KeyboardAvoidingView,
 } from 'react-native';
 import Animated, {
   Extrapolate,
@@ -22,9 +22,8 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withSequence,
-  withTiming
+  withSpring
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tip } from '../types/tip';
@@ -1207,6 +1206,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     gap: 12,
   },
+  
   scaleNumber: {
     width: 32,
     height: 32,
