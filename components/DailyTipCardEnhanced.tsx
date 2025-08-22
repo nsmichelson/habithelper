@@ -768,26 +768,41 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       {/* Fixed Action Buttons or Rejection Status */}
       {rejectionInfo ? (
         <LinearGradient
-          colors={['#fff5f5', '#fff8f8']}
+          colors={['#fef9f7', '#fffbfa']}
           style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
         >
-          <View style={styles.rejectionHeader}>
-            <View style={styles.rejectionBadge}>
-              <Ionicons name="close-circle" size={20} color="#E53E3E" />
-              <Text style={styles.rejectionLabel}>Not For Me</Text>
+          <View style={styles.rejectionStatusCard}>
+            <View style={styles.rejectionStatusHeader}>
+              <View style={styles.rejectionIconWrapper}>
+                <Ionicons name="heart-dislike" size={24} color="#DC2626" />
+              </View>
+              <View style={styles.rejectionStatusContent}>
+                <Text style={styles.rejectionStatusLabel}>Not My Thing</Text>
+                <Text style={styles.rejectionStatusSubtext}>That's totally okay!</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.rejectionEditButton}
+                onPress={() => onNotForMe()}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="pencil" size={16} color="#6B7280" />
+              </TouchableOpacity>
             </View>
-          </View>
-          {rejectionInfo.reason && (
-            <View style={styles.rejectionReasons}>
-              <Text style={styles.rejectionReasonTitle}>Why it didn't work:</Text>
-              {rejectionInfo.reason.split(':').map((reason, index) => (
-                <View key={index} style={styles.rejectionReasonItem}>
-                  <Text style={styles.rejectionReasonBullet}>•</Text>
-                  <Text style={styles.rejectionReasonText}>{reason.trim()}</Text>
+            
+            {rejectionInfo.reason && (
+              <View style={styles.rejectionReasonsCard}>
+                <Text style={styles.rejectionReasonHeader}>Your feedback:</Text>
+                <View style={styles.rejectionReasonsList}>
+                  {rejectionInfo.reason.split(':').map((reason, index) => (
+                    <View key={index} style={styles.rejectionReasonRow}>
+                      <View style={styles.rejectionReasonDot} />
+                      <Text style={styles.rejectionReasonText}>{reason.trim()}</Text>
+                    </View>
+                  ))}
                 </View>
-              ))}
-            </View>
-          )}
+              </View>
+            )}
+          </View>
         </LinearGradient>
       ) : (
         <LinearGradient
@@ -1529,51 +1544,89 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#757575',
   },
-  rejectionHeader: {
-    alignItems: 'center',
-    marginBottom: 12,
+  rejectionStatusCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  rejectionBadge: {
+  rejectionStatusHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    backgroundColor: '#FFF',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: '#FED7D7',
+    gap: 16,
+    marginBottom: 16,
   },
-  rejectionLabel: {
-    fontSize: 16,
+  rejectionIconWrapper: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#FEE2E2',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rejectionStatusContent: {
+    flex: 1,
+  },
+  rejectionStatusLabel: {
+    fontSize: 18,
     fontWeight: '700',
-    color: '#E53E3E',
+    color: '#1F2937',
+    marginBottom: 2,
   },
-  rejectionReasons: {
-    backgroundColor: '#FFF',
+  rejectionStatusSubtext: {
+    fontSize: 14,
+    color: '#6B7280',
+    fontStyle: 'italic',
+  },
+  rejectionReasonsCard: {
+    backgroundColor: '#FEF3F2',
     borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: '#FED7D7',
+    padding: 14,
+    borderLeftWidth: 3,
+    borderLeftColor: '#F87171',
   },
-  rejectionReasonTitle: {
-    fontSize: 14,
+  rejectionReasonHeader: {
+    fontSize: 13,
     fontWeight: '600',
-    color: '#975A5A',
+    color: '#7F1D1D',
     marginBottom: 8,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
-  rejectionReasonItem: {
+  rejectionReasonsList: {
+    gap: 6,
+  },
+  rejectionReasonRow: {
     flexDirection: 'row',
-    marginBottom: 4,
+    alignItems: 'flex-start',
+    gap: 10,
   },
-  rejectionReasonBullet: {
-    fontSize: 14,
-    color: '#C53030',
-    marginRight: 8,
+  rejectionReasonDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#DC2626',
+    marginTop: 5,
   },
   rejectionReasonText: {
     fontSize: 14,
-    color: '#742A2A',
+    color: '#1F2937',
     flex: 1,
+    lineHeight: 20,
+  },
+  rejectionEditButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F3F4F6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
 });

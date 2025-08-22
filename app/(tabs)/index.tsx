@@ -318,6 +318,11 @@ export default function HomeScreen() {
   const handleTipResponse = async (response: ResponseStatus) => {
     if (!dailyTip || !userProfile || !currentTip) return;
 
+    // Clear rejection info if user changes their mind
+    if (rejectedTipInfo && rejectedTipInfo.tip.tip_id === currentTip.tip_id) {
+      setRejectedTipInfo(null);
+    }
+
     // Now only handles try_it and maybe_later
     // not_for_me is handled by the separate onNotForMe callback
     const updatedTip = {
