@@ -41,9 +41,13 @@ interface Props {
     feedback: 'not_for_me';
     reason?: string;
   };
+  maybeLaterInfo?: {
+    feedback: 'maybe_later';
+    savedAt?: Date | string;
+  };
 }
 
-export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [], rejectionInfo }: Props) {
+export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [], rejectionInfo, maybeLaterInfo }: Props) {
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
@@ -230,6 +234,31 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                   </View>
                 </View>
               )}
+            </View>
+          </View>
+        )}
+
+        {maybeLaterInfo && (
+          <View style={styles.maybeLaterInlineWrapper}>
+            <View style={styles.maybeLaterInlineCornerLabel}>
+              <Text style={styles.maybeLaterInlineCornerLabelText}>You said</Text>
+            </View>
+            <View style={styles.maybeLaterInlineCard}>
+              <View style={styles.maybeLaterInlineHeader}>
+                <View style={styles.maybeLaterInlineIconWrapper}>
+                  <Ionicons name="bookmark" size={20} color="#F59E0B" />
+                </View>
+                <View style={styles.maybeLaterInlineContent}>
+                  <Text style={styles.maybeLaterInlineLabel}>Saved for Later</Text>
+                  <Text style={styles.maybeLaterInlineSubtext}>We'll remind you another time!</Text>
+                </View>
+              </View>
+              
+              <View style={styles.maybeLaterInlineInfoBox}>
+                <Text style={styles.maybeLaterInlineInfoText}>
+                  This tip has been saved to your collection. You can try it whenever you're ready!
+                </Text>
+              </View>
             </View>
           </View>
         )}
@@ -804,8 +833,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         </View>
       </View>
 
-      {/* Fixed Action Buttons - Hide when rejected */}
-      {!rejectionInfo && (
+      {/* Fixed Action Buttons - Hide when rejected or saved for later */}
+      {!rejectionInfo && !maybeLaterInfo && (
         <LinearGradient
           colors={['#f8faf9', '#f5f8f6']}
           style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
@@ -1749,6 +1778,71 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#1F2937',
     flex: 1,
+    lineHeight: 16,
+  },
+  maybeLaterInlineWrapper: {
+    position: 'relative',
+    marginTop: 20,
+  },
+  maybeLaterInlineCornerLabel: {
+    position: 'absolute',
+    top: -8,
+    right: 16,
+    backgroundColor: '#F59E0B',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 8,
+    zIndex: 1,
+  },
+  maybeLaterInlineCornerLabelText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#FFF',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  maybeLaterInlineCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1.5,
+    borderColor: '#FCD34D',
+  },
+  maybeLaterInlineHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 12,
+  },
+  maybeLaterInlineIconWrapper: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#FEF3C7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  maybeLaterInlineContent: {
+    flex: 1,
+  },
+  maybeLaterInlineLabel: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#F59E0B',
+  },
+  maybeLaterInlineSubtext: {
+    fontSize: 11,
+    color: '#9CA3AF',
+    marginTop: 1,
+  },
+  maybeLaterInlineInfoBox: {
+    backgroundColor: '#FFFBEB',
+    borderRadius: 8,
+    padding: 10,
+  },
+  maybeLaterInlineInfoText: {
+    fontSize: 12,
+    color: '#78350F',
     lineHeight: 16,
   },
 });

@@ -733,9 +733,10 @@ export default function HomeScreen() {
   console.log('Returning main app view');
   
   // Check if we should show DailyTipCardEnhanced (special layout without ScrollView)
-  // Show enhanced card if tip exists and either no response yet OR rejected with feedback
+  // Show enhanced card if tip exists and either no response yet OR rejected with feedback OR saved for later
   const shouldShowEnhancedCard = currentTip && dailyTip && (!dailyTip.user_response || 
-    (rejectedTipInfo && rejectedTipInfo.tip.tip_id === currentTip.tip_id));
+    (rejectedTipInfo && rejectedTipInfo.tip.tip_id === currentTip.tip_id) ||
+    dailyTip.user_response === 'maybe_later');
   
   return (
     <SafeAreaView style={styles.container}>
@@ -1002,6 +1003,14 @@ export default function HomeScreen() {
                   ? {
                       feedback: 'not_for_me' as const,
                       reason: rejectedTipInfo.attempt?.rejection_reason
+                    }
+                  : undefined
+              }
+              maybeLaterInfo={
+                dailyTip.user_response === 'maybe_later'
+                  ? {
+                      feedback: 'maybe_later' as const,
+                      savedAt: dailyTip.responded_at
                     }
                   : undefined
               }
@@ -1285,6 +1294,14 @@ export default function HomeScreen() {
                         ? {
                             feedback: 'not_for_me' as const,
                             reason: rejectedTipInfo.attempt?.rejection_reason
+                          }
+                        : undefined
+                    }
+                    maybeLaterInfo={
+                      dailyTip.user_response === 'maybe_later'
+                        ? {
+                            feedback: 'maybe_later' as const,
+                            savedAt: dailyTip.responded_at
                           }
                         : undefined
                     }
