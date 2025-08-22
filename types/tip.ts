@@ -192,8 +192,25 @@ export interface Tip {
   
   // NEW: Personalization/Planning
   personalization_prompt?: string; // Question/prompt for the "Make It Your Own" card
-  personalization_type?: 'text' | 'scale' | 'choice' | 'multi_text'; // Type of input needed
-  personalization_placeholder?: string | string[]; // Placeholder text for inputs
+  personalization_type?: 'text' | 'scale' | 'choice' | 'multi_text' | 'list'; // Type of input needed
+  personalization_config?: {
+    // For scale type - defines what user is customizing
+    scale_customization?: 'names' | 'descriptions'; // Whether naming levels or describing them
+    scale_labels?: string[]; // Labels for each scale point (e.g., ["Very Hungry", "Satisfied", "Too Full"])
+    
+    // For multi_text or list type
+    items?: {
+      label: string; // The header/label for this item
+      placeholder?: string; // Placeholder for the input
+      description?: string; // Fixed description text below
+      customizable?: 'label' | 'description'; // What part is editable
+    }[];
+    
+    // General config
+    placeholders?: string[]; // Placeholder texts
+    min_items?: number; // Minimum items for list
+    max_items?: number; // Maximum items for list
+  };
 }
 
 export type TipFeedback = 

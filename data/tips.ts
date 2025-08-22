@@ -3880,6 +3880,42 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0004-4004-a004-1234567890ae',
     summary: "Prep a 'Salad in a Jar' for tomorrow's lunch.",
+    personalization_prompt: "Plan your salad jar layers. What ingredients will you use?",
+    personalization_type: "list" as const,
+    personalization_config: {
+      items: [
+        {
+          label: "Bottom Layer - Dressing",
+          placeholder: "e.g., Balsamic vinaigrette",
+          description: "Keeps other ingredients from getting soggy",
+          customizable: "description" as const
+        },
+        {
+          label: "Layer 2 - Hearty Veggies",
+          placeholder: "e.g., Cucumbers, tomatoes, peppers",
+          description: "Won't wilt from dressing",
+          customizable: "description" as const
+        },
+        {
+          label: "Layer 3 - Protein",
+          placeholder: "e.g., Grilled chicken, chickpeas, eggs",
+          description: "Your main protein source",
+          customizable: "description" as const
+        },
+        {
+          label: "Layer 4 - Soft Items",
+          placeholder: "e.g., Cheese, avocado, berries",
+          description: "Protected from dressing",
+          customizable: "description" as const
+        },
+        {
+          label: "Top Layer - Greens",
+          placeholder: "e.g., Spinach, lettuce, arugula",
+          description: "Stays crisp on top",
+          customizable: "description" as const
+        }
+      ]
+    },
     details_md: `**The Experiment:** Prepare a "salad in a jar" tonight for a ready-to-go, healthy lunch tomorrow.
 
 **Why it Works:** This is a classic meal prep technique that makes a healthy choice incredibly convenient, overcoming the common barrier of not having time to make a healthy lunch during a busy day. It's a form of environmental design for your future self.
@@ -4821,7 +4857,11 @@ export const TIPS_DATABASE: Tip[] = [
     summary: "Use the 'Hunger Scale' before you eat.",
     personalization_prompt: "Give your hunger levels fun, memorable names! Like Lion (1), Kitty (5), and Sloth (10). What would you call yours?",
     personalization_type: "scale" as const,
-    personalization_placeholder: ["e.g., Lion, Ravenous, Empty Tank", "e.g., Kitty, Happy Belly, Goldilocks", "e.g., Sloth, Stuffed Turkey, Food Coma"],
+    personalization_config: {
+      scale_customization: "names" as const,
+      scale_labels: ["Extremely hungry - stomach growling", "Satisfied - comfortable and content", "Overly full - uncomfortably stuffed"],
+      placeholders: ["e.g., Lion", "e.g., Kitty", "e.g., Sloth"]
+    },
     details_md: `**The Experiment:** Before you eat a meal or snack, take a moment to rate your physical hunger on a scale of 1 to 10.
 
 **Why it Works:** This mindful eating exercise helps you distinguish between true, physical hunger and emotional or environmental triggers for eating (like stress or seeing food). Practicing this helps you become more attuned to your body's signals, leading to more intentional eating choices.
@@ -5482,7 +5522,9 @@ export const TIPS_DATABASE: Tip[] = [
     summary: 'Try a "dessert" of frozen fruit.',
     personalization_prompt: "What frozen fruit will you try as dessert tonight?",
     personalization_type: "text" as const,
-    personalization_placeholder: "e.g., Frozen grapes, mango chunks, or mixed berries",
+    personalization_config: {
+      placeholders: ["e.g., Frozen grapes, mango chunks, or mixed berries"]
+    },
     details_md: `**The Experiment:** For a healthy dessert, try eating a bowl of frozen fruit.
 
 **Why it Works:** Frozen fruit like mango chunks, berries, or banana slices have a surprisingly creamy, sorbet-like texture when eaten partially thawed. This satisfies a craving for a cold, sweet treat with all the benefits of whole fruit (fiber, vitamins) and none of the added sugar of ice cream or sorbet.
