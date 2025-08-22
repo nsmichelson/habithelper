@@ -770,37 +770,42 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           colors={['#fef9f7', '#fffbfa']}
           style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
         >
-          <View style={styles.rejectionStatusCard}>
-            <View style={styles.rejectionStatusHeader}>
-              <View style={styles.rejectionIconWrapper}>
-                <Ionicons name="heart-dislike" size={24} color="#DC2626" />
-              </View>
-              <View style={styles.rejectionStatusContent}>
-                <Text style={styles.rejectionStatusLabel}>Not My Thing</Text>
-                <Text style={styles.rejectionStatusSubtext}>That's totally okay!</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.rejectionEditButton}
-                onPress={() => onNotForMe()}
-                activeOpacity={0.7}
-              >
-                <Ionicons name="pencil" size={16} color="#6B7280" />
-              </TouchableOpacity>
+          <View style={styles.rejectionStatusWrapper}>
+            <View style={styles.rejectionCornerLabel}>
+              <Text style={styles.rejectionCornerLabelText}>You said</Text>
             </View>
-            
-            {rejectionInfo.reason && (
-              <View style={styles.rejectionReasonsCard}>
-                <Text style={styles.rejectionReasonHeader}>Your feedback:</Text>
-                <View style={styles.rejectionReasonsList}>
-                  {rejectionInfo.reason.split(':').map((reason, index) => (
-                    <View key={index} style={styles.rejectionReasonRow}>
-                      <View style={styles.rejectionReasonDot} />
-                      <Text style={styles.rejectionReasonText}>{reason.trim()}</Text>
-                    </View>
-                  ))}
+            <View style={styles.rejectionStatusCard}>
+              <View style={styles.rejectionStatusHeader}>
+                <View style={styles.rejectionIconWrapper}>
+                  <Ionicons name="heart-dislike" size={24} color="#DC2626" />
                 </View>
+                <View style={styles.rejectionStatusContent}>
+                  <Text style={styles.rejectionStatusLabel}>Not My Thing</Text>
+                  <Text style={styles.rejectionStatusSubtext}>That's totally okay!</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.rejectionEditButton}
+                  onPress={() => onNotForMe()}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="pencil" size={16} color="#6B7280" />
+                </TouchableOpacity>
               </View>
-            )}
+              
+              {rejectionInfo.reason && (
+                <View style={styles.rejectionReasonsCard}>
+                  <Text style={styles.rejectionReasonHeader}>Your feedback:</Text>
+                  <View style={styles.rejectionReasonsList}>
+                    {rejectionInfo.reason.split(':').map((reason, index) => (
+                      <View key={index} style={styles.rejectionReasonRow}>
+                        <View style={styles.rejectionReasonDot} />
+                        <Text style={styles.rejectionReasonText}>{reason.trim()}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </View>
+              )}
+            </View>
           </View>
         </LinearGradient>
       ) : (
@@ -1544,11 +1549,32 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#757575',
   },
+  rejectionStatusWrapper: {
+    position: 'relative',
+  },
+  rejectionCornerLabel: {
+    position: 'absolute',
+    top: -10,
+    right: 20,
+    backgroundColor: '#7F1D1D',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 10,
+    zIndex: 1,
+  },
+  rejectionCornerLabelText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#FFF',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
   rejectionStatusCard: {
     backgroundColor: '#FFF',
     borderRadius: 16,
     padding: 20,
-    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: '#7F1D1D',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
