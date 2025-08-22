@@ -54,6 +54,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   });
   const [savedScaleNames, setSavedScaleNames] = useState<typeof scaleNames | null>(null);
   const [showSaveAnimation, setShowSaveAnimation] = useState(false);
+  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
+  const [savedChoice, setSavedChoice] = useState<string | null>(null);
   
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
@@ -358,7 +360,110 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     </View>
   );
   
-  const renderPersonalizationCard = () => (
+  const renderPersonalizationCard = () => {
+    // Handle choice type
+    if (tip.personalization_type === 'choice') {
+      const choices = tip.personalization_config?.choices || [];
+      
+      return (
+        <View style={styles.pageContainer}>
+          <LinearGradient
+            colors={['#FFFFFF', '#FAFAFA']}
+            style={styles.cardGradient}
+          >
+            <ScrollView 
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scrollContent}
+            >
+              <Text style={styles.sectionTitle}>Make It Your Own</Text>
+              
+              {!savedChoice ? (
+                <>
+                  <Text style={styles.personalizationPrompt}>
+                    {tip.personalization_prompt}
+                  </Text>
+                  
+                  <View style={styles.choiceContainer}>
+                    {choices.map((choice, index) => {
+                      const isSelected = selectedChoice === choice;
+                      
+                      return (
+                        <TouchableOpacity
+                          key={index}
+                          style={[
+                            styles.choiceButton,
+                            isSelected && styles.choiceButtonSelected
+                          ]}
+                          onPress={() => {
+                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                            setSelectedChoice(choice);
+                            
+                            // Auto-save after a brief delay
+                            setTimeout(() => {
+                              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                              setSavedChoice(choice);
+                              setShowSaveAnimation(true);
+                              setTimeout(() => setShowSaveAnimation(false), 2000);
+                            }, 500);
+                          }}
+                          activeOpacity={0.8}
+                        >
+                          <Text style={[
+                            styles.choiceButtonText,
+                            isSelected && styles.choiceButtonTextSelected
+                          ]}>
+                            {choice}
+                          </Text>
+                          {isSelected && (
+                            <View style={styles.choiceCheckmark}>
+                              <Ionicons name="checkmark" size={16} color="#FFF" />
+                            </View>
+                          )}
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                </>
+              ) : (
+                <View style={styles.savedChoiceContainer}>
+                  <View style={styles.savedHeader}>
+                    <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                    <Text style={styles.savedTitle}>Your Plan</Text>
+                  </View>
+                  
+                  <View style={styles.savedChoiceBox}>
+                    <Text style={styles.savedChoicePrompt}>{tip.personalization_prompt}</Text>
+                    <Text style={styles.savedChoiceText}>{savedChoice}</Text>
+                  </View>
+                  
+                  <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => {
+                      setSavedChoice(null);
+                      setSelectedChoice(null);
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="pencil" size={16} color="#4CAF50" />
+                    <Text style={styles.editButtonText}>Change My Choice</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              
+              {showSaveAnimation && (
+                <View style={styles.celebrationOverlay}>
+                  <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+                  <Text style={styles.celebrationText}>Locked in! 🎯</Text>
+                </View>
+              )}
+            </ScrollView>
+          </LinearGradient>
+        </View>
+      );
+    }
+    
+    // Original scale type implementation
+    return (
     <View style={styles.pageContainer}>
       <LinearGradient
         colors={['#FFFFFF', '#FAFAFA']}
@@ -513,7 +618,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         </KeyboardAvoidingView>
       </LinearGradient>
     </View>
-  );
+    );
+  };
 
   const pages = [
     { key: 'summary', render: renderSummaryCard },
@@ -1204,6 +1310,72 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#4CAF50',
     marginTop: 8,
+  },
+  choiceContainer: {
+    gap: 12,
+    marginTop: 20,
+  },
+  choiceButton: {
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 24,
+    borderWidth: 2,
+    borderColor: '#E8E8E8',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  choiceButtonSelected: {
+    backgroundColor: '#E8F5E9',
+    borderColor: '#4CAF50',
+    borderWidth: 2,
+    transform: [{ scale: 0.98 }],
+  },
+  choiceButtonText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#424242',
+    flex: 1,
+  },
+  choiceButtonTextSelected: {
+    color: '#2E7D32',
+  },
+  choiceCheckmark: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#4CAF50',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  savedChoiceContainer: {
+    backgroundColor: '#F0F7FF',
+    borderRadius: 16,
+    padding: 20,
+  },
+  savedChoiceBox: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: '#4CAF50',
+  },
+  savedChoicePrompt: {
+    fontSize: 14,
+    color: '#757575',
+    marginBottom: 8,
+  },
+  savedChoiceText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#2E7D32',
   },
   actionContainer: {
     paddingTop: 16,

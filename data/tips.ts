@@ -3792,6 +3792,13 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0019-4019-a019-1234567890bd',
     summary: 'Go for a 10-minute walk after a meal.',
+    personalization_prompt: "I will try a 10-minute walk after:",
+    personalization_type: "choice" as const,
+    personalization_config: {
+      choices: ["Breakfast 🌅", "Lunch ☀️", "Dinner 🌙"],
+      multiple: false,
+      style: "buttons" // or "dropdown"
+    },
     details_md: `**The Experiment:** After one of your main meals today, go for a brisk 10-minute walk.
 
 **Why it Works:** Walking after a meal can aid digestion and help stabilize blood sugar levels. It's a gentle way to incorporate more physical activity into your day, which contributes to overall energy expenditure and health. It also serves as a positive post-meal ritual instead of immediately sitting on the couch.

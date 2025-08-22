@@ -206,6 +206,11 @@ export interface Tip {
       customizable?: 'label' | 'description'; // What part is editable
     }[];
     
+    // For choice type
+    choices?: string[]; // Options to choose from
+    multiple?: boolean; // Allow multiple selections
+    style?: 'buttons' | 'dropdown'; // UI style for choices
+    
     // General config
     placeholders?: string[]; // Placeholder texts
     min_items?: number; // Minimum items for list
