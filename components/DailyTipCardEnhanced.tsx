@@ -584,7 +584,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     <View style={styles.container}>
       {/* Fixed Header */}
       <View style={styles.fixedHeader}>
-        <Text style={styles.headerLabel}>TODAY'S WELLNESS TIP</Text>
+        <Text style={styles.headerLabel}>TODAY'S IDEA TO TRY</Text>
         
         {/* Progress Indicator */}
         <View style={styles.progressSteps}>
