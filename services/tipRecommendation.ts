@@ -1946,7 +1946,8 @@ export class TipRecommendationService {
     previousTips: DailyTip[] = [],
     attempts: TipAttempt[] = [],
     currentHour?: number,
-    testModeDate?: Date  // Optional - ONLY for test calendar mode
+    testModeDate?: Date,  // Optional - ONLY for test calendar mode
+    excludeTipIds?: string | string[]  // Optional - exclude specific tips (for cycling)
   ): TipScore | null {
     const recommendations = this.getRecommendations(
       userProfile,
@@ -1956,18 +1957,25 @@ export class TipRecommendationService {
       currentHour,
       testModeDate  // Pass through to getRecommendations
     );
+    
+    // Filter out the excluded tips if provided
+    let filteredRecommendations = recommendations;
+    if (excludeTipIds) {
+      const excludeSet = new Set(Array.isArray(excludeTipIds) ? excludeTipIds : [excludeTipIds]);
+      filteredRecommendations = recommendations.filter(r => !excludeSet.has(r.tip.tip_id));
+    }
 
     // Simple summary logging since detailed logging is in getRecommendations
-    if (__DEV__ && recommendations.length > 0) {
+    if (__DEV__ && filteredRecommendations.length > 0) {
       console.log('\n🎯 SELECTED TIP:');
-      const selected = recommendations[0];
+      const selected = filteredRecommendations[0];
       console.log(`  "${selected.tip.summary}"`);
       console.log(`  Matches ${selected._goalMatches} of ${userProfile.goals?.length || 0} goals (${(selected._goalMatchRatio * 100).toFixed(0)}% coverage)`);
       console.log(`  Score: ${selected.score.toFixed(2)} | Lifestyle: ${selected._lifestyleFit.toFixed(3)}`);
       console.log(`  Key reasons: ${selected.reasons.slice(0, 3).join(', ')}`);
     }
 
-    return recommendations[0] || null;
+    return filteredRecommendations[0] || null;
   }
 
   /**

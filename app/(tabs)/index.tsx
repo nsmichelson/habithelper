@@ -117,6 +117,7 @@ export default function HomeScreen() {
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
   const [showTestCalendar, setShowTestCalendar] = useState(false);
   const [recentlySurfacedSavedIds, setRecentlySurfacedSavedIds] = useState<string[]>([]);
+  const [cycledTipIds, setCycledTipIds] = useState<string[]>([]);
 
   useEffect(() => {
     initializeApp();
@@ -803,6 +804,72 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               )}
               
+              {/* Testing: Cycle through tips */}
+              {__DEV__ && (
+                <TouchableOpacity 
+                  style={styles.profileButton}
+                  onPress={async () => {
+                    if (!userProfile || !dailyTip) return;
+                    
+                    // Add current tip to cycled list
+                    const newCycledIds = currentTip ? [...cycledTipIds, currentTip.tip_id] : cycledTipIds;
+                    
+                    // Get the next recommended tip, excluding all cycled tips
+                    const tipScore = TipRecommendationService.getDailyTip(
+                      userProfile, 
+                      previousTips, 
+                      attempts,
+                      undefined, // currentHour
+                      undefined, // testModeDate
+                      newCycledIds // Pass all cycled tips to exclude them
+                    );
+                    
+                    if (tipScore) {
+                      // Update the existing daily tip record
+                      await StorageService.updateDailyTip(dailyTip.id, {
+                        tip_id: tipScore.tip.tip_id,
+                        user_response: undefined,
+                        responded_at: undefined,
+                        quick_completions: [],
+                        evening_check_in: undefined,
+                        check_in_at: undefined,
+                        evening_reflection: undefined,
+                      });
+                      
+                      const updatedTip: DailyTip = {
+                        ...dailyTip,
+                        tip_id: tipScore.tip.tip_id,
+                        user_response: undefined,
+                        responded_at: undefined,
+                        quick_completions: [],
+                        evening_check_in: undefined,
+                        check_in_at: undefined,
+                        evening_reflection: undefined,
+                      };
+                      
+                      setDailyTip(updatedTip);
+                      setCurrentTip(tipScore.tip);
+                      setTipReasons(tipScore.reasons);
+                      setRejectedTipInfo(null);
+                      setCycledTipIds(newCycledIds);
+                      
+                      console.log(`Cycled through ${newCycledIds.length} tips so far`);
+                    } else {
+                      // No more tips available - reset the cycle
+                      console.log('All tips cycled! Resetting...');
+                      setCycledTipIds([]);
+                      Alert.alert(
+                        'Cycle Complete',
+                        `You've cycled through all ${newCycledIds.length} available tips! Starting over...`,
+                        [{ text: 'OK' }]
+                      );
+                    }
+                  }}
+                >
+                  <Ionicons name="shuffle-outline" size={32} color="#2196F3" />
+                </TouchableOpacity>
+              )}
+              
               {/* Temporary reset button for testing */}
               <TouchableOpacity 
                 style={styles.profileButton}
@@ -969,6 +1036,7 @@ export default function HomeScreen() {
                             setDailyTip(null);
                             setCurrentTip(null);
                             setShowCheckIn(false);
+                            setCycledTipIds([]); // Reset cycle tracking
                             // Reload with fresh tip
                             await loadDailyTip(userProfile!, [], []);
                             Alert.alert('Done', 'Tip data has been reset');
