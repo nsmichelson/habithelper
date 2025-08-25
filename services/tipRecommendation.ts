@@ -1953,7 +1953,7 @@ export class TipRecommendationService {
       userProfile,
       previousTips,
       attempts,
-      10, // Get more recommendations for debugging
+      100, // Get many more recommendations to allow full cycling
       currentHour,
       testModeDate  // Pass through to getRecommendations
     );

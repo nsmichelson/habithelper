@@ -911,9 +911,36 @@ export default function HomeScreen() {
                       setCycledTipIds([]);
                       Alert.alert(
                         'Cycle Complete',
-                        `You've cycled through all ${newCycledIds.length} available tips! Starting over...`,
+                        `You've cycled through all ${newCycledIds.length} eligible tips for today! Starting over...`,
                         [{ text: 'OK' }]
                       );
+                      
+                      // Get first tip again
+                      const firstTip = TipRecommendationService.getDailyTip(
+                        userProfile, 
+                        previousTips, 
+                        attempts,
+                        undefined,
+                        undefined,
+                        [] // Empty exclude list to start over
+                      );
+                      
+                      if (firstTip) {
+                        await StorageService.updateDailyTip(dailyTip.id, {
+                          tip_id: firstTip.tip.tip_id,
+                          user_response: undefined,
+                          responded_at: undefined,
+                        });
+                        
+                        setDailyTip({
+                          ...dailyTip,
+                          tip_id: firstTip.tip.tip_id,
+                          user_response: undefined,
+                          responded_at: undefined,
+                        });
+                        setCurrentTip(firstTip.tip);
+                        setTipReasons(firstTip.reasons);
+                      }
                     }
                   }}
                 >
