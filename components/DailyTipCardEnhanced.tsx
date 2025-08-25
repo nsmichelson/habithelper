@@ -63,6 +63,12 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const [showSaveAnimation, setShowSaveAnimation] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [savedChoice, setSavedChoice] = useState<string | null>(null);
+  const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
+  const [savedChoices, setSavedChoices] = useState<string[] | null>(null);
+  const [textInput, setTextInput] = useState<string>('');
+  const [savedTextInput, setSavedTextInput] = useState<string | null>(null);
+  const [multiTextInputs, setMultiTextInputs] = useState<Record<number, string>>({});
+  const [savedMultiTextInputs, setSavedMultiTextInputs] = useState<Record<number, string> | null>(null);
   
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
@@ -433,9 +439,223 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   );
   
   const renderPersonalizationCard = () => {
+    // Handle text type  
+    if (tip.personalization_type === 'text') {
+      const placeholder = tip.personalization_config?.placeholders?.[0] || "Enter your answer";
+      
+      return (
+        <View style={styles.pageContainer}>
+          <LinearGradient
+            colors={['#FFFFFF', '#FAFAFA']}
+            style={styles.cardGradient}
+          >
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={{ flex: 1 }}
+              keyboardVerticalOffset={150}
+            >
+              <ScrollView 
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={[styles.scrollContent, { paddingBottom: 150 }]}
+                keyboardShouldPersistTaps="handled"
+              >
+                <Text style={styles.sectionTitle}>Make It Your Own</Text>
+                
+                {!savedTextInput ? (
+                  <View style={styles.textInputWrapper}>
+                    <Text style={styles.personalizationPrompt}>
+                      {tip.personalization_prompt}
+                    </Text>
+                    
+                    <TextInput
+                      style={styles.textInputField}
+                      placeholder={placeholder}
+                      value={textInput}
+                      onChangeText={setTextInput}
+                      placeholderTextColor="#999"
+                      multiline={false}
+                      returnKeyType="done"
+                        onSubmitEditing={() => {
+                          if (textInput.trim()) {
+                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                            setSavedTextInput(textInput.trim());
+                            setShowSaveAnimation(true);
+                            setTimeout(() => setShowSaveAnimation(false), 2000);
+                          }
+                        }}
+                      />
+                      
+                    <TouchableOpacity
+                      style={[
+                        styles.saveTextButton,
+                        !textInput.trim() && styles.saveTextButtonDisabled
+                      ]}
+                      onPress={() => {
+                        if (textInput.trim()) {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                          setSavedTextInput(textInput.trim());
+                          setShowSaveAnimation(true);
+                          setTimeout(() => setShowSaveAnimation(false), 2000);
+                        }
+                      }}
+                      disabled={!textInput.trim()}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.saveTextButtonText}>Save</Text>
+                      <Ionicons name="checkmark" size={20} color="#FFF" />
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View style={styles.savedChoiceContainer}>
+                    <View style={styles.savedHeader}>
+                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                      <Text style={styles.savedTitle}>Your Plan</Text>
+                    </View>
+                    
+                    <View style={styles.savedChoiceBox}>
+                      <Text style={styles.savedChoicePrompt}>{tip.personalization_prompt}</Text>
+                      <Text style={styles.savedChoiceText}>{savedTextInput}</Text>
+                    </View>
+                    
+                    <TouchableOpacity
+                      style={styles.editButton}
+                      onPress={() => {
+                        setSavedTextInput(null);
+                        setTextInput(savedTextInput || '');
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons name="pencil" size={16} color="#4CAF50" />
+                      <Text style={styles.editButtonText}>Change My Answer</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                
+                {showSaveAnimation && (
+                  <View style={styles.celebrationOverlay}>
+                    <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+                    <Text style={styles.celebrationText}>Saved! 🎯</Text>
+                  </View>
+                )}
+              </ScrollView>
+            </KeyboardAvoidingView>
+          </LinearGradient>
+        </View>
+      );
+    }
+    
+    // Handle multi_text type
+    if (tip.personalization_type === 'multi_text') {
+      const items = tip.personalization_config?.items || [];
+      
+      return (
+        <View style={styles.pageContainer}>
+          <LinearGradient
+            colors={['#FFFFFF', '#FAFAFA']}
+            style={styles.cardGradient}
+          >
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={{ flex: 1 }}
+              keyboardVerticalOffset={150}
+            >
+              <ScrollView 
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={[styles.scrollContent, { paddingBottom: 150 }]}
+                keyboardShouldPersistTaps="handled"
+              >
+                <Text style={styles.sectionTitle}>Make It Your Own</Text>
+                
+                {!savedMultiTextInputs ? (
+                  <View style={styles.multiTextWrapper}>
+                    <Text style={styles.personalizationPrompt}>
+                      {tip.personalization_prompt}
+                    </Text>
+                    
+                    {items.map((item, index) => (
+                      <View key={index} style={styles.multiTextSection}>
+                        <Text style={styles.multiTextLabel}>{item.label}</Text>
+                        <TextInput
+                          style={styles.textInputField}
+                          placeholder={item.placeholder}
+                          value={multiTextInputs[index] || ''}
+                          onChangeText={(text) => {
+                            setMultiTextInputs({ ...multiTextInputs, [index]: text });
+                          }}
+                          placeholderTextColor="#999"
+                          multiline={false}
+                          returnKeyType="next"
+                        />
+                      </View>
+                    ))}
+                    
+                    <TouchableOpacity
+                      style={[
+                        styles.saveTextButton,
+                        !items.every((_, index) => multiTextInputs[index]?.trim()) && styles.saveTextButtonDisabled
+                      ]}
+                      onPress={() => {
+                        if (items.every((_, index) => multiTextInputs[index]?.trim())) {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                          setSavedMultiTextInputs(multiTextInputs);
+                          setShowSaveAnimation(true);
+                          setTimeout(() => setShowSaveAnimation(false), 2000);
+                        }
+                      }}
+                      disabled={!items.every((_, index) => multiTextInputs[index]?.trim())}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.saveTextButtonText}>Save Plan</Text>
+                      <Ionicons name="checkmark" size={20} color="#FFF" />
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View style={styles.savedChoiceContainer}>
+                    <View style={styles.savedHeader}>
+                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                      <Text style={styles.savedTitle}>Your Plan</Text>
+                    </View>
+                    
+                    <View style={styles.savedMultiTextBox}>
+                      {items.map((item, index) => (
+                        <View key={index} style={styles.savedMultiTextItem}>
+                          <Text style={styles.savedMultiTextLabel}>{item.label}</Text>
+                          <Text style={styles.savedMultiTextValue}>{savedMultiTextInputs[index]}</Text>
+                        </View>
+                      ))}
+                    </View>
+                    
+                    <TouchableOpacity
+                      style={styles.editButton}
+                      onPress={() => {
+                        setSavedMultiTextInputs(null);
+                        setMultiTextInputs(savedMultiTextInputs || {});
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons name="pencil" size={16} color="#4CAF50" />
+                      <Text style={styles.editButtonText}>Change My Plan</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                
+                {showSaveAnimation && (
+                  <View style={styles.celebrationOverlay}>
+                    <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+                    <Text style={styles.celebrationText}>Saved! 🎯</Text>
+                  </View>
+                )}
+              </ScrollView>
+            </KeyboardAvoidingView>
+          </LinearGradient>
+        </View>
+      );
+    }
+    
     // Handle choice type
     if (tip.personalization_type === 'choice') {
       const choices = tip.personalization_config?.choices || [];
+      const isMultiple = tip.personalization_config?.multiple === true;
       
       return (
         <View style={styles.pageContainer}>
@@ -449,7 +669,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             >
               <Text style={styles.sectionTitle}>Make It Your Own</Text>
               
-              {!savedChoice ? (
+              {(!savedChoice && !savedChoices) ? (
                 <>
                   <Text style={styles.personalizationPrompt}>
                     {tip.personalization_prompt}
@@ -457,12 +677,24 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                   
                   <View style={styles.choiceContainer}>
                     {choices.map((choice, index) => {
-                      const isSelected = selectedChoice === choice;
-                      // Define colors for each meal time
+                      const isSelected = isMultiple 
+                        ? selectedChoices.includes(choice)
+                        : selectedChoice === choice;
+                      // Define colors for each choice type
                       const getChoiceColor = () => {
-                        if (choice.toLowerCase().includes('breakfast')) return '#FFE0B2';
-                        if (choice.toLowerCase().includes('lunch')) return '#C8E6C9';
-                        if (choice.toLowerCase().includes('dinner')) return '#E1BEE7';
+                        const lowerChoice = choice.toLowerCase();
+                        // Meal times
+                        if (lowerChoice.includes('breakfast')) return '#FFE0B2';
+                        if (lowerChoice.includes('lunch')) return '#C8E6C9';
+                        if (lowerChoice.includes('dinner')) return '#E1BEE7';
+                        if (lowerChoice.includes('snack')) return '#FBBF24';
+                        // Craving types
+                        if (lowerChoice === 'salty') return '#B3E5FC'; // Light blue
+                        if (lowerChoice === 'sweet') return '#FCE4EC'; // Light pink
+                        if (lowerChoice === 'savory') return '#FFCCBC'; // Light orange
+                        if (lowerChoice === 'crunchy') return '#DCEDC8'; // Light green
+                        if (lowerChoice === 'chewy') return '#F3E5F5'; // Light purple
+                        if (lowerChoice === 'creamy') return '#FFF9C4'; // Light yellow
                         return '#E0E0E0';
                       };
                       
@@ -475,15 +707,24 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                           ]}
                           onPress={() => {
                             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                            setSelectedChoice(choice);
                             
-                            // Auto-save after a brief delay
-                            setTimeout(() => {
-                              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                              setSavedChoice(choice);
-                              setShowSaveAnimation(true);
-                              setTimeout(() => setShowSaveAnimation(false), 2000);
-                            }, 500);
+                            if (isMultiple) {
+                              // Toggle selection for multiple choice
+                              if (selectedChoices.includes(choice)) {
+                                setSelectedChoices(selectedChoices.filter(c => c !== choice));
+                              } else {
+                                setSelectedChoices([...selectedChoices, choice]);
+                              }
+                            } else {
+                              setSelectedChoice(choice);
+                              // Auto-save after a brief delay for single choice
+                              setTimeout(() => {
+                                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                                setSavedChoice(choice);
+                                setShowSaveAnimation(true);
+                                setTimeout(() => setShowSaveAnimation(false), 2000);
+                              }, 500);
+                            }
                           }}
                           activeOpacity={0.7}
                         >
@@ -500,15 +741,49 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                               {choice}
                             </Text>
                           </View>
-                          <Text style={styles.choiceTimeDescription}>
-                            {choice.toLowerCase().includes('breakfast') && 'Start your day with movement'}
-                            {choice.toLowerCase().includes('lunch') && 'Midday energy boost'}
-                            {choice.toLowerCase().includes('dinner') && 'Evening digestion aid'}
-                          </Text>
+                          {(choice.toLowerCase().includes('breakfast') || 
+                            choice.toLowerCase().includes('lunch') || 
+                            choice.toLowerCase().includes('dinner') || 
+                            choice.toLowerCase().includes('snack')) ? (
+                            <Text style={styles.choiceTimeDescription}>
+                              {choice.toLowerCase().includes('breakfast') && 'Start your day with protein'}
+                              {choice.toLowerCase().includes('lunch') && 'Midday protein boost'}
+                              {choice.toLowerCase().includes('dinner') && 'Evening protein portion'}
+                              {choice.toLowerCase().includes('afternoon') && 'Afternoon protein snack'}
+                              {choice.toLowerCase().includes('evening') && 'Evening protein treat'}
+                            </Text>
+                          ) : (
+                            <Text style={styles.choiceTimeDescription}>
+                              {choice.toLowerCase() === 'salty' && 'Like chips or pretzels'}
+                              {choice.toLowerCase() === 'sweet' && 'Like candy or desserts'}
+                              {choice.toLowerCase() === 'savory' && 'Like cheese or meat'}
+                              {choice.toLowerCase() === 'crunchy' && 'Like crackers or nuts'}
+                              {choice.toLowerCase() === 'chewy' && 'Like gummies or bread'}
+                              {choice.toLowerCase() === 'creamy' && 'Like ice cream or yogurt'}
+                            </Text>
+                          )}
                         </TouchableOpacity>
                       );
                     })}
                   </View>
+                  
+                  {isMultiple && selectedChoices.length > 0 && (
+                    <TouchableOpacity
+                      style={styles.saveMultipleButton}
+                      onPress={() => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                        setSavedChoices(selectedChoices);
+                        setShowSaveAnimation(true);
+                        setTimeout(() => setShowSaveAnimation(false), 2000);
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.saveMultipleButtonText}>
+                        Save {selectedChoices.length} Selection{selectedChoices.length > 1 ? 's' : ''}
+                      </Text>
+                      <Ionicons name="checkmark" size={20} color="#FFF" />
+                    </TouchableOpacity>
+                  )}
                 </>
               ) : (
                 <View style={styles.savedChoiceContainer}>
@@ -519,19 +794,28 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                   
                   <View style={styles.savedChoiceBox}>
                     <Text style={styles.savedChoicePrompt}>{tip.personalization_prompt}</Text>
-                    <Text style={styles.savedChoiceText}>{savedChoice}</Text>
+                    <Text style={styles.savedChoiceText}>
+                      {isMultiple && savedChoices 
+                        ? savedChoices.join(', ')
+                        : savedChoice}
+                    </Text>
                   </View>
                   
                   <TouchableOpacity
                     style={styles.editButton}
                     onPress={() => {
-                      setSavedChoice(null);
-                      setSelectedChoice(null);
+                      if (isMultiple) {
+                        setSavedChoices(null);
+                        setSelectedChoices([]);
+                      } else {
+                        setSavedChoice(null);
+                        setSelectedChoice(null);
+                      }
                     }}
                     activeOpacity={0.7}
                   >
                     <Ionicons name="pencil" size={16} color="#4CAF50" />
-                    <Text style={styles.editButtonText}>Change My Choice</Text>
+                    <Text style={styles.editButtonText}>Change My Selection</Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -1844,5 +2128,90 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#78350F',
     lineHeight: 16,
+  },
+  // Text input styles
+  textInputWrapper: {
+    marginTop: 4,
+    gap: 8,
+  },
+  textInputField: {
+    backgroundColor: '#FFF',
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: '#333',
+    minHeight: 52,
+    marginTop: 4,
+  },
+  saveTextButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#4CAF50',
+    paddingVertical: 14,
+    borderRadius: 12,
+    marginTop: 8,
+  },
+  saveTextButtonDisabled: {
+    backgroundColor: '#CCCCCC',
+  },
+  saveTextButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFF',
+  },
+  // Multiple choice save button
+  saveMultipleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#4CAF50',
+    paddingVertical: 14,
+    borderRadius: 12,
+    marginTop: 20,
+  },
+  saveMultipleButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFF',
+  },
+  // Multi-text styles
+  multiTextWrapper: {
+    marginTop: 4,
+  },
+  multiTextSection: {
+    marginTop: 16,
+  },
+  multiTextLabel: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 6,
+  },
+  savedMultiTextBox: {
+    backgroundColor: '#F8F8F8',
+    borderRadius: 12,
+    padding: 16,
+    gap: 12,
+  },
+  savedMultiTextItem: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    paddingBottom: 8,
+  },
+  savedMultiTextLabel: {
+    fontSize: 13,
+    color: '#666',
+    marginBottom: 4,
+  },
+  savedMultiTextValue: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333',
   },
 });

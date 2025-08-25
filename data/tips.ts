@@ -3135,6 +3135,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "j0k1l2m3-f010-4010-b010-0abcdef01234",
     "summary": "Satisfy fast-food cravings with a smaller portion.",
+    "personalization_prompt": "Which fast food item and what size will you get?",
+    "personalization_type": "text" as const,
+    "personalization_config": {
+      "placeholder": "e.g., 6-piece nuggets and small fries from McDonald's"
+    },
     "details_md": "**The Experiment:** The next time you have an undeniable craving for a specific fast-food meal, go get it—but order a smaller version. For example, get a 6-piece nugget and small fries instead of a large combo meal.[15]\n\n**Why it Works:** This strategy of mindful indulgence acknowledges that complete restriction often backfires, leading to binges.[15, 16] By satisfying the specific craving with a sensible portion, you avoid feelings of deprivation and the \"all-or-nothing\" cycle, making it a sustainable long-term approach.[15]\n\n**How to Try It:**\n• Plan the indulgence in advance to make it a conscious choice, not an impulse.\n• Skip the sugary soda to save a significant amount of calories and sugar.[17]\n• Savor the smaller portion mindfully, without distractions, to maximize enjoyment.[18]",
     "contraindications": null,
     "goal_tags": ["weight_loss", "portion_control", "mindful_eating", "harm_reduction"],
@@ -3787,7 +3792,22 @@ export const TIPS_DATABASE: Tip[] = [
     cognitive_load: 1,
     helps_with: ['mindless_eating', 'boredom_eating', 'stress_eating'],
     common_failure_points: ['family_resistance', 'forgetting_location'],
-    sustainability: 'daily_habit'
+    sustainability: 'daily_habit',
+    // Personalization
+    personalization_prompt: "Plan your kitchen makeover:",
+    personalization_type: 'multi_text' as const,
+    personalization_config: {
+      items: [
+        {
+          label: "What 'red light' food will you hide?",
+          placeholder: "e.g., Chips, cookies, candy"
+        },
+        {
+          label: "Where will you hide it?",
+          placeholder: "e.g., Top shelf, basement, behind other items"
+        }
+      ]
+    }
   },
   {
     tip_id: 'a1b2c3d4-0019-4019-a019-1234567890bd',
@@ -3969,6 +3989,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0005-4005-a005-1234567890af',
     summary: 'Eat to 80% full at one meal.',
+    personalization_prompt: "What sensations in your body will you pay attention to know you are at 80% full?",
+    personalization_type: 'text' as const,
+    personalization_config: {
+      placeholder: "e.g., Slight pressure in stomach, no longer feeling hungry, clothes feeling comfortable"
+    },
     details_md: `**The Experiment:** At one of your main meals today, practice eating slowly and stop when you feel about 80% full—satisfied, but not stuffed.
 
 **Why it Works:** It takes about 15-20 minutes for your stomach to signal to your brain that it's full. Eating slowly and stopping at 80% full gives your body time to register satiety, helping you naturally reduce calorie intake without feeling deprived. This is a core habit for long-term weight management.
@@ -4364,7 +4389,13 @@ export const TIPS_DATABASE: Tip[] = [
     cognitive_load: 4,
     helps_with: ['speed_eating', 'mindless_eating'],
     common_failure_points: ['socially_awkward', 'requires_willpower'],
-    sustainability: 'occasionally'
+    sustainability: 'occasionally',
+    // Personalization
+    personalization_prompt: "What's your strategy for timing 20 minutes?",
+    personalization_type: 'text' as const,
+    personalization_config: {
+      placeholders: ["e.g., Set a timer, put on a 20-minute playlist, watch a sitcom episode"]
+    }
   },
   {
     tip_id: 'a1b2c3d4-0016-4016-a016-1234567890ba',
@@ -4636,7 +4667,15 @@ export const TIPS_DATABASE: Tip[] = [
     cooking_skill_required: 'none',
     cognitive_load: 1,
     helps_with: [],
-    sustainability: 'daily_habit'
+    sustainability: 'daily_habit',
+    // Personalization
+    personalization_prompt: "When will you try using palm-sized protein portions?",
+    personalization_type: 'choice' as const,
+    personalization_config: {
+      choices: ["Breakfast", "Lunch", "Dinner", "Afternoon snack", "Evening snack"],
+      multiple: true,
+      style: "buttons"
+    }
   },
   {
     tip_id: 'e1f2a3b4-c5d6-7890-efab-123456789012',
@@ -4994,7 +5033,13 @@ export const TIPS_DATABASE: Tip[] = [
     cognitive_load: 1,
     helps_with: ['mindless_eating', 'stress_eating'],
     common_failure_points: ['easy_to_forget'],
-    sustainability: 'daily_habit'
+    sustainability: 'daily_habit',
+    // Personalization
+    personalization_prompt: "What healthy snack will you pack?",
+    personalization_type: 'text' as const,
+    personalization_config: {
+      placeholders: ["e.g., almonds, protein bar, apple slices"]
+    }
   },
   {
     tip_id: 'a1b2c3d4-0035-4035-a035-1234567890cd',
@@ -5125,7 +5170,15 @@ export const TIPS_DATABASE: Tip[] = [
     cooking_skill_required: 'none',
     cognitive_load: 3,
     helps_with: ['emotional_eating', 'stress_eating', 'boredom_eating'],
-    sustainability: 'daily_habit'
+    sustainability: 'daily_habit',
+    // Personalization
+    personalization_prompt: "Predict what you think you'll crave (compare later to what it actually is):",
+    personalization_type: 'choice' as const,
+    personalization_config: {
+      choices: ["Salty", "Sweet", "Savory", "Crunchy", "Chewy", "Creamy"],
+      multiple: true,
+      style: "buttons"
+    }
   },
   {
     tip_id: 'f6a7b8c9-d0e1-2345-fabc-678901234567',
@@ -5522,7 +5575,13 @@ export const TIPS_DATABASE: Tip[] = [
     cognitive_load: 2,
     helps_with: ['social_eating'],
     common_failure_points: ['bad_weather', 'socially_awkward'],
-    sustainability: 'occasionally'
+    sustainability: 'occasionally',
+    // Personalization
+    personalization_prompt: "Where will you suggest walking?",
+    personalization_type: 'text' as const,
+    personalization_config: {
+      placeholders: ["e.g., The park, downtown, nature trail, neighborhood loop"]
+    }
   },
   {
     tip_id: 'a1b2c3d4-0047-4047-a047-1234567890d9',
@@ -7760,6 +7819,54 @@ export const TIPS_DATABASE: Tip[] = [
     "cognitive_load": 1,
     "helps_with": ["stress_eating", "anxiety"],
     "sustainability": "daily_habit"
+  },
+  {
+    tip_id: 'eat-slowly-20-minutes',
+    summary: 'Eat slowly: Take 20+ minutes for main meals',
+    personalization_prompt: "What's your strategy for timing 20 minutes?",
+    personalization_type: 'text' as const,
+    personalization_config: {
+      placeholder: "e.g., Set a timer, put on a 20-minute playlist, watch a sitcom episode"
+    },
+    details_md: `**The Experiment:** Take at least 20 minutes to eat your main meals today.
+
+**Why it Works:** Eating slowly gives your brain time to receive fullness signals from your stomach, which takes about 20 minutes. This helps prevent overeating and improves digestion. You'll likely feel more satisfied with less food.
+
+**How to Try It:**
+• Set a timer for 20 minutes when you start eating
+• Put your fork down between bites
+• Chew each bite thoroughly (aim for 20-30 chews)
+• Take sips of water throughout the meal
+• Engage in conversation if eating with others`,
+    contraindications: [],
+    goal_tags: ['weight_loss', 'improve_gut_health', 'improve_energy'],
+    tip_type: ['mindset_shift', 'time_ritual'],
+    motivational_mechanism: ['mastery', 'comfort'],
+    time_cost_enum: '15_60_min',
+    money_cost_enum: '$',
+    mental_effort: 3,
+    physical_effort: 1,
+    location_tags: ['home', 'work', 'restaurant'],
+    social_mode: 'either',
+    time_of_day: ['morning', 'afternoon', 'evening'],
+    cue_context: ['meal_time'],
+    difficulty_tier: 3,
+    created_by: 'dietitian_reviewed',
+    preserves_foods: ['chocolate', 'cheese', 'bread', 'pasta', 'meat'],
+    veggie_intensity: 'not_applicable',
+    family_friendly: true,
+    kid_approved: false,
+    partner_resistant_ok: true,
+    chaos_level_max: 2,
+    requires_planning: false,
+    impulse_friendly: false,
+    diet_trauma_safe: false,
+    feels_like_diet: true,
+    kitchen_equipment: ['none'],
+    cooking_skill_required: 'none',
+    cognitive_load: 3,
+    helps_with: ['speed_eating', 'mindless_eating', 'portion_control'],
+    sustainability: 'daily_habit'
   }
 ];
 
