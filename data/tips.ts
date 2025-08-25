@@ -2991,6 +2991,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "f6g7h8i9-f006-4006-b006-67890abcdef0",
     "summary": "Link drinking water to checking your phone.",
+    "personalization_prompt": "What kind of phone checking activity will you pair with water?",
+    "personalization_type": "text" as const,
+    "personalization_config": {
+      "placeholder": "e.g., Checking social media, texts, email, or notifications"
+    },
     "details_md": "**The Experiment:** For one day, make this your rule: **Every time you check your phone, take a sip of water.**[10]\n\n**Why it Works:** This is a perfect example of habit stacking. It links a new, desired behavior (drinking water) to an existing, frequent habit (checking your phone), making it almost automatic.[10, 11] It's an effortless way to stay hydrated, as thirst is often mistaken for hunger.[3]\n\n**How to Try It:**\n• Keep a water bottle on your desk, in your bag, or wherever you spend the most time with your phone.\n• The cue is the action of picking up or looking at your phone.[10]\n• Don't worry about big gulps; small, consistent sips add up.",
     "contraindications": null,
     "goal_tags": ["increase_hydration", "reduce_cravings", "improve_energy"],
@@ -3136,9 +3141,12 @@ export const TIPS_DATABASE: Tip[] = [
     "tip_id": "j0k1l2m3-f010-4010-b010-0abcdef01234",
     "summary": "Satisfy fast-food cravings with a smaller portion.",
     "personalization_prompt": "Which fast food item and what size will you get?",
-    "personalization_type": "text" as const,
+    "personalization_type": "multi_text" as const,
     "personalization_config": {
-      "placeholder": "e.g., 6-piece nuggets and small fries from McDonald's"
+      "items": [
+        { "label": "Fast food item:", "placeholder": "e.g., Chicken nuggets" },
+        { "label": "Size:", "placeholder": "e.g., 6-piece instead of 10-piece" }
+      ]
     },
     "details_md": "**The Experiment:** The next time you have an undeniable craving for a specific fast-food meal, go get it—but order a smaller version. For example, get a 6-piece nugget and small fries instead of a large combo meal.[15]\n\n**Why it Works:** This strategy of mindful indulgence acknowledges that complete restriction often backfires, leading to binges.[15, 16] By satisfying the specific craving with a sensible portion, you avoid feelings of deprivation and the \"all-or-nothing\" cycle, making it a sustainable long-term approach.[15]\n\n**How to Try It:**\n• Plan the indulgence in advance to make it a conscious choice, not an impulse.\n• Skip the sugary soda to save a significant amount of calories and sugar.[17]\n• Savor the smaller portion mindfully, without distractions, to maximize enjoyment.[18]",
     "contraindications": null,
