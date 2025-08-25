@@ -22,6 +22,7 @@ import { QUIZ_QUESTIONS, getConditionalQuestions } from '../data/quizQuestions';
 import StorageService from '../services/storage';
 import { UserProfile } from '../types/tip';
 import { Ionicons } from '@expo/vector-icons';
+import IdentityQuizStep from './quiz/IdentityQuizStep';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -42,6 +43,8 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   const [responses, setResponses] = useState<QuizResponse[]>([]);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [availableQuestions, setAvailableQuestions] = useState<QuizQuestion[]>(QUIZ_QUESTIONS);
+  const [showIdentityStep, setShowIdentityStep] = useState(false);
+  const [identityData, setIdentityData] = useState<{ adjectives: string[], role: string } | null>(null);
   
   const scrollViewRef = React.useRef<ScrollView>(null);
   const progress = useSharedValue(0);
@@ -250,9 +253,9 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
         scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
       }, 200);
     } else {
-      console.log('Completing quiz with responses:', newResponses);
-      // Complete onboarding
-      await completeOnboarding(newResponses);
+      console.log('Moving to identity step');
+      // Show identity step instead of completing immediately
+      setShowIdentityStep(true);
     }
   };
 
@@ -285,7 +288,12 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
     }
   };
 
-  const completeOnboarding = async (allResponses: QuizResponse[]) => {
+  const handleIdentityComplete = async (adjectives: string[], role: string) => {
+    setIdentityData({ adjectives, role });
+    await completeOnboarding(responses, adjectives, role);
+  };
+
+  const completeOnboarding = async (allResponses: QuizResponse[], adjectives?: string[], role?: string) => {
     // For retakes, start with existing profile; otherwise create new
     const profile: UserProfile = existingProfile ? {
       ...existingProfile,
@@ -478,6 +486,13 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       value: r.values?.[0] || r.values || ''
     }));
     
+    // Add identity data if provided
+    if (adjectives && role) {
+      profile.identityAdjectives = adjectives;
+      profile.identityRole = role;
+      profile.identityPhrase = `${adjectives.join(' ')} ${role}`;
+    }
+    
     try {
       // Save to storage
       await StorageService.saveUserProfile(profile);
@@ -559,6 +574,38 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       </View>
     );
   };
+
+  // Show identity step if we've finished all questions
+  if (showIdentityStep) {
+    // Get user's goals from responses - need to map to actual goal tags
+    const goalsResponse = responses.find(r => r.questionId === 'real_goals');
+    const mappedGoals: string[] = [];
+    
+    goalsResponse?.values?.forEach(goal => {
+      switch(goal) {
+        case 'lose_weight': mappedGoals.push('weight_loss'); break;
+        case 'gain_muscle': mappedGoals.push('muscle_gain'); break;
+        case 'eat_less_sugar': mappedGoals.push('reduce_sugar'); break;
+        case 'drink_more_water': mappedGoals.push('improve_hydration'); break;
+        case 'lower_cholesterol': mappedGoals.push('better_lipids'); break;
+        case 'eat_less_junk': mappedGoals.push('less_processed_food'); break;
+        case 'eat_more_veggies': mappedGoals.push('increase_veggies'); break;
+        case 'more_energy': mappedGoals.push('improve_energy'); break;
+        case 'lower_bp': mappedGoals.push('lower_blood_pressure'); break;
+        case 'better_digestion': mappedGoals.push('improve_gut_health'); break;
+      }
+    });
+    
+    console.log('Goals for identity step:', mappedGoals);
+    
+    return (
+      <IdentityQuizStep
+        userGoals={mappedGoals}
+        onComplete={handleIdentityComplete}
+        onBack={() => setShowIdentityStep(false)}
+      />
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>

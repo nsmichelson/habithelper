@@ -302,6 +302,11 @@ export interface UserProfile {
   // User preferences
   skip_feedback_questions?: boolean; // If true, don't ask why they rejected tips
   
+  // Identity-based motivation
+  identityAdjectives?: string[]; // e.g., ["fit", "entrepreneurial"]
+  identityRole?: string; // e.g., "mom", "student", "professional"
+  identityPhrase?: string; // Combined: "fit entrepreneurial mom"
+  
   // Focus Mode
   focusMode?: {
     enabled: boolean;

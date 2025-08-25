@@ -21,6 +21,7 @@ import NotForMeFeedback from '@/components/NotForMeFeedback';
 import RejectedTipView from '@/components/RejectedTipView';
 import TipHistoryModal from '@/components/TipHistoryModal';
 import TestDataCalendar from '@/components/TestDataCalendar';
+import IdentityQuizStep from '@/components/quiz/IdentityQuizStep';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -116,6 +117,7 @@ export default function HomeScreen() {
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
   const [showTestCalendar, setShowTestCalendar] = useState(false);
+  const [showIdentityBuilder, setShowIdentityBuilder] = useState(false);
   const [recentlySurfacedSavedIds, setRecentlySurfacedSavedIds] = useState<string[]>([]);
   const [cycledTipIds, setCycledTipIds] = useState<string[]>([]);
 
@@ -783,6 +785,29 @@ export default function HomeScreen() {
         />
       )}
       
+      {/* Identity Builder Modal */}
+      {showIdentityBuilder && userProfile && (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#FFF', zIndex: 1000 }}>
+          <SafeAreaView style={{ flex: 1 }}>
+            <IdentityQuizStep
+              userGoals={userProfile.goals || []}
+              onComplete={async (adjectives, role) => {
+                const updatedProfile = {
+                  ...userProfile,
+                  identityAdjectives: adjectives,
+                  identityRole: role,
+                  identityPhrase: `${adjectives.join(' ')} ${role}`
+                };
+                await StorageService.saveUserProfile(updatedProfile);
+                setUserProfile(updatedProfile);
+                setShowIdentityBuilder(false);
+              }}
+              onBack={() => setShowIdentityBuilder(false)}
+            />
+          </SafeAreaView>
+        </View>
+      )}
+      
       <LinearGradient
         colors={['#E8F5E9', '#FFFFFF']}
         style={styles.gradient}
@@ -792,16 +817,26 @@ export default function HomeScreen() {
           <View style={{ flex: 1 }}>
             {/* Header */}
             <View style={styles.header}>
-            <View>
+            <View style={{ flex: 1, paddingRight: 100 }}>
               <Text style={styles.greeting}>
                 {new Date().getHours() < 12 ? 'Good Morning' :
                  new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
                 {/* Debug: Show current hour */}
                 {__DEV__ && ` (${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')})`}
               </Text>
-              <Text style={styles.title}>Habit Helper</Text>
+              <Text style={styles.title} numberOfLines={2} adjustsFontSizeToFit>
+                {userProfile?.identityPhrase ? (
+                  <>
+                    {userProfile.identityPhrase.split(' ').map((word, index) => (
+                      <Text key={index} style={index < userProfile.identityPhrase.split(' ').length - 1 ? styles.identityAdjective : styles.identityRole}>
+                        {word}{index < userProfile.identityPhrase.split(' ').length - 1 ? ' ' : ''}
+                      </Text>
+                    ))}
+                  </>
+                ) : 'Habit Helper'}
+              </Text>
             </View>
-            <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={styles.headerIconsContainer}>
               {/* Testing: Open test data calendar */}
               {__DEV__ && (
                 <TouchableOpacity 
@@ -811,6 +846,14 @@ export default function HomeScreen() {
                   <Ionicons name="calendar-outline" size={32} color="#9C27B0" />
                 </TouchableOpacity>
               )}
+              
+              {/* Go to identity builder */}
+              <TouchableOpacity 
+                style={styles.profileButton}
+                onPress={() => setShowIdentityBuilder(true)}
+              >
+                <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+              </TouchableOpacity>
               
               {/* Testing: Cycle through tips */}
               {__DEV__ && (
@@ -1021,16 +1064,26 @@ export default function HomeScreen() {
           <ScrollView showsVerticalScrollIndicator={false}>
             {/* Header */}
             <View style={styles.header}>
-              <View>
+              <View style={{ flex: 1, paddingRight: 100 }}>
                 <Text style={styles.greeting}>
                   {new Date().getHours() < 12 ? 'Good Morning' :
                    new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
                   {/* Debug: Show current hour */}
                   {__DEV__ && ` (${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')})`}
                 </Text>
-                <Text style={styles.title}>Habit Helper</Text>
+                <Text style={styles.title} numberOfLines={2} adjustsFontSizeToFit>
+                  {userProfile?.identityPhrase ? (
+                    <>
+                      {userProfile.identityPhrase.split(' ').map((word, index) => (
+                        <Text key={index} style={index < userProfile.identityPhrase.split(' ').length - 1 ? styles.identityAdjective : styles.identityRole}>
+                          {word}{index < userProfile.identityPhrase.split(' ').length - 1 ? ' ' : ''}
+                        </Text>
+                      ))}
+                    </>
+                  ) : 'Habit Helper'}
+                </Text>
               </View>
-              <View style={{ flexDirection: 'row', gap: 8 }}>
+              <View style={styles.headerIconsContainer}>
                 {/* Testing: Open test data calendar */}
                 {__DEV__ && (
                   <TouchableOpacity 
@@ -1346,6 +1399,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 16,
+    position: 'relative',
+  },
+  headerIconsContainer: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    flexDirection: 'row',
+    gap: 8,
   },
   greeting: {
     fontSize: 14,
@@ -1354,6 +1415,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: '700',
+    color: '#2E7D32',
+  },
+  identityAdjective: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#4CAF50',
+    fontStyle: 'italic',
+  },
+  identityRole: {
+    fontSize: 28,
+    fontWeight: '800',
     color: '#2E7D32',
   },
   profileButton: {
