@@ -5,6 +5,15 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "e897e203-f6a3-4726-97cf-0be4bf6dade3",
     "summary": "Keep ginger chews or candies on hand for nausea relief.",
+    "personalization_prompt": "Name your three 'nausea emergency stations' where you'll stash ginger chews:",
+    "personalization_type": "multi_text" as const,
+    "personalization_config": {
+      "items": [
+        { "label": "Station 1:", "placeholder": "e.g., Bedside table drawer" },
+        { "label": "Station 2:", "placeholder": "e.g., Car glove compartment" },
+        { "label": "Station 3:", "placeholder": "e.g., Work desk drawer" }
+      ]
+    },
     "details_md": "**The Experiment:** Carry ginger chews in your bag and keep a few by your bed. When nausea hits, slowly suck or chew one.\n\n**Why it Works:** Ginger compounds can calm the stomach and reduce nausea; having them pre-positioned makes relief immediate.\n\n**How to Try It:**\n• Stock a few in your purse, desk, and nightstand.\n• If strong ginger is too spicy, try milder ginger drops.\n• Start with small amounts and see what your stomach tolerates.",
     "contraindications": "Avoid if ginger worsens heartburn or if your clinician advised limiting ginger (e.g., on certain blood thinners). Large amounts of ginger may interact with blood thinners or increase reflux; limit if advised by your clinician.",
     "goal_tags": [
@@ -65,6 +74,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "70bc2cae-2895-4041-9ba3-9cdc8c38ac23",
     "summary": "Freeze strong ginger tea into cubes for instant nausea tea.",
+    "personalization_prompt": "What fun shape or container will you use for your ginger ice cubes?",
+    "personalization_type": "text" as const,
+    "personalization_config": {
+      "placeholder": "e.g., Star-shaped molds, mini dinosaurs, or heart shapes"
+    },
     "details_md": "**The Experiment:** Brew a pot of strong ginger tea, freeze in an ice tray, and pop a cube into hot water when queasy.\n\n**Why it Works:** Batch-prepped ginger removes friction on rough days so you can self-soothe fast.\n\n**How to Try It:**\n• Steep sliced fresh ginger or tea bags 10–15 minutes.\n• Freeze in an ice cube tray and store in a zip bag.\n• Use 1–2 cubes in hot water or suck a cube if cold helps.",
     "contraindications": "Skip if ginger triggers reflux; mind dental sensitivity if sucking frozen cubes. Large amounts of ginger may interact with blood thinners or increase reflux; limit if advised by your clinician. Cool foods quickly, store safely, and reheat leftovers to 165°F; eat within 3–4 days once thawed.",
     "goal_tags": [
@@ -313,6 +327,14 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "84271016-fed4-4b53-a1e9-ad80725ee917",
     "summary": "Keep crackers by the bed and nibble before sitting up.",
+    "personalization_prompt": "What's your bedside 'morning rescue' snack and where will you keep it?",
+    "personalization_type": "multi_text" as const,
+    "personalization_config": {
+      "items": [
+        { "label": "Snack choice:", "placeholder": "e.g., Saltines, pretzels, dry cereal" },
+        { "label": "Storage spot:", "placeholder": "e.g., Nightstand drawer, bedside basket" }
+      ]
+    },
     "details_md": "**The Experiment:** Eat a few plain crackers or dry cereal before getting out of bed.\n\n**Why it Works:** A little starch on board can blunt the acid surge and blood sugar dip that worsens morning nausea.\n\n**How to Try It:**\n• Pre-pack a zip bag of crackers at night.\n• Nibble slowly and wait 5–10 minutes before standing.\n• Keep a small water bottle nearby for sips.",
     "contraindications": "Choose gluten‑free options if you have celiac disease; pick lower‑sodium crackers if on a sodium‑restricted plan per your clinician.",
     "goal_tags": [
@@ -432,6 +454,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "35f529a1-e92f-403c-ba16-de140af4aeab",
     "summary": "Use the 'P' fruits (prunes, pears, plums, pumpkin) for constipation.",
+    "personalization_prompt": "Pick your 'P' fruit superhero for the day!",
+    "personalization_type": "choice" as const,
+    "personalization_config": {
+      "choices": ["Prunes (The Classic)", "Pears (The Gentle Giant)", "Plums (The Sweet Solution)", "Pumpkin (The Smooth Operator)"],
+      "multiple": false
+    },
     "details_md": "**The Experiment:** Add one serving of a 'P' fruit daily until regular (e.g., 4–6 prunes or a ripe pear).\n\n**Why it Works:** Fiber and natural sorbitol draw water into the stool and promote movement.\n\n**How to Try It:**\n• Start with one serving and increase as needed.\n• Combine with water to boost effect.\n• Rotate fruits to keep it enjoyable.",
     "contraindications": "Reduce/stop if stools become too loose.",
     "goal_tags": [
@@ -555,6 +583,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "4e4cc434-fa30-48a8-991f-afde0bb3eaad",
     "summary": "Try a daily kiwi (or two) to stay regular.",
+    "personalization_prompt": "When's your kiwi time today?",
+    "personalization_type": "choice" as const,
+    "personalization_config": {
+      "choices": ["Morning wake-up", "Mid-morning snack", "Lunch dessert", "Afternoon pick-me-up", "Evening treat"],
+      "multiple": false
+    },
     "details_md": "**The Experiment:** Eat 1–2 ripe kiwis each day, scooped with a spoon or added to yogurt.\n\n**Why it Works:** Kiwifruit offers fiber and enzymes that can support gentle bowel movement.\n\n**How to Try It:**\n• Keep a few ripening on the counter, then refrigerate.\n• Pair with yogurt or cereal for a quick snack.\n• Choose golden kiwi if you prefer milder flavor.",
     "contraindications": "Stop if stools become loose; consider oral allergy syndrome if sensitive to kiwi.",
     "goal_tags": [
@@ -1021,6 +1055,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "973ee1d3-d3e2-4754-9f11-f1936a5e867b",
     "summary": "Create a mocktail ritual in your fanciest glass.",
+    "personalization_prompt": "Name your signature mocktail creation!",
+    "personalization_type": "text" as const,
+    "personalization_config": {
+      "placeholder": "e.g., The Sparkling Sunset, Berry Bliss, Citrus Celebration"
+    },
     "details_md": "**The Experiment:** Mix sparkling water with tart cherry or pomegranate juice and citrus; serve in stemware.\n\n**Why it Works:** Honors the social ritual of a drink while keeping pregnancy alcohol‑free.\n\n**How to Try It:**\n• Keep a few favorite juice mixers on hand.\n• Garnish (citrus, herbs) to make it feel special.\n• Use unsweetened juices if watching sugar.",
     "contraindications": null,
     "goal_tags": [
@@ -1796,6 +1835,14 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "4023164b-2b78-4b5f-b7e1-4ec1cad05e92",
     "summary": "Add protein powder or nut butter to oatmeal/smoothies.",
+    "personalization_prompt": "Create your protein power-up combo:",
+    "personalization_type": "multi_text" as const,
+    "personalization_config": {
+      "items": [
+        { "label": "Base (oatmeal/smoothie):", "placeholder": "e.g., Berry smoothie, cinnamon oatmeal" },
+        { "label": "Protein boost:", "placeholder": "e.g., Vanilla protein powder, almond butter" }
+      ]
+    },
     "details_md": "**The Experiment:** Stir in one scoop of protein powder or a spoonful of nut butter.\n\n**Why it Works:** Small additions meaningfully increase protein and satiety.\n\n**How to Try It:**\n• Choose a pregnancy‑safe protein powder if using.\n• Blend into smoothies or stir into warm oats.\n• Adjust liquid for desired texture.",
     "contraindications": "Check ingredients if sensitive; some powders contain herbs/sweeteners. Select pregnancy‑appropriate powders without high‑dose herbs/stimulants; verify vitamin A forms/amounts; some sweeteners may cause GI upset.",
     "goal_tags": [
@@ -2883,6 +2930,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "c3d4e5f6-f003-4003-b003-34567890abcd",
     "summary": "Eat with your non-dominant hand to slow down.",
+    "personalization_prompt": "Which meal will you try eating like a beginner (with your non-dominant hand)?",
+    "personalization_type": "choice" as const,
+    "personalization_config": {
+      "choices": ["Breakfast", "Lunch", "Dinner", "Snack time"],
+      "multiple": false
+    },
     "details_md": "**The Experiment:** At one meal today, try eating with your non-dominant hand.[4]\n\n**Why it Works:** This simple mechanical trick disrupts the automatic, mindless process of eating. The awkwardness forces you to slow down, pay more attention to each bite, and become more aware of your body's fullness cues.[4]\n\n**How to Try It:**\n• Simply switch your fork or spoon to the hand you don't normally use.\n• This works best with meals that require utensils.\n• Notice how it changes the pace and experience of your meal.",
     "contraindications": null,
     "goal_tags": ["portion_control", "mindful_eating"],
@@ -3032,6 +3085,15 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "g7h8i9j0-f007-4007-b007-7890abcdef01",
     "summary": "Add one healthy ingredient to every meal.",
+    "personalization_prompt": "Pick your 'power-up' ingredients for today's meals:",
+    "personalization_type": "multi_text" as const,
+    "personalization_config": {
+      "items": [
+        { "label": "Breakfast booster:", "placeholder": "e.g., Chia seeds, berries, spinach" },
+        { "label": "Lunch upgrade:", "placeholder": "e.g., Avocado, nuts, extra veggies" },
+        { "label": "Dinner enhancer:", "placeholder": "e.g., Hemp hearts, mushrooms, herbs" }
+      ]
+    },
     "details_md": "**The Experiment:** For every meal you plate today, add one extra nutrient-rich ingredient.[10]\n\n**Why it Works:** This is a low-friction way to boost the nutritional value of foods you already eat. It focuses on addition, not restriction, which feels positive and is easier to sustain. Over time, these small additions compound into significant health benefits.[10]\n\n**How to Try It:**\n• Toss a handful of spinach into scrambled eggs or pasta sauce.[10]\n• Mix a tablespoon of chia seeds or flax seeds into yogurt or oatmeal.[2, 6]\n• Add extra sliced veggies (peppers, cucumbers, tomatoes) to a sandwich or wrap.[10]",
     "contraindications": null,
     "goal_tags": ["increase_nutrients", "increase_fiber", "increase_vegetables"],
@@ -4046,6 +4108,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a7b8c9d0-e1f2-3456-abcd-789012345678',
     summary: 'Add 20-30g of protein to your breakfast.',
+    personalization_prompt: "Design your protein-packed breakfast:",
+    personalization_type: "text" as const,
+    personalization_config: {
+      placeholder: "e.g., 2 eggs + Greek yogurt + berries = 25g protein"
+    },
     details_md: `**The Experiment:** Include a significant source of protein—like eggs, Greek yogurt, or protein powder—in your breakfast today. Aim for 20-30 grams.
 
 **Why it Works:** Protein is the most satiating macronutrient. Including it in your first meal helps you feel full longer, reducing cravings and the likelihood of snacking on less healthy options before lunch. After an overnight fast, it also helps stabilize blood sugar and provides sustained energy.
@@ -4090,6 +4157,14 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0008-4008-a008-1234567890b2',
     summary: 'Swap a processed snack for a piece of whole fruit.',
+    personalization_prompt: "What's your fruit swap mission today?",
+    personalization_type: "multi_text" as const,
+    personalization_config: {
+      items: [
+        { label: "Swap OUT:", placeholder: "e.g., Afternoon cookies, chips" },
+        { label: "Swap IN:", placeholder: "e.g., Crispy apple, juicy orange" }
+      ]
+    },
     details_md: `**The Experiment:** Today, when you feel like having a snack, replace your usual choice (like chips, cookies, or a granola bar) with a piece of whole fruit.
 
 **Why it Works:** Whole fruit provides fiber, vitamins, and water, making it a more nutrient-dense and filling choice than most processed snacks. This simple swap reduces your intake of added sugars, refined grains, and unhealthy fats while increasing your intake of beneficial nutrients.
@@ -4136,6 +4211,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'b4c5d6e7-f8a9-0123-bcde-456789012345',
     summary: 'Try the "Colorful Plate" Challenge.',
+    personalization_prompt: "Build your rainbow! Pick 3+ colors for your plate:",
+    personalization_type: "choice" as const,
+    personalization_config: {
+      choices: ["Red (tomatoes, peppers)", "Orange (carrots, squash)", "Yellow (corn, bell peppers)", "Green (broccoli, spinach)", "Blue/Purple (eggplant, cabbage)", "White (cauliflower, onions)"],
+      multiple: true
+    },
     details_md: `**The Experiment:** For one meal today, try to include foods of at least three different colors on your plate.
 
 **Why it Works:** Different colors in fruits and vegetables signify the presence of different vitamins, minerals, and antioxidant compounds (phytonutrients). "Eating the rainbow" is a simple heuristic to ensure you're getting a wide variety of nutrients that support overall health, from your immune system to your cardiovascular system.
@@ -4224,6 +4305,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0012-4012-a012-1234567890b6',
     summary: 'Have a healthy fat snack like nuts or avocado.',
+    personalization_prompt: "Pick your healthy fat superhero snack for today:",
+    personalization_type: "choice" as const,
+    personalization_config: {
+      choices: ["The Nutty Professor (mixed nuts)", "Avocado Assassin (half avocado + salt)", "Apple & Almond Butter Alliance", "Walnut Warrior Mix", "Pistchio Power Pack"],
+      multiple: false
+    },
     details_md: `**The Experiment:** For one of your snacks today, choose a source of healthy fats, such as a small handful of nuts (about 1/4 cup) or half an avocado.
 
 **Why it Works:** Healthy fats are essential for hormone production and overall health. They are also very satiating, helping to keep you full between meals. Nuts and avocados also provide fiber and other important nutrients. Contrary to old beliefs, dietary fat is not to be feared and is a key part of a balanced diet.
@@ -4268,6 +4355,14 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'e9f0a1b2-c3d4-5678-efab-901234567890',
     summary: 'Pre-portion snacks into daily servings.',
+    personalization_prompt: "What snacks will you portion out and how many 'snack packs' will you make?",
+    personalization_type: "multi_text" as const,
+    personalization_config: {
+      items: [
+        { label: "Snack to portion:", placeholder: "e.g., Trail mix, crackers, nuts" },
+        { label: "Number of packs:", placeholder: "e.g., 5 for the week" }
+      ]
+    },
     details_md: `**The Experiment:** If you plan to have snacks today, take five minutes in the morning to portion them out into small bags or containers.
 
 **Why it Works:** This simple act of planning prevents mindless overeating directly from a large bag or box. It's a form of portion control that requires a decision only once, making it easier to stick to your goals when you're hungry or distracted later in the day. It's a key strategy for managing calorie intake without obsessive counting.
@@ -4408,6 +4503,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0016-4016-a016-1234567890ba',
     summary: 'Eat your water: snack on cucumber or watermelon.',
+    personalization_prompt: "Choose your 'water you can eat' adventure:",
+    personalization_type: "choice" as const,
+    personalization_config: {
+      choices: ["Cucumber Spa Day", "Watermelon Wave", "Celery Crunch Time", "Melon Medley", "Tomato Tango"],
+      multiple: false
+    },
     details_md: `**The Experiment:** Have a snack that consists of a high-water-content food, like cucumber slices, celery sticks, or watermelon chunks.
 
 **Why it Works:** Hydration doesn't only come from beverages. Many fruits and vegetables have very high water content, contributing to your daily fluid needs. These snacks are also typically low in calories and high in nutrients, making them a refreshing and healthy choice.
@@ -4452,6 +4553,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0017-4017-a017-1234567890bb',
     summary: 'Add a "flavor boost" to water instead of juice.',
+    personalization_prompt: "Create your signature water infusion recipe:",
+    personalization_type: "text" as const,
+    personalization_config: {
+      placeholder: "e.g., Lemon + cucumber + mint = Spa Water"
+    },
     details_md: `**The Experiment:** Instead of reaching for a fruit juice or other sweet drink, flavor a glass of water with fresh ingredients.
 
 **Why it Works:** This provides flavor and novelty without the high sugar content of juice. Even 100% fruit juice is a concentrated source of sugar without the fiber of whole fruit. Infusing water is a great way to make hydration more appealing and reduce overall sugar intake.
@@ -4688,6 +4794,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'e1f2a3b4-c5d6-7890-efab-123456789012',
     summary: 'Fill Half Your Plate with Vegetables First.',
+    personalization_prompt: "Which veggie all-star will fill your plate's starting lineup?",
+    personalization_type: "text" as const,
+    personalization_config: {
+      placeholder: "e.g., Roasted rainbow carrots, Caesar salad, steamed broccoli brigade"
+    },
     details_md: `**The Experiment:** At one meal today, physically fill half of your plate with vegetables before adding any protein or carbohydrates.
 
 **Why it Works:** This "higher-order habit" is highly effective. This sequential plating strategy naturally controls portions of more calorie-dense foods while ensuring you meet your fiber and micronutrient needs. It makes a healthy choice the default.
@@ -4730,6 +4841,15 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0024-4024-a024-1234567890c2',
     summary: "Plan tomorrow's meals before you go to bed.",
+    personalization_prompt: "Create tomorrow's meal lineup (like planning your dream team!):",
+    personalization_type: "multi_text" as const,
+    personalization_config: {
+      items: [
+        { label: "Breakfast MVP:", placeholder: "e.g., Overnight oats with berries" },
+        { label: "Lunch Champion:", placeholder: "e.g., Leftover soup + salad" },
+        { label: "Dinner Finale:", placeholder: "e.g., Grilled chicken + veggies" }
+      ]
+    },
     details_md: `**The Experiment:** Tonight, take 5-10 minutes to think about and write down what you plan to eat for your main meals tomorrow.
 
 **Why it Works:** Planning ahead significantly reduces in-the-moment decision making when you're hungry, stressed, or rushed—times when you're most likely to make less-healthy choices. This simple act of forethought makes you more likely to stick to your goals.
@@ -5409,6 +5529,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'a1b2c3d4-0043-4043-a043-1234567890d5',
     summary: 'Roast a big batch of mixed vegetables.',
+    personalization_prompt: "Design your veggie roasting squad (pick 3-5 players!):",
+    personalization_type: "choice" as const,
+    personalization_config: {
+      choices: ["Broccoli Boss", "Cauliflower Captain", "Sweet Potato Star", "Bell Pepper Hero", "Zucchini Warrior", "Brussels Sprout Brigade", "Carrot Champion", "Red Onion Ranger"],
+      multiple: true
+    },
     details_md: `**The Experiment:** Roast a large sheet pan of mixed vegetables to have on hand for the next few days.
 
 **Why it Works:** Roasting brings out the natural sweetness of vegetables, making them delicious and appealing. Having a batch ready in the fridge makes it incredibly easy to add a serving of vegetables to any meal—breakfast, lunch, or dinner—with zero prep time.
@@ -5899,6 +6025,15 @@ export const TIPS_DATABASE: Tip[] = [
   {
     tip_id: 'b8c9d0e1-f2a3-4567-bcde-890123456789',
     summary: 'Practice Protein Distribution: 25-30g Per Meal.',
+    personalization_prompt: "Map out your protein game plan for the day (aim for 25-30g each meal):",
+    personalization_type: "multi_text" as const,
+    personalization_config: {
+      items: [
+        { label: "Breakfast protein:", placeholder: "e.g., 3 eggs + Greek yogurt = 27g" },
+        { label: "Lunch protein:", placeholder: "e.g., Grilled chicken salad = 30g" },
+        { label: "Dinner protein:", placeholder: "e.g., Salmon fillet = 28g" }
+      ]
+    },
     details_md: `**The Experiment:** Aim for 25-30g of protein at breakfast, lunch, and dinner today.
 
 **Why it Works:** Sports nutrition research shows distributed protein intake increases muscle protein synthesis by 25% compared to concentrating it in one meal. This supports muscle maintenance, satiety, and metabolic health throughout the day.
@@ -6368,6 +6503,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000006",
     "summary": "Hunger thermometer (1–10) before/during/after meals.",
+    "personalization_prompt": "Create your hunger scale metaphor (1=starving, 10=stuffed). What's your 5-6?",
+    "personalization_type": "text" as const,
+    "personalization_config": {
+      "placeholder": "e.g., 1=Empty tank, 5=Cruising speed, 10=Overflow"
+    },
     "details_md": "**The Experiment:** Rate hunger pre‑meal, halfway, and after; aim to stop around 6–7.\n\n**Why it Works:** Trains satiety detection and reduces overshooting fullness.\n\n**How to Try It:**\n• Set a halfway alert\n• Pause utensils, rate hunger\n• Decide to continue or stop",
     "contraindications": [],
     "goal_tags": ["mindful_eating", "portion_control"],
@@ -6401,6 +6541,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000007",
     "summary": "90‑second urge surf (watch the wave rise/fall).",
+    "personalization_prompt": "What will you visualize during your 90-second craving surf?",
+    "personalization_type": "choice" as const,
+    "personalization_config": {
+      "choices": ["Ocean wave rising and falling", "Storm cloud passing by", "Hot air balloon floating away", "Train passing through a station", "Campfire slowly dying down"],
+      "multiple": false
+    },
     "details_md": "**The Experiment:** When a craving spikes, set a 90‑sec timer and breathe slowly.\n\n**Why it Works:** Urges crest and fall; brief delay re‑engages the prefrontal cortex.\n\n**How to Try It:**\n• Inhale 4, exhale 6\n• Narrate “rising…peaking…falling”\n• Decide after the chime",
     "contraindications": [],
     "goal_tags": ["reduce_cravings", "stress_eating"],
@@ -6857,6 +7003,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000021",
     "summary": "Snack speed‑bump (rubber band + note on lid).",
+    "personalization_prompt": "What message will you write on your snack container to make you pause?",
+    "personalization_type": "text" as const,
+    "personalization_config": {
+      "placeholder": "e.g., 'Are you hungry or just bored?', 'HALT: Hungry? Angry? Lonely? Tired?'"
+    },
     "details_md": "**The Experiment:** Place a rubber band and a tiny “HALT?” note on tempting containers.\n\n**Why it Works:** Adds friction and a mindful pause.\n\n**How to Try It:**\n• Band the lid\n• Read note aloud\n• Choose: portion or pause",
     "contraindications": [],
     "goal_tags": ["portion_control", "stress_eating"],
@@ -6889,6 +7040,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000022",
     "summary": "Snack‑tray rule (plate it, sit at a table).",
+    "personalization_prompt": "Where's your official 'snack zone' going to be?",
+    "personalization_type": "choice" as const,
+    "personalization_config": {
+      "choices": ["Kitchen table", "Dining room", "Breakfast nook", "Outdoor patio", "Office desk (but no work!)"],
+      "multiple": false
+    },
     "details_md": "**The Experiment:** Put all snacks on a small plate and eat at a table.\n\n**Why it Works:** Visibility + context reduce mindless grazing.\n\n**How to Try It:**\n• Portion once\n• Sit down without screens\n• Pause halfway to check fullness",
     "contraindications": [],
     "goal_tags": ["portion_control", "mindful_eating"],
@@ -7341,6 +7498,12 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000036",
     "summary": "Crunch‑swap board (post 6 crunchy alternatives).",
+    "personalization_prompt": "Build your 'Crunch Squad' - pick your top 6 crunchy alternatives:",
+    "personalization_type": "choice" as const,
+    "personalization_config": {
+      "choices": ["Baby carrots", "Cucumber slices", "Jicama sticks", "Air-popped popcorn", "Snap peas", "Bell pepper strips", "Apple slices", "Celery sticks", "Radishes", "Rice cakes"],
+      "multiple": true
+    },
     "details_md": "**The Experiment:** List crunchy swaps (carrots, cukes, jicama, popcorn) on a visible card.\n\n**Why it Works:** Meets sensory need with lower caloric load.\n\n**How to Try It:**\n• Post near snack zone\n• Pick one when ‘crunch’ hits\n• Plate and sit to eat",
     "contraindications": [],
     "goal_tags": ["reduce_cravings", "increase_veggies"],
@@ -7375,6 +7538,11 @@ export const TIPS_DATABASE: Tip[] = [
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000037",
     "summary": "Aroma anchor (3 slow breaths over food).",
+    "personalization_prompt": "What mantra will you think during your 3 pre-meal breaths?",
+    "personalization_type": "text" as const,
+    "personalization_config": {
+      "placeholder": "e.g., 'I am grateful for this food', 'This nourishes my body', 'I eat with intention'"
+    },
     "details_md": "**The Experiment:** Smell your food for 3 breaths before first bite.\n\n**Why it Works:** Olfactory priming enhances satisfaction and slows pace.\n\n**How to Try It:**\n• Lift plate or bowl\n• Inhale, pause, exhale slowly\n• Take a small first bite",
     "contraindications": [],
     "goal_tags": ["mindful_eating"],
