@@ -391,8 +391,8 @@ export default function ExperimentModeSwipe({
                     cx="70"
                     cy="70"
                     r="60"
-                    stroke="rgba(139, 195, 74, 0.3)"
-                    strokeWidth="5"
+                    stroke="rgba(76, 175, 80, 0.15)"
+                    strokeWidth="20"
                     fill="none"
                   />
                   {/* Progress circle - fills as you hold */}
@@ -400,8 +400,8 @@ export default function ExperimentModeSwipe({
                     cx="70"
                     cy="70"
                     r="60"
-                    stroke="#4CAF50"
-                    strokeWidth="5"
+                    stroke="#2E7D32"
+                    strokeWidth="20"
                     fill="none"
                     strokeDasharray={2 * Math.PI * 60}
                     animatedProps={holdProgressAnimatedStyle}
