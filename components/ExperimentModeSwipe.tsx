@@ -375,7 +375,7 @@ export default function ExperimentModeSwipe({
                     color="#FFF" 
                   />
                   <Text style={styles.circularButtonText}>
-                    {isHolding ? 'Hold...' : 'Hold to\nComplete'}
+                    {isHolding ? 'Hold to\nComplete' : 'I did it!'}
                   </Text>
                 </LinearGradient>
                 
