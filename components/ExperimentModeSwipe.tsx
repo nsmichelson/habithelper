@@ -3,6 +3,7 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   Dimensions,
   FlatList,
   ScrollView,
@@ -46,6 +47,11 @@ interface Props {
     dailyTip: DailyTip;
     tip: Tip;
   }>;
+  personalizationData?: {
+    type?: string;
+    prompt?: string;
+    savedData?: any;
+  };
 }
 
 // Confetti particle component
@@ -124,7 +130,8 @@ export default function ExperimentModeSwipe({
   quickCompletions = [],
   totalExperiments = 0,
   successfulExperiments = 0,
-  tipHistory = []
+  tipHistory = [],
+  personalizationData
 }: Props) {
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -419,16 +426,16 @@ export default function ExperimentModeSwipe({
                 onPress={() => handleSwipeToPage(1)}
               >
                 <Ionicons name="book-outline" size={18} color="#4CAF50" />
-                <Text style={styles.quickAccessText}>View Tips</Text>
+                <Text style={styles.quickAccessText}>Tips</Text>
               </TouchableOpacity>
               
-              {personalizedPlan && (
+              {(personalizedPlan || tip.personalization_prompt) && (
                 <TouchableOpacity 
                   style={styles.quickAccessButton}
-                  onPress={() => setShowPlanDetails(true)}
+                  onPress={() => handleSwipeToPage(2)}
                 >
                   <Ionicons name="list-outline" size={18} color="#4CAF50" />
-                  <Text style={styles.quickAccessText}>Your Plan</Text>
+                  <Text style={styles.quickAccessText}>Plan</Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -506,9 +513,19 @@ export default function ExperimentModeSwipe({
             <Text style={styles.navCardText}>Full Instructions</Text>
           </TouchableOpacity>
           
+          {(personalizedPlan || tip.personalization_prompt) && (
+            <TouchableOpacity 
+              style={styles.navCard}
+              onPress={() => handleSwipeToPage(2)}
+            >
+              <Ionicons name="list-outline" size={20} color="#4CAF50" />
+              <Text style={styles.navCardText}>Your Plan</Text>
+            </TouchableOpacity>
+          )}
+          
           <TouchableOpacity 
             style={styles.navCard}
-            onPress={() => handleSwipeToPage(2)}
+            onPress={() => handleSwipeToPage(3)}
           >
             <Ionicons name="trophy-outline" size={20} color="#4CAF50" />
             <Text style={styles.navCardText}>Your Stats</Text>
@@ -519,72 +536,121 @@ export default function ExperimentModeSwipe({
     </View>
   );
 
-  const renderInstructionsCard = () => (
-    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
-      <LinearGradient
-        colors={['#FFFFFF', '#F8FFF8']}
-        style={styles.card}
-      >
-        <View style={styles.instructionsHeader}>
-          <TouchableOpacity 
-            style={styles.backButton}
-            onPress={() => handleSwipeToPage(0)}
-          >
-            <Ionicons name="chevron-back" size={20} color="#4CAF50" />
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.instructionsTitle}>How To Do It</Text>
-          <View style={{ width: 60 }} />
-        </View>
+  // Parse details_md to extract "How to Try It" section
+  const parseHowToSection = () => {
+    const content = tip.details_md || '';
+    const howMatch = content.match(/\*\*How to Try It:\*\*(.+?)$/s);
+    if (howMatch) {
+      return howMatch[1].trim();
+    }
+    // Fallback to the experiment section if no "How to Try It" found
+    const experimentMatch = content.match(/\*\*The Experiment:\*\*(.+?)(?=\*\*Why it Works:|\*\*How to|$)/s);
+    if (experimentMatch) {
+      return experimentMatch[1].trim();
+    }
+    return content;
+  };
 
-        <ScrollView 
-          style={styles.instructionsScrollView}
-          showsVerticalScrollIndicator={false}
+  const getTimeLabel = (time: string) => {
+    const labels: Record<string, string> = {
+      '0_5_min': '< 5 min',
+      '5_15_min': '5-15 min',
+      '15_60_min': '15-60 min',
+      '>60_min': '> 1 hour',
+    };
+    return labels[time] || time;
+  };
+
+  const renderInstructionsCard = () => {
+    const howToContent = parseHowToSection();
+    
+    return (
+      <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
+        <LinearGradient
+          colors={['#FFFFFF', '#F8FFF8']}
+          style={styles.card}
         >
-          {/* Tip Summary */}
-          <View style={styles.summaryBox}>
-            <Text style={styles.summaryLabel}>TODAY'S EXPERIMENT</Text>
-            <Text style={styles.summaryText}>{tip.summary}</Text>
+          <View style={styles.instructionsHeader}>
+            <TouchableOpacity 
+              style={styles.backButton}
+              onPress={() => handleSwipeToPage(0)}
+            >
+              <Ionicons name="chevron-back" size={20} color="#4CAF50" />
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
+            <Text style={styles.instructionsTitle}>How To Do It</Text>
+            <View style={{ width: 60 }} />
           </View>
 
-          {/* Full Instructions */}
-          <View style={styles.howToSection}>
-            <Text style={styles.detailsText}>{tip.details_md}</Text>
-          </View>
-
-          {/* Quick Info Grid */}
-          <View style={styles.infoGrid}>
-            <View style={styles.infoCard}>
-              <Ionicons name="time-outline" size={24} color="#4CAF50" />
-              <Text style={styles.infoCardLabel}>Time</Text>
-              <Text style={styles.infoCardValue}>
-                {tip.time_cost_enum.replace(/_/g, ' ').replace('min', 'min')}
-              </Text>
+          <ScrollView 
+            style={styles.instructionsScrollView}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Tip Summary */}
+            <View style={styles.summaryBox}>
+              <Text style={styles.summaryLabel}>TODAY'S EXPERIMENT</Text>
+              <Text style={styles.summaryText}>{tip.summary}</Text>
             </View>
-            
-            <View style={styles.infoCard}>
-              <Ionicons name="location-outline" size={24} color="#4CAF50" />
-              <Text style={styles.infoCardLabel}>Where</Text>
-              <Text style={styles.infoCardValue}>
-                {tip.location_tags[0]?.charAt(0).toUpperCase() + tip.location_tags[0]?.slice(1) || 'Anywhere'}
-              </Text>
-            </View>
-          </View>
 
-          {/* Goals */}
-          <View style={styles.goalsSection}>
-            <Text style={styles.sectionTitle}>This Helps With</Text>
-            <View style={styles.goalsGrid}>
-              {tip.goal_tags.map(goal => (
-                <View key={goal} style={styles.goalChip}>
-                  <Text style={styles.goalChipText}>
-                    {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                  </Text>
+            {/* Full Instructions - parsed How To section */}
+            <View style={styles.howToSection}>
+              {howToContent.split('\n').map((line, index) => {
+                const isBullet = line.trim().startsWith('•');
+                if (isBullet) {
+                  return (
+                    <View key={index} style={styles.bulletPoint}>
+                      <Text style={styles.bulletIcon}>•</Text>
+                      <Text style={styles.bulletText}>{line.replace('•', '').trim()}</Text>
+                    </View>
+                  );
+                }
+                return line.trim() ? (
+                  <Text key={index} style={styles.detailsText}>{line}</Text>
+                ) : null;
+              })}
+            </View>
+
+            {/* Info Grid - matching DailyTipCardEnhanced layout */}
+            <View style={styles.infoGrid}>
+              <View style={styles.infoCard}>
+                <Ionicons name="sunny-outline" size={20} color="#666" />
+                <Text style={styles.infoCardLabel}>Best Time</Text>
+                <Text style={styles.infoCardValue}>
+                  {(tip.time_of_day ?? []).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ') || 'Any time'}
+                </Text>
+              </View>
+              
+              <View style={styles.infoCard}>
+                <Ionicons name="cash-outline" size={20} color="#666" />
+                <Text style={styles.infoCardLabel}>Cost</Text>
+                <Text style={styles.infoCardValue}>{tip.money_cost_enum ?? 'Free'}</Text>
+              </View>
+              
+              <View style={styles.infoCard}>
+                <Ionicons name="location-outline" size={20} color="#666" />
+                <Text style={styles.infoCardLabel}>Where</Text>
+                <Text style={styles.infoCardValue}>
+                  {(tip.location_tags ?? []).map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(', ') || 'Anywhere'}
+                </Text>
+              </View>
+            </View>
+
+            {/* Goals - optional section */}
+            {tip.goal_tags && tip.goal_tags.length > 0 && (
+              <View style={styles.goalsSection}>
+                <Text style={styles.sectionTitle}>This Helps With</Text>
+                <View style={styles.goalsGrid}>
+                  {tip.goal_tags.map(goal => (
+                    <View key={goal} style={styles.goalChip}>
+                      <Text style={styles.goalChipText}>
+                        {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      </Text>
+                    </View>
+                  ))}
                 </View>
-              ))}
-            </View>
-          </View>
-        </ScrollView>
+              </View>
+            )}
+          </ScrollView>
 
         {/* Floating Action Button */}
         <TouchableOpacity 
@@ -604,7 +670,115 @@ export default function ExperimentModeSwipe({
         </TouchableOpacity>
       </LinearGradient>
     </View>
-  );
+    );
+  };
+
+  const renderPlanCard = () => {
+    // Check if we have personalization data to show
+    const hasPersonalization = tip.personalization_prompt || personalizedPlan;
+    
+    if (!hasPersonalization) {
+      return null;
+    }
+
+    return (
+      <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
+        <LinearGradient
+          colors={['#FFFFFF', '#F8FFF8']}
+          style={styles.card}
+        >
+          <View style={styles.instructionsHeader}>
+            <TouchableOpacity 
+              style={styles.backButton}
+              onPress={() => handleSwipeToPage(0)}
+            >
+              <Ionicons name="chevron-back" size={20} color="#4CAF50" />
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
+            <Text style={styles.instructionsTitle}>Your Plan</Text>
+            <View style={{ width: 60 }} />
+          </View>
+
+          <ScrollView 
+            style={styles.planScrollView}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Show personalized plan if available */}
+            {personalizedPlan && (
+              <View style={styles.personalizedPlanSection}>
+                <View style={styles.planHeader}>
+                  <Ionicons name="clipboard-outline" size={24} color="#4CAF50" />
+                  <Text style={styles.planTitle}>Your Personal Approach</Text>
+                </View>
+                <View style={styles.planContent}>
+                  <Text style={styles.planText}>{personalizedPlan}</Text>
+                </View>
+              </View>
+            )}
+
+            {/* Show personalization prompt if available */}
+            {tip.personalization_prompt && (
+              <View style={styles.personalizationSection}>
+                <Text style={styles.personalizationTitle}>Make It Your Own</Text>
+                <View style={styles.personalizationPromptBox}>
+                  <Text style={styles.personalizationPromptText}>
+                    {tip.personalization_prompt}
+                  </Text>
+                  
+                  {/* Show saved personalization data if available */}
+                  {personalizationData?.savedData && (
+                    <View style={styles.savedPersonalizationBox}>
+                      <View style={styles.savedHeader}>
+                        <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
+                        <Text style={styles.savedLabel}>Your Answer</Text>
+                      </View>
+                      <Text style={styles.savedDataText}>
+                        {typeof personalizationData.savedData === 'string' 
+                          ? personalizationData.savedData 
+                          : JSON.stringify(personalizationData.savedData, null, 2)}
+                      </Text>
+                    </View>
+                  )}
+                  
+                  {!personalizationData?.savedData && (
+                    <TouchableOpacity 
+                      style={styles.addPersonalizationButton}
+                      onPress={() => {
+                        // This would navigate to personalization in the non-experimenting mode
+                        Alert.alert('Add Your Plan', 'Switch to planning mode to customize this tip');
+                      }}
+                    >
+                      <Ionicons name="add-circle-outline" size={20} color="#4CAF50" />
+                      <Text style={styles.addPersonalizationText}>Add Your Answer</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+            )}
+
+            {/* Quick reminders */}
+            <View style={styles.remindersSection}>
+              <Text style={styles.remindersSectionTitle}>Quick Reminders</Text>
+              <View style={styles.remindersList}>
+                <View style={styles.reminderItem}>
+                  <Ionicons name="checkmark-circle-outline" size={18} color="#4CAF50" />
+                  <Text style={styles.reminderText}>Track how it feels throughout the day</Text>
+                </View>
+                <View style={styles.reminderItem}>
+                  <Ionicons name="checkmark-circle-outline" size={18} color="#4CAF50" />
+                  <Text style={styles.reminderText}>Adjust as needed to fit your schedule</Text>
+                </View>
+                <View style={styles.reminderItem}>
+                  <Ionicons name="checkmark-circle-outline" size={18} color="#4CAF50" />
+                  <Text style={styles.reminderText}>Remember: progress over perfection!</Text>
+                </View>
+              </View>
+            </View>
+          </ScrollView>
+        </LinearGradient>
+      </View>
+    );
+  };
 
   const renderStatsCard = () => (
     <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
@@ -705,6 +879,7 @@ export default function ExperimentModeSwipe({
   const pages = [
     { key: 'progress', render: renderProgressCard },
     { key: 'instructions', render: renderInstructionsCard },
+    ...(tip.personalization_prompt || personalizedPlan ? [{ key: 'plan', render: renderPlanCard }] : []),
     { key: 'stats', render: renderStatsCard },
   ];
 
@@ -1130,6 +1305,23 @@ const styles = StyleSheet.create({
   howToSection: {
     marginBottom: 24,
   },
+  bulletPoint: {
+    flexDirection: 'row',
+    marginBottom: 12,
+    paddingLeft: 8,
+  },
+  bulletIcon: {
+    fontSize: 16,
+    color: '#4CAF50',
+    marginRight: 10,
+    fontWeight: '700',
+  },
+  bulletText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 22,
+    flex: 1,
+  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
@@ -1140,6 +1332,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#666',
     lineHeight: 24,
+    marginBottom: 8,
   },
   infoGrid: {
     flexDirection: 'row',
@@ -1354,5 +1547,116 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#424242',
     lineHeight: 24,
+  },
+  planScrollView: {
+    flex: 1,
+    marginBottom: 80,
+  },
+  personalizedPlanSection: {
+    marginBottom: 24,
+  },
+  planHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 16,
+  },
+  planTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#212121',
+  },
+  planContent: {
+    backgroundColor: '#F0F7FF',
+    borderRadius: 12,
+    padding: 16,
+    borderLeftWidth: 3,
+    borderLeftColor: '#4CAF50',
+  },
+  personalizationSection: {
+    marginBottom: 24,
+  },
+  personalizationTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#424242',
+    marginBottom: 12,
+  },
+  personalizationPromptBox: {
+    backgroundColor: '#FAFAFA',
+    borderRadius: 12,
+    padding: 16,
+  },
+  personalizationPromptText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 22,
+    marginBottom: 16,
+  },
+  savedPersonalizationBox: {
+    backgroundColor: '#E8F5E9',
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 12,
+  },
+  savedHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  savedLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#2E7D32',
+  },
+  savedDataText: {
+    fontSize: 14,
+    color: '#424242',
+    lineHeight: 20,
+  },
+  addPersonalizationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#FFF',
+    borderWidth: 1,
+    borderColor: '#4CAF50',
+    borderRadius: 10,
+    paddingVertical: 12,
+    marginTop: 12,
+  },
+  addPersonalizationText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4CAF50',
+  },
+  remindersSection: {
+    backgroundColor: '#F8F8F8',
+    borderRadius: 12,
+    padding: 16,
+    marginTop: 20,
+  },
+  remindersSectionTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  remindersList: {
+    gap: 10,
+  },
+  reminderItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  reminderText: {
+    fontSize: 14,
+    color: '#424242',
+    flex: 1,
   },
 });
