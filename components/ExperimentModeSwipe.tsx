@@ -11,6 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 import Animated, {
   Easing,
   Extrapolate,
@@ -133,6 +135,7 @@ export default function ExperimentModeSwipe({
   const [hasSeenCelebration, setHasSeenCelebration] = useState(false);
   const [showTipDetails, setShowTipDetails] = useState(false);
   const [showPlanDetails, setShowPlanDetails] = useState(false);
+  const [isHolding, setIsHolding] = useState(false);
   
   const scrollX = useSharedValue(0);
   const scale = useSharedValue(0);
@@ -141,7 +144,9 @@ export default function ExperimentModeSwipe({
   const mainButtonScale = useSharedValue(0.8);
   const mainButtonGlow = useSharedValue(0);
   const progressWidth = useSharedValue(0);
+  const holdProgress = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
+  const holdTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Calculate actual progress based on time
   const calculateProgress = () => {
@@ -199,30 +204,9 @@ export default function ExperimentModeSwipe({
           stiffness: 150 
         })
       );
-      
-      // Add pulsing glow to main button after celebration
-      mainButtonGlow.value = withDelay(
-        3000,
-        withRepeat(
-          withSequence(
-            withTiming(1, { duration: 1500 }),
-            withTiming(0.3, { duration: 1500 })
-          ),
-          -1,
-          true
-        )
-      );
     } else {
       // If celebration has been seen, just show the button
       mainButtonScale.value = withSpring(1, { damping: 10, stiffness: 150 });
-      mainButtonGlow.value = withRepeat(
-        withSequence(
-          withTiming(1, { duration: 1500 }),
-          withTiming(0.3, { duration: 1500 })
-        ),
-        -1,
-        true
-      );
     }
 
     scale.value = withSpring(1, { damping: 15, stiffness: 200 });
@@ -243,6 +227,37 @@ export default function ExperimentModeSwipe({
   const handleSwipeToPage = (index: number) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     flatListRef.current?.scrollToIndex({ index, animated: true });
+  };
+
+  const handlePressIn = () => {
+    setIsHolding(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    // Start the hold progress animation
+    holdProgress.value = withTiming(1, {
+      duration: 1500, // 1.5 seconds to complete
+      easing: Easing.linear,
+    });
+
+    // Set timeout to trigger completion
+    holdTimeoutRef.current = setTimeout(() => {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      setShowQuickComplete(true);
+      setIsHolding(false);
+      holdProgress.value = 0;
+    }, 1500);
+  };
+
+  const handlePressOut = () => {
+    if (isHolding) {
+      setIsHolding(false);
+      // Cancel the completion
+      if (holdTimeoutRef.current) {
+        clearTimeout(holdTimeoutRef.current);
+      }
+      // Reset the progress
+      holdProgress.value = withTiming(0, { duration: 200 });
+    }
   };
 
   const formatTimeRemaining = (hours: number) => {
@@ -268,9 +283,14 @@ export default function ExperimentModeSwipe({
     transform: [{ scale: mainButtonScale.value }],
   }));
 
-  const buttonGlowAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: mainButtonGlow.value,
-  }));
+  const holdProgressAnimatedStyle = useAnimatedStyle(() => {
+    const strokeDasharray = 2 * Math.PI * 60; // circumference of circle with radius 60
+    const strokeDashoffset = strokeDasharray * (1 - holdProgress.value);
+    
+    return {
+      strokeDashoffset,
+    };
+  });
 
   const handleShowAllExperiments = () => {
     setModalTitle('All Experiments');
@@ -335,28 +355,60 @@ export default function ExperimentModeSwipe({
         {/* Experiment Title */}
         <Text style={styles.experimentTitle}>{tip.summary}</Text>
 
-        {/* Main Action Button - Prominent Focus */}
+        {/* Main Action Button - Circular with Hold to Confirm */}
         {quickCompletions.length === 0 ? (
           <View>
-            <Animated.View style={[styles.mainButtonContainer, mainButtonAnimatedStyle]}>
-              {/* Glow effect */}
-              <Animated.View style={[styles.buttonGlow, buttonGlowAnimatedStyle]} />
-              
+            <Animated.View style={[styles.circularButtonContainer, mainButtonAnimatedStyle]}>
               <TouchableOpacity 
-                style={styles.mainActionButton}
-                onPress={() => setShowQuickComplete(true)}
-                activeOpacity={0.9}
+                style={styles.circularButton}
+                onPressIn={handlePressIn}
+                onPressOut={handlePressOut}
+                activeOpacity={0.95}
               >
                 <LinearGradient
-                  colors={['#4CAF50', '#45B255']}
-                  style={styles.mainActionGradient}
+                  colors={isHolding ? ['#45B255', '#4CAF50'] : ['#4CAF50', '#45B255']}
+                  style={styles.circularButtonGradient}
                 >
-                  <View style={styles.mainButtonContent}>
-                    <Ionicons name="checkmark-circle" size={32} color="#FFF" />
-                    <Text style={styles.mainButtonText}>I Did It!</Text>
-                    <Text style={styles.mainButtonSubtext}>Mark as complete</Text>
-                  </View>
+                  <Ionicons 
+                    name="checkmark-circle" 
+                    size={40} 
+                    color="#FFF" 
+                  />
+                  <Text style={styles.circularButtonText}>
+                    {isHolding ? 'Hold...' : 'Hold to\nComplete'}
+                  </Text>
                 </LinearGradient>
+                
+                {/* Progress Ring */}
+                <Svg 
+                  style={styles.progressRing} 
+                  width={140} 
+                  height={140}
+                  viewBox="0 0 140 140"
+                >
+                  {/* Background circle - lighter green */}
+                  <Circle
+                    cx="70"
+                    cy="70"
+                    r="60"
+                    stroke="rgba(139, 195, 74, 0.3)"
+                    strokeWidth="5"
+                    fill="none"
+                  />
+                  {/* Progress circle - fills as you hold */}
+                  <AnimatedCircle
+                    cx="70"
+                    cy="70"
+                    r="60"
+                    stroke="#4CAF50"
+                    strokeWidth="5"
+                    fill="none"
+                    strokeDasharray={2 * Math.PI * 60}
+                    animatedProps={holdProgressAnimatedStyle}
+                    strokeLinecap="round"
+                    transform="rotate(-90 70 70)"
+                  />
+                </Svg>
               </TouchableOpacity>
             </Animated.View>
             
@@ -870,47 +922,39 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     marginBottom: 24,
   },
-  mainButtonContainer: {
-    position: 'relative',
+  circularButtonContainer: {
+    alignItems: 'center',
     marginBottom: 24,
   },
-  buttonGlow: {
-    position: 'absolute',
-    top: -10,
-    left: -10,
-    right: -10,
-    bottom: -10,
-    backgroundColor: '#4CAF50',
-    borderRadius: 24,
-    opacity: 0.2,
-  },
-  mainActionButton: {
-    borderRadius: 20,
+  circularButton: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
     overflow: 'hidden',
     shadowColor: '#4CAF50',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
     elevation: 8,
   },
-  mainActionGradient: {
-    paddingVertical: 20,
-    paddingHorizontal: 24,
+  circularButtonGradient: {
+    width: 140,
+    height: 140,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  mainButtonContent: {
-    alignItems: 'center',
-  },
-  mainButtonText: {
-    fontSize: 20,
-    fontWeight: '700',
+  circularButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
     color: '#FFF',
     marginTop: 8,
+    textAlign: 'center',
+    lineHeight: 18,
   },
-  mainButtonSubtext: {
-    fontSize: 13,
-    color: 'rgba(255,255,255,0.9)',
-    marginTop: 2,
+  progressRing: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   quickAccessButtons: {
     flexDirection: 'row',
