@@ -831,7 +831,7 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     paddingHorizontal: 16,
-    paddingTop: 60,
+    paddingTop: 8,
   },
   card: {
     borderRadius: 20,
