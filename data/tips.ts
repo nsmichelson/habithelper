@@ -6905,13 +6905,13 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000001",
-    "summary": "Give your craving a goofy name ("Sir Crunch‑a‑Lot").",
+    "summary": "Give your craving a goofy name ('Sir Crunch‑a‑Lot').",
     "personalization_prompt": "What silly name will you give your craving?",
     "personalization_type": "text" as const,
     "personalization_config": {
       "placeholder": "e.g., Captain Cookie Monster, The Snack Attack Dragon, Lord Chips-a-Lot"
     },
-    "details_md": "**The Experiment:** When an urge hits, name it out loud (“Hi, Sir Crunch‑a‑Lot—what’s up?”).\n\n**Why it Works:** Emotion labeling reduces amygdala reactivity and restores choice, loosening the stress→eat loop.\n\n**How to Try It:**\n• Say the name and rate the urge 0–10\n• Take one slow breath\n• Decide: cope now or set a 10‑min check‑in timer",
+    "details_md": "**The Experiment:** When an urge hits, name it out loud ('Hi, Sir Crunch‑a‑Lot—what's up?').\n\n**Why it Works:** Emotion labeling reduces amygdala reactivity and restores choice, loosening the stress→eat loop.\n\n**How to Try It:**\n• Say the name and rate the urge 0–10\n• Take one slow breath\n• Decide: cope now or set a 10‑min check‑in timer",
     "contraindications": [],
     "goal_tags": ["stress_eating", "emotional_eating", "mindful_eating"],
     "tip_type": ["mindset_shift"],
@@ -7023,13 +7023,13 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000004",
-    "summary": ""Broccoli Gatekeeper" test for true hunger.",
+    "summary": "'Broccoli Gatekeeper' test for true hunger.",
     "personalization_prompt": "What's your 'gatekeeper' food to test true hunger?",
     "personalization_type": "text" as const,
     "personalization_config": {
       "placeholder": "e.g., Plain carrots, apple slices, rice cakes"
     },
-    "details_md": "**The Experiment:** Ask: “Would plain broccoli or chickpeas satisfy me right now?”\n\n**Why it Works:** Physical hunger is flexible; emotional hunger craves something specific.\n\n**How to Try It:**\n• If no, pick a non‑food coping action\n• If yes, choose a balanced snack\n• Recheck hunger after eating",
+    "details_md": "**The Experiment:** Ask: 'Would plain broccoli or chickpeas satisfy me right now?'\n\n**Why it Works:** Physical hunger is flexible; emotional hunger craves something specific.\n\n**How to Try It:**\n• If no, pick a non‑food coping action\n• If yes, choose a balanced snack\n• Recheck hunger after eating",
     "contraindications": [],
     "goal_tags": ["mindful_eating", "stress_eating"],
     "tip_type": ["mindset_shift"],
