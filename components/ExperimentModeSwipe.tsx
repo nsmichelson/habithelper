@@ -15,6 +15,7 @@ import Animated, {
   Easing,
   Extrapolate,
   interpolate,
+  runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -126,11 +127,16 @@ export default function ExperimentModeSwipe({
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  const [showCelebration, setShowCelebration] = useState(true);
+  const [hasSeenCelebration, setHasSeenCelebration] = useState(false);
   
   const scrollX = useSharedValue(0);
   const scale = useSharedValue(0);
+  const celebrationScale = useSharedValue(0);
+  const celebrationOpacity = useSharedValue(0);
+  const mainButtonScale = useSharedValue(0.8);
+  const mainButtonGlow = useSharedValue(0);
   const progressWidth = useSharedValue(0);
-  const successPulseScale = useSharedValue(1);
   const flatListRef = useRef<FlatList>(null);
 
   // Calculate actual progress based on time
@@ -150,8 +156,70 @@ export default function ExperimentModeSwipe({
     return progress;
   };
 
+  const hideCelebrationAfterDelay = () => {
+    setTimeout(() => {
+      setShowCelebration(false);
+      setHasSeenCelebration(true);
+    }, 3500);
+  };
+
   useEffect(() => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    if (!hasSeenCelebration) {
+      // Initial celebration animation
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      
+      celebrationScale.value = withSpring(1, { 
+        damping: 8, 
+        stiffness: 100,
+        mass: 0.5
+      });
+      
+      celebrationOpacity.value = withTiming(1, { duration: 300 });
+      
+      // After celebration, fade it out and bring in the main button
+      celebrationOpacity.value = withDelay(
+        2500,
+        withTiming(0, { 
+          duration: 800,
+          easing: Easing.bezier(0.4, 0, 0.2, 1)
+        }, () => {
+          runOnJS(hideCelebrationAfterDelay)();
+        })
+      );
+      
+      // Animate main button to be prominent
+      mainButtonScale.value = withDelay(
+        2000,
+        withSpring(1, { 
+          damping: 10, 
+          stiffness: 150 
+        })
+      );
+      
+      // Add pulsing glow to main button after celebration
+      mainButtonGlow.value = withDelay(
+        3000,
+        withRepeat(
+          withSequence(
+            withTiming(1, { duration: 1500 }),
+            withTiming(0.3, { duration: 1500 })
+          ),
+          -1,
+          true
+        )
+      );
+    } else {
+      // If celebration has been seen, just show the button
+      mainButtonScale.value = withSpring(1, { damping: 10, stiffness: 150 });
+      mainButtonGlow.value = withRepeat(
+        withSequence(
+          withTiming(1, { duration: 1500 }),
+          withTiming(0.3, { duration: 1500 })
+        ),
+        -1,
+        true
+      );
+    }
 
     scale.value = withSpring(1, { damping: 15, stiffness: 200 });
 
@@ -159,15 +227,6 @@ export default function ExperimentModeSwipe({
     progressWidth.value = withDelay(
       500,
       withTiming(currentProgress, { duration: 1500, easing: Easing.bezier(0.4, 0, 0.2, 1) })
-    );
-
-    successPulseScale.value = withRepeat(
-      withSequence(
-        withTiming(1.03, { duration: 2000 }),
-        withTiming(1, { duration: 2000 })
-      ),
-      -1,
-      true
     );
   }, []);
 
@@ -196,20 +255,18 @@ export default function ExperimentModeSwipe({
     width: `${progressWidth.value}%`,
   }));
 
-  const successBadgeAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value * successPulseScale.value }],
+  const celebrationAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: celebrationScale.value }],
+    opacity: celebrationOpacity.value,
   }));
 
-  // Motivational messages to rotate through
-  const motivationalMessages = [
-    { emoji: '💪', text: "You've got this! Small experiments lead to big changes." },
-    { emoji: '🌟', text: "Every experiment is a step toward discovering what works for you!" },
-    { emoji: '🎯', text: "Focus on progress, not perfection. You're doing great!" },
-    { emoji: '🚀', text: "One small change today, one giant leap for your habits!" },
-    { emoji: '✨', text: "Remember: You're brave for trying something new today!" },
-  ];
+  const mainButtonAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: mainButtonScale.value }],
+  }));
 
-  const randomMotivational = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+  const buttonGlowAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: mainButtonGlow.value,
+  }));
 
   const handleShowAllExperiments = () => {
     setModalTitle('All Experiments');
@@ -238,141 +295,147 @@ export default function ExperimentModeSwipe({
 
   const renderProgressCard = () => (
     <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
-      {/* Success Badge */}
-      <Animated.View style={[styles.successBadge, successBadgeAnimatedStyle]}>
-        <LinearGradient
-          colors={['#4CAF50', '#45B255']}
-          style={styles.successGradient}
+      {/* Celebration Overlay - only shows initially */}
+      {showCelebration && !hasSeenCelebration && (
+        <Animated.View 
+          style={[
+            styles.celebrationOverlay, 
+            celebrationAnimatedStyle
+          ]}
+          pointerEvents="none"
         >
-          <Ionicons name="checkmark-circle" size={64} color="#FFF" />
-          <Text style={styles.successTitle}>You're Experimenting!</Text>
-          <Text style={styles.successSubtitle}>Amazing commitment! 🎉</Text>
-        </LinearGradient>
-      </Animated.View>
+          <LinearGradient
+            colors={['rgba(76, 175, 80, 0.95)', 'rgba(69, 178, 85, 0.95)']}
+            style={styles.celebrationGradient}
+          >
+            <Ionicons name="rocket" size={72} color="#FFF" />
+            <Text style={styles.celebrationTitle}>You're Experimenting!</Text>
+            <Text style={styles.celebrationSubtitle}>Let's make it happen! 🎉</Text>
+          </LinearGradient>
+        </Animated.View>
+      )}
 
-      {/* Active Experiment Card */}
       <LinearGradient
         colors={['#FFFFFF', '#F8FFF8']}
         style={styles.card}
       >
-        <View style={styles.experimentHeader}>
+        {/* Compact Header */}
+        <View style={styles.compactHeader}>
           <View style={styles.liveBadge}>
             <View style={styles.liveDot} />
-            <Text style={styles.liveText}>ACTIVE EXPERIMENT</Text>
+            <Text style={styles.liveText}>ACTIVE</Text>
           </View>
+          <Text style={styles.timeText}>{formatTimeRemaining(timeUntilCheckIn)}</Text>
         </View>
 
+        {/* Experiment Title */}
         <Text style={styles.experimentTitle}>{tip.summary}</Text>
 
-        {/* Progress Tracker */}
-        <View style={styles.progressSection}>
-          <View style={styles.progressHeader}>
-            <Text style={styles.progressTitle}>Time Until Check-in</Text>
-            <Text style={styles.progressTime}>{formatTimeRemaining(timeUntilCheckIn)}</Text>
-          </View>
-          <View style={styles.progressBar}>
-            <Animated.View style={[styles.progressFill, progressAnimatedStyle]}>
-              <LinearGradient
-                colors={['#4CAF50', '#66BB6A']}
-                style={styles.progressGradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              />
-            </Animated.View>
-          </View>
-          <Text style={styles.progressText}>
-            We'll check in with you this evening about how it went
-          </Text>
-        </View>
-
-        {/* Quick Complete Button or Status */}
+        {/* Main Action Button - Prominent Focus */}
         {quickCompletions.length === 0 ? (
-          <TouchableOpacity 
-            style={styles.quickCompleteButton}
-            onPress={() => setShowQuickComplete(true)}
-          >
-            <LinearGradient
-              colors={['#4CAF50', '#45B255']}
-              style={styles.quickCompleteGradient}
+          <Animated.View style={[styles.mainButtonContainer, mainButtonAnimatedStyle]}>
+            {/* Glow effect */}
+            <Animated.View style={[styles.buttonGlow, buttonGlowAnimatedStyle]} />
+            
+            <TouchableOpacity 
+              style={styles.mainActionButton}
+              onPress={() => setShowQuickComplete(true)}
+              activeOpacity={0.9}
             >
-              <Ionicons name="rocket" size={24} color="#FFF" />
-              <Text style={styles.quickCompleteText}>I Did It!</Text>
-              <Text style={styles.quickCompleteSubtext}>Mark as complete now</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+              <LinearGradient
+                colors={['#4CAF50', '#45B255']}
+                style={styles.mainActionGradient}
+              >
+                <View style={styles.mainButtonContent}>
+                  <Ionicons name="checkmark-circle" size={48} color="#FFF" />
+                  <Text style={styles.mainButtonText}>I Did It!</Text>
+                  <Text style={styles.mainButtonSubtext}>Mark as complete</Text>
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          </Animated.View>
         ) : (
-          <View style={styles.completedBadge}>
+          <View style={styles.completedContainer}>
             <LinearGradient
               colors={['#E8F5E9', '#C8E6C9']}
               style={styles.completedGradient}
             >
-              <View style={styles.completedHeader}>
-                <Ionicons name="checkmark-circle" size={32} color="#4CAF50" />
+              <View style={styles.completedContent}>
+                <Ionicons name="checkmark-circle" size={40} color="#4CAF50" />
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.completedText}>
-                    Completed {quickCompletions.length}x today!
+                  <Text style={styles.completedTitle}>
+                    Completed {quickCompletions.length}x today! 🎉
                   </Text>
                   {quickCompletions[quickCompletions.length - 1]?.quick_note && (
-                    <Text style={styles.completedFeedback}>
-                      Last time: {
-                        quickCompletions[quickCompletions.length - 1].quick_note === 'worked_great' ? '🎉 Worked great!' :
-                        quickCompletions[quickCompletions.length - 1].quick_note === 'went_ok' ? '👍 Went ok' :
-                        quickCompletions[quickCompletions.length - 1].quick_note === 'not_sure' ? '🤔 Not sure' :
-                        '👎 Not for me'
+                    <Text style={styles.completedNote}>
+                      {
+                        quickCompletions[quickCompletions.length - 1].quick_note === 'worked_great' ? 'That worked great!' :
+                        quickCompletions[quickCompletions.length - 1].quick_note === 'went_ok' ? 'That went okay' :
+                        quickCompletions[quickCompletions.length - 1].quick_note === 'not_sure' ? 'Not sure yet' :
+                        'Not for me'
                       }
                     </Text>
                   )}
                 </View>
               </View>
               <TouchableOpacity 
-                style={styles.addAnotherButton}
+                style={styles.doAgainButton}
                 onPress={() => setShowQuickComplete(true)}
               >
-                <Ionicons name="add-circle-outline" size={20} color="#4CAF50" />
-                <Text style={styles.addAnotherText}>Did it again</Text>
+                <LinearGradient
+                  colors={['#4CAF50', '#45B255']}
+                  style={styles.doAgainGradient}
+                >
+                  <Ionicons name="add-circle-outline" size={20} color="#FFF" />
+                  <Text style={styles.doAgainText}>Did it again</Text>
+                </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
           </View>
         )}
 
-        {/* Progress Stats */}
-        <View style={styles.statsSection}>
-          <Text style={styles.statsTitle}>Your Journey</Text>
-          <View style={styles.statsRow}>
-            <TouchableOpacity style={styles.statItem} onPress={handleShowAllExperiments}>
-              <Text style={styles.statNumber}>{totalExperiments}</Text>
-              <Text style={styles.statLabel}>Presented</Text>
-            </TouchableOpacity>
-            
-            <View style={styles.statDivider} />
-            
-            <TouchableOpacity style={styles.statItem} onPress={handleShowTriedExperiments}>
-              <Text style={styles.statNumber}>{successfulExperiments}</Text>
-              <Text style={styles.statLabel}>Tried</Text>
-            </TouchableOpacity>
-            
-            <View style={styles.statDivider} />
-            
-            <TouchableOpacity style={styles.statItem} onPress={handleShowLovedExperiments}>
-              <Text style={styles.statNumber}>
-                {tipHistory.filter(({ dailyTip }) => 
-                  dailyTip.evening_check_in === 'went_great' || 
-                  dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')
-                ).length}
-              </Text>
-              <Text style={styles.statLabel}>Loved</Text>
-            </TouchableOpacity>
+        {/* Progress Bar - Subtle */}
+        <View style={styles.progressSection}>
+          <View style={styles.progressBar}>
+            <Animated.View style={[styles.progressFill, progressAnimatedStyle]}>
+              <LinearGradient
+                colors={['#81C784', '#A5D6A7']}
+                style={styles.progressGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              />
+            </Animated.View>
           </View>
+          <Text style={styles.progressLabel}>Progress through the day</Text>
         </View>
 
-        {/* Swipe hint */}
-        <TouchableOpacity 
-          style={styles.swipeHint}
-          onPress={() => handleSwipeToPage(1)}
-        >
-          <Text style={styles.swipeHintText}>Swipe for instructions</Text>
-          <Ionicons name="chevron-forward" size={16} color="#4CAF50" />
-        </TouchableOpacity>
+        {/* Quick Instructions */}
+        <View style={styles.quickInstructions}>
+          <Text style={styles.quickInstructionsTitle}>Quick Reminder:</Text>
+          <Text style={styles.quickInstructionsText} numberOfLines={3}>
+            {tip.details_md.split('\n')[0].replace('**The Experiment:** ', '')}
+          </Text>
+        </View>
+
+        {/* Navigation Cards */}
+        <View style={styles.navCards}>
+          <TouchableOpacity 
+            style={styles.navCard}
+            onPress={() => handleSwipeToPage(1)}
+          >
+            <Ionicons name="book-outline" size={20} color="#4CAF50" />
+            <Text style={styles.navCardText}>Full Instructions</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.navCard}
+            onPress={() => handleSwipeToPage(2)}
+          >
+            <Ionicons name="trophy-outline" size={20} color="#4CAF50" />
+            <Text style={styles.navCardText}>Your Stats</Text>
+          </TouchableOpacity>
+        </View>
+
       </LinearGradient>
     </View>
   );
@@ -389,10 +452,10 @@ export default function ExperimentModeSwipe({
             onPress={() => handleSwipeToPage(0)}
           >
             <Ionicons name="chevron-back" size={20} color="#4CAF50" />
-            <Text style={styles.backButtonText}>Progress</Text>
+            <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
-          <Text style={styles.instructionsTitle}>Quick Instructions</Text>
-          <View style={{ width: 80 }} />
+          <Text style={styles.instructionsTitle}>How To Do It</Text>
+          <View style={{ width: 60 }} />
         </View>
 
         <ScrollView 
@@ -405,42 +468,27 @@ export default function ExperimentModeSwipe({
             <Text style={styles.summaryText}>{tip.summary}</Text>
           </View>
 
-          {/* How to do it */}
+          {/* Full Instructions */}
           <View style={styles.howToSection}>
-            <Text style={styles.sectionTitle}>How To Do It</Text>
             <Text style={styles.detailsText}>{tip.details_md}</Text>
           </View>
 
-          {/* Quick Info */}
-          <View style={styles.quickInfo}>
-            <View style={styles.infoRow}>
-              <Ionicons name="time-outline" size={20} color="#666" />
-              <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>Time Needed</Text>
-                <Text style={styles.infoValue}>
-                  {tip.time_cost_enum.replace(/_/g, ' ').replace('min', 'minutes')}
-                </Text>
-              </View>
+          {/* Quick Info Grid */}
+          <View style={styles.infoGrid}>
+            <View style={styles.infoCard}>
+              <Ionicons name="time-outline" size={24} color="#4CAF50" />
+              <Text style={styles.infoCardLabel}>Time</Text>
+              <Text style={styles.infoCardValue}>
+                {tip.time_cost_enum.replace(/_/g, ' ').replace('min', 'min')}
+              </Text>
             </View>
             
-            <View style={styles.infoRow}>
-              <Ionicons name="location-outline" size={20} color="#666" />
-              <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>Best Location</Text>
-                <Text style={styles.infoValue}>
-                  {tip.location_tags.map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(', ')}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.infoRow}>
-              <Ionicons name="restaurant-outline" size={20} color="#666" />
-              <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>Best Time</Text>
-                <Text style={styles.infoValue}>
-                  {tip.time_of_day.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}
-                </Text>
-              </View>
+            <View style={styles.infoCard}>
+              <Ionicons name="location-outline" size={24} color="#4CAF50" />
+              <Text style={styles.infoCardLabel}>Where</Text>
+              <Text style={styles.infoCardValue}>
+                {tip.location_tags[0]?.charAt(0).toUpperCase() + tip.location_tags[0]?.slice(1) || 'Anywhere'}
+              </Text>
             </View>
           </View>
 
@@ -459,9 +507,9 @@ export default function ExperimentModeSwipe({
           </View>
         </ScrollView>
 
-        {/* Quick action button */}
+        {/* Floating Action Button */}
         <TouchableOpacity 
-          style={styles.doItNowButton}
+          style={styles.floatingActionButton}
           onPress={() => {
             handleSwipeToPage(0);
             setShowQuickComplete(true);
@@ -469,95 +517,107 @@ export default function ExperimentModeSwipe({
         >
           <LinearGradient
             colors={['#4CAF50', '#45B255']}
-            style={styles.doItNowGradient}
+            style={styles.floatingButtonGradient}
           >
-            <Text style={styles.doItNowText}>I'm Doing It Now!</Text>
+            <Ionicons name="checkmark" size={24} color="#FFF" />
+            <Text style={styles.floatingButtonText}>I'm Doing It!</Text>
           </LinearGradient>
         </TouchableOpacity>
       </LinearGradient>
     </View>
   );
 
-  const renderEncouragementCard = () => (
+  const renderStatsCard = () => (
     <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
       <LinearGradient
         colors={['#FFFFFF', '#F8FFF8']}
         style={styles.card}
       >
-        <View style={styles.encouragementHeader}>
-          <Text style={styles.encouragementTitle}>You Can Do This! 💪</Text>
+        <View style={styles.instructionsHeader}>
+          <TouchableOpacity 
+            style={styles.backButton}
+            onPress={() => handleSwipeToPage(0)}
+          >
+            <Ionicons name="chevron-back" size={20} color="#4CAF50" />
+            <Text style={styles.backButtonText}>Back</Text>
+          </TouchableOpacity>
+          <Text style={styles.instructionsTitle}>Your Progress</Text>
+          <View style={{ width: 60 }} />
         </View>
 
         <ScrollView 
-          style={styles.encouragementScrollView}
+          style={styles.statsScrollView}
           showsVerticalScrollIndicator={false}
         >
-          {/* Main motivational message */}
-          <View style={styles.motivationalCard}>
+          {/* Stats Overview */}
+          <View style={styles.statsOverview}>
+            <Text style={styles.statsTitle}>Your Experiment Journey</Text>
+            <View style={styles.statsGrid}>
+              <TouchableOpacity 
+                style={styles.statCard}
+                onPress={handleShowAllExperiments}
+              >
+                <Text style={styles.statNumber}>{totalExperiments}</Text>
+                <Text style={styles.statLabel}>Total</Text>
+                <Text style={styles.statSubLabel}>Experiments</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.statCard}
+                onPress={handleShowTriedExperiments}
+              >
+                <Text style={styles.statNumber}>{successfulExperiments}</Text>
+                <Text style={styles.statLabel}>Tried</Text>
+                <Text style={styles.statSubLabel}>So far</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.statCard}
+                onPress={handleShowLovedExperiments}
+              >
+                <Text style={styles.statNumber}>
+                  {tipHistory.filter(({ dailyTip }) => 
+                    dailyTip.evening_check_in === 'went_great' || 
+                    dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')
+                  ).length}
+                </Text>
+                <Text style={styles.statLabel}>Loved</Text>
+                <Text style={styles.statSubLabel}>Keepers!</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Motivational Message */}
+          <View style={styles.motivationalSection}>
             <LinearGradient
               colors={['#E8F5E9', '#F1F8E9']}
               style={styles.motivationalGradient}
             >
-              <Text style={styles.motivationalEmoji}>{randomMotivational.emoji}</Text>
-              <Text style={styles.motivationalText}>{randomMotivational.text}</Text>
+              <Ionicons name="star" size={32} color="#4CAF50" />
+              <Text style={styles.motivationalTitle}>Keep Going!</Text>
+              <Text style={styles.motivationalText}>
+                Every experiment teaches you something valuable about what works for YOUR body and life.
+              </Text>
             </LinearGradient>
           </View>
 
-          {/* Why This Works */}
-          <View style={styles.whyItWorksSection}>
-            <Text style={styles.sectionTitle}>Why This Experiment Works</Text>
-            <View style={styles.benefitsList}>
-              {tip.tip_type.map((type, index) => (
-                <View key={index} style={styles.benefitItem}>
-                  <Ionicons name="sparkles" size={16} color="#4CAF50" />
-                  <Text style={styles.benefitText}>
-                    {type === 'healthy_swap' && "It's a simple swap that doesn't feel like sacrifice"}
-                    {type === 'crave_buster' && "Helps manage cravings naturally"}
-                    {type === 'planning_ahead' && "Setting yourself up for success"}
-                    {type === 'environment_design' && "Makes the healthy choice the easy choice"}
-                    {type === 'skill_building' && "Building a skill you can use forever"}
-                    {type === 'mindset_shift' && "Changes how you think about habits"}
-                    {type === 'habit_stacking' && "Builds on what you already do well"}
-                    {type === 'time_ritual' && "Creates a positive routine"}
-                    {type === 'mood_regulation' && "Supports your emotional wellbeing"}
-                    {type === 'self_monitoring' && "Increases awareness of your patterns"}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          {/* Tips for Success */}
-          <View style={styles.tipsCard}>
-            <Text style={styles.sectionTitle}>Tips for Success</Text>
-            <View style={styles.tipItem}>
-              <Ionicons name="checkmark-circle-outline" size={20} color="#4CAF50" />
-              <Text style={styles.tipText}>Set a specific time to try this experiment</Text>
-            </View>
-            <View style={styles.tipItem}>
-              <Ionicons name="checkmark-circle-outline" size={20} color="#4CAF50" />
-              <Text style={styles.tipText}>Keep it simple - don't overthink it</Text>
-            </View>
-            <View style={styles.tipItem}>
-              <Ionicons name="checkmark-circle-outline" size={20} color="#4CAF50" />
-              <Text style={styles.tipText}>Remember: it's just an experiment, not a test!</Text>
-            </View>
-            <View style={styles.tipItem}>
-              <Ionicons name="checkmark-circle-outline" size={20} color="#4CAF50" />
-              <Text style={styles.tipText}>Be curious about how it feels</Text>
-            </View>
-          </View>
-
-          {/* Reminder */}
-          <View style={styles.reminderCard}>
-            <Ionicons name="notifications" size={24} color="#FF9800" />
-            <View style={{ flex: 1 }}>
-              <Text style={styles.reminderTitle}>Evening Check-in Set</Text>
-              <Text style={styles.reminderText}>
-                We'll check in at 7 PM to see how it went
+          {/* Success Rate */}
+          {successfulExperiments > 0 && (
+            <View style={styles.successRateCard}>
+              <Text style={styles.successRateTitle}>Success Rate</Text>
+              <View style={styles.successRateBar}>
+                <View 
+                  style={[
+                    styles.successRateFill,
+                    { width: `${(successfulExperiments / totalExperiments) * 100}%` }
+                  ]}
+                />
+              </View>
+              <Text style={styles.successRateText}>
+                {Math.round((successfulExperiments / totalExperiments) * 100)}% experiments tried
               </Text>
             </View>
-          </View>
+          )}
         </ScrollView>
       </LinearGradient>
     </View>
@@ -566,7 +626,7 @@ export default function ExperimentModeSwipe({
   const pages = [
     { key: 'progress', render: renderProgressCard },
     { key: 'instructions', render: renderInstructionsCard },
-    { key: 'encouragement', render: renderEncouragementCard },
+    { key: 'stats', render: renderStatsCard },
   ];
 
   const DotIndicator = ({ index }: { index: number }) => {
@@ -599,12 +659,12 @@ export default function ExperimentModeSwipe({
   return (
     <View style={styles.container}>
       {/* Confetti Animation (only on first load) */}
-      {quickCompletions.length === 0 && (
+      {showCelebration && !hasSeenCelebration && (
         <View style={styles.confettiContainer} pointerEvents="none">
-          {Array.from({ length: 15 }).map((_, i) => (
+          {Array.from({ length: 20 }).map((_, i) => (
             <ConfettiParticle
               key={i}
-              delay={i * 100}
+              delay={i * 50}
               startX={Math.random() * SCREEN_WIDTH}
             />
           ))}
@@ -662,7 +722,7 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingTop: 60,
   },
   card: {
     borderRadius: 20,
@@ -689,215 +749,213 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     bottom: -10,
   },
-  successBadge: {
-    marginBottom: 16,
+  celebrationOverlay: {
+    position: 'absolute',
+    top: '20%',
+    left: 20,
+    right: 20,
+    zIndex: 100,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  celebrationGradient: {
+    padding: 32,
+    alignItems: 'center',
+  },
+  celebrationTitle: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#FFF',
+    marginTop: 16,
+    textAlign: 'center',
+  },
+  celebrationSubtitle: {
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.95)',
+    marginTop: 8,
+  },
+  compactHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  liveBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#4CAF50',
+    marginRight: 6,
+  },
+  liveText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#4CAF50',
+    letterSpacing: 0.5,
+  },
+  timeText: {
+    fontSize: 12,
+    color: '#666',
+    fontWeight: '500',
+  },
+  experimentTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#212121',
+    lineHeight: 28,
+    marginBottom: 24,
+  },
+  mainButtonContainer: {
+    position: 'relative',
+    marginBottom: 24,
+  },
+  buttonGlow: {
+    position: 'absolute',
+    top: -10,
+    left: -10,
+    right: -10,
+    bottom: -10,
+    backgroundColor: '#4CAF50',
+    borderRadius: 24,
+    opacity: 0.2,
+  },
+  mainActionButton: {
     borderRadius: 20,
     overflow: 'hidden',
     shadowColor: '#4CAF50',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.3,
     shadowRadius: 16,
-    elevation: 10,
+    elevation: 8,
   },
-  successGradient: {
-    padding: 24,
+  mainActionGradient: {
+    paddingVertical: 28,
+    paddingHorizontal: 32,
     alignItems: 'center',
   },
-  successTitle: {
-    fontSize: 24,
+  mainButtonContent: {
+    alignItems: 'center',
+  },
+  mainButtonText: {
+    fontSize: 28,
     fontWeight: '700',
     color: '#FFF',
     marginTop: 12,
   },
-  successSubtitle: {
-    fontSize: 16,
+  mainButtonSubtext: {
+    fontSize: 14,
     color: 'rgba(255,255,255,0.9)',
     marginTop: 4,
   },
-  experimentHeader: {
-    marginBottom: 16,
-  },
-  liveBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E8F5E9',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    alignSelf: 'flex-start',
-  },
-  liveDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#4CAF50',
-    marginRight: 6,
-  },
-  liveText: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#4CAF50',
-    letterSpacing: 0.5,
-  },
-  experimentTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#212121',
-    lineHeight: 28,
-    marginBottom: 16,
-  },
-  progressSection: {
-    marginBottom: 20,
-  },
-  progressHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  progressTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#424242',
-  },
-  progressTime: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#4CAF50',
-  },
-  progressBar: {
-    height: 8,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginBottom: 4,
-  },
-  progressFill: {
-    height: '100%',
-    borderRadius: 4,
-  },
-  progressGradient: {
-    flex: 1,
-  },
-  progressText: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 8,
-  },
-  quickCompleteButton: {
-    marginBottom: 20,
-    borderRadius: 16,
-    overflow: 'hidden',
-    shadowColor: '#4CAF50',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  quickCompleteGradient: {
-    paddingVertical: 20,
-    alignItems: 'center',
-  },
-  quickCompleteText: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#FFF',
-    marginTop: 8,
-  },
-  quickCompleteSubtext: {
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.8)',
-    marginTop: 2,
-  },
-  completedBadge: {
-    marginBottom: 20,
+  completedContainer: {
+    marginBottom: 24,
     borderRadius: 16,
     overflow: 'hidden',
   },
   completedGradient: {
-    padding: 16,
+    padding: 20,
   },
-  completedHeader: {
+  completedContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    marginBottom: 12,
+    gap: 16,
+    marginBottom: 16,
   },
-  completedText: {
-    fontSize: 16,
+  completedTitle: {
+    fontSize: 18,
     fontWeight: '600',
     color: '#2E7D32',
   },
-  completedFeedback: {
-    fontSize: 13,
-    color: '#666',
-    marginTop: 2,
-  },
-  addAnotherButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    gap: 6,
-  },
-  addAnotherText: {
+  completedNote: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#4CAF50',
-  },
-  statsSection: {
-    marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#E8F5E9',
-  },
-  statsTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#424242',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  statNumber: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#4CAF50',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 11,
     color: '#666',
-    fontWeight: '500',
+    marginTop: 4,
   },
-  statDivider: {
-    width: 1,
-    height: 30,
-    backgroundColor: '#E0E0E0',
+  doAgainButton: {
+    borderRadius: 12,
+    overflow: 'hidden',
   },
-  swipeHint: {
+  doAgainGradient: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    gap: 4,
+    paddingHorizontal: 20,
+    gap: 8,
   },
-  swipeHintText: {
-    fontSize: 13,
-    color: '#4CAF50',
+  doAgainText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFF',
+  },
+  progressSection: {
+    marginBottom: 20,
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: '#E8E8E8',
+    borderRadius: 2,
+    overflow: 'hidden',
+    marginBottom: 6,
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: 2,
+  },
+  progressGradient: {
+    flex: 1,
+  },
+  progressLabel: {
+    fontSize: 11,
+    color: '#999',
     fontWeight: '500',
+  },
+  quickInstructions: {
+    backgroundColor: '#F8F8F8',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+  },
+  quickInstructionsTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 6,
+  },
+  quickInstructionsText: {
+    fontSize: 14,
+    color: '#424242',
+    lineHeight: 20,
+  },
+  navCards: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  navCard: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F8FFF8',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#E8F5E9',
+  },
+  navCardText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#4CAF50',
   },
   instructionsHeader: {
     flexDirection: 'row',
@@ -925,7 +983,7 @@ const styles = StyleSheet.create({
   },
   instructionsScrollView: {
     flex: 1,
-    marginBottom: 20,
+    marginBottom: 80,
   },
   summaryBox: {
     backgroundColor: '#F5F5F5',
@@ -934,7 +992,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   summaryLabel: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '700',
     color: '#4CAF50',
     letterSpacing: 0.5,
@@ -947,7 +1005,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   howToSection: {
-    marginBottom: 20,
+    marginBottom: 24,
   },
   sectionTitle: {
     fontSize: 16,
@@ -960,31 +1018,30 @@ const styles = StyleSheet.create({
     color: '#666',
     lineHeight: 24,
   },
-  quickInfo: {
+  infoGrid: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 24,
+  },
+  infoCard: {
+    flex: 1,
     backgroundColor: '#FAFAFA',
     borderRadius: 12,
     padding: 16,
-    marginBottom: 20,
-    gap: 16,
-  },
-  infoRow: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
   },
-  infoContent: {
-    flex: 1,
-  },
-  infoLabel: {
+  infoCardLabel: {
     fontSize: 11,
     color: '#999',
     fontWeight: '500',
+    marginTop: 8,
   },
-  infoValue: {
-    fontSize: 14,
+  infoCardValue: {
+    fontSize: 13,
     color: '#424242',
     fontWeight: '600',
-    marginTop: 2,
+    marginTop: 4,
+    textAlign: 'center',
   },
   goalsSection: {
     marginBottom: 20,
@@ -1005,105 +1062,118 @@ const styles = StyleSheet.create({
     color: '#E65100',
     fontWeight: '500',
   },
-  doItNowButton: {
+  floatingActionButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
     borderRadius: 12,
     overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
-  doItNowGradient: {
-    paddingVertical: 14,
+  floatingButtonGradient: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    gap: 8,
   },
-  doItNowText: {
+  floatingButtonText: {
     fontSize: 16,
     fontWeight: '700',
     color: '#FFF',
   },
-  encouragementHeader: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  encouragementTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#212121',
-  },
-  encouragementScrollView: {
+  statsScrollView: {
     flex: 1,
   },
-  motivationalCard: {
-    borderRadius: 16,
-    overflow: 'hidden',
-    marginBottom: 20,
+  statsOverview: {
+    marginBottom: 24,
   },
-  motivationalGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-    gap: 12,
-  },
-  motivationalEmoji: {
-    fontSize: 32,
-  },
-  motivationalText: {
-    flex: 1,
+  statsTitle: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#2E7D32',
-    lineHeight: 24,
+    fontWeight: '600',
+    color: '#424242',
+    marginBottom: 16,
+    textAlign: 'center',
   },
-  whyItWorksSection: {
-    marginBottom: 20,
-  },
-  benefitsList: {
-    gap: 12,
-  },
-  benefitItem: {
+  statsGrid: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
+    justifyContent: 'space-around',
   },
-  benefitText: {
-    flex: 1,
-    fontSize: 14,
-    color: '#666',
-    lineHeight: 20,
-  },
-  tipsCard: {
-    backgroundColor: '#F8FFF8',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
-  },
-  tipItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-    marginTop: 12,
-  },
-  tipText: {
-    flex: 1,
-    fontSize: 14,
-    color: '#666',
-    lineHeight: 20,
-  },
-  reminderCard: {
-    flexDirection: 'row',
+  statCard: {
     alignItems: 'center',
-    backgroundColor: '#FFF3E0',
+    backgroundColor: '#F8F8F8',
     borderRadius: 12,
     padding: 16,
-    gap: 12,
-    marginBottom: 20,
+    flex: 0.3,
   },
-  reminderTitle: {
+  statNumber: {
+    fontSize: 32,
+    fontWeight: '700',
+    color: '#4CAF50',
+  },
+  statLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#E65100',
+    color: '#424242',
+    marginTop: 4,
   },
-  reminderText: {
+  statSubLabel: {
+    fontSize: 11,
+    color: '#999',
+  },
+  motivationalSection: {
+    marginBottom: 24,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  motivationalGradient: {
+    padding: 20,
+    alignItems: 'center',
+    gap: 12,
+  },
+  motivationalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#2E7D32',
+  },
+  motivationalText: {
+    fontSize: 14,
+    color: '#424242',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  successRateCard: {
+    backgroundColor: '#F8F8F8',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+  },
+  successRateTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#424242',
+    marginBottom: 12,
+  },
+  successRateBar: {
+    height: 8,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 4,
+    overflow: 'hidden',
+    marginBottom: 8,
+  },
+  successRateFill: {
+    height: '100%',
+    backgroundColor: '#4CAF50',
+    borderRadius: 4,
+  },
+  successRateText: {
     fontSize: 12,
-    color: '#FF9800',
-    marginTop: 2,
+    color: '#666',
   },
   pagination: {
     flexDirection: 'row',
