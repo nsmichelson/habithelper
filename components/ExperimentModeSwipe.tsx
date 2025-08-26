@@ -284,7 +284,7 @@ export default function ExperimentModeSwipe({
   }));
 
   const holdProgressAnimatedStyle = useAnimatedStyle(() => {
-    const strokeDasharray = 2 * Math.PI * 60; // circumference of circle with radius 60
+    const strokeDasharray = 2 * Math.PI * 64; // circumference of circle with radius 64
     const strokeDashoffset = strokeDasharray * (1 - holdProgress.value);
     
     return {
@@ -386,24 +386,24 @@ export default function ExperimentModeSwipe({
                   height={140}
                   viewBox="0 0 140 140"
                 >
-                  {/* Background circle - lighter green */}
+                  {/* Background circle - light gray */}
                   <Circle
                     cx="70"
                     cy="70"
-                    r="60"
-                    stroke="rgba(76, 175, 80, 0.15)"
-                    strokeWidth="20"
+                    r="64"
+                    stroke="rgba(224, 224, 224, 0.8)"
+                    strokeWidth="12"
                     fill="none"
                   />
                   {/* Progress circle - fills as you hold */}
                   <AnimatedCircle
                     cx="70"
                     cy="70"
-                    r="60"
+                    r="64"
                     stroke="#2E7D32"
-                    strokeWidth="20"
+                    strokeWidth="12"
                     fill="none"
-                    strokeDasharray={2 * Math.PI * 60}
+                    strokeDasharray={2 * Math.PI * 64}
                     animatedProps={holdProgressAnimatedStyle}
                     strokeLinecap="round"
                     transform="rotate(-90 70 70)"
@@ -944,12 +944,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   circularButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '700',
     color: '#FFF',
     marginTop: 8,
     textAlign: 'center',
-    lineHeight: 18,
+    lineHeight: 20,
   },
   progressRing: {
     position: 'absolute',
