@@ -33,6 +33,7 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface Props {
   tip: Tip;
+  personalizedPlan?: string | null;
   onViewDetails: () => void;
   timeUntilCheckIn: number;
   onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
@@ -114,6 +115,7 @@ const ConfettiParticle = ({ delay, startX }: { delay: number; startX: number }) 
 
 export default function ExperimentModeSwipe({ 
   tip, 
+  personalizedPlan = null,
   onViewDetails, 
   timeUntilCheckIn, 
   onQuickComplete,
@@ -129,6 +131,8 @@ export default function ExperimentModeSwipe({
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
   const [showCelebration, setShowCelebration] = useState(true);
   const [hasSeenCelebration, setHasSeenCelebration] = useState(false);
+  const [showTipDetails, setShowTipDetails] = useState(false);
+  const [showPlanDetails, setShowPlanDetails] = useState(false);
   
   const scrollX = useSharedValue(0);
   const scale = useSharedValue(0);
@@ -333,27 +337,50 @@ export default function ExperimentModeSwipe({
 
         {/* Main Action Button - Prominent Focus */}
         {quickCompletions.length === 0 ? (
-          <Animated.View style={[styles.mainButtonContainer, mainButtonAnimatedStyle]}>
-            {/* Glow effect */}
-            <Animated.View style={[styles.buttonGlow, buttonGlowAnimatedStyle]} />
-            
-            <TouchableOpacity 
-              style={styles.mainActionButton}
-              onPress={() => setShowQuickComplete(true)}
-              activeOpacity={0.9}
-            >
-              <LinearGradient
-                colors={['#4CAF50', '#45B255']}
-                style={styles.mainActionGradient}
+          <View>
+            <Animated.View style={[styles.mainButtonContainer, mainButtonAnimatedStyle]}>
+              {/* Glow effect */}
+              <Animated.View style={[styles.buttonGlow, buttonGlowAnimatedStyle]} />
+              
+              <TouchableOpacity 
+                style={styles.mainActionButton}
+                onPress={() => setShowQuickComplete(true)}
+                activeOpacity={0.9}
               >
-                <View style={styles.mainButtonContent}>
-                  <Ionicons name="checkmark-circle" size={48} color="#FFF" />
-                  <Text style={styles.mainButtonText}>I Did It!</Text>
-                  <Text style={styles.mainButtonSubtext}>Mark as complete</Text>
-                </View>
-              </LinearGradient>
-            </TouchableOpacity>
-          </Animated.View>
+                <LinearGradient
+                  colors={['#4CAF50', '#45B255']}
+                  style={styles.mainActionGradient}
+                >
+                  <View style={styles.mainButtonContent}>
+                    <Ionicons name="checkmark-circle" size={32} color="#FFF" />
+                    <Text style={styles.mainButtonText}>I Did It!</Text>
+                    <Text style={styles.mainButtonSubtext}>Mark as complete</Text>
+                  </View>
+                </LinearGradient>
+              </TouchableOpacity>
+            </Animated.View>
+            
+            {/* Quick Access Buttons */}
+            <View style={styles.quickAccessButtons}>
+              <TouchableOpacity 
+                style={styles.quickAccessButton}
+                onPress={() => handleSwipeToPage(1)}
+              >
+                <Ionicons name="book-outline" size={18} color="#4CAF50" />
+                <Text style={styles.quickAccessText}>View Tips</Text>
+              </TouchableOpacity>
+              
+              {personalizedPlan && (
+                <TouchableOpacity 
+                  style={styles.quickAccessButton}
+                  onPress={() => setShowPlanDetails(true)}
+                >
+                  <Ionicons name="list-outline" size={18} color="#4CAF50" />
+                  <Text style={styles.quickAccessText}>Your Plan</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
         ) : (
           <View style={styles.completedContainer}>
             <LinearGradient
@@ -712,6 +739,36 @@ export default function ExperimentModeSwipe({
         title={modalTitle}
         tips={modalTips}
       />
+      
+      {/* Plan Details Modal */}
+      {personalizedPlan && (
+        <View>
+          <TouchableOpacity
+            style={[
+              styles.modalOverlay,
+              { display: showPlanDetails ? 'flex' : 'none' }
+            ]}
+            activeOpacity={1}
+            onPress={() => setShowPlanDetails(false)}
+          >
+            <TouchableOpacity
+              style={styles.planModal}
+              activeOpacity={1}
+              onPress={(e) => e.stopPropagation()}
+            >
+              <View style={styles.planModalHeader}>
+                <Text style={styles.planModalTitle}>Your Plan</Text>
+                <TouchableOpacity onPress={() => setShowPlanDetails(false)}>
+                  <Ionicons name="close" size={24} color="#666" />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.planModalContent}>
+                <Text style={styles.planText}>{personalizedPlan}</Text>
+              </View>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -837,23 +894,45 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   mainActionGradient: {
-    paddingVertical: 28,
-    paddingHorizontal: 32,
+    paddingVertical: 20,
+    paddingHorizontal: 24,
     alignItems: 'center',
   },
   mainButtonContent: {
     alignItems: 'center',
   },
   mainButtonText: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: '700',
     color: '#FFF',
-    marginTop: 12,
+    marginTop: 8,
   },
   mainButtonSubtext: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'rgba(255,255,255,0.9)',
-    marginTop: 4,
+    marginTop: 2,
+  },
+  quickAccessButtons: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
+    justifyContent: 'center',
+  },
+  quickAccessButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#F8FFF8',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E8F5E9',
+  },
+  quickAccessText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4CAF50',
   },
   completedContainer: {
     marginBottom: 24,
@@ -1187,5 +1266,49 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     backgroundColor: '#4CAF50',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  planModal: {
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+    marginHorizontal: 20,
+    maxWidth: 400,
+    width: '90%',
+    maxHeight: '60%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  planModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  planModalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#212121',
+  },
+  planModalContent: {
+    padding: 20,
+  },
+  planText: {
+    fontSize: 16,
+    color: '#424242',
+    lineHeight: 24,
   },
 });
