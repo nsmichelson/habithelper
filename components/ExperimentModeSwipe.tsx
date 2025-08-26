@@ -11,8 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Svg, { Circle } from 'react-native-svg';
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 import Animated, {
   Easing,
   Extrapolate,
@@ -27,9 +25,11 @@ import Animated, {
   withSpring,
   withTiming
 } from 'react-native-reanimated';
-import { QuickComplete, Tip, DailyTip } from '../types/tip';
+import Svg, { Circle } from 'react-native-svg';
+import { DailyTip, QuickComplete, Tip } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
