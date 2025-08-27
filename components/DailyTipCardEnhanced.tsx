@@ -115,10 +115,20 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       
       // Also call the parent's save function to persist to storage
       if (onSavePersonalization) {
-        await onSavePersonalization(pendingPersonalizationData);
+        try {
+          await onSavePersonalization(pendingPersonalizationData);
+          console.log('DailyTipCardEnhanced - Finished saving personalization data');
+        } catch (error) {
+          console.error('DailyTipCardEnhanced - Error saving personalization data:', error);
+          // Continue anyway - don't block the transition
+        }
       }
+      
+      // Small delay to ensure state updates have propagated
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
     
+    console.log('DailyTipCardEnhanced - About to call onResponse with:', response);
     onResponse(response);
   };
   
@@ -1146,7 +1156,14 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         >
           <TouchableOpacity
             style={styles.primaryAction}
-            onPress={() => handleResponse('try_it')}
+            onPress={() => {
+              console.log('==========================================');
+              console.log('BUTTON CLICK: "I\'ll try it" button pressed');
+              console.log('Current state - rejectionInfo:', rejectionInfo);
+              console.log('Current state - maybeLaterInfo:', maybeLaterInfo);
+              console.log('==========================================');
+              handleResponse('try_it');
+            }}
             activeOpacity={0.8}
           >
             <Ionicons name="checkmark-circle" size={26} color="#FFF" />

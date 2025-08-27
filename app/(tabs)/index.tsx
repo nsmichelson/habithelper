@@ -329,7 +329,12 @@ export default function HomeScreen() {
   };
 
   const handleTipResponse = async (response: ResponseStatus) => {
-    console.log('index.tsx - handleTipResponse called with:', response);
+    console.log('==========================================');
+    console.log('INDEX.TSX - handleTipResponse START');
+    console.log('Response:', response);
+    console.log('Current dailyTip.user_response BEFORE update:', dailyTip?.user_response);
+    console.log('==========================================');
+    
     if (!dailyTip || !userProfile || !currentTip) {
       console.log('index.tsx - Missing required data:', { dailyTip: !!dailyTip, userProfile: !!userProfile, currentTip: !!currentTip });
       return;
@@ -340,27 +345,48 @@ export default function HomeScreen() {
       setRejectedTipInfo(null);
     }
 
+    // Get the latest personalization data from Redux since it might have just been saved
+    const latestPersonalizationData = reduxSavedData || dailyTip.personalization_data;
+    console.log('index.tsx - Using personalization data from Redux:', latestPersonalizationData);
+
     // Now only handles try_it and maybe_later
     // not_for_me is handled by the separate onNotForMe callback
     const updatedTip = {
       ...dailyTip,
       user_response: response as any,
       responded_at: new Date(),
+      personalization_data: latestPersonalizationData, // Include the latest personalization data
     };
     
     console.log('index.tsx - Updating daily tip with response:', response);
     console.log('index.tsx - Current dailyTip personalization_data:', dailyTip.personalization_data);
+    console.log('index.tsx - Updated tip object:', updatedTip);
     
     await StorageService.updateDailyTip(dailyTip.id, {
       user_response: response as any,
       responded_at: new Date(),
+      personalization_data: latestPersonalizationData, // Save personalization data too
     });
     
+    console.log('index.tsx - About to setDailyTip with updatedTip');
     setDailyTip(updatedTip);
+    
+    // Also update Redux
+    dispatch(setDailyTip(updatedTip));
+    
+    console.log('==========================================');
+    console.log('INDEX.TSX - State updated');
+    console.log('updatedTip.user_response:', updatedTip.user_response);
+    console.log('updatedTip.personalization_data:', updatedTip.personalization_data);
+    console.log('==========================================');
 
     if (response === 'try_it') {
       console.log('index.tsx - User chose try_it, scheduling evening check-in');
       await NotificationService.scheduleEveningCheckIn(dailyTip.tip_id, 19);
+      console.log('index.tsx - Evening check-in scheduled');
+      console.log('==========================================');
+      console.log('INDEX.TSX - handleTipResponse END for try_it');
+      console.log('==========================================');
       // Don't show alert - the ExperimentMode component will handle the celebration
     } else if (response === 'maybe_later') {
       // Create a snooze attempt for the recommendation algorithm
@@ -759,6 +785,16 @@ export default function HomeScreen() {
     (rejectedTipInfo && rejectedTipInfo.tip.tip_id === currentTip.tip_id) ||
     dailyTip.user_response === 'maybe_later');
   
+  console.log('==========================================');
+  console.log('COMPONENT RENDER DECISION:');
+  console.log('shouldShowEnhancedCard:', shouldShowEnhancedCard);
+  console.log('currentTip exists:', !!currentTip);
+  console.log('dailyTip exists:', !!dailyTip);
+  console.log('dailyTip.user_response:', dailyTip?.user_response);
+  console.log('rejectedTipInfo exists:', !!rejectedTipInfo);
+  console.log('showCheckIn:', showCheckIn);
+  console.log('==========================================');
+  
   return (
     <SafeAreaView style={styles.container}>
       {/* Feedback Modal */}
@@ -1082,7 +1118,9 @@ export default function HomeScreen() {
                   dispatch(setDailyTip(updatedDailyTip));
                   dispatch(savePersonalizationData(data));
                   
-                  await StorageService.updateDailyTip(updatedDailyTip);
+                  await StorageService.updateDailyTip(dailyTip.id, {
+                    personalization_data: data
+                  });
                   console.log('index.tsx - Daily tip updated in storage and Redux');
                 } else {
                   console.log('index.tsx - No dailyTip to update!');
@@ -1299,6 +1337,14 @@ export default function HomeScreen() {
               />
             ) : dailyTip.user_response === 'try_it' ? (
               // Show Experiment Mode when user has committed to trying
+              (() => {
+                console.log('==========================================');
+                console.log('RENDERING: ExperimentModeSwipe');
+                console.log('dailyTip.user_response:', dailyTip.user_response);
+                console.log('dailyTip.personalization_data:', dailyTip.personalization_data);
+                console.log('==========================================');
+                return null;
+              })() || (
               <ExperimentModeSwipe
                 tip={currentTip}
                 personalizationData={(() => {
@@ -1334,6 +1380,7 @@ export default function HomeScreen() {
                   return history;
                 })()}
               />
+              )
             ) : rejectedTipInfo ? (
               // Show the rejected tip view with feedback
               (() => {
