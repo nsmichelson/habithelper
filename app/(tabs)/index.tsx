@@ -12,7 +12,12 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setCurrentTip, setDailyTip, savePersonalizationData, setTipReasons } from '@/store/slices/dailyTipSlice';
+import { 
+  setCurrentTip as setCurrentTipRedux, 
+  setDailyTip as setDailyTipRedux, 
+  savePersonalizationData, 
+  setTipReasons as setTipReasonsRedux 
+} from '@/store/slices/dailyTipSlice';
 import OnboardingQuiz from '@/components/OnboardingQuiz';
 import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
 import DailyTipCardEnhanced from '@/components/DailyTipCardEnhanced';
@@ -316,9 +321,9 @@ export default function HomeScreen() {
         setTipReasons(tipScore.reasons);
         
         // Sync with Redux
-        dispatch(setDailyTip(newDailyTip));
-        dispatch(setCurrentTip(tipScore.tip));
-        dispatch(setTipReasons(tipScore.reasons));
+        dispatch(setDailyTipRedux(newDailyTip));
+        dispatch(setCurrentTipRedux(tipScore.tip));
+        dispatch(setTipReasonsRedux(tipScore.reasons));
       }
     }
   };
@@ -372,7 +377,7 @@ export default function HomeScreen() {
     setDailyTip(updatedTip);
     
     // Also update Redux
-    dispatch(setDailyTip(updatedTip));
+    dispatch(setDailyTipRedux(updatedTip));
     
     console.log('==========================================');
     console.log('INDEX.TSX - State updated');
@@ -1115,9 +1120,9 @@ export default function HomeScreen() {
                     console.log('index.tsx - Updating daily tip with personalization_data:', updatedDailyTip);
                     setDailyTip(updatedDailyTip);
                     
-                    console.log('index.tsx - About to dispatch setDailyTip');
+                    console.log('index.tsx - About to dispatch setDailyTipRedux');
                     // Update Redux store
-                    dispatch(setDailyTip(updatedDailyTip));
+                    dispatch(setDailyTipRedux(updatedDailyTip));
                     
                     console.log('index.tsx - About to dispatch savePersonalizationData');
                     dispatch(savePersonalizationData(data));
