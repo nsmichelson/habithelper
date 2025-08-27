@@ -339,4 +339,5 @@ export interface DailyTip {
   evening_check_in?: TipFeedback;
   check_in_at?: Date;
   evening_reflection?: string; // Additional thoughts from evening
+  personalization_data?: any; // User's saved personalization/plan data
 }

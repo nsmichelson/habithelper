@@ -1051,6 +1051,15 @@ export default function HomeScreen() {
             <DailyTipCardEnhanced
               tip={currentTip}
               onResponse={handleTipResponse}
+              onSavePersonalization={async (data) => {
+                // Save personalization data to the current daily tip
+                if (dailyTip) {
+                  const updatedDailyTip = { ...dailyTip, personalization_data: data };
+                  setDailyTip(updatedDailyTip);
+                  await StorageService.updateDailyTip(updatedDailyTip);
+                }
+              }}
+              savedPersonalizationData={dailyTip?.personalization_data}
               onNotForMe={() => {
                 console.log('Not for me clicked!');
                 console.log('Current tip:', currentTip?.tip_id);
@@ -1263,6 +1272,7 @@ export default function HomeScreen() {
               // Show Experiment Mode when user has committed to trying
               <ExperimentModeSwipe
                 tip={currentTip}
+                personalizationData={dailyTip.personalization_data}
                 onViewDetails={() => {
                   // Could open a modal or navigate to details
                   Alert.alert(
@@ -1352,6 +1362,15 @@ export default function HomeScreen() {
                   <DailyTipCardEnhanced
                     tip={currentTip}
                     onResponse={handleTipResponse}
+                    onSavePersonalization={async (data) => {
+                      // Save personalization data to the current daily tip
+                      if (dailyTip) {
+                        const updatedDailyTip = { ...dailyTip, personalization_data: data };
+                        setDailyTip(updatedDailyTip);
+                        await StorageService.updateDailyTip(updatedDailyTip);
+                      }
+                    }}
+                    savedPersonalizationData={dailyTip?.personalization_data}
                     onNotForMe={() => {
                       console.log('Not for me clicked (fallback)!');
                       console.log('Current tip:', currentTip?.tip_id);

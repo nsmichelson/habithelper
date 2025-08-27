@@ -15,6 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import PersonalizationCard from './PersonalizationCard';
 import Animated, {
   Easing,
   Extrapolate,
@@ -146,17 +147,6 @@ export default function ExperimentModeSwipe({
   const [showTipDetails, setShowTipDetails] = useState(false);
   const [showPlanDetails, setShowPlanDetails] = useState(false);
   const [isHolding, setIsHolding] = useState(false);
-  
-  // State for personalization
-  const [savedChoice, setSavedChoice] = useState<string | null>(personalizationData?.savedData);
-  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-  const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
-  const [savedChoices, setSavedChoices] = useState<string[] | null>(null);
-  const [textInput, setTextInput] = useState<string>('');
-  const [savedTextInput, setSavedTextInput] = useState<string | null>(personalizationData?.savedData);
-  const [multiTextInputs, setMultiTextInputs] = useState<Record<number, string>>({});
-  const [savedMultiTextInputs, setSavedMultiTextInputs] = useState<Record<number, string> | null>(null);
-  const [showSaveAnimation, setShowSaveAnimation] = useState(false);
   
   const scrollX = useSharedValue(0);
   const scale = useSharedValue(0);
@@ -693,6 +683,72 @@ export default function ExperimentModeSwipe({
       return null;
     }
     
+    return (
+      <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
+        <LinearGradient
+          colors={['#FFFFFF', '#F8FFF8']}
+          style={styles.card}
+        >
+          <View style={styles.instructionsHeader}>
+            <TouchableOpacity 
+              style={styles.backButton}
+              onPress={() => handleSwipeToPage(0)}
+            >
+              <Ionicons name="chevron-back" size={20} color="#4CAF50" />
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
+            <Text style={styles.instructionsTitle}>Your Plan</Text>
+            <View style={{ width: 60 }} />
+          </View>
+
+          <ScrollView 
+            style={styles.planScrollView}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Use the PersonalizationCard component */}
+            <PersonalizationCard
+              tip={tip}
+              savedData={personalizationData}
+              onSave={(data) => {
+                // This could be used to persist the data if needed
+                console.log('Personalization saved:', data);
+              }}
+              showHeader={true}
+            />
+            
+            {/* Show personalized plan if available */}
+            {personalizedPlan && (
+              <View style={styles.personalizedPlanSection}>
+                <View style={styles.planHeader}>
+                  <Ionicons name="clipboard-outline" size={24} color="#4CAF50" />
+                  <Text style={styles.planTitle}>Your Personal Approach</Text>
+                </View>
+                <View style={styles.planContent}>
+                  <Text style={styles.planText}>{personalizedPlan}</Text>
+                </View>
+              </View>
+            )}
+          </ScrollView>
+        </LinearGradient>
+      </View>
+    );
+  };
+
+  const renderPlanCardOld = () => {
+    // Debug logging
+    console.log('renderPlanCard - tip.personalization_type:', tip.personalization_type);
+    console.log('renderPlanCard - personalizationData:', personalizationData);
+    console.log('renderPlanCard - savedTextInput:', savedTextInput);
+    console.log('renderPlanCard - savedMultiTextInputs:', savedMultiTextInputs);
+    console.log('renderPlanCard - savedChoice:', savedChoice);
+    console.log('renderPlanCard - savedChoices:', savedChoices);
+    console.log('renderPlanCard - savedScaleNames:', savedScaleNames);
+    
+    // Check if we should show personalization
+    if (!tip.personalization_prompt && !personalizedPlan) {
+      return null;
+    }
+    
     // Handle text type personalization
     if (tip.personalization_type === 'text') {
       const placeholder = tip.personalization_config?.placeholders?.[0] || "Enter your answer";
@@ -727,7 +783,31 @@ export default function ExperimentModeSwipe({
               >
                 <Text style={styles.sectionTitle}>Make It Your Own</Text>
                 
-                {!savedTextInput ? (
+                {savedTextInput ? (
+                  <View style={styles.savedChoiceContainer}>
+                    <View style={styles.savedHeader}>
+                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                      <Text style={styles.savedTitle}>Your Plan</Text>
+                    </View>
+                    
+                    <View style={styles.savedChoiceBox}>
+                      <Text style={styles.savedChoicePrompt}>{tip.personalization_prompt}</Text>
+                      <Text style={styles.savedChoiceText}>{savedTextInput}</Text>
+                    </View>
+                    
+                    <TouchableOpacity
+                      style={styles.editButton}
+                      onPress={() => {
+                        setSavedTextInput(null);
+                        setTextInput(savedTextInput || '');
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons name="pencil" size={16} color="#4CAF50" />
+                      <Text style={styles.editButtonText}>Change My Answer</Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
                   <View style={styles.textInputWrapper}>
                     <Text style={styles.personalizationPrompt}>
                       {tip.personalization_prompt}
@@ -769,30 +849,6 @@ export default function ExperimentModeSwipe({
                     >
                       <Text style={styles.saveTextButtonText}>Save</Text>
                       <Ionicons name="checkmark" size={20} color="#FFF" />
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  <View style={styles.savedChoiceContainer}>
-                    <View style={styles.savedHeader}>
-                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
-                      <Text style={styles.savedTitle}>Your Plan</Text>
-                    </View>
-                    
-                    <View style={styles.savedChoiceBox}>
-                      <Text style={styles.savedChoicePrompt}>{tip.personalization_prompt}</Text>
-                      <Text style={styles.savedChoiceText}>{savedTextInput}</Text>
-                    </View>
-                    
-                    <TouchableOpacity
-                      style={styles.editButton}
-                      onPress={() => {
-                        setSavedTextInput(null);
-                        setTextInput(savedTextInput || '');
-                      }}
-                      activeOpacity={0.7}
-                    >
-                      <Ionicons name="pencil" size={16} color="#4CAF50" />
-                      <Text style={styles.editButtonText}>Change My Answer</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -839,7 +895,40 @@ export default function ExperimentModeSwipe({
             >
               <Text style={styles.sectionTitle}>Make It Your Own</Text>
               
-              {(!savedChoice && !savedChoices) ? (
+              {(savedChoice || savedChoices) ? (
+                <View style={styles.savedChoiceContainer}>
+                  <View style={styles.savedHeader}>
+                    <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                    <Text style={styles.savedTitle}>Your Plan</Text>
+                  </View>
+                  
+                  <View style={styles.savedChoiceBox}>
+                    <Text style={styles.savedChoicePrompt}>{tip.personalization_prompt}</Text>
+                    <Text style={styles.savedChoiceText}>
+                      {isMultiple && savedChoices 
+                        ? savedChoices.join(', ')
+                        : savedChoice}
+                    </Text>
+                  </View>
+                  
+                  <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => {
+                      if (isMultiple) {
+                        setSavedChoices(null);
+                        setSelectedChoices([]);
+                      } else {
+                        setSavedChoice(null);
+                        setSelectedChoice(null);
+                      }
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="pencil" size={16} color="#4CAF50" />
+                    <Text style={styles.editButtonText}>Change My Selection</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
                 <>
                   <Text style={styles.personalizationPrompt}>
                     {tip.personalization_prompt}
@@ -913,39 +1002,6 @@ export default function ExperimentModeSwipe({
                     </TouchableOpacity>
                   )}
                 </>
-              ) : (
-                <View style={styles.savedChoiceContainer}>
-                  <View style={styles.savedHeader}>
-                    <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
-                    <Text style={styles.savedTitle}>Your Plan</Text>
-                  </View>
-                  
-                  <View style={styles.savedChoiceBox}>
-                    <Text style={styles.savedChoicePrompt}>{tip.personalization_prompt}</Text>
-                    <Text style={styles.savedChoiceText}>
-                      {isMultiple && savedChoices 
-                        ? savedChoices.join(', ')
-                        : savedChoice}
-                    </Text>
-                  </View>
-                  
-                  <TouchableOpacity
-                    style={styles.editButton}
-                    onPress={() => {
-                      if (isMultiple) {
-                        setSavedChoices(null);
-                        setSelectedChoices([]);
-                      } else {
-                        setSavedChoice(null);
-                        setSelectedChoice(null);
-                      }
-                    }}
-                    activeOpacity={0.7}
-                  >
-                    <Ionicons name="pencil" size={16} color="#4CAF50" />
-                    <Text style={styles.editButtonText}>Change My Selection</Text>
-                  </TouchableOpacity>
-                </View>
               )}
               
               {showSaveAnimation && (
@@ -960,6 +1016,186 @@ export default function ExperimentModeSwipe({
       );
     }
 
+    // Handle scale type personalization (hunger scale)
+    if (tip.personalization_type === 'scale') {
+      return (
+        <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
+          <LinearGradient
+            colors={['#FFFFFF', '#F8FFF8']}
+            style={styles.card}
+          >
+            <View style={styles.instructionsHeader}>
+              <TouchableOpacity 
+                style={styles.backButton}
+                onPress={() => handleSwipeToPage(0)}
+              >
+                <Ionicons name="chevron-back" size={20} color="#4CAF50" />
+                <Text style={styles.backButtonText}>Back</Text>
+              </TouchableOpacity>
+              <Text style={styles.instructionsTitle}>Your Plan</Text>
+              <View style={{ width: 60 }} />
+            </View>
+
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={{ flex: 1 }}
+              keyboardVerticalOffset={150}
+            >
+              <ScrollView 
+                style={styles.planScrollView}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+              >
+                <Text style={styles.sectionTitle}>Your Hunger Scale</Text>
+                
+                {savedScaleNames ? (
+                  <View style={styles.savedChoiceContainer}>
+                    <View style={styles.savedHeader}>
+                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                      <Text style={styles.savedTitle}>Your Personalized Scale</Text>
+                    </View>
+                    
+                    <View style={styles.savedScaleBox}>
+                      {savedScaleNames.level1 && (
+                        <View style={styles.savedScaleItem}>
+                          <View style={[styles.scaleNumber, styles.scaleNumberLow]}>
+                            <Text style={styles.scaleNumberText}>1</Text>
+                          </View>
+                          <View style={styles.scaleTextWrapper}>
+                            <Text style={styles.savedScaleName}>{savedScaleNames.level1}</Text>
+                            <Text style={styles.savedScaleDesc}>Extremely hungry</Text>
+                          </View>
+                        </View>
+                      )}
+                      
+                      {savedScaleNames.level5 && (
+                        <View style={styles.savedScaleItem}>
+                          <View style={[styles.scaleNumber, styles.scaleNumberMid]}>
+                            <Text style={styles.scaleNumberText}>5</Text>
+                          </View>
+                          <View style={styles.scaleTextWrapper}>
+                            <Text style={styles.savedScaleName}>{savedScaleNames.level5}</Text>
+                            <Text style={styles.savedScaleDesc}>Satisfied</Text>
+                          </View>
+                        </View>
+                      )}
+                      
+                      {savedScaleNames.level10 && (
+                        <View style={styles.savedScaleItem}>
+                          <View style={[styles.scaleNumber, styles.scaleNumberFull]}>
+                            <Text style={styles.scaleNumberText}>10</Text>
+                          </View>
+                          <View style={styles.scaleTextWrapper}>
+                            <Text style={styles.savedScaleName}>{savedScaleNames.level10}</Text>
+                            <Text style={styles.savedScaleDesc}>Overly full</Text>
+                          </View>
+                        </View>
+                      )}
+                    </View>
+                    
+                    <TouchableOpacity
+                      style={styles.editButton}
+                      onPress={() => {
+                        setSavedScaleNames(null);
+                        setScaleNames(savedScaleNames || { level1: '', level5: '', level10: '' });
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons name="pencil" size={16} color="#4CAF50" />
+                      <Text style={styles.editButtonText}>Edit My Scale</Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View style={styles.scaleInputWrapper}>
+                    <Text style={styles.personalizationPrompt}>
+                      {tip.personalization_prompt || "Give your hunger levels fun, memorable names! What would you call each level?"}
+                    </Text>
+                    
+                    <View style={styles.scaleInputSection}>
+                      <View style={styles.scaleInputItem}>
+                        <View style={[styles.scaleNumber, styles.scaleNumberLow]}>
+                          <Text style={styles.scaleNumberText}>1</Text>
+                        </View>
+                        <View style={styles.scaleInputTextWrapper}>
+                          <Text style={styles.scaleInputLabel}>Extremely hungry</Text>
+                          <TextInput
+                            style={styles.scaleInput}
+                            placeholder="e.g., Hangry Monster"
+                            value={scaleNames.level1}
+                            onChangeText={(text) => setScaleNames({ ...scaleNames, level1: text })}
+                            placeholderTextColor="#999"
+                          />
+                        </View>
+                      </View>
+                      
+                      <View style={styles.scaleInputItem}>
+                        <View style={[styles.scaleNumber, styles.scaleNumberMid]}>
+                          <Text style={styles.scaleNumberText}>5</Text>
+                        </View>
+                        <View style={styles.scaleInputTextWrapper}>
+                          <Text style={styles.scaleInputLabel}>Satisfied</Text>
+                          <TextInput
+                            style={styles.scaleInput}
+                            placeholder="e.g., Happy Tummy"
+                            value={scaleNames.level5}
+                            onChangeText={(text) => setScaleNames({ ...scaleNames, level5: text })}
+                            placeholderTextColor="#999"
+                          />
+                        </View>
+                      </View>
+                      
+                      <View style={styles.scaleInputItem}>
+                        <View style={[styles.scaleNumber, styles.scaleNumberFull]}>
+                          <Text style={styles.scaleNumberText}>10</Text>
+                        </View>
+                        <View style={styles.scaleInputTextWrapper}>
+                          <Text style={styles.scaleInputLabel}>Overly full</Text>
+                          <TextInput
+                            style={styles.scaleInput}
+                            placeholder="e.g., Food Coma"
+                            value={scaleNames.level10}
+                            onChangeText={(text) => setScaleNames({ ...scaleNames, level10: text })}
+                            placeholderTextColor="#999"
+                          />
+                        </View>
+                      </View>
+                    </View>
+                    
+                    <TouchableOpacity
+                      style={[
+                        styles.saveTextButton,
+                        (!scaleNames.level1.trim() || !scaleNames.level5.trim() || !scaleNames.level10.trim()) && styles.saveTextButtonDisabled
+                      ]}
+                      onPress={() => {
+                        if (scaleNames.level1.trim() && scaleNames.level5.trim() && scaleNames.level10.trim()) {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                          setSavedScaleNames(scaleNames);
+                          setShowSaveAnimation(true);
+                          setTimeout(() => setShowSaveAnimation(false), 2000);
+                        }
+                      }}
+                      disabled={!scaleNames.level1.trim() || !scaleNames.level5.trim() || !scaleNames.level10.trim()}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.saveTextButtonText}>Save My Scale</Text>
+                      <Ionicons name="checkmark" size={20} color="#FFF" />
+                    </TouchableOpacity>
+                  </View>
+                )}
+                
+                {showSaveAnimation && (
+                  <View style={styles.celebrationOverlay}>
+                    <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+                    <Text style={styles.celebrationText}>Personalized! 🎯</Text>
+                  </View>
+                )}
+              </ScrollView>
+            </KeyboardAvoidingView>
+          </LinearGradient>
+        </View>
+      );
+    }
+    
     // Handle multi_text type personalization
     if (tip.personalization_type === 'multi_text') {
       const items = tip.personalization_config?.items || [];
@@ -994,7 +1230,35 @@ export default function ExperimentModeSwipe({
               >
                 <Text style={styles.sectionTitle}>Make It Your Own</Text>
                 
-                {!savedMultiTextInputs ? (
+                {savedMultiTextInputs ? (
+                  <View style={styles.savedChoiceContainer}>
+                    <View style={styles.savedHeader}>
+                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+                      <Text style={styles.savedTitle}>Your Plan</Text>
+                    </View>
+                    
+                    <View style={styles.savedMultiTextBox}>
+                      {items.map((item, index) => (
+                        <View key={index} style={styles.savedMultiTextItem}>
+                          <Text style={styles.savedMultiTextLabel}>{item.label}</Text>
+                          <Text style={styles.savedMultiTextValue}>{savedMultiTextInputs[index]}</Text>
+                        </View>
+                      ))}
+                    </View>
+                    
+                    <TouchableOpacity
+                      style={styles.editButton}
+                      onPress={() => {
+                        setSavedMultiTextInputs(null);
+                        setMultiTextInputs(savedMultiTextInputs || {});
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons name="pencil" size={16} color="#4CAF50" />
+                      <Text style={styles.editButtonText}>Change My Plan</Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
                   <View style={styles.multiTextWrapper}>
                     <Text style={styles.personalizationPrompt}>
                       {tip.personalization_prompt}
@@ -1035,34 +1299,6 @@ export default function ExperimentModeSwipe({
                     >
                       <Text style={styles.saveTextButtonText}>Save Plan</Text>
                       <Ionicons name="checkmark" size={20} color="#FFF" />
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  <View style={styles.savedChoiceContainer}>
-                    <View style={styles.savedHeader}>
-                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
-                      <Text style={styles.savedTitle}>Your Plan</Text>
-                    </View>
-                    
-                    <View style={styles.savedMultiTextBox}>
-                      {items.map((item, index) => (
-                        <View key={index} style={styles.savedMultiTextItem}>
-                          <Text style={styles.savedMultiTextLabel}>{item.label}</Text>
-                          <Text style={styles.savedMultiTextValue}>{savedMultiTextInputs[index]}</Text>
-                        </View>
-                      ))}
-                    </View>
-                    
-                    <TouchableOpacity
-                      style={styles.editButton}
-                      onPress={() => {
-                        setSavedMultiTextInputs(null);
-                        setMultiTextInputs(savedMultiTextInputs || {});
-                      }}
-                      activeOpacity={0.7}
-                    >
-                      <Ionicons name="pencil" size={16} color="#4CAF50" />
-                      <Text style={styles.editButtonText}>Change My Plan</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -2221,5 +2457,81 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#333',
+  },
+  // Scale styles
+  scaleInputWrapper: {
+    marginTop: 4,
+  },
+  scaleInputSection: {
+    gap: 20,
+    marginTop: 20,
+  },
+  scaleInputItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  scaleNumber: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scaleNumberLow: {
+    backgroundColor: '#FFE5E5',
+  },
+  scaleNumberMid: {
+    backgroundColor: '#E8F5E9',
+  },
+  scaleNumberFull: {
+    backgroundColor: '#FFE5E5',
+  },
+  scaleNumberText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#333',
+  },
+  scaleInputTextWrapper: {
+    flex: 1,
+  },
+  scaleInputLabel: {
+    fontSize: 13,
+    color: '#666',
+    marginBottom: 6,
+  },
+  scaleInput: {
+    backgroundColor: '#FFF',
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
+    color: '#333',
+  },
+  savedScaleBox: {
+    backgroundColor: '#F8F8F8',
+    borderRadius: 12,
+    padding: 16,
+    gap: 16,
+  },
+  savedScaleItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  scaleTextWrapper: {
+    flex: 1,
+  },
+  savedScaleName: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#2E7D32',
+    marginBottom: 2,
+  },
+  savedScaleDesc: {
+    fontSize: 13,
+    color: '#666',
   },
 });

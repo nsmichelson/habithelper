@@ -45,9 +45,11 @@ interface Props {
     feedback: 'maybe_later';
     savedAt?: Date | string;
   };
+  onSavePersonalization?: (data: any) => void;
+  savedPersonalizationData?: any;
 }
 
-export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [], rejectionInfo, maybeLaterInfo }: Props) {
+export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [], rejectionInfo, maybeLaterInfo, onSavePersonalization, savedPersonalizationData }: Props) {
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
@@ -59,16 +61,26 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     level5: '',
     level10: ''
   });
-  const [savedScaleNames, setSavedScaleNames] = useState<typeof scaleNames | null>(null);
+  const [savedScaleNames, setSavedScaleNames] = useState<typeof scaleNames | null>(
+    savedPersonalizationData?.type === 'scale' ? savedPersonalizationData.data : null
+  );
   const [showSaveAnimation, setShowSaveAnimation] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-  const [savedChoice, setSavedChoice] = useState<string | null>(null);
+  const [savedChoice, setSavedChoice] = useState<string | null>(
+    savedPersonalizationData?.type === 'choice' && !savedPersonalizationData.multiple ? savedPersonalizationData.data : null
+  );
   const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
-  const [savedChoices, setSavedChoices] = useState<string[] | null>(null);
+  const [savedChoices, setSavedChoices] = useState<string[] | null>(
+    savedPersonalizationData?.type === 'choice' && savedPersonalizationData.multiple ? savedPersonalizationData.data : null
+  );
   const [textInput, setTextInput] = useState<string>('');
-  const [savedTextInput, setSavedTextInput] = useState<string | null>(null);
+  const [savedTextInput, setSavedTextInput] = useState<string | null>(
+    savedPersonalizationData?.type === 'text' ? savedPersonalizationData.data : null
+  );
   const [multiTextInputs, setMultiTextInputs] = useState<Record<number, string>>({});
-  const [savedMultiTextInputs, setSavedMultiTextInputs] = useState<Record<number, string> | null>(null);
+  const [savedMultiTextInputs, setSavedMultiTextInputs] = useState<Record<number, string> | null>(
+    savedPersonalizationData?.type === 'multi_text' ? savedPersonalizationData.data : null
+  );
   
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
@@ -479,6 +491,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                           if (textInput.trim()) {
                             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                             setSavedTextInput(textInput.trim());
+                            onSavePersonalization?.({ type: 'text', data: textInput.trim() });
                             setShowSaveAnimation(true);
                             setTimeout(() => setShowSaveAnimation(false), 2000);
                           }
@@ -494,6 +507,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                         if (textInput.trim()) {
                           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                           setSavedTextInput(textInput.trim());
+                          onSavePersonalization?.({ type: 'text', data: textInput.trim() });
                           setShowSaveAnimation(true);
                           setTimeout(() => setShowSaveAnimation(false), 2000);
                         }
@@ -598,6 +612,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                         if (items.every((_, index) => multiTextInputs[index]?.trim())) {
                           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                           setSavedMultiTextInputs(multiTextInputs);
+                          onSavePersonalization?.({ type: 'multi_text', data: multiTextInputs });
                           setShowSaveAnimation(true);
                           setTimeout(() => setShowSaveAnimation(false), 2000);
                         }
@@ -721,6 +736,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                               setTimeout(() => {
                                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                                 setSavedChoice(choice);
+                                onSavePersonalization?.({ type: 'choice', data: choice, multiple: false });
                                 setShowSaveAnimation(true);
                                 setTimeout(() => setShowSaveAnimation(false), 2000);
                               }, 500);
@@ -773,6 +789,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                       onPress={() => {
                         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                         setSavedChoices(selectedChoices);
+                        onSavePersonalization?.({ type: 'choice', data: selectedChoices, multiple: true });
                         setShowSaveAnimation(true);
                         setTimeout(() => setShowSaveAnimation(false), 2000);
                       }}
