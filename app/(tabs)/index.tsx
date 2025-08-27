@@ -1107,23 +1107,33 @@ export default function HomeScreen() {
               tip={currentTip}
               onResponse={handleTipResponse}
               onSavePersonalization={async (data) => {
-                console.log('index.tsx - onSavePersonalization called with data:', data);
-                // Save personalization data to the current daily tip
-                if (dailyTip) {
-                  const updatedDailyTip = { ...dailyTip, personalization_data: data };
-                  console.log('index.tsx - Updating daily tip with personalization_data:', updatedDailyTip);
-                  setDailyTip(updatedDailyTip);
-                  
-                  // Update Redux store
-                  dispatch(setDailyTip(updatedDailyTip));
-                  dispatch(savePersonalizationData(data));
-                  
-                  await StorageService.updateDailyTip(dailyTip.id, {
-                    personalization_data: data
-                  });
-                  console.log('index.tsx - Daily tip updated in storage and Redux');
-                } else {
-                  console.log('index.tsx - No dailyTip to update!');
+                try {
+                  console.log('index.tsx - onSavePersonalization called with data:', data);
+                  // Save personalization data to the current daily tip
+                  if (dailyTip) {
+                    const updatedDailyTip = { ...dailyTip, personalization_data: data };
+                    console.log('index.tsx - Updating daily tip with personalization_data:', updatedDailyTip);
+                    setDailyTip(updatedDailyTip);
+                    
+                    console.log('index.tsx - About to dispatch setDailyTip');
+                    // Update Redux store
+                    dispatch(setDailyTip(updatedDailyTip));
+                    
+                    console.log('index.tsx - About to dispatch savePersonalizationData');
+                    dispatch(savePersonalizationData(data));
+                    
+                    console.log('index.tsx - About to update storage');
+                    await StorageService.updateDailyTip(dailyTip.id, {
+                      personalization_data: data
+                    });
+                    console.log('index.tsx - Daily tip updated in storage and Redux');
+                  } else {
+                    console.log('index.tsx - No dailyTip to update!');
+                  }
+                } catch (error) {
+                  console.error('index.tsx - Error in onSavePersonalization:', error);
+                  // Re-throw to let the caller handle it
+                  throw error;
                 }
               }}
               savedPersonalizationData={dailyTip?.personalization_data}

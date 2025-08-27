@@ -442,14 +442,17 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           <PersonalizationCard
             tip={tip}
             savedData={savedPersonalizationData || reduxSavedData}
-            onSave={(data) => {
+            onSave={async (data) => {
               console.log('DailyTipCardEnhanced - PersonalizationCard onSave called with:', data);
               
               // Save to Redux store
               dispatch(savePersonalizationData(data));
               
               // Also save to storage
-              onSavePersonalization?.(data);
+              if (onSavePersonalization) {
+                await onSavePersonalization(data);
+              }
+              // Don't return anything to avoid issues
             }}
             onDataChange={(data) => {
               console.log('DailyTipCardEnhanced - PersonalizationCard onDataChange called with:', data);
