@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setCurrentTip, setDailyTip, savePersonalizationData, setTipReasons } from '@/store/slices/dailyTipSlice';
 import OnboardingQuiz from '@/components/OnboardingQuiz';
 import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
 import DailyTipCardEnhanced from '@/components/DailyTipCardEnhanced';
@@ -101,6 +103,10 @@ const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[]): Tip
 };
 
 export default function HomeScreen() {
+  // Redux
+  const dispatch = useAppDispatch();
+  const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
+  
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [dailyTip, setDailyTip] = useState<DailyTip | null>(null);
@@ -308,6 +314,11 @@ export default function HomeScreen() {
         setDailyTip(newDailyTip);
         setCurrentTip(tipScore.tip);
         setTipReasons(tipScore.reasons);
+        
+        // Sync with Redux
+        dispatch(setDailyTip(newDailyTip));
+        dispatch(setCurrentTip(tipScore.tip));
+        dispatch(setTipReasons(tipScore.reasons));
       }
     }
   };
@@ -1066,8 +1077,13 @@ export default function HomeScreen() {
                   const updatedDailyTip = { ...dailyTip, personalization_data: data };
                   console.log('index.tsx - Updating daily tip with personalization_data:', updatedDailyTip);
                   setDailyTip(updatedDailyTip);
+                  
+                  // Update Redux store
+                  dispatch(setDailyTip(updatedDailyTip));
+                  dispatch(savePersonalizationData(data));
+                  
                   await StorageService.updateDailyTip(updatedDailyTip);
-                  console.log('index.tsx - Daily tip updated in storage');
+                  console.log('index.tsx - Daily tip updated in storage and Redux');
                 } else {
                   console.log('index.tsx - No dailyTip to update!');
                 }
@@ -1286,8 +1302,11 @@ export default function HomeScreen() {
               <ExperimentModeSwipe
                 tip={currentTip}
                 personalizationData={(() => {
-                  console.log('index.tsx - Passing personalizationData to ExperimentModeSwipe:', dailyTip.personalization_data);
-                  return dailyTip.personalization_data;
+                  const dataToPass = dailyTip.personalization_data || reduxSavedData;
+                  console.log('index.tsx - Passing personalizationData to ExperimentModeSwipe:', dataToPass);
+                  console.log('index.tsx - From dailyTip:', dailyTip.personalization_data);
+                  console.log('index.tsx - From Redux:', reduxSavedData);
+                  return dataToPass;
                 })()}
                 onViewDetails={() => {
                   // Could open a modal or navigate to details

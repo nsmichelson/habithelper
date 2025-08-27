@@ -5,6 +5,8 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef, useState } from 'react';
 import PersonalizationCard from './PersonalizationCard';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setPendingPersonalizationData, savePersonalizationData } from '@/store/slices/dailyTipSlice';
 import {
   Dimensions,
   FlatList,
@@ -55,7 +57,11 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
   const insets = useSafeAreaInsets();
-  const [pendingPersonalizationData, setPendingPersonalizationData] = useState<any>(null);
+  
+  // Redux state
+  const dispatch = useAppDispatch();
+  const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
+  const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
   
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
@@ -97,13 +103,20 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
     console.log('DailyTipCardEnhanced - handleResponse called with:', response);
-    console.log('DailyTipCardEnhanced - pendingPersonalizationData:', pendingPersonalizationData);
+    console.log('DailyTipCardEnhanced - pendingPersonalizationData from Redux:', pendingPersonalizationData);
     console.log('DailyTipCardEnhanced - onSavePersonalization exists?', !!onSavePersonalization);
     
-    // If user is clicking "I'll try it" and there's pending personalization data, save it first
-    if (response === 'try_it' && pendingPersonalizationData && onSavePersonalization) {
-      console.log('DailyTipCardEnhanced - Saving pending personalization data before try_it');
-      await onSavePersonalization(pendingPersonalizationData);
+    // If user is clicking "I'll try it" and there's pending personalization data, save it
+    if (response === 'try_it' && pendingPersonalizationData) {
+      console.log('DailyTipCardEnhanced - Saving pending personalization data before try_it:', pendingPersonalizationData);
+      
+      // Save to Redux store
+      dispatch(savePersonalizationData(pendingPersonalizationData));
+      
+      // Also call the parent's save function to persist to storage
+      if (onSavePersonalization) {
+        await onSavePersonalization(pendingPersonalizationData);
+      }
     }
     
     onResponse(response);
@@ -418,15 +431,21 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         >
           <PersonalizationCard
             tip={tip}
-            savedData={savedPersonalizationData}
+            savedData={savedPersonalizationData || reduxSavedData}
             onSave={(data) => {
               console.log('DailyTipCardEnhanced - PersonalizationCard onSave called with:', data);
-              setPendingPersonalizationData(data);
+              
+              // Save to Redux store
+              dispatch(savePersonalizationData(data));
+              
+              // Also save to storage
               onSavePersonalization?.(data);
             }}
             onDataChange={(data) => {
               console.log('DailyTipCardEnhanced - PersonalizationCard onDataChange called with:', data);
-              setPendingPersonalizationData(data);
+              
+              // Update pending data in Redux
+              dispatch(setPendingPersonalizationData(data));
             }}
             showHeader={true}
           />
