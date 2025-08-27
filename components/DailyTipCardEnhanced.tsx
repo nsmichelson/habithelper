@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef, useState } from 'react';
+import PersonalizationCard from './PersonalizationCard';
 import {
   Dimensions,
   FlatList,
@@ -54,33 +55,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
   const insets = useSafeAreaInsets();
-  
-  // State for personalization
-  const [scaleNames, setScaleNames] = useState({
-    level1: '',
-    level5: '',
-    level10: ''
-  });
-  const [savedScaleNames, setSavedScaleNames] = useState<typeof scaleNames | null>(
-    savedPersonalizationData?.type === 'scale' ? savedPersonalizationData.data : null
-  );
-  const [showSaveAnimation, setShowSaveAnimation] = useState(false);
-  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-  const [savedChoice, setSavedChoice] = useState<string | null>(
-    savedPersonalizationData?.type === 'choice' && !savedPersonalizationData.multiple ? savedPersonalizationData.data : null
-  );
-  const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
-  const [savedChoices, setSavedChoices] = useState<string[] | null>(
-    savedPersonalizationData?.type === 'choice' && savedPersonalizationData.multiple ? savedPersonalizationData.data : null
-  );
-  const [textInput, setTextInput] = useState<string>('');
-  const [savedTextInput, setSavedTextInput] = useState<string | null>(
-    savedPersonalizationData?.type === 'text' ? savedPersonalizationData.data : null
-  );
-  const [multiTextInputs, setMultiTextInputs] = useState<Record<number, string>>({});
-  const [savedMultiTextInputs, setSavedMultiTextInputs] = useState<Record<number, string> | null>(
-    savedPersonalizationData?.type === 'multi_text' ? savedPersonalizationData.data : null
-  );
+  const [pendingPersonalizationData, setPendingPersonalizationData] = useState<any>(null);
   
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
@@ -118,38 +93,14 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   // Check if this tip should have a personalization card
   const shouldShowPersonalization = !!tip.personalization_prompt;
   
-  // Animation for save button
-  const saveButtonScale = useSharedValue(1);
-  const saveButtonOpacity = useSharedValue(1);
-  
-  const handleSavePersonalization = () => {
-    // Trigger delightful animation
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    
-    saveButtonScale.value = withSequence(
-      withSpring(1.2, { damping: 15 }),
-      withSpring(0.9, { damping: 15 }),
-      withSpring(1, { damping: 15 })
-    );
-    
-    setShowSaveAnimation(true);
-    setSavedScaleNames({ ...scaleNames });
-    
-    // Hide animation after a delay
-    setTimeout(() => {
-      setShowSaveAnimation(false);
-    }, 2000);
-  };
-  
-  const animatedSaveButtonStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: saveButtonScale.value }],
-      opacity: saveButtonOpacity.value
-    };
-  });
-
-  const handleResponse = (response: 'try_it' | 'maybe_later') => {
+  const handleResponse = async (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    // If user is clicking "I'll try it" and there's pending personalization data, save it first
+    if (response === 'try_it' && pendingPersonalizationData && onSavePersonalization) {
+      await onSavePersonalization(pendingPersonalizationData);
+    }
+    
     onResponse(response);
   };
   
@@ -450,7 +401,34 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     </View>
   );
   
-  const renderPersonalizationCard = () => {
+  const renderPersonalizationCard = () => (
+    <View style={styles.pageContainer}>
+      <LinearGradient
+        colors={['#FFFFFF', '#FAFAFA']}
+        style={styles.cardGradient}
+      >
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          <PersonalizationCard
+            tip={tip}
+            savedData={savedPersonalizationData}
+            onSave={(data) => {
+              setPendingPersonalizationData(data);
+              onSavePersonalization?.(data);
+            }}
+            onDataChange={(data) => {
+              setPendingPersonalizationData(data);
+            }}
+            showHeader={true}
+          />
+        </ScrollView>
+      </LinearGradient>
+    </View>
+  );
+
+  const renderPersonalizationCardOld = () => {
     // Handle text type  
     if (tip.personalization_type === 'text') {
       const placeholder = tip.personalization_config?.placeholders?.[0] || "Enter your answer";
