@@ -127,6 +127,7 @@ export default function HomeScreen() {
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  const [showHeaderStats, setShowHeaderStats] = useState(false); // Start with hidden to see the difference
   const [showTestCalendar, setShowTestCalendar] = useState(false);
   const [showIdentityBuilder, setShowIdentityBuilder] = useState(false);
   const [recentlySurfacedSavedIds, setRecentlySurfacedSavedIds] = useState<string[]>([]);
@@ -908,6 +909,17 @@ export default function HomeScreen() {
               )}
               
               {/* Go to identity builder */}
+              <TouchableOpacity
+                onPress={() => setShowHeaderStats(!showHeaderStats)}
+                style={[styles.profileButton, { marginRight: 8 }]}
+              >
+                <Ionicons 
+                  name={showHeaderStats ? "stats-chart" : "stats-chart-outline"} 
+                  size={28} 
+                  color="#4CAF50" 
+                />
+              </TouchableOpacity>
+              
               <TouchableOpacity 
                 style={styles.profileButton}
                 onPress={() => setShowIdentityBuilder(true)}
@@ -1068,7 +1080,8 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Stats */}
+          {/* Stats - Conditionally rendered */}
+          {showHeaderStats && (
           <View style={styles.statsContainer}>
             <TouchableOpacity 
               style={styles.statCard}
@@ -1105,6 +1118,7 @@ export default function HomeScreen() {
               <Text style={styles.statLabel}>Loved</Text>
             </TouchableOpacity>
           </View>
+          )}
 
             
             {/* DailyTipCardEnhanced takes up remaining space */}
@@ -1369,6 +1383,8 @@ export default function HomeScreen() {
                   console.log('index.tsx - From Redux:', reduxSavedData);
                   return dataToPass;
                 })()}
+                showHeaderStats={showHeaderStats}
+                onToggleHeaderStats={() => setShowHeaderStats(!showHeaderStats)}
                 onViewDetails={() => {
                   // Could open a modal or navigate to details
                   Alert.alert(

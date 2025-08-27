@@ -56,6 +56,8 @@ interface Props {
     prompt?: string;
     savedData?: any;
   };
+  showHeaderStats?: boolean;
+  onToggleHeaderStats?: () => void;
 }
 
 // Confetti particle component
@@ -135,7 +137,9 @@ export default function ExperimentModeSwipe({
   totalExperiments = 0,
   successfulExperiments = 0,
   tipHistory = [],
-  personalizationData
+  personalizationData,
+  showHeaderStats = false,
+  onToggleHeaderStats
 }: Props) {
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
