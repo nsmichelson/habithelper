@@ -145,6 +145,7 @@ export default function PersonalizationCard({
               onChangeText={(text) => {
                 setTextInput(text);
                 if (text.trim()) {
+                  console.log('PersonalizationCard - text input changed, calling onDataChange with:', text.trim());
                   onDataChange?.({ type: 'text', data: text.trim() });
                 }
               }}
@@ -318,10 +319,12 @@ export default function PersonalizationCard({
                         }
                       } else {
                         setSelectedChoice(choice);
+                        console.log('PersonalizationCard - single choice selected, calling onDataChange with:', choice);
                         onDataChange?.({ type: 'choice', data: choice, multiple: false });
                         setTimeout(() => {
                           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                           setSavedChoice(choice);
+                          console.log('PersonalizationCard - single choice auto-saving, calling onSave with:', choice);
                           onSave?.({ type: 'choice', data: choice, multiple: false });
                           setShowSaveAnimation(true);
                           setTimeout(() => setShowSaveAnimation(false), 2000);

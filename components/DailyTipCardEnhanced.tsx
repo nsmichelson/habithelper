@@ -96,8 +96,13 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const handleResponse = async (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
+    console.log('DailyTipCardEnhanced - handleResponse called with:', response);
+    console.log('DailyTipCardEnhanced - pendingPersonalizationData:', pendingPersonalizationData);
+    console.log('DailyTipCardEnhanced - onSavePersonalization exists?', !!onSavePersonalization);
+    
     // If user is clicking "I'll try it" and there's pending personalization data, save it first
     if (response === 'try_it' && pendingPersonalizationData && onSavePersonalization) {
+      console.log('DailyTipCardEnhanced - Saving pending personalization data before try_it');
       await onSavePersonalization(pendingPersonalizationData);
     }
     
@@ -415,10 +420,12 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             tip={tip}
             savedData={savedPersonalizationData}
             onSave={(data) => {
+              console.log('DailyTipCardEnhanced - PersonalizationCard onSave called with:', data);
               setPendingPersonalizationData(data);
               onSavePersonalization?.(data);
             }}
             onDataChange={(data) => {
+              console.log('DailyTipCardEnhanced - PersonalizationCard onDataChange called with:', data);
               setPendingPersonalizationData(data);
             }}
             showHeader={true}

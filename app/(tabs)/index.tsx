@@ -318,7 +318,11 @@ export default function HomeScreen() {
   };
 
   const handleTipResponse = async (response: ResponseStatus) => {
-    if (!dailyTip || !userProfile || !currentTip) return;
+    console.log('index.tsx - handleTipResponse called with:', response);
+    if (!dailyTip || !userProfile || !currentTip) {
+      console.log('index.tsx - Missing required data:', { dailyTip: !!dailyTip, userProfile: !!userProfile, currentTip: !!currentTip });
+      return;
+    }
 
     // Clear rejection info if user changes their mind
     if (rejectedTipInfo && rejectedTipInfo.tip.tip_id === currentTip.tip_id) {
@@ -333,6 +337,9 @@ export default function HomeScreen() {
       responded_at: new Date(),
     };
     
+    console.log('index.tsx - Updating daily tip with response:', response);
+    console.log('index.tsx - Current dailyTip personalization_data:', dailyTip.personalization_data);
+    
     await StorageService.updateDailyTip(dailyTip.id, {
       user_response: response as any,
       responded_at: new Date(),
@@ -341,6 +348,7 @@ export default function HomeScreen() {
     setDailyTip(updatedTip);
 
     if (response === 'try_it') {
+      console.log('index.tsx - User chose try_it, scheduling evening check-in');
       await NotificationService.scheduleEveningCheckIn(dailyTip.tip_id, 19);
       // Don't show alert - the ExperimentMode component will handle the celebration
     } else if (response === 'maybe_later') {
@@ -1052,11 +1060,16 @@ export default function HomeScreen() {
               tip={currentTip}
               onResponse={handleTipResponse}
               onSavePersonalization={async (data) => {
+                console.log('index.tsx - onSavePersonalization called with data:', data);
                 // Save personalization data to the current daily tip
                 if (dailyTip) {
                   const updatedDailyTip = { ...dailyTip, personalization_data: data };
+                  console.log('index.tsx - Updating daily tip with personalization_data:', updatedDailyTip);
                   setDailyTip(updatedDailyTip);
                   await StorageService.updateDailyTip(updatedDailyTip);
+                  console.log('index.tsx - Daily tip updated in storage');
+                } else {
+                  console.log('index.tsx - No dailyTip to update!');
                 }
               }}
               savedPersonalizationData={dailyTip?.personalization_data}
@@ -1272,7 +1285,10 @@ export default function HomeScreen() {
               // Show Experiment Mode when user has committed to trying
               <ExperimentModeSwipe
                 tip={currentTip}
-                personalizationData={dailyTip.personalization_data}
+                personalizationData={(() => {
+                  console.log('index.tsx - Passing personalizationData to ExperimentModeSwipe:', dailyTip.personalization_data);
+                  return dailyTip.personalization_data;
+                })()}
                 onViewDetails={() => {
                   // Could open a modal or navigate to details
                   Alert.alert(
