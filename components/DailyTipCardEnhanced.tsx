@@ -429,20 +429,31 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     </View>
   );
   
+  const personalizationScrollRef = useRef<ScrollView>(null);
+  
   const renderPersonalizationCard = () => (
     <View style={styles.pageContainer}>
       <LinearGradient
         colors={['#FFFFFF', '#FAFAFA']}
         style={styles.cardGradient}
       >
-        <ScrollView 
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={100}
         >
-          <PersonalizationCard
-            tip={tip}
-            savedData={savedPersonalizationData || reduxSavedData}
-            onSave={async (data) => {
+          <ScrollView 
+            ref={personalizationScrollRef}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+          >
+            <PersonalizationCard
+              tip={tip}
+              savedData={savedPersonalizationData || reduxSavedData}
+              scrollViewRef={personalizationScrollRef}
+              onSave={async (data) => {
               console.log('DailyTipCardEnhanced - PersonalizationCard onSave called with:', data);
               
               // Save to Redux store
@@ -463,6 +474,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             showHeader={true}
           />
         </ScrollView>
+        </KeyboardAvoidingView>
       </LinearGradient>
     </View>
   );

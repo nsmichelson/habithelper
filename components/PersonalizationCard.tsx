@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Platform,
   StyleSheet,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -31,6 +32,7 @@ interface Props {
   onDataChange?: (data: any) => void;
   showHeader?: boolean;
   style?: any;
+  scrollViewRef?: React.RefObject<ScrollView>;
 }
 
 export default function PersonalizationCard({ 
@@ -39,7 +41,8 @@ export default function PersonalizationCard({
   onSave, 
   onDataChange,
   showHeader = true,
-  style 
+  style,
+  scrollViewRef 
 }: Props) {
   // Initialize state based on saved data
   const [scaleNames, setScaleNames] = useState({
@@ -73,6 +76,9 @@ export default function PersonalizationCard({
   
   const [showSaveAnimation, setShowSaveAnimation] = useState(false);
 
+  // Refs for input fields
+  const inputRefs = useRef<any>({});
+  
   // Animation for save button
   const saveButtonScale = useSharedValue(1);
   const saveButtonOpacity = useSharedValue(1);
@@ -81,6 +87,36 @@ export default function PersonalizationCard({
     transform: [{ scale: saveButtonScale.value }],
     opacity: saveButtonOpacity.value,
   }));
+
+  const handleInputFocus = (fieldName: string, scrollOffset: number = 0) => {
+    if (scrollViewRef?.current) {
+      // Small delay to ensure keyboard is shown
+      setTimeout(() => {
+        // Use predefined scroll positions based on field type
+        let yPosition = 0;
+        
+        // Base positions for different field types
+        if (fieldName === 'text') {
+          yPosition = 150 + scrollOffset;
+        } else if (fieldName.startsWith('scale_')) {
+          // Scale inputs are further down
+          const scaleNumber = fieldName.split('_')[1];
+          if (scaleNumber === '1') yPosition = 200;
+          else if (scaleNumber === '5') yPosition = 300;
+          else if (scaleNumber === '10') yPosition = 400;
+        } else if (fieldName.startsWith('multi_')) {
+          // Multi-text inputs
+          const index = parseInt(fieldName.split('_')[1]);
+          yPosition = 200 + (index * 100) + scrollOffset;
+        }
+        
+        scrollViewRef.current?.scrollTo({
+          y: yPosition,
+          animated: true
+        });
+      }, 300);
+    }
+  };
 
   const handleSaveScale = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -139,9 +175,11 @@ export default function PersonalizationCard({
             </Text>
             
             <TextInput
+              ref={ref => inputRefs.current['text'] = ref}
               style={styles.textInput}
               placeholder={placeholder}
               value={textInput}
+              onFocus={() => handleInputFocus('text')}
               onChangeText={(text) => {
                 setTextInput(text);
                 if (text.trim()) {
@@ -446,9 +484,11 @@ export default function PersonalizationCard({
               <View key={index} style={styles.multiTextSection}>
                 <Text style={styles.multiTextLabel}>{item.label}</Text>
                 <TextInput
+                  ref={ref => inputRefs.current[`multi_${index}`] = ref}
                   style={styles.textInput}
                   placeholder={item.placeholder}
                   value={multiTextInputs[index] || ''}
+                  onFocus={() => handleInputFocus(`multi_${index}`)}
                   onChangeText={(text) => {
                     const newInputs = { ...multiTextInputs, [index]: text };
                     setMultiTextInputs(newInputs);
@@ -582,9 +622,11 @@ export default function PersonalizationCard({
                 <View style={styles.scaleInputTextWrapper}>
                   <Text style={styles.scaleInputLabel}>Extremely hungry</Text>
                   <TextInput
+                    ref={ref => inputRefs.current['scale_1'] = ref}
                     style={styles.scaleInput}
                     placeholder="e.g., Hangry Monster"
                     value={scaleNames.level1}
+                    onFocus={() => handleInputFocus('scale_1')}
                     onChangeText={(text) => {
                       const newNames = { ...scaleNames, level1: text };
                       setScaleNames(newNames);
@@ -604,9 +646,11 @@ export default function PersonalizationCard({
                 <View style={styles.scaleInputTextWrapper}>
                   <Text style={styles.scaleInputLabel}>Satisfied</Text>
                   <TextInput
+                    ref={ref => inputRefs.current['scale_5'] = ref}
                     style={styles.scaleInput}
                     placeholder="e.g., Happy Tummy"
                     value={scaleNames.level5}
+                    onFocus={() => handleInputFocus('scale_5')}
                     onChangeText={(text) => {
                       const newNames = { ...scaleNames, level5: text };
                       setScaleNames(newNames);
@@ -626,9 +670,11 @@ export default function PersonalizationCard({
                 <View style={styles.scaleInputTextWrapper}>
                   <Text style={styles.scaleInputLabel}>Overly full</Text>
                   <TextInput
+                    ref={ref => inputRefs.current['scale_10'] = ref}
                     style={styles.scaleInput}
                     placeholder="e.g., Food Coma"
                     value={scaleNames.level10}
+                    onFocus={() => handleInputFocus('scale_10')}
                     onChangeText={(text) => {
                       const newNames = { ...scaleNames, level10: text };
                       setScaleNames(newNames);
