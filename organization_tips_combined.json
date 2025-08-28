@@ -1,0 +1,4815 @@
+[
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111001",
+    "summary": "Do a 10‑minute Clutter Audit + “Why” Statement.",
+    "personalization_prompt": "What 3 reasons make being organized worth it for you?",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Reason 1",
+          "placeholder": "e.g., Less morning stress"
+        },
+        {
+          "label": "Reason 2",
+          "placeholder": "e.g., Easier to focus"
+        },
+        {
+          "label": "Reason 3",
+          "placeholder": "e.g., Ready for guests"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Walk through your space for 10 minutes noting stress points. Write a one‑sentence “Why I want to be organized.”\n\n**Why it Works:** Naming *why* increases motivation and persistence; awareness reduces avoidance and guides effort.\n\n**How to Try It:**\n• Set a 10‑min timer and list 3 clutter hotspots\n• Write your one‑sentence “why”\n• Post it where you’ll see it daily",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter",
+      "motivation"
+    ],
+    "tip_type": [
+      "mindset_shift",
+      "assessment"
+    ],
+    "motivational_mechanism": [
+      "identity",
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work",
+      "school"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "overwhelm",
+      "new_project"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "anxiety",
+      "avoidance"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L01",
+      "level_order": 1,
+      "level_name": "Awareness – Why Clutter Matters"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111002",
+    "summary": "Create a One‑Page Organizing Vision.",
+    "personalization_prompt": "Describe your ideal room/desk and how it should feel.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Clear desk, only laptop + notebook; calm, easy to focus"
+    },
+    "details_md": "**The Experiment:** Draft a short description or mini vision board of your ideal space.\n\n**Why it Works:** A concrete target improves planning and effort; it also guides what to keep vs. let go.\n\n**How to Try It:**\n• Write a 3–5 sentence vision\n• Add 1–2 photos (optional)\n• Pick one area to align with that vision this week",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter",
+      "organize_home",
+      "organize_workspace"
+    ],
+    "tip_type": [
+      "planning_ahead",
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "identity",
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "morning",
+      "weekend"
+    ],
+    "cue_context": [
+      "new_project"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [
+      "focus",
+      "decision_fatigue"
+    ],
+    "sustainability": "one_time",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L02",
+      "level_order": 2,
+      "level_name": "Goals & Organizing Vision"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111003",
+    "summary": "Use Decision Filters (Keep/Let‑Go Rules) Before You Start.",
+    "personalization_prompt": "Write your 2–3 rules (filters) for this session.",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Rule 1",
+          "placeholder": "Keep only items used in last 12 months"
+        },
+        {
+          "label": "Rule 2",
+          "placeholder": "Keep what fits + feels good"
+        },
+        {
+          "label": "Rule 3",
+          "placeholder": "Recycle/Donate the rest"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Set simple yes/no rules before decluttering.\n\n**Why it Works:** Pre‑deciding reduces decision fatigue and speeds up sorting.\n\n**How to Try It:**\n• Write 2–3 filters\n• Read them aloud\n• Apply them item‑by‑item without renegotiating",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter"
+    ],
+    "tip_type": [
+      "environment_design",
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "decision_ease",
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "overwhelm",
+      "new_project"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "decision_fatigue",
+      "perfectionism"
+    ],
+    "sustainability": "reusable_template",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111004",
+    "summary": "15‑Minute Declutter Blitz (Four Boxes).",
+    "personalization_prompt": "Which small area will you blitz today?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "One drawer",
+        "Nightstand",
+        "Desktop corner",
+        "Backpack/purse pocket",
+        "Shoe rack"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Set a 15‑min timer and sort with 4 containers: Keep / Donate / Trash / Move.\n\n**Why it Works:** Short sprints build momentum; touching each item once prevents reshuffling.\n\n**How to Try It:**\n• Pick a tiny zone\n• Start timer, sort fast using your filters\n• Immediately bag Trash/Donate and relocate “Move” items",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter"
+    ],
+    "tip_type": [
+      "decluttering",
+      "time_management"
+    ],
+    "motivational_mechanism": [
+      "progress_tracking",
+      "mastery"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "work",
+      "school"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "overwhelm"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "avoidance",
+      "anxiety"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L04",
+      "level_order": 4,
+      "level_name": "Decluttering Fundamentals"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111005",
+    "summary": "Declutter by Category (Not by Room).",
+    "personalization_prompt": "Which category will you do first?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Clothes",
+        "Books",
+        "Papers",
+        "Toys/Hobby",
+        "Kitchen tools"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Gather one type of item from all rooms and decide what stays.\n\n**Why it Works:** Seeing the whole category reveals duplicates and the true “top 20%.”\n\n**How to Try It:**\n• Choose one category (e.g., t‑shirts)\n• Lay out all at once\n• Keep favorites/essentials; donate the rest",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter"
+    ],
+    "tip_type": [
+      "decluttering"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "new_project"
+    ],
+    "difficulty_tier": 2,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 4,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [
+      "decision_fatigue",
+      "duplicates"
+    ],
+    "sustainability": "project_sprint",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L04",
+      "level_order": 4,
+      "level_name": "Decluttering Fundamentals"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111006",
+    "summary": "OHIO Paper Rule (Only Handle It Once).",
+    "personalization_prompt": "Where will your paper inbox live?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Entry table",
+        "Desk tray",
+        "Kitchen counter basket",
+        "Home office"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** When you touch a paper, decide now: act, file, or toss. No piles.\n\n**Why it Works:** Reduces postponed decisions; prevents “drift” into stacks.\n\n**How to Try It:**\n• Create a single paper inbox\n• Process daily: action/file/recycle\n• Go paperless where possible",
+    "contraindications": [],
+    "goal_tags": [
+      "paper_clutter",
+      "organize_home",
+      "organize_workspace"
+    ],
+    "tip_type": [
+      "decluttering",
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "decision_ease",
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "paper_mail",
+      "work_break"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "paper_clutter",
+      "avoidance"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L04",
+      "level_order": 4,
+      "level_name": "Decluttering Fundamentals"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111007",
+    "summary": "One‑In / One‑Out Rule.",
+    "personalization_prompt": "Which item category will you apply this to first?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Clothing",
+        "Books",
+        "Kitchen gadgets",
+        "Toys",
+        "Decor"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** For every new item you bring in, let one similar item go.\n\n**Why it Works:** Controls inflow so clutter doesn’t rebound; preserves limited space.\n\n**How to Try It:**\n• Keep a donation box handy\n• When buying, pre‑select what will go\n• Drop off monthly",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter",
+      "minimalism"
+    ],
+    "tip_type": [
+      "environment_design",
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "commitment",
+      "identity"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "shopping"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "new_purchase"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "maintenance",
+      "space_limits"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L10",
+      "level_order": 10,
+      "level_name": "Maintenance & Relapse Plans"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111008",
+    "summary": "Assign a Home to Every Item.",
+    "personalization_prompt": "Pick one hotspot and list where each item “lives.”",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Keys → wall hook; Mail → entry tray; Chargers → drawer bin"
+    },
+    "details_md": "**The Experiment:** Choose logical, easy “homes” for things and label if needed.\n\n**Why it Works:** When everything has a home, tidying becomes returning, not searching.\n\n**How to Try It:**\n• Map homes for a clutter zone\n• Add labels/containers\n• Do a 2‑min return‑to‑home each night",
+    "contraindications": [],
+    "goal_tags": [
+      "organize_home",
+      "organize_workspace"
+    ],
+    "tip_type": [
+      "system_setup",
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "decision_ease",
+      "mastery"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 3,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "overwhelm"
+    ],
+    "difficulty_tier": 2,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 4,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [
+      "lost_items",
+      "time_waste"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L05",
+      "level_order": 5,
+      "level_name": "Organizing Systems"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111009",
+    "summary": "Label + Zone Your Space.",
+    "personalization_prompt": "Which room will you zone (e.g., study, hobbies, mail)?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Entryway",
+        "Kitchen",
+        "Bedroom",
+        "Home office",
+        "Kids room"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Create zones (study, bills, crafts) and label bins/shelves accordingly.\n\n**Why it Works:** “Like with like” reduces searching and lowers misplacement.\n\n**How to Try It:**\n• Pick one room\n• Group related items\n• Label shelves/bins to match usage",
+    "contraindications": [],
+    "goal_tags": [
+      "organize_home",
+      "organize_workspace"
+    ],
+    "tip_type": [
+      "system_setup",
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 3,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "overwhelm"
+    ],
+    "difficulty_tier": 2,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 4,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [
+      "misplacement",
+      "visual_clutter"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L05",
+      "level_order": 5,
+      "level_name": "Organizing Systems"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111010",
+    "summary": "Try 5S on One Area (Sort–Set–Shine–Standardize–Sustain).",
+    "personalization_prompt": "Which small area will you 5S?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Desk drawer",
+        "Bathroom cabinet",
+        "Fridge shelf",
+        "Tool box",
+        "Craft bin"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Run the 5S cycle on a micro‑space.\n\n**Why it Works:** Standard steps prevent backslide and create repeatable order.\n\n**How to Try It:**\n• Sort out excess\n• Set in order + Shine\n• Create a simple daily/weekly reset rule",
+    "contraindications": [],
+    "goal_tags": [
+      "organize_home"
+    ],
+    "tip_type": [
+      "system_setup",
+      "maintenance"
+    ],
+    "motivational_mechanism": [
+      "mastery",
+      "progress_tracking"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "overwhelm"
+    ],
+    "difficulty_tier": 2,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 4,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [
+      "maintenance"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L05",
+      "level_order": 5,
+      "level_name": "Organizing Systems"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111011",
+    "summary": "Nightly 10‑Minute Reset.",
+    "personalization_prompt": "When will your reset happen each day?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "After dinner",
+        "Before bed",
+        "After kids’ bedtime",
+        "First thing in morning"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Do a daily 10‑minute tidy.\n\n**Why it Works:** Prevents build‑up; small consistent effort beats occasional marathons.\n\n**How to Try It:**\n• Set a repeating alarm\n• Tidy surfaces, return items home\n• Stop at 10 min to keep it sustainable",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "organize_home"
+    ],
+    "tip_type": [
+      "habit_stacking",
+      "maintenance"
+    ],
+    "motivational_mechanism": [
+      "progress_tracking",
+      "identity"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "evening",
+      "morning"
+    ],
+    "cue_context": [
+      "end_of_day"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "maintenance",
+      "anxiety"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111012",
+    "summary": "Two‑Minute Rule for Tidiness.",
+    "personalization_prompt": "List 3 tasks you’ll do immediately if < 2 minutes.",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Task 1",
+          "placeholder": "Hang coat"
+        },
+        {
+          "label": "Task 2",
+          "placeholder": "Put dish in dishwasher"
+        },
+        {
+          "label": "Task 3",
+          "placeholder": "File a paper"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** If it takes under 2 minutes, do it now.\n\n**Why it Works:** Kills micro‑clutter before it blossoms; reduces rework.\n\n**How to Try It:**\n• Post your 2‑minute list\n• Practice at entry, sink, desk\n• Celebrate quick wins",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance"
+    ],
+    "tip_type": [
+      "habit_stacking",
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "reward",
+      "identity"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work",
+      "school"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "arrival_home",
+      "after_meal",
+      "work_break"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "procrastination",
+      "maintenance"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111013",
+    "summary": "Install a Key Hook + Entry Drop Zone.",
+    "personalization_prompt": "Where will your keys and mail live?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Wall hook by door",
+        "Bowl on console",
+        "Mounted organizer",
+        "Drawer tray"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Create a dedicated entry spot for keys/mail.\n\n**Why it Works:** Reduces lost items and instant clutter at the door.\n\n**How to Try It:**\n• Mount a hook or place a bowl\n• Put keys/mail there every arrival\n• Add small recycle bin for junk mail",
+    "contraindications": [],
+    "goal_tags": [
+      "organize_home"
+    ],
+    "tip_type": [
+      "environment_design",
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 1,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "arrival_home"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "lost_items",
+      "paper_clutter"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L05",
+      "level_order": 5,
+      "level_name": "Organizing Systems"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111014",
+    "summary": "Make the Bed After Dressing.",
+    "personalization_prompt": "What time cue will you use for making the bed?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "After dressing",
+        "After coffee",
+        "Before leaving room"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Tie bed‑making to a morning cue.\n\n**Why it Works:** One quick win makes the whole room feel tidy; anchors identity.\n\n**How to Try It:**\n• Pick a cue\n• Smooth duvet + pillows (≤2 min)\n• Notice how it influences other tidying",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance"
+    ],
+    "tip_type": [
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "identity",
+      "reward"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "morning"
+    ],
+    "cue_context": [
+      "morning_routine"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "visual_clutter",
+      "momentum"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111015",
+    "summary": "Wash/Load the Dish Right After Eating.",
+    "personalization_prompt": "Which meal will you start with?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Breakfast",
+        "Lunch",
+        "Dinner"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** No sink backlog: rinse and load immediately.\n\n**Why it Works:** Prevents pile‑ups and sticky messes; removes a common hotspot.\n\n**How to Try It:**\n• Commit to one meal first\n• Turn on music as a cue\n• Expand to all meals this week",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "kitchen"
+    ],
+    "tip_type": [
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "reward",
+      "progress_tracking"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "after_meal"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "maintenance",
+      "visual_clutter"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111016",
+    "summary": "Bathroom Counter 2‑Minute Reset.",
+    "personalization_prompt": "Pick a cue to reset (e.g., after brushing teeth).",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., After brushing at night, put all items away + quick wipe"
+    },
+    "details_md": "**The Experiment:** Put toiletries away and wipe counter nightly.\n\n**Why it Works:** Keeps a frequent‑use zone perpetually tidy; fast satisfaction.\n\n**How to Try It:**\n• Choose cue\n• Place small caddy for items\n• 2‑minute reset nightly",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance"
+    ],
+    "tip_type": [
+      "habit_stacking",
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "reward"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "evening"
+    ],
+    "cue_context": [
+      "bedtime"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "maintenance"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111017",
+    "summary": "Time‑Block a Weekly Organizing Session.",
+    "personalization_prompt": "When is your recurring 30–60 min block?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Saturdays 10–11am: closet or paper sweep"
+    },
+    "details_md": "**The Experiment:** Put a standing declutter/organize block on your calendar.\n\n**Why it Works:** Scheduling increases follow‑through; reduces “I’ll do it later.”\n\n**How to Try It:**\n• Pick a day/time\n• Name the block (e.g., “Maintenance Monday”)\n• Treat it like an appointment",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management",
+      "maintenance"
+    ],
+    "tip_type": [
+      "time_management",
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend",
+      "evening"
+    ],
+    "cue_context": [
+      "schedule_planning"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "avoidance",
+      "overwhelm"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L07",
+      "level_order": 7,
+      "level_name": "Time Management"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111018",
+    "summary": "Timebox Projects (Fixed End Time).",
+    "personalization_prompt": "What project will you timebox this week?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., “Garage shelf” for 45 minutes only"
+    },
+    "details_md": "**The Experiment:** Give declutter projects strict time limits.\n\n**Why it Works:** Prevents perfectionism and burnout; makes starting easier.\n\n**How to Try It:**\n• Choose a task\n• Set an end time now\n• Stop on time; schedule next box if needed",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management",
+      "declutter"
+    ],
+    "tip_type": [
+      "time_management",
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "overwhelm",
+      "perfectionism"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "perfectionism",
+      "procrastination"
+    ],
+    "sustainability": "project_sprint",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L07",
+      "level_order": 7,
+      "level_name": "Time Management"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111019",
+    "summary": "Capture Tasks in a Trusted List (GTD‑Lite).",
+    "personalization_prompt": "Where will you capture tasks?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Notebook",
+        "Notes app",
+        "Todoist/Things",
+        "Whiteboard"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Get to‑dos out of your head into one place.\n\n**Why it Works:** Reduces mental clutter; objects needn’t sit out as reminders.\n\n**How to Try It:**\n• Pick one capture tool\n• Daily: brain dump + choose 1–3 next actions\n• Weekly review/clean up",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management",
+      "organize_workspace"
+    ],
+    "tip_type": [
+      "system_setup",
+      "time_management"
+    ],
+    "motivational_mechanism": [
+      "decision_ease",
+      "mastery"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "work",
+      "home",
+      "school"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "work_break",
+      "planning"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "mental_clutter",
+      "paper_clutter"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L07",
+      "level_order": 7,
+      "level_name": "Time Management"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111020",
+    "summary": "Set a Physical Inbox Tray for All Papers.",
+    "personalization_prompt": "Where will your single inbox live?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Left corner of desk with labeled tray"
+    },
+    "details_md": "**The Experiment:** One tray for all incoming paper; process it weekly.\n\n**Why it Works:** Containment stops spread; pairs with OHIO rule.\n\n**How to Try It:**\n• Place a tray\n• Dump all paper there\n• Weekly: empty it completely",
+    "contraindications": [],
+    "goal_tags": [
+      "paper_clutter"
+    ],
+    "tip_type": [
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "paper_mail"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "paper_clutter"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L09",
+      "level_order": 9,
+      "level_name": "Advanced Systems (GTD/Kanban)"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111021",
+    "summary": "Use a Simple Kanban Board (To‑Do / Doing / Done).",
+    "personalization_prompt": "Where will you set your board?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Whiteboard",
+        "Trello",
+        "Notion",
+        "Corkboard + sticky notes"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Visualize tasks and limit work in progress.\n\n**Why it Works:** Visibility reduces overwhelm; moving to “Done” is rewarding.\n\n**How to Try It:**\n• Create 3 columns\n• Add only 1–3 “Doing” tasks\n• Review/clean weekly",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management",
+      "organize_workspace"
+    ],
+    "tip_type": [
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "reward",
+      "progress_tracking"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "work",
+      "home",
+      "school"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "planning"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "overwhelm",
+      "avoidance"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L09",
+      "level_order": 9,
+      "level_name": "Advanced Systems (GTD/Kanban)"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111022",
+    "summary": "Place a Donation Box in a Closet.",
+    "personalization_prompt": "Which closet will host your donation box?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Bedroom closet",
+        "Hall closet",
+        "Laundry area",
+        "Garage"
+      ],
+      "multiple": false
+    },
+    "details_md": "**The Experiment:** Keep a labeled box for immediate donate decisions.\n\n**Why it Works:** Frictionless letting‑go; batches drop‑offs.\n\n**How to Try It:**\n• Add a sturdy box + label\n• Drop items as found\n• Schedule a monthly drop‑off",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter",
+      "maintenance"
+    ],
+    "tip_type": [
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "new_purchase",
+      "closet_clean"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "maintenance",
+      "decision_fatigue"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L10",
+      "level_order": 10,
+      "level_name": "Maintenance & Relapse Plans"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111023",
+    "summary": "30‑Day Buy Rule (Delay Non‑Essential Purchases).",
+    "personalization_prompt": "What will trigger your 30‑day list?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Any non‑essential item over $20 goes to a 30‑day list"
+    },
+    "details_md": "**The Experiment:** Write wants on a 30‑day list before buying.\n\n**Why it Works:** Cools impulse buys; prevents new clutter from entering.\n\n**How to Try It:**\n• Create a “30‑day” note\n• Add item + date + why\n• Revisit after 30 days",
+    "contraindications": [],
+    "goal_tags": [
+      "minimalism",
+      "declutter"
+    ],
+    "tip_type": [
+      "mindset_shift",
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "commitment",
+      "identity"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "shopping",
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "new_purchase"
+    ],
+    "difficulty_tier": 2,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": false,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "impulse_control",
+      "budget"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L12",
+      "level_order": 12,
+      "level_name": "Lifestyle Integration"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111024",
+    "summary": "Inbox Zero Sprint (20 Minutes).",
+    "personalization_prompt": "Pick your sprint time and folder names.",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Sprint time",
+          "placeholder": "e.g., Friday 4:00–4:20pm"
+        },
+        {
+          "label": "Action folders",
+          "placeholder": "e.g., Action, Waiting, Read Later"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Rapidly triage email for 20 minutes.\n\n**Why it Works:** Clears digital clutter; reduces anxiety and lost tasks.\n\n**How to Try It:**\n• Sort by sender/topic\n• Mass archive/delete non‑essentials\n• Move must‑dos to “Action”",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter"
+    ],
+    "tip_type": [
+      "digital",
+      "time_management"
+    ],
+    "motivational_mechanism": [
+      "progress_tracking"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital",
+      "work",
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "work_break",
+      "end_of_week"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "digital_clutter",
+      "anxiety"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111025",
+    "summary": "Unsubscribe & Filter Sweep.",
+    "personalization_prompt": "Pick 5 senders to unsubscribe now.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., “Daily Deals”, “Brand X”, “Newsletters I don’t read”"
+    },
+    "details_md": "**The Experiment:** Reduce inflow with 5 unsubscribes and simple filters.\n\n**Why it Works:** Lower inflow = less to manage; inbox stays cleaner.\n\n**How to Try It:**\n• Unsubscribe from 5 bulk senders\n• Create 1–2 filters (e.g., receipts → Receipts)\n• Repeat monthly",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter"
+    ],
+    "tip_type": [
+      "digital",
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "email_overload"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "digital_clutter"
+    ],
+    "sustainability": "monthly_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111026",
+    "summary": "Desktop/File Clean Sweep (10 Minutes).",
+    "personalization_prompt": "What 2–3 top‑level folders will you use?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Work, Personal, School"
+    },
+    "details_md": "**The Experiment:** Clear your desktop; file or delete obvious clutter.\n\n**Why it Works:** Visual calm improves focus; saves search time.\n\n**How to Try It:**\n• Make a temporary “To Sort” folder\n• Delete duplicates/junk\n• File remaining into 2–3 folders",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter"
+    ],
+    "tip_type": [
+      "digital"
+    ],
+    "motivational_mechanism": [
+      "reward"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "end_of_day"
+    ],
+    "cue_context": [
+      "work_break"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "digital_clutter"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111027",
+    "summary": "Prune Phone Notifications + Apps.",
+    "personalization_prompt": "Which 3 apps will you silence or remove?",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "App 1",
+          "placeholder": "e.g., Retail promos"
+        },
+        {
+          "label": "App 2",
+          "placeholder": "e.g., Game notifications"
+        },
+        {
+          "label": "App 3",
+          "placeholder": "e.g., News alerts"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Turn off non‑essential notifications and delete 3 unused apps.\n\n**Why it Works:** Cuts digital noise that drives distraction and “mental clutter.”\n\n**How to Try It:**\n• Silence badges/banners for low‑value apps\n• Delete 3 unused apps\n• Reassess monthly",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter"
+    ],
+    "tip_type": [
+      "digital",
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "phone_overload"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "distraction",
+      "anxiety"
+    ],
+    "sustainability": "monthly_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111028",
+    "summary": "Monthly Cloud Backup & Photo Offload.",
+    "personalization_prompt": "Which day/time will you schedule backups?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., 1st Sunday 5pm – run backup & clear camera roll"
+    },
+    "details_md": "**The Experiment:** Back up devices monthly and clear redundant photos.\n\n**Why it Works:** Protects info; reduces hoarding duplicates “just in case.”\n\n**How to Try It:**\n• Schedule a recurring reminder\n• Run backup\n• Delete blurry/duplicate photos",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter"
+    ],
+    "tip_type": [
+      "digital",
+      "maintenance"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "schedule_planning"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "digital_clutter",
+      "security"
+    ],
+    "sustainability": "monthly_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111029",
+    "summary": "Progress > Perfection Script.",
+    "personalization_prompt": "What’s your 7‑word anti‑perfection mantra?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., “Small steps now beat perfect later.”"
+    },
+    "details_md": "**The Experiment:** Use a short mantra when you feel stuck.\n\n**Why it Works:** Counters perfectionism that fuels procrastination.\n\n**How to Try It:**\n• Write your 7‑word script\n• Post it at a clutter hotspot\n• Say it before you start",
+    "contraindications": [],
+    "goal_tags": [
+      "mindset",
+      "declutter"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "identity",
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "any"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "perfectionism",
+      "overwhelm"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "perfectionism",
+      "procrastination"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111030",
+    "summary": "Sentimental Box + Photo the Rest.",
+    "personalization_prompt": "What size limit will you set (e.g., 1 shoebox)?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., One 12”x12” box for memorabilia"
+    },
+    "details_md": "**The Experiment:** Keep a small box for top‑tier memories; photograph others.\n\n**Why it Works:** Honors meaning without keeping everything.\n\n**How to Try It:**\n• Choose a box size\n• Curate favorites only\n• Photo + let go of the rest",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter"
+    ],
+    "tip_type": [
+      "mindset_shift",
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "identity",
+      "decision_ease"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "sentimental"
+    ],
+    "difficulty_tier": 2,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": false,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 4,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [
+      "attachment",
+      "decision_fatigue"
+    ],
+    "sustainability": "one_time",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111031",
+    "summary": "Body‑Double a Declutter Session.",
+    "personalization_prompt": "Who will you invite (in‑person or virtual)?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Friend on FaceTime for 30‑min co‑clean"
+    },
+    "details_md": "**The Experiment:** Clean alongside someone (in‑person or video) for focus.\n\n**Why it Works:** Social accountability boosts initiation and staying power.\n\n**How to Try It:**\n• Schedule a 30‑min slot\n• Share a before/after pic\n• Celebrate wins together",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter",
+      "motivation"
+    ],
+    "tip_type": [
+      "social_accountability"
+    ],
+    "motivational_mechanism": [
+      "commitment",
+      "reward"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "digital"
+    ],
+    "social_mode": "with_others",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "avoidance"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "executive_dysfunction",
+      "avoidance"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111032",
+    "summary": "Seasonal Declutter Day (Quarterly).",
+    "personalization_prompt": "Pick your next seasonal purge date.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Apr 6, Jul 6, Oct 6, Jan 6"
+    },
+    "details_md": "**The Experiment:** Do a quarterly sweep for items to donate/recycle.\n\n**Why it Works:** Prevents slow creep; resets systems.\n\n**How to Try It:**\n• Put dates on calendar\n• Target closets, drawers, surfaces\n• Book donation pickup in advance",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "declutter"
+    ],
+    "tip_type": [
+      "maintenance",
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "commitment",
+      "progress_tracking"
+    ],
+    "time_cost_enum": "60_plus",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "schedule_planning"
+    ],
+    "difficulty_tier": 2,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 4,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [
+      "maintenance"
+    ],
+    "sustainability": "seasonal_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L10",
+      "level_order": 10,
+      "level_name": "Maintenance & Relapse Plans"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111033",
+    "summary": "Relapse Plan: Pick a Hotspot & a 10‑min Fix.",
+    "personalization_prompt": "Which hotspot and what’s the 10‑min fix?",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Hotspot",
+          "placeholder": "e.g., Dining table pile"
+        },
+        {
+          "label": "10‑min fix",
+          "placeholder": "e.g., Sort + “return to home” sprint"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Assume clutter will reappear; plan a mini reset.\n\n**Why it Works:** Normalizes setbacks; speeds recovery.\n\n**How to Try It:**\n• Identify 1 hotspot\n• Define a 10‑min fix\n• Schedule it 2–3×/week",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "mindset"
+    ],
+    "tip_type": [
+      "planning_ahead",
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "overwhelm",
+      "relapse"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "maintenance",
+      "anxiety"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L10",
+      "level_order": 10,
+      "level_name": "Maintenance & Relapse Plans"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111034",
+    "summary": "Automate a Chore (Robot Vacuum / Schedule).",
+    "personalization_prompt": "What will you automate first?",
+    "personalization_type": "choice",
+    "personalization_config": {
+      "choices": [
+        "Robot vacuum M/W/F",
+        "Auto bill‑pay",
+        "Auto grocery reorder",
+        "Laundry reminder"
+      ],
+      "multiple": true
+    },
+    "details_md": "**The Experiment:** Use tech or schedules to take chores off your plate.\n\n**Why it Works:** Less willpower needed = steadier maintenance.\n\n**How to Try It:**\n• Choose one automation\n• Set schedule/rule today\n• Review in 2 weeks and tweak",
+    "contraindications": [],
+    "goal_tags": [
+      "automation",
+      "maintenance"
+    ],
+    "tip_type": [
+      "automation",
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "digital"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "schedule_planning"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "maintenance"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L11",
+      "level_order": 11,
+      "level_name": "Automation & Autopilot"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111035",
+    "summary": "Paperless: Auto‑Pay + E‑Statements.",
+    "personalization_prompt": "Which bill will you switch to auto‑pay/e‑statements first?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": "e.g., Utilities, Phone, Internet"
+    },
+    "details_md": "**The Experiment:** Turn on auto‑pay and go paperless for one account.\n\n**Why it Works:** Cuts paper inflow; fewer piles and missed payments.\n\n**How to Try It:**\n• Log into provider\n• Enable auto‑pay + e‑bills\n• Repeat monthly for others",
+    "contraindications": [],
+    "goal_tags": [
+      "paper_clutter",
+      "automation"
+    ],
+    "tip_type": [
+      "digital",
+      "automation"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital",
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "paper_mail"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "paper_clutter",
+      "late_fees"
+    ],
+    "sustainability": "monthly_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L11",
+      "level_order": 11,
+      "level_name": "Automation & Autopilot"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111036",
+    "summary": "If‑Then Rules for Common Clutter Triggers.",
+    "personalization_prompt": "Write two If‑Then scripts.",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "If:",
+          "placeholder": "e.g., If I bring in a package…"
+        },
+        {
+          "label": "Then:",
+          "placeholder": "…then I recycle the box same day"
+        },
+        {
+          "label": "If:",
+          "placeholder": "If I drop clothes on a chair…"
+        },
+        {
+          "label": "Then:",
+          "placeholder": "…then I hang/fold them before bed"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Pre‑decide responses to your clutter hotspots.\n\n**Why it Works:** Implementation intentions make the response automatic; reduces willpower.\n\n**How to Try It:**\n• Identify 2 triggers\n• Write matching actions\n• Post near the hotspot",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "habit_building"
+    ],
+    "tip_type": [
+      "planning_ahead",
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "decision_ease",
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "arrival_home",
+      "bedtime",
+      "new_purchase"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "executive_dysfunction",
+      "maintenance"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L11",
+      "level_order": 11,
+      "level_name": "Automation & Autopilot"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111037",
+    "summary": "Weekly Review: Tidy + Plan + Celebrate.",
+    "personalization_prompt": "Pick your weekly review slot and checklist items.",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Time",
+          "placeholder": "e.g., Sunday 4–5pm"
+        },
+        {
+          "label": "Checklist",
+          "placeholder": "e.g., Empty inbox tray, plan meals, tidy desk"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Pair a tidy sprint with planning and a small celebration.\n\n**Why it Works:** Regular reflection sustains systems; reward locks habit in.\n\n**How to Try It:**\n• Schedule the slot\n• Run your checklist\n• Note 1 win; enjoy a small reward",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management",
+      "maintenance"
+    ],
+    "tip_type": [
+      "time_management",
+      "maintenance"
+    ],
+    "motivational_mechanism": [
+      "reward",
+      "progress_tracking"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "weekend"
+    ],
+    "cue_context": [
+      "schedule_planning"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": true,
+    "impulse_friendly": false,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [
+      "maintenance",
+      "overwhelm"
+    ],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L09",
+      "level_order": 9,
+      "level_name": "Advanced Systems (GTD/Kanban)"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111038",
+    "summary": "Habit Tracker: Don’t Break the Chain.",
+    "personalization_prompt": "Which 2–3 habits will you track?",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Habit 1",
+          "placeholder": "Nightly reset"
+        },
+        {
+          "label": "Habit 2",
+          "placeholder": "Two‑minute rule"
+        },
+        {
+          "label": "Habit 3",
+          "placeholder": "Make the bed"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Mark an X each day you complete your tidy habits.\n\n**Why it Works:** Visible streaks are motivating; reinforces identity.\n\n**How to Try It:**\n• Print a 30‑day grid\n• Cross off each day\n• Protect streaks (skip once, never twice)",
+    "contraindications": [],
+    "goal_tags": [
+      "habit_building",
+      "maintenance"
+    ],
+    "tip_type": [
+      "habit_stacking",
+      "progress_tracking"
+    ],
+    "motivational_mechanism": [
+      "reward",
+      "identity"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "work"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "end_of_day",
+      "morning_routine"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "consistency",
+      "motivation"
+    ],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "11111111-1111-4111-8111-111111111039",
+    "summary": "Gratitude Walkthrough & Future Vision.",
+    "personalization_prompt": "List 3 ways life is better & 1 future benefit.",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        {
+          "label": "Better 1",
+          "placeholder": "e.g., Calmer mornings"
+        },
+        {
+          "label": "Better 2",
+          "placeholder": "e.g., Easier to focus"
+        },
+        {
+          "label": "Better 3",
+          "placeholder": "e.g., Proud to host friends"
+        },
+        {
+          "label": "Future benefit",
+          "placeholder": "e.g., Easier move or renovation"
+        }
+      ]
+    },
+    "details_md": "**The Experiment:** Tour your space and note wins; write one future benefit.\n\n**Why it Works:** Gratitude reinforces the habit loop; vision sustains effort.\n\n**How to Try It:**\n• Walkthrough and name 3 wins\n• Write one future payoff\n• Re‑read monthly",
+    "contraindications": [],
+    "goal_tags": [
+      "mindset",
+      "maintenance"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "identity",
+      "reward"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "relapse",
+      "end_of_month"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [
+      "motivation",
+      "relapse_prevention"
+    ],
+    "sustainability": "monthly_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L12",
+      "level_order": 12,
+      "level_name": "Lifestyle Integration"
+    }
+  },
+  {
+    "tip_id": "3a8c2c42-d637-4bf5-88c3-e7b6e3fec5bc",
+    "summary": "Name the cost of clutter (stress, time, money).",
+    "personalization_prompt": "List 3 ways clutter is costing you right now.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Write 3 concrete costs (e.g., minutes lost daily, anxiety spikes).\n**Why:** Making hidden costs explicit boosts motivation.\n**Try:** Post the list where clutter starts to build.",
+    "contraindications": [],
+    "goal_tags": [
+      "mindset",
+      "awareness"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "insight"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "overwhelm"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L01",
+      "level_order": 1,
+      "level_name": "Awareness – Why Clutter Matters"
+    }
+  },
+  {
+    "tip_id": "c53cd320-3468-4061-975a-874576a49365",
+    "summary": "Before photo now, after photo later.",
+    "personalization_prompt": "Snap 2–4 photos of one messy spot.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Photograph a space before any change.\n**Why:** Visual feedback amplifies progress; reduces avoidance.\n**Try:** Re‑shoot after 15–30 min of tidying and compare.",
+    "contraindications": [],
+    "goal_tags": [
+      "awareness",
+      "motivation"
+    ],
+    "tip_type": [
+      "assessment",
+      "progress_tracking"
+    ],
+    "motivational_mechanism": [
+      "reward",
+      "identity"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "new_project"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L01",
+      "level_order": 1,
+      "level_name": "Awareness – Why Clutter Matters"
+    }
+  },
+  {
+    "tip_id": "0bea88f0-02e0-4e5a-9ee3-f0597e214907",
+    "summary": "Track a week of ‘clutter triggers’.",
+    "personalization_prompt": "Where and when does clutter start?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Keep a 7‑day log of where clutter appears and what preceded it.\n**Why:** Pattern spotting enables targeted fixes.\n**Try:** Note time, place, feeling; pick 1 trigger to address next week.",
+    "contraindications": [],
+    "goal_tags": [
+      "awareness",
+      "habits"
+    ],
+    "tip_type": [
+      "assessment"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L01",
+      "level_order": 1,
+      "level_name": "Awareness – Why Clutter Matters"
+    }
+  },
+  {
+    "tip_id": "575a2450-3cbc-4ccb-9320-775978629b1f",
+    "summary": "Write a kinder self‑talk script.",
+    "personalization_prompt": "Draft a 1‑sentence reframe for messy moments.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Replace “I’m a mess” with “I’m learning tidy habits.”\n**Why:** Reduces shame→avoidance loop.\n**Try:** Put the script on a hotspot.",
+    "contraindications": [],
+    "goal_tags": [
+      "mindset"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "self_compassion"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L01",
+      "level_order": 1,
+      "level_name": "Awareness – Why Clutter Matters"
+    }
+  },
+  {
+    "tip_id": "faf3fe62-f70b-401b-8223-543303f08e81",
+    "summary": "Define ‘done’ for a space (clear criteria).",
+    "personalization_prompt": "Write 3 indicators a room is ‘done’.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Specify outcomes (e.g., clear surfaces, labeled bins, floor visible).\n**Why:** Clarity reduces perfectionism and decision fatigue.\n**Try:** Use checklist during sessions.",
+    "contraindications": [],
+    "goal_tags": [
+      "goal_setting",
+      "planning"
+    ],
+    "tip_type": [
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "reusable_template",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L02",
+      "level_order": 2,
+      "level_name": "Goals & Organizing Vision"
+    }
+  },
+  {
+    "tip_id": "d025e07e-fab0-474f-9057-60e063a6b14d",
+    "summary": "Pick a single ‘keystone area’.",
+    "personalization_prompt": "Which area, if fixed, improves your day most?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Choose one high‑impact zone (entry, desk, sink).\n**Why:** Early wins fuel adherence.\n**Try:** Allocate first 3 sessions there.",
+    "contraindications": [],
+    "goal_tags": [
+      "motivation",
+      "planning"
+    ],
+    "tip_type": [
+      "prioritization"
+    ],
+    "motivational_mechanism": [
+      "progress_tracking"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L02",
+      "level_order": 2,
+      "level_name": "Goals & Organizing Vision"
+    }
+  },
+  {
+    "tip_id": "9feecc1f-412e-408a-8a5e-a5bfcd2d37ee",
+    "summary": "3‑step milestone plan (Now/Next/Later).",
+    "personalization_prompt": "Draft Now/Next/Later for your top zone.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Outline 1–2 actions for each horizon.\n**Why:** Sequencing converts goals to motion.\n**Try:** Revisit weekly and move items forward.",
+    "contraindications": [],
+    "goal_tags": [
+      "planning"
+    ],
+    "tip_type": [
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L02",
+      "level_order": 2,
+      "level_name": "Goals & Organizing Vision"
+    }
+  },
+  {
+    "tip_id": "4256fa5b-2849-40cc-b35c-4007bfed80f1",
+    "summary": "Label the barrier (perfectionism? overwhelm? attachment?).",
+    "personalization_prompt": "Which barrier shows up most for you?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Say it out loud: “This is perfectionism.”\n**Why:** Naming reduces its power; enables targeted strategy.\n**Try:** Pair with a counter‑script (Progress > Perfection).",
+    "contraindications": [],
+    "goal_tags": [
+      "mindset",
+      "psychology"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "insight"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "928a09dd-8a54-4c8b-a8d8-1483e79d3f67",
+    "summary": "Tiny step entry point.",
+    "personalization_prompt": "What’s the 2‑minute ‘first move’ for your task?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Start with a laughably small step.\n**Why:** Lowers activation energy; builds momentum.\n**Try:** Stop after 2 min or continue if energized.",
+    "contraindications": [],
+    "goal_tags": [
+      "procrastination"
+    ],
+    "tip_type": [
+      "activation"
+    ],
+    "motivational_mechanism": [
+      "novelty",
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "d4a4f798-c91d-4021-942a-ec71d316ce92",
+    "summary": "Sunk‑cost check on pricey clutter.",
+    "personalization_prompt": "Pick 1 unused expensive item to release.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Acknowledge the money is gone; free the space.\n**Why:** Counters sunk‑cost bias; reduces guilt.\n**Try:** Sell/donate this week.",
+    "contraindications": [],
+    "goal_tags": [
+      "attachment",
+      "minimalism"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "one_time",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "f2a4ffe9-17c2-48c4-9d8b-f45ef0ec3ca0",
+    "summary": "Sentimental photo archive.",
+    "personalization_prompt": "Photograph 3 sentimental items; release 1.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Keep the memory, not the bulk.\n**Why:** Photos preserve meaning; declutters gently.\n**Try:** Create a digital ‘heritage’ album.",
+    "contraindications": [],
+    "goal_tags": [
+      "attachment",
+      "sentimental"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "reward"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home",
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L03",
+      "level_order": 3,
+      "level_name": "Mindset & Barriers"
+    }
+  },
+  {
+    "tip_id": "0319dd05-fe0b-438e-8842-2d5a02fba3fb",
+    "summary": "Four‑box power hour.",
+    "personalization_prompt": "Which area will you four‑box today?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Keep/Donate/Trash/Relocate sprints.\n**Why:** Forces decisions; prevents reshuffling.\n**Try:** Set a 20–30 min timer and finish.",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter"
+    ],
+    "tip_type": [
+      "decluttering"
+    ],
+    "motivational_mechanism": [
+      "progress_tracking"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L04",
+      "level_order": 4,
+      "level_name": "Decluttering Fundamentals"
+    }
+  },
+  {
+    "tip_id": "3badcb25-474b-44f0-9bf5-8b216a32c6ca",
+    "summary": "Category pile reveal.",
+    "personalization_prompt": "Pick 1 category to gather from all rooms.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** See total volume, then choose favorites.\n**Why:** Exposes duplicates; easier letting‑go.\n**Try:** Keep top 20%, donate the rest.",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter",
+      "minimalism"
+    ],
+    "tip_type": [
+      "decluttering"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L04",
+      "level_order": 4,
+      "level_name": "Decluttering Fundamentals"
+    }
+  },
+  {
+    "tip_id": "34334116-5ee0-41d0-a96c-0fae9d680558",
+    "summary": "Maybe box with date.",
+    "personalization_prompt": "Pick a box; label a 3–6 month review date.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Store undecided items with a future commitment.\n**Why:** Reduces friction now; yields confident release later.\n**Try:** Donate unopened at date.",
+    "contraindications": [],
+    "goal_tags": [
+      "declutter"
+    ],
+    "tip_type": [
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "project_sprint",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L04",
+      "level_order": 4,
+      "level_name": "Decluttering Fundamentals"
+    }
+  },
+  {
+    "tip_id": "0646ca7d-2462-4f24-8ccd-f01bbd960a19",
+    "summary": "90/90 rule quick pass.",
+    "personalization_prompt": "Scan a shelf: anything unused past/future 90 days?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Apply a clear use window.\n**Why:** Simple heuristic speeds choices.\n**Try:** Remove fails immediately.",
+    "contraindications": [],
+    "goal_tags": [
+      "minimalism"
+    ],
+    "tip_type": [
+      "decision_rule"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L04",
+      "level_order": 4,
+      "level_name": "Decluttering Fundamentals"
+    }
+  },
+  {
+    "tip_id": "4db27d30-2417-40b7-a0be-13d69d5d04bc",
+    "summary": "One home per item category.",
+    "personalization_prompt": "Pick a hotspot; define homes for each item there.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Assign logical homes, label as needed.\n**Why:** Tidying becomes ‘returning’ not ‘searching’.\n**Try:** Do a 2‑min nightly ‘return to home’.",
+    "contraindications": [],
+    "goal_tags": [
+      "organization"
+    ],
+    "tip_type": [
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 3,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L05",
+      "level_order": 5,
+      "level_name": "Organizing Systems"
+    }
+  },
+  {
+    "tip_id": "aca0b641-50cb-468c-9a22-ff20f43cc402",
+    "summary": "Make it obvious: visibility for daily tools.",
+    "personalization_prompt": "Choose 3 daily‑use items to make easy to grab.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Place at eye level or in open trays.\n**Why:** Reduces friction and forgetfulness.\n**Try:** Hide rarely‑used to cut visual noise.",
+    "contraindications": [],
+    "goal_tags": [
+      "organization",
+      "habits"
+    ],
+    "tip_type": [
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "convenience"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L05",
+      "level_order": 5,
+      "level_name": "Organizing Systems"
+    }
+  },
+  {
+    "tip_id": "46addbca-2b95-44a9-aeb1-74586d671304",
+    "summary": "Use vertical space (hooks/shelves).",
+    "personalization_prompt": "What can move off floors/counters onto walls?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Add hooks/shelves/over‑door storage.\n**Why:** Clears surfaces; improves flow.\n**Try:** Start with entry or laundry.",
+    "contraindications": [],
+    "goal_tags": [
+      "space_utilization"
+    ],
+    "tip_type": [
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "mastery"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 2,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "one_time",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L05",
+      "level_order": 5,
+      "level_name": "Organizing Systems"
+    }
+  },
+  {
+    "tip_id": "bf7894cf-2714-43de-91e4-1147eac6eb0d",
+    "summary": "Morning make‑bed keystone.",
+    "personalization_prompt": "Tie bed‑making to a morning cue.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Make bed right after dressing/coffee.\n**Why:** Sets tidy tone; quick win.\n**Try:** ≤2 minutes.",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance"
+    ],
+    "tip_type": [
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "identity",
+      "reward"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "morning"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "880bbfb5-dd87-433e-8f7e-91361efb20a5",
+    "summary": "After‑meal dish rule.",
+    "personalization_prompt": "Choose a meal to always clear immediately.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Rinse/load right after eating.\n**Why:** Prevents pile‑ups; removes hotspot.\n**Try:** Add music cue.",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "kitchen"
+    ],
+    "tip_type": [
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "reward"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "after_meal"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "63cbbd8b-7306-4acf-93f1-2b08e7023642",
+    "summary": "5‑minute nightly reset walk.",
+    "personalization_prompt": "Set a daily 5‑min tidy alarm.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Quick circuit returning items home.\n**Why:** Stops creep; lowers morning stress.\n**Try:** Make it a family mini‑game.",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance"
+    ],
+    "tip_type": [
+      "maintenance"
+    ],
+    "motivational_mechanism": [
+      "progress_tracking"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "either",
+    "time_of_day": [
+      "evening"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L06",
+      "level_order": 6,
+      "level_name": "Daily Habits & Resets"
+    }
+  },
+  {
+    "tip_id": "1d9e9628-96c7-4d5b-a558-b680b5a86a1f",
+    "summary": "Calendar block your declutter slot.",
+    "personalization_prompt": "Pick 2 weekly 30‑min blocks.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Add recurring events named ‘Reset’.\n**Why:** Planning beats ‘when I have time’.\n**Try:** Treat as an appointment.",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management"
+    ],
+    "tip_type": [
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L07",
+      "level_order": 7,
+      "level_name": "Time Management"
+    }
+  },
+  {
+    "tip_id": "113bf599-707c-45b6-9940-a5563dd34e0b",
+    "summary": "Pomodoro tidy (25/5).",
+    "personalization_prompt": "Which area will you do for one Pomodoro?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** 25 min focus + 5 min break.\n**Why:** Urgency + rest = momentum.\n**Try:** Do 1–3 rounds.",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management",
+      "focus"
+    ],
+    "tip_type": [
+      "timeboxing"
+    ],
+    "motivational_mechanism": [
+      "novelty",
+      "reward"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L07",
+      "level_order": 7,
+      "level_name": "Time Management"
+    }
+  },
+  {
+    "tip_id": "44377369-c76d-4646-a4f4-87fa4c0dbf47",
+    "summary": "Closing routine for spaces.",
+    "personalization_prompt": "List 3 end‑of‑day ‘closing’ actions.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Define closure (clear desk, dishwash, toys away).\n**Why:** Start next day fresh.\n**Try:** Tie to a fixed time.",
+    "contraindications": [],
+    "goal_tags": [
+      "routine",
+      "maintenance"
+    ],
+    "tip_type": [
+      "habit_stacking"
+    ],
+    "motivational_mechanism": [
+      "identity"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "evening"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L07",
+      "level_order": 7,
+      "level_name": "Time Management"
+    }
+  },
+  {
+    "tip_id": "bd2dbe58-00be-4c90-8467-bada8a73a1d9",
+    "summary": "Go paperless on one account.",
+    "personalization_prompt": "Which bill will you switch to e‑statements?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Turn on e‑bills + auto‑pay.\n**Why:** Cuts paper inflow.\n**Try:** Repeat monthly.",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter",
+      "paper_clutter"
+    ],
+    "tip_type": [
+      "digital",
+      "automation"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "0073b22c-3294-4064-87a4-904fc26c8d98",
+    "summary": "Unsubscribe sweep (5 senders).",
+    "personalization_prompt": "Name 5 unwanted senders to remove.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Unsubscribe + create 1 filter.\n**Why:** Less inflow to triage.\n**Try:** Repeat monthly.",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter"
+    ],
+    "tip_type": [
+      "digital",
+      "environment_design"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "monthly_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "3fcfe297-7820-47c7-ace6-7de77c61ea21",
+    "summary": "Scan & shred session.",
+    "personalization_prompt": "Pick 10 papers to scan then recycle.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Digitize essentials; eliminate paper bulk.\n**Why:** Searchable + backed up.\n**Try:** Keep originals only when required.",
+    "contraindications": [],
+    "goal_tags": [
+      "digital_clutter",
+      "paper_clutter"
+    ],
+    "tip_type": [
+      "digital"
+    ],
+    "motivational_mechanism": [
+      "mastery"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 2,
+    "location_tags": [
+      "home",
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L08",
+      "level_order": 8,
+      "level_name": "Digital Declutter"
+    }
+  },
+  {
+    "tip_id": "89d4f7d8-5a39-482c-9309-d6828811c1f4",
+    "summary": "Weekly review checklist.",
+    "personalization_prompt": "Draft 5 steps for a weekly review.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Tidy, process inbox, plan next actions, calendar review, celebrate.\n**Why:** Keeps systems trusted.\n**Try:** Same time weekly.",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management"
+    ],
+    "tip_type": [
+      "maintenance",
+      "time_management"
+    ],
+    "motivational_mechanism": [
+      "progress_tracking"
+    ],
+    "time_cost_enum": "30_60_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "weekly_routine",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L09",
+      "level_order": 9,
+      "level_name": "Advanced Systems (GTD/Kanban)"
+    }
+  },
+  {
+    "tip_id": "dbcb000e-18d5-44e4-b9e5-37e887241796",
+    "summary": "Limit WIP on Kanban.",
+    "personalization_prompt": "Set a max of 2–3 ‘Doing’ tasks.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Cap work‑in‑progress on your board.\n**Why:** Reduces overwhelm; increases finish rate.\n**Try:** Move one to Done before adding more.",
+    "contraindications": [],
+    "goal_tags": [
+      "productivity"
+    ],
+    "tip_type": [
+      "system_setup"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "work",
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L09",
+      "level_order": 9,
+      "level_name": "Advanced Systems (GTD/Kanban)"
+    }
+  },
+  {
+    "tip_id": "0e18e8e5-2e10-43db-ad9d-3ac148921860",
+    "summary": "Clutter hotspot watch.",
+    "personalization_prompt": "Which surface will you clear at first sign of buildup?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Intervene when first 1–2 items land.\n**Why:** Clutter breeds clutter; early action is easy.\n**Try:** 30‑sec micro‑resets.",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance"
+    ],
+    "tip_type": [
+      "maintenance"
+    ],
+    "motivational_mechanism": [
+      "prevention"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L10",
+      "level_order": 10,
+      "level_name": "Maintenance & Relapse Plans"
+    }
+  },
+  {
+    "tip_id": "779e444c-6ee2-495c-99bd-9361b5b7941a",
+    "summary": "Shared chore chart.",
+    "personalization_prompt": "List weekly tasks and assignments.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Assign & rotate duties; track visibly.\n**Why:** Social accountability; fewer bottlenecks.\n**Try:** 10‑min family reset nightly.",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "teamwork"
+    ],
+    "tip_type": [
+      "accountability"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "with_others",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L10",
+      "level_order": 10,
+      "level_name": "Maintenance & Relapse Plans"
+    }
+  },
+  {
+    "tip_id": "184547cf-dbd6-4e6a-ada8-82f58e145a6b",
+    "summary": "Seasonal audit day.",
+    "personalization_prompt": "Pick a quarterly declutter date.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Schedule closet/drawer sweeps.\n**Why:** Prevents slow creep.\n**Try:** Book donation pickup in advance.",
+    "contraindications": [],
+    "goal_tags": [
+      "maintenance",
+      "declutter"
+    ],
+    "tip_type": [
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "60_plus",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 3,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "seasonal_maintenance",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L10",
+      "level_order": 10,
+      "level_name": "Maintenance & Relapse Plans"
+    }
+  },
+  {
+    "tip_id": "e73f2142-b931-4454-8a9e-4f2ed839d612",
+    "summary": "Automate one cleaning task.",
+    "personalization_prompt": "Choose a task to automate/schedule.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Robot vacuum or scheduled reminders.\n**Why:** Less willpower, steadier upkeep.\n**Try:** Review after 2 weeks.",
+    "contraindications": [],
+    "goal_tags": [
+      "automation",
+      "maintenance"
+    ],
+    "tip_type": [
+      "automation"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$$",
+    "mental_effort": 1,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 1,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L11",
+      "level_order": 11,
+      "level_name": "Automation & Autopilot"
+    }
+  },
+  {
+    "tip_id": "35fa3dd6-388e-406a-bfd9-b3b7e70f8a38",
+    "summary": "If‑then rules for common triggers.",
+    "personalization_prompt": "Write 2 if‑then scripts for clutter traps.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Pre‑decide actions (e.g., package→break down box same day).\n**Why:** Implementation intentions become automatic.\n**Try:** Post near hotspot.",
+    "contraindications": [],
+    "goal_tags": [
+      "habit_building",
+      "maintenance"
+    ],
+    "tip_type": [
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "mastery"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L11",
+      "level_order": 11,
+      "level_name": "Automation & Autopilot"
+    }
+  },
+  {
+    "tip_id": "cc4f1de9-6f2a-4360-8d47-6777d5e9ba68",
+    "summary": "Buying pause (30‑day list).",
+    "personalization_prompt": "What triggers your 30‑day wait?",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Add wants to a dated list; revisit later.\n**Why:** Cools impulses; prevents new clutter.\n**Try:** One‑in/one‑out when you do buy.",
+    "contraindications": [],
+    "goal_tags": [
+      "minimalism",
+      "consumption"
+    ],
+    "tip_type": [
+      "mindset_shift"
+    ],
+    "motivational_mechanism": [
+      "commitment"
+    ],
+    "time_cost_enum": "0_5_min",
+    "money_cost_enum": "$",
+    "mental_effort": 2,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital",
+      "shopping"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 2,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L12",
+      "level_order": 12,
+      "level_name": "Lifestyle Integration"
+    }
+  },
+  {
+    "tip_id": "9287e20d-bb3e-48c5-a49f-4e28bec475c0",
+    "summary": "Minimize duplicates.",
+    "personalization_prompt": "Pick a category; reduce duplicates by half.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Keep best; donate the rest.\n**Why:** Less to store/track; frees space.\n**Try:** Start with mugs, towels, or cables.",
+    "contraindications": [],
+    "goal_tags": [
+      "minimalism"
+    ],
+    "tip_type": [
+      "decision_rule"
+    ],
+    "motivational_mechanism": [
+      "decision_ease"
+    ],
+    "time_cost_enum": "15_30_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 2,
+    "location_tags": [
+      "home"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "project_sprint",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L12",
+      "level_order": 12,
+      "level_name": "Lifestyle Integration"
+    }
+  },
+  {
+    "tip_id": "9a45ac1a-2480-4c48-ab11-49b18191715a",
+    "summary": "Declutter your calendar.",
+    "personalization_prompt": "Remove 1 low‑value recurring commitment.",
+    "personalization_type": "text",
+    "personalization_config": {
+      "placeholder": ""
+    },
+    "details_md": "**Experiment:** Free time to maintain space and rest.\n**Why:** Less time‑pressure → less clutter.\n**Try:** Replace with a weekly reset block.",
+    "contraindications": [],
+    "goal_tags": [
+      "time_management",
+      "wellbeing"
+    ],
+    "tip_type": [
+      "planning_ahead"
+    ],
+    "motivational_mechanism": [
+      "insight"
+    ],
+    "time_cost_enum": "5_15_min",
+    "money_cost_enum": "$",
+    "mental_effort": 3,
+    "physical_effort": 1,
+    "location_tags": [
+      "digital"
+    ],
+    "social_mode": "solo",
+    "time_of_day": [
+      "any"
+    ],
+    "cue_context": [
+      "any"
+    ],
+    "difficulty_tier": 1,
+    "created_by": "coach_curated",
+    "preserves_foods": [],
+    "veggie_intensity": "not_applicable",
+    "family_friendly": true,
+    "kid_approved": true,
+    "partner_resistant_ok": true,
+    "chaos_level_max": 5,
+    "requires_planning": false,
+    "impulse_friendly": true,
+    "diet_trauma_safe": true,
+    "feels_like_diet": false,
+    "kitchen_equipment": [],
+    "cooking_skill_required": "none",
+    "cognitive_load": 3,
+    "helps_with": [],
+    "sustainability": "daily_habit",
+    "curriculum_ref": {
+      "curriculum_id": "org-12lv-v1",
+      "level_id": "L12",
+      "level_order": 12,
+      "level_name": "Lifestyle Integration"
+    }
+  }
+]
