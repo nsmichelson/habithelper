@@ -1,13 +1,33 @@
 import { QuizQuestion } from '../types/quiz';
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
-  // Introduction - Start fun!
+  // First question - Area selection
+  {
+    id: 'areas_of_interest',
+    question: "What areas would you like to work on?",
+    type: 'multiple_choice',
+    category: 'goals',
+    required: true,
+    helpText: 'Select all that apply - you can always add more areas later!',
+    options: [
+      { value: 'nutrition', label: '🥗 Nutrition - Eating habits & food choices' },
+      { value: 'fitness', label: '💪 Fitness - Movement & exercise' },
+      { value: 'stress', label: '🧘 Stress - Mental wellbeing & relaxation' },
+      { value: 'organization', label: '📋 Organization - Productivity & decluttering' },
+    ]
+  },
+
+  // Introduction - Start fun! (Only if nutrition selected)
   {
     id: 'real_talk',
     question: "Let's be real - what's your actual relationship with vegetables?",
     type: 'single_choice',
     category: 'food personality',
     required: true,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     helpText: 'No judgment here! We all have our things.',
     options: [
       { value: 'love_them', label: 'I genuinely love them' },
@@ -18,13 +38,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // What they can't give up
+  // What they can't give up (Only if nutrition selected)
   {
     id: 'non_negotiables',
     question: "What's your food kryptonite? (The thing you'd never want to give up)",
     type: 'multiple_choice',
     category: 'food personality',
     required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     helpText: "We won't make you give these up - promise! Select all that apply.",
     options: [
       { value: 'chocolate', label: 'Chocolate is life' },
@@ -39,13 +63,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Past attempts
+  // Past attempts (nutrition-specific)
   {
     id: 'diet_history',
     question: "What's your history with healthy eating attempts?",
     type: 'single_choice',
     category: 'experience',
     required: true,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     options: [
       { value: 'never_tried', label: "Haven't really tried to change" },
       { value: 'yo_yo', label: 'The classic yo-yo: good for a week, then chaos' },
@@ -204,13 +232,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // What actually matters to them
+  // What actually matters to them (nutrition-specific)
   {
     id: 'real_goals',
     question: "What actually matters to you? (Not what you think you 'should' say)",
     type: 'multiple_choice',
     category: 'goals',
     required: true,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     helpText: 'Pick your top 2-3 real motivations',
     options: [
       { value: 'look_good', label: 'Look better naked' },
@@ -228,13 +260,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Kitchen reality
+  // Kitchen reality (nutrition-specific)
   {
     id: 'kitchen_reality',
     question: 'Your kitchen skills - where are you really?',
     type: 'single_choice',
     category: 'skills',
     required: true,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     options: [
       { value: 'microwave_master', label: 'Microwave is my best friend' },
       { value: 'basic', label: 'I can make eggs and pasta' },
@@ -265,13 +301,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Time reality
+  // Time reality (nutrition-specific)
   {
     id: 'meal_time_truth',
     question: 'When you say you\'ll "meal prep on Sunday," what actually happens?',
     type: 'single_choice',
     category: 'lifestyle',
     required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     options: [
       { value: 'actually_do', label: 'I actually do it!' },
       { value: 'sometimes', label: '50/50 chance it happens' },
@@ -281,13 +321,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Eating style
+  // Eating style (nutrition-specific)
   {
     id: 'eating_personality',
     question: 'Your eating personality is...',
     type: 'multiple_choice',
     category: 'personality',
     required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     helpText: 'Check all that sound like you',
     options: [
       { value: 'grazer', label: 'Grazer - always snacking' },
@@ -375,10 +419,10 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Biggest challenge
+  // Biggest challenge (general for all areas)
   {
     id: 'biggest_obstacle',
-    question: "What's your biggest obstacle to eating better?",
+    question: "What's your biggest obstacle to making changes?",
     type: 'single_choice',
     category: 'challenges',
     required: true,
@@ -389,9 +433,140 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'no_knowledge', label: "Don't know what to do" },
       { value: 'no_willpower', label: 'Willpower of a goldfish' },
       { value: 'social_pressure', label: 'Social situations/peer pressure' },
-      { value: 'emotional', label: 'Emotional/stress eating' },
-      { value: 'hate_cooking', label: 'Hate cooking' },
-      { value: 'love_junk', label: 'Just love junk food too much' },
+      { value: 'emotional', label: 'Emotional/stress blocks' },
+      { value: 'overwhelmed', label: 'Feel overwhelmed' },
+      { value: 'no_support', label: 'No support system' },
+    ]
+  },
+
+  // Organization-specific questions
+  {
+    id: 'organization_pain_points',
+    question: 'What organizational challenges are driving you crazy?',
+    type: 'multiple_choice',
+    category: 'challenges',
+    required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['organization']
+    },
+    helpText: 'Select all that apply',
+    options: [
+      { value: 'clutter', label: 'Clutter everywhere' },
+      { value: 'cant_find', label: "Can't find things when I need them" },
+      { value: 'paper_chaos', label: 'Paper/mail chaos' },
+      { value: 'digital_mess', label: 'Digital files/email overwhelm' },
+      { value: 'time_management', label: 'Always running late' },
+      { value: 'procrastination', label: 'Chronic procrastination' },
+      { value: 'todo_overwhelm', label: 'Too many tasks, no system' },
+      { value: 'workspace_mess', label: 'Messy workspace affecting focus' },
+    ]
+  },
+
+  {
+    id: 'organization_goals',
+    question: 'What would being more organized help you achieve?',
+    type: 'multiple_choice',
+    category: 'goals',
+    required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['organization']
+    },
+    options: [
+      { value: 'less_stress', label: 'Less daily stress' },
+      { value: 'save_time', label: 'Save time searching for things' },
+      { value: 'focus_better', label: 'Focus better at work' },
+      { value: 'guest_ready', label: 'Be ready for unexpected guests' },
+      { value: 'role_model_org', label: 'Set good example for family' },
+      { value: 'professional', label: 'Look more professional' },
+      { value: 'mental_clarity', label: 'Mental clarity and peace' },
+    ]
+  },
+
+  // Fitness-specific questions
+  {
+    id: 'current_activity',
+    question: 'Your current activity level?',
+    type: 'single_choice',
+    category: 'fitness',
+    required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['fitness']
+    },
+    options: [
+      { value: 'sedentary', label: 'Couch and I are best friends' },
+      { value: 'minimal', label: 'I walk to the fridge' },
+      { value: 'occasional', label: 'Sometimes active' },
+      { value: 'regular', label: '2-3 times a week' },
+      { value: 'active', label: 'Pretty active already' },
+    ]
+  },
+
+  {
+    id: 'fitness_barriers',
+    question: "What's stopping you from moving more?",
+    type: 'multiple_choice',
+    category: 'challenges',
+    required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['fitness']
+    },
+    helpText: 'Check all that apply',
+    options: [
+      { value: 'hate_gym', label: 'Hate the gym' },
+      { value: 'no_time_fitness', label: 'No time' },
+      { value: 'injuries', label: 'Injuries/pain' },
+      { value: 'embarrassed', label: 'Feel embarrassed/judged' },
+      { value: 'boring', label: "It's boring" },
+      { value: 'no_energy_fitness', label: 'Too tired' },
+      { value: 'no_equipment', label: 'No equipment/space' },
+      { value: 'weather', label: 'Weather dependent' },
+    ]
+  },
+
+  // Stress-specific questions
+  {
+    id: 'stress_level',
+    question: 'How stressed are you on a typical day?',
+    type: 'single_choice',
+    category: 'stress',
+    required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['stress']
+    },
+    options: [
+      { value: 'chill', label: 'Pretty chill actually' },
+      { value: 'manageable', label: 'Manageable most days' },
+      { value: 'moderate', label: 'Moderately stressed' },
+      { value: 'high', label: 'Pretty stressed' },
+      { value: 'overwhelmed', label: '🔥 Constantly overwhelmed' },
+    ]
+  },
+
+  {
+    id: 'stress_symptoms',
+    question: 'How does stress show up for you?',
+    type: 'multiple_choice',
+    category: 'stress',
+    required: false,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['stress']
+    },
+    helpText: 'Select all that apply',
+    options: [
+      { value: 'cant_sleep', label: "Can't sleep" },
+      { value: 'irritable', label: 'Snap at people' },
+      { value: 'anxious', label: 'Anxiety/worry spirals' },
+      { value: 'headaches', label: 'Headaches' },
+      { value: 'stomach', label: 'Stomach issues' },
+      { value: 'chest_tight', label: 'Chest tightness' },
+      { value: 'cant_focus', label: "Can't focus" },
+      { value: 'emotional_eating', label: 'Eat my feelings' },
     ]
   },
 
