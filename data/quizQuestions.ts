@@ -195,13 +195,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Medical stuff (but make it less clinical)
+  // Medical stuff (but make it less clinical) - nutrition-specific
   {
     id: 'health_stuff',
     question: 'Any health stuff we should know about?',
     type: 'multiple_choice',
     category: 'medical',
     required: true,
+    conditionalOn: {
+      questionId: 'areas_of_interest',
+      values: ['nutrition']
+    },
     helpText: "We'll make sure suggestions are safe and helpful for you",
     options: [
       { value: 'none', label: "Nope, I'm good" },
@@ -379,7 +383,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'tight', label: 'Every penny counts' },
       { value: 'careful', label: 'Need to watch it' },
       { value: 'flexible', label: 'Some wiggle room' },
-      { value: 'comfortable', label: 'Can spend on healthy stuff' },
+      { value: 'comfortable', label: 'Can spend on improvements' },
       { value: 'no_limit', label: 'Money not an issue' },
     ]
   },
@@ -387,7 +391,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // What they're willing to try
   {
     id: 'experiment_style',
-    question: 'When it comes to trying new things with food:',
+    question: 'When it comes to trying new things:',
     type: 'single_choice',
     category: 'personality',
     required: true,
@@ -403,17 +407,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // Support system
   {
     id: 'home_situation',
-    question: "Who else are you feeding/dealing with?",
+    question: "Who else are you living/dealing with?",
     type: 'multiple_choice',
     category: 'lifestyle',
     required: false,
     helpText: "This affects what tips will actually work for you",
     options: [
       { value: 'just_me', label: 'Just me' },
-      { value: 'supportive_partner', label: 'Partner who\s on board' },
-      { value: 'resistant_partner', label: 'Partner who eats like a teenager' },
-      { value: 'picky_kids', label: 'Picky kids' },
-      { value: 'teenagers', label: 'Hungry teenagers' },
+      { value: 'supportive_partner', label: 'Partner who\'s on board' },
+      { value: 'resistant_partner', label: 'Partner who resists change' },
+      { value: 'picky_kids', label: 'Kids' },
+      { value: 'teenagers', label: 'Teenagers' },
       { value: 'roommates', label: 'Roommates' },
       { value: 'parents', label: 'Living with parents' },
     ]
