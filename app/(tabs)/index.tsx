@@ -422,12 +422,23 @@ export default function HomeScreen() {
   };
 
   const handleShowAllExperiments = () => {
-    const allTips = previousTips.map(dt => ({
-      dailyTip: dt,
-      tip: getTipById(dt.tip_id)!
-    })).filter(item => item.tip);
+    // Deduplicate by tip_id
+    const seenTipIds = new Set<string>();
+    const allTips = previousTips
+      .filter(dt => {
+        if (seenTipIds.has(dt.tip_id)) {
+          return false;
+        }
+        seenTipIds.add(dt.tip_id);
+        return true;
+      })
+      .map(dt => ({
+        dailyTip: dt,
+        tip: getTipById(dt.tip_id)!
+      }))
+      .filter(item => item.tip);
     
-    if (dailyTip && currentTip) {
+    if (dailyTip && currentTip && !seenTipIds.has(currentTip.tip_id)) {
       allTips.push({ dailyTip, tip: currentTip });
     }
     
@@ -437,15 +448,25 @@ export default function HomeScreen() {
   };
 
   const handleShowTriedExperiments = () => {
+    // Deduplicate by tip_id to avoid showing the same tip multiple times
+    const seenTipIds = new Set<string>();
     const triedTips = previousTips
       .filter(dt => dt.user_response === 'try_it')
+      .filter(dt => {
+        // Only include if we haven't seen this tip_id yet
+        if (seenTipIds.has(dt.tip_id)) {
+          return false;
+        }
+        seenTipIds.add(dt.tip_id);
+        return true;
+      })
       .map(dt => ({
         dailyTip: dt,
         tip: getTipById(dt.tip_id)!
       }))
       .filter(item => item.tip);
     
-    if (dailyTip?.user_response === 'try_it' && currentTip) {
+    if (dailyTip?.user_response === 'try_it' && currentTip && !seenTipIds.has(currentTip.tip_id)) {
       triedTips.push({ dailyTip, tip: currentTip });
     }
     
@@ -455,11 +476,20 @@ export default function HomeScreen() {
   };
 
   const handleShowLovedExperiments = () => {
+    // Deduplicate by tip_id
+    const seenTipIds = new Set<string>();
     const lovedTips = previousTips
       .filter(dt => 
         dt.evening_check_in === 'went_great' || 
         dt.quick_completions?.some(c => c.quick_note === 'worked_great')
       )
+      .filter(dt => {
+        if (seenTipIds.has(dt.tip_id)) {
+          return false;
+        }
+        seenTipIds.add(dt.tip_id);
+        return true;
+      })
       .map(dt => ({
         dailyTip: dt,
         tip: getTipById(dt.tip_id)!
@@ -468,13 +498,19 @@ export default function HomeScreen() {
     
     if ((dailyTip?.evening_check_in === 'went_great' || 
          dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great')) && 
-        currentTip) {
+        currentTip && !seenTipIds.has(currentTip.tip_id)) {
       lovedTips.push({ dailyTip, tip: currentTip });
     }
     
     setModalTitle('Experiments You Loved');
     setModalTips(lovedTips);
     setShowHistoryModal(true);
+  };
+
+  // Helper function to get unique tip count
+  const getUniqueTipCount = (tips: DailyTip[]) => {
+    const uniqueTipIds = new Set(tips.map(t => t.tip_id));
+    return uniqueTipIds.size;
   };
 
   const calculateDaysSinceStart = () => {
@@ -1088,7 +1124,7 @@ export default function HomeScreen() {
               onPress={handleShowAllExperiments}
               activeOpacity={0.7}
             >
-              <Text style={styles.statNumber}>{previousTips.length + (dailyTip ? 1 : 0)}</Text>
+              <Text style={styles.statNumber}>{getUniqueTipCount(previousTips) + (dailyTip && !previousTips.some(t => t.tip_id === dailyTip.tip_id) ? 1 : 0)}</Text>
               <Text style={styles.statLabel}>Experiments</Text>
             </TouchableOpacity>
             <TouchableOpacity 
@@ -1097,8 +1133,8 @@ export default function HomeScreen() {
               activeOpacity={0.7}
             >
               <Text style={styles.statNumber}>
-                {previousTips.filter(tip => tip.user_response === 'try_it').length + 
-                 (dailyTip?.user_response === 'try_it' ? 1 : 0)}
+                {getUniqueTipCount(previousTips.filter(tip => tip.user_response === 'try_it')) + 
+                 (dailyTip?.user_response === 'try_it' && !previousTips.some(t => t.tip_id === dailyTip.tip_id && t.user_response === 'try_it') ? 1 : 0)}
               </Text>
               <Text style={styles.statLabel}>Tried</Text>
             </TouchableOpacity>
@@ -1108,12 +1144,14 @@ export default function HomeScreen() {
               activeOpacity={0.7}
             >
               <Text style={styles.statNumber}>
-                {previousTips.filter(tip => 
+                {getUniqueTipCount(previousTips.filter(tip => 
                   tip.quick_completions?.some(c => c.quick_note === 'worked_great') ||
                   tip.evening_check_in === 'went_great'
-                ).length + 
-                (dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') || 
-                 dailyTip?.evening_check_in === 'went_great' ? 1 : 0)}
+                )) + 
+                ((dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') || 
+                  dailyTip?.evening_check_in === 'went_great') && 
+                 !previousTips.some(t => t.tip_id === dailyTip.tip_id && 
+                   (t.quick_completions?.some(c => c.quick_note === 'worked_great') || t.evening_check_in === 'went_great')) ? 1 : 0)}
               </Text>
               <Text style={styles.statLabel}>Loved</Text>
             </TouchableOpacity>
@@ -1294,7 +1332,7 @@ export default function HomeScreen() {
                 onPress={handleShowAllExperiments}
                 activeOpacity={0.7}
               >
-                <Text style={styles.statNumber}>{previousTips.length + (dailyTip ? 1 : 0)}</Text>
+                <Text style={styles.statNumber}>{getUniqueTipCount(previousTips) + (dailyTip && !previousTips.some(t => t.tip_id === dailyTip.tip_id) ? 1 : 0)}</Text>
                 <Text style={styles.statLabel}>Experiments</Text>
               </TouchableOpacity>
               <TouchableOpacity 
@@ -1303,8 +1341,8 @@ export default function HomeScreen() {
                 activeOpacity={0.7}
               >
                 <Text style={styles.statNumber}>
-                  {previousTips.filter(tip => tip.user_response === 'try_it').length + 
-                   (dailyTip?.user_response === 'try_it' ? 1 : 0)}
+                  {getUniqueTipCount(previousTips.filter(tip => tip.user_response === 'try_it')) + 
+                   (dailyTip?.user_response === 'try_it' && !previousTips.some(t => t.tip_id === dailyTip.tip_id && t.user_response === 'try_it') ? 1 : 0)}
                 </Text>
                 <Text style={styles.statLabel}>Tried</Text>
               </TouchableOpacity>
@@ -1314,12 +1352,14 @@ export default function HomeScreen() {
                 activeOpacity={0.7}
               >
                 <Text style={styles.statNumber}>
-                  {previousTips.filter(tip => 
+                  {getUniqueTipCount(previousTips.filter(tip => 
                     tip.quick_completions?.some(c => c.quick_note === 'worked_great') ||
                     tip.evening_check_in === 'went_great'
-                  ).length + 
-                  (dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') || 
-                   dailyTip?.evening_check_in === 'went_great' ? 1 : 0)}
+                  )) + 
+                  ((dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') || 
+                    dailyTip?.evening_check_in === 'went_great') && 
+                   !previousTips.some(t => t.tip_id === dailyTip.tip_id && 
+                     (t.quick_completions?.some(c => c.quick_note === 'worked_great') || t.evening_check_in === 'went_great')) ? 1 : 0)}
                 </Text>
                 <Text style={styles.statLabel}>Loved</Text>
               </TouchableOpacity>

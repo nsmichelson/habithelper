@@ -307,6 +307,13 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       goals: [],
     };
 
+    // Helper function to add unique goals
+    const addGoal = (goal: any) => {
+      if (!profile.goals.includes(goal)) {
+        profile.goals.push(goal);
+      }
+    };
+
     // Process each response based on new quiz structure
     allResponses.forEach(response => {
       // Use toArray helper to normalize both .value and .values
@@ -333,9 +340,7 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           if (values.includes('pregnancy')) {
             profile.medical_conditions.push('pregnancy');
             // Automatically add healthy pregnancy as a goal
-            if (!profile.goals.includes('healthy_pregnancy')) {
-              profile.goals.push('healthy_pregnancy');
-            }
+            addGoal('healthy_pregnancy');
           }
           break;
           
@@ -359,31 +364,33 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
             switch(goal) {
               case 'look_good':
               case 'clothes_fit': 
-                profile.goals.push('weight_loss'); 
+                addGoal('weight_loss'); 
                 break;
               case 'more_energy': 
-                profile.goals.push('improve_energy'); 
+                addGoal('improve_energy'); 
                 break;
               case 'health_scare':
-                profile.goals.push('better_lipids', 'lower_blood_pressure');
+                addGoal('better_lipids');
+                addGoal('lower_blood_pressure');
                 break;
               case 'less_bloated':
-                profile.goals.push('improve_gut_health');
+                addGoal('improve_gut_health');
                 break;
               case 'athletic':
-                profile.goals.push('endurance_performance', 'strength_performance');
+                addGoal('endurance_performance');
+                addGoal('strength_performance');
                 break;
               case 'keep_up_kids':
-                profile.goals.push('improve_energy');
+                addGoal('improve_energy');
                 break;
               case 'eat_more_veggies':
-                profile.goals.push('increase_veggies');
+                addGoal('increase_veggies');
                 break;
               case 'healthy_pregnancy_nutrition':
-                profile.goals.push('healthy_pregnancy');
+                addGoal('healthy_pregnancy');
                 break;
               case 'just_healthier':
-                profile.goals.push('improve_energy');
+                addGoal('improve_energy');
                 break;
             }
           });
@@ -395,18 +402,18 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
             switch(goal) {
               case 'less_stress':
               case 'mental_clarity':
-                profile.goals.push('declutter');
+                addGoal('declutter');
                 break;
               case 'save_time':
               case 'focus_better':
-                profile.goals.push('organize_workspace');
+                addGoal('organize_workspace');
                 break;
               case 'guest_ready':
               case 'role_model_org':
-                profile.goals.push('organize_home');
+                addGoal('organize_home');
                 break;
               case 'professional':
-                profile.goals.push('organize_workspace');
+                addGoal('organize_workspace');
                 break;
             }
           });

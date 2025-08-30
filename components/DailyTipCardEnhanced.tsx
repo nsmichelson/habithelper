@@ -279,8 +279,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             <View style={styles.goalsMatchSection}>
               <Text style={styles.goalsMatchTitle}>YOUR GOALS:</Text>
               <View style={styles.goalsMatchGrid}>
-                {relevantGoals.map(goal => (
-                  <View key={goal} style={styles.userGoalChip}>
+                {[...new Set(relevantGoals)].map((goal, index) => (
+                  <View key={`${goal}-${index}`} style={styles.userGoalChip}>
                     <Ionicons name="checkmark-circle" size={16} color="#4CAF50" />
                     <Text style={styles.userGoalText}>
                       {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -298,7 +298,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                 const isUserGoal = relevantGoals.includes(goal);
                 return (
                   <View 
-                    key={goal} 
+                    key={`${goal}-${index}`} 
                     style={[styles.goalChip, isUserGoal && styles.goalChipHighlight]}
                   >
                     <Text style={[styles.goalChipText, isUserGoal && styles.goalChipTextHighlight]}>
@@ -414,8 +414,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             <View style={styles.goalsSection}>
               <Text style={styles.goalsSectionTitle}>This helps with:</Text>
               <View style={styles.goalsGrid}>
-                {tip.goal_tags.map(goal => (
-                  <View key={goal} style={styles.goalChip}>
+                {[...new Set(tip.goal_tags)].map((goal, index) => (
+                  <View key={`${goal}-${index}`} style={styles.goalChip}>
                     <Text style={styles.goalChipText}>
                       {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                     </Text>

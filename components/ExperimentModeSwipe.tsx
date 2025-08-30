@@ -648,8 +648,8 @@ export default function ExperimentModeSwipe({
               <View style={styles.goalsSection}>
                 <Text style={styles.sectionTitle}>This Helps With</Text>
                 <View style={styles.goalsGrid}>
-                  {tip.goal_tags.map(goal => (
-                    <View key={goal} style={styles.goalChip}>
+                  {[...new Set(tip.goal_tags)].map((goal, index) => (
+                    <View key={`${goal}-${index}`} style={styles.goalChip}>
                       <Text style={styles.goalChipText}>
                         {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                       </Text>

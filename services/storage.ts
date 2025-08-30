@@ -59,12 +59,41 @@ class StorageService {
       
       // Parse and convert date strings back to Date objects
       const tips = JSON.parse(data);
-      return tips.map((tip: any) => ({
+      const parsedTips = tips.map((tip: any) => ({
         ...tip,
         presented_date: new Date(tip.presented_date),
         responded_at: tip.responded_at ? new Date(tip.responded_at) : undefined,
         check_in_at: tip.check_in_at ? new Date(tip.check_in_at) : undefined,
       }));
+      
+      // Remove duplicates by keeping only the latest entry for each tip_id on each day
+      const uniqueTips = parsedTips.reduce((acc: DailyTip[], tip: DailyTip) => {
+        const tipDate = new Date(tip.presented_date).toDateString();
+        const existingIndex = acc.findIndex(t => 
+          t.tip_id === tip.tip_id && 
+          new Date(t.presented_date).toDateString() === tipDate
+        );
+        
+        if (existingIndex >= 0) {
+          // Keep the one with more data (e.g., has evening_check_in)
+          if ((tip.evening_check_in && !acc[existingIndex].evening_check_in) ||
+              (tip.user_response && !acc[existingIndex].user_response)) {
+            acc[existingIndex] = tip;
+          }
+        } else {
+          acc.push(tip);
+        }
+        
+        return acc;
+      }, []);
+      
+      // If we removed duplicates, save the cleaned data
+      if (uniqueTips.length < parsedTips.length) {
+        await AsyncStorage.setItem(STORAGE_KEYS.DAILY_TIPS, JSON.stringify(uniqueTips));
+        console.log(`Cleaned up ${parsedTips.length - uniqueTips.length} duplicate daily tips`);
+      }
+      
+      return uniqueTips;
     } catch (error) {
       console.error('Error getting daily tips:', error);
       return [];
@@ -125,7 +154,31 @@ class StorageService {
         attempt.snooze_until = snoozeDate.toISOString();
       }
       
-      attempts.push(attempt);
+      // Check if an attempt for this tip already exists (by tip_id and date)
+      const existingIndex = attempts.findIndex(a => {
+        if (a.tip_id !== attempt.tip_id) return false;
+        
+        // If the attempt has an ID and it matches, update it
+        if (attempt.id && a.id === attempt.id) return true;
+        
+        // Check if it's the same day (to prevent duplicate daily attempts)
+        const existingDate = new Date(a.attempted_at);
+        const newDate = new Date(attempt.attempted_at);
+        return existingDate.toDateString() === newDate.toDateString();
+      });
+      
+      if (existingIndex !== -1) {
+        // Update existing attempt instead of creating duplicate
+        attempts[existingIndex] = {
+          ...attempts[existingIndex],
+          ...attempt,
+          updated_at: new Date().toISOString()
+        };
+      } else {
+        // Add new attempt
+        attempts.push(attempt);
+      }
+      
       await AsyncStorage.setItem(STORAGE_KEYS.TIP_ATTEMPTS, JSON.stringify(attempts));
     } catch (error) {
       console.error('Error saving tip attempt:', error);
