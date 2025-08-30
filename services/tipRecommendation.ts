@@ -1484,11 +1484,24 @@ export class TipRecommendationService {
     // First, filter out unsafe tips based on medical conditions
     const safeTips = getSafeTips(userProfile.medical_conditions);
 
+    // Filter by user's selected areas if they have any
+    let areaFilteredTips = safeTips;
+    if (userProfile.areas_of_interest && userProfile.areas_of_interest.length > 0) {
+      areaFilteredTips = safeTips.filter(tip => {
+        // If tip doesn't have an area field, assume it's nutrition (for backward compatibility)
+        const tipArea = tip.area || 'nutrition';
+        return userProfile.areas_of_interest?.includes(tipArea);
+      });
+      if (__DEV__) {
+        console.log(`Filtered tips by areas: ${userProfile.areas_of_interest.join(', ')}. ${areaFilteredTips.length} tips available.`);
+      }
+    }
+
     // Comprehensive logging of eligibility filtering
     const eligibilityLog: Array<{tip: Tip; eligible: boolean; reason?: string}> = [];
 
     // Stage A: Apply hard eligibility filtering
-    let eligibleTips = safeTips.filter(tip => {
+    let eligibleTips = areaFilteredTips.filter(tip => {
       const eligibility = this.isTipEligible(tip, userProfile, previousTips, attempts, false, undefined, testModeDate);
       eligibilityLog.push({tip, eligible: eligibility.eligible, reason: eligibility.reason});
       return eligibility.eligible;
@@ -1507,7 +1520,7 @@ export class TipRecommendationService {
     // Stage B: If not enough, relax to softer constraints
     if (eligibleTips.length < RECOMMENDATION_CONFIG.MIN_CANDIDATES_THRESHOLD) {
       console.log(`Only ${eligibleTips.length} eligible tips. Relaxing constraints...`);
-      eligibleTips = safeTips.filter(tip => 
+      eligibleTips = areaFilteredTips.filter(tip => 
         this.isTipEligible(tip, userProfile, previousTips, attempts, true, undefined, testModeDate).eligible
       );
     }
@@ -1517,7 +1530,7 @@ export class TipRecommendationService {
       console.log('Still insufficient tips. Using minimum floor...');
       // Ensure at least 1 day between repeats even in emergency mode
       const minFloor = Math.max(1, RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR);
-      eligibleTips = safeTips.filter(tip => 
+      eligibleTips = areaFilteredTips.filter(tip => 
         this.isTipEligible(
           tip, 
           userProfile, 

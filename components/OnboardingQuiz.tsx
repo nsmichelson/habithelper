@@ -313,6 +313,11 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       const values = response.values || toArray((response as any).value);
       
       switch (response.questionId) {
+        // Areas of interest
+        case 'areas_of_interest':
+          profile.areas_of_interest = values as any[];
+          break;
+          
         // Medical stuff
         case 'health_stuff':
           // Map to actual medical conditions
@@ -379,6 +384,29 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
                 break;
               case 'just_healthier':
                 profile.goals.push('improve_energy');
+                break;
+            }
+          });
+          break;
+          
+        case 'organization_goals':
+          // Map organization goals  
+          values.forEach(goal => {
+            switch(goal) {
+              case 'less_stress':
+              case 'mental_clarity':
+                profile.goals.push('declutter');
+                break;
+              case 'save_time':
+              case 'focus_better':
+                profile.goals.push('organize_workspace');
+                break;
+              case 'guest_ready':
+              case 'role_model_org':
+                profile.goals.push('organize_home');
+                break;
+              case 'professional':
+                profile.goals.push('organize_workspace');
                 break;
             }
           });

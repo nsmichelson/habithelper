@@ -4,7 +4,6 @@ export const TIPS_DATABASE: Tip[] = [
 //pregnancy ones
   {
     "tip_id": "e897e203-f6a3-4726-97cf-0be4bf6dade3",
-    "area": "nutrition" as const,
     "summary": "Keep ginger chews or candies on hand for nausea relief.",
     "personalization_prompt": "Name your three 'nausea emergency stations' where you'll stash ginger chews:",
     "personalization_type": "multi_text" as const,
@@ -74,7 +73,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "70bc2cae-2895-4041-9ba3-9cdc8c38ac23",
-    "area": "nutrition" as const,
     "summary": "Freeze strong ginger tea into cubes for instant nausea tea.",
     "personalization_prompt": "What fun shape or container will you use for your ginger ice cubes?",
     "personalization_type": "text" as const,
@@ -144,7 +142,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "c45987a7-3866-4379-996b-d2e36fefe057",
-    "area": "nutrition" as const,
     "summary": "Suck on frozen lemon-ginger cubes when liquids are hard to tolerate.",
     "personalization_prompt": "Name your frozen cube creation (get creative!):",
     "personalization_type": "text" as const,
@@ -214,7 +211,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "c55f0762-08a2-4cb4-91e8-c8d633db4ffa",
-    "area": "nutrition" as const,
     "summary": "Chew peppermint gum or suck mints to mask odors and ease nausea.",
     "personalization_prompt": "What's your 'smell danger zone' where you'll keep emergency mints?",
     "personalization_type": "choice" as const,
@@ -281,7 +277,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "cf16c8b8-3424-49e4-8c81-b785a931e910",
-    "area": "nutrition" as const,
     "summary": "If plain water tastes bad, flavor it lightly (citrus, mint, flat ginger ale).",
     "personalization_prompt": "Design your 'water rescue' flavor combo:",
     "personalization_type": "text" as const,
@@ -347,7 +342,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "84271016-fed4-4b53-a1e9-ad80725ee917",
-    "area": "nutrition" as const,
     "summary": "Keep crackers by the bed and nibble before sitting up.",
     "personalization_prompt": "What's your bedside 'morning rescue' snack and where will you keep it?",
     "personalization_type": "multi_text" as const,
@@ -413,7 +407,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "b1fb0db1-90cd-4a87-a688-65510a7f134e",
-    "area": "nutrition" as const,
     "summary": "Have a protein-rich bedtime snack to ease morning nausea.",
     "personalization_prompt": "Choose your bedtime protein guardian:",
     "personalization_type": "choice" as const,
@@ -482,7 +475,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "35f529a1-e92f-403c-ba16-de140af4aeab",
-    "area": "nutrition" as const,
     "summary": "Use the 'P' fruits (prunes, pears, plums, pumpkin) for constipation.",
     "personalization_prompt": "Pick your 'P' fruit superhero for the day!",
     "personalization_type": "choice" as const,
@@ -549,7 +541,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "7f7df02d-5354-40ef-b35e-22a445d56241",
-    "area": "nutrition" as const,
     "summary": "Stir chia or ground flax into meals for invisible fiber.",
     "personalization_prompt": "Where will you hide your fiber boost today?",
     "personalization_type": "choice" as const,
@@ -619,7 +610,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "4e4cc434-fa30-48a8-991f-afde0bb3eaad",
-    "area": "nutrition" as const,
     "summary": "Try a daily kiwi (or two) to stay regular.",
     "personalization_prompt": "When's your kiwi time today?",
     "personalization_type": "choice" as const,
@@ -684,7 +674,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "29e9e140-16f4-44bf-b190-fe46cc911f51",
-    "area": "nutrition" as const,
     "summary": "Sip warm water (or warm prune juice) first thing in the morning.",
     "personalization_prompt": "Create your morning 'wake-up sip' ritual:",
     "personalization_type": "multi_text" as const,
@@ -753,7 +742,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "a2f0c824-31f2-4a88-b629-bc310a3d5431",
-    "area": "nutrition" as const,
     "summary": "Take a 10‑minute walk after meals to aid digestion.",
     "personalization_prompt": "Design your post-meal walking adventure:",
     "personalization_type": "multi_text" as const,
@@ -821,7 +809,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "77f34008-5bb3-4a16-a5c8-d252fb74f85e",
-    "area": "nutrition" as const,
     "summary": "Chew gum or munch a few almonds after meals for heartburn relief.",
     "personalization_prompt": "Pick your heartburn fighter:",
     "personalization_type": "choice" as const,
@@ -887,7 +874,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "4a9675df-9669-4703-8022-77022718c89e",
-    "area": "nutrition" as const,
     "summary": "Try a warm ACV + honey drink for reflux relief.",
     "personalization_prompt": "When will you try your 'Reflux Remedy' drink?",
     "personalization_type": "choice" as const,
@@ -950,7 +936,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "106146f9-39fd-49c7-8c61-207bffd34b34",
-    "area": "nutrition" as const,
     "summary": "Sip lemon water to test if it soothes your heartburn.",
     "personalization_prompt": "What temperature will your lemon water experiment be?",
     "personalization_type": "choice" as const,
@@ -1012,7 +997,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "da73c592-f80c-4d8a-9254-718195c4ec0e",
-    "area": "nutrition" as const,
     "summary": "Use chewable papaya enzymes as a natural antacid alternative.",
     "personalization_prompt": "When will you deploy your 'Papaya Power' tablets?",
     "personalization_type": "choice" as const,
@@ -1076,7 +1060,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "7bfa5b1a-a16f-4634-a724-37526d3f8cad",
-    "area": "nutrition" as const,
     "summary": "Craving sushi? Choose veggie or fully cooked rolls.",
     "personalization_prompt": "Build your pregnancy-safe sushi order:",
     "personalization_type": "choice" as const,
@@ -1145,7 +1128,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "973ee1d3-d3e2-4754-9f11-f1936a5e867b",
-    "area": "nutrition" as const,
     "summary": "Create a mocktail ritual in your fanciest glass.",
     "personalization_prompt": "Name your signature mocktail creation!",
     "personalization_type": "text" as const,
@@ -1208,7 +1190,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "fa453cec-f876-446e-87ab-ce2ce540e5ea",
-    "area": "nutrition" as const,
     "summary": "Heat deli meats until steaming before building your sandwich.",
     "personalization_prompt": "Design your safe sandwich strategy:",
     "personalization_type": "multi_text" as const,
@@ -1280,7 +1261,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "f9f32fb5-f964-4098-9069-3a39e328afb9",
-    "area": "nutrition" as const,
     "summary": "Use edible cookie dough (egg‑free, heat‑treated flour) to satisfy dough cravings.",
     "personalization_prompt": "How will you enjoy your safe cookie dough?",
     "personalization_type": "choice" as const,
@@ -1344,7 +1324,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "f27ba582-897d-43ee-8240-e43fcdd52ac1",
-    "area": "nutrition" as const,
     "summary": "Switch to half‑caff or decaf (or roasted‑chicory 'coffee') to trim caffeine.",
     "personalization_prompt": "Choose your caffeine reduction strategy:",
     "personalization_type": "choice" as const,
@@ -1410,7 +1389,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "8753afeb-59d0-4d5c-9e0d-70b3fa0268c5",
-    "area": "nutrition" as const,
     "summary": "If prenatals make you sick, ask about children's vitamins as a short‑term bridge.",
     "personalization_prompt": "When will you take your temporary vitamin solution?",
     "personalization_type": "choice" as const,
@@ -1470,7 +1448,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "bd42db75-c10e-498c-bd8c-8cf85af0f51f",
-    "area": "nutrition" as const,
     "summary": "If veggies are a no‑go, lean on fruits, beans, eggs, and dairy for nutrients.",
     "personalization_prompt": "Build your veggie-free nutrient team:",
     "personalization_type": "choice" as const,
@@ -1534,7 +1511,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "ff2970ca-7637-48bc-84cf-3ecd5383205f",
-    "area": "nutrition" as const,
     "summary": "Blend extra veggies (and white beans) into pasta sauces and soups.",
     "personalization_prompt": "What veggies will you hide in your sauce?",
     "personalization_type": "choice" as const,
@@ -1606,7 +1582,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "7280d3cf-4770-4ed8-baff-5fdeab61c9d6",
-    "area": "nutrition" as const,
     "summary": "Add spinach or peeled zucchini to fruit smoothies (you won't taste it).",
     "personalization_prompt": "Name your secret veggie smoothie blend:",
     "personalization_type": "text" as const,
@@ -1676,7 +1651,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "1a2a9268-c165-46e3-a411-4c4bbce49c27",
-    "area": "nutrition" as const,
     "summary": "Blend cauliflower into mashed potatoes for a stealth veggie upgrade.",
     "personalization_prompt": "What's your cauliflower-to-potato ratio going to be?",
     "personalization_type": "choice" as const,
@@ -1742,7 +1716,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "bfc4d272-1da0-490f-8145-5e806ae4e5bb",
-    "area": "nutrition" as const,
     "summary": "Stir an egg into hot oatmeal for extra protein and choline.",
     "personalization_prompt": "What toppings will crown your protein-packed oatmeal?",
     "personalization_type": "choice" as const,
@@ -1812,7 +1785,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "f7b96ddc-e90d-4d21-aaff-ab77c31fd05f",
-    "area": "nutrition" as const,
     "summary": "Make maple pots de crème for a choline‑rich dessert.",
     "personalization_prompt": "When will you enjoy your fancy custard treat?",
     "personalization_type": "choice" as const,
@@ -1881,7 +1853,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "b0e72e31-0479-4961-b9a2-e59f0764aba9",
-    "area": "nutrition" as const,
     "summary": "Double up on dairy: Greek yogurt, hard cheeses, high‑protein milk.",
     "personalization_prompt": "Pick your dairy all-stars for today:",
     "personalization_type": "choice" as const,
@@ -1947,7 +1918,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "c414a924-38c0-4385-b249-b13b3d9e39ec",
-    "area": "nutrition" as const,
     "summary": "Use protein‑fortified pancake mix, pasta, or cereal to quietly raise protein.",
     "personalization_prompt": "Which protein-fortified swap will you try first?",
     "personalization_type": "choice" as const,
@@ -2011,7 +1981,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "4023164b-2b78-4b5f-b7e1-4ec1cad05e92",
-    "area": "nutrition" as const,
     "summary": "Add protein powder or nut butter to oatmeal/smoothies.",
     "personalization_prompt": "Create your protein power-up combo:",
     "personalization_type": "multi_text" as const,
@@ -2079,7 +2048,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "df05f966-4c0b-4829-91be-a5ddc0171668",
-    "area": "nutrition" as const,
     "summary": "Snack on edamame for protein, iron, and folate in one bite.",
     "personalization_prompt": "How will you jazz up your edamame?",
     "personalization_type": "choice" as const,
@@ -2146,7 +2114,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "ab2ef623-ad42-4162-abe4-2c1e08a1fc24",
-    "area": "nutrition" as const,
     "summary": "Make white‑bean hummus for an iron‑rich dip.",
     "personalization_prompt": "What will you dip in your white bean hummus?",
     "personalization_type": "choice" as const,
@@ -2214,7 +2181,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "78d7ca48-0fcd-4189-a40c-4e3441557364",
-    "area": "nutrition" as const,
     "summary": "Cook tomato‑based meals in cast iron for a tiny iron boost.",
     "personalization_prompt": "What tomato dish will you cook in cast iron?",
     "personalization_type": "choice" as const,
@@ -2273,7 +2239,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "d67a23ae-4f49-416b-8e8d-fec79b5c916f",
-    "area": "nutrition" as const,
     "summary": "Pair plant iron with vitamin C; separate iron from dairy/tea/coffee.",
     "personalization_prompt": "Pick your iron + vitamin C power couple:",
     "personalization_type": "choice" as const,
@@ -2332,7 +2297,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "e0870a76-f08e-4907-97f7-926bd3c42487",
-    "area": "nutrition" as const,
     "summary": "Munch roasted seaweed snacks for an iodine boost.",
     "personalization_prompt": "What flavor seaweed snack are you trying?",
     "personalization_type": "choice" as const,
@@ -2395,7 +2359,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "09517674-539f-425f-9548-94ec13805eff",
-    "area": "nutrition" as const,
     "summary": "Make mini nori hand‑rolls with cooked fillings at home.",
     "personalization_prompt": "Build your hand roll filling combo:",
     "personalization_type": "multi_text" as const,
@@ -2467,7 +2430,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "ac1037c0-7e02-4b05-99a3-2b75021e6533",
-    "area": "nutrition" as const,
     "summary": "Smash avocado on whole‑grain toast for a folate‑rich breakfast.",
     "personalization_prompt": "Design your avocado toast masterpiece:",
     "personalization_type": "choice" as const,
@@ -2532,7 +2494,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "693e8696-2938-430a-8de1-b80996742e0e",
-    "area": "nutrition" as const,
     "summary": "Blend dates into a banana‑peanut butter smoothie (third‑trimester fave).",
     "personalization_prompt": "Name your date smoothie creation:",
     "personalization_type": "text" as const,
@@ -2599,7 +2560,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "fb3c859b-e936-48d2-b9eb-db3751b6e5bd",
-    "area": "nutrition" as const,
     "summary": "Try 6 dates/day in late pregnancy—make them fun so it sticks.",
     "personalization_prompt": "How will you make your daily dates fun?",
     "personalization_type": "choice" as const,
@@ -2666,7 +2626,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "a01d8e4c-69ab-478b-a7bf-9af0628b0295",
-    "area": "nutrition" as const,
     "summary": "Carry a mini snack kit to avoid emergency junk food.",
     "personalization_prompt": "Build your emergency snack kit lineup:",
     "personalization_type": "choice" as const,
@@ -2728,7 +2687,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "d9013b80-59b4-485e-a829-4f6f8437983e",
-    "area": "nutrition" as const,
     "summary": "Batch‑cook on good days, freeze portions for tired days.",
     "personalization_prompt": "What's your freezer meal MVP to batch cook?",
     "personalization_type": "text" as const,
@@ -2793,7 +2751,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "ffc2cd67-ff11-4a61-babc-5987b819452e",
-    "area": "nutrition" as const,
     "summary": "Gamify nutrition: track daily servings (water, fruit/veg, protein).",
     "personalization_prompt": "Pick your 3 daily nutrition goals to track:",
     "personalization_type": "choice" as const,
@@ -2854,7 +2811,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "bb116996-3631-47df-a068-d23bce5b0ca9",
-    "area": "nutrition" as const,
     "summary": "Buy pre‑cut or frozen produce to remove prep barriers.",
     "personalization_prompt": "What pre-cut or frozen produce will you stock?",
     "personalization_type": "choice" as const,
@@ -2917,7 +2873,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "bb59679d-d891-4526-9a09-7e5d2077b3cf",
-    "area": "nutrition" as const,
     "summary": "Team up with a friend or group to share meal pics and wins.",
     "personalization_prompt": "Name your nutrition support squad:",
     "personalization_type": "text" as const,
@@ -2977,7 +2932,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "2540ea74-28a4-46da-a5c4-ca690b81d649",
-    "area": "nutrition" as const,
     "summary": "Keep a 7‑day food + symptom journal to spot your triggers and wins.",
     "personalization_prompt": "How will you track your food detective work?",
     "personalization_type": "choice" as const,
@@ -3039,7 +2993,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f34f055-f5d0-434a-94c4-7127415321f6",
-    "area": "nutrition" as const,
     "summary": "Find a healthier 'doppelganger' for your strongest craving.",
     "personalization_prompt": "What craving will you find a healthy twin for?",
     "personalization_type": "multi_text" as const,
@@ -3103,7 +3056,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "2a5cdbed-50a5-48ab-8ffe-253cb369d7bd",
-    "area": "nutrition" as const,
     "summary": "Boost omega‑3s with ground flax/chia or omega‑3 eggs if you skip fish.",
     "personalization_prompt": "How will you get your omega-3s today?",
     "personalization_type": "choice" as const,
@@ -3168,7 +3120,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "c8e87457-4618-4149-945b-204d8a9cf126",
-    "area": "nutrition" as const,
     "summary": "Find a healthy 'safe meal' you love—and repeat it.",
     "personalization_prompt": "What's your go-to safe meal that always sounds good?",
     "personalization_type": "text" as const,
@@ -3233,7 +3184,6 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "c3d4e5f6-f003-4003-b003-34567890abcd",
-    "area": "nutrition" as const,
     "summary": "Eat with your non-dominant hand to slow down.",
     "personalization_prompt": "Which meal will you try eating like a beginner (with your non-dominant hand)?",
     "personalization_type": "choice" as const,
@@ -3276,7 +3226,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "d4e5f6g7-f004-4004-b004-4567890abcde",
-    "area": "nutrition" as const,
     "summary": "Make healthy food visible and junk food invisible.",
     "personalization_prompt": "What healthy food will you showcase and what will you hide?",
     "personalization_type": "multi_text" as const,
@@ -3321,7 +3270,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "e5f6g7h8-f005-4005-b005-567890abcdef",
-    "area": "nutrition" as const,
     "summary": "Use smaller plates to trick your brain into feeling full.",
     "personalization_prompt": "Which meal will you try the smaller plate trick with?",
     "personalization_type": "choice" as const,
@@ -3364,7 +3312,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "f6g7h8i9-f006-4006-b006-67890abcdef0",
-    "area": "nutrition" as const,
     "summary": "Link drinking water to checking your phone.",
     "personalization_prompt": "What kind of phone checking activity will you pair with water?",
     "personalization_type": "text" as const,
@@ -3406,7 +3353,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "g7h8i9j0-f007-4007-b007-7890abcdef01",
-    "area": "nutrition" as const,
     "summary": "Add one healthy ingredient to every meal.",
     "personalization_prompt": "Pick your 'power-up' ingredients for today's meals:",
     "personalization_type": "multi_text" as const,
@@ -3452,7 +3398,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "h8i9j0k1-f008-4008-b008-890abcdef012",
-    "area": "nutrition" as const,
     "summary": "Use a spritz of water or vinegar to season popcorn.",
     "personalization_prompt": "Create your popcorn flavor adventure:",
     "personalization_type": "choice" as const,
@@ -3495,7 +3440,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "i9j0k1l2-f009-4009-b009-90abcdef0123",
-    "area": "nutrition" as const,
     "summary": "Make creamy 'ice cream' from frozen bananas.",
     "personalization_prompt": "What flavor will your nice cream be today?",
     "personalization_type": "choice" as const,
@@ -3538,7 +3482,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "j0k1l2m3-f010-4010-b010-0abcdef01234",
-    "area": "nutrition" as const,
     "summary": "Satisfy fast-food cravings with a smaller portion.",
     "personalization_prompt": "Which fast food item and what size will you get?",
     "personalization_type": "multi_text" as const,
@@ -3583,7 +3526,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "k1l2m3n4-f011-4011-b011-abcdef012345",
-    "area": "nutrition" as const,
     "summary": "Get a quick pizza fix with this low-carb bowl.",
     "personalization_prompt": "Build your pizza bowl toppings:",
     "personalization_type": "choice" as const,
@@ -3626,7 +3568,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "l2m3n4o5-f012-4012-b012-bcdef0123456",
-    "area": "nutrition" as const,
     "summary": "Turn a simple apple into a fun, decadent-tasting snack.",
     "personalization_prompt": "Design your apple snack masterpiece:",
     "personalization_type": "multi_text" as const,
@@ -3671,7 +3612,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "m3n4o5p6-f013-4013-b013-cdef01234567",
-    "area": "nutrition" as const,
     "summary": "Use a rotisserie chicken for fast, healthy protein all week.",
     "personalization_prompt": "What will you make with your rotisserie chicken this week?",
     "personalization_type": "choice" as const,
@@ -3719,7 +3659,6 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "b1c2d3e4-0011-4011-a011-234567890ab1",
-    "area": "nutrition" as const,
     "summary": "Boost your breakfast with protein.",
     "personalization_prompt": "Build your protein breakfast power-up:",
     "personalization_type": "choice" as const,
@@ -3762,7 +3701,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
 {
   "tip_id": "c2d3e4f5-0012-4012-a012-34567890ab12",
-    "area": "nutrition" as const,
   "summary": "Swap mayonnaise for Greek yogurt or mashed avocado.",
   "personalization_prompt": "Which mayo swap will you try in what dish?",
   "personalization_type": "multi_text" as const,
@@ -3807,7 +3745,6 @@ export const TIPS_DATABASE: Tip[] = [
 },
 {
   "tip_id": "d3e4f5g6-0013-4013-a013-4567890ab123",
-    "area": "nutrition" as const,
   "summary": "Swap sour cream for plain Greek yogurt or blended cottage cheese.",
   "personalization_prompt": "Pick your creamy topping upgrade:",
   "personalization_type": "choice" as const,
@@ -3850,7 +3787,6 @@ export const TIPS_DATABASE: Tip[] = [
 },
 {
   "tip_id": "e4f5g6h7-0014-4014-a014-567890ab1234",
-    "area": "nutrition" as const,
   "summary": "Swap potato chips for air-popped popcorn.",
   "personalization_prompt": "When's your chip craving time that you'll swap for popcorn?",
   "personalization_type": "choice" as const,
@@ -3893,7 +3829,6 @@ export const TIPS_DATABASE: Tip[] = [
 },
 {
   "tip_id": "f5g6h7i8-0015-4015-a015-67890ab12345",
-    "area": "nutrition" as const,
   "summary": "Swap ice cream for frozen grapes or 'nice cream'.",
   "personalization_prompt": "Create your frozen dessert strategy:",
   "personalization_type": "choice" as const,
@@ -3936,7 +3871,6 @@ export const TIPS_DATABASE: Tip[] = [
 },
 {
   "tip_id": "g6h7i8j9-0016-4016-a016-7890ab123456",
-    "area": "nutrition" as const,
   "summary": "Swap ground beef for 99% lean ground turkey.",
   "personalization_prompt": "Which ground beef dish will you make with turkey instead?",
   "personalization_type": "text" as const,
@@ -3978,7 +3912,6 @@ export const TIPS_DATABASE: Tip[] = [
 },
 {
   "tip_id": "h7i8j9k0-0017-4017-a017-890ab1234567",
-    "area": "nutrition" as const,
   "summary": "Reorganize your plate: ½ veggies, ¼ protein, ¼ whole grains.",
   "personalization_prompt": "Design your balanced plate for tonight:",
   "personalization_type": "multi_text" as const,
@@ -4022,7 +3955,6 @@ export const TIPS_DATABASE: Tip[] = [
 },
 {
   "tip_id": "i8j9k0l1-0018-4018-a018-90ab12345678",
-    "area": "nutrition" as const,
   "summary": "Brush your teeth right after dinner to prevent evening snacking.",
   "personalization_prompt": "What time will you brush to signal 'kitchen closed'?",
   "personalization_type": "text" as const,
@@ -6973,7 +6905,6 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000001",
-    "area": "nutrition" as const,
     "summary": "Give your craving a goofy name ('Sir Crunch‑a‑Lot').",
     "personalization_prompt": "What silly name will you give your craving?",
     "personalization_type": "text" as const,
@@ -7016,7 +6947,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000002",
-    "area": "nutrition" as const,
     "summary": "Threat→Challenge: 7‑word stress script.",
     "personalization_prompt": "Where will you post your stress script reminder?",
     "personalization_type": "choice" as const,
@@ -7056,7 +6986,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000003",
-    "area": "nutrition" as const,
     "summary": "HALT check on your fridge (Hungry, Angry, Lonely, Tired).",
     "personalization_prompt": "Where will you place your HALT reminder?",
     "personalization_type": "text" as const,
@@ -7094,7 +7023,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000004",
-    "area": "nutrition" as const,
     "summary": "'Broccoli Gatekeeper' test for true hunger.",
     "personalization_prompt": "What's your 'gatekeeper' food to test true hunger?",
     "personalization_type": "text" as const,
@@ -7132,7 +7060,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000005",
-    "area": "nutrition" as const,
     "summary": "20‑second stoplight body scan (Green/Yellow/Red).",
     "details_md": "**The Experiment:** Close eyes and check body tension: green (calm), yellow (tight), red (very tight).\n\n**Why it Works:** Links sensations to emotions so food isn’t used to numb.\n\n**How to Try It:**\n• Scan jaw/chest/stomach\n• Name the color, then pick a fitting tool (breath, text a friend)\n• Recheck color after",
     "contraindications": [],
@@ -7165,7 +7092,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000006",
-    "area": "nutrition" as const,
     "summary": "Hunger thermometer (1–10) before/during/after meals.",
     "personalization_prompt": "Create your hunger scale metaphor (1=starving, 10=stuffed). What's your 5-6?",
     "personalization_type": "text" as const,
@@ -7204,7 +7130,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000007",
-    "area": "nutrition" as const,
     "summary": "90‑second urge surf (watch the wave rise/fall).",
     "personalization_prompt": "What will you visualize during your 90-second craving surf?",
     "personalization_type": "choice" as const,
@@ -7243,7 +7168,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000008",
-    "area": "nutrition" as const,
     "summary": "Swap self‑criticism for curiosity (“What do I need?”).",
     "details_md": "**The Experiment:** Replace “no willpower” with “What do I actually need right now?”\n\n**Why it Works:** Self‑compassion lowers cortisol and opens problem‑solving.\n\n**How to Try It:**\n• Ask need: soothe, connect, rest, fuel?\n• Pick 1 matching action\n• Note outcome 0–10",
     "contraindications": [],
@@ -7276,7 +7200,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000009",
-    "area": "nutrition" as const,
     "summary": "Weather‑map your mood before meals.",
     "details_md": "**The Experiment:** Draw a sun/clouds/storm next to your meal note.\n\n**Why it Works:** Fast emotion ID prevents mislabeling feelings as hunger.\n\n**How to Try It:**\n• Mark the icon\n• Pick one matching coping tool if needed\n• Proceed to eat mindfully",
     "contraindications": [],
@@ -7309,7 +7232,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000010",
-    "area": "nutrition" as const,
     "summary": "Carry 3 If‑Then pocket plans.",
     "details_md": "**The Experiment:** Write: “If I feel __, then I’ll __ (non‑food).”\n\n**Why it Works:** Implementation intentions automate wise choices under stress.\n\n**How to Try It:**\n• Make 3 common If‑Then cards\n• Keep in wallet/phone\n• Use at first trigger",
     "contraindications": [],
@@ -7345,7 +7267,6 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000011",
-    "area": "nutrition" as const,
     "summary": "One‑song dance break.",
     "details_md": "**The Experiment:** Play one upbeat song and move however you like.\n\n**Why it Works:** Brief activity metabolizes stress hormones and boosts endorphins.\n\n**How to Try It:**\n• Hit play when a craving hits\n• Move until song ends\n• Re‑rate the urge",
     "contraindications": "Modify if you have pain or mobility limitations; choose gentle movements.",
@@ -7378,7 +7299,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000012",
-    "area": "nutrition" as const,
     "summary": "5‑minute reset walk (spot 5 colors/5 sounds).",
     "details_md": "**The Experiment:** Walk outside for 5–10 minutes, noticing colors and sounds.\n\n**Why it Works:** Movement + sensory focus interrupts the craving loop.\n\n**How to Try It:**\n• Step outside or hallway\n• Name 5 colors, 5 sounds\n• Re‑assess the urge",
     "contraindications": "Adjust for weather and mobility; indoor laps work.",
@@ -7411,7 +7331,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000013",
-    "area": "nutrition" as const,
     "summary": "Text‑a‑Buddy SOS (prewritten message).",
     "details_md": "**The Experiment:** Send: “Craving + stressed—2‑min chat?” to a support person.\n\n**Why it Works:** Connection activates reward without calories.\n\n**How to Try It:**\n• Save the template in Notes\n• Ask one friend to be on call\n• Keep it to 2–3 minutes",
     "contraindications": [],
@@ -7444,7 +7363,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000014",
-    "area": "nutrition" as const,
     "summary": "Hands‑Busy kit (stress ball, fidget, mini‑puzzle).",
     "details_md": "**The Experiment:** Keep 2–3 tactile items near snack zones.\n\n**Why it Works:** Redirects motor habits and buys time for urges to fade.\n\n**How to Try It:**\n• Place the kit by TV/desk\n• Use for 3–5 minutes when triggered\n• Then decide on food",
     "contraindications": [],
@@ -7477,7 +7395,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000015",
-    "area": "nutrition" as const,
     "summary": "Flavor‑bomb sugar‑free gum.",
     "details_md": "**The Experiment:** Chew a strong mint for 5 minutes when cravings pop.\n\n**Why it Works:** Oral stimulation + palate reset blunts hedonic pull.\n\n**How to Try It:**\n• Keep a pack in bag/desk\n• Chew during TV ads or post‑meal urges\n• Re‑assess after 5 min",
     "contraindications": "Sugar alcohols may cause GI upset; avoid if jaw/TMJ issues.",
@@ -7513,7 +7430,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000016",
-    "area": "nutrition" as const,
     "summary": "Box breathing 4‑4‑6.",
     "details_md": "**The Experiment:** Inhale 4, hold 4, exhale 6 for 10 breaths.\n\n**Why it Works:** Longer exhale activates the vagus nerve (calms HPA axis).\n\n**How to Try It:**\n• Sit tall, one hand on belly\n• Count silently\n• Re‑rate stress after",
     "contraindications": "Stop if dizzy; breathe comfortably if pregnant or with respiratory issues.",
@@ -7546,7 +7462,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000017",
-    "area": "nutrition" as const,
     "summary": "Ice‑cube grounding.",
     "details_md": "**The Experiment:** Hold an ice cube for ~30–45 seconds and notice sensations.\n\n**Why it Works:** Strong but safe sensory cue interrupts rumination/cravings.\n\n**How to Try It:**\n• Grab an ice cube\n• Track the sensation changing\n• Re‑assess your urge",
     "contraindications": "Skip if you have Raynaud’s or cold sensitivity.",
@@ -7579,7 +7494,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000018",
-    "area": "nutrition" as const,
     "summary": "Warm‑hands reset (2 minutes).",
     "details_md": "**The Experiment:** Rinse hands in warm water for ~2 minutes.\n\n**Why it Works:** Warmth cues parasympathetic calm and comfort.\n\n**How to Try It:**\n• Breathe slowly while warming hands\n• Feel shoulders drop\n• Re‑check urge",
     "contraindications": [],
@@ -7612,7 +7526,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000019",
-    "area": "nutrition" as const,
     "summary": "Two minutes with a pet.",
     "details_md": "**The Experiment:** Pet, play, or cuddle with an animal for ~2 minutes.\n\n**Why it Works:** Lowers cortisol and raises oxytocin—natural comfort.\n\n**How to Try It:**\n• Put phone down\n• Focus on touch/connection\n• Re‑assess craving",
     "contraindications": "Skip if allergic or animal is not receptive.",
@@ -7644,7 +7557,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000020",
-    "area": "nutrition" as const,
     "summary": "90‑second tidy sprint.",
     "details_md": "**The Experiment:** Set a timer and clear a small surface or drawer.\n\n**Why it Works:** Creating order restores control that stress eating mimics.\n\n**How to Try It:**\n• 90 seconds only\n• Count items to donate/trash\n• Re‑assess the urge",
     "contraindications": [],
@@ -7680,7 +7592,6 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000021",
-    "area": "nutrition" as const,
     "summary": "Snack speed‑bump (rubber band + note on lid).",
     "personalization_prompt": "What message will you write on your snack container to make you pause?",
     "personalization_type": "text" as const,
@@ -7718,7 +7629,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000022",
-    "area": "nutrition" as const,
     "summary": "Snack‑tray rule (plate it, sit at a table).",
     "personalization_prompt": "Where's your official 'snack zone' going to be?",
     "personalization_type": "choice" as const,
@@ -7757,7 +7667,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000023",
-    "area": "nutrition" as const,
     "summary": "Hydration‑only desk rule.",
     "details_md": "**The Experiment:** Only water/tea at your desk; all eating happens elsewhere.\n\n**Why it Works:** Breaks the work‑stress→snack association.\n\n**How to Try It:**\n• Put a water bottle at desk\n• Move snacks to kitchen\n• Add a desk “No food” note",
     "contraindications": [],
@@ -7793,7 +7702,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000024",
-    "area": "nutrition" as const,
     "summary": "Pantry shuffle (produce front & center).",
     "details_md": "**The Experiment:** Move fruit/veg to eye level; stash treats high/opaque.\n\n**Why it Works:** What’s visible is what’s eaten; cue management beats willpower.\n\n**How to Try It:**\n• Clear bowls for fruit\n• Opaque bins for treats\n• Label swaps: “See me, eat me”",
     "contraindications": [],
@@ -7826,7 +7734,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000025",
-    "area": "nutrition" as const,
     "summary": "“Kitchen Closed” evening ritual + brush teeth.",
     "details_md": "**The Experiment:** After dinner, lights off, counters wiped, tent card: “Kitchen Closed.” Brush teeth.\n\n**Why it Works:** Ritual creates a clear off‑switch and minty palate reset.\n\n**How to Try It:**\n• Set a nightly alarm\n• Do the 3‑step close\n• Keep mouthwash/toothbrush handy",
     "contraindications": "Alcohol mouthwash can irritate; choose alcohol‑free if sensitive.",
@@ -7861,7 +7768,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000026",
-    "area": "nutrition" as const,
     "summary": "Produce‑first cart (fill ⅓ before anything else).",
     "details_md": "**The Experiment:** At the store, fill the first third of your cart with produce.\n\n**Why it Works:** Anchoring bias nudges later choices healthier.\n\n**How to Try It:**\n• Shop perimeter first\n• Add grab‑ready veg/fruit\n• Then choose proteins/grains",
     "contraindications": [],
@@ -7893,7 +7799,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000027",
-    "area": "nutrition" as const,
     "summary": "Opaque decanting for treats; clear bowls for fruit.",
     "details_md": "**The Experiment:** Move treats to opaque bins; put fruit in clear bowls.\n\n**Why it Works:** Sight drives desire; manage cues to manage choices.\n\n**How to Try It:**\n• Label bins\n• Keep fruit washed/visible\n• Rotate weekly",
     "contraindications": [],
@@ -7925,7 +7830,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000028",
-    "area": "nutrition" as const,
     "summary": "Sunday bento‑style snack prep (single portions).",
     "details_md": "**The Experiment:** Pre‑portion snacks into small containers for the week.\n\n**Why it Works:** Built‑in stop signals fight mindless seconds.\n\n**How to Try It:**\n• Prep 5–10 portions\n• Include protein/fiber options\n• Stack at eye level",
     "contraindications": [],
@@ -7960,7 +7864,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000029",
-    "area": "nutrition" as const,
     "summary": "App hibernation week (offload food delivery apps).",
     "details_md": "**The Experiment:** Offload/hide delivery apps for 7 days.\n\n**Why it Works:** Extra clicks add just enough friction to interrupt impulses.\n\n**How to Try It:**\n• Move apps into a folder or offload\n• Keep a simple meal plan handy\n• Re‑install after the week if desired",
     "contraindications": [],
@@ -7992,7 +7895,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000030",
-    "area": "nutrition" as const,
     "summary": "Post‑meal shopping rule.",
     "details_md": "**The Experiment:** Only grocery shop after eating.\n\n**Why it Works:** Lowers hunger‑driven hedonic purchases.\n\n**How to Try It:**\n• Add to calendar notes\n• Keep a standing list\n• Eat a small snack before unexpected runs",
     "contraindications": [],
@@ -8027,7 +7929,6 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000031",
-    "area": "nutrition" as const,
     "summary": "Chopsticks challenge (or tiny fork).",
     "details_md": "**The Experiment:** Eat a meal/snack with chopsticks or a tiny fork.\n\n**Why it Works:** Disrupts autopilot and slows bites so satiety can register.\n\n**How to Try It:**\n• Use for the whole portion\n• Put down between bites\n• Notice flavor changes",
     "contraindications": [],
@@ -8060,7 +7961,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000032",
-    "area": "nutrition" as const,
     "summary": "Silent first minute of every meal.",
     "details_md": "**The Experiment:** Eat the first 60 seconds without talking or screens.\n\n**Why it Works:** Heightens sensory cues and early satisfaction.\n\n**How to Try It:**\n• Start in silence\n• Notice aroma/texture\n• Decide pace after 1 minute",
     "contraindications": [],
@@ -8093,7 +7993,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000033",
-    "area": "nutrition" as const,
     "summary": "Photo‑pause halfway through the meal.",
     "details_md": "**The Experiment:** Snap a quick plate photo at the halfway point.\n\n**Why it Works:** Visual pause interrupts momentum eating and rechecks hunger.\n\n**How to Try It:**\n• Set a halfway timer\n• Take one photo\n• Ask: do I need more?",
     "contraindications": [],
@@ -8126,7 +8025,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000034",
-    "area": "nutrition" as const,
     "summary": "Eat with your non‑dominant hand.",
     "details_md": "**The Experiment:** Use your non‑dominant hand for a full snack/meal.\n\n**Why it Works:** Disrupts conditioned motor patterns, slowing intake.\n\n**How to Try It:**\n• Commit for the entire portion\n• Put utensil down between bites\n• Notice speed shift",
     "contraindications": [],
@@ -8158,7 +8056,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000035",
-    "area": "nutrition" as const,
     "summary": "First‑bite spotlight.",
     "details_md": "**The Experiment:** Give the first bite total attention and rate it 1–10.\n\n**Why it Works:** Reward is front‑loaded; savoring increases satisfaction with less.\n\n**How to Try It:**\n• Close eyes for first bite\n• Name 3 flavor notes\n• Decide slow pace",
     "contraindications": [],
@@ -8190,7 +8087,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000036",
-    "area": "nutrition" as const,
     "summary": "Crunch‑swap board (post 6 crunchy alternatives).",
     "personalization_prompt": "Build your 'Crunch Squad' - pick your top 6 crunchy alternatives:",
     "personalization_type": "choice" as const,
@@ -8231,7 +8127,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000037",
-    "area": "nutrition" as const,
     "summary": "Aroma anchor (3 slow breaths over food).",
     "personalization_prompt": "What mantra will you think during your 3 pre-meal breaths?",
     "personalization_type": "text" as const,
@@ -8268,7 +8163,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000038",
-    "area": "nutrition" as const,
     "summary": "Two‑minute fork‑down timer.",
     "details_md": "**The Experiment:** Every 2 minutes, utensils down until the chime.\n\n**Why it Works:** Built‑in pauses let fullness signals catch up.\n\n**How to Try It:**\n• Set a soft timer\n• Utensils down on each chime\n• Re‑rate hunger mid‑meal",
     "contraindications": [],
@@ -8301,7 +8195,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000039",
-    "area": "nutrition" as const,
     "summary": "Taste talk in your head.",
     "details_md": "**The Experiment:** Silently name flavors/textures during the meal.\n\n**Why it Works:** Keeps attention on eating vs. scrolling; boosts satisfaction.\n\n**How to Try It:**\n• Name 3 sensations per bite\n• Pause if distracted\n• Re‑rate fullness at 70%",
     "contraindications": [],
@@ -8333,7 +8226,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000040",
-    "area": "nutrition" as const,
     "summary": "Minty full‑stop after planned last bite.",
     "details_md": "**The Experiment:** Brush, floss, or swish mouthwash right after you finish.\n\n**Why it Works:** Mint signals “eating is done” and reduces dessert grazing.\n\n**How to Try It:**\n• Keep kit near table\n• Do it immediately\n• Close kitchen",
     "contraindications": "Choose alcohol‑free mouthwash if sensitive; wait 30 minutes before brushing after acidic foods.",
@@ -8371,7 +8263,6 @@ export const TIPS_DATABASE: Tip[] = [
 
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000041",
-    "area": "nutrition" as const,
     "summary": "Big glass first (12–16 oz water).",
     "details_md": "**The Experiment:** Drink a full glass of water before any unplanned snack.\n\n**Why it Works:** Thirst is often misread as hunger; volume supports fullness.\n\n**How to Try It:**\n• Keep a filled bottle nearby\n• Sip steadily, wait 10 minutes\n• Re‑assess urge",
     "contraindications": "Adjust if you are on a fluid‑restricted plan.",
@@ -8404,7 +8295,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000042",
-    "area": "nutrition" as const,
     "summary": "Protein‑first bite.",
     "details_md": "**The Experiment:** Take your first bite from a protein source.\n\n**Why it Works:** Protein blunts glucose swings that drive cravings.\n\n**How to Try It:**\n• Lead with eggs, yogurt, beans, fish or tofu\n• Then mix the rest\n• Pause halfway to re‑rate hunger",
     "contraindications": [],
@@ -8437,7 +8327,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000043",
-    "area": "nutrition" as const,
     "summary": "Veggie starter (cup of crunchy veg/soup first).",
     "details_md": "**The Experiment:** Begin meals with a cup of veg or broth‑based soup.\n\n**Why it Works:** Fiber/volume increase satiety and slow pace.\n\n**How to Try It:**\n• Keep pre‑cut veg ready\n• Plate starter first\n• Eat mindfully before mains",
     "contraindications": [],
@@ -8471,7 +8360,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000044",
-    "area": "nutrition" as const,
     "summary": "Omega‑3 boost today.",
     "details_md": "**The Experiment:** Add one omega‑3 source (salmon, sardines, chia, walnuts).\n\n**Why it Works:** Omega‑3s support mood regulation and may reduce anxiety‑driven urges.\n\n**How to Try It:**\n• Swap in salmon or sprinkle chia\n• Log mood/urge 0–10 after meals\n• Repeat 2–3×/week",
     "contraindications": "Fish/shellfish allergy; consult your clinician if on blood thinners.",
@@ -8504,7 +8392,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000045",
-    "area": "nutrition" as const,
     "summary": "Ferment‑a‑day (yogurt, kefir, kimchi, sauerkraut).",
     "details_md": "**The Experiment:** Include one fermented food today.\n\n**Why it Works:** A healthy microbiome supports mood and cravings via the gut–brain axis.\n\n**How to Try It:**\n• Add plain yogurt to breakfast\n• Top bowls with kimchi\n• Note mood/urge changes",
     "contraindications": "Consider histamine intolerance, active reflux, or GI sensitivities.",
@@ -8537,7 +8424,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000046",
-    "area": "nutrition" as const,
     "summary": "Warm mug ritual at night (herbal).",
     "details_md": "**The Experiment:** Replace dessert grazing with a warm herbal drink.\n\n**Why it Works:** Warmth soothes the nervous system and provides comfort without a sugar spike.\n\n**How to Try It:**\n• Pick chamomile/peppermint/rooibos\n• Sit while you sip\n• Start 30–60 min before bed",
     "contraindications": "Choose caffeine‑free varieties at night; consider reflux triggers.",
@@ -8572,7 +8458,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000047",
-    "area": "nutrition" as const,
     "summary": "Sleep guardrails (reverse alarm + dim lights).",
     "details_md": "**The Experiment:** Set an alarm 45 minutes before bed to start wind‑down.\n\n**Why it Works:** Better sleep improves ghrelin/leptin balance and trims next‑day cravings.\n\n**How to Try It:**\n• Dim lights\n• Screens off\n• Light stretch or reading",
     "contraindications": [],
@@ -8604,7 +8489,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000048",
-    "area": "nutrition" as const,
     "summary": "Shell‑game snack (pistachios in shell or edamame in pod).",
     "details_md": "**The Experiment:** Choose an effortful snack with built‑in pauses.\n\n**Why it Works:** Slows pace and makes amounts visible, aiding satiety.\n\n**How to Try It:**\n• Portion into a small bowl\n• Keep shells/pods visible\n• Pair with water",
     "contraindications": "Allergy to nuts/soy; mind choking risk for small children.",
@@ -8639,7 +8523,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000049",
-    "area": "nutrition" as const,
     "summary": "Mocktail hour (sparkling water + citrus) in a fancy glass.",
     "details_md": "**The Experiment:** Make a zero‑alcohol, bubbly drink for evening ritual.\n\n**Why it Works:** Satisfies hand‑to‑mouth and ‘treat’ cues without sugar/fat.\n\n**How to Try It:**\n• Sparkling water + citrus/herbs\n• Sit to sip\n• Pair with kitchen‑closed card",
     "contraindications": "Citrus may aggravate reflux; use gentler flavors if needed.",
@@ -8674,7 +8557,6 @@ export const TIPS_DATABASE: Tip[] = [
   },
   {
     "tip_id": "9f8a7b6c-1234-4abc-9def-000000000050",
-    "area": "nutrition" as const,
     "summary": "Sunshine microdose (3–5 minutes midday).",
     "details_md": "**The Experiment:** Get outside for a few minutes of daylight.\n\n**Why it Works:** Supports circadian rhythm and mood, lowering stress‑driven appetite.\n\n**How to Try It:**\n• Step out after lunch\n• Look at the horizon (not the sun)\n• Take 5 slow breaths",
     "contraindications": "Use sun protection as appropriate.",
@@ -8751,154 +8633,6 @@ export const TIPS_DATABASE: Tip[] = [
     cognitive_load: 3,
     helps_with: ['speed_eating', 'mindless_eating', 'portion_control'],
     sustainability: 'daily_habit'
-  },
-
-  // Organization tips
-  {
-    tip_id: "11111111-1111-4111-8111-111111111001",
-    area: "organization" as const,
-    summary: "Do a 10‑minute Clutter Audit + 'Why' Statement.",
-    personalization_prompt: "What 3 reasons make being organized worth it for you?",
-    personalization_type: "multi_text" as const,
-    personalization_config: {
-      items: [
-        { label: "Reason 1", placeholder: "e.g., Less morning stress" },
-        { label: "Reason 2", placeholder: "e.g., Easier to focus" },
-        { label: "Reason 3", placeholder: "e.g., Ready for guests" }
-      ]
-    },
-    details_md: "**The Experiment:** Walk through your space for 10 minutes noting stress points. Write a one‑sentence 'Why I want to be organized.'\n\n**Why it Works:** Naming *why* increases motivation and persistence; awareness reduces avoidance and guides effort.\n\n**How to Try It:**\n• Set a 10‑min timer and list 3 clutter hotspots\n• Write your one‑sentence 'why'\n• Post it where you'll see it daily",
-    contraindications: [],
-    goal_tags: ["declutter", "motivation"],
-    tip_type: ["mindset_shift", "assessment"],
-    motivational_mechanism: ["identity", "mastery"],
-    time_cost_enum: "0_5_min",
-    money_cost_enum: "$",
-    mental_effort: 2,
-    physical_effort: 1,
-    location_tags: ["home", "work"],
-    social_mode: "solo",
-    time_of_day: ["any"],
-    cue_context: ["overwhelm"],
-    difficulty_tier: 1,
-    created_by: "coach_curated",
-    chaos_level_max: 5,
-    requires_planning: false,
-    impulse_friendly: true,
-    cognitive_load: 2
-  },
-  {
-    tip_id: "11111111-1111-4111-8111-111111111002",
-    area: "organization" as const,
-    summary: "Create a One‑Page Organizing Vision.",
-    personalization_prompt: "Describe your ideal room/desk and how it should feel.",
-    personalization_type: "text" as const,
-    personalization_config: {
-      placeholder: "e.g., Clear desk, only laptop + notebook; calm, easy to focus"
-    },
-    details_md: "**The Experiment:** Draft a short description or mini vision board of your ideal space.\n\n**Why it Works:** A concrete target improves planning and effort; it also guides what to keep vs. let go.\n\n**How to Try It:**\n• Write a 3–5 sentence vision\n• Add 1–2 photos (optional)\n• Pick one area to align with that vision this week",
-    contraindications: [],
-    goal_tags: ["declutter", "organize_home", "organize_workspace"],
-    tip_type: ["planning_ahead", "mindset_shift"],
-    motivational_mechanism: ["identity", "mastery"],
-    time_cost_enum: "5_15_min",
-    money_cost_enum: "$",
-    mental_effort: 2,
-    physical_effort: 1,
-    location_tags: ["home", "work"],
-    social_mode: "solo",
-    time_of_day: ["any"],
-    cue_context: ["new_project"],
-    difficulty_tier: 1,
-    created_by: "coach_curated",
-    chaos_level_max: 5,
-    requires_planning: false,
-    impulse_friendly: true,
-    cognitive_load: 2
-  },
-  {
-    tip_id: "11111111-1111-4111-8111-111111111003",
-    area: "organization" as const,
-    summary: "The 1‑Touch Rule: Don't put it down, put it away.",
-    personalization_prompt: "Which room will you practice the 1-Touch Rule in today?",
-    personalization_type: "text" as const,
-    personalization_config: {
-      placeholder: "e.g., Kitchen, bedroom, or office"
-    },
-    details_md: "**The Experiment:** For one day, when you pick something up, put it directly in its home—not on the counter or floor.\n\n**Why it Works:** Eliminates double‑handling and prevents pile‑ups; it's a tiny habit with compounding benefits.\n\n**How to Try It:**\n• Start with one room or area\n• Each time you grab something, put it away immediately\n• Notice how much cleaner the space stays",
-    contraindications: [],
-    goal_tags: ["declutter"],
-    tip_type: ["habit_stacking"],
-    motivational_mechanism: ["decision_ease", "mastery"],
-    time_cost_enum: "0_5_min",
-    money_cost_enum: "$",
-    mental_effort: 2,
-    physical_effort: 1,
-    location_tags: ["home", "work"],
-    social_mode: "either",
-    time_of_day: ["any"],
-    difficulty_tier: 2,
-    created_by: "coach_curated",
-    chaos_level_max: 4,
-    requires_planning: false,
-    impulse_friendly: true,
-    cognitive_load: 2
-  },
-  {
-    tip_id: "11111111-1111-4111-8111-111111111004",
-    area: "organization" as const,
-    summary: "The 2‑Minute Pick‑Up: Clear one surface completely.",
-    personalization_prompt: "Which surface drives you crazy when it's cluttered?",
-    personalization_type: "text" as const,
-    personalization_config: {
-      placeholder: "e.g., Kitchen counter, desk, coffee table"
-    },
-    details_md: "**The Experiment:** Set a 2‑minute timer and clear ONE surface entirely—counter, desk, or table.\n\n**Why it Works:** Creates immediate visual calm and proves you can make progress quickly.\n\n**How to Try It:**\n• Pick your most annoying cluttered surface\n• Set timer for 2 minutes\n• Put everything away or in a temporary basket\n• Enjoy the clear space!",
-    contraindications: [],
-    goal_tags: ["declutter"],
-    tip_type: ["environment_design"],
-    motivational_mechanism: ["sensory", "mastery"],
-    time_cost_enum: "0_5_min",
-    money_cost_enum: "$",
-    mental_effort: 1,
-    physical_effort: 2,
-    location_tags: ["home", "work"],
-    social_mode: "either",
-    time_of_day: ["any"],
-    difficulty_tier: 1,
-    created_by: "coach_curated",
-    chaos_level_max: 5,
-    requires_planning: false,
-    impulse_friendly: true,
-    cognitive_load: 1
-  },
-  {
-    tip_id: "11111111-1111-4111-8111-111111111005",
-    area: "organization" as const,
-    summary: "Paper Triage: Sort into Action, Archive, or Toss.",
-    personalization_prompt: "Where does paper pile up most in your space?",
-    personalization_type: "text" as const,
-    personalization_config: {
-      placeholder: "e.g., Kitchen counter, desk drawer, entryway"
-    },
-    details_md: "**The Experiment:** Gather all loose papers and sort into 3 piles: Action (do something), Archive (keep), Toss (recycle).\n\n**Why it Works:** Most paper clutter is delayed decisions; this system forces quick choices.\n\n**How to Try It:**\n• Collect all visible papers\n• Sort quickly - don't read everything\n• Toss/recycle immediately\n• Put Action items in one folder\n• File or scan Archive items",
-    contraindications: [],
-    goal_tags: ["paper_clutter", "organize_home", "organize_workspace"],
-    tip_type: ["planning_ahead", "environment_design"],
-    motivational_mechanism: ["decision_ease", "relief"],
-    time_cost_enum: "15_60_min",
-    money_cost_enum: "$",
-    mental_effort: 3,
-    physical_effort: 2,
-    location_tags: ["home", "work"],
-    social_mode: "solo",
-    time_of_day: ["any"],
-    difficulty_tier: 3,
-    created_by: "coach_curated",
-    chaos_level_max: 3,
-    requires_planning: false,
-    impulse_friendly: false,
-    cognitive_load: 3
   }
 ];
 

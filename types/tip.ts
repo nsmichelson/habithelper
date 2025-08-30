@@ -1,3 +1,5 @@
+export type TipArea = 'nutrition' | 'fitness' | 'stress' | 'organization';
+
 export type MedicalContraindication = 
   | 'pregnancy'
   | 'breastfeeding'
@@ -18,6 +20,7 @@ export type MedicalContraindication =
   | 'disabled_swallowing';
 
 export type GoalTag = 
+  // Nutrition goals
   | 'weight_loss'
   | 'muscle_gain'
   | 'reduce_sugar'
@@ -31,7 +34,17 @@ export type GoalTag =
   | 'healthy_pregnancy'
   | 'improve_energy'
   | 'lower_blood_pressure'
-  | 'improve_gut_health';
+  | 'improve_gut_health'
+  | 'reduce_nausea'
+  | 'increase_hydration'
+  // Organization goals
+  | 'declutter'
+  | 'organize_home'
+  | 'organize_workspace'
+  | 'paper_clutter'
+  | 'motivation'
+  // Will add fitness and stress goals later
+  ;
 
 export type TipType = 
   | 'healthy_swap'
@@ -43,7 +56,11 @@ export type TipType =
   | 'habit_stacking'
   | 'time_ritual'
   | 'mood_regulation'
-  | 'self_monitoring';
+  | 'self_monitoring'
+  | 'assessment'
+  | 'symptom_management'
+  | 'meal_prep'
+  | 'behavioral_strategy';
 
 export type MotivationalMechanism = 
   | 'sensory'
@@ -52,7 +69,10 @@ export type MotivationalMechanism =
   | 'mastery'
   | 'decision_ease'
   | 'comfort'
-  | 'energy_boost';
+  | 'energy_boost'
+  | 'identity'
+  | 'convenience'
+  | 'relief';
 
 export type TimeCost = '0_5_min' | '5_15_min' | '15_60_min' | '>60_min';
 export type MoneyCost = '$' | '$$' | '$$$';
@@ -128,20 +148,21 @@ export type SubstitutionQuality = 'exact_match' | 'close_enough' | 'different_bu
 
 export interface Tip {
   tip_id: string;
+  area: TipArea; // NEW: Which area this tip belongs to
   summary: string;
   details_md: string;
-  contraindications: MedicalContraindication[];
-  goal_tags: GoalTag[];
-  tip_type: TipType[];
-  motivational_mechanism: MotivationalMechanism[];
+  contraindications: MedicalContraindication[] | string[]; // Allow string[] for organization tips
+  goal_tags: GoalTag[] | string[]; // Allow string[] for flexibility
+  tip_type: TipType[] | string[]; // Allow string[] for flexibility
+  motivational_mechanism: MotivationalMechanism[] | string[]; // Allow string[] for flexibility
   time_cost_enum: TimeCost;
   money_cost_enum: MoneyCost;
   mental_effort: number; // 1-5
   physical_effort: number; // 1-5
-  location_tags: LocationTag[];
-  social_mode: SocialMode;
-  time_of_day: TimeOfDay[];
-  cue_context?: CueContext[];
+  location_tags: LocationTag[] | string[]; // Allow string[] for flexibility
+  social_mode: SocialMode | string; // Allow string for flexibility
+  time_of_day: TimeOfDay[] | string[]; // Allow string[] for flexibility
+  cue_context?: CueContext[] | string[]; // Allow string[] for flexibility
   difficulty_tier: number; // 1-5
   created_by: ContentSource;
   
@@ -243,6 +264,9 @@ export interface UserProfile {
   id: string;
   created_at: Date;
   onboarding_completed: boolean;
+  
+  // Areas of interest
+  areas_of_interest?: TipArea[]; // Which areas the user wants tips for
   
   // Medical conditions
   medical_conditions: MedicalContraindication[];
