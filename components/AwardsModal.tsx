@@ -12,13 +12,13 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Award, AwardProgress } from '../types/awards';
 import AwardCard from './AwardCard';
-import { AWARDS_DATABASE } from '../data/awards';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface AwardsModalProps {
   visible: boolean;
   onClose: () => void;
+  allAwards: Award[];
   earnedAwards: Award[];
   awardProgress: AwardProgress[];
   newAwardIds?: string[];
@@ -29,6 +29,7 @@ type TabType = 'all' | 'earned' | 'progress';
 export default function AwardsModal({
   visible,
   onClose,
+  allAwards,
   earnedAwards,
   awardProgress,
   newAwardIds = [],
@@ -44,14 +45,14 @@ export default function AwardsModal({
       
       case 'progress':
         const progressIds = awardProgress.map(p => p.awardId);
-        return AWARDS_DATABASE.filter(a => 
+        return allAwards.filter(a => 
           progressIds.includes(a.id) && !earnedIds.includes(a.id)
         );
       
       case 'all':
       default:
         // Show all non-secret awards, earned first
-        const visibleAwards = AWARDS_DATABASE.filter(a => !a.isSecret);
+        const visibleAwards = allAwards.filter(a => !a.isSecret);
         const earned = visibleAwards.filter(a => earnedIds.includes(a.id));
         const unearned = visibleAwards.filter(a => !earnedIds.includes(a.id));
         return [...earned, ...unearned];
@@ -60,7 +61,7 @@ export default function AwardsModal({
 
   const filteredAwards = getFilteredAwards();
   const earnedCount = earnedAwards.length;
-  const totalCount = AWARDS_DATABASE.filter(a => !a.isSecret).length;
+  const totalCount = allAwards.filter(a => !a.isSecret).length;
 
   const getCategoryIcon = (category: string) => {
     switch (category) {

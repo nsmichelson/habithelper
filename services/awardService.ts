@@ -208,6 +208,15 @@ class AwardService {
       
       default:
         // Default count (e.g., total experiments)
+        // For milestone awards, count completed experiments (not just "try_it")
+        if (award.category === 'milestone') {
+          const completedCount = dailyTips.filter(t => 
+            t.user_response === 'try_it' && 
+            (t.evening_check_in || (t.quick_completions && t.quick_completions.length > 0))
+          ).length;
+          return completedCount >= award.criteria.value;
+        }
+        // For other awards, count tried experiments
         const triedCount = dailyTips.filter(t => t.user_response === 'try_it').length;
         return triedCount >= award.criteria.value;
     }
@@ -411,7 +420,15 @@ class AwardService {
             dailyTips.filter(t => t.user_response === 'try_it').map(t => t.tip_id)
           ).size;
         } else {
-          count = dailyTips.filter(t => t.user_response === 'try_it').length;
+          // For milestone awards, count completed experiments
+          if (award.category === 'milestone') {
+            count = dailyTips.filter(t => 
+              t.user_response === 'try_it' && 
+              (t.evening_check_in || (t.quick_completions && t.quick_completions.length > 0))
+            ).length;
+          } else {
+            count = dailyTips.filter(t => t.user_response === 'try_it').length;
+          }
         }
         
         return { current: count, target };

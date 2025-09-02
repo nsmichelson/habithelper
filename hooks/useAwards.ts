@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Award, UserAward, AwardProgress } from '../types/awards';
+import { AWARDS_DATABASE } from '../data/awards';
 import AwardService from '../services/awardService';
 import * as Haptics from 'expo-haptics';
 
 export function useAwards() {
   const [earnedAwards, setEarnedAwards] = useState<Award[]>([]);
+  const [allAwards] = useState<Award[]>(AWARDS_DATABASE); // All awards from database
   const [newAwards, setNewAwards] = useState<Award[]>([]);
   const [awardProgress, setAwardProgress] = useState<AwardProgress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -72,6 +74,7 @@ export function useAwards() {
 
   return {
     earnedAwards,
+    allAwards,
     newAwards,
     awardProgress,
     isLoading,

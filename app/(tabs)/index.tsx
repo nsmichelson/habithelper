@@ -136,7 +136,7 @@ export default function HomeScreen() {
   const [newAward, setNewAward] = useState<any>(null);
   
   // Awards hooks
-  const { earnedAwards, newAwards, awardProgress, checkForNewAwards, markAwardsSeen } = useAwards();
+  const { earnedAwards, allAwards, newAwards, awardProgress, checkForNewAwards, markAwardsSeen } = useAwards();
   const { checkAfterTipResponse, checkAfterCheckIn } = useAwardTrigger();
   const [showTestCalendar, setShowTestCalendar] = useState(false);
   const [showIdentityBuilder, setShowIdentityBuilder] = useState(false);
@@ -753,6 +753,14 @@ export default function HomeScreen() {
       ...dailyTip,
       quick_completions: updatedCompletions,
     });
+    
+    // Check for new awards after completing
+    setTimeout(async () => {
+      const newlyEarnedAwards = await checkForNewAwards();
+      if (newlyEarnedAwards.length > 0) {
+        setNewAward(newlyEarnedAwards[0]);
+      }
+    }, 500);
 
     // Show a brief celebration with feedback-specific message
     Alert.alert(
@@ -893,6 +901,7 @@ export default function HomeScreen() {
       <AwardsModal
         visible={showAwardsModal}
         onClose={() => setShowAwardsModal(false)}
+        allAwards={allAwards}
         earnedAwards={earnedAwards}
         awardProgress={awardProgress}
         newAwardIds={newAwards.map(a => a.id)}
