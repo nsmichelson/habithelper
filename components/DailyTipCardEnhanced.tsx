@@ -294,7 +294,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           <View style={styles.allGoalsSection}>
             <Text style={styles.allGoalsTitle}>THIS TIP HELPS WITH:</Text>
             <View style={styles.goalsGrid}>
-              {tip.goal_tags.map(goal => {
+              {[...new Set(tip.goal_tags)].map((goal, index) => {
                 const isUserGoal = relevantGoals.includes(goal);
                 return (
                   <View 
