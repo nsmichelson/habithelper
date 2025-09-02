@@ -29,9 +29,13 @@ import RejectedTipView from '@/components/RejectedTipView';
 import TipHistoryModal from '@/components/TipHistoryModal';
 import TestDataCalendar from '@/components/TestDataCalendar';
 import IdentityQuizStep from '@/components/quiz/IdentityQuizStep';
+import AwardsModal from '@/components/AwardsModal';
+import AwardNotification from '@/components/AwardNotification';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
+import AwardService from '@/services/awardService';
+import { useAwards, useAwardTrigger } from '@/hooks/useAwards';
 import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete, Tip } from '@/types/tip';
 import { getTipById } from '@/data/tips';
 import { format } from 'date-fns';
@@ -128,6 +132,12 @@ export default function HomeScreen() {
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
   const [showHeaderStats, setShowHeaderStats] = useState(false); // Start with hidden to see the difference
+  const [showAwardsModal, setShowAwardsModal] = useState(false);
+  const [newAward, setNewAward] = useState<any>(null);
+  
+  // Awards hooks
+  const { earnedAwards, newAwards, awardProgress, checkForNewAwards, markAwardsSeen } = useAwards();
+  const { checkAfterTipResponse, checkAfterCheckIn } = useAwardTrigger();
   const [showTestCalendar, setShowTestCalendar] = useState(false);
   const [showIdentityBuilder, setShowIdentityBuilder] = useState(false);
   const [recentlySurfacedSavedIds, setRecentlySurfacedSavedIds] = useState<string[]>([]);
@@ -394,6 +404,14 @@ export default function HomeScreen() {
       console.log('INDEX.TSX - handleTipResponse END for try_it');
       console.log('==========================================');
       // Don't show alert - the ExperimentMode component will handle the celebration
+      
+      // Check for new awards after responding
+      setTimeout(async () => {
+        const newlyEarnedAwards = await checkForNewAwards();
+        if (newlyEarnedAwards.length > 0) {
+          setNewAward(newlyEarnedAwards[0]);
+        }
+      }, 1000);
     } else if (response === 'maybe_later') {
       // Create a snooze attempt for the recommendation algorithm
       const snoozeAttempt: TipAttempt = {
@@ -756,6 +774,14 @@ export default function HomeScreen() {
 
   const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
     if (!dailyTip || !currentTip) return;
+    
+    // Check for new awards after check-in
+    setTimeout(async () => {
+      const newlyEarnedAwards = await checkForNewAwards();
+      if (newlyEarnedAwards.length > 0) {
+        setNewAward(newlyEarnedAwards[0]);
+      }
+    }, 1000);
 
     const hasQuickCompletion = dailyTip.quick_completions && dailyTip.quick_completions.length > 0;
 
@@ -861,6 +887,28 @@ export default function HomeScreen() {
         onClose={() => setShowHistoryModal(false)}
         title={modalTitle}
         tips={modalTips}
+      />
+      
+      {/* Awards Modal */}
+      <AwardsModal
+        visible={showAwardsModal}
+        onClose={() => setShowAwardsModal(false)}
+        earnedAwards={earnedAwards}
+        awardProgress={awardProgress}
+        newAwardIds={newAwards.map(a => a.id)}
+      />
+      
+      {/* Award Notification */}
+      <AwardNotification
+        award={newAward}
+        visible={!!newAward}
+        onClose={() => {
+          if (newAward) {
+            markAwardsSeen([newAward.id]);
+          }
+          setNewAward(null);
+        }}
+        onViewAwards={() => setShowAwardsModal(true)}
       />
       
       {/* Test Data Calendar - Dev Only */}
@@ -1154,6 +1202,19 @@ export default function HomeScreen() {
                    (t.quick_completions?.some(c => c.quick_note === 'worked_great') || t.evening_check_in === 'went_great')) ? 1 : 0)}
               </Text>
               <Text style={styles.statLabel}>Loved</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.statCard, styles.awardsCard]}
+              onPress={() => setShowAwardsModal(true)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.statNumber}>🏆</Text>
+              <Text style={styles.statLabel}>{earnedAwards.length}</Text>
+              {newAwards.length > 0 && (
+                <View style={styles.newBadge}>
+                  <Text style={styles.newBadgeText}>{newAwards.length}</Text>
+                </View>
+              )}
             </TouchableOpacity>
           </View>
           )}
@@ -1648,6 +1709,26 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
+    position: 'relative',
+  },
+  awardsCard: {
+    position: 'relative',
+  },
+  newBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: '#FF6B35',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  newBadgeText: {
+    color: '#FFF',
+    fontSize: 10,
+    fontWeight: '700',
   },
   statNumber: {
     fontSize: 24,

@@ -356,6 +356,7 @@ export interface DailyTip {
   id: string;
   user_id: string;
   tip_id: string;
+  area?: TipArea; // Which area this tip belongs to
   presented_date: Date;
   user_response?: 'try_it' | 'not_interested' | 'maybe_later';
   responded_at?: Date;
