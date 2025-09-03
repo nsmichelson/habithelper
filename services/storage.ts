@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserProfile, DailyTip, TipAttempt } from '../types/tip';
 import { QuizResponse } from '../types/quiz';
+import AwardService from './awardService';
 
 const STORAGE_KEYS = {
   USER_PROFILE: '@HabitHelper:userProfile',
@@ -273,6 +274,8 @@ class StorageService {
   async clearAllData(): Promise<void> {
     try {
       await AsyncStorage.multiRemove(Object.values(STORAGE_KEYS));
+      // Also clear awards
+      await AwardService.clearAllAwards();
     } catch (error) {
       console.error('Error clearing all data:', error);
       throw error;

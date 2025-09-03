@@ -30,7 +30,7 @@ import TipHistoryModal from '@/components/TipHistoryModal';
 import TestDataCalendar from '@/components/TestDataCalendar';
 import IdentityQuizStep from '@/components/quiz/IdentityQuizStep';
 import AwardsModal from '@/components/AwardsModal';
-import AwardNotification from '@/components/AwardNotification';
+import AwardBanner from '@/components/AwardBanner';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -146,6 +146,19 @@ export default function HomeScreen() {
   useEffect(() => {
     initializeApp();
   }, []);
+
+  // Dev function to completely reset all data
+  const resetAllDataIncludingAwards = async () => {
+    console.log('Resetting ALL data including awards...');
+    await StorageService.clearAllData(); // This now includes awards
+    await AwardService.clearAllAwards(); // Double-check awards are cleared
+    console.log('All data cleared, reloading app...');
+    setLoading(true);
+    setUserProfile(null);
+    setDailyTip(null);
+    setCurrentTip(null);
+    await initializeApp();
+  };
 
   const initializeApp = async () => {
     try {
@@ -407,8 +420,11 @@ export default function HomeScreen() {
       
       // Check for new awards after responding
       setTimeout(async () => {
+        console.log('Checking for new awards after try_it response...');
         const newlyEarnedAwards = await checkForNewAwards();
+        console.log('Awards found after try_it:', newlyEarnedAwards);
         if (newlyEarnedAwards.length > 0) {
+          console.log('Setting newAward state for banner:', newlyEarnedAwards[0]);
           setNewAward(newlyEarnedAwards[0]);
         }
       }, 1000);
@@ -735,7 +751,11 @@ export default function HomeScreen() {
   };
 
   const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
-    if (!dailyTip) return;
+    console.log('handleQuickComplete called with note:', note);
+    if (!dailyTip) {
+      console.log('No dailyTip, returning early');
+      return;
+    }
 
     const quickComplete: QuickComplete = {
       completed_at: new Date(),
@@ -756,8 +776,11 @@ export default function HomeScreen() {
     
     // Check for new awards after completing
     setTimeout(async () => {
+      console.log('Checking for new awards after quick complete...');
       const newlyEarnedAwards = await checkForNewAwards();
+      console.log('Newly earned awards:', newlyEarnedAwards);
       if (newlyEarnedAwards.length > 0) {
+        console.log('Setting new award for notification:', newlyEarnedAwards[0]);
         setNewAward(newlyEarnedAwards[0]);
       }
     }, 500);
@@ -783,13 +806,7 @@ export default function HomeScreen() {
   const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
     if (!dailyTip || !currentTip) return;
     
-    // Check for new awards after check-in
-    setTimeout(async () => {
-      const newlyEarnedAwards = await checkForNewAwards();
-      if (newlyEarnedAwards.length > 0) {
-        setNewAward(newlyEarnedAwards[0]);
-      }
-    }, 1000);
+    console.log('handleCheckIn called with feedback:', feedback);
 
     const hasQuickCompletion = dailyTip.quick_completions && dailyTip.quick_completions.length > 0;
 
@@ -820,6 +837,18 @@ export default function HomeScreen() {
     });
     setShowCheckIn(false);
     setAttempts([...attempts, attempt]);
+    
+    // Check for new awards AFTER saving the check-in
+    setTimeout(async () => {
+      console.log('Checking for new awards after evening check-in...');
+      console.log('Updated dailyTip has evening_check_in:', feedback);
+      const newlyEarnedAwards = await checkForNewAwards();
+      console.log('Awards found after check-in:', newlyEarnedAwards);
+      if (newlyEarnedAwards.length > 0) {
+        console.log('Setting newAward state for banner:', newlyEarnedAwards[0]);
+        setNewAward(newlyEarnedAwards[0]);
+      }
+    }, 500);
 
     // Don't show alert - the ExperimentComplete component will handle the celebration
   };
@@ -907,17 +936,21 @@ export default function HomeScreen() {
         newAwardIds={newAwards.map(a => a.id)}
       />
       
-      {/* Award Notification */}
-      <AwardNotification
+      {/* Award Banner */}
+      <AwardBanner
         award={newAward}
         visible={!!newAward}
         onClose={() => {
+          console.log('AwardBanner onClose - marking award as seen:', newAward?.name);
           if (newAward) {
             markAwardsSeen([newAward.id]);
           }
           setNewAward(null);
         }}
-        onViewAwards={() => setShowAwardsModal(true)}
+        onTap={() => {
+          console.log('AwardBanner onTap - opening awards modal');
+          setShowAwardsModal(true);
+        }}
       />
       
       {/* Test Data Calendar - Dev Only */}
@@ -1022,6 +1055,13 @@ export default function HomeScreen() {
               
               {/* Testing: Cycle through tips */}
               {__DEV__ && (
+                <>
+                <TouchableOpacity 
+                  style={[styles.profileButton, {backgroundColor: '#FF5252', borderRadius: 16, padding: 4}]}
+                  onPress={resetAllDataIncludingAwards}
+                >
+                  <Ionicons name="refresh-circle" size={24} color="#FFF" />
+                </TouchableOpacity>
                 <TouchableOpacity 
                   style={styles.profileButton}
                   onPress={async () => {
@@ -1143,6 +1183,8 @@ export default function HomeScreen() {
               >
                 <Ionicons name="refresh-circle-outline" size={32} color="#FF9800" />
               </TouchableOpacity>
+              </>
+              )}
               <TouchableOpacity 
                 style={styles.profileButton}
                 onPress={async () => {

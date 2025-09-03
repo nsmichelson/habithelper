@@ -84,10 +84,19 @@ class AwardService {
     const dailyTips = await StorageService.getDailyTips();
     const tipAttempts = await StorageService.getTipAttempts();
     
+    console.log('AwardService.checkForNewAwards - dailyTips count:', dailyTips.length);
+    console.log('AwardService.checkForNewAwards - tips with completions:', 
+      dailyTips.filter(t => t.quick_completions && t.quick_completions.length > 0).length);
+    console.log('AwardService.checkForNewAwards - tips with evening check-in:', 
+      dailyTips.filter(t => t.evening_check_in).length);
+    
     // Check each award
+    console.log('AwardService - Already earned awards:', this.userAwards.map(ua => ua.awardId));
+    
     for (const award of AWARDS_DATABASE) {
       // Skip if already earned
       if (this.userAwards.find(ua => ua.awardId === award.id)) {
+        console.log(`Skipping award ${award.id} - already earned`);
         continue;
       }
 
@@ -214,6 +223,7 @@ class AwardService {
             t.user_response === 'try_it' && 
             (t.evening_check_in || (t.quick_completions && t.quick_completions.length > 0))
           ).length;
+          console.log(`Checking milestone award ${award.id}: completed=${completedCount}, needed=${award.criteria.value}`);
           return completedCount >= award.criteria.value;
         }
         // For other awards, count tried experiments

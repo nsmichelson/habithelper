@@ -31,9 +31,9 @@ export function useAwards() {
     try {
       const newly = await AwardService.checkForNewAwards();
       if (newly.length > 0) {
-        // Get the full award details
+        // Get the full award details from the database
         const awardIds = newly.map(ua => ua.awardId);
-        const awards = earnedAwards.filter(a => awardIds.includes(a.id));
+        const awards = AWARDS_DATABASE.filter(a => awardIds.includes(a.id));
         
         setNewAwards(awards);
         
@@ -50,7 +50,7 @@ export function useAwards() {
       console.error('Error checking for new awards:', error);
       return [];
     }
-  }, [earnedAwards, loadAwards]);
+  }, [loadAwards]);
 
   // Mark awards as seen/notified
   const markAwardsSeen = useCallback(async (awardIds: string[]) => {
