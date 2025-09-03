@@ -134,6 +134,7 @@ export default function HomeScreen() {
   const [showHeaderStats, setShowHeaderStats] = useState(false); // Start with hidden to see the difference
   const [showAwardsModal, setShowAwardsModal] = useState(false);
   const [newAward, setNewAward] = useState<any>(null);
+  const [initialAwardsTab, setInitialAwardsTab] = useState<'all' | 'earned' | 'progress'>('all');
   
   // Awards hooks
   const { earnedAwards, allAwards, newAwards, awardProgress, checkForNewAwards, markAwardsSeen } = useAwards();
@@ -929,11 +930,15 @@ export default function HomeScreen() {
       {/* Awards Modal */}
       <AwardsModal
         visible={showAwardsModal}
-        onClose={() => setShowAwardsModal(false)}
+        onClose={() => {
+          setShowAwardsModal(false);
+          setInitialAwardsTab('all'); // Reset to default when closing
+        }}
         allAwards={allAwards}
         earnedAwards={earnedAwards}
         awardProgress={awardProgress}
         newAwardIds={newAwards.map(a => a.id)}
+        initialTab={initialAwardsTab}
       />
       
       {/* Award Banner */}
@@ -948,7 +953,8 @@ export default function HomeScreen() {
           setNewAward(null);
         }}
         onTap={() => {
-          console.log('AwardBanner onTap - opening awards modal');
+          console.log('AwardBanner onTap - opening awards modal on progress tab');
+          setInitialAwardsTab('progress');
           setShowAwardsModal(true);
         }}
       />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -22,6 +22,7 @@ interface AwardsModalProps {
   earnedAwards: Award[];
   awardProgress: AwardProgress[];
   newAwardIds?: string[];
+  initialTab?: TabType;
 }
 
 type TabType = 'all' | 'earned' | 'progress';
@@ -33,8 +34,16 @@ export default function AwardsModal({
   earnedAwards,
   awardProgress,
   newAwardIds = [],
+  initialTab = 'all',
 }: AwardsModalProps) {
-  const [activeTab, setActiveTab] = useState<TabType>('all');
+  const [activeTab, setActiveTab] = useState<TabType>(initialTab);
+  
+  // Update active tab when modal opens with new initialTab
+  useEffect(() => {
+    if (visible) {
+      setActiveTab(initialTab);
+    }
+  }, [visible, initialTab]);
 
   const getFilteredAwards = () => {
     const earnedIds = earnedAwards.map(a => a.id);
