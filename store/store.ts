@@ -9,11 +9,31 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these action types
-        ignoredActions: ['dailyTip/setDailyTip', 'dailyTip/updateTipResponse'],
+        ignoredActions: [
+          'dailyTip/setDailyTip', 
+          'dailyTip/updateTipResponse',
+          'dailyTip/setCurrentTipRecord',
+          'dailyTip/updateDailyRecord',
+          'dailyTip/addToTipHistory',
+          'dailyTip/setTipHistory',
+        ],
         // Ignore these field paths in all actions
-        ignoredActionPaths: ['payload.presented_date', 'payload.responded_at', 'payload.respondedAt'],
+        ignoredActionPaths: [
+          'payload.presented_date', 
+          'payload.responded_at', 
+          'payload.respondedAt',
+          'payload.dailyRecord.presented_date',
+          'payload.dailyRecord.responded_at',
+          'payload.dailyRecord.check_in_at',
+        ],
         // Ignore these paths in the state
-        ignoredPaths: ['dailyTip.dailyTip.presented_date', 'dailyTip.dailyTip.responded_at'],
+        ignoredPaths: [
+          'dailyTip.currentTipRecord.dailyRecord.presented_date',
+          'dailyTip.currentTipRecord.dailyRecord.responded_at',
+          'dailyTip.currentTipRecord.dailyRecord.check_in_at',
+          'dailyTip.tipHistory',
+          'dailyTip.tipAttempts',
+        ],
       },
     }),
 });
