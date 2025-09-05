@@ -18,6 +18,8 @@ import StorageService from '@/services/storage';
 import { DailyTip, TipAttempt, UserProfile } from '@/types/tip';
 import { getTipById } from '@/data/tips';
 import Svg, { Circle, Path, G, Text as SvgText } from 'react-native-svg';
+import EducationCards from '@/components/EducationCards';
+import { organizationEducation } from '@/data/eduation_collection/organization';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -79,6 +81,7 @@ export default function ProgressScreen() {
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'analytics' | 'journey'>('overview');
   const [selectedInsight, setSelectedInsight] = useState<string | null>(null);
   const [currentQuote, setCurrentQuote] = useState(MOTIVATIONAL_QUOTES[0]);
+  const [showEducationCards, setShowEducationCards] = useState(false);
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -1090,6 +1093,48 @@ export default function ProgressScreen() {
           />
         ))}
       </View>
+      
+      {/* Test Education Cards Button */}
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          bottom: 100,
+          right: 20,
+          backgroundColor: '#E85D75',
+          paddingHorizontal: 20,
+          paddingVertical: 12,
+          borderRadius: 25,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 8,
+        }}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          setShowEducationCards(true);
+        }}
+      >
+        <Ionicons name="school-outline" size={20} color="#FFF" />
+        <Text style={{ color: '#FFF', fontWeight: '600', fontSize: 14 }}>
+          Learn About Organization
+        </Text>
+      </TouchableOpacity>
+      
+      {/* Education Cards Component */}
+      <EducationCards
+        content={organizationEducation}
+        visible={showEducationCards}
+        onClose={() => setShowEducationCards(false)}
+        onComplete={() => {
+          console.log('Education cards completed!');
+          setShowEducationCards(false);
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        }}
+      />
     </View>
   );
 }
