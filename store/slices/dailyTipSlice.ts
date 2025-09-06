@@ -10,6 +10,16 @@ interface TipRecord {
   personalizationData?: any;         // User's customization for this tip
 }
 
+// Focus mode state
+interface FocusMode {
+  enabled: boolean;
+  tipId: string;
+  startDate: string;
+  endDate: string;
+  daysTotal: number;
+  daysCompleted: number;
+}
+
 interface DailyTipState {
   // Current tip being shown to user (with all related data in one place)
   currentTipRecord: TipRecord | null;
@@ -23,6 +33,9 @@ interface DailyTipState {
   // Temporary personalization data (while user is editing)
   pendingPersonalizationData: any | null;
   
+  // Focus mode state
+  focusMode: FocusMode | null;
+  
   // UI state
   isLoading: boolean;
   error: string | null;
@@ -33,6 +46,7 @@ const initialState: DailyTipState = {
   tipHistory: [],
   tipAttempts: [],
   pendingPersonalizationData: null,
+  focusMode: null,
   isLoading: false,
   error: null,
 };
@@ -166,6 +180,45 @@ const dailyTipSlice = createSlice({
     // Reset entire state
     resetDailyTip: () => initialState,
     
+    // Focus mode actions
+    startFocusMode: (state, action: PayloadAction<{ tipId: string; days: number }>) => {
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + action.payload.days);
+      
+      state.focusMode = {
+        enabled: true,
+        tipId: action.payload.tipId,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        daysTotal: action.payload.days,
+        daysCompleted: 0,
+      };
+    },
+    
+    incrementFocusDayCompleted: (state) => {
+      if (state.focusMode && state.focusMode.enabled) {
+        state.focusMode.daysCompleted += 1;
+        
+        // Check if focus period is complete
+        const today = new Date();
+        const endDate = new Date(state.focusMode.endDate);
+        if (today >= endDate || state.focusMode.daysCompleted >= state.focusMode.daysTotal) {
+          state.focusMode.enabled = false;
+        }
+      }
+    },
+    
+    endFocusMode: (state) => {
+      if (state.focusMode) {
+        state.focusMode.enabled = false;
+      }
+    },
+    
+    clearFocusMode: (state) => {
+      state.focusMode = null;
+    },
+    
     // Legacy support - set current tip and daily tip separately
     // (for backward compatibility during migration)
     setCurrentTip: (state, action: PayloadAction<Tip>) => {
@@ -234,6 +287,11 @@ export const {
   setLoading,
   setError,
   resetDailyTip,
+  // Focus mode
+  startFocusMode,
+  incrementFocusDayCompleted,
+  endFocusMode,
+  clearFocusMode,
   // Legacy support
   setCurrentTip,
   setDailyTip,
@@ -290,6 +348,24 @@ export const selectSuccessfulTipsCount = (state: RootState) => {
     tip => tip.evening_check_in === 'went_great' || 
     tip.evening_check_in === 'went_ok'
   ).length;
+};
+
+// Focus mode selectors
+export const selectFocusMode = (state: RootState) => state.dailyTip.focusMode;
+export const selectIsInFocusMode = (state: RootState) => 
+  state.dailyTip.focusMode?.enabled || false;
+export const selectFocusTipId = (state: RootState) => 
+  state.dailyTip.focusMode?.tipId || null;
+export const selectFocusProgress = (state: RootState) => {
+  const focusMode = state.dailyTip.focusMode;
+  if (!focusMode) return null;
+  
+  return {
+    daysCompleted: focusMode.daysCompleted,
+    daysTotal: focusMode.daysTotal,
+    percentComplete: Math.round((focusMode.daysCompleted / focusMode.daysTotal) * 100),
+    daysRemaining: focusMode.daysTotal - focusMode.daysCompleted,
+  };
 };
 
 export default dailyTipSlice.reducer;

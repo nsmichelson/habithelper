@@ -16,7 +16,11 @@ import {
   setCurrentTip as setCurrentTipRedux, 
   setDailyTip as setDailyTipRedux, 
   savePersonalizationData, 
-  setTipReasons as setTipReasonsRedux 
+  setTipReasons as setTipReasonsRedux,
+  startFocusMode,
+  selectIsInFocusMode,
+  selectFocusTipId,
+  selectFocusProgress
 } from '@/store/slices/dailyTipSlice';
 import OnboardingQuiz from '@/components/OnboardingQuiz';
 import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
@@ -31,6 +35,7 @@ import TestDataCalendar from '@/components/TestDataCalendar';
 import IdentityQuizStep from '@/components/quiz/IdentityQuizStep';
 import AwardsModal from '@/components/AwardsModal';
 import AwardBanner from '@/components/AwardBanner';
+import FocusModePrompt from '@/components/FocusModePrompt';
 import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
@@ -115,6 +120,9 @@ export default function HomeScreen() {
   // Redux
   const dispatch = useAppDispatch();
   const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
+  const isInFocusMode = useAppSelector(selectIsInFocusMode);
+  const focusTipId = useAppSelector(selectFocusTipId);
+  const focusProgress = useAppSelector(selectFocusProgress);
   
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -131,6 +139,7 @@ export default function HomeScreen() {
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  const [showFocusPrompt, setShowFocusPrompt] = useState(false);
   const [showHeaderStats, setShowHeaderStats] = useState(false); // Start with hidden to see the difference
   const [showAwardsModal, setShowAwardsModal] = useState(false);
   const [newAward, setNewAward] = useState<any>(null);
@@ -329,26 +338,45 @@ export default function HomeScreen() {
         }
       }
     } else {
-      // Get a new tip for today
-      const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+      // Check if we're in focus mode - if so, keep using the same tip
+      let tipToUse = null;
+      let reasons = [];
       
-      if (tipScore) {
+      if (isInFocusMode && focusTipId) {
+        // In focus mode - use the same tip
+        const focusTip = getTipById(focusTipId);
+        if (focusTip) {
+          tipToUse = focusTip;
+          reasons = ['Focus Mode: Mastering this habit'];
+        }
+      }
+      
+      // If not in focus mode or focus tip not found, get a new tip
+      if (!tipToUse) {
+        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+        if (tipScore) {
+          tipToUse = tipScore.tip;
+          reasons = tipScore.reasons;
+        }
+      }
+      
+      if (tipToUse) {
         const newDailyTip: DailyTip = {
           id: Date.now().toString(),
           user_id: profile.id,
-          tip_id: tipScore.tip.tip_id,
+          tip_id: tipToUse.tip_id,
           presented_date: new Date(),
         };
         
         await StorageService.saveDailyTip(newDailyTip);
         setDailyTip(newDailyTip);
-        setCurrentTip(tipScore.tip);
-        setTipReasons(tipScore.reasons);
+        setCurrentTip(tipToUse);
+        setTipReasons(reasons);
         
         // Sync with Redux
         dispatch(setDailyTipRedux(newDailyTip));
-        dispatch(setCurrentTipRedux(tipScore.tip));
-        dispatch(setTipReasonsRedux(tipScore.reasons));
+        dispatch(setCurrentTipRedux(tipToUse));
+        dispatch(setTipReasonsRedux(reasons));
       }
     }
   };
@@ -839,6 +867,25 @@ export default function HomeScreen() {
     setShowCheckIn(false);
     setAttempts([...attempts, attempt]);
     
+    // If user loved the tip, show focus mode prompt
+    console.log('=== FOCUS MODE CHECK ===');
+    console.log('Feedback received:', feedback);
+    console.log('Is "went_great"?:', feedback === 'went_great');
+    console.log('Currently in focus mode?:', isInFocusMode);
+    console.log('Should show prompt?:', feedback === 'went_great' && !isInFocusMode);
+    
+    if (feedback === 'went_great' && !isInFocusMode) {
+      console.log('TRIGGERING FOCUS MODE PROMPT in 1 second...');
+      setTimeout(() => {
+        console.log('SETTING showFocusPrompt to TRUE');
+        setShowFocusPrompt(true);
+      }, 1000); // Small delay to let the check-in UI close first
+    } else {
+      console.log('NOT showing focus prompt because:');
+      if (feedback !== 'went_great') console.log('- Feedback is not "went_great"');
+      if (isInFocusMode) console.log('- Already in focus mode');
+    }
+    
     // Check for new awards AFTER saving the check-in
     setTimeout(async () => {
       console.log('Checking for new awards after evening check-in...');
@@ -941,6 +988,40 @@ export default function HomeScreen() {
         initialTab={initialAwardsTab}
       />
       
+      {/* Focus Mode Prompt - Moved up for proper rendering */}
+      {console.log('=== FOCUS MODE PROMPT RENDER CHECK (TOP LEVEL) ===') || true}
+      {console.log('currentTip exists?:', !!currentTip) || true}
+      {console.log('showFocusPrompt state:', showFocusPrompt) || true}
+      {console.log('Will render FocusModePrompt?:', !!(currentTip && showFocusPrompt)) || true}
+      {currentTip && (
+        <FocusModePrompt
+          visible={showFocusPrompt}
+          tip={currentTip}
+          onClose={() => {
+            console.log('FocusModePrompt onClose called');
+            setShowFocusPrompt(false);
+          }}
+          onFocusMode={(days) => {
+            console.log('Focus mode selected for', days, 'days');
+            dispatch(startFocusMode({ 
+              tipId: currentTip.tip_id, 
+              days 
+            }));
+            setShowFocusPrompt(false);
+            Alert.alert(
+              'Focus Mode Activated! 🎯',
+              `You'll focus on "${currentTip.summary}" for the next ${days} days. Let's build this habit together!`,
+              [{ text: 'Let\'s do this!', style: 'default' }]
+            );
+          }}
+          onNewTipTomorrow={() => {
+            console.log('User chose new tip tomorrow');
+            setShowFocusPrompt(false);
+            // Normal flow continues - new tip tomorrow
+          }}
+        />
+      )}
+      
       {/* Award Banner */}
       <AwardBanner
         award={newAward}
@@ -976,6 +1057,35 @@ export default function HomeScreen() {
             }
           }}
         />
+      )}
+      
+      {/* Debug button to test focus prompt */}
+      {__DEV__ && currentTip && (
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom: 100,
+            right: 20,
+            backgroundColor: '#FF6B6B',
+            padding: 12,
+            borderRadius: 25,
+            zIndex: 9999,
+            elevation: 10,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+          }}
+          onPress={() => {
+            console.log('=== DEBUG BUTTON PRESSED ===');
+            console.log('Current showFocusPrompt:', showFocusPrompt);
+            console.log('Current tip:', currentTip?.summary);
+            console.log('Setting showFocusPrompt to true...');
+            setShowFocusPrompt(true);
+          }}
+        >
+          <Text style={{ color: 'white', fontSize: 11, fontWeight: 'bold' }}>Test Focus</Text>
+        </TouchableOpacity>
       )}
       
       {/* Identity Builder Modal */}
@@ -1028,6 +1138,30 @@ export default function HomeScreen() {
                   </>
                 ) : 'Habit Helper'}
               </Text>
+              
+              {/* Focus Mode Indicator */}
+              {isInFocusMode && focusProgress && (
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 8,
+                  backgroundColor: '#4CAF50',
+                  paddingHorizontal: 12,
+                  paddingVertical: 6,
+                  borderRadius: 16,
+                  alignSelf: 'flex-start',
+                }}>
+                  <Ionicons name="fitness" size={16} color="#FFF" />
+                  <Text style={{
+                    color: '#FFF',
+                    fontSize: 12,
+                    fontWeight: '600',
+                    marginLeft: 6,
+                  }}>
+                    Focus Mode • Day {focusProgress.daysCompleted + 1} of {focusProgress.daysTotal}
+                  </Text>
+                </View>
+              )}
             </View>
             <View style={styles.headerIconsContainer}>
               {/* Testing: Open test data calendar */}
@@ -1692,6 +1826,8 @@ export default function HomeScreen() {
           </ScrollView>
         )}
       </LinearGradient>
+      
+      {/* Focus Mode Prompt removed - now placed after Awards Modal */}
     </SafeAreaView>
   );
 }
