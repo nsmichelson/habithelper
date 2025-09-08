@@ -1,0 +1,971 @@
+[
+  {
+    "tip_id": "e897e203-f6a3-4726-97cf-0be4bf6dade3",
+    "summary": "Keep ginger chews or candies on hand for nausea relief.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_nausea",
+      "increase_hydration",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "nausea",
+      "vomiting",
+      "odor_triggers"
+    ]
+  },
+  {
+    "tip_id": "70bc2cae-2895-4041-9ba3-9cdc8c38ac23",
+    "summary": "Freeze strong ginger tea into cubes for instant nausea tea.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_nausea",
+      "increase_hydration",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "nausea",
+      "vomiting"
+    ]
+  },
+  {
+    "tip_id": "c45987a7-3866-4379-996b-d2e36fefe057",
+    "summary": "Suck on frozen lemon-ginger cubes when liquids are hard to tolerate.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_nausea",
+      "increase_hydration",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "nausea",
+      "dehydration"
+    ]
+  },
+  {
+    "tip_id": "c55f0762-08a2-4cb4-91e8-c8d633db4ffa",
+    "summary": "Chew peppermint gum or suck mints to mask odors and ease nausea.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "nausea",
+      "smell_aversion",
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "cf16c8b8-3424-49e4-8c81-b785a931e910",
+    "summary": "If plain water tastes bad, flavor it lightly (citrus, mint, flat ginger ale).",
+    "details_md": "",
+    "goal_tags": [
+      "increase_hydration",
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "dehydration",
+      "nausea"
+    ]
+  },
+  {
+    "tip_id": "84271016-fed4-4b53-a1e9-ad80725ee917",
+    "summary": "Keep crackers by the bed and nibble before sitting up.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_nausea",
+      "morning_routine",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "nausea"
+    ]
+  },
+  {
+    "tip_id": "b1fb0db1-90cd-4a87-a688-65510a7f134e",
+    "summary": "Have a protein-rich bedtime snack to ease morning nausea.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_nausea",
+      "improve_energy",
+      "stable_blood_sugar",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "nausea",
+      "overnight_hunger"
+    ]
+  },
+  {
+    "tip_id": "35f529a1-e92f-403c-ba16-de140af4aeab",
+    "summary": "Use the ",
+    "details_md": "**The Experiment:** Add one serving of a ",
+    "goal_tags": [
+      "constipation_relief",
+      "fiber_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "7f7df02d-5354-40ef-b35e-22a445d56241",
+    "summary": "Stir chia or ground flax into meals for invisible fiber.",
+    "details_md": "",
+    "goal_tags": [
+      "constipation_relief",
+      "fiber_intake",
+      "omega3_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "constipation",
+      "satiety"
+    ]
+  },
+  {
+    "tip_id": "4e4cc434-fa30-48a8-991f-afde0bb3eaad",
+    "summary": "Try a daily kiwi (or two) to stay regular.",
+    "details_md": "",
+    "goal_tags": [
+      "constipation_relief",
+      "fiber_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "29e9e140-16f4-44bf-b190-fe46cc911f51",
+    "summary": "Sip warm water (or warm prune juice) first thing in the morning.",
+    "details_md": "",
+    "goal_tags": [
+      "constipation_relief",
+      "morning_routine",
+      "hydration",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "constipation",
+      "nausea"
+    ]
+  },
+  {
+    "tip_id": "a2f0c824-31f2-4a88-b629-bc310a3d5431",
+    "summary": "Take a 10‑minute walk after meals to aid digestion.",
+    "details_md": "",
+    "goal_tags": [
+      "constipation_relief",
+      "heartburn_relief",
+      "improve_energy",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "constipation",
+      "bloating",
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "77f34008-5bb3-4a16-a5c8-d252fb74f85e",
+    "summary": "Chew gum or munch a few almonds after meals for heartburn relief.",
+    "details_md": "",
+    "goal_tags": [
+      "heartburn_relief",
+      "comfort",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "heartburn",
+      "reflux"
+    ]
+  },
+  {
+    "tip_id": "4a9675df-9669-4703-8022-77022718c89e",
+    "summary": "Try a warm ACV + honey drink for reflux relief.",
+    "details_md": "",
+    "goal_tags": [
+      "heartburn_relief",
+      "hydration",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "106146f9-39fd-49c7-8c61-207bffd34b34",
+    "summary": "Sip lemon water to test if it soothes your heartburn.",
+    "details_md": "",
+    "goal_tags": [
+      "heartburn_relief",
+      "hydration",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "heartburn"
+    ]
+  },
+  {
+    "tip_id": "da73c592-f80c-4d8a-9254-718195c4ec0e",
+    "summary": "Use chewable papaya enzymes as a natural antacid alternative.",
+    "details_md": "",
+    "goal_tags": [
+      "heartburn_relief",
+      "comfort",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "heartburn",
+      "indigestion"
+    ]
+  },
+  {
+    "tip_id": "7bfa5b1a-a16f-4634-a724-37526d3f8cad",
+    "summary": "Craving sushi? Choose veggie or fully cooked rolls.",
+    "details_md": "",
+    "goal_tags": [
+      "food_safety",
+      "craving_satisfaction",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "food_safety_anxiety",
+      "cravings"
+    ]
+  },
+  {
+    "tip_id": "973ee1d3-d3e2-4754-9f11-f1936a5e867b",
+    "summary": "Create a mocktail ritual in your fanciest glass.",
+    "details_md": "",
+    "goal_tags": [
+      "alcohol_free",
+      "healthy_snacking",
+      "reduce_sugar",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "social_pressure",
+      "evening_cravings"
+    ]
+  },
+  {
+    "tip_id": "fa453cec-f876-446e-87ab-ce2ce540e5ea",
+    "summary": "Heat deli meats until steaming before building your sandwich.",
+    "details_md": "",
+    "goal_tags": [
+      "food_safety",
+      "craving_satisfaction",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "food_safety_anxiety",
+      "cravings"
+    ]
+  },
+  {
+    "tip_id": "f9f32fb5-f964-4098-9069-3a39e328afb9",
+    "summary": "Use edible cookie dough (egg‑free, heat‑treated flour) to satisfy dough cravings.",
+    "details_md": "",
+    "goal_tags": [
+      "food_safety",
+      "craving_satisfaction",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "sweet_cravings",
+      "food_safety_anxiety"
+    ]
+  },
+  {
+    "tip_id": "f27ba582-897d-43ee-8240-e43fcdd52ac1",
+    "summary": "Switch to half‑caff or decaf (or roasted‑chicory ",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_caffeine",
+      "sleep_quality",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "jitters",
+      "sleep"
+    ]
+  },
+  {
+    "tip_id": "8753afeb-59d0-4d5c-9e0d-70b3fa0268c5",
+    "summary": "If prenatals make you sick, ask about children",
+    "details_md": "",
+    "goal_tags": [
+      "consistency",
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "nausea",
+      "adherence"
+    ]
+  },
+  {
+    "tip_id": "bd42db75-c10e-498c-bd8c-8cf85af0f51f",
+    "summary": "If veggies are a no‑go, lean on fruits, beans, eggs, and dairy for nutrients.",
+    "details_md": "",
+    "goal_tags": [
+      "flexibility",
+      "reduce_nausea",
+      "nutrient_density",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "food_aversion",
+      "nausea",
+      "perfectionism"
+    ]
+  },
+  {
+    "tip_id": "ff2970ca-7637-48bc-84cf-3ecd5383205f",
+    "summary": "Blend extra veggies (and white beans) into pasta sauces and soups.",
+    "details_md": "",
+    "goal_tags": [
+      "fiber_intake",
+      "folate_intake",
+      "iron_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "aversion",
+      "constipation",
+      "micronutrient_gaps"
+    ]
+  },
+  {
+    "tip_id": "7280d3cf-4770-4ed8-baff-5fdeab61c9d6",
+    "summary": "Add spinach or peeled zucchini to fruit smoothies (you won",
+    "details_md": "",
+    "goal_tags": [
+      "folate_intake",
+      "fiber_intake",
+      "protein_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "aversion",
+      "constipation",
+      "energy"
+    ]
+  },
+  {
+    "tip_id": "1a2a9268-c165-46e3-a411-4c4bbce49c27",
+    "summary": "Blend cauliflower into mashed potatoes for a stealth veggie upgrade.",
+    "details_md": "",
+    "goal_tags": [
+      "fiber_intake",
+      "veggie_exposure",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "aversion",
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "bfc4d272-1da0-490f-8145-5e806ae4e5bb",
+    "summary": "Stir an egg into hot oatmeal for extra protein and choline.",
+    "details_md": "",
+    "goal_tags": [
+      "protein_intake",
+      "choline_intake",
+      "satiety",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "protein_gap",
+      "choline_gap",
+      "morning_energy"
+    ]
+  },
+  {
+    "tip_id": "f7b96ddc-e90d-4d21-aaff-ab77c31fd05f",
+    "summary": "Make maple pots de crème for a choline‑rich dessert.",
+    "details_md": "",
+    "goal_tags": [
+      "choline_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "choline_gap",
+      "sweet_cravings"
+    ]
+  },
+  {
+    "tip_id": "b0e72e31-0479-4961-b9a2-e59f0764aba9",
+    "summary": "Double up on dairy: Greek yogurt, hard cheeses, high‑protein milk.",
+    "details_md": "",
+    "goal_tags": [
+      "protein_intake",
+      "calcium_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "protein_gap",
+      "calcium_gap",
+      "nausea_aversion_to_meat"
+    ]
+  },
+  {
+    "tip_id": "c414a924-38c0-4385-b249-b13b3d9e39ec",
+    "summary": "Use protein‑fortified pancake mix, pasta, or cereal to quietly raise protein.",
+    "details_md": "",
+    "goal_tags": [
+      "protein_intake",
+      "satiety",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "protein_gap",
+      "energy_crashes"
+    ]
+  },
+  {
+    "tip_id": "4023164b-2b78-4b5f-b7e1-4ec1cad05e92",
+    "summary": "Add protein powder or nut butter to oatmeal/smoothies.",
+    "details_md": "",
+    "goal_tags": [
+      "protein_intake",
+      "satiety",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "protein_gap",
+      "hunger"
+    ]
+  },
+  {
+    "tip_id": "df05f966-4c0b-4829-91be-a5ddc0171668",
+    "summary": "Snack on edamame for protein, iron, and folate in one bite.",
+    "details_md": "",
+    "goal_tags": [
+      "protein_intake",
+      "iron_intake",
+      "folate_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "protein_gap",
+      "anemia_risk",
+      "snack_attacks"
+    ]
+  },
+  {
+    "tip_id": "ab2ef623-ad42-4162-abe4-2c1e08a1fc24",
+    "summary": "Make white‑bean hummus for an iron‑rich dip.",
+    "details_md": "",
+    "goal_tags": [
+      "iron_intake",
+      "fiber_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "anemia_risk",
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "78d7ca48-0fcd-4189-a40c-4e3441557364",
+    "summary": "Cook tomato‑based meals in cast iron for a tiny iron boost.",
+    "details_md": "",
+    "goal_tags": [
+      "iron_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "anemia_risk"
+    ]
+  },
+  {
+    "tip_id": "d67a23ae-4f49-416b-8e8d-fec79b5c916f",
+    "summary": "Pair plant iron with vitamin C; separate iron from dairy/tea/coffee.",
+    "details_md": "",
+    "goal_tags": [
+      "iron_intake",
+      "anemia_prevention",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "anemia_risk"
+    ]
+  },
+  {
+    "tip_id": "e0870a76-f08e-4907-97f7-926bd3c42487",
+    "summary": "Munch roasted seaweed snacks for an iodine boost.",
+    "details_md": "",
+    "goal_tags": [
+      "iodine_intake",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "iodine_gap",
+      "chip_cravings"
+    ]
+  },
+  {
+    "tip_id": "09517674-539f-425f-9548-94ec13805eff",
+    "summary": "Make mini nori hand‑rolls with cooked fillings at home.",
+    "details_md": "",
+    "goal_tags": [
+      "iodine_intake",
+      "DHA_intake",
+      "protein_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "cravings",
+      "nutrient_gaps"
+    ]
+  },
+  {
+    "tip_id": "ac1037c0-7e02-4b05-99a3-2b75021e6533",
+    "summary": "Smash avocado on whole‑grain toast for a folate‑rich breakfast.",
+    "details_md": "",
+    "goal_tags": [
+      "folate_intake",
+      "healthy_breakfast",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "folate_gap",
+      "morning_energy"
+    ]
+  },
+  {
+    "tip_id": "693e8696-2938-430a-8de1-b80996742e0e",
+    "summary": "Blend dates into a banana‑peanut butter smoothie (third‑trimester fave).",
+    "details_md": "",
+    "goal_tags": [
+      "healthy_snacking",
+      "fiber_intake",
+      "labor_prep_habit",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "sweet_cravings",
+      "constipation"
+    ]
+  },
+  {
+    "tip_id": "fb3c859b-e936-48d2-b9eb-db3751b6e5bd",
+    "summary": "Try 6 dates/day in late pregnancy—make them fun so it sticks.",
+    "details_md": "",
+    "goal_tags": [
+      "fiber_intake",
+      "labor_prep_habit",
+      "healthy_snacking",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "constipation",
+      "sweet_cravings"
+    ]
+  },
+  {
+    "tip_id": "a01d8e4c-69ab-478b-a7bf-9af0628b0295",
+    "summary": "Carry a mini snack kit to avoid emergency junk food.",
+    "details_md": "",
+    "goal_tags": [
+      "healthy_snacking",
+      "stable_blood_sugar",
+      "reduce_ultra_processed",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "random_cravings",
+      "energy_crashes",
+      "nausea_from_empty_stomach"
+    ]
+  },
+  {
+    "tip_id": "d9013b80-59b4-485e-a829-4f6f8437983e",
+    "summary": "Batch‑cook on good days, freeze portions for tired days.",
+    "details_md": "",
+    "goal_tags": [
+      "meal_prep",
+      "consistency",
+      "reduce_takeout",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "fatigue",
+      "decision_fatigue",
+      "budget"
+    ]
+  },
+  {
+    "tip_id": "ffc2cd67-ff11-4a61-babc-5987b819452e",
+    "summary": "Gamify nutrition: track daily servings (water, fruit/veg, protein).",
+    "details_md": "",
+    "goal_tags": [
+      "increase_hydration",
+      "produce_intake",
+      "protein_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "consistency",
+      "awareness"
+    ]
+  },
+  {
+    "tip_id": "bb116996-3631-47df-a068-d23bce5b0ca9",
+    "summary": "Buy pre‑cut or frozen produce to remove prep barriers.",
+    "details_md": "",
+    "goal_tags": [
+      "produce_intake",
+      "fiber_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "constipation",
+      "snacking",
+      "time_pressure"
+    ]
+  },
+  {
+    "tip_id": "bb59679d-d891-4526-9a09-7e5d2077b3cf",
+    "summary": "Team up with a friend or group to share meal pics and wins.",
+    "details_md": "",
+    "goal_tags": [
+      "accountability",
+      "consistency",
+      "produce_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "motivation",
+      "variety"
+    ]
+  },
+  {
+    "tip_id": "2540ea74-28a4-46da-a5c4-ca690b81d649",
+    "summary": "Keep a 7‑day food + symptom journal to spot your triggers and wins.",
+    "details_md": "",
+    "goal_tags": [
+      "self_awareness",
+      "heartburn_relief",
+      "reduce_nausea",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "reflux_triggers",
+      "nausea_triggers",
+      "energy_management"
+    ]
+  },
+  {
+    "tip_id": "9f34f055-f5d0-434a-94c4-7127415321f6",
+    "summary": "Find a healthier ",
+    "details_md": "**The Experiment:** Match the texture/temp/flavor (e.g., ",
+    "goal_tags": [
+      "craving_management",
+      "less_processed_food",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "sweet_cravings",
+      "salty_cravings",
+      "binges"
+    ]
+  },
+  {
+    "tip_id": "2a5cdbed-50a5-48ab-8ffe-253cb369d7bd",
+    "summary": "Boost omega‑3s with ground flax/chia or omega‑3 eggs if you skip fish.",
+    "details_md": "",
+    "goal_tags": [
+      "DHA_intake",
+      "omega3_intake",
+      "choline_intake",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "DHA_gap",
+      "choline_gap"
+    ]
+  },
+  {
+    "tip_id": "c8e87457-4618-4149-945b-204d8a9cf126",
+    "summary": "Find a healthy ",
+    "details_md": "",
+    "goal_tags": [
+      "consistency",
+      "reduce_nausea",
+      "nutrient_density",
+      "healthy_pregnancy"
+    ],
+    "helps_with": [
+      "decision_fatigue",
+      "aversion",
+      "energy"
+    ]
+  },
+  {
+    "tip_id": "c3d4e5f6-f003-4003-b003-34567890abcd",
+    "summary": "Eat with your non-dominant hand to slow down.",
+    "details_md": "",
+    "goal_tags": [
+      "portion_control",
+      "mindful_eating"
+    ],
+    "helps_with": [
+      "mindless_eating",
+      "overeating"
+    ]
+  },
+  {
+    "tip_id": "d4e5f6g7-f004-4004-b004-4567890abcde",
+    "summary": "Make healthy food visible and junk food invisible.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "healthy_snacking",
+      "less_processed_food"
+    ],
+    "helps_with": [
+      "mindless_eating",
+      "sugar_addiction",
+      "junk_food_addiction"
+    ]
+  },
+  {
+    "tip_id": "e5f6g7h8-f005-4005-b005-567890abcdef",
+    "summary": "Use smaller plates to trick your brain into feeling full.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "portion_control",
+      "mindful_eating"
+    ],
+    "helps_with": [
+      "overeating"
+    ]
+  },
+  {
+    "tip_id": "f6g7h8i9-f006-4006-b006-67890abcdef0",
+    "summary": "Link drinking water to checking your phone.",
+    "details_md": "",
+    "goal_tags": [
+      "increase_hydration",
+      "reduce_cravings",
+      "improve_energy"
+    ],
+    "helps_with": [
+      "mindless_eating",
+      "fatigue",
+      "dehydration"
+    ]
+  },
+  {
+    "tip_id": "g7h8i9j0-f007-4007-b007-7890abcdef01",
+    "summary": "Add one healthy ingredient to every meal.",
+    "details_md": "",
+    "goal_tags": [
+      "increase_nutrients",
+      "increase_fiber",
+      "increase_vegetables"
+    ],
+    "helps_with": [
+      "nutrient_deficiency"
+    ]
+  },
+  {
+    "tip_id": "h8i9j0k1-f008-4008-b008-890abcdef012",
+    "summary": "Use a spritz of water or vinegar to season popcorn.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_fat",
+      "reduce_sodium",
+      "healthy_snacking"
+    ],
+    "helps_with": [
+      "mindless_eating"
+    ]
+  },
+  {
+    "tip_id": "i9j0k1l2-f009-4009-b009-90abcdef0123",
+    "summary": "Make creamy ",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "reduce_sugar",
+      "reduce_fat",
+      "less_processed_food"
+    ],
+    "helps_with": [
+      "sugar_addiction"
+    ]
+  },
+  {
+    "tip_id": "j0k1l2m3-f010-4010-b010-0abcdef01234",
+    "summary": "Satisfy fast-food cravings with a smaller portion.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "portion_control",
+      "mindful_eating",
+      "harm_reduction"
+    ],
+    "helps_with": [
+      "binge_eating",
+      "diet_trauma"
+    ]
+  },
+  {
+    "tip_id": "k1l2m3n4-f011-4011-b011-abcdef012345",
+    "summary": "Get a quick pizza fix with this low-carb bowl.",
+    "details_md": "",
+    "goal_tags": [
+      "reduce_carbs",
+      "portion_control",
+      "reduce_cravings"
+    ],
+    "helps_with": [
+      "junk_food_addiction"
+    ]
+  },
+  {
+    "tip_id": "l2m3n4o5-f012-4012-b012-bcdef0123456",
+    "summary": "Turn a simple apple into a fun, decadent-tasting snack.",
+    "details_md": "",
+    "goal_tags": [
+      "healthy_snacking",
+      "increase_fiber",
+      "reduce_sugar"
+    ],
+    "helps_with": [
+      "sugar_addiction"
+    ]
+  },
+  {
+    "tip_id": "m3n4o5p6-f013-4013-b013-cdef01234567",
+    "summary": "Use a rotisserie chicken for fast, healthy protein all week.",
+    "details_md": "",
+    "goal_tags": [
+      "increase_protein",
+      "meal_prep",
+      "time_saving"
+    ],
+    "helps_with": [
+      "decision_fatigue"
+    ]
+  },
+  {
+    "tip_id": "b1c2d3e4-0011-4011-a011-234567890ab1",
+    "summary": "Boost your breakfast with protein.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "increase_protein",
+      "reduce_cravings",
+      "improve_energy"
+    ],
+    "helps_with": [
+      "mindless_eating",
+      "sugar_addiction"
+    ]
+  },
+  {
+    "tip_id": "c2d3e4f5-0012-4012-a012-34567890ab12",
+    "summary": "Swap mayonnaise for Greek yogurt or mashed avocado.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "reduce_fat",
+      "increase_protein",
+      "less_processed_food"
+    ],
+    "helps_with": []
+  },
+  {
+    "tip_id": "d3e4f5g6-0013-4013-a013-4567890ab123",
+    "summary": "Swap sour cream for plain Greek yogurt or blended cottage cheese.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "reduce_fat",
+      "increase_protein"
+    ],
+    "helps_with": []
+  },
+  {
+    "tip_id": "e4f5g6h7-0014-4014-a014-567890ab1234",
+    "summary": "Swap potato chips for air-popped popcorn.",
+    "details_md": "**The Experiment:** When you",
+    "goal_tags": [
+      "weight_loss",
+      "reduce_fat",
+      "increase_fiber",
+      "less_processed_food"
+    ],
+    "helps_with": [
+      "mindless_eating"
+    ]
+  },
+  {
+    "tip_id": "f5g6h7i8-0015-4015-a015-67890ab12345",
+    "summary": "Swap ice cream for frozen grapes or ",
+    "details_md": "**The Experiment:** When a craving for a sweet, frozen dessert strikes, try eating a bowl of frozen grapes or making banana ",
+    "goal_tags": [
+      "weight_loss",
+      "reduce_sugar",
+      "reduce_fat",
+      "less_processed_food"
+    ],
+    "helps_with": [
+      "sugar_addiction"
+    ]
+  },
+  {
+    "tip_id": "g6h7i8j9-0016-4016-a016-7890ab123456",
+    "summary": "Swap ground beef for 99% lean ground turkey.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "reduce_fat",
+      "heart_health"
+    ],
+    "helps_with": []
+  },
+  {
+    "tip_id": "h7i8j9k0-0017-4017-a017-890ab1234567",
+    "summary": "Reorganize your plate: ½ veggies, ¼ protein, ¼ whole grains.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "increase_veggies",
+      "portion_control",
+      "improve_gut_health"
+    ],
+    "helps_with": [
+      "mindless_eating"
+    ]
+  },
+  {
+    "tip_id": "i8j9k0l1-0018-4018-a018-90ab12345678",
+    "summary": "Brush your teeth right after dinner to prevent evening snacking.",
+    "details_md": "",
+    "goal_tags": [
+      "weight_loss",
+      "reduce_sugar",
+      "reduce_cravings"
+    ],
+    "helps_with": [
+      "mindless_eating",
+      "late_night_eating"
+    ]
+  }
+]
