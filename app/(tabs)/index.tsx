@@ -951,7 +951,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       {/* Feedback Modal */}
-      {console.log('Modal render check - showFeedbackModal:', showFeedbackModal, 'pendingOptOut:', pendingOptOut?.tipId)}
+      {console.log('Modal render check - showFeedbackModal:', showFeedbackModal, 'pendingOptOut:', pendingOptOut?.tipId) && null}
       {showFeedbackModal && pendingOptOut && (
         <NotForMeFeedback
           visible={showFeedbackModal}
@@ -989,10 +989,13 @@ export default function HomeScreen() {
       />
       
       {/* Focus Mode Prompt - Moved up for proper rendering */}
-      {console.log('=== FOCUS MODE PROMPT RENDER CHECK (TOP LEVEL) ===') || true}
-      {console.log('currentTip exists?:', !!currentTip) || true}
-      {console.log('showFocusPrompt state:', showFocusPrompt) || true}
-      {console.log('Will render FocusModePrompt?:', !!(currentTip && showFocusPrompt)) || true}
+      {(() => {
+        console.log('=== FOCUS MODE PROMPT RENDER CHECK (TOP LEVEL) ===');
+        console.log('currentTip exists?:', !!currentTip);
+        console.log('showFocusPrompt state:', showFocusPrompt);
+        console.log('Will render FocusModePrompt?:', !!(currentTip && showFocusPrompt));
+        return null;
+      })()}
       {currentTip && (
         <FocusModePrompt
           visible={showFocusPrompt}
@@ -1618,7 +1621,7 @@ export default function HomeScreen() {
             </View>
 
             {/* Daily Tip, Experiment Mode, or Completion View */}
-            {console.log('Main content check - currentTip:', currentTip ? 'exists' : 'null', 'dailyTip:', dailyTip ? 'exists' : 'null')}
+            {console.log('Main content check - currentTip:', currentTip ? 'exists' : 'null', 'dailyTip:', dailyTip ? 'exists' : 'null') && null}
             {currentTip && dailyTip ? (
             dailyTip.evening_check_in ? (
               // Show completion view after check-in
