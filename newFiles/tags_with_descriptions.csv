@@ -1,0 +1,377 @@
+key,bucket,description
+accountability_partner,technique,Check in with a partner to stay on track.
+adequate_calcium,goal,Meet daily calcium needs.
+adequate_choline,goal,Meet daily choline needs.
+adequate_fiber,goal,Meet daily fiber needs.
+adequate_folate,goal,Meet daily folate needs.
+adequate_iodine,goal,Meet daily iodine needs.
+adequate_iron,goal,Meet daily iron needs.
+adequate_omega_3,goal,Meet daily omega‑3 needs.
+adequate_protein,goal,Meet daily protein needs.
+adequate_vitamins,goal,Meet daily vitamins needs.
+adhd,context,Attention differences; benefit from novelty & cues.
+afternoon_slump,helps_with,Energy dip in the afternoon.
+alcohol_cutoff,technique,Avoid alcohol close to bedtime.
+alcohol_free,goal,Avoid alcohol.
+all_or_nothing_thinking,helps_with,"If‑I‑can’t‑do‑it‑perfectly, I won’t do it at all."
+anemia,context,Low iron/hemoglobin; manage fatigue and diet.
+anemia_risk,helps_with,Risk factors or signs pointing to anemia.
+anxiety,helps_with,"Persistent nervousness, worry, or tension."
+anxiety_disorder,context,Anxiety impacts sleep and routines.
+autism_spectrum,context,Sensory/social differences; tailor routines.
+avoid_multitasking,technique,Reduce rapid context switching.
+back_issue,context,Back problems limit exercise choices.
+batch_cooking,technique,Cook larger batches to save time and effort.
+bedroom_cool_dark_quiet,technique,"Optimize bedroom temperature, light, and noise."
+beginner_confusion,helps_with,Unsure how to start or what to do.
+binge_eating,helps_with,Episodes of very large eating with loss of control.
+bloating,helps_with,Uncomfortable fullness or gas.
+blood_sugar_spikes,helps_with,Large rises in blood sugar after meals.
+body_doubling,technique,Work alongside someone to boost focus and follow‑through.
+body_image_issues,helps_with,Negative thoughts about body shape or size.
+body_scan,technique,Scan body sensations to induce relaxation.
+bone_health,goal,Improve and preserve bone strength.
+boredom,helps_with,Boredom undermines consistency.
+boredom_eating,helps_with,Eating to fill boredom rather than hunger.
+breastfeeding,context,Feeding an infant; higher nutrient/fluid needs.
+breathlessness,helps_with,Shortness of breath during activity.
+breathwork,technique,"Slow, controlled breathing to relax."
+budget_constraints,helps_with,Limited funds for food or gear.
+budget_friendly_eating,goal,Eat well while keeping costs down.
+buffer_time,technique,Leave slack between tasks/meetings.
+build_muscle,goal,Grow and maintain muscle mass.
+build_resilience,goal,Bounce back faster from stress.
+build_strength,goal,Increase strength across major muscle groups.
+burnout,helps_with,Exhaustion and reduced capacity from chronic stress.
+caffeine_cutoff,technique,Stop caffeine early enough to protect sleep.
+caffeine_dependence,helps_with,Relying on caffeine to function.
+calendar_first,technique,Plan from your calendar before task lists.
+calendar_overload,helps_with,Calendar too full to manage.
+calmer_schedule,goal,Simplify schedule and reduce overload.
+capture_everything,technique,Record ideas/tasks immediately to a trusted place.
+caregiver_role,context,Caring for others reduces time/energy.
+celiac_disease,context,Requires strict gluten‑free eating.
+checklists,technique,Use checklists to make steps explicit.
+chip_cravings,helps_with,Cravings for chips or crunchy snacks.
+choose_healthy_breakfasts,technique,Pick balanced breakfasts for energy.
+choose_healthy_snacks,technique,"Keep ready‑to‑eat, nutritious snacks on hand."
+chronic_fatigue,context,Persistent fatigue limits capacity.
+chronic_pain,context,Pain flares require adaptable plans.
+clock_face_down,technique,Turn clock away to avoid clock‑watching.
+clutter_free_life,goal,Live with less clutter and more clarity.
+clutter_overwhelm,helps_with,Feeling overwhelmed by clutter.
+cognitive_reframing,technique,Challenge and replace unhelpful thoughts.
+cold_weather,context,Cold affects outdoor activity choices.
+college_dorm,context,Dorm life; shared spaces and limited tools.
+consistent_routines,goal,Keep daily routines stable and predictable.
+consistent_sleep_schedule,goal,Keep regular sleep and wake times.
+consistent_wake_time,technique,Get up at the same time daily.
+constipation,helps_with,Infrequent or hard bowel movements.
+context_switching,helps_with,Rapidly switching tasks reduces efficiency.
+contextual_todos,technique,"Tag tasks by context (e.g., @home, @errands)."
+cooking_skills_gap,helps_with,Limited cooking skills hinder healthy choices.
+cooldown,technique,Easy movement and stretches post‑workout.
+coping_plans,technique,Plan what you’ll do when obstacles show up.
+cravings,helps_with,Strong urges to eat specific foods.
+cue_removal,technique,Remove triggers for unwanted behaviors.
+daily_reset,technique,Short end‑of‑day tidy to maintain order.
+daytime_sleepiness,helps_with,Sleepy or dozing during the day.
+deadline_backplanning,technique,Plan backward from due dates.
+decision_fatigue,helps_with,Too many choices leading to poor decisions.
+decision_paralysis,helps_with,Getting stuck deciding what to do.
+declutter,technique,Remove unused items to reduce clutter.
+deep_work_blocks,goal,"Schedule focused, interruption‑free work blocks."
+dehydration,helps_with,Not drinking enough fluids.
+delay_tactics,technique,Wait a set time before acting on an urge.
+delayed_sleep_phase,helps_with,Sleep schedule shifted too late.
+deload_weeks,technique,Planned easier weeks to recover and adapt.
+depression,context,Low mood and energy affect habits.
+diabetes_management,context,"Managing diabetes; adjust diet, activity, timing."
+digital_cleanse,technique,Reduce digital clutter and distractions.
+digital_clutter,helps_with,"Too many files, tabs, or apps."
+digital_minimalism,goal,"Use fewer, simpler digital tools."
+distraction,technique,Shift attention until the urge passes.
+distractions,helps_with,Interruptions or temptations derail focus.
+do_not_disturb_mode,technique,Use DND to protect focused work time.
+doms,helps_with,Delayed onset muscle soreness.
+dynamic_warmup,technique,Active warm‑up before exercise.
+early_waking,helps_with,Waking earlier than desired.
+email_overload,helps_with,Inbox overflowing; hard to process.
+emotional_eating,helps_with,Eating in response to emotions.
+energy_based_scheduling,technique,Match tasks to your daily energy peaks.
+energy_crashes,helps_with,Sharp dips in energy after meals or afternoons.
+enhance_mood_stability,goal,Reduce mood swings and volatility.
+ensure_food_safety,goal,"Handle, cook, and store foods safely."
+environment_design,technique,Arrange surroundings to make good choices easy.
+equipment_limited,context,Few tools available for training.
+evening_cravings,helps_with,Cravings that spike in the evening.
+evening_light_dim,technique,Dim lights in the evening to cue sleepiness.
+fall_asleep_faster,goal,Reduce time it takes to fall asleep.
+fiber_first,technique,Eat fiber‑rich foods early in the meal.
+file_disorganization,helps_with,Files are hard to find or labeled poorly.
+food_allergies,context,Allergy risk; avoid specific foods safely.
+food_anxiety,helps_with,Anxious thoughts about food choices.
+food_guilt,helps_with,Feeling guilty after eating.
+food_intolerances,context,"Food reactions (e.g., lactose); choose alternatives."
+food_safety_anxiety,helps_with,Worries about foodborne illness or safety.
+forgetfulness,helps_with,Forgetting to do the habit.
+form_checks,technique,Periodically assess and correct exercise form.
+gamification,technique,"Use points, levels, or challenges to motivate."
+gerd,context,Gastroesophageal reflux; avoid triggers and late meals.
+gluten_free,context,Avoid gluten for health or preference.
+gratitude_journaling,technique,Write down things you’re grateful for.
+gym_anxiety,helps_with,Anxiety about exercising in public gyms.
+gym_only_training,context,Training only at a gym.
+habit_menu,technique,Keep a menu of equivalent options to choose from.
+habit_reflection,technique,Briefly review what worked and why.
+habit_stacking,technique,Attach a new habit to an existing routine.
+healthy_pregnancy,goal,"Support a healthy, safe pregnancy."
+healthy_relationship_with_food,goal,"Develop a flexible, non‑restrictive approach to eating."
+healthy_swaps,technique,Swap higher‑calorie/processed foods for better options.
+heartburn,helps_with,Burning chest sensation after eating.
+heavy_workload,context,High demands; time and energy are tight.
+hiit,technique,"Short, intense intervals with rest periods."
+holidays,context,Holiday schedules and foods disrupt routine.
+home_only_training,context,Training only at home.
+hot_weather,context,Heat affects hydration and training.
+hunger,helps_with,Feeling hungry too often or intensely.
+hydration_first,technique,Drink water before or with meals.
+hyperlipidemia,context,High cholesterol; heart‑healthy habits matter.
+hypertension,context,High blood pressure; adapt diet and exercise.
+hypothyroidism,context,Low thyroid function; energy and weight impact.
+ibs_symptoms,context,Irritable bowel symptoms; tailor diet and stress care.
+identify_reflux_triggers,technique,Find foods and habits that trigger reflux.
+implementation_intentions,technique,Use if‑then plans to trigger desired actions.
+improve_balance,goal,Enhance balance and stability.
+improve_cardio_fitness,goal,Improve aerobic capacity and heart health.
+improve_endurance,goal,Last longer during physical activity.
+improve_energy,goal,Increase daily energy and reduce fatigue.
+improve_focus,goal,Sustain attention on what matters.
+improve_gut_health,goal,Support healthy digestion and microbiome balance.
+improve_mobility,goal,Move joints more freely and comfortably.
+improve_mood,goal,Enhance mood and emotional well‑being.
+improve_posture,goal,Stand and sit with better alignment.
+improve_sleep,goal,Sleep longer and more restfully.
+impulse_orders,helps_with,Ordering takeout impulsively.
+inbox_backlog,helps_with,Large backlog of emails to process.
+inbox_zero,goal,Keep inbox at (or near) zero.
+inbox_zero_process,technique,Process inbox to empty using a repeatable system.
+inconsistency,helps_with,Difficulty sticking with routines.
+increase_activity_consistency,goal,Be more consistent with physical activity.
+increase_calm,goal,Feel calmer and more grounded.
+increase_fiber,technique,Add fiber‑rich foods to increase fullness.
+increase_flexibility,goal,Increase range of motion.
+increase_nutrient_density,goal,"Choose foods richer in vitamins, minerals, and fiber."
+increase_protein,technique,Add more protein to meals and snacks.
+increase_satiety,goal,Feel fuller for longer between meals.
+increase_steps,goal,Walk more steps per day.
+increase_vegetables,technique,Include vegetables in more meals/snacks.
+increase_whole_grains,technique,Choose whole‑grain options more often.
+increased_productivity,goal,Get more high‑value work done.
+indigestion,helps_with,Upper abdominal discomfort after meals.
+injury,context,Current or recent injury limits activities.
+injury_prep_prehab,technique,Exercises to prevent common injuries.
+injury_prevention,goal,Reduce risk of training‑related injuries.
+insomnia,helps_with,Difficulty falling or staying asleep.
+intuitive_eating,technique,Let internal cues guide what and how much you eat.
+irritability,helps_with,Easily annoyed or frustrated.
+jet_lag,helps_with,Sleep and energy misaligned after travel.
+jet_lag_context,context,Travel‑related circadian disruption.
+jitters,helps_with,"Shaky, wired feeling (often from caffeine)."
+kidney_disease,context,May require medical nutrition limits.
+knee_issue,context,Knee problems limit exercise choices.
+knee_pain,helps_with,Knee discomfort that limits activity.
+lack_of_enjoyment,helps_with,Habit feels dull or unpleasant.
+lack_of_support,helps_with,No accountability or encouragement from others.
+lactose_intolerance,context,Limit lactose; choose alternatives.
+late_meal_timing_adjustment,technique,Finish meals earlier to aid sleep.
+late_night_eating,helps_with,Eating late at night.
+light_management,technique,Morning light; dim evenings to cue sleep.
+limit_naps,technique,Avoid long/late naps that disrupt sleep.
+limited_budget,context,Financial constraints affect choices.
+limited_space,helps_with,Small space limits exercises.
+lose_weight,goal,Reduce body weight safely and sustainably.
+lost_items,helps_with,Frequently misplacing things.
+low_back_pain,helps_with,Back discomfort that limits activity.
+low_balance,helps_with,Trouble maintaining balance.
+low_endurance,helps_with,Gets winded or fatigued quickly.
+low_energy,helps_with,Persistent tiredness or low vitality.
+low_focus,helps_with,Trouble concentrating or sustaining attention.
+low_glycemic_pairing,technique,Pair carbs with protein/fat to blunt spikes.
+low_morning_energy,helps_with,Feeling sluggish on waking.
+low_motivation,helps_with,Lack of drive to start or continue.
+low_satiety,helps_with,Not feeling full after meals.
+maintain_stable_blood_sugar,goal,Keep blood sugar levels steady through the day.
+maintain_weight,goal,Keep current weight steady.
+maintenance_failure,helps_with,Order breaks down after cleaning up.
+manage_cravings,goal,Reduce urge intensity and respond to cravings skillfully.
+meal_planning_overwhelm,helps_with,Meal planning feels confusing or heavy.
+meal_prep,technique,Prepare ingredients/meals ahead to make choices easier.
+meet_deadlines,goal,Consistently deliver work on time.
+meeting_overload,helps_with,Too many meetings reduce productivity.
+menopause,context,Post‑menopause; bone and heart health focus.
+mental_clarity,goal,Think clearly with fewer distractions.
+micro_recovery,technique,Tiny recovery moments during the day.
+micro_workouts,technique,Brief workouts sprinkled through the day.
+mindful_eating,technique,"Eat with attention to hunger, fullness, and taste."
+mindfulness_meditation,technique,Non‑judgmental attention to the present.
+mindless_eating,helps_with,Eating without awareness or attention.
+miss_twice_rule,technique,Avoid skipping the habit two times in a row.
+mobility_drills,technique,Targeted movements to improve joint range.
+mobility_limitations,context,Physical limitations require adaptations.
+move_pain_free,goal,Move comfortably with less pain.
+movement_breaks,technique,Short activity breaks to reset mind and body.
+nap_optimization,technique,"Time naps (usually 10–30 min, early day)."
+nature_time,technique,Spend time outdoors to restore attention.
+nausea,helps_with,Queasy stomach or urge to vomit.
+nausea_aversion_to_meat,helps_with,Nausea or aversion specifically to meats.
+nausea_from_empty_stomach,helps_with,Nausea that occurs when stomach is empty.
+nausea_triggers,helps_with,Foods/situations that trigger nausea.
+neat_boosting,technique,Increase non‑exercise movement (NEAT).
+new_parent,context,Caring for a newborn; unpredictable schedule.
+night_wakings,helps_with,Waking multiple times overnight.
+no_equipment,helps_with,Lack of exercise equipment.
+no_kitchen_access,helps_with,Limited or no kitchen access.
+no_kitchen_access_context,context,Limited kitchen; rely on simple prep.
+no_systems,helps_with,Lack of organizing systems or routines.
+non_sleep_deep_rest,technique,"Brief deep relaxation protocols (e.g., NSDR)."
+notification_overload,helps_with,Too many pings disrupt focus.
+notifications_snooze,technique,Silence non‑urgent alerts during focus time.
+odor_triggers,helps_with,Smells that trigger nausea or aversion.
+older_adult,context,Later life stage; adjust intensity and volume.
+one_touch_rule,technique,Handle each item once—decide and place it.
+organized_home,goal,Create and maintain an organized living space.
+organized_workspace,goal,"Maintain a tidy, productive workspace."
+overeating,helps_with,Eating beyond comfortable fullness.
+overnight_hunger,helps_with,Waking due to hunger at night.
+overtraining,helps_with,Doing too much; not recovering enough.
+overwhelm,helps_with,Feeling overloaded or close to burnout.
+paper_management,goal,Control and file paperwork effectively.
+paper_piles,helps_with,Unsorted piles of paper everywhere.
+paper_triage,technique,"Sort, file, or discard paper systematically."
+pcos,context,Hormonal condition; insulin and cycle considerations.
+perfectionism,helps_with,Setting unrealistically high standards that impede action.
+perimenopause,context,Transition phase; variable symptoms and sleep.
+periodization,technique,Plan training phases for performance and recovery.
+picky_family,helps_with,Family preferences make change difficult.
+picky_family_context,context,Household preferences limit options.
+plate_method,technique,Structure meals with balanced plate portions.
+plateau,helps_with,Progress has stalled.
+pomodoro,technique,"Focused intervals (e.g., 25/5) with short breaks."
+poor_mobility,helps_with,Restricted joint movement.
+poor_posture,helps_with,Posture issues causing discomfort or fatigue.
+poor_sleep,helps_with,Unrefreshing or insufficient sleep.
+portion_control,technique,Use portion sizes and plates/bowls to guide intake.
+portion_size_issues,helps_with,Trouble serving or stopping at reasonable portions.
+postpartum,context,After childbirth; recovery and sleep challenges.
+posture_breaks,technique,Frequent breaks to reset posture.
+pre_commitment,technique,"Commit in advance (preorder, prelog, prepack)."
+prediabetes,context,Elevated blood sugar risk; focus on prevention.
+pregnancy,context,Currently pregnant; prioritize safety and rest.
+priority_triad,technique,Pick three Most Important Tasks (MITs).
+procrastination,helps_with,Putting off tasks that matter.
+progressive_muscle_relaxation,technique,Tense–release muscles to reduce arousal.
+progressive_overload,technique,Gradually increase training load to improve.
+protein_at_breakfast,technique,Prioritize protein in the first meal.
+protein_first,technique,Start meals/snacks with protein sources.
+racing_mind,helps_with,"Thoughts racing, hard to wind down."
+random_cravings,helps_with,"Sudden, unexpected cravings."
+reduce_added_sugar,goal,Cut added sugar in foods and drinks.
+reduce_alcohol,technique,Cut back alcohol frequency or amount.
+reduce_anxiety,goal,Lower day‑to‑day anxiety.
+reduce_caffeine,goal,Limit caffeine to improve sleep or reduce jitters.
+reduce_distractions,goal,Minimize interruptions and attention drains.
+reduce_night_wakings,goal,Wake up less during the night.
+reduce_refined_carbs,goal,Lower intake of refined starches and sugars.
+reduce_saturated_fat,goal,Limit saturated fat intake.
+reduce_sodium,goal,Lower dietary salt intake.
+reduce_stress,goal,Lower overall stress levels.
+reduce_ultra_processed_foods,goal,"Eat fewer ultra‑processed, convenience foods."
+reflux,helps_with,Acid backing up into the esophagus.
+relaxing_audio,technique,"Use calm sounds, music, or stories for sleep."
+religious_fasting,context,Fasting days affect meals and energy.
+reminder_cues,technique,"Set alarms, notes, or visual cues to prompt action."
+retired,context,More flexible time; redefine routines.
+reward_schedule,technique,Plan small rewards for hitting targets.
+rigid_routines,helps_with,Overly strict plans that break under stress.
+rpe_autoregulation,technique,Adjust effort based on perceived intensity (RPE).
+rumination,helps_with,Stuck replaying worries or events.
+salty_cravings,helps_with,Intense urges for salty foods.
+scheduled_rest_days,technique,Plan rest days to recover and prevent burnout.
+screen_dimming,technique,Dim screens and use filters at night.
+screen_time_overuse,helps_with,Too much evening screen time.
+self_compassion_break,technique,Brief practice of kindness toward yourself.
+self_monitoring,technique,"Track behaviors or outcomes (food, steps, sleep)."
+set_minimum_floor,technique,"Define the smallest acceptable version (e.g., 1 push‑up)."
+shift_work,context,Rotating/night shifts disrupt rhythm and sleep.
+shift_work_fatigue,helps_with,Fatigue from rotating or night shifts.
+shoulder_pain,helps_with,Shoulder discomfort that limits activity.
+single_parent,context,Solo caregiving; time is very limited.
+single_tasking,technique,Work on one task at a time.
+sit_less,technique,Reduce prolonged sitting time.
+sleep_apnea,context,Breathing‑related sleep issues; fatigue risk.
+sleep_disruption_from_training,helps_with,Training is interfering with sleep.
+sleep_hygiene,technique,"Foundational sleep practices (light, noise, routine)."
+slow_eating,technique,Eat more slowly to notice fullness cues.
+smell_aversion,helps_with,Strong aversion to certain smells.
+snack_attacks,helps_with,Sudden urges to snack.
+snacking,helps_with,Frequent snacking that feels unhelpful.
+social_eating_confidence,goal,Handle social meals without derailing goals.
+social_pressure,helps_with,Others’ expectations push off‑track choices.
+stay_hydrated,goal,Drink enough fluids to stay hydrated.
+step_goal,technique,Daily step target to boost activity.
+stimulus_control,technique,Use the bed only for sleep; leave if awake.
+strength_training,technique,Use resistance to build strength and muscle.
+stress,helps_with,High perceived stress level.
+stress_eating,helps_with,Eating in response to stress.
+stress_free_environment,goal,"Create calmer, lower‑stress spaces."
+stress_headaches,helps_with,Headaches related to stress tension.
+student_life,context,Student schedule and constraints.
+sugar_addiction,helps_with,Feeling out of control around sugary foods.
+supersets,technique,Alternate exercises back‑to‑back with little rest.
+support_heart_health,goal,Protect cardiovascular health via diet and activity.
+surface_clearing,technique,Keep counters and desks clear by default.
+sweet_cravings,helps_with,Intense urges for sweet foods.
+task_batching,technique,Group similar tasks to reduce switching costs.
+task_overload,helps_with,Too many tasks compete for attention.
+task_system_mastery,goal,Use a reliable personal task system.
+tempo_training,technique,Control lifting speed for stimulus/technique.
+temptation_bundling,technique,Pair a habit with something you enjoy.
+tight_hamstrings,helps_with,Tight hamstrings limit movement.
+tight_hips,helps_with,Tight hip muscles limit movement.
+time_blocking,technique,Reserve calendar blocks for specific work.
+time_boxed_sessions,technique,Fixed‑length sessions to fit busy days.
+time_constraints,helps_with,Schedule limits habit time.
+time_pressure,helps_with,Not enough time to prepare or exercise.
+tiny_habits,technique,"Start with very small, easy versions of the habit."
+too_many_goals,helps_with,Trying to change too many things at once.
+too_many_tools,helps_with,Using too many apps/tools to manage work.
+train_for_event,goal,Prepare and peak for an event or race.
+travel,context,Frequent travel; routines need portability.
+travel_challenges,helps_with,Travel makes routines hard to maintain.
+travel_training_disruption,helps_with,Travel interrupts training routine.
+two_minute_pickup,technique,Quick 2‑minute room tidy to reset.
+unclear_priorities,helps_with,Not sure what truly matters first.
+urge_surfing,technique,Ride out cravings without acting on them.
+variable_routine,technique,Rotate habit options to reduce boredom.
+vegan,context,No animal products; plan protein/B12/iron.
+vegetarian,context,Does not eat meat; plan protein sources.
+veggie_first,technique,Begin meals with vegetables or salads.
+vision_setting,technique,Define how your space should look and feel.
+visual_chaos,helps_with,Too much visual noise to focus.
+visual_habit_tracker,technique,Mark off habits to visualize streaks/progress.
+vomiting,helps_with,Throwing up food or liquids.
+walk_after_meals,technique,Short post‑meal walks for glucose/comfort.
+wearable_feedback,technique,Use wearables to guide training and recovery.
+website_blockers,technique,Block distracting sites during focus times.
+weekend_derailment,helps_with,Weekends disrupt weekday routines.
+weekly_review,technique,Review commitments and plan the next week.
+white_noise,technique,Steady noise to mask disruptions.
+wind_down_routine,technique,Predictable pre‑bed relaxation routine.
+work_from_home,context,Home office; boundaries and movement matter.
+work_life_blur,helps_with,Work and personal time bleed together.
+work_snacking,helps_with,Automatic snacking while working.
+worry_journal,technique,Capture worries before bed to clear mind.
+wrist_pain,helps_with,Wrist discomfort that limits activity.
+zone2_cardio,technique,Easy–moderate cardio to build aerobic base.
+zone_organizing,technique,Assign zones for specific items or tasks.

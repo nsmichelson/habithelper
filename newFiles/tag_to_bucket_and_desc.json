@@ -1,0 +1,1506 @@
+{
+  "accountability_partner": {
+    "bucket": "technique",
+    "description": "Check in with a partner to stay on track."
+  },
+  "adequate_calcium": {
+    "bucket": "goal",
+    "description": "Meet daily calcium needs."
+  },
+  "adequate_choline": {
+    "bucket": "goal",
+    "description": "Meet daily choline needs."
+  },
+  "adequate_fiber": {
+    "bucket": "goal",
+    "description": "Meet daily fiber needs."
+  },
+  "adequate_folate": {
+    "bucket": "goal",
+    "description": "Meet daily folate needs."
+  },
+  "adequate_iodine": {
+    "bucket": "goal",
+    "description": "Meet daily iodine needs."
+  },
+  "adequate_iron": {
+    "bucket": "goal",
+    "description": "Meet daily iron needs."
+  },
+  "adequate_omega_3": {
+    "bucket": "goal",
+    "description": "Meet daily omega\u20113 needs."
+  },
+  "adequate_protein": {
+    "bucket": "goal",
+    "description": "Meet daily protein needs."
+  },
+  "adequate_vitamins": {
+    "bucket": "goal",
+    "description": "Meet daily vitamins needs."
+  },
+  "adhd": {
+    "bucket": "context",
+    "description": "Attention differences; benefit from novelty & cues."
+  },
+  "afternoon_slump": {
+    "bucket": "helps_with",
+    "description": "Energy dip in the afternoon."
+  },
+  "alcohol_cutoff": {
+    "bucket": "technique",
+    "description": "Avoid alcohol close to bedtime."
+  },
+  "alcohol_free": {
+    "bucket": "goal",
+    "description": "Avoid alcohol."
+  },
+  "all_or_nothing_thinking": {
+    "bucket": "helps_with",
+    "description": "If\u2011I\u2011can\u2019t\u2011do\u2011it\u2011perfectly, I won\u2019t do it at all."
+  },
+  "anemia": {
+    "bucket": "context",
+    "description": "Low iron/hemoglobin; manage fatigue and diet."
+  },
+  "anemia_risk": {
+    "bucket": "helps_with",
+    "description": "Risk factors or signs pointing to anemia."
+  },
+  "anxiety": {
+    "bucket": "helps_with",
+    "description": "Persistent nervousness, worry, or tension."
+  },
+  "anxiety_disorder": {
+    "bucket": "context",
+    "description": "Anxiety impacts sleep and routines."
+  },
+  "autism_spectrum": {
+    "bucket": "context",
+    "description": "Sensory/social differences; tailor routines."
+  },
+  "avoid_multitasking": {
+    "bucket": "technique",
+    "description": "Reduce rapid context switching."
+  },
+  "back_issue": {
+    "bucket": "context",
+    "description": "Back problems limit exercise choices."
+  },
+  "batch_cooking": {
+    "bucket": "technique",
+    "description": "Cook larger batches to save time and effort."
+  },
+  "bedroom_cool_dark_quiet": {
+    "bucket": "technique",
+    "description": "Optimize bedroom temperature, light, and noise."
+  },
+  "beginner_confusion": {
+    "bucket": "helps_with",
+    "description": "Unsure how to start or what to do."
+  },
+  "binge_eating": {
+    "bucket": "helps_with",
+    "description": "Episodes of very large eating with loss of control."
+  },
+  "bloating": {
+    "bucket": "helps_with",
+    "description": "Uncomfortable fullness or gas."
+  },
+  "blood_sugar_spikes": {
+    "bucket": "helps_with",
+    "description": "Large rises in blood sugar after meals."
+  },
+  "body_doubling": {
+    "bucket": "technique",
+    "description": "Work alongside someone to boost focus and follow\u2011through."
+  },
+  "body_image_issues": {
+    "bucket": "helps_with",
+    "description": "Negative thoughts about body shape or size."
+  },
+  "body_scan": {
+    "bucket": "technique",
+    "description": "Scan body sensations to induce relaxation."
+  },
+  "bone_health": {
+    "bucket": "goal",
+    "description": "Improve and preserve bone strength."
+  },
+  "boredom": {
+    "bucket": "helps_with",
+    "description": "Boredom undermines consistency."
+  },
+  "boredom_eating": {
+    "bucket": "helps_with",
+    "description": "Eating to fill boredom rather than hunger."
+  },
+  "breastfeeding": {
+    "bucket": "context",
+    "description": "Feeding an infant; higher nutrient/fluid needs."
+  },
+  "breathlessness": {
+    "bucket": "helps_with",
+    "description": "Shortness of breath during activity."
+  },
+  "breathwork": {
+    "bucket": "technique",
+    "description": "Slow, controlled breathing to relax."
+  },
+  "budget_constraints": {
+    "bucket": "helps_with",
+    "description": "Limited funds for food or gear."
+  },
+  "budget_friendly_eating": {
+    "bucket": "goal",
+    "description": "Eat well while keeping costs down."
+  },
+  "buffer_time": {
+    "bucket": "technique",
+    "description": "Leave slack between tasks/meetings."
+  },
+  "build_muscle": {
+    "bucket": "goal",
+    "description": "Grow and maintain muscle mass."
+  },
+  "build_resilience": {
+    "bucket": "goal",
+    "description": "Bounce back faster from stress."
+  },
+  "build_strength": {
+    "bucket": "goal",
+    "description": "Increase strength across major muscle groups."
+  },
+  "burnout": {
+    "bucket": "helps_with",
+    "description": "Exhaustion and reduced capacity from chronic stress."
+  },
+  "caffeine_cutoff": {
+    "bucket": "technique",
+    "description": "Stop caffeine early enough to protect sleep."
+  },
+  "caffeine_dependence": {
+    "bucket": "helps_with",
+    "description": "Relying on caffeine to function."
+  },
+  "calendar_first": {
+    "bucket": "technique",
+    "description": "Plan from your calendar before task lists."
+  },
+  "calendar_overload": {
+    "bucket": "helps_with",
+    "description": "Calendar too full to manage."
+  },
+  "calmer_schedule": {
+    "bucket": "goal",
+    "description": "Simplify schedule and reduce overload."
+  },
+  "capture_everything": {
+    "bucket": "technique",
+    "description": "Record ideas/tasks immediately to a trusted place."
+  },
+  "caregiver_role": {
+    "bucket": "context",
+    "description": "Caring for others reduces time/energy."
+  },
+  "celiac_disease": {
+    "bucket": "context",
+    "description": "Requires strict gluten\u2011free eating."
+  },
+  "checklists": {
+    "bucket": "technique",
+    "description": "Use checklists to make steps explicit."
+  },
+  "chip_cravings": {
+    "bucket": "helps_with",
+    "description": "Cravings for chips or crunchy snacks."
+  },
+  "choose_healthy_breakfasts": {
+    "bucket": "technique",
+    "description": "Pick balanced breakfasts for energy."
+  },
+  "choose_healthy_snacks": {
+    "bucket": "technique",
+    "description": "Keep ready\u2011to\u2011eat, nutritious snacks on hand."
+  },
+  "chronic_fatigue": {
+    "bucket": "context",
+    "description": "Persistent fatigue limits capacity."
+  },
+  "chronic_pain": {
+    "bucket": "context",
+    "description": "Pain flares require adaptable plans."
+  },
+  "clock_face_down": {
+    "bucket": "technique",
+    "description": "Turn clock away to avoid clock\u2011watching."
+  },
+  "clutter_free_life": {
+    "bucket": "goal",
+    "description": "Live with less clutter and more clarity."
+  },
+  "clutter_overwhelm": {
+    "bucket": "helps_with",
+    "description": "Feeling overwhelmed by clutter."
+  },
+  "cognitive_reframing": {
+    "bucket": "technique",
+    "description": "Challenge and replace unhelpful thoughts."
+  },
+  "cold_weather": {
+    "bucket": "context",
+    "description": "Cold affects outdoor activity choices."
+  },
+  "college_dorm": {
+    "bucket": "context",
+    "description": "Dorm life; shared spaces and limited tools."
+  },
+  "consistent_routines": {
+    "bucket": "goal",
+    "description": "Keep daily routines stable and predictable."
+  },
+  "consistent_sleep_schedule": {
+    "bucket": "goal",
+    "description": "Keep regular sleep and wake times."
+  },
+  "consistent_wake_time": {
+    "bucket": "technique",
+    "description": "Get up at the same time daily."
+  },
+  "constipation": {
+    "bucket": "helps_with",
+    "description": "Infrequent or hard bowel movements."
+  },
+  "context_switching": {
+    "bucket": "helps_with",
+    "description": "Rapidly switching tasks reduces efficiency."
+  },
+  "contextual_todos": {
+    "bucket": "technique",
+    "description": "Tag tasks by context (e.g., @home, @errands)."
+  },
+  "cooking_skills_gap": {
+    "bucket": "helps_with",
+    "description": "Limited cooking skills hinder healthy choices."
+  },
+  "cooldown": {
+    "bucket": "technique",
+    "description": "Easy movement and stretches post\u2011workout."
+  },
+  "coping_plans": {
+    "bucket": "technique",
+    "description": "Plan what you\u2019ll do when obstacles show up."
+  },
+  "cravings": {
+    "bucket": "helps_with",
+    "description": "Strong urges to eat specific foods."
+  },
+  "cue_removal": {
+    "bucket": "technique",
+    "description": "Remove triggers for unwanted behaviors."
+  },
+  "daily_reset": {
+    "bucket": "technique",
+    "description": "Short end\u2011of\u2011day tidy to maintain order."
+  },
+  "daytime_sleepiness": {
+    "bucket": "helps_with",
+    "description": "Sleepy or dozing during the day."
+  },
+  "deadline_backplanning": {
+    "bucket": "technique",
+    "description": "Plan backward from due dates."
+  },
+  "decision_fatigue": {
+    "bucket": "helps_with",
+    "description": "Too many choices leading to poor decisions."
+  },
+  "decision_paralysis": {
+    "bucket": "helps_with",
+    "description": "Getting stuck deciding what to do."
+  },
+  "declutter": {
+    "bucket": "technique",
+    "description": "Remove unused items to reduce clutter."
+  },
+  "deep_work_blocks": {
+    "bucket": "goal",
+    "description": "Schedule focused, interruption\u2011free work blocks."
+  },
+  "dehydration": {
+    "bucket": "helps_with",
+    "description": "Not drinking enough fluids."
+  },
+  "delay_tactics": {
+    "bucket": "technique",
+    "description": "Wait a set time before acting on an urge."
+  },
+  "delayed_sleep_phase": {
+    "bucket": "helps_with",
+    "description": "Sleep schedule shifted too late."
+  },
+  "deload_weeks": {
+    "bucket": "technique",
+    "description": "Planned easier weeks to recover and adapt."
+  },
+  "depression": {
+    "bucket": "context",
+    "description": "Low mood and energy affect habits."
+  },
+  "diabetes_management": {
+    "bucket": "context",
+    "description": "Managing diabetes; adjust diet, activity, timing."
+  },
+  "digital_cleanse": {
+    "bucket": "technique",
+    "description": "Reduce digital clutter and distractions."
+  },
+  "digital_clutter": {
+    "bucket": "helps_with",
+    "description": "Too many files, tabs, or apps."
+  },
+  "digital_minimalism": {
+    "bucket": "goal",
+    "description": "Use fewer, simpler digital tools."
+  },
+  "distraction": {
+    "bucket": "technique",
+    "description": "Shift attention until the urge passes."
+  },
+  "distractions": {
+    "bucket": "helps_with",
+    "description": "Interruptions or temptations derail focus."
+  },
+  "do_not_disturb_mode": {
+    "bucket": "technique",
+    "description": "Use DND to protect focused work time."
+  },
+  "doms": {
+    "bucket": "helps_with",
+    "description": "Delayed onset muscle soreness."
+  },
+  "dynamic_warmup": {
+    "bucket": "technique",
+    "description": "Active warm\u2011up before exercise."
+  },
+  "early_waking": {
+    "bucket": "helps_with",
+    "description": "Waking earlier than desired."
+  },
+  "email_overload": {
+    "bucket": "helps_with",
+    "description": "Inbox overflowing; hard to process."
+  },
+  "emotional_eating": {
+    "bucket": "helps_with",
+    "description": "Eating in response to emotions."
+  },
+  "energy_based_scheduling": {
+    "bucket": "technique",
+    "description": "Match tasks to your daily energy peaks."
+  },
+  "energy_crashes": {
+    "bucket": "helps_with",
+    "description": "Sharp dips in energy after meals or afternoons."
+  },
+  "enhance_mood_stability": {
+    "bucket": "goal",
+    "description": "Reduce mood swings and volatility."
+  },
+  "ensure_food_safety": {
+    "bucket": "goal",
+    "description": "Handle, cook, and store foods safely."
+  },
+  "environment_design": {
+    "bucket": "technique",
+    "description": "Arrange surroundings to make good choices easy."
+  },
+  "equipment_limited": {
+    "bucket": "context",
+    "description": "Few tools available for training."
+  },
+  "evening_cravings": {
+    "bucket": "helps_with",
+    "description": "Cravings that spike in the evening."
+  },
+  "evening_light_dim": {
+    "bucket": "technique",
+    "description": "Dim lights in the evening to cue sleepiness."
+  },
+  "fall_asleep_faster": {
+    "bucket": "goal",
+    "description": "Reduce time it takes to fall asleep."
+  },
+  "fiber_first": {
+    "bucket": "technique",
+    "description": "Eat fiber\u2011rich foods early in the meal."
+  },
+  "file_disorganization": {
+    "bucket": "helps_with",
+    "description": "Files are hard to find or labeled poorly."
+  },
+  "food_allergies": {
+    "bucket": "context",
+    "description": "Allergy risk; avoid specific foods safely."
+  },
+  "food_anxiety": {
+    "bucket": "helps_with",
+    "description": "Anxious thoughts about food choices."
+  },
+  "food_guilt": {
+    "bucket": "helps_with",
+    "description": "Feeling guilty after eating."
+  },
+  "food_intolerances": {
+    "bucket": "context",
+    "description": "Food reactions (e.g., lactose); choose alternatives."
+  },
+  "food_safety_anxiety": {
+    "bucket": "helps_with",
+    "description": "Worries about foodborne illness or safety."
+  },
+  "forgetfulness": {
+    "bucket": "helps_with",
+    "description": "Forgetting to do the habit."
+  },
+  "form_checks": {
+    "bucket": "technique",
+    "description": "Periodically assess and correct exercise form."
+  },
+  "gamification": {
+    "bucket": "technique",
+    "description": "Use points, levels, or challenges to motivate."
+  },
+  "gerd": {
+    "bucket": "context",
+    "description": "Gastroesophageal reflux; avoid triggers and late meals."
+  },
+  "gluten_free": {
+    "bucket": "context",
+    "description": "Avoid gluten for health or preference."
+  },
+  "gratitude_journaling": {
+    "bucket": "technique",
+    "description": "Write down things you\u2019re grateful for."
+  },
+  "gym_anxiety": {
+    "bucket": "helps_with",
+    "description": "Anxiety about exercising in public gyms."
+  },
+  "gym_only_training": {
+    "bucket": "context",
+    "description": "Training only at a gym."
+  },
+  "habit_menu": {
+    "bucket": "technique",
+    "description": "Keep a menu of equivalent options to choose from."
+  },
+  "habit_reflection": {
+    "bucket": "technique",
+    "description": "Briefly review what worked and why."
+  },
+  "habit_stacking": {
+    "bucket": "technique",
+    "description": "Attach a new habit to an existing routine."
+  },
+  "healthy_pregnancy": {
+    "bucket": "goal",
+    "description": "Support a healthy, safe pregnancy."
+  },
+  "healthy_relationship_with_food": {
+    "bucket": "goal",
+    "description": "Develop a flexible, non\u2011restrictive approach to eating."
+  },
+  "healthy_swaps": {
+    "bucket": "technique",
+    "description": "Swap higher\u2011calorie/processed foods for better options."
+  },
+  "heartburn": {
+    "bucket": "helps_with",
+    "description": "Burning chest sensation after eating."
+  },
+  "heavy_workload": {
+    "bucket": "context",
+    "description": "High demands; time and energy are tight."
+  },
+  "hiit": {
+    "bucket": "technique",
+    "description": "Short, intense intervals with rest periods."
+  },
+  "holidays": {
+    "bucket": "context",
+    "description": "Holiday schedules and foods disrupt routine."
+  },
+  "home_only_training": {
+    "bucket": "context",
+    "description": "Training only at home."
+  },
+  "hot_weather": {
+    "bucket": "context",
+    "description": "Heat affects hydration and training."
+  },
+  "hunger": {
+    "bucket": "helps_with",
+    "description": "Feeling hungry too often or intensely."
+  },
+  "hydration_first": {
+    "bucket": "technique",
+    "description": "Drink water before or with meals."
+  },
+  "hyperlipidemia": {
+    "bucket": "context",
+    "description": "High cholesterol; heart\u2011healthy habits matter."
+  },
+  "hypertension": {
+    "bucket": "context",
+    "description": "High blood pressure; adapt diet and exercise."
+  },
+  "hypothyroidism": {
+    "bucket": "context",
+    "description": "Low thyroid function; energy and weight impact."
+  },
+  "ibs_symptoms": {
+    "bucket": "context",
+    "description": "Irritable bowel symptoms; tailor diet and stress care."
+  },
+  "identify_reflux_triggers": {
+    "bucket": "technique",
+    "description": "Find foods and habits that trigger reflux."
+  },
+  "implementation_intentions": {
+    "bucket": "technique",
+    "description": "Use if\u2011then plans to trigger desired actions."
+  },
+  "improve_balance": {
+    "bucket": "goal",
+    "description": "Enhance balance and stability."
+  },
+  "improve_cardio_fitness": {
+    "bucket": "goal",
+    "description": "Improve aerobic capacity and heart health."
+  },
+  "improve_endurance": {
+    "bucket": "goal",
+    "description": "Last longer during physical activity."
+  },
+  "improve_energy": {
+    "bucket": "goal",
+    "description": "Increase daily energy and reduce fatigue."
+  },
+  "improve_focus": {
+    "bucket": "goal",
+    "description": "Sustain attention on what matters."
+  },
+  "improve_gut_health": {
+    "bucket": "goal",
+    "description": "Support healthy digestion and microbiome balance."
+  },
+  "improve_mobility": {
+    "bucket": "goal",
+    "description": "Move joints more freely and comfortably."
+  },
+  "improve_mood": {
+    "bucket": "goal",
+    "description": "Enhance mood and emotional well\u2011being."
+  },
+  "improve_posture": {
+    "bucket": "goal",
+    "description": "Stand and sit with better alignment."
+  },
+  "improve_sleep": {
+    "bucket": "goal",
+    "description": "Sleep longer and more restfully."
+  },
+  "impulse_orders": {
+    "bucket": "helps_with",
+    "description": "Ordering takeout impulsively."
+  },
+  "inbox_backlog": {
+    "bucket": "helps_with",
+    "description": "Large backlog of emails to process."
+  },
+  "inbox_zero": {
+    "bucket": "goal",
+    "description": "Keep inbox at (or near) zero."
+  },
+  "inbox_zero_process": {
+    "bucket": "technique",
+    "description": "Process inbox to empty using a repeatable system."
+  },
+  "inconsistency": {
+    "bucket": "helps_with",
+    "description": "Difficulty sticking with routines."
+  },
+  "increase_activity_consistency": {
+    "bucket": "goal",
+    "description": "Be more consistent with physical activity."
+  },
+  "increase_calm": {
+    "bucket": "goal",
+    "description": "Feel calmer and more grounded."
+  },
+  "increase_fiber": {
+    "bucket": "technique",
+    "description": "Add fiber\u2011rich foods to increase fullness."
+  },
+  "increase_flexibility": {
+    "bucket": "goal",
+    "description": "Increase range of motion."
+  },
+  "increase_nutrient_density": {
+    "bucket": "goal",
+    "description": "Choose foods richer in vitamins, minerals, and fiber."
+  },
+  "increase_protein": {
+    "bucket": "technique",
+    "description": "Add more protein to meals and snacks."
+  },
+  "increase_satiety": {
+    "bucket": "goal",
+    "description": "Feel fuller for longer between meals."
+  },
+  "increase_steps": {
+    "bucket": "goal",
+    "description": "Walk more steps per day."
+  },
+  "increase_vegetables": {
+    "bucket": "technique",
+    "description": "Include vegetables in more meals/snacks."
+  },
+  "increase_whole_grains": {
+    "bucket": "technique",
+    "description": "Choose whole\u2011grain options more often."
+  },
+  "increased_productivity": {
+    "bucket": "goal",
+    "description": "Get more high\u2011value work done."
+  },
+  "indigestion": {
+    "bucket": "helps_with",
+    "description": "Upper abdominal discomfort after meals."
+  },
+  "injury": {
+    "bucket": "context",
+    "description": "Current or recent injury limits activities."
+  },
+  "injury_prep_prehab": {
+    "bucket": "technique",
+    "description": "Exercises to prevent common injuries."
+  },
+  "injury_prevention": {
+    "bucket": "goal",
+    "description": "Reduce risk of training\u2011related injuries."
+  },
+  "insomnia": {
+    "bucket": "helps_with",
+    "description": "Difficulty falling or staying asleep."
+  },
+  "intuitive_eating": {
+    "bucket": "technique",
+    "description": "Let internal cues guide what and how much you eat."
+  },
+  "irritability": {
+    "bucket": "helps_with",
+    "description": "Easily annoyed or frustrated."
+  },
+  "jet_lag": {
+    "bucket": "helps_with",
+    "description": "Sleep and energy misaligned after travel."
+  },
+  "jet_lag_context": {
+    "bucket": "context",
+    "description": "Travel\u2011related circadian disruption."
+  },
+  "jitters": {
+    "bucket": "helps_with",
+    "description": "Shaky, wired feeling (often from caffeine)."
+  },
+  "kidney_disease": {
+    "bucket": "context",
+    "description": "May require medical nutrition limits."
+  },
+  "knee_issue": {
+    "bucket": "context",
+    "description": "Knee problems limit exercise choices."
+  },
+  "knee_pain": {
+    "bucket": "helps_with",
+    "description": "Knee discomfort that limits activity."
+  },
+  "lack_of_enjoyment": {
+    "bucket": "helps_with",
+    "description": "Habit feels dull or unpleasant."
+  },
+  "lack_of_support": {
+    "bucket": "helps_with",
+    "description": "No accountability or encouragement from others."
+  },
+  "lactose_intolerance": {
+    "bucket": "context",
+    "description": "Limit lactose; choose alternatives."
+  },
+  "late_meal_timing_adjustment": {
+    "bucket": "technique",
+    "description": "Finish meals earlier to aid sleep."
+  },
+  "late_night_eating": {
+    "bucket": "helps_with",
+    "description": "Eating late at night."
+  },
+  "light_management": {
+    "bucket": "technique",
+    "description": "Morning light; dim evenings to cue sleep."
+  },
+  "limit_naps": {
+    "bucket": "technique",
+    "description": "Avoid long/late naps that disrupt sleep."
+  },
+  "limited_budget": {
+    "bucket": "context",
+    "description": "Financial constraints affect choices."
+  },
+  "limited_space": {
+    "bucket": "helps_with",
+    "description": "Small space limits exercises."
+  },
+  "lose_weight": {
+    "bucket": "goal",
+    "description": "Reduce body weight safely and sustainably."
+  },
+  "lost_items": {
+    "bucket": "helps_with",
+    "description": "Frequently misplacing things."
+  },
+  "low_back_pain": {
+    "bucket": "helps_with",
+    "description": "Back discomfort that limits activity."
+  },
+  "low_balance": {
+    "bucket": "helps_with",
+    "description": "Trouble maintaining balance."
+  },
+  "low_endurance": {
+    "bucket": "helps_with",
+    "description": "Gets winded or fatigued quickly."
+  },
+  "low_energy": {
+    "bucket": "helps_with",
+    "description": "Persistent tiredness or low vitality."
+  },
+  "low_focus": {
+    "bucket": "helps_with",
+    "description": "Trouble concentrating or sustaining attention."
+  },
+  "low_glycemic_pairing": {
+    "bucket": "technique",
+    "description": "Pair carbs with protein/fat to blunt spikes."
+  },
+  "low_morning_energy": {
+    "bucket": "helps_with",
+    "description": "Feeling sluggish on waking."
+  },
+  "low_motivation": {
+    "bucket": "helps_with",
+    "description": "Lack of drive to start or continue."
+  },
+  "low_satiety": {
+    "bucket": "helps_with",
+    "description": "Not feeling full after meals."
+  },
+  "maintain_stable_blood_sugar": {
+    "bucket": "goal",
+    "description": "Keep blood sugar levels steady through the day."
+  },
+  "maintain_weight": {
+    "bucket": "goal",
+    "description": "Keep current weight steady."
+  },
+  "maintenance_failure": {
+    "bucket": "helps_with",
+    "description": "Order breaks down after cleaning up."
+  },
+  "manage_cravings": {
+    "bucket": "goal",
+    "description": "Reduce urge intensity and respond to cravings skillfully."
+  },
+  "meal_planning_overwhelm": {
+    "bucket": "helps_with",
+    "description": "Meal planning feels confusing or heavy."
+  },
+  "meal_prep": {
+    "bucket": "technique",
+    "description": "Prepare ingredients/meals ahead to make choices easier."
+  },
+  "meet_deadlines": {
+    "bucket": "goal",
+    "description": "Consistently deliver work on time."
+  },
+  "meeting_overload": {
+    "bucket": "helps_with",
+    "description": "Too many meetings reduce productivity."
+  },
+  "menopause": {
+    "bucket": "context",
+    "description": "Post\u2011menopause; bone and heart health focus."
+  },
+  "mental_clarity": {
+    "bucket": "goal",
+    "description": "Think clearly with fewer distractions."
+  },
+  "micro_recovery": {
+    "bucket": "technique",
+    "description": "Tiny recovery moments during the day."
+  },
+  "micro_workouts": {
+    "bucket": "technique",
+    "description": "Brief workouts sprinkled through the day."
+  },
+  "mindful_eating": {
+    "bucket": "technique",
+    "description": "Eat with attention to hunger, fullness, and taste."
+  },
+  "mindfulness_meditation": {
+    "bucket": "technique",
+    "description": "Non\u2011judgmental attention to the present."
+  },
+  "mindless_eating": {
+    "bucket": "helps_with",
+    "description": "Eating without awareness or attention."
+  },
+  "miss_twice_rule": {
+    "bucket": "technique",
+    "description": "Avoid skipping the habit two times in a row."
+  },
+  "mobility_drills": {
+    "bucket": "technique",
+    "description": "Targeted movements to improve joint range."
+  },
+  "mobility_limitations": {
+    "bucket": "context",
+    "description": "Physical limitations require adaptations."
+  },
+  "move_pain_free": {
+    "bucket": "goal",
+    "description": "Move comfortably with less pain."
+  },
+  "movement_breaks": {
+    "bucket": "technique",
+    "description": "Short activity breaks to reset mind and body."
+  },
+  "nap_optimization": {
+    "bucket": "technique",
+    "description": "Time naps (usually 10\u201330 min, early day)."
+  },
+  "nature_time": {
+    "bucket": "technique",
+    "description": "Spend time outdoors to restore attention."
+  },
+  "nausea": {
+    "bucket": "helps_with",
+    "description": "Queasy stomach or urge to vomit."
+  },
+  "nausea_aversion_to_meat": {
+    "bucket": "helps_with",
+    "description": "Nausea or aversion specifically to meats."
+  },
+  "nausea_from_empty_stomach": {
+    "bucket": "helps_with",
+    "description": "Nausea that occurs when stomach is empty."
+  },
+  "nausea_triggers": {
+    "bucket": "helps_with",
+    "description": "Foods/situations that trigger nausea."
+  },
+  "neat_boosting": {
+    "bucket": "technique",
+    "description": "Increase non\u2011exercise movement (NEAT)."
+  },
+  "new_parent": {
+    "bucket": "context",
+    "description": "Caring for a newborn; unpredictable schedule."
+  },
+  "night_wakings": {
+    "bucket": "helps_with",
+    "description": "Waking multiple times overnight."
+  },
+  "no_equipment": {
+    "bucket": "helps_with",
+    "description": "Lack of exercise equipment."
+  },
+  "no_kitchen_access": {
+    "bucket": "helps_with",
+    "description": "Limited or no kitchen access."
+  },
+  "no_kitchen_access_context": {
+    "bucket": "context",
+    "description": "Limited kitchen; rely on simple prep."
+  },
+  "no_systems": {
+    "bucket": "helps_with",
+    "description": "Lack of organizing systems or routines."
+  },
+  "non_sleep_deep_rest": {
+    "bucket": "technique",
+    "description": "Brief deep relaxation protocols (e.g., NSDR)."
+  },
+  "notification_overload": {
+    "bucket": "helps_with",
+    "description": "Too many pings disrupt focus."
+  },
+  "notifications_snooze": {
+    "bucket": "technique",
+    "description": "Silence non\u2011urgent alerts during focus time."
+  },
+  "odor_triggers": {
+    "bucket": "helps_with",
+    "description": "Smells that trigger nausea or aversion."
+  },
+  "older_adult": {
+    "bucket": "context",
+    "description": "Later life stage; adjust intensity and volume."
+  },
+  "one_touch_rule": {
+    "bucket": "technique",
+    "description": "Handle each item once\u2014decide and place it."
+  },
+  "organized_home": {
+    "bucket": "goal",
+    "description": "Create and maintain an organized living space."
+  },
+  "organized_workspace": {
+    "bucket": "goal",
+    "description": "Maintain a tidy, productive workspace."
+  },
+  "overeating": {
+    "bucket": "helps_with",
+    "description": "Eating beyond comfortable fullness."
+  },
+  "overnight_hunger": {
+    "bucket": "helps_with",
+    "description": "Waking due to hunger at night."
+  },
+  "overtraining": {
+    "bucket": "helps_with",
+    "description": "Doing too much; not recovering enough."
+  },
+  "overwhelm": {
+    "bucket": "helps_with",
+    "description": "Feeling overloaded or close to burnout."
+  },
+  "paper_management": {
+    "bucket": "goal",
+    "description": "Control and file paperwork effectively."
+  },
+  "paper_piles": {
+    "bucket": "helps_with",
+    "description": "Unsorted piles of paper everywhere."
+  },
+  "paper_triage": {
+    "bucket": "technique",
+    "description": "Sort, file, or discard paper systematically."
+  },
+  "pcos": {
+    "bucket": "context",
+    "description": "Hormonal condition; insulin and cycle considerations."
+  },
+  "perfectionism": {
+    "bucket": "helps_with",
+    "description": "Setting unrealistically high standards that impede action."
+  },
+  "perimenopause": {
+    "bucket": "context",
+    "description": "Transition phase; variable symptoms and sleep."
+  },
+  "periodization": {
+    "bucket": "technique",
+    "description": "Plan training phases for performance and recovery."
+  },
+  "picky_family": {
+    "bucket": "helps_with",
+    "description": "Family preferences make change difficult."
+  },
+  "picky_family_context": {
+    "bucket": "context",
+    "description": "Household preferences limit options."
+  },
+  "plate_method": {
+    "bucket": "technique",
+    "description": "Structure meals with balanced plate portions."
+  },
+  "plateau": {
+    "bucket": "helps_with",
+    "description": "Progress has stalled."
+  },
+  "pomodoro": {
+    "bucket": "technique",
+    "description": "Focused intervals (e.g., 25/5) with short breaks."
+  },
+  "poor_mobility": {
+    "bucket": "helps_with",
+    "description": "Restricted joint movement."
+  },
+  "poor_posture": {
+    "bucket": "helps_with",
+    "description": "Posture issues causing discomfort or fatigue."
+  },
+  "poor_sleep": {
+    "bucket": "helps_with",
+    "description": "Unrefreshing or insufficient sleep."
+  },
+  "portion_control": {
+    "bucket": "technique",
+    "description": "Use portion sizes and plates/bowls to guide intake."
+  },
+  "portion_size_issues": {
+    "bucket": "helps_with",
+    "description": "Trouble serving or stopping at reasonable portions."
+  },
+  "postpartum": {
+    "bucket": "context",
+    "description": "After childbirth; recovery and sleep challenges."
+  },
+  "posture_breaks": {
+    "bucket": "technique",
+    "description": "Frequent breaks to reset posture."
+  },
+  "pre_commitment": {
+    "bucket": "technique",
+    "description": "Commit in advance (preorder, prelog, prepack)."
+  },
+  "prediabetes": {
+    "bucket": "context",
+    "description": "Elevated blood sugar risk; focus on prevention."
+  },
+  "pregnancy": {
+    "bucket": "context",
+    "description": "Currently pregnant; prioritize safety and rest."
+  },
+  "priority_triad": {
+    "bucket": "technique",
+    "description": "Pick three Most Important Tasks (MITs)."
+  },
+  "procrastination": {
+    "bucket": "helps_with",
+    "description": "Putting off tasks that matter."
+  },
+  "progressive_muscle_relaxation": {
+    "bucket": "technique",
+    "description": "Tense\u2013release muscles to reduce arousal."
+  },
+  "progressive_overload": {
+    "bucket": "technique",
+    "description": "Gradually increase training load to improve."
+  },
+  "protein_at_breakfast": {
+    "bucket": "technique",
+    "description": "Prioritize protein in the first meal."
+  },
+  "protein_first": {
+    "bucket": "technique",
+    "description": "Start meals/snacks with protein sources."
+  },
+  "racing_mind": {
+    "bucket": "helps_with",
+    "description": "Thoughts racing, hard to wind down."
+  },
+  "random_cravings": {
+    "bucket": "helps_with",
+    "description": "Sudden, unexpected cravings."
+  },
+  "reduce_added_sugar": {
+    "bucket": "goal",
+    "description": "Cut added sugar in foods and drinks."
+  },
+  "reduce_alcohol": {
+    "bucket": "technique",
+    "description": "Cut back alcohol frequency or amount."
+  },
+  "reduce_anxiety": {
+    "bucket": "goal",
+    "description": "Lower day\u2011to\u2011day anxiety."
+  },
+  "reduce_caffeine": {
+    "bucket": "goal",
+    "description": "Limit caffeine to improve sleep or reduce jitters."
+  },
+  "reduce_distractions": {
+    "bucket": "goal",
+    "description": "Minimize interruptions and attention drains."
+  },
+  "reduce_night_wakings": {
+    "bucket": "goal",
+    "description": "Wake up less during the night."
+  },
+  "reduce_refined_carbs": {
+    "bucket": "goal",
+    "description": "Lower intake of refined starches and sugars."
+  },
+  "reduce_saturated_fat": {
+    "bucket": "goal",
+    "description": "Limit saturated fat intake."
+  },
+  "reduce_sodium": {
+    "bucket": "goal",
+    "description": "Lower dietary salt intake."
+  },
+  "reduce_stress": {
+    "bucket": "goal",
+    "description": "Lower overall stress levels."
+  },
+  "reduce_ultra_processed_foods": {
+    "bucket": "goal",
+    "description": "Eat fewer ultra\u2011processed, convenience foods."
+  },
+  "reflux": {
+    "bucket": "helps_with",
+    "description": "Acid backing up into the esophagus."
+  },
+  "relaxing_audio": {
+    "bucket": "technique",
+    "description": "Use calm sounds, music, or stories for sleep."
+  },
+  "religious_fasting": {
+    "bucket": "context",
+    "description": "Fasting days affect meals and energy."
+  },
+  "reminder_cues": {
+    "bucket": "technique",
+    "description": "Set alarms, notes, or visual cues to prompt action."
+  },
+  "retired": {
+    "bucket": "context",
+    "description": "More flexible time; redefine routines."
+  },
+  "reward_schedule": {
+    "bucket": "technique",
+    "description": "Plan small rewards for hitting targets."
+  },
+  "rigid_routines": {
+    "bucket": "helps_with",
+    "description": "Overly strict plans that break under stress."
+  },
+  "rpe_autoregulation": {
+    "bucket": "technique",
+    "description": "Adjust effort based on perceived intensity (RPE)."
+  },
+  "rumination": {
+    "bucket": "helps_with",
+    "description": "Stuck replaying worries or events."
+  },
+  "salty_cravings": {
+    "bucket": "helps_with",
+    "description": "Intense urges for salty foods."
+  },
+  "scheduled_rest_days": {
+    "bucket": "technique",
+    "description": "Plan rest days to recover and prevent burnout."
+  },
+  "screen_dimming": {
+    "bucket": "technique",
+    "description": "Dim screens and use filters at night."
+  },
+  "screen_time_overuse": {
+    "bucket": "helps_with",
+    "description": "Too much evening screen time."
+  },
+  "self_compassion_break": {
+    "bucket": "technique",
+    "description": "Brief practice of kindness toward yourself."
+  },
+  "self_monitoring": {
+    "bucket": "technique",
+    "description": "Track behaviors or outcomes (food, steps, sleep)."
+  },
+  "set_minimum_floor": {
+    "bucket": "technique",
+    "description": "Define the smallest acceptable version (e.g., 1 push\u2011up)."
+  },
+  "shift_work": {
+    "bucket": "context",
+    "description": "Rotating/night shifts disrupt rhythm and sleep."
+  },
+  "shift_work_fatigue": {
+    "bucket": "helps_with",
+    "description": "Fatigue from rotating or night shifts."
+  },
+  "shoulder_pain": {
+    "bucket": "helps_with",
+    "description": "Shoulder discomfort that limits activity."
+  },
+  "single_parent": {
+    "bucket": "context",
+    "description": "Solo caregiving; time is very limited."
+  },
+  "single_tasking": {
+    "bucket": "technique",
+    "description": "Work on one task at a time."
+  },
+  "sit_less": {
+    "bucket": "technique",
+    "description": "Reduce prolonged sitting time."
+  },
+  "sleep_apnea": {
+    "bucket": "context",
+    "description": "Breathing\u2011related sleep issues; fatigue risk."
+  },
+  "sleep_disruption_from_training": {
+    "bucket": "helps_with",
+    "description": "Training is interfering with sleep."
+  },
+  "sleep_hygiene": {
+    "bucket": "technique",
+    "description": "Foundational sleep practices (light, noise, routine)."
+  },
+  "slow_eating": {
+    "bucket": "technique",
+    "description": "Eat more slowly to notice fullness cues."
+  },
+  "smell_aversion": {
+    "bucket": "helps_with",
+    "description": "Strong aversion to certain smells."
+  },
+  "snack_attacks": {
+    "bucket": "helps_with",
+    "description": "Sudden urges to snack."
+  },
+  "snacking": {
+    "bucket": "helps_with",
+    "description": "Frequent snacking that feels unhelpful."
+  },
+  "social_eating_confidence": {
+    "bucket": "goal",
+    "description": "Handle social meals without derailing goals."
+  },
+  "social_pressure": {
+    "bucket": "helps_with",
+    "description": "Others\u2019 expectations push off\u2011track choices."
+  },
+  "stay_hydrated": {
+    "bucket": "goal",
+    "description": "Drink enough fluids to stay hydrated."
+  },
+  "step_goal": {
+    "bucket": "technique",
+    "description": "Daily step target to boost activity."
+  },
+  "stimulus_control": {
+    "bucket": "technique",
+    "description": "Use the bed only for sleep; leave if awake."
+  },
+  "strength_training": {
+    "bucket": "technique",
+    "description": "Use resistance to build strength and muscle."
+  },
+  "stress": {
+    "bucket": "helps_with",
+    "description": "High perceived stress level."
+  },
+  "stress_eating": {
+    "bucket": "helps_with",
+    "description": "Eating in response to stress."
+  },
+  "stress_free_environment": {
+    "bucket": "goal",
+    "description": "Create calmer, lower\u2011stress spaces."
+  },
+  "stress_headaches": {
+    "bucket": "helps_with",
+    "description": "Headaches related to stress tension."
+  },
+  "student_life": {
+    "bucket": "context",
+    "description": "Student schedule and constraints."
+  },
+  "sugar_addiction": {
+    "bucket": "helps_with",
+    "description": "Feeling out of control around sugary foods."
+  },
+  "supersets": {
+    "bucket": "technique",
+    "description": "Alternate exercises back\u2011to\u2011back with little rest."
+  },
+  "support_heart_health": {
+    "bucket": "goal",
+    "description": "Protect cardiovascular health via diet and activity."
+  },
+  "surface_clearing": {
+    "bucket": "technique",
+    "description": "Keep counters and desks clear by default."
+  },
+  "sweet_cravings": {
+    "bucket": "helps_with",
+    "description": "Intense urges for sweet foods."
+  },
+  "task_batching": {
+    "bucket": "technique",
+    "description": "Group similar tasks to reduce switching costs."
+  },
+  "task_overload": {
+    "bucket": "helps_with",
+    "description": "Too many tasks compete for attention."
+  },
+  "task_system_mastery": {
+    "bucket": "goal",
+    "description": "Use a reliable personal task system."
+  },
+  "tempo_training": {
+    "bucket": "technique",
+    "description": "Control lifting speed for stimulus/technique."
+  },
+  "temptation_bundling": {
+    "bucket": "technique",
+    "description": "Pair a habit with something you enjoy."
+  },
+  "tight_hamstrings": {
+    "bucket": "helps_with",
+    "description": "Tight hamstrings limit movement."
+  },
+  "tight_hips": {
+    "bucket": "helps_with",
+    "description": "Tight hip muscles limit movement."
+  },
+  "time_blocking": {
+    "bucket": "technique",
+    "description": "Reserve calendar blocks for specific work."
+  },
+  "time_boxed_sessions": {
+    "bucket": "technique",
+    "description": "Fixed\u2011length sessions to fit busy days."
+  },
+  "time_constraints": {
+    "bucket": "helps_with",
+    "description": "Schedule limits habit time."
+  },
+  "time_pressure": {
+    "bucket": "helps_with",
+    "description": "Not enough time to prepare or exercise."
+  },
+  "tiny_habits": {
+    "bucket": "technique",
+    "description": "Start with very small, easy versions of the habit."
+  },
+  "too_many_goals": {
+    "bucket": "helps_with",
+    "description": "Trying to change too many things at once."
+  },
+  "too_many_tools": {
+    "bucket": "helps_with",
+    "description": "Using too many apps/tools to manage work."
+  },
+  "train_for_event": {
+    "bucket": "goal",
+    "description": "Prepare and peak for an event or race."
+  },
+  "travel": {
+    "bucket": "context",
+    "description": "Frequent travel; routines need portability."
+  },
+  "travel_challenges": {
+    "bucket": "helps_with",
+    "description": "Travel makes routines hard to maintain."
+  },
+  "travel_training_disruption": {
+    "bucket": "helps_with",
+    "description": "Travel interrupts training routine."
+  },
+  "two_minute_pickup": {
+    "bucket": "technique",
+    "description": "Quick 2\u2011minute room tidy to reset."
+  },
+  "unclear_priorities": {
+    "bucket": "helps_with",
+    "description": "Not sure what truly matters first."
+  },
+  "urge_surfing": {
+    "bucket": "technique",
+    "description": "Ride out cravings without acting on them."
+  },
+  "variable_routine": {
+    "bucket": "technique",
+    "description": "Rotate habit options to reduce boredom."
+  },
+  "vegan": {
+    "bucket": "context",
+    "description": "No animal products; plan protein/B12/iron."
+  },
+  "vegetarian": {
+    "bucket": "context",
+    "description": "Does not eat meat; plan protein sources."
+  },
+  "veggie_first": {
+    "bucket": "technique",
+    "description": "Begin meals with vegetables or salads."
+  },
+  "vision_setting": {
+    "bucket": "technique",
+    "description": "Define how your space should look and feel."
+  },
+  "visual_chaos": {
+    "bucket": "helps_with",
+    "description": "Too much visual noise to focus."
+  },
+  "visual_habit_tracker": {
+    "bucket": "technique",
+    "description": "Mark off habits to visualize streaks/progress."
+  },
+  "vomiting": {
+    "bucket": "helps_with",
+    "description": "Throwing up food or liquids."
+  },
+  "walk_after_meals": {
+    "bucket": "technique",
+    "description": "Short post\u2011meal walks for glucose/comfort."
+  },
+  "wearable_feedback": {
+    "bucket": "technique",
+    "description": "Use wearables to guide training and recovery."
+  },
+  "website_blockers": {
+    "bucket": "technique",
+    "description": "Block distracting sites during focus times."
+  },
+  "weekend_derailment": {
+    "bucket": "helps_with",
+    "description": "Weekends disrupt weekday routines."
+  },
+  "weekly_review": {
+    "bucket": "technique",
+    "description": "Review commitments and plan the next week."
+  },
+  "white_noise": {
+    "bucket": "technique",
+    "description": "Steady noise to mask disruptions."
+  },
+  "wind_down_routine": {
+    "bucket": "technique",
+    "description": "Predictable pre\u2011bed relaxation routine."
+  },
+  "work_from_home": {
+    "bucket": "context",
+    "description": "Home office; boundaries and movement matter."
+  },
+  "work_life_blur": {
+    "bucket": "helps_with",
+    "description": "Work and personal time bleed together."
+  },
+  "work_snacking": {
+    "bucket": "helps_with",
+    "description": "Automatic snacking while working."
+  },
+  "worry_journal": {
+    "bucket": "technique",
+    "description": "Capture worries before bed to clear mind."
+  },
+  "wrist_pain": {
+    "bucket": "helps_with",
+    "description": "Wrist discomfort that limits activity."
+  },
+  "zone2_cardio": {
+    "bucket": "technique",
+    "description": "Easy\u2013moderate cardio to build aerobic base."
+  },
+  "zone_organizing": {
+    "bucket": "technique",
+    "description": "Assign zones for specific items or tasks."
+  }
+}
