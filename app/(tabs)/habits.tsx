@@ -37,6 +37,7 @@ export default function HabitsScreen() {
   const scaleAnims = useRef<Record<string, Animated.Value>>({}).current;
   const progressAnims = useRef<Record<string, Animated.Value>>({}).current;
   const holdTimers = useRef<Record<string, NodeJS.Timeout>>({}).current;
+  const justCompletedRef = useRef<Set<string>>(new Set()).current;
 
   // Ensure we have a stable reference to animation objects
   const getOrCreateAnimations = (tipId: string) => {
@@ -54,12 +55,33 @@ export default function HabitsScreen() {
   }, []);
 
   // Refresh habits whenever the tab comes into focus
+  // This will get new loved habits but preserve completion state
   useFocusEffect(
     useCallback(() => {
-      console.log('\n📱 HABITS TAB FOCUSED - Refreshing habits...');
+      console.log('\n📱 HABITS TAB FOCUSED - Refreshing...');
       loadHabits();
     }, [])
   );
+
+  const refreshCompletionsOnly = async () => {
+    console.log('  Refreshing completion states only...');
+    const todayCompletions = await loadTodayCompletions();
+
+    setLovedHabits(prevHabits =>
+      prevHabits.map(habit => {
+        const completionCount = todayCompletions.get(habit.tipId) || 0;
+        const { progress } = getOrCreateAnimations(habit.tipId);
+
+        if (completionCount > 0) {
+          progress.setValue(1);
+        } else {
+          progress.setValue(0);
+        }
+
+        return { ...habit, completedToday: completionCount };
+      })
+    );
+  };
 
   const loadHabits = async () => {
     try {
@@ -139,7 +161,9 @@ export default function HabitsScreen() {
         }
 
         // Initialize animations for this habit
-        getOrCreateAnimations(tipId);
+        const anims = getOrCreateAnimations(tipId);
+        // Start with progress at 0 for all habits (will be updated later if completed)
+        anims.progress.setValue(0);
 
         const habitData = {
           tipId,
@@ -190,35 +214,58 @@ export default function HabitsScreen() {
 
   const loadTodayCompletions = async (): Promise<Map<string, number>> => {
     const today = new Date().toDateString();
-    const stored = await StorageService.getItem(`habit_completions_${today}`);
+    const key = `habit_completions_${today}`;
+    console.log('    Loading completions from key:', key);
+    const stored = await StorageService.getItem(key);
+    console.log('    Raw stored data:', stored);
+
     if (stored) {
       const data = JSON.parse(stored);
-      return new Map(Object.entries(data));
+      console.log('    Parsed data:', data);
+      const map = new Map(Object.entries(data).map(([k, v]) => [k, Number(v)]));
+      console.log('    Created map:', Array.from(map.entries()));
+      return map;
     }
     return new Map();
   };
 
   const saveTodayCompletions = async (completions: Map<string, number>) => {
     const today = new Date().toDateString();
+    const key = `habit_completions_${today}`;
     const data = Object.fromEntries(completions);
-    await StorageService.setItem(`habit_completions_${today}`, JSON.stringify(data));
+    console.log('    Saving completions to key:', key);
+    console.log('    Data to save:', data);
+    await StorageService.setItem(key, JSON.stringify(data));
+    console.log('    Successfully saved');
   };
 
   const handlePressIn = (habitId: string) => {
+    console.log('\n🔍 PRESS IN:', habitId);
+    console.log('  Current lovedHabits state:', lovedHabits.map(h => ({
+      id: h.tipId,
+      completed: h.completedToday
+    })));
     const habit = lovedHabits.find(h => h.tipId === habitId);
-    if (!habit) return;
+    if (!habit) {
+      console.log('  Habit not found!');
+      return;
+    }
+    console.log('  Found habit - completed count:', habit.completedToday);
 
     // Start haptic feedback
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     const { scale, progress } = getOrCreateAnimations(habitId);
+    console.log('  Starting fill animation...');
 
     // Animate the progress circle filling
     Animated.timing(progress, {
       toValue: 1,
-      duration: 500,
+      duration: 300,  // Reduced from 500ms to 300ms
       useNativeDriver: false,
-    }).start();
+    }).start(() => {
+      console.log('  Fill animation complete');
+    });
 
     // Start scale animation
     Animated.spring(scale, {
@@ -229,45 +276,70 @@ export default function HabitsScreen() {
 
     // Set timer to complete after hold
     holdTimers[habitId] = setTimeout(() => {
+      console.log('  Timer triggered - completing habit');
       completeHabit(habitId);
-    }, 500);
+    }, 300);  // Reduced from 500ms to 300ms
   };
 
   const handlePressOut = (habitId: string) => {
+    console.log('\n👆 PRESS OUT:', habitId);
+
     // Clear the timer if released early
     if (holdTimers[habitId]) {
       clearTimeout(holdTimers[habitId]);
       delete holdTimers[habitId];
+      console.log('  Timer cleared');
     }
 
     const { scale, progress } = getOrCreateAnimations(habitId);
-
-    // Reset animations if not completed
     const habit = lovedHabits.find(h => h.tipId === habitId);
-    if (habit && (progress as any)._value < 1) {
+
+    if (!habit) return;
+
+    console.log('  Habit completed?', habit.completedToday > 0);
+    console.log('  Progress value:', (progress as any)._value);
+
+    // Reset scale animation
+    Animated.spring(scale, {
+      toValue: 1,
+      damping: 10,
+      useNativeDriver: true,
+    }).start();
+
+    // Only reset progress if:
+    // 1. The habit is not completed AND
+    // 2. The animation didn't finish (released early)
+    if (habit.completedToday === 0 && (progress as any)._value < 1) {
+      console.log('  Resetting progress to 0 (released early)');
       Animated.timing(progress, {
-        toValue: habit.completedToday > 0 ? 1 : 0,
+        toValue: 0,
         duration: 200,
         useNativeDriver: false,
       }).start();
-
-      Animated.spring(scale, {
-        toValue: 1,
-        damping: 10,
-        useNativeDriver: true,
-      }).start();
+    } else if (habit.completedToday > 0) {
+      // Keep progress at 1 if completed
+      console.log('  Keeping progress at 1 (completed)');
+      progress.setValue(1);
     }
   };
 
   const completeHabit = async (habitId: string) => {
+    console.log('\n✅ COMPLETING HABIT:', habitId);
     const habit = lovedHabits.find(h => h.tipId === habitId);
     if (!habit) return;
+
+    // Mark as just completed to prevent handleTap from resetting
+    justCompletedRef.add(habitId);
+    setTimeout(() => {
+      justCompletedRef.delete(habitId);
+    }, 500);
 
     // Stronger haptic for completion
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
     // Increment completion count
     const newCount = habit.completedToday + 1;
+    console.log('  New completion count:', newCount);
 
     // Update state
     const updatedHabits = lovedHabits.map(h => {
@@ -277,6 +349,7 @@ export default function HabitsScreen() {
       return h;
     });
     setLovedHabits(updatedHabits);
+    console.log('  State updated');
 
     const { scale, progress } = getOrCreateAnimations(habitId);
 
@@ -294,8 +367,15 @@ export default function HabitsScreen() {
       }),
     ]).start();
 
-    // Keep progress filled
+    // Keep progress filled - IMPORTANT: This ensures the green fill stays
     progress.setValue(1);
+    console.log('  Progress locked at 1');
+
+    // Clear any remaining timer to prevent double-completion
+    if (holdTimers[habitId]) {
+      clearTimeout(holdTimers[habitId]);
+      delete holdTimers[habitId];
+    }
 
     // Save to storage
     const completions = new Map<string, number>();
@@ -305,14 +385,26 @@ export default function HabitsScreen() {
       }
     });
     await saveTodayCompletions(completions);
+    console.log('  Saved to storage');
   };
 
   const handleTap = (habitId: string) => {
+    console.log('\n👆 TAP:', habitId);
+
+    // Don't process tap if we just completed via hold
+    if (justCompletedRef.has(habitId)) {
+      console.log('  Ignoring tap - just completed via hold');
+      return;
+    }
+
     const habit = lovedHabits.find(h => h.tipId === habitId);
     if (!habit) return;
 
+    console.log('  Current completion state:', habit.completedToday);
+
     // If already completed, allow toggling it off with a tap
     if (habit.completedToday > 0) {
+      console.log('  Unchecking habit');
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
       // Reset to 0 completions
@@ -350,6 +442,9 @@ export default function HabitsScreen() {
   const renderHabitCircle = (habit: HabitData, index: number) => {
     const { scale: scaleValue, progress: progressValue } = getOrCreateAnimations(habit.tipId);
 
+    // Determine if completed
+    const isCompleted = habit.completedToday > 0;
+
     return (
       <View key={habit.tipId} style={styles.habitItem}>
         <Pressable
@@ -364,10 +459,13 @@ export default function HabitsScreen() {
               { transform: [{ scale: scaleValue }] }
             ]}
           >
-            {/* Background circle */}
-            <View style={styles.habitCircleBackground} />
+            {/* Background circle - white with grey border */}
+            <View style={[
+              styles.habitCircleBackground,
+              isCompleted && styles.habitCircleBackgroundCompleted
+            ]} />
 
-            {/* Progress circle */}
+            {/* Progress/Fill circle - green when holding or completed */}
             <Animated.View
               style={[
                 styles.habitCircleProgress,
@@ -376,15 +474,15 @@ export default function HabitsScreen() {
                   transform: [{
                     scale: progressValue.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0.8, 1],
+                      outputRange: [0, 1],
                     })
                   }]
                 }
               ]}
             />
 
-            {/* Check mark or number */}
-            {habit.completedToday > 0 && (
+            {/* Check mark or number - shown when completed */}
+            {isCompleted && (
               <View style={styles.habitCheckContainer}>
                 {habit.completedToday === 1 ? (
                   <Ionicons name="checkmark" size={32} color="#FFFFFF" />
@@ -396,11 +494,14 @@ export default function HabitsScreen() {
           </Animated.View>
         </Pressable>
 
-        <Text style={styles.habitTitle} numberOfLines={2}>
+        <Text style={[
+          styles.habitTitle,
+          isCompleted && styles.habitTitleCompleted
+        ]} numberOfLines={2}>
           {habit.title}
         </Text>
 
-        {habit.completedToday > 0 && (
+        {isCompleted && (
           <Text style={styles.habitSubtext}>
             {habit.completedToday === 1 ? 'Completed' : `${habit.completedToday}x today`}
           </Text>
@@ -415,7 +516,11 @@ export default function HabitsScreen() {
   // Debug log current state
   console.log('\n🎯 RENDER: Habits tab rendering with', lovedHabits.length, 'habits');
   if (lovedHabits.length > 0) {
-    console.log('  Habits to display:', lovedHabits.map(h => ({ id: h.tipId, title: h.title })));
+    console.log('  Habits to display:', lovedHabits.map(h => ({
+      id: h.tipId,
+      title: h.title.substring(0, 30) + '...',
+      completedToday: h.completedToday
+    })));
   }
 
   return (
@@ -548,11 +653,15 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#E0E0E0',
   },
+  habitCircleBackgroundCompleted: {
+    borderColor: '#4CAF50',
+    borderWidth: 3,
+  },
   habitCircleProgress: {
     position: 'absolute',
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 74,  // Slightly smaller to show border
+    height: 74,
+    borderRadius: 37,
     backgroundColor: '#4CAF50',
   },
   habitCheckContainer: {
@@ -572,6 +681,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
     paddingHorizontal: 8,
+  },
+  habitTitleCompleted: {
+    color: '#4CAF50',
+    fontWeight: '600',
   },
   habitSubtext: {
     fontSize: 11,
