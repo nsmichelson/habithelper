@@ -8944,5 +8944,10 @@ export function getTipsByDifficulty(maxDifficulty: number): Tip[] {
 
 // Helper function to get a specific tip by ID
 export function getTipById(tipId: string): Tip | undefined {
-  return TIPS_DATABASE.find(tip => tip.tip_id === tipId);
+  const found = TIPS_DATABASE.find(tip => tip.tip_id === tipId);
+  if (!found) {
+    console.log(`⚠️ getTipById: Tip with ID ${tipId} NOT FOUND in database`);
+    console.log(`  Available tip IDs (first 5): ${TIPS_DATABASE.slice(0, 5).map(t => t.tip_id).join(', ')}`);
+  }
+  return found;
 }

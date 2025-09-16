@@ -94,9 +94,10 @@ class StorageService {
         console.log(`Cleaned up ${parsedTips.length - uniqueTips.length} duplicate daily tips`);
       }
       
+      console.log('💾 STORAGE: getDailyTips - Returning', uniqueTips.length, 'unique tips');
       return uniqueTips;
     } catch (error) {
-      console.error('Error getting daily tips:', error);
+      console.error('💾 STORAGE: Error getting daily tips:', error);
       return [];
     }
   }
@@ -292,6 +293,25 @@ class StorageService {
       ]);
     } catch (error) {
       console.error('Error clearing tip data:', error);
+      throw error;
+    }
+  }
+
+  // Generic storage helpers for custom keys
+  async getItem(key: string): Promise<string | null> {
+    try {
+      return await AsyncStorage.getItem(key);
+    } catch (error) {
+      console.error(`Error getting item ${key}:`, error);
+      return null;
+    }
+  }
+
+  async setItem(key: string, value: string): Promise<void> {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      console.error(`Error setting item ${key}:`, error);
       throw error;
     }
   }

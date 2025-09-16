@@ -780,11 +780,16 @@ export default function HomeScreen() {
   };
 
   const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
-    console.log('handleQuickComplete called with note:', note);
+    console.log('\n🎆 QUICK COMPLETE TRIGGERED');
+    console.log('  Note:', note);
     if (!dailyTip) {
-      console.log('No dailyTip, returning early');
+      console.log('  ❌ No dailyTip, returning early');
       return;
     }
+
+    console.log('  Current dailyTip ID:', dailyTip.id);
+    console.log('  Current tip_id:', dailyTip.tip_id);
+    console.log('  Existing quick completions:', dailyTip.quick_completions);
 
     const quickComplete: QuickComplete = {
       completed_at: new Date(),
@@ -792,16 +797,23 @@ export default function HomeScreen() {
     };
 
     const updatedCompletions = [...(dailyTip.quick_completions || []), quickComplete];
-    
+    console.log('  Updated completions will be:', updatedCompletions);
+
     // Update the daily tip with quick completion
+    console.log('  Saving to storage...');
     await StorageService.updateDailyTip(dailyTip.id, {
       quick_completions: updatedCompletions,
     });
+    console.log('  ✅ Saved to storage');
 
     setDailyTip({
       ...dailyTip,
       quick_completions: updatedCompletions,
     });
+
+    if (note === 'worked_great') {
+      console.log('  🎉 This was marked as WORKED GREAT - should appear in Habits tab!');
+    }
     
     // Check for new awards after completing
     setTimeout(async () => {
@@ -833,18 +845,36 @@ export default function HomeScreen() {
   };
 
   const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
-    if (!dailyTip || !currentTip) return;
-    
-    console.log('handleCheckIn called with feedback:', feedback);
+    console.log('\n🌙 EVENING CHECK-IN TRIGGERED');
+    console.log('  Feedback:', feedback);
+    console.log('  Notes:', notes);
+
+    if (!dailyTip || !currentTip) {
+      console.log('  ❌ Missing dailyTip or currentTip');
+      return;
+    }
+
+    console.log('  Current dailyTip ID:', dailyTip.id);
+    console.log('  Current tip_id:', dailyTip.tip_id);
+    console.log('  Current tip summary:', currentTip.summary);
 
     const hasQuickCompletion = dailyTip.quick_completions && dailyTip.quick_completions.length > 0;
+    console.log('  Has quick completions?', hasQuickCompletion);
 
     // Save the check-in with reflection notes if already completed
-    await StorageService.updateDailyTip(dailyTip.id, {
+    console.log('  Saving evening check-in to storage...');
+    const updateData = {
       evening_check_in: feedback,
       check_in_at: new Date(),
       ...(hasQuickCompletion && notes ? { evening_reflection: notes } : {}),
-    });
+    };
+    console.log('  Update data:', updateData);
+    await StorageService.updateDailyTip(dailyTip.id, updateData);
+    console.log('  ✅ Saved to storage');
+
+    if (feedback === 'went_great') {
+      console.log('  🎉 This was marked as WENT GREAT - should appear in Habits tab!');
+    }
 
     // Save the attempt
     const attempt: TipAttempt = {
