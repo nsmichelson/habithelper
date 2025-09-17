@@ -376,15 +376,30 @@ export default function HomeScreen() {
       }
       
       if (tipToUse) {
+        // In focus mode, find the most recent personalization data for this tip
+        let focusModePersonalizationData = undefined;
+        if (isInFocusMode && focusTipId) {
+          // Look for the most recent daily tip with this tip_id that has personalization data
+          const previousTipWithPlan = tips
+            .filter(t => t.tip_id === focusTipId && t.personalization_data)
+            .sort((a, b) => new Date(b.presented_date).getTime() - new Date(a.presented_date).getTime())[0];
+
+          if (previousTipWithPlan) {
+            focusModePersonalizationData = previousTipWithPlan.personalization_data;
+            console.log('🎯 FOCUS MODE: Found previous personalization data:', focusModePersonalizationData);
+          }
+        }
+
         const newDailyTip: DailyTip = {
           id: Date.now().toString(),
           user_id: profile.id,
           tip_id: tipToUse.tip_id,
           presented_date: new Date(),
-          // In focus mode, automatically set response to 'try_it'
+          // In focus mode, automatically set response to 'try_it' and carry over personalization
           ...(isInFocusMode && focusTipId ? {
             user_response: 'try_it' as ResponseStatus,
-            responded_at: new Date()
+            responded_at: new Date(),
+            personalization_data: focusModePersonalizationData
           } : {})
         };
 

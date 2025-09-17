@@ -748,6 +748,8 @@ export default function ExperimentModeSwipe({
                 console.log('Personalization saved:', data);
               }}
               showHeader={true}
+              isInFocusMode={isInFocusMode}
+              focusDay={focusProgress?.daysCompleted ? focusProgress.daysCompleted + 1 : 1}
             />
             
             {/* Show personalized plan if available */}

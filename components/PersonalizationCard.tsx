@@ -33,16 +33,20 @@ interface Props {
   showHeader?: boolean;
   style?: any;
   scrollViewRef?: React.RefObject<ScrollView>;
+  isInFocusMode?: boolean;
+  focusDay?: number;
 }
 
-export default function PersonalizationCard({ 
-  tip, 
-  savedData, 
-  onSave, 
+export default function PersonalizationCard({
+  tip,
+  savedData,
+  onSave,
   onDataChange,
   showHeader = true,
   style,
-  scrollViewRef 
+  scrollViewRef,
+  isInFocusMode = false,
+  focusDay = 1
 }: Props) {
   // Initialize state based on saved data
   const [scaleNames, setScaleNames] = useState({
@@ -75,9 +79,17 @@ export default function PersonalizationCard({
   );
   
   const [showSaveAnimation, setShowSaveAnimation] = useState(false);
+  const [showPlanChoice, setShowPlanChoice] = useState(false);
 
   // Refs for input fields
   const inputRefs = useRef<any>({});
+
+  // Check if we should show the plan choice prompt (focus mode, has saved data, day > 1)
+  useEffect(() => {
+    if (isInFocusMode && savedData && focusDay > 1) {
+      setShowPlanChoice(true);
+    }
+  }, [isInFocusMode, savedData, focusDay]);
   
   // Animation for save button
   const saveButtonScale = useSharedValue(1);
@@ -139,12 +151,65 @@ export default function PersonalizationCard({
   // Handle text type personalization
   if (tip.personalization_type === 'text') {
     const placeholder = tip.personalization_config?.placeholders?.[0] || "Enter your answer";
-    
+
     return (
       <View style={[styles.container, style]}>
         {showHeader && <Text style={styles.sectionTitle}>Make It Your Own</Text>}
-        
-        {savedTextInput ? (
+
+        {/* Focus Mode Plan Choice */}
+        {showPlanChoice && savedTextInput && (
+          <View style={styles.planChoiceContainer}>
+            <View style={styles.planChoiceHeader}>
+              <Ionicons name="fitness" size={24} color="#4CAF50" />
+              <Text style={styles.planChoiceTitle}>Focus Mode • Day {focusDay}</Text>
+            </View>
+            <Text style={styles.planChoiceSubtitle}>
+              Keep yesterday's plan or adjust it based on what you've learned?
+            </Text>
+
+            <View style={styles.planPreview}>
+              <Text style={styles.planPreviewLabel}>Your current plan:</Text>
+              <Text style={styles.planPreviewText}>{savedTextInput}</Text>
+            </View>
+
+            <View style={styles.planChoiceButtons}>
+              <TouchableOpacity
+                style={styles.keepPlanButton}
+                onPress={() => {
+                  setShowPlanChoice(false);
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={['#4CAF50', '#45A049']}
+                  style={styles.keepPlanGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                  <Ionicons name="checkmark-circle" size={20} color="#FFF" />
+                  <Text style={styles.keepPlanButtonText}>Keep This Plan</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.updatePlanButton}
+                onPress={() => {
+                  setShowPlanChoice(false);
+                  setSavedTextInput(null);
+                  setTextInput(savedTextInput || '');
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="pencil" size={18} color="#4CAF50" />
+                <Text style={styles.updatePlanButtonText}>Update Plan</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        {!showPlanChoice && savedTextInput ? (
           <View style={styles.savedContainer}>
             <View style={styles.savedHeader}>
               <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
@@ -245,7 +310,7 @@ export default function PersonalizationCard({
   if (tip.personalization_type === 'choice') {
     const choices = tip.personalization_config?.choices || [];
     const isMultiple = tip.personalization_config?.multiple === true;
-    
+
     // Define colors for each choice type
     const getChoiceColor = (choice: string) => {
       const lowerChoice = choice.toLowerCase();
@@ -729,6 +794,85 @@ export default function PersonalizationCard({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  planChoiceContainer: {
+    backgroundColor: '#F0FFF4',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#4CAF50',
+    borderStyle: 'dashed',
+  },
+  planChoiceHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  planChoiceTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#2E7D32',
+  },
+  planChoiceSubtitle: {
+    fontSize: 14,
+    color: '#424242',
+    marginBottom: 16,
+    lineHeight: 20,
+  },
+  planPreview: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 16,
+  },
+  planPreviewLabel: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 4,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  planPreviewText: {
+    fontSize: 15,
+    color: '#212121',
+    lineHeight: 22,
+  },
+  planChoiceButtons: {
+    gap: 10,
+  },
+  keepPlanButton: {
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  keepPlanGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    gap: 8,
+  },
+  keepPlanButtonText: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  updatePlanButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    paddingVertical: 12,
+    borderWidth: 1.5,
+    borderColor: '#4CAF50',
+    gap: 6,
+  },
+  updatePlanButtonText: {
+    color: '#4CAF50',
+    fontSize: 15,
+    fontWeight: '500',
   },
   sectionTitle: {
     fontSize: 18,
