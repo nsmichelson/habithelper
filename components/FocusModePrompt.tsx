@@ -15,7 +15,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { BlurView } from 'expo-blur';
+// Removed BlurView due to useInsertionEffect warning in modals
 import { Tip } from '@/types/tip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -35,14 +35,14 @@ const FocusModePrompt: React.FC<FocusModePromptProps> = ({
   onFocusMode,
   onNewTipTomorrow,
 }) => {
-  console.log('=== FocusModePrompt Component MOUNTED ===');
-  console.log('Visible prop:', visible);
-  console.log('Tip prop:', tip?.summary);
-  console.log('Component will render modal:', visible);
-  
   const [step, setStep] = useState<'choice' | 'duration'>('choice');
   const [focusDays, setFocusDays] = useState('7');
   const [isCustomizing, setIsCustomizing] = useState(false);
+
+  console.log('=== FocusModePrompt Component RENDER ===');
+  console.log('Visible prop:', visible);
+  console.log('Tip prop:', tip?.summary);
+  console.log('Component will render modal:', visible);
   
   // Animations
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -54,6 +54,12 @@ const FocusModePrompt: React.FC<FocusModePromptProps> = ({
     console.log('FocusModePrompt useEffect - visible changed to:', visible);
     if (visible) {
       console.log('Starting animations for FocusModePrompt');
+      // Reset animation values first
+      fadeAnim.setValue(0);
+      slideAnim.setValue(50);
+      scaleAnim.setValue(0.9);
+      pulseAnim.setValue(1);
+
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
@@ -89,6 +95,12 @@ const FocusModePrompt: React.FC<FocusModePromptProps> = ({
           }),
         ])
       ).start();
+    } else {
+      // Reset animations when closing
+      fadeAnim.setValue(0);
+      slideAnim.setValue(50);
+      scaleAnim.setValue(0.9);
+      pulseAnim.setValue(1);
     }
   }, [visible]);
 
@@ -160,13 +172,14 @@ const FocusModePrompt: React.FC<FocusModePromptProps> = ({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
-        <Animated.View 
+        <Animated.View
           style={[
             styles.backdrop,
             { opacity: fadeAnim }
           ]}
         >
-          <BlurView intensity={80} style={StyleSheet.absoluteFillObject} tint="dark" />
+          {/* Simple dark overlay instead of BlurView to avoid useInsertionEffect warning */}
+          <View style={[StyleSheet.absoluteFillObject, { backgroundColor: 'rgba(0, 0, 0, 0.7)' }]} />
         </Animated.View>
 
         <Animated.View
