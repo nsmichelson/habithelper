@@ -216,30 +216,26 @@ export default function HabitsScreen() {
   };
 
   const loadTodayCompletions = async (): Promise<Map<string, number>> => {
-    const today = new Date().toDateString();
-    const key = `habit_completions_${today}`;
-    console.log('    Loading completions from key:', key);
-    const stored = await StorageService.getItem(key);
-    console.log('    Raw stored data:', stored);
-
-    if (stored) {
-      const data = JSON.parse(stored);
-      console.log('    Parsed data:', data);
-      const map = new Map(Object.entries(data).map(([k, v]) => [k, Number(v)]));
-      console.log('    Created map:', Array.from(map.entries()));
-      return map;
-    }
-    return new Map();
+    console.log('    Loading completions from centralized storage');
+    const completions = await StorageService.getHabitCompletions();
+    console.log('    Loaded completions:', Array.from(completions.entries()));
+    return completions;
   };
 
   const saveTodayCompletions = async (completions: Map<string, number>) => {
-    const today = new Date().toDateString();
-    const key = `habit_completions_${today}`;
-    const data = Object.fromEntries(completions);
-    console.log('    Saving completions to key:', key);
-    console.log('    Data to save:', data);
-    await StorageService.setItem(key, JSON.stringify(data));
-    console.log('    Successfully saved');
+    console.log('    Saving completions to centralized storage');
+    // Save each completion individually to the centralized storage
+    for (const [tipId, count] of completions.entries()) {
+      await StorageService.setHabitCompletion(tipId, count);
+    }
+    // Also clear any that were set to 0
+    const allCompletions = await StorageService.getHabitCompletions();
+    for (const [tipId] of allCompletions.entries()) {
+      if (!completions.has(tipId)) {
+        await StorageService.setHabitCompletion(tipId, 0);
+      }
+    }
+    console.log('    Successfully saved to centralized storage');
   };
 
   const handlePressIn = (habitId: string) => {

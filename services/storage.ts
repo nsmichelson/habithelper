@@ -275,9 +275,38 @@ class StorageService {
   // Clear all data
   async clearAllData(): Promise<void> {
     try {
+      // Get all keys to find habit completion keys
+      const allKeys = await AsyncStorage.getAllKeys();
+      console.log('🗑️ CLEAR ALL DATA - All AsyncStorage keys:', allKeys);
+
+      // Find all habit completion keys (both new and old format)
+      const habitCompletionKeys = allKeys.filter(key =>
+        key.startsWith(STORAGE_KEYS.HABIT_COMPLETIONS) || // New format: @HabitHelper:habitCompletions:
+        key.startsWith('habit_completions_') // Old format: habit_completions_
+      );
+
+      console.log('🗑️ CLEAR ALL DATA - Habit completion keys to clear:', habitCompletionKeys);
+
+      // Remove standard keys
+      console.log('🗑️ CLEAR ALL DATA - Removing standard keys:', Object.values(STORAGE_KEYS));
       await AsyncStorage.multiRemove(Object.values(STORAGE_KEYS));
+
+      // Remove all habit completion keys
+      if (habitCompletionKeys.length > 0) {
+        console.log('🗑️ CLEAR ALL DATA - Removing habit completion keys...');
+        await AsyncStorage.multiRemove(habitCompletionKeys);
+        console.log('🗑️ CLEAR ALL DATA - Habit completion keys removed');
+      } else {
+        console.log('🗑️ CLEAR ALL DATA - No habit completion keys found');
+      }
+
       // Also clear awards
       await AwardService.clearAllAwards();
+
+      // Verify everything was cleared
+      const remainingKeys = await AsyncStorage.getAllKeys();
+      console.log('🗑️ CLEAR ALL DATA - Remaining keys after clear:', remainingKeys);
+
     } catch (error) {
       console.error('Error clearing all data:', error);
       throw error;
@@ -287,11 +316,24 @@ class StorageService {
   // Clear only tip-related data (keeps user profile and quiz)
   async clearTipData(): Promise<void> {
     try {
+      // Get all keys to find habit completion keys (both formats)
+      const allKeys = await AsyncStorage.getAllKeys();
+      const habitCompletionKeys = allKeys.filter(key =>
+        key.startsWith(STORAGE_KEYS.HABIT_COMPLETIONS) || // New format
+        key.startsWith('habit_completions_') // Old format
+      );
+
+      // Remove tip-related keys
       await AsyncStorage.multiRemove([
         STORAGE_KEYS.DAILY_TIPS,
         STORAGE_KEYS.TIP_ATTEMPTS,
         STORAGE_KEYS.LIKED_TIPS,
       ]);
+
+      // Remove all habit completion keys
+      if (habitCompletionKeys.length > 0) {
+        await AsyncStorage.multiRemove(habitCompletionKeys);
+      }
     } catch (error) {
       console.error('Error clearing tip data:', error);
       throw error;
@@ -302,11 +344,15 @@ class StorageService {
   async getHabitCompletions(date?: Date): Promise<Map<string, number>> {
     const dateKey = (date || new Date()).toDateString();
     const key = `${STORAGE_KEYS.HABIT_COMPLETIONS}${dateKey}`;
+    console.log('📊 Getting habit completions with key:', key);
     try {
       const data = await AsyncStorage.getItem(key);
+      console.log('📊 Raw data retrieved:', data);
       if (!data) return new Map();
       const parsed = JSON.parse(data);
-      return new Map(Object.entries(parsed).map(([k, v]) => [k, Number(v)]));
+      const map = new Map(Object.entries(parsed).map(([k, v]) => [k, Number(v)]));
+      console.log('📊 Parsed completion map:', Array.from(map.entries()));
+      return map;
     } catch (error) {
       console.error('Error getting habit completions:', error);
       return new Map();
@@ -316,6 +362,7 @@ class StorageService {
   async setHabitCompletion(tipId: string, count: number, date?: Date): Promise<void> {
     const dateKey = (date || new Date()).toDateString();
     const key = `${STORAGE_KEYS.HABIT_COMPLETIONS}${dateKey}`;
+    console.log(`📝 Setting habit completion - key: ${key}, tipId: ${tipId}, count: ${count}`);
     try {
       const completions = await this.getHabitCompletions(date);
       if (count > 0) {
@@ -324,6 +371,7 @@ class StorageService {
         completions.delete(tipId);
       }
       const data = Object.fromEntries(completions);
+      console.log('📝 Saving completion data:', data);
       await AsyncStorage.setItem(key, JSON.stringify(data));
     } catch (error) {
       console.error('Error setting habit completion:', error);
