@@ -59,6 +59,11 @@ interface Props {
   };
   showHeaderStats?: boolean;
   onToggleHeaderStats?: () => void;
+  isInFocusMode?: boolean;
+  focusProgress?: {
+    daysCompleted: number;
+    daysTotal: number;
+  };
 }
 
 // Confetti particle component
@@ -128,11 +133,11 @@ const ConfettiParticle = ({ delay, startX }: { delay: number; startX: number }) 
   );
 };
 
-export default function ExperimentModeSwipe({ 
-  tip, 
+export default function ExperimentModeSwipe({
+  tip,
   personalizedPlan = null,
-  onViewDetails, 
-  timeUntilCheckIn, 
+  onViewDetails,
+  timeUntilCheckIn,
   onQuickComplete,
   quickCompletions = [],
   totalExperiments = 0,
@@ -140,7 +145,9 @@ export default function ExperimentModeSwipe({
   tipHistory = [],
   personalizationData,
   showHeaderStats = false,
-  onToggleHeaderStats
+  onToggleHeaderStats,
+  isInFocusMode = false,
+  focusProgress
 }: Props) {
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -379,6 +386,16 @@ export default function ExperimentModeSwipe({
           </View>
           <Text style={styles.timeText}>{formatTimeRemaining(timeUntilCheckIn)}</Text>
         </View>
+
+        {/* Focus Mode Indicator */}
+        {isInFocusMode && focusProgress && (
+          <View style={styles.focusModeIndicator}>
+            <Ionicons name="fitness" size={20} color="#4CAF50" />
+            <Text style={styles.focusModeText}>
+              Focus Mode • Day {focusProgress.daysCompleted + 1} of {focusProgress.daysTotal}
+            </Text>
+          </View>
+        )}
 
         {/* Experiment Title */}
         <Text style={styles.experimentTitle}>{tip.summary}</Text>
@@ -1716,6 +1733,22 @@ const styles = StyleSheet.create({
     color: '#212121',
     lineHeight: 28,
     marginBottom: 24,
+  },
+  focusModeIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginBottom: 16,
+    alignSelf: 'flex-start',
+  },
+  focusModeText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#4CAF50',
+    marginLeft: 6,
   },
   circularButtonContainer: {
     alignItems: 'center',

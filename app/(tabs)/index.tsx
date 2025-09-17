@@ -307,10 +307,24 @@ export default function HomeScreen() {
 
     if (todaysTip) {
       // Normalize any legacy response values
-      const normalizedTip = {
+      let normalizedTip = {
         ...todaysTip,
         user_response: normalizeResponseStatus(todaysTip.user_response)
       };
+
+      // If in focus mode and tip doesn't have a response yet, auto-set to 'try_it'
+      if (isInFocusMode && focusTipId && !normalizedTip.user_response) {
+        console.log('🎯 FOCUS MODE: Auto-setting today\'s tip to try_it');
+        normalizedTip.user_response = 'try_it' as ResponseStatus;
+        normalizedTip.responded_at = new Date();
+
+        // Update in storage
+        await StorageService.updateDailyTip(todaysTip.id, {
+          user_response: 'try_it' as ResponseStatus,
+          responded_at: new Date()
+        });
+      }
+
       setDailyTip(normalizedTip);
       
       // Load the EXISTING tip by its ID, not a new recommendation
@@ -348,6 +362,7 @@ export default function HomeScreen() {
         if (focusTip) {
           tipToUse = focusTip;
           reasons = ['Focus Mode: Mastering this habit'];
+          console.log('🎯 FOCUS MODE: Loading focus tip', focusTipId);
         }
       }
       
@@ -366,13 +381,20 @@ export default function HomeScreen() {
           user_id: profile.id,
           tip_id: tipToUse.tip_id,
           presented_date: new Date(),
+          // In focus mode, automatically set response to 'try_it'
+          ...(isInFocusMode && focusTipId ? {
+            user_response: 'try_it' as ResponseStatus,
+            responded_at: new Date()
+          } : {})
         };
-        
+
+        console.log('🎯 Creating daily tip, isInFocusMode:', isInFocusMode, 'user_response:', newDailyTip.user_response);
+
         await StorageService.saveDailyTip(newDailyTip);
         setDailyTip(newDailyTip);
         setCurrentTip(tipToUse);
         setTipReasons(reasons);
-        
+
         // Sync with Redux
         dispatch(setDailyTipRedux(newDailyTip));
         dispatch(setCurrentTipRedux(tipToUse));
@@ -1729,6 +1751,8 @@ export default function HomeScreen() {
                   console.log('index.tsx - From Redux:', reduxSavedData);
                   return dataToPass;
                 })()}
+                isInFocusMode={isInFocusMode}
+                focusProgress={focusProgress}
                 showHeaderStats={showHeaderStats}
                 onToggleHeaderStats={() => setShowHeaderStats(!showHeaderStats)}
                 onViewDetails={() => {
