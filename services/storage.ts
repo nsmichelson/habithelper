@@ -10,6 +10,7 @@ const STORAGE_KEYS = {
   QUIZ_RESPONSES: '@HabitHelper:quizResponses',
   ONBOARDING_COMPLETED: '@HabitHelper:onboardingCompleted',
   LIKED_TIPS: '@HabitHelper:likedTips',
+  HABIT_COMPLETIONS: '@HabitHelper:habitCompletions:', // Prefix for daily completion counts
 } as const;
 
 class StorageService {
@@ -295,6 +296,47 @@ class StorageService {
       console.error('Error clearing tip data:', error);
       throw error;
     }
+  }
+
+  // Habit Completion Tracking - Single source of truth
+  async getHabitCompletions(date?: Date): Promise<Map<string, number>> {
+    const dateKey = (date || new Date()).toDateString();
+    const key = `${STORAGE_KEYS.HABIT_COMPLETIONS}${dateKey}`;
+    try {
+      const data = await AsyncStorage.getItem(key);
+      if (!data) return new Map();
+      const parsed = JSON.parse(data);
+      return new Map(Object.entries(parsed).map(([k, v]) => [k, Number(v)]));
+    } catch (error) {
+      console.error('Error getting habit completions:', error);
+      return new Map();
+    }
+  }
+
+  async setHabitCompletion(tipId: string, count: number, date?: Date): Promise<void> {
+    const dateKey = (date || new Date()).toDateString();
+    const key = `${STORAGE_KEYS.HABIT_COMPLETIONS}${dateKey}`;
+    try {
+      const completions = await this.getHabitCompletions(date);
+      if (count > 0) {
+        completions.set(tipId, count);
+      } else {
+        completions.delete(tipId);
+      }
+      const data = Object.fromEntries(completions);
+      await AsyncStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+      console.error('Error setting habit completion:', error);
+      throw error;
+    }
+  }
+
+  async incrementHabitCompletion(tipId: string, date?: Date): Promise<number> {
+    const completions = await this.getHabitCompletions(date);
+    const current = completions.get(tipId) || 0;
+    const newCount = current + 1;
+    await this.setHabitCompletion(tipId, newCount, date);
+    return newCount;
   }
 
   // Generic storage helpers for custom keys

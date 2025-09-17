@@ -68,7 +68,7 @@ export default function HabitsScreen() {
 
   const refreshCompletionsOnly = async () => {
     console.log('  Refreshing completion states only...');
-    const todayCompletions = await loadTodayCompletions();
+    const todayCompletions = await StorageService.getHabitCompletions();
 
     setLovedHabits(prevHabits =>
       prevHabits.map(habit => {

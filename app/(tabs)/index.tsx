@@ -804,6 +804,14 @@ export default function HomeScreen() {
     await StorageService.updateDailyTip(dailyTip.id, {
       quick_completions: updatedCompletions,
     });
+
+    // If marked as "worked_great", increment the centralized habit completion count
+    if (note === 'worked_great') {
+      console.log('  Incrementing centralized habit completion count...');
+      const newCount = await StorageService.incrementHabitCompletion(dailyTip.tip_id);
+      console.log('  New completion count:', newCount);
+    }
+
     console.log('  ✅ Saved to storage');
 
     setDailyTip({
@@ -870,6 +878,19 @@ export default function HomeScreen() {
     };
     console.log('  Update data:', updateData);
     await StorageService.updateDailyTip(dailyTip.id, updateData);
+
+    // If marked as "went_great", increment the centralized habit completion count
+    // But only if not already marked through quick complete
+    if (feedback === 'went_great') {
+      const alreadyMarkedGreat = dailyTip.quick_completions?.some(qc => qc.quick_note === 'worked_great');
+      if (!alreadyMarkedGreat) {
+        console.log('  Incrementing centralized habit completion count from evening check-in...');
+        const newCount = await StorageService.incrementHabitCompletion(dailyTip.tip_id);
+        console.log('  New completion count:', newCount);
+      } else {
+        console.log('  Already marked as worked_great in quick complete, not incrementing again');
+      }
+    }
     console.log('  ✅ Saved to storage');
 
     if (feedback === 'went_great') {

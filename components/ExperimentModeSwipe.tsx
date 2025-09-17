@@ -34,6 +34,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { DailyTip, QuickComplete, Tip } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
+import StorageService from '@/services/storage';
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -148,6 +149,7 @@ export default function ExperimentModeSwipe({
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
   const [showCelebration, setShowCelebration] = useState(true);
   const [hasSeenCelebration, setHasSeenCelebration] = useState(false);
+  const [centralizedCompletionCount, setCentralizedCompletionCount] = useState(0);
   const [showTipDetails, setShowTipDetails] = useState(false);
   const [showPlanDetails, setShowPlanDetails] = useState(false);
   const [isHolding, setIsHolding] = useState(false);
@@ -186,6 +188,17 @@ export default function ExperimentModeSwipe({
       setHasSeenCelebration(true);
     }, 3500);
   };
+
+  // Load centralized completion count on mount
+  useEffect(() => {
+    const loadCompletionCount = async () => {
+      const completions = await StorageService.getHabitCompletions();
+      const count = completions.get(tip.tip_id) || 0;
+      setCentralizedCompletionCount(count);
+      console.log('Loaded centralized completion count:', count, 'for tip:', tip.tip_id);
+    };
+    loadCompletionCount();
+  }, [tip.tip_id]);
 
   useEffect(() => {
     if (!hasSeenCelebration) {
@@ -371,7 +384,7 @@ export default function ExperimentModeSwipe({
         <Text style={styles.experimentTitle}>{tip.summary}</Text>
 
         {/* Main Action Button - Circular with Hold to Confirm */}
-        {quickCompletions.length === 0 ? (
+        {centralizedCompletionCount === 0 && quickCompletions.length === 0 ? (
           <View>
             <Animated.View style={[styles.circularButtonContainer, mainButtonAnimatedStyle]}>
               <TouchableOpacity 
@@ -458,7 +471,7 @@ export default function ExperimentModeSwipe({
                 <Ionicons name="checkmark-circle" size={40} color="#4CAF50" />
                 <View style={{ flex: 1 }}>
                   <Text style={styles.completedTitle}>
-                    Completed {quickCompletions.length}x today! 🎉
+                    Completed {centralizedCompletionCount || quickCompletions.length}x today! 🎉
                   </Text>
                   {quickCompletions[quickCompletions.length - 1]?.quick_note && (
                     <Text style={styles.completedNote}>
