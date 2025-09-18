@@ -19,6 +19,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import Svg, { Circle, Line } from 'react-native-svg';
+import { useCurrentDate } from '@/contexts/DateSimulationContext';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -32,6 +33,7 @@ interface HabitData {
 }
 
 export default function HabitsScreen() {
+  const currentDate = useCurrentDate();
   const [lovedHabits, setLovedHabits] = useState<HabitData[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const insets = useSafeAreaInsets();
@@ -68,7 +70,7 @@ export default function HabitsScreen() {
 
   const refreshCompletionsOnly = async () => {
     console.log('  Refreshing completion states only...');
-    const todayCompletions = await StorageService.getHabitCompletions();
+    const todayCompletions = await StorageService.getHabitCompletions(currentDate);
 
     setLovedHabits(prevHabits =>
       prevHabits.map(habit => {
@@ -217,7 +219,7 @@ export default function HabitsScreen() {
 
   const loadTodayCompletions = async (): Promise<Map<string, number>> => {
     console.log('    Loading completions from centralized storage');
-    const completions = await StorageService.getHabitCompletions();
+    const completions = await StorageService.getHabitCompletions(currentDate);
     console.log('    Loaded completions:', Array.from(completions.entries()));
     return completions;
   };
@@ -226,13 +228,13 @@ export default function HabitsScreen() {
     console.log('    Saving completions to centralized storage');
     // Save each completion individually to the centralized storage
     for (const [tipId, count] of completions.entries()) {
-      await StorageService.setHabitCompletion(tipId, count);
+      await StorageService.setHabitCompletion(tipId, count, currentDate);
     }
     // Also clear any that were set to 0
-    const allCompletions = await StorageService.getHabitCompletions();
+    const allCompletions = await StorageService.getHabitCompletions(currentDate);
     for (const [tipId] of allCompletions.entries()) {
       if (!completions.has(tipId)) {
-        await StorageService.setHabitCompletion(tipId, 0);
+        await StorageService.setHabitCompletion(tipId, 0, currentDate);
       }
     }
     console.log('    Successfully saved to centralized storage');

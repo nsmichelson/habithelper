@@ -32,6 +32,7 @@ import NotForMeFeedback from '@/components/NotForMeFeedback';
 import RejectedTipView from '@/components/RejectedTipView';
 import TipHistoryModal from '@/components/TipHistoryModal';
 import TestDataCalendar from '@/components/TestDataCalendar';
+import { useCurrentDate, useDateSimulation } from '@/contexts/DateSimulationContext';
 import IdentityQuizStep from '@/components/quiz/IdentityQuizStep';
 import AwardsModal from '@/components/AwardsModal';
 import AwardBanner from '@/components/AwardBanner';
@@ -66,8 +67,8 @@ const normalizeResponseStatus = (value: any): ResponseStatus | undefined => {
 
 // Returns Tip[] that were "maybe_later" and are now due,
 // using DailyTips as the source since that's where the saved status is stored
-const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[]): Tip[] => {
-  const now = new Date();
+const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[], currentDate?: Date): Tip[] => {
+  const now = currentDate || new Date();
   
   console.log('STAR - Getting saved tips due.');
   console.log('STAR - Total attempts:', allAttempts.length);
@@ -117,6 +118,10 @@ const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[]): Tip
 };
 
 export default function HomeScreen() {
+  // Date simulation
+  const currentDate = useCurrentDate();
+  const { isSimulating } = useDateSimulation();
+
   // Redux
   const dispatch = useAppDispatch();
   const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
@@ -284,7 +289,7 @@ export default function HomeScreen() {
     }
     
     // Check if we already have a tip for today
-    const today = format(new Date(), 'yyyy-MM-dd');
+    const today = format(currentDate, 'yyyy-MM-dd');
     
     // Handle multiple "today" entries (from earlier bugs)
     const todaysTips = tips
@@ -316,12 +321,12 @@ export default function HomeScreen() {
       if (isInFocusMode && focusTipId && !normalizedTip.user_response) {
         console.log('🎯 FOCUS MODE: Auto-setting today\'s tip to try_it');
         normalizedTip.user_response = 'try_it' as ResponseStatus;
-        normalizedTip.responded_at = new Date();
+        normalizedTip.responded_at = currentDate;
 
         // Update in storage
         await StorageService.updateDailyTip(todaysTip.id, {
           user_response: 'try_it' as ResponseStatus,
-          responded_at: new Date()
+          responded_at: currentDate
         });
       }
 
@@ -346,7 +351,7 @@ export default function HomeScreen() {
       
       // Check if we need to show check-in
       if (todaysTip.user_response === 'try_it' && !todaysTip.evening_check_in) {
-        const now = new Date().getHours();
+        const now = currentDate.getHours();
         if (now >= 18) {
           setShowCheckIn(true);
         }
@@ -394,11 +399,11 @@ export default function HomeScreen() {
           id: Date.now().toString(),
           user_id: profile.id,
           tip_id: tipToUse.tip_id,
-          presented_date: new Date(),
+          presented_date: currentDate,
           // In focus mode, automatically set response to 'try_it' and carry over personalization
           ...(isInFocusMode && focusTipId ? {
             user_response: 'try_it' as ResponseStatus,
-            responded_at: new Date(),
+            responded_at: currentDate,
             personalization_data: focusModePersonalizationData
           } : {})
         };
@@ -449,7 +454,7 @@ export default function HomeScreen() {
     const updatedTip = {
       ...dailyTip,
       user_response: response as any,
-      responded_at: new Date(),
+      responded_at: currentDate,
       personalization_data: latestPersonalizationData, // Include the latest personalization data
     };
     
@@ -459,7 +464,7 @@ export default function HomeScreen() {
     
     await StorageService.updateDailyTip(dailyTip.id, {
       user_response: response as any,
-      responded_at: new Date(),
+      responded_at: currentDate,
       personalization_data: latestPersonalizationData, // Save personalization data too
     });
     
@@ -499,8 +504,8 @@ export default function HomeScreen() {
       const snoozeAttempt: TipAttempt = {
         id: Date.now().toString(),
         tip_id: currentTip.tip_id,
-        attempted_at: new Date(),
-        created_at: new Date(),
+        attempted_at: currentDate,
+        created_at: currentDate,
         feedback: 'maybe_later',
         snooze_until: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
       };
@@ -626,7 +631,7 @@ export default function HomeScreen() {
     );
     
     const firstTipDate = new Date(sortedTips[0].presented_date);
-    const today = new Date();
+    const today = currentDate;
     
     // Check if the date is valid
     if (isNaN(firstTipDate.getTime())) {
@@ -649,7 +654,7 @@ export default function HomeScreen() {
       const updatedAttempt: TipAttempt = {
         ...rejectedTipInfo.attempt,
         rejection_reason: reason || rejectedTipInfo.attempt.rejection_reason,
-        updated_at: new Date(),
+        updated_at: currentDate,
       };
       
       // Update in storage (you might need to add an updateTipAttempt method)
@@ -666,8 +671,8 @@ export default function HomeScreen() {
       const optOutAttempt: TipAttempt = {
         id: Date.now().toString(),
         tip_id: pendingOptOut.tipId,
-        attempted_at: new Date(),
-        created_at: new Date(),
+        attempted_at: currentDate,
+        created_at: currentDate,
         feedback: 'not_for_me',
         rejection_reason: reason || undefined,
       };
@@ -763,7 +768,7 @@ export default function HomeScreen() {
 
   // Helper to grab the next saved tip that hasn't been surfaced this session
   const getNextSavedTip = (): Tip | undefined => {
-    const due = getSavedTipsDue(attempts, previousTips);
+    const due = getSavedTipsDue(attempts, previousTips, currentDate);
     console.log('STAR - Saved tips due:', due.length, due.map(t => ({ id: t.tip_id, summary: t.summary })));
     console.log('STAR - Recently surfaced IDs:', recentlySurfacedSavedIds);
     const available = due.find(t => !recentlySurfacedSavedIds.includes(t.tip_id));
@@ -829,7 +834,7 @@ export default function HomeScreen() {
     console.log('  Existing quick completions:', dailyTip.quick_completions);
 
     const quickComplete: QuickComplete = {
-      completed_at: new Date(),
+      completed_at: currentDate,
       quick_note: note,
     };
 
@@ -910,7 +915,7 @@ export default function HomeScreen() {
     console.log('  Saving evening check-in to storage...');
     const updateData = {
       evening_check_in: feedback,
-      check_in_at: new Date(),
+      check_in_at: currentDate,
       ...(hasQuickCompletion && notes ? { evening_reflection: notes } : {}),
     };
     console.log('  Update data:', updateData);
@@ -938,7 +943,7 @@ export default function HomeScreen() {
     const attempt: TipAttempt = {
       id: Date.now().toString(),
       tip_id: dailyTip.tip_id,
-      attempted_at: new Date(),
+      attempted_at: currentDate,
       feedback,
       notes: hasQuickCompletion ? `[Reflection] ${notes || ''}` : notes,
     };
@@ -949,7 +954,7 @@ export default function HomeScreen() {
     setDailyTip({
       ...dailyTip,
       evening_check_in: feedback,
-      check_in_at: new Date(),
+      check_in_at: currentDate,
       ...(hasQuickCompletion && notes ? { evening_reflection: notes } : {}),
     });
     setShowCheckIn(false);
@@ -1038,6 +1043,20 @@ export default function HomeScreen() {
   
   return (
     <SafeAreaView style={styles.container}>
+      {/* Simulation Mode Banner */}
+      {isSimulating && (
+        <TouchableOpacity
+          style={styles.simulationBanner}
+          onPress={() => setShowTestCalendar(true)}
+        >
+          <Ionicons name="time-outline" size={18} color="#FFF" />
+          <Text style={styles.simulationText}>
+            Simulating: {format(currentDate, 'MMM d, yyyy')}
+          </Text>
+          <Text style={styles.simulationTapText}>Tap to manage</Text>
+        </TouchableOpacity>
+      )}
+
       {/* Feedback Modal */}
       {console.log('Modal render check - showFeedbackModal:', showFeedbackModal, 'pendingOptOut:', pendingOptOut?.tipId) && null}
       {showFeedbackModal && pendingOptOut && (
@@ -1213,10 +1232,10 @@ export default function HomeScreen() {
             <View style={styles.header}>
             <View style={{ flex: 1, paddingRight: 100 }}>
               <Text style={styles.greeting}>
-                {new Date().getHours() < 12 ? 'Good Morning' :
-                 new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
+                {currentDate.getHours() < 12 ? 'Good Morning' :
+                 currentDate.getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
                 {/* Debug: Show current hour */}
-                {__DEV__ && ` (${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')})`}
+                {__DEV__ && ` (${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')})`}
               </Text>
               <Text style={styles.title} numberOfLines={2} adjustsFontSizeToFit>
                 {userProfile?.identityPhrase ? (
@@ -1382,8 +1401,7 @@ export default function HomeScreen() {
                 >
                   <Ionicons name="shuffle-outline" size={32} color="#2196F3" />
                 </TouchableOpacity>
-              )}
-              
+
               {/* Temporary reset button for testing */}
               <TouchableOpacity 
                 style={styles.profileButton}
@@ -1582,7 +1600,7 @@ export default function HomeScreen() {
                   {new Date().getHours() < 12 ? 'Good Morning' :
                    new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}
                   {/* Debug: Show current hour */}
-                  {__DEV__ && ` (${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')})`}
+                  {__DEV__ && ` (${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')})`}
                 </Text>
                 <Text style={styles.title} numberOfLines={2} adjustsFontSizeToFit>
                   {userProfile?.identityPhrase ? (
@@ -1780,7 +1798,7 @@ export default function HomeScreen() {
                 }}
                 timeUntilCheckIn={
                   // Calculate hours until evening check-in (assuming 7 PM)
-                  19 - new Date().getHours()
+                  19 - currentDate.getHours()
                 }
                 onQuickComplete={handleQuickComplete}
                 quickCompletions={dailyTip.quick_completions || []}
@@ -1800,7 +1818,7 @@ export default function HomeScreen() {
             ) : rejectedTipInfo ? (
               // Show the rejected tip view with feedback
               (() => {
-                const savedTips = getSavedTipsDue(attempts, previousTips);
+                const savedTips = getSavedTipsDue(attempts, previousTips, currentDate);
                 const availableSaved = savedTips.filter(t => !recentlySurfacedSavedIds.includes(t.tip_id));
                 console.log('STAR - RejectedTipView render - Available saved tips:', availableSaved.length);
                 console.log('STAR - Previous tips count:', previousTips.length);
@@ -1929,6 +1947,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E8F5E9',
+  },
+  simulationBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FF6B35',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    marginTop: 5,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  simulationText: {
+    color: '#FFF',
+    fontSize: 14,
+    fontWeight: '600',
+    flex: 1,
+    marginLeft: 8,
+  },
+  simulationTapText: {
+    color: '#FFF',
+    fontSize: 12,
+    opacity: 0.9,
   },
   gradient: {
     flex: 1,

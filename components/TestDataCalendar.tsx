@@ -14,6 +14,7 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMont
 import { DailyTip, UserProfile, Tip } from '../types/tip';
 import StorageService from '../services/storage';
 import TipRecommendationService from '../services/tipRecommendation';
+import { useDateSimulation } from '../contexts/DateSimulationContext';
 
 interface Props {
   visible: boolean;
@@ -23,13 +24,14 @@ interface Props {
   onTipGenerated: () => void;
 }
 
-export default function TestDataCalendar({ 
-  visible, 
-  onClose, 
+export default function TestDataCalendar({
+  visible,
+  onClose,
   userProfile,
   existingTips,
-  onTipGenerated 
+  onTipGenerated
 }: Props) {
+  const { simulatedDate, setSimulatedDate, isSimulating } = useDateSimulation();
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [generating, setGenerating] = useState(false);
@@ -51,22 +53,42 @@ export default function TestDataCalendar({
   };
 
   const handleDatePress = async (date: Date) => {
-    if (hasTip(date)) {
-      Alert.alert(
-        'Date Already Has Tip',
-        'This date already has an experiment. Would you like to replace it?',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { 
-            text: 'Replace', 
-            style: 'destructive',
-            onPress: () => generateTipForDate(date, true)
-          }
-        ]
-      );
+    // Show options for what to do with this date
+    const options = [
+      {
+        text: 'Simulate This Day',
+        onPress: () => {
+          setSimulatedDate(date);
+          onClose();
+          Alert.alert(
+            'Simulation Mode Active',
+            `The app is now simulating ${format(date, 'MMMM d, yyyy')}. The UI will behave as if today is that date.\n\nTo exit simulation mode, open this calendar again and tap "Exit Simulation".`,
+            [{ text: 'OK' }]
+          );
+        }
+      },
+      { text: 'Cancel', style: 'cancel' }
+    ];
+
+    // Add generate option if date doesn't have a tip
+    if (!hasTip(date)) {
+      options.splice(1, 0, {
+        text: 'Generate Test Data',
+        onPress: () => generateTipForDate(date, false)
+      });
     } else {
-      await generateTipForDate(date, false);
+      options.splice(1, 0, {
+        text: 'Replace Existing Tip',
+        style: 'destructive',
+        onPress: () => generateTipForDate(date, true)
+      });
     }
+
+    Alert.alert(
+      format(date, 'MMMM d, yyyy'),
+      'What would you like to do with this date?',
+      options
+    );
   };
 
   const generateTipForDate = async (date: Date, replace: boolean = false) => {
@@ -269,9 +291,28 @@ export default function TestDataCalendar({
               <TouchableOpacity onPress={onClose}>
                 <Ionicons name="close" size={24} color="#666" />
               </TouchableOpacity>
-              <Text style={styles.title}>Test Data Generator</Text>
+              <Text style={styles.title}>
+                {isSimulating ? 'Simulation Mode' : 'Test Data Generator'}
+              </Text>
               <View style={{ width: 24 }} />
             </View>
+
+            {/* Simulation Mode Banner */}
+            {isSimulating && (
+              <TouchableOpacity
+                style={styles.simulationBanner}
+                onPress={() => {
+                  setSimulatedDate(null);
+                  Alert.alert('Simulation Ended', 'The app has returned to the current date.');
+                }}
+              >
+                <Ionicons name="time-outline" size={20} color="#FFF" />
+                <Text style={styles.simulationText}>
+                  Simulating: {format(simulatedDate!, 'MMM d, yyyy')}
+                </Text>
+                <Text style={styles.exitText}>Tap to Exit</Text>
+              </TouchableOpacity>
+            )}
 
             {/* Month Navigation */}
             <View style={styles.monthNav}>
@@ -379,6 +420,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  simulationBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FF6B35',
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 16,
+  },
+  simulationText: {
+    color: '#FFF',
+    fontSize: 14,
+    fontWeight: '600',
+    flex: 1,
+    marginLeft: 8,
+  },
+  exitText: {
+    color: '#FFF',
+    fontSize: 12,
+    opacity: 0.9,
   },
   container: {
     width: '90%',

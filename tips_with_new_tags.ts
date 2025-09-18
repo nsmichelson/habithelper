@@ -1,4 +1,4 @@
-import { Tip } from '../types/tip';
+import { Tip } from './types/tip';
 
 export const TIPS_DATABASE: Tip[] = [
 //pregnancy ones
@@ -79,4 +79,5 @@ export const TIPS_DATABASE: Tip[] = [
       "vomiting",
       "odor_triggers"
     ]
-  },
+  }
+];
