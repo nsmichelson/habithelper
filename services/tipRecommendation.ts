@@ -994,18 +994,33 @@ export class TipRecommendationService {
    * @param currentDate - Optional date to use as "now" (for test mode only)
    */
   private getDaysSinceLastShown(tipId: string, previousTips: DailyTip[], currentDate?: Date): number | null {
-    const lastShown = previousTips
-      .filter(t => t.tip_id === tipId)
-      .sort((a, b) => this.asDate(b.presented_date).getTime() - this.asDate(a.presented_date).getTime())[0];
+    // Use currentDate if provided (test mode), otherwise use actual now
+    const nowDate = currentDate || new Date();
 
+    // Start of the current day (midnight)
+    const todayStart = new Date(nowDate);
+    todayStart.setHours(0, 0, 0, 0);
+
+    // Only consider tips that were presented BEFORE today
+    const relevantTips = previousTips
+      .filter(t => {
+        if (t.tip_id !== tipId) return false;
+        const tipDate = new Date(this.asDate(t.presented_date));
+        tipDate.setHours(0, 0, 0, 0);
+        return tipDate.getTime() < todayStart.getTime();
+      })
+      .sort((a, b) => this.asDate(b.presented_date).getTime() - this.asDate(a.presented_date).getTime());
+
+    const lastShown = relevantTips[0];
     if (!lastShown) return null;
 
-    // Use currentDate if provided (test mode), otherwise use actual now
-    const nowTime = currentDate ? currentDate.getTime() : Date.now();
+    const lastShownDate = new Date(this.asDate(lastShown.presented_date));
+    lastShownDate.setHours(0, 0, 0, 0);
+
     const daysDiff = Math.floor(
-      (nowTime - this.asDate(lastShown.presented_date).getTime()) / DAY_MS
+      (todayStart.getTime() - lastShownDate.getTime()) / DAY_MS
     );
-    
+
     return daysDiff;
   }
 

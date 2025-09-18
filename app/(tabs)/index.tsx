@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -162,6 +162,31 @@ export default function HomeScreen() {
     initializeApp();
   }, []);
 
+  // Track the current date string to detect changes
+  const currentDateString = currentDate.toDateString();
+  const prevDateRef = useRef<string>();
+
+  // Reload tip data when simulation date changes
+  useEffect(() => {
+    // Only reload if the date actually changed (not on initial mount)
+    if (prevDateRef.current && prevDateRef.current !== currentDateString && userProfile) {
+      console.log('🔄 Simulation date changed from', prevDateRef.current, 'to', currentDateString);
+      const reloadForNewDate = async () => {
+        setLoading(true);
+        // Reload tips from storage first to get the latest data
+        const tips = await StorageService.getDailyTips();
+        setPreviousTips(tips);
+        const tipAttempts = await StorageService.getTipAttempts();
+        setAttempts(tipAttempts);
+        // Now load the tip for the new date
+        await loadDailyTip(userProfile, tips, tipAttempts);
+        setLoading(false);
+      };
+      reloadForNewDate();
+    }
+    prevDateRef.current = currentDateString;
+  }, [currentDateString, userProfile]); // Re-run when date changes
+
   // Dev function to completely reset all data
   const resetAllDataIncludingAwards = async () => {
     console.log('Resetting ALL data including awards...');
@@ -223,6 +248,10 @@ export default function HomeScreen() {
     tips: DailyTip[],
     tipAttempts: TipAttempt[]
   ) => {
+    // Clear any previous state when loading a new day's tip
+    setShowCheckIn(false);
+    setRejectedTipInfo(null);
+
     // Ensure profile has required fields
     if (!profile.goals) {
       console.warn('User profile missing goals, initializing empty array');
