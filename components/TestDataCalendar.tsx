@@ -53,6 +53,9 @@ export default function TestDataCalendar({
   };
 
   const handleDatePress = async (date: Date) => {
+    const isPast = date < new Date();
+    const isFuture = date > new Date();
+
     // Show options for what to do with this date
     const options = [
       {
@@ -67,26 +70,28 @@ export default function TestDataCalendar({
           );
         }
       },
-      { text: 'Cancel', style: 'cancel' }
+      { text: 'Cancel', style: 'cancel' as const }
     ];
 
-    // Add generate option if date doesn't have a tip
-    if (!hasTip(date)) {
-      options.splice(1, 0, {
-        text: 'Generate Test Data',
-        onPress: () => generateTipForDate(date, false)
-      });
-    } else {
-      options.splice(1, 0, {
-        text: 'Replace Existing Tip',
-        style: 'destructive',
-        onPress: () => generateTipForDate(date, true)
-      });
+    // Only allow generating test data for past dates
+    if (isPast) {
+      if (!hasTip(date)) {
+        options.splice(1, 0, {
+          text: 'Generate Test Data',
+          onPress: () => generateTipForDate(date, false)
+        });
+      } else {
+        options.splice(1, 0, {
+          text: 'Replace Existing Tip',
+          style: 'destructive' as const,
+          onPress: () => generateTipForDate(date, true)
+        });
+      }
     }
 
     Alert.alert(
       format(date, 'MMMM d, yyyy'),
-      'What would you like to do with this date?',
+      `${isFuture ? 'Future Date - ' : ''}What would you like to do?`,
       options
     );
   };
@@ -356,7 +361,8 @@ export default function TestDataCalendar({
                   const hasExistingTip = hasTip(day);
                   const isSelected = selectedDate && isSameDay(day, selectedDate);
                   const isPast = day < new Date();
-                  
+                  const isFuture = day > new Date();
+
                   return (
                     <TouchableOpacity
                       key={day.toISOString()}
@@ -367,13 +373,13 @@ export default function TestDataCalendar({
                         isSelected && styles.selectedCell,
                       ]}
                       onPress={() => handleDatePress(day)}
-                      disabled={generating || !isPast}
+                      disabled={generating}
                     >
                       <Text style={[
                         styles.dayText,
                         isToday && styles.todayText,
                         hasExistingTip && styles.hasDataText,
-                        !isPast && styles.futureText,
+                        isFuture && styles.futureText,
                       ]}>
                         {format(day, 'd')}
                       </Text>
@@ -397,14 +403,14 @@ export default function TestDataCalendar({
                 <Text style={styles.legendText}>Today</Text>
               </View>
               <View style={styles.legendItem}>
-                <View style={[styles.legendDot, { backgroundColor: '#E0E0E0' }]} />
-                <Text style={styles.legendText}>Future (Disabled)</Text>
+                <View style={[styles.legendDot, { backgroundColor: '#9E9E9E' }]} />
+                <Text style={styles.legendText}>Future</Text>
               </View>
             </View>
 
             {/* Instructions */}
             <Text style={styles.instructions}>
-              Tap any past date to generate test data for that day.
+              Tap any date to simulate that day. Past dates can also generate test data.
               {'\n'}Dates with green dots already have experiments.
             </Text>
           </LinearGradient>
@@ -523,7 +529,8 @@ const styles = StyleSheet.create({
     color: '#2E7D32',
   },
   futureText: {
-    color: '#BDBDBD',
+    color: '#9E9E9E',
+    fontStyle: 'italic',
   },
   dataDot: {
     position: 'absolute',

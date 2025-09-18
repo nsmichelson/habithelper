@@ -337,12 +337,12 @@ export default function HomeScreen() {
       if (existingTip) {
         setCurrentTip(existingTip);
         // We can still show reasons if we want to recalculate them
-        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts, undefined, isSimulating ? currentDate : undefined);
         setTipReasons(tipScore?.reasons || []);
       } else {
         // Fallback: if tip not found in database, get a new one
         console.warn(`Tip with ID ${todaysTip.tip_id} not found in database`);
-        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts, undefined, isSimulating ? currentDate : undefined);
         if (tipScore) {
           setCurrentTip(tipScore.tip);
           setTipReasons(tipScore.reasons);
@@ -373,7 +373,7 @@ export default function HomeScreen() {
       
       // If not in focus mode or focus tip not found, get a new tip
       if (!tipToUse) {
-        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts);
+        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts, undefined, isSimulating ? currentDate : undefined);
         if (tipScore) {
           tipToUse = tipScore.tip;
           reasons = tipScore.reasons;
@@ -713,7 +713,7 @@ export default function HomeScreen() {
     const updatedAttempts = attempts;
     setTimeout(async () => {
       try {
-        const tipScore = TipRecommendationService.getDailyTip(userProfile, previousTips, updatedAttempts);
+        const tipScore = TipRecommendationService.getDailyTip(userProfile, previousTips, updatedAttempts, undefined, isSimulating ? currentDate : undefined);
         
         if (tipScore) {
           // UPDATE the existing daily tip record instead of creating a new one
@@ -1322,11 +1322,11 @@ export default function HomeScreen() {
                     
                     // Get the next recommended tip, excluding all cycled tips
                     const tipScore = TipRecommendationService.getDailyTip(
-                      userProfile, 
-                      previousTips, 
+                      userProfile,
+                      previousTips,
                       attempts,
                       undefined, // currentHour
-                      undefined, // testModeDate
+                      isSimulating ? currentDate : undefined, // testModeDate
                       newCycledIds // Pass all cycled tips to exclude them
                     );
                     
@@ -1372,11 +1372,11 @@ export default function HomeScreen() {
                       
                       // Get first tip again
                       const firstTip = TipRecommendationService.getDailyTip(
-                        userProfile, 
-                        previousTips, 
+                        userProfile,
+                        previousTips,
                         attempts,
                         undefined,
-                        undefined,
+                        isSimulating ? currentDate : undefined,
                         [] // Empty exclude list to start over
                       );
                       
