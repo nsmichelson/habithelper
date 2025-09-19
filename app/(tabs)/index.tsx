@@ -41,6 +41,7 @@ import StorageService from '@/services/storage';
 import TipRecommendationService from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
 import AwardService from '@/services/awardService';
+import AnalyticsService from '@/services/analytics';
 import { useAwards, useAwardTrigger } from '@/hooks/useAwards';
 import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete, Tip } from '@/types/tip';
 import { getTipById } from '@/data/tips';
@@ -444,6 +445,15 @@ export default function HomeScreen() {
         setCurrentTip(tipToUse);
         setTipReasons(reasons);
 
+        // Track tip presentation for analytics
+        await AnalyticsService.trackTipPresented(tipToUse, profile, {
+          isFromSavedList: false,
+          isFocusMode: isInFocusMode,
+          dayOfWeek: currentDate.getDay(),
+          hourOfDay: currentDate.getHours(),
+          daysSinceOnboarding: Math.floor((currentDate.getTime() - new Date(profile.created_at).getTime()) / (1000 * 60 * 60 * 24))
+        });
+
         // Sync with Redux
         dispatch(setDailyTipRedux(newDailyTip));
         dispatch(setCurrentTipRedux(tipToUse));
@@ -454,6 +464,7 @@ export default function HomeScreen() {
 
   const handleOnboardingComplete = async (profile: UserProfile) => {
     setUserProfile(profile);
+    await AnalyticsService.setUser(profile);
     await loadDailyTip(profile, [], []);
   };
 
@@ -509,6 +520,9 @@ export default function HomeScreen() {
     console.log('updatedTip.personalization_data:', updatedTip.personalization_data);
     console.log('==========================================');
 
+    // Track the response in analytics
+    await AnalyticsService.trackTipResponse(currentTip.tip_id, response);
+
     if (response === 'try_it') {
       console.log('index.tsx - User chose try_it, scheduling evening check-in');
       await NotificationService.scheduleEveningCheckIn(dailyTip.tip_id, 19);
@@ -517,7 +531,7 @@ export default function HomeScreen() {
       console.log('INDEX.TSX - handleTipResponse END for try_it');
       console.log('==========================================');
       // Don't show alert - the ExperimentMode component will handle the celebration
-      
+
       // Check for new awards after responding
       setTimeout(async () => {
         console.log('Checking for new awards after try_it response...');
@@ -676,7 +690,12 @@ export default function HomeScreen() {
 
   const handleNotForMeFeedback = async (reason: string | null, skipFuture?: boolean) => {
     if (!pendingOptOut || !userProfile || !dailyTip) return;
-    
+
+    // Track the not_for_me response with rejection reason
+    if (pendingOptOut.tip) {
+      await AnalyticsService.trackTipResponse(pendingOptOut.tip.tip_id, 'not_for_me', reason || undefined);
+    }
+
     // If we're updating existing feedback, find and update the existing attempt
     if (pendingOptOut.existingFeedback && rejectedTipInfo?.attempt) {
       // Update the existing attempt with more detailed feedback
@@ -685,7 +704,7 @@ export default function HomeScreen() {
         rejection_reason: reason || rejectedTipInfo.attempt.rejection_reason,
         updated_at: currentDate,
       };
-      
+
       // Update in storage (you might need to add an updateTipAttempt method)
       await StorageService.saveTipAttempt(updatedAttempt);
       
@@ -853,8 +872,8 @@ export default function HomeScreen() {
   const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
     console.log('\n🎆 QUICK COMPLETE TRIGGERED');
     console.log('  Note:', note);
-    if (!dailyTip) {
-      console.log('  ❌ No dailyTip, returning early');
+    if (!dailyTip || !currentTip) {
+      console.log('  ❌ No dailyTip or currentTip, returning early');
       return;
     }
 
@@ -876,11 +895,31 @@ export default function HomeScreen() {
       quick_completions: updatedCompletions,
     });
 
+    // Track quick completion as a check-in event (similar to evening check-in but during the day)
+    if (note) {
+      const feedbackMap = {
+        'worked_great': 'went_great' as const,
+        'went_ok': 'went_ok' as const,
+        'not_sure': 'went_ok' as const,
+        'not_for_me': 'not_great' as const,
+      };
+      await AnalyticsService.trackCheckIn(
+        currentTip.tip_id,
+        feedbackMap[note],
+        'Quick completion during the day',
+        !!dailyTip.personalization_data
+      );
+    }
+
     // If marked as "worked_great", increment the centralized habit completion count
     if (note === 'worked_great') {
       console.log('  Incrementing centralized habit completion count...');
       const newCount = await StorageService.incrementHabitCompletion(dailyTip.tip_id);
       console.log('  New completion count:', newCount);
+
+      // Track as a habit loved event
+      const daysSinceFirstTried = Math.floor((currentDate.getTime() - new Date(dailyTip.presented_date).getTime()) / (1000 * 60 * 60 * 24));
+      await AnalyticsService.trackHabitLoved(dailyTip.tip_id, daysSinceFirstTried);
     }
 
     console.log('  ✅ Saved to storage');
@@ -934,6 +973,14 @@ export default function HomeScreen() {
     }
 
     console.log('  Current dailyTip ID:', dailyTip.id);
+
+    // Track evening check-in in analytics
+    await AnalyticsService.trackCheckIn(
+      currentTip.tip_id,
+      feedback as 'went_great' | 'went_ok' | 'not_great' | 'didnt_try',
+      notes,
+      !!dailyTip.personalization_data
+    );
     console.log('  Current tip_id:', dailyTip.tip_id);
     console.log('  Current tip summary:', currentTip.summary);
 
@@ -958,6 +1005,10 @@ export default function HomeScreen() {
         console.log('  Incrementing centralized habit completion count from evening check-in...');
         const newCount = await StorageService.incrementHabitCompletion(dailyTip.tip_id);
         console.log('  New completion count:', newCount);
+
+        // Track habit loved event
+        const daysSinceFirstTried = Math.floor((currentDate.getTime() - new Date(dailyTip.presented_date).getTime()) / (1000 * 60 * 60 * 24));
+        await AnalyticsService.trackHabitLoved(dailyTip.tip_id, daysSinceFirstTried);
       } else {
         console.log('  Already marked as worked_great in quick complete, not incrementing again');
       }
@@ -1140,12 +1191,16 @@ export default function HomeScreen() {
             console.log('FocusModePrompt onClose called');
             setShowFocusPrompt(false);
           }}
-          onFocusMode={(days) => {
+          onFocusMode={async (days) => {
             console.log('Focus mode selected for', days, 'days');
-            dispatch(startFocusMode({ 
-              tipId: currentTip.tip_id, 
-              days 
+            dispatch(startFocusMode({
+              tipId: currentTip.tip_id,
+              days
             }));
+
+            // Track focus mode started
+            await AnalyticsService.trackFocusMode(currentTip.tip_id, 'started');
+
             setShowFocusPrompt(false);
             Alert.alert(
               'Focus Mode Activated! 🎯',
