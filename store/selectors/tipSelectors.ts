@@ -1,7 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { TIPS_DATABASE } from '@/data/tips';
-import { Tip, DailyTip, TipAttempt } from '@/types/tip';
+import { SIMPLIFIED_TIPS } from '@/data/simplifiedTips';
+import { SimplifiedTip } from '@/types/simplifiedTip';
+import { DailyTip, TipAttempt } from '@/types/tip';
 
 // Re-export basic selectors from slice
 export {
@@ -36,10 +37,10 @@ export const selectLikedTips = createSelector(
       }
     });
 
-    const allTips = TIPS_DATABASE;
-    return Array.from(likedTipIds).map(id => 
-      allTips.find(t => t.id === id)
-    ).filter(Boolean) as Tip[];
+    const allTips = SIMPLIFIED_TIPS;
+    return Array.from(likedTipIds).map(id =>
+      allTips.find(t => t.tip_id === id)
+    ).filter(Boolean) as SimplifiedTip[];
   }
 );
 
@@ -48,13 +49,13 @@ export const selectTipsByGoal = createSelector(
   [(state: RootState) => state.dailyTip.previousTips],
   (previousTips: DailyTip[]) => {
     const tipsByGoal: Record<string, { tried: number; successful: number }> = {};
-    const allTips = TIPS_DATABASE;
+    const allTips = SIMPLIFIED_TIPS;
 
     previousTips.forEach(dailyTip => {
-      const tip = allTips.find(t => t.id === dailyTip.tip_id);
+      const tip = allTips.find(t => t.tip_id === dailyTip.tip_id);
       if (!tip) return;
 
-      tip.goal_tags?.forEach(tag => {
+      tip.goals?.forEach(tag => {
         if (!tipsByGoal[tag]) {
           tipsByGoal[tag] = { tried: 0, successful: 0 };
         }
@@ -139,10 +140,10 @@ export const selectUntriedTipIds = createSelector(
       triedTipIds.add(attempt.tip_id);
     });
 
-    const allTips = TIPS_DATABASE;
+    const allTips = SIMPLIFIED_TIPS;
     return allTips
-      .filter(tip => !triedTipIds.has(tip.id))
-      .map(tip => tip.id);
+      .filter(tip => !triedTipIds.has(tip.tip_id))
+      .map(tip => tip.tip_id);
   }
 );
 

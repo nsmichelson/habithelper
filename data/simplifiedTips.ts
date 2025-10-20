@@ -10936,4 +10936,33 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
   }
 ];
 
+// Helper function to get a specific tip by ID
+export function getTipById(tipId: string): SimplifiedTip | undefined {
+  const found = SIMPLIFIED_TIPS.find(tip => tip.tip_id === tipId);
+  if (!found) {
+    console.log(`⚠️ getTipById: Tip with ID ${tipId} NOT FOUND in database`);
+    console.log(`  Available tip IDs (first 5): ${SIMPLIFIED_TIPS.slice(0, 5).map(t => t.tip_id).join(', ')}`);
+  }
+  return found;
+}
+
+// Helper function to get safe tips for a user (no contraindications)
+export function getSafeTips(userProfile: any): SimplifiedTip[] {
+  const userConditions = userProfile.medical_conditions || [];
+
+  return SIMPLIFIED_TIPS.filter(tip => {
+    // If tip has no contraindications, it's safe for everyone
+    if (!tip.contraindications || tip.contraindications.length === 0) {
+      return true;
+    }
+
+    // Check if any of the user's conditions are contraindicated
+    return !tip.contraindications.some(contra =>
+      userConditions.some((condition: string) =>
+        contra.toLowerCase().includes(condition.toLowerCase())
+      )
+    );
+  });
+}
+
 export default SIMPLIFIED_TIPS;

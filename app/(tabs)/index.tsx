@@ -38,13 +38,14 @@ import AwardsModal from '@/components/AwardsModal';
 import AwardBanner from '@/components/AwardBanner';
 import FocusModePrompt from '@/components/FocusModePrompt';
 import StorageService from '@/services/storage';
-import TipRecommendationService from '@/services/tipRecommendation';
+import { tipRecommendationService } from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
 import AwardService from '@/services/awardService';
 import AnalyticsService from '@/services/analytics';
 import { useAwards, useAwardTrigger } from '@/hooks/useAwards';
-import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete, Tip } from '@/types/tip';
-import { getTipById } from '@/data/tips';
+import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete } from '@/types/tip';
+import { SimplifiedTip } from '@/types/simplifiedTip';
+import { getTipById } from '@/data/simplifiedTips';
 import { format } from 'date-fns';
 
 // Proper type definitions to prevent confusion
@@ -68,7 +69,7 @@ const normalizeResponseStatus = (value: any): ResponseStatus | undefined => {
 
 // Returns Tip[] that were "maybe_later" and are now due,
 // using DailyTips as the source since that's where the saved status is stored
-const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[], currentDate?: Date): Tip[] => {
+const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[], currentDate?: Date): SimplifiedTip[] => {
   const now = currentDate || new Date();
   
   console.log('STAR - Getting saved tips due.');
@@ -139,12 +140,12 @@ export default function HomeScreen() {
   const [previousTips, setPreviousTips] = useState<DailyTip[]>([]);
   const [attempts, setAttempts] = useState<TipAttempt[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [pendingOptOut, setPendingOptOut] = useState<{ tip: Tip; tipId: string; existingFeedback?: string } | null>(null);
-  const [rejectedTipInfo, setRejectedTipInfo] = useState<{ tip: Tip; attempt?: TipAttempt } | null>(null);
+  const [pendingOptOut, setPendingOptOut] = useState<{ tip: SimplifiedTip; tipId: string; existingFeedback?: string } | null>(null);
+  const [rejectedTipInfo, setRejectedTipInfo] = useState<{ tip: SimplifiedTip; attempt?: TipAttempt } | null>(null);
   const [isReplacingTip, setIsReplacingTip] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
-  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: SimplifiedTip }>>([]);
   const [showFocusPrompt, setShowFocusPrompt] = useState(false);
   const [showHeaderStats, setShowHeaderStats] = useState(false); // Start with hidden to see the difference
   const [showAwardsModal, setShowAwardsModal] = useState(false);
@@ -367,7 +368,8 @@ export default function HomeScreen() {
       if (existingTip) {
         setCurrentTip(existingTip);
         // We can still show reasons if we want to recalculate them
-        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts, undefined, isSimulating ? currentDate : undefined);
+        const tipScores = await tipRecommendationService.recommendTips(profile, tips, tipAttempts, isSimulating ? currentDate : undefined);
+        const tipScore = tipScores[0];
         setTipReasons(tipScore?.reasons || []);
       } else {
         // Fallback: if tip not found in database, get a new one
@@ -815,7 +817,7 @@ export default function HomeScreen() {
   };
 
   // Helper to grab the next saved tip that hasn't been surfaced this session
-  const getNextSavedTip = (): Tip | undefined => {
+  const getNextSavedTip = (): SimplifiedTip | undefined => {
     const due = getSavedTipsDue(attempts, previousTips, currentDate);
     console.log('STAR - Saved tips due:', due.length, due.map(t => ({ id: t.tip_id, summary: t.summary })));
     console.log('STAR - Recently surfaced IDs:', recentlySurfacedSavedIds);

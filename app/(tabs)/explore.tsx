@@ -16,7 +16,7 @@ import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 import StorageService from '@/services/storage';
 import { DailyTip, TipAttempt, UserProfile } from '@/types/tip';
-import { getTipById } from '@/data/tips';
+import { getTipById } from '@/data/simplifiedTips';
 import Svg, { Circle, Path, G, Text as SvgText } from 'react-native-svg';
 import EducationCards from '@/components/EducationCards';
 import { organizationEducation } from '@/data/eduation_collection/organization';
@@ -330,15 +330,15 @@ export default function ProgressScreen() {
     for (const dailyTip of tips) {
       if (dailyTip.user_response === 'try_it') {
         const tip = getTipById(dailyTip.tip_id);
-        if (tip?.tip_type) {
-          for (const type of tip.tip_type) {
-            if (!categories[type]) {
-              categories[type] = { tried: 0, success: 0 };
+        if (tip?.mechanisms) {
+          for (const mechanism of tip.mechanisms) {
+            if (!categories[mechanism]) {
+              categories[mechanism] = { tried: 0, success: 0 };
             }
-            categories[type].tried++;
-            if (dailyTip.evening_check_in === 'went_great' || 
+            categories[mechanism].tried++;
+            if (dailyTip.evening_check_in === 'went_great' ||
                 dailyTip.evening_check_in === 'went_ok') {
-              categories[type].success++;
+              categories[mechanism].success++;
             }
           }
         }
@@ -391,7 +391,7 @@ export default function ProgressScreen() {
     // Quick wins
     const quickWins = tips.filter(t => {
       const tip = getTipById(t.tip_id);
-      return tip?.time_cost_enum === '0_5_min' && 
+      return tip?.time === '0-5min' &&
              t.evening_check_in === 'went_great';
     }).length;
     
@@ -407,7 +407,7 @@ export default function ProgressScreen() {
     // Adventurous
     const difficultTried = tips.filter(t => {
       const tip = getTipById(t.tip_id);
-      return tip?.difficulty_tier >= 3 && t.user_response === 'try_it';
+      return tip?.difficulty >= 3 && t.user_response === 'try_it';
     }).length;
     
     if (difficultTried >= 3) {

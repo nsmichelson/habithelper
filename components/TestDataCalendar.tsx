@@ -11,9 +11,10 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths } from 'date-fns';
-import { DailyTip, UserProfile, Tip } from '../types/tip';
+import { DailyTip, UserProfile } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import StorageService from '../services/storage';
-import TipRecommendationService from '../services/tipRecommendation';
+import { tipRecommendationService } from '../services/tipRecommendation';
 import { useDateSimulation } from '../contexts/DateSimulationContext';
 
 interface Props {
@@ -111,18 +112,19 @@ export default function TestDataCalendar({
 
       // Get a recommendation using the selected date as "today" for proper duplicate checking
       // Use noon (12) as the hour for test mode to ensure afternoon tips are available
-      const tipScore = TipRecommendationService.getDailyTip(
+      const tipScores = await tipRecommendationService.recommendTips(
         userProfile,
         priorTips,
         priorAttempts, // Pass attempts so 'not_for_me' acts as a permanent opt-out
-        12, // Use noon for consistent test data generation
         date // Pass the selected date for test mode
       );
 
-      if (!tipScore) {
+      if (!tipScores || tipScores.length === 0) {
         Alert.alert('No Tips Available', 'Could not generate a tip for this date');
         return;
       }
+
+      const tipScore = tipScores[0]; // Get the top recommendation
 
       // If replacing, find and update existing tip
       if (replace) {
@@ -219,15 +221,15 @@ export default function TestDataCalendar({
               
               // Generate a replacement tip for that same day
               // Use noon (12) as the hour for test mode to ensure afternoon tips are available
-              const replacementTipScore = TipRecommendationService.getDailyTip(
+              const replacementTipScores = await tipRecommendationService.recommendTips(
                 userProfile,
                 priorTips,
                 [...priorAttempts, tipAttempt], // Include everything we knew + new attempt
-                12, // Use noon for consistent test data generation
                 date // Use selected date for test mode
               );
-              
-              if (replacementTipScore) {
+
+              if (replacementTipScores && replacementTipScores.length > 0) {
+                const replacementTipScore = replacementTipScores[0];
                 const dateStr = format(date, 'yyyy-MM-dd');
                 const tip = existingTips.find(t => 
                   format(new Date(t.presented_date), 'yyyy-MM-dd') === dateStr

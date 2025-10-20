@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DailyTip, Tip, TipAttempt } from '@/types/tip';
+import { DailyTip, TipAttempt } from '@/types/tip';
+import { SimplifiedTip } from '@/types/simplifiedTip';
 import { RootState } from '../store';
 
 // Represents a complete tip record with all associated data
 interface TipRecord {
-  tip: Tip;                          // The full tip object from database
+  tip: SimplifiedTip;                 // The full tip object from database
   dailyRecord: DailyTip;             // User's interaction record for this tip
   reasons: string[];                 // Why this tip was recommended
   personalizationData?: any;         // User's customization for this tip
@@ -63,7 +64,7 @@ const dailyTipSlice = createSlice({
     },
     
     // Update just the tip part of current record
-    updateCurrentTip: (state, action: PayloadAction<Tip>) => {
+    updateCurrentTip: (state, action: PayloadAction<SimplifiedTip>) => {
       if (state.currentTipRecord) {
         state.currentTipRecord.tip = action.payload;
       }
