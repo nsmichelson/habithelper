@@ -342,9 +342,28 @@ export class TipRecommendationService {
     const reasons: string[] = [];
     let score = 0;
 
-    // 1. Goal alignment (PRIMARY FACTOR)
+    // NEW: Preference-based scoring (if user has new quiz data)
+    if (userProfile.preferences && userProfile.preferences.length > 0) {
+      const prefScore = this.calculatePreferenceScore(tip, userProfile);
+      score += prefScore.score * 30; // 30% weight for preferences
+      if (prefScore.matches.length > 0) {
+        reasons.push(`Uses: ${prefScore.matches.join(', ')}`);
+      }
+    }
+
+    // NEW: Blocker addressing (if user has specific challenges)
+    if (userProfile.specific_challenges) {
+      const blockerScore = this.calculateBlockerScore(tip, userProfile);
+      score += blockerScore.score * 20; // 20% weight for addressing blockers
+      if (blockerScore.addressed.length > 0) {
+        reasons.push(`Helps with: ${blockerScore.addressed.join(', ')}`);
+      }
+    }
+
+    // 1. Goal alignment (adjusted weight if new data exists)
     const goalAlign = this.computeGoalAlignment(tip, userProfile);
-    const goalScore = goalAlign.f1 * this.WEIGHTS.GOAL_ALIGNMENT * 100;
+    const goalWeight = userProfile.preferences ? 20 : this.WEIGHTS.GOAL_ALIGNMENT * 100;
+    const goalScore = goalAlign.f1 * goalWeight;
     score += goalScore;
 
     if (goalAlign.matches > 0) {
@@ -697,6 +716,122 @@ export class TipRecommendationService {
       // 5. Finally by total score
       return b.score - a.score;
     });
+  }
+
+  /**
+   * NEW: Calculate preference-based score
+   * Scores tips based on how well they match user's loved activities
+   */
+  private calculatePreferenceScore(
+    tip: SimplifiedTip,
+    userProfile: any
+  ): { score: number; matches: string[] } {
+    const userPrefs = userProfile.preferences || [];
+    const tipFeatures = tip.features || [];
+    const tipInvolves = tip.involves || [];
+
+    let score = 0;
+    const matches: string[] = [];
+
+    // Check for direct matches
+    for (const pref of userPrefs) {
+      if (tipFeatures.includes(pref) || tipInvolves.includes(pref)) {
+        score += 0.3;
+        matches.push(pref);
+      }
+
+      // Check for related activities
+      const related = this.getRelatedActivities(pref);
+      for (const rel of related) {
+        if (tipFeatures.includes(rel) || tipInvolves.includes(rel)) {
+          score += 0.15;
+          matches.push(`${pref}-related`);
+          break;
+        }
+      }
+    }
+
+    // Bonus for multiple matches
+    if (matches.length >= 3) score += 0.2;
+
+    return {
+      score: Math.min(1, score),
+      matches: matches.slice(0, 3) // Limit to top 3 for readability
+    };
+  }
+
+  /**
+   * NEW: Calculate blocker-addressing score
+   * Scores tips based on how well they address user's specific challenges
+   */
+  private calculateBlockerScore(
+    tip: SimplifiedTip,
+    userProfile: any
+  ): { score: number; addressed: string[] } {
+    const primaryArea = userProfile.primary_focus;
+    const blockers = userProfile.specific_challenges?.[primaryArea] || [];
+
+    let score = 0;
+    const addressed: string[] = [];
+
+    const tipHelps = tip.helps_with || [];
+    const tipFeatures = tip.features || [];
+
+    // Check specific blocker solutions
+    for (const blocker of blockers) {
+      // Quick wins for time blockers
+      if (blocker === 'no_time' && tip.time === '0-5min') {
+        score += 0.4;
+        addressed.push('no_time');
+      }
+
+      // Avoiding triggers
+      if (blocker === 'hate_gym' && !tip.where?.includes('gym')) {
+        score += 0.2;
+      }
+
+      // Addressing specific food issues
+      if (blocker === 'hate_veggies' && tipFeatures.includes('hidden_veggies')) {
+        score += 0.4;
+        addressed.push('hate_veggies');
+      }
+
+      if (blocker === 'love_sweets' && tipFeatures.includes('sweet_alternative')) {
+        score += 0.3;
+        addressed.push('love_sweets');
+      }
+
+      // Check if tip explicitly helps with this blocker
+      if (tipHelps.includes(blocker)) {
+        score += 0.3;
+        addressed.push(blocker);
+      }
+    }
+
+    return {
+      score: Math.min(1, score),
+      addressed: addressed.slice(0, 2)
+    };
+  }
+
+  /**
+   * NEW: Get related activities for preference matching
+   */
+  private getRelatedActivities(preference: string): string[] {
+    const relations: Record<string, string[]> = {
+      'restaurant_friends': ['social', 'dining', 'food_exploration'],
+      'walking': ['movement', 'outdoor', 'gentle_exercise'],
+      'dancing': ['music', 'movement', 'fun_exercise'],
+      'podcasts_audiobooks': ['audio', 'learning', 'entertainment'],
+      'cooking_experimenting': ['kitchen', 'creative', 'food_prep'],
+      'nature_outdoors': ['outdoor', 'fresh_air', 'hiking'],
+      'coffee_shops': ['social', 'work_space', 'treats'],
+      'games_video': ['gaming', 'competition', 'entertainment'],
+      'planning_organizing': ['structure', 'tracking', 'systems'],
+      'spontaneous_adventures': ['flexible', 'variety', 'exploration']
+    };
+
+    return relations[preference] || [];
   }
 
   // Utility functions
