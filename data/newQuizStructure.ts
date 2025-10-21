@@ -349,37 +349,75 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
     options: [
       // Social activities
       { value: 'restaurant_friends', label: '🍽️ Going to restaurants with friends' },
-      { value: 'coffee_dates', label: '☕ Coffee dates & catch-ups' },
+      { value: 'coffee_shops', label: '☕ Coffee shops & cafes' },
       { value: 'group_activities', label: '👥 Group activities & classes' },
       { value: 'family_time', label: '👨‍👩‍👧 Family activities' },
+      { value: 'parties_events', label: '🎉 Parties & social events' },
+      { value: 'helping_others', label: '🤝 Helping others/volunteering' },
+      { value: 'deep_conversations', label: '💬 Deep conversations' },
 
-      // Movement that doesn't feel like exercise
-      { value: 'walking_talking', label: '🚶 Walking & talking' },
+      // Movement & outdoor activities
+      { value: 'walking', label: '🚶 Walking' },
       { value: 'dancing', label: '💃 Dancing to music' },
       { value: 'nature_outdoors', label: '🌳 Being in nature' },
       { value: 'playing_kids_pets', label: '🐕 Playing with kids/pets' },
-      { value: 'bike_rides', label: '🚴 Casual bike rides' },
+      { value: 'bike_rides', label: '🚴 Bike rides' },
+      { value: 'swimming_water', label: '🏊 Swimming/water activities' },
+      { value: 'gardening', label: '🌱 Gardening' },
+      { value: 'sports_watching', label: '⚽ Watching sports' },
+      { value: 'sports_playing', label: '🏃 Playing sports' },
+      { value: 'hiking_exploring', label: '🥾 Hiking & exploring' },
 
-      // Entertainment & learning
+      // Entertainment & media
       { value: 'podcasts_audiobooks', label: '🎧 Podcasts/audiobooks' },
       { value: 'youtube_videos', label: '📺 YouTube/videos' },
-      { value: 'music_playlists', label: '🎵 Music & playlists' },
+      { value: 'music_listening', label: '🎵 Listening to music' },
+      { value: 'music_making', label: '🎸 Making music' },
       { value: 'reading', label: '📚 Reading' },
-      { value: 'games_puzzles', label: '🎮 Games & puzzles' },
+      { value: 'games_video', label: '🎮 Video games' },
+      { value: 'games_board', label: '🎲 Board games/cards' },
+      { value: 'puzzles_brain', label: '🧩 Puzzles & brain teasers' },
+      { value: 'tv_movies', label: '🎬 TV shows/movies' },
+      { value: 'social_media', label: '📱 Social media' },
+      { value: 'photography', label: '📸 Photography' },
 
-      // Food & cooking related
+      // Food & cooking
       { value: 'trying_restaurants', label: '🍜 Trying new restaurants' },
-      { value: 'cooking_experimenting', label: '👨‍🍳 Cooking/baking' },
+      { value: 'cooking_experimenting', label: '👨‍🍳 Cooking/experimenting' },
+      { value: 'baking', label: '🧁 Baking' },
       { value: 'farmers_markets', label: '🥕 Farmers markets' },
-      { value: 'food_culture', label: '🌮 Food from my culture' },
+      { value: 'food_culture', label: '🌮 Cultural foods' },
+      { value: 'wine_cocktails', label: '🍷 Wine/cocktails' },
+      { value: 'coffee_tea', label: '☕ Coffee/tea rituals' },
 
-      // Personal style
-      { value: 'spontaneous', label: '✨ Being spontaneous' },
+      // Creative & hobbies
+      { value: 'creative_projects', label: '🎨 Art/craft projects' },
+      { value: 'writing_journaling', label: '✍️ Writing/journaling' },
+      { value: 'diy_projects', label: '🔨 DIY/home projects' },
+      { value: 'collecting', label: '📦 Collecting things' },
+      { value: 'fashion_style', label: '👗 Fashion/personal style' },
+      { value: 'decorating', label: '🏠 Decorating spaces' },
+
+      // Learning & growth
+      { value: 'learning_new', label: '🎓 Learning new things' },
+      { value: 'documentaries', label: '🎥 Documentaries' },
+      { value: 'workshops_seminars', label: '👥 Workshops/seminars' },
+      { value: 'self_improvement', label: '📈 Self-improvement' },
+      { value: 'spiritual_practices', label: '🕉️ Spiritual practices' },
+
+      // Lifestyle preferences
+      { value: 'spontaneous_adventures', label: '✨ Spontaneous adventures' },
       { value: 'planning_organizing', label: '📅 Planning & organizing' },
-      { value: 'solo_time', label: '🧘 Quiet solo time' },
-      { value: 'busy_productive', label: '⚡ Being busy & productive' },
-      { value: 'creative_projects', label: '🎨 Creative projects' },
+      { value: 'solo_time', label: '🧘 Solo/quiet time' },
+      { value: 'busy_productive', label: '⚡ Staying busy' },
       { value: 'tech_gadgets', label: '📱 Tech & gadgets' },
+      { value: 'minimalism', label: '🌿 Simple/minimalist' },
+      { value: 'traditions_rituals', label: '🕯️ Traditions & rituals' },
+      { value: 'travel_exploring', label: '✈️ Travel & exploring' },
+      { value: 'cozy_comfort', label: '🛋️ Cozy comfort' },
+      { value: 'competition', label: '🏆 Competition/challenges' },
+      { value: 'shopping', label: '🛍️ Shopping' },
+      { value: 'animals', label: '🦜 Animals' },
     ]
   },
 
