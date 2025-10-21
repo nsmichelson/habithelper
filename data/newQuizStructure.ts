@@ -337,87 +337,49 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // ========== STEP 4B: GOAL-SPECIFIC FOLLOW-UPS ==========
-
-  // If they want to eat more veggies but selected "hate_veggies"
-  {
-    id: 'veggie_specifics',
-    question: "Since veggies are tough for you, what might work?",
-    type: 'multiple_choice',
-    category: 'preferences',
-    required: false,
-    conditionalOn: {
-      questionId: 'eating_blockers',
-      values: ['hate_veggies'],
-      additionalCondition: {
-        questionId: 'eating_specifics',
-        values: ['more_veggies']
-      }
-    },
-    helpText: "Let's find your veggie gateway",
-    options: [
-      { value: 'hidden', label: '🥤 Hidden in smoothies' },
-      { value: 'cheese_sauce', label: '🧀 With cheese/sauces' },
-      { value: 'roasted', label: '🔥 Roasted until crispy' },
-      { value: 'soup', label: '🍲 In soups' },
-      { value: 'specific_only', label: '🥕 Just the few I like' },
-      { value: 'baby_steps', label: '👶 Tiny amounts to start' },
-      { value: 'seasonings', label: '🧂 With lots of seasonings' },
-    ]
-  },
-
-  // If they love sweets but want to reduce sugar
-  {
-    id: 'sweet_alternatives',
-    question: "How open are you to managing your sweet tooth?",
-    type: 'multiple_choice',
-    category: 'preferences',
-    required: false,
-    conditionalOn: {
-      questionId: 'eating_blockers',
-      values: ['love_sweets'],
-      additionalCondition: {
-        questionId: 'eating_specifics',
-        values: ['less_sugar']
-      }
-    },
-    helpText: "We won't take your sweets away!",
-    options: [
-      { value: 'fruit_swap', label: '🍓 Fruit as dessert sometimes' },
-      { value: 'dark_chocolate', label: '🍫 Dark chocolate upgrade' },
-      { value: 'portion_control', label: '🧁 Smaller portions' },
-      { value: 'scheduled_treats', label: '📅 Scheduled treat times' },
-      { value: 'better_quality', label: '✨ Higher quality sweets' },
-      { value: 'protein_pair', label: '🥜 Pair with protein' },
-      { value: 'not_ready', label: '🚫 Not ready to change this' },
-    ]
-  },
 
   // ========== STEP 5: THINGS YOU LOVE ==========
   {
     id: 'things_you_love',
-    question: "What activities or experiences do you genuinely enjoy?",
+    question: "What do you genuinely enjoy in life?",
     type: 'multiple_choice',
     category: 'preferences',
     required: true,
-    helpText: "These help us find approaches that fit your style",
+    helpText: "Select all that bring you joy - we'll use these to make tips more appealing",
     options: [
-      { value: 'walks_nature', label: '🚶 Walks in nature' },
-      { value: 'social_meals', label: '🍽️ Eating out with friends' },
+      // Social activities
+      { value: 'restaurant_friends', label: '🍽️ Going to restaurants with friends' },
+      { value: 'coffee_dates', label: '☕ Coffee dates & catch-ups' },
+      { value: 'group_activities', label: '👥 Group activities & classes' },
+      { value: 'family_time', label: '👨‍👩‍👧 Family activities' },
+
+      // Movement that doesn't feel like exercise
+      { value: 'walking_talking', label: '🚶 Walking & talking' },
       { value: 'dancing', label: '💃 Dancing to music' },
-      { value: 'podcasts', label: '🎧 Listening to podcasts' },
-      { value: 'cooking_shows', label: '👨‍🍳 Cooking shows/videos' },
-      { value: 'games', label: '🎮 Games & challenges' },
-      { value: 'reading', label: '📚 Reading/learning' },
-      { value: 'music', label: '🎵 Music & playlists' },
-      { value: 'group_activities', label: '👥 Group activities' },
-      { value: 'solo_time', label: '🧘 Solo/quiet time' },
-      { value: 'trying_new', label: '✨ Trying new things' },
-      { value: 'routines', label: '📅 Predictable routines' },
-      { value: 'competition', label: '🏆 Friendly competition' },
-      { value: 'creative', label: '🎨 Creative activities' },
-      { value: 'pets', label: '🐕 Time with pets' },
-      { value: 'tech_apps', label: '📱 Apps & tech tools' },
+      { value: 'nature_outdoors', label: '🌳 Being in nature' },
+      { value: 'playing_kids_pets', label: '🐕 Playing with kids/pets' },
+      { value: 'bike_rides', label: '🚴 Casual bike rides' },
+
+      // Entertainment & learning
+      { value: 'podcasts_audiobooks', label: '🎧 Podcasts/audiobooks' },
+      { value: 'youtube_videos', label: '📺 YouTube/videos' },
+      { value: 'music_playlists', label: '🎵 Music & playlists' },
+      { value: 'reading', label: '📚 Reading' },
+      { value: 'games_puzzles', label: '🎮 Games & puzzles' },
+
+      // Food & cooking related
+      { value: 'trying_restaurants', label: '🍜 Trying new restaurants' },
+      { value: 'cooking_experimenting', label: '👨‍🍳 Cooking/baking' },
+      { value: 'farmers_markets', label: '🥕 Farmers markets' },
+      { value: 'food_culture', label: '🌮 Food from my culture' },
+
+      // Personal style
+      { value: 'spontaneous', label: '✨ Being spontaneous' },
+      { value: 'planning_organizing', label: '📅 Planning & organizing' },
+      { value: 'solo_time', label: '🧘 Quiet solo time' },
+      { value: 'busy_productive', label: '⚡ Being busy & productive' },
+      { value: 'creative_projects', label: '🎨 Creative projects' },
+      { value: 'tech_gadgets', label: '📱 Tech & gadgets' },
     ]
   },
 
