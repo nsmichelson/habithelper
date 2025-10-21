@@ -31,7 +31,8 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
-import { DailyTip, QuickComplete, Tip } from '../types/tip';
+import { DailyTip, QuickComplete } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
 import StorageService from '@/services/storage';
@@ -40,7 +41,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   personalizedPlan?: string | null;
   onViewDetails: () => void;
   timeUntilCheckIn: number;
@@ -50,7 +51,7 @@ interface Props {
   successfulExperiments?: number;
   tipHistory?: Array<{
     dailyTip: DailyTip;
-    tip: Tip;
+    tip: SimplifiedTip;
   }>;
   personalizationData?: {
     type?: string;
@@ -153,7 +154,7 @@ export default function ExperimentModeSwipe({
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
-  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: SimplifiedTip }>>([]);
   const [showCelebration, setShowCelebration] = useState(true);
   const [hasSeenCelebration, setHasSeenCelebration] = useState(false);
   const [centralizedCompletionCount, setCentralizedCompletionCount] = useState(0);
@@ -674,11 +675,11 @@ export default function ExperimentModeSwipe({
             </View>
 
             {/* Goals - optional section */}
-            {tip.goal_tags && tip.goal_tags.length > 0 && (
+            {tip.goals && tip.goals.length > 0 && (
               <View style={styles.goalsSection}>
                 <Text style={styles.sectionTitle}>This Helps With</Text>
                 <View style={styles.goalsGrid}>
-                  {[...new Set(tip.goal_tags)].map((goal, index) => (
+                  {[...new Set(tip.goals)].map((goal, index) => (
                     <View key={`${goal}-${index}`} style={styles.goalChip}>
                       <Text style={styles.goalChipText}>
                         {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}

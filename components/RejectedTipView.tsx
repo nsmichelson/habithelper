@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Tip, TipAttempt } from '../types/tip';
+import { TipAttempt } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import * as Haptics from 'expo-haptics';
 import { getRejectionReasonDisplay } from '../data/rejectionReasons';
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   rejection?: TipAttempt;
   onRequestFeedback: () => void;
   onFindNewTip: () => void;

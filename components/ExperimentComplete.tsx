@@ -19,14 +19,15 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Tip, TipFeedback, DailyTip } from '../types/tip';
+import { TipFeedback, DailyTip } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import * as Haptics from 'expo-haptics';
 import TipHistoryModal from './TipHistoryModal';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   feedback: TipFeedback;
   onGetNewTip?: () => void;
   totalExperiments?: number;
@@ -34,7 +35,7 @@ interface Props {
   currentStreak?: number;
   tipHistory?: Array<{
     dailyTip: DailyTip;
-    tip: Tip;
+    tip: SimplifiedTip;
   }>;
 }
 
@@ -104,7 +105,7 @@ export default function ExperimentComplete({
 }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
-  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: Tip }>>([]);
+  const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: SimplifiedTip }>>([]);
   
   const cardScale = useSharedValue(0);
   const ribbonWidth = useSharedValue(0);

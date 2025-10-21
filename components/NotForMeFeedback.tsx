@@ -16,14 +16,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Tip } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import { getRelevantRejectionReasons, getFollowUpQuestions as getFollowUps } from '../data/rejectionReasons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   visible: boolean;
-  tip: Tip;
+  tip: SimplifiedTip;
   onClose: () => void;
   onFeedback: (reason: string, skipFutureQuestion?: boolean) => void;
   existingFeedback?: string; // To show follow-ups for existing feedback

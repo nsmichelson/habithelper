@@ -18,11 +18,12 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { Tip, TipFeedback, QuickComplete } from '../types/tip';
+import { TipFeedback, QuickComplete } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import * as Haptics from 'expo-haptics';
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   onCheckIn: (feedback: TipFeedback, notes?: string) => void;
   onSkip: () => void;
   quickCompletions?: QuickComplete[];

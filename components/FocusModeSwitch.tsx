@@ -16,7 +16,7 @@ import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 import StorageService from '@/services/storage';
 import { DailyTip } from '@/types/tip';
-import { getTipById } from '@/data/tips';
+import { getTipById } from '@/data/simplifiedTips';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -267,7 +267,7 @@ export default function FocusModeSwitch({
                 <Text style={styles.tipTitle}>{tipData?.summary || 'Habit'}</Text>
                 <View style={styles.tipMeta}>
                   <Text style={styles.tipMetaText}>
-                    {tipData?.time_cost_enum?.replace('_', '-').replace('min', ' min') || '5 min'}
+                    {tipData?.time?.replace('-', ' to ').replace('min', ' min') || '5 min'}
                   </Text>
                   <Text style={styles.tipDot}>•</Text>
                   <Text style={styles.tipMetaText}>

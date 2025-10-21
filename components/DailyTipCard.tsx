@@ -21,12 +21,12 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { Tip } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   onResponse: (response: 'try_it' | 'not_interested' | 'maybe_later') => void;
   reasons?: string[];
 }
@@ -96,10 +96,10 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
 
   const getTimeLabel = (time: string) => {
     const labels: Record<string, string> = {
-      '0_5_min': '< 5 min',
-      '5_15_min': '5-15 min',
-      '15_60_min': '15-60 min',
-      '>60_min': '> 1 hour',
+      '0-5min': '< 5 min',
+      '5-15min': '5-15 min',
+      '15-30min': '15-30 min',
+      '30min+': '> 30 min',
     };
     return labels[time] ?? time;
   };
@@ -133,10 +133,10 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
                 <View style={styles.badges}>
                   <View style={[styles.badge, styles.timeBadge]}>
                     <Ionicons name="time-outline" size={14} color="#666" />
-                    <Text style={styles.badgeText}>{getTimeLabel(tip.time_cost_enum)}</Text>
+                    <Text style={styles.badgeText}>{getTimeLabel(tip.time)}</Text>
                   </View>
                   <View style={[styles.badge, styles.difficultyBadge]}>
-                    <Text style={styles.badgeText}>{getDifficultyLabel(tip.difficulty_tier)}</Text>
+                    <Text style={styles.badgeText}>{getDifficultyLabel(tip.difficulty)}</Text>
                   </View>
                 </View>
               </View>
@@ -228,7 +228,7 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
               <View style={styles.goalsSection}>
                 <Text style={styles.goalsSectionTitle}>This helps with:</Text>
                 <View style={styles.goalsGrid}>
-                  {tip.goal_tags.map((goal) => (
+                  {(tip.goals || []).map((goal) => (
                     <View key={goal} style={styles.goalChip}>
                       <Text style={styles.goalChipText}>
                         {goal.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}

@@ -15,7 +15,7 @@ import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 import StorageService from '@/services/storage';
 import { UserProfile, DailyTip } from '@/types/tip';
-import { getTipById } from '@/data/tips';
+import { getTipById } from '@/data/simplifiedTips';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -126,7 +126,7 @@ export default function FocusModeHome({
       return {
         tipId,
         title: tip?.summary || 'Habit',
-        timeEstimate: getTimeEstimate(tip?.time_cost_enum, progress.level),
+        timeEstimate: getTimeEstimate(tip?.time, progress.level),
         level: progress.level,
         completedToday: progress.completedToday,
         currentStreak: progress.currentStreak,

@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { DailyTip, Tip } from '../types/tip';
+import { DailyTip } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import { format } from 'date-fns';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -23,7 +24,7 @@ interface Props {
   title: string;
   tips: Array<{
     dailyTip: DailyTip;
-    tip: Tip;
+    tip: SimplifiedTip;
   }>;
   emptyMessage?: string;
 }

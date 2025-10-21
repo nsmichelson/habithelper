@@ -16,13 +16,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 // Removed BlurView due to useInsertionEffect warning in modals
-import { Tip } from '@/types/tip';
+import { SimplifiedTip } from '@/types/simplifiedTip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface FocusModePromptProps {
   visible: boolean;
-  tip: Tip;
+  tip: SimplifiedTip;
   onClose: () => void;
   onFocusMode: (days: number) => void;
   onNewTipTomorrow: () => void;

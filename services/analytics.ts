@@ -18,7 +18,8 @@ import {
   increment
 } from 'firebase/firestore';
 import { firebaseConfig, COLLECTION_NAMES } from '@/config/firebase';
-import { UserProfile, DailyTip, TipAttempt, Tip } from '@/types/tip';
+import { UserProfile, DailyTip, TipAttempt } from '@/types/tip';
+import { SimplifiedTip } from '@/types/simplifiedTip';
 
 class AnalyticsService {
   private app: FirebaseApp | null = null;
@@ -84,7 +85,7 @@ class AnalyticsService {
   }
 
   // Track when a tip is presented to user
-  async trackTipPresented(tip: Tip, userProfile: UserProfile, context: {
+  async trackTipPresented(tip: SimplifiedTip, userProfile: UserProfile, context: {
     isFromSavedList?: boolean;
     isFocusMode?: boolean;
     dayOfWeek?: number;
@@ -96,9 +97,9 @@ class AnalyticsService {
     // Log to Firebase Analytics
     logEvent(this.analytics, 'tip_presented', {
       tip_id: tip.tip_id,
-      tip_type: tip.tip_type?.join(',') || 'unknown',
-      difficulty_tier: tip.difficulty_tier || 0,
-      goal_alignment: tip.goal_tags?.join(',') || 'none',
+      tip_type: tip.mechanisms?.join(',') || 'unknown',
+      difficulty_tier: tip.difficulty || 0,
+      goal_alignment: tip.goals?.join(',') || 'none',
       is_saved_tip: context.isFromSavedList ? 1 : 0,
       is_focus_mode: context.isFocusMode ? 1 : 0,
       hour_of_day: context.hourOfDay || new Date().getHours(),
@@ -112,13 +113,12 @@ class AnalyticsService {
         session_id: this.sessionId,
         tip_id: tip.tip_id,
         tip_metadata: {
-          type: tip.tip_type,
-          difficulty: tip.difficulty_tier,
-          goals: tip.goal_tags,
-          time_cost: tip.time_cost_enum,
-          money_cost: tip.money_cost_enum,
-          mental_effort: tip.mental_effort,
-          physical_effort: tip.physical_effort
+          type: tip.mechanisms,
+          difficulty: tip.difficulty,
+          goals: tip.goals,
+          time_cost: tip.time,
+          money_cost: tip.cost,
+          effort: tip.effort
         },
         user_context: {
           user_goals: userProfile.goals,
@@ -136,7 +136,7 @@ class AnalyticsService {
   // Track user's initial response to tip
   async trackTipResponse(
     tipId: string,
-    response: 'try_it' | 'maybe_later' | 'not_for_me',
+    response: 'try_it' | 'maybe_later' | 'not_interested',
     rejectionReason?: string
   ) {
     if (!this.isInitialized || !this.analytics || !this.firestore) return;

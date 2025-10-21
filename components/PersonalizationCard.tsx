@@ -21,12 +21,12 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { Tip } from '@/types/tip';
+import { SimplifiedTip } from '@/types/simplifiedTip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   savedData?: any;
   onSave?: (data: any) => void;
   onDataChange?: (data: any) => void;

@@ -29,13 +29,13 @@ import Animated, {
   withSpring
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Tip } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH - 40;
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   onResponse: (response: 'try_it' | 'maybe_later') => void;
   onNotForMe: () => void;
   reasons?: string[];
@@ -92,8 +92,8 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const detailsSections = parseDetailsContent();
   
   // Get relevant user goals that this tip meets
-  const relevantGoals = userGoals.filter(userGoal => 
-    tip.goal_tags.includes(userGoal)
+  const relevantGoals = userGoals.filter(userGoal =>
+    tip.goals?.includes(userGoal)
   );
   
   // Check if this tip should have a personalization card
@@ -158,6 +158,11 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
 
   const getTimeLabel = (time: string) => {
     const labels: Record<string, string> = {
+      '0-5min': '< 5 min',
+      '5-15min': '5-15 min',
+      '15-30min': '15-30 min',
+      '30min+': '> 30 min',
+      // Legacy format support
       '0_5_min': '< 5 min',
       '5_15_min': '5-15 min',
       '15_60_min': '15-60 min',
@@ -175,10 +180,10 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         <View style={styles.badges}>
           <View style={[styles.badge, styles.timeBadge]}>
             <Ionicons name="time-outline" size={14} color="#666" />
-            <Text style={styles.badgeText}>{getTimeLabel(tip.time_cost_enum)}</Text>
+            <Text style={styles.badgeText}>{getTimeLabel(tip.time)}</Text>
           </View>
           <View style={[styles.badge, styles.difficultyBadge]}>
-            <Text style={[styles.badgeText, { color: '#2E7D32' }]}>{getDifficultyLabel(tip.difficulty_tier)}</Text>
+            <Text style={[styles.badgeText, { color: '#2E7D32' }]}>{getDifficultyLabel(tip.difficulty)}</Text>
           </View>
         </View>
         
@@ -294,7 +299,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           <View style={styles.allGoalsSection}>
             <Text style={styles.allGoalsTitle}>THIS TIP HELPS WITH:</Text>
             <View style={styles.goalsGrid}>
-              {[...new Set(tip.goal_tags)].map((goal, index) => {
+              {[...new Set(tip.goals || [])].map((goal, index) => {
                 const isUserGoal = relevantGoals.includes(goal);
                 return (
                   <View 
@@ -400,7 +405,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           <View style={styles.benefitsSection}>
             <Text style={styles.benefitsSectionTitle}>TIP TYPE</Text>
             <View style={styles.tipTypeGrid}>
-              {(tip.tip_type || []).map(type => (
+              {(tip.mechanisms || []).map(type => (
                 <View key={type} style={styles.tipTypeBadge}>
                   <Text style={styles.tipTypeText}>
                     {type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -410,11 +415,11 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
             </View>
           </View>
 
-          {(tip.goal_tags ?? []).length > 0 && (
+          {(tip.goals ?? []).length > 0 && (
             <View style={styles.goalsSection}>
               <Text style={styles.goalsSectionTitle}>This helps with:</Text>
               <View style={styles.goalsGrid}>
-                {[...new Set(tip.goal_tags)].map((goal, index) => (
+                {[...new Set(tip.goals)].map((goal, index) => (
                   <View key={`${goal}-${index}`} style={styles.goalChip}>
                     <Text style={styles.goalChipText}>
                       {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}

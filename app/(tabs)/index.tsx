@@ -49,18 +49,18 @@ import { getTipById } from '@/data/simplifiedTips';
 import { format } from 'date-fns';
 
 // Proper type definitions to prevent confusion
-type ResponseStatus = 'try_it' | 'not_for_me' | 'maybe_later';
+type ResponseStatus = 'try_it' | 'not_interested' | 'maybe_later';
 
 // Validation helper
 const isValidResponseStatus = (value: any): value is ResponseStatus => {
-  return value === 'try_it' || value === 'not_for_me' || value === 'maybe_later';
+  return value === 'try_it' || value === 'not_interested' || value === 'maybe_later';
 };
 
 // Normalize legacy or invalid response values
 const normalizeResponseStatus = (value: any): ResponseStatus | undefined => {
   if (!value) return undefined;
-  // Handle legacy 'not_interested' values
-  if (value === 'not_interested') return 'not_for_me';
+  // Handle legacy 'not_for_me' values (map to new 'not_interested')
+  if (value === 'not_for_me') return 'not_interested';
   // Only return if it's a valid status
   return isValidResponseStatus(value) ? value : undefined;
 };
@@ -113,7 +113,7 @@ const getSavedTipsDue = (allAttempts: TipAttempt[], dailyTips?: DailyTip[], curr
   // Get the actual Tip objects
   const result = dueTips
     .map(item => getTipById(item.dailyTip.tip_id))
-    .filter(Boolean) as Tip[];
+    .filter(Boolean) as SimplifiedTip[];
   
   console.log('STAR - Final saved tips due count:', result.length, result.map(t => t.tip_id));
   return result;
@@ -126,7 +126,7 @@ export default function HomeScreen() {
 
   // Redux
   const dispatch = useAppDispatch();
-  const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
+  const reduxSavedData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
   const isInFocusMode = useAppSelector(selectIsInFocusMode);
   const focusTipId = useAppSelector(selectFocusTipId);
   const focusProgress = useAppSelector(selectFocusProgress);
@@ -284,7 +284,7 @@ export default function HomeScreen() {
     
     const notForMeTips = tips.filter(tip =>
       tip.quick_completions?.some(c => c.quick_note === 'not_for_me') ||
-      tip.evening_check_in === 'not_great'
+      tip.evening_check_in === 'not_for_me'
     );
     
     const triedTips = tips.filter(tip => tip.user_response === 'try_it');
@@ -301,8 +301,8 @@ export default function HomeScreen() {
         const fullTip = getTipById(tip.tip_id);
         if (fullTip) {
           console.log(`  - ${fullTip.summary}`);
-          console.log(`    Goals: ${fullTip.goal_tags.join(', ')}`);
-          console.log(`    Type: ${fullTip.tip_type.join(', ')}`);
+          console.log(`    Goals: ${fullTip.goals.join(', ')}`);
+          console.log(`    Mechanisms: ${fullTip.mechanisms.join(', ')}`);
         }
       });
     }
@@ -313,8 +313,8 @@ export default function HomeScreen() {
         const fullTip = getTipById(tip.tip_id);
         if (fullTip) {
           console.log(`  - ${fullTip.summary}`);
-          console.log(`    Goals: ${fullTip.goal_tags.join(', ')}`);
-          console.log(`    Type: ${fullTip.tip_type.join(', ')}`);
+          console.log(`    Goals: ${fullTip.goals.join(', ')}`);
+          console.log(`    Mechanisms: ${fullTip.mechanisms.join(', ')}`);
         }
       });
     }
@@ -338,7 +338,7 @@ export default function HomeScreen() {
     }
     
     // Prefer an entry that isn't "not_for_me"
-    const todaysTip = todaysTips.find(t => normalizeResponseStatus(t.user_response) !== 'not_for_me')
+    const todaysTip = todaysTips.find(t => normalizeResponseStatus(t.user_response) !== 'not_interested')
                     ?? todaysTips[0];
 
     if (todaysTip) {
@@ -351,12 +351,12 @@ export default function HomeScreen() {
       // If in focus mode and tip doesn't have a response yet, auto-set to 'try_it'
       if (isInFocusMode && focusTipId && !normalizedTip.user_response) {
         console.log('🎯 FOCUS MODE: Auto-setting today\'s tip to try_it');
-        normalizedTip.user_response = 'try_it' as ResponseStatus;
+        normalizedTip.user_response = 'try_it';
         normalizedTip.responded_at = currentDate;
 
         // Update in storage
         await StorageService.updateDailyTip(todaysTip.id, {
-          user_response: 'try_it' as ResponseStatus,
+          user_response: 'try_it',
           responded_at: currentDate
         });
       }
@@ -374,8 +374,9 @@ export default function HomeScreen() {
       } else {
         // Fallback: if tip not found in database, get a new one
         console.warn(`Tip with ID ${todaysTip.tip_id} not found in database`);
-        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts, undefined, isSimulating ? currentDate : undefined);
-        if (tipScore) {
+        const tipScores = await tipRecommendationService.recommendTips(profile, tips, tipAttempts, isSimulating ? currentDate : undefined);
+        if (tipScores && tipScores.length > 0) {
+          const tipScore = tipScores[0];
           setCurrentTip(tipScore.tip);
           setTipReasons(tipScore.reasons);
         }
@@ -391,7 +392,7 @@ export default function HomeScreen() {
     } else {
       // Check if we're in focus mode - if so, keep using the same tip
       let tipToUse = null;
-      let reasons = [];
+      let reasons: string[] = [];
       
       if (isInFocusMode && focusTipId) {
         // In focus mode - use the same tip
@@ -405,8 +406,9 @@ export default function HomeScreen() {
       
       // If not in focus mode or focus tip not found, get a new tip
       if (!tipToUse) {
-        const tipScore = TipRecommendationService.getDailyTip(profile, tips, tipAttempts, undefined, isSimulating ? currentDate : undefined);
-        if (tipScore) {
+        const tipScores = await tipRecommendationService.recommendTips(profile, tips, tipAttempts, isSimulating ? currentDate : undefined);
+        if (tipScores && tipScores.length > 0) {
+          const tipScore = tipScores[0];
           tipToUse = tipScore.tip;
           reasons = tipScore.reasons;
         }
@@ -434,7 +436,7 @@ export default function HomeScreen() {
           presented_date: currentDate,
           // In focus mode, automatically set response to 'try_it' and carry over personalization
           ...(isInFocusMode && focusTipId ? {
-            user_response: 'try_it' as ResponseStatus,
+            user_response: 'try_it',
             responded_at: currentDate,
             personalization_data: focusModePersonalizationData
           } : {})
@@ -695,7 +697,7 @@ export default function HomeScreen() {
 
     // Track the not_for_me response with rejection reason
     if (pendingOptOut.tip) {
-      await AnalyticsService.trackTipResponse(pendingOptOut.tip.tip_id, 'not_for_me', reason || undefined);
+      await AnalyticsService.trackTipResponse(pendingOptOut.tip.tip_id, 'not_interested', reason || undefined);
     }
 
     // If we're updating existing feedback, find and update the existing attempt
@@ -763,9 +765,10 @@ export default function HomeScreen() {
     const updatedAttempts = attempts;
     setTimeout(async () => {
       try {
-        const tipScore = TipRecommendationService.getDailyTip(userProfile, previousTips, updatedAttempts, undefined, isSimulating ? currentDate : undefined);
-        
-        if (tipScore) {
+        const tipScores = await tipRecommendationService.recommendTips(userProfile, previousTips, updatedAttempts, isSimulating ? currentDate : undefined);
+
+        if (tipScores && tipScores.length > 0) {
+          const tipScore = tipScores[0];
           // UPDATE the existing daily tip record instead of creating a new one
           await StorageService.updateDailyTip(dailyTip.id, {
             tip_id: tipScore.tip.tip_id,
@@ -1407,16 +1410,18 @@ export default function HomeScreen() {
                     const newCycledIds = currentTip ? [...cycledTipIds, currentTip.tip_id] : cycledTipIds;
                     
                     // Get the next recommended tip, excluding all cycled tips
-                    const tipScore = TipRecommendationService.getDailyTip(
+                    const tipScores = await tipRecommendationService.recommendTips(
                       userProfile,
                       previousTips,
                       attempts,
-                      undefined, // currentHour
-                      isSimulating ? currentDate : undefined, // testModeDate
-                      newCycledIds // Pass all cycled tips to exclude them
+                      isSimulating ? currentDate : undefined // testModeDate
                     );
-                    
-                    if (tipScore) {
+
+                    // Filter out cycled tips
+                    const availableTips = tipScores.filter(s => !newCycledIds.includes(s.tip.tip_id));
+
+                    if (availableTips.length > 0) {
+                      const tipScore = availableTips[0];
                       // Update the existing daily tip record
                       await StorageService.updateDailyTip(dailyTip.id, {
                         tip_id: tipScore.tip.tip_id,
@@ -1457,16 +1462,15 @@ export default function HomeScreen() {
                       );
                       
                       // Get first tip again
-                      const firstTip = TipRecommendationService.getDailyTip(
+                      const firstTips = await tipRecommendationService.recommendTips(
                         userProfile,
                         previousTips,
                         attempts,
-                        undefined,
-                        isSimulating ? currentDate : undefined,
-                        [] // Empty exclude list to start over
+                        isSimulating ? currentDate : undefined
                       );
-                      
-                      if (firstTip) {
+
+                      if (firstTips && firstTips.length > 0) {
+                        const firstTip = firstTips[0];
                         await StorageService.updateDailyTip(dailyTip.id, {
                           tip_id: firstTip.tip.tip_id,
                           user_response: undefined,

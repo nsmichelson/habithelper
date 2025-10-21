@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import StorageService from '@/services/storage';
 import { DailyTip } from '@/types/tip';
-import { getTipById } from '@/data/tips';
+import { getTipById } from '@/data/simplifiedTips';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';

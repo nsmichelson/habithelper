@@ -21,7 +21,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Tip, QuickComplete } from '../types/tip';
+import { QuickComplete } from '../types/tip';
+import { SimplifiedTip } from '../types/simplifiedTip';
 import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 import QuickCompleteModal from './QuickComplete';
@@ -29,7 +30,7 @@ import QuickCompleteModal from './QuickComplete';
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface Props {
-  tip: Tip;
+  tip: SimplifiedTip;
   onViewDetails: () => void;
   timeUntilCheckIn: number; // hours until evening check-in
   onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
@@ -359,7 +360,7 @@ export default function ExperimentMode({
               <View style={styles.detailChip}>
                 <Ionicons name="time-outline" size={16} color="#666" />
                 <Text style={styles.detailText}>
-                  {tip.time_cost_enum.replace(/_/g, ' ').replace('min', 'minutes')}
+                  {tip.time.replace('-', ' to ').replace('min', ' minutes')}
                 </Text>
               </View>
               <View style={styles.detailChip}>

@@ -63,8 +63,9 @@ const ALLERGEN_MAP: Record<string, string> = {
 export class TipRecommendationService {
   // Core recommendation settings
   private WEIGHTS = RECOMMENDATION_CONFIG.WEIGHTS;
-  private RECENCY = RECOMMENDATION_CONFIG.RECENCY;
-  private SCORE_RANGES = RECOMMENDATION_CONFIG.SCORE_RANGES;
+  private HARD_NON_REPEAT_DAYS = RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS;
+  private RELAXED_NON_REPEAT_DAYS = RECOMMENDATION_CONFIG.RELAXED_NON_REPEAT_DAYS;
+  private MIN_NON_REPEAT_FLOOR = RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR;
 
   /**
    * Gets safe tips that don't have contraindications for user's medical conditions
@@ -297,7 +298,7 @@ export class TipRecommendationService {
     }
 
     // 5. Non-repeat period check (can be relaxed)
-    const nonRepeatDays = nonRepeatOverride ?? this.RECENCY.NON_REPEAT_DAYS;
+    const nonRepeatDays = nonRepeatOverride ?? (relaxedMode ? this.RELAXED_NON_REPEAT_DAYS : this.HARD_NON_REPEAT_DAYS);
     const now = currentDate || new Date();
     const cutoff = now.getTime() - (nonRepeatDays * DAY_MS);
 
