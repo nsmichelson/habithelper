@@ -554,7 +554,8 @@ export function mapQuizToProfile(responses: Map<string, any>): Partial<any> {
     preferences: [],
     constraints: [],
     lifestyle: {},
-    health_conditions: []
+    health_conditions: [],
+    specific_challenges: {}
   };
 
   // Map primary area to goals
@@ -565,13 +566,23 @@ export function mapQuizToProfile(responses: Map<string, any>): Partial<any> {
     // Map specific goals based on area
     const specificGoals = responses.get(`${primaryArea[0]}_specifics`) || [];
     profile.goals = specificGoals;
+
+    // Map area-specific blockers
+    const blockerKey = `${primaryArea[0]}_blockers`;
+    const specificBlockers = responses.get(blockerKey) || [];
+    profile.specific_challenges[primaryArea[0]] = specificBlockers;
+
+    // Add any follow-up preferences (like veggie or sweet alternatives)
+    if (responses.get('veggie_specifics')) {
+      profile.specific_challenges.veggie_approach = responses.get('veggie_specifics');
+    }
+    if (responses.get('sweet_alternatives')) {
+      profile.specific_challenges.sweet_approach = responses.get('sweet_alternatives');
+    }
   }
 
   // Vision of success
   profile.success_vision = responses.get('success_vision');
-
-  // Blockers become constraints
-  profile.constraints = responses.get('current_blockers') || [];
 
   // Things you love become preferences
   profile.preferences = responses.get('things_you_love') || [];
