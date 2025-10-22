@@ -250,26 +250,120 @@ export default function TestRecommendations() {
 
                 {showDetails === index && (
                   <View style={styles.recDetails}>
-                    <Text style={styles.recReasonsTitle}>Why this was recommended:</Text>
-                    {rec.reasons.map((reason: string, i: number) => (
-                      <View key={i} style={styles.reasonRow}>
-                        <Text style={styles.reasonBullet}>•</Text>
-                        <Text style={styles.reasonText}>{reason}</Text>
-                      </View>
-                    ))}
+                    {/* Debug Info Section - Shows exact coded values */}
+                    {rec._debugInfo && (
+                      <View style={styles.debugSection}>
+                        <Text style={styles.debugTitle}>🔍 Debug: How this tip scored {rec.score.toFixed(1)} points</Text>
 
-                    {rec.tip.features && rec.tip.features.length > 0 && (
-                      <View style={styles.featuresContainer}>
-                        <Text style={styles.featuresTitle}>Features:</Text>
-                        <View style={styles.chipContainer}>
-                          {rec.tip.features.slice(0, 5).map((feature: string, i: number) => (
-                            <View key={i} style={styles.featureChip}>
-                              <Text style={styles.featureChipText}>{feature}</Text>
+                        {/* Matched Preferences */}
+                        {rec._debugInfo.matchedPreferences.length > 0 && (
+                          <View style={styles.debugRow}>
+                            <Text style={styles.debugLabel}>✅ Matched Preferences ({rec._debugInfo.scoreBreakdown.preferences.score.toFixed(1)} pts):</Text>
+                            <View style={styles.codeChipContainer}>
+                              {rec._debugInfo.matchedPreferences.map((pref: string, i: number) => (
+                                <View key={i} style={styles.codeChip}>
+                                  <Text style={styles.codeChipText}>{pref}</Text>
+                                </View>
+                              ))}
                             </View>
-                          ))}
+                          </View>
+                        )}
+
+                        {/* Addressed Blockers */}
+                        {rec._debugInfo.addressedBlockers.length > 0 && (
+                          <View style={styles.debugRow}>
+                            <Text style={styles.debugLabel}>🎯 Addressed Blockers ({rec._debugInfo.scoreBreakdown.blockers.score.toFixed(1)} pts):</Text>
+                            <View style={styles.codeChipContainer}>
+                              {rec._debugInfo.addressedBlockers.map((blocker: string, i: number) => (
+                                <View key={i} style={[styles.codeChip, styles.blockerChip]}>
+                                  <Text style={styles.codeChipText}>{blocker}</Text>
+                                </View>
+                              ))}
+                            </View>
+                          </View>
+                        )}
+
+                        {/* Matched Goals */}
+                        {rec._debugInfo.matchedGoals.length > 0 && (
+                          <View style={styles.debugRow}>
+                            <Text style={styles.debugLabel}>🎯 Matched Goals ({rec._debugInfo.scoreBreakdown.goals.score.toFixed(1)} pts):</Text>
+                            <View style={styles.codeChipContainer}>
+                              {rec._debugInfo.matchedGoals.map((goal: string, i: number) => (
+                                <View key={i} style={[styles.codeChip, styles.goalChip]}>
+                                  <Text style={styles.codeChipText}>{goal}</Text>
+                                </View>
+                              ))}
+                            </View>
+                          </View>
+                        )}
+
+                        {/* Avoided Items (Penalties) */}
+                        {rec._debugInfo.avoidedItems.length > 0 && (
+                          <View style={styles.debugRow}>
+                            <Text style={[styles.debugLabel, styles.penaltyLabel]}>
+                              ⚠️ Violated Avoidances ({rec._debugInfo.scoreBreakdown.avoidance.score.toFixed(1)} pts):
+                            </Text>
+                            <View style={styles.codeChipContainer}>
+                              {rec._debugInfo.avoidedItems.map((avoid: string, i: number) => (
+                                <View key={i} style={[styles.codeChip, styles.avoidChip]}>
+                                  <Text style={styles.codeChipText}>{avoid}</Text>
+                                </View>
+                              ))}
+                            </View>
+                          </View>
+                        )}
+
+                        {/* Other Score Components */}
+                        <View style={styles.debugRow}>
+                          <Text style={styles.debugLabel}>📊 Other Factors:</Text>
+                          <View style={styles.otherScores}>
+                            {Object.entries(rec._debugInfo.scoreBreakdown.other).map(([key, value]: [string, any]) => {
+                              if (value > 0.1) {
+                                return (
+                                  <Text key={key} style={styles.otherScoreText}>
+                                    • {key}: +{value.toFixed(1)}
+                                  </Text>
+                                );
+                              }
+                              return null;
+                            })}
+                          </View>
+                        </View>
+
+                        {/* Tip Features/Involves (for reference) */}
+                        <View style={styles.debugRow}>
+                          <Text style={styles.debugLabel}>📌 Tip Properties:</Text>
+                          <View style={styles.tipPropsContainer}>
+                            {rec.tip.features && rec.tip.features.length > 0 && (
+                              <Text style={styles.tipPropText}>
+                                Features: {rec.tip.features.join(', ')}
+                              </Text>
+                            )}
+                            {rec.tip.involves && rec.tip.involves.length > 0 && (
+                              <Text style={styles.tipPropText}>
+                                Involves: {rec.tip.involves.join(', ')}
+                              </Text>
+                            )}
+                            {rec.tip.mechanisms && rec.tip.mechanisms.length > 0 && (
+                              <Text style={styles.tipPropText}>
+                                Mechanisms: {rec.tip.mechanisms.join(', ')}
+                              </Text>
+                            )}
+                          </View>
                         </View>
                       </View>
                     )}
+
+                    {/* Original reasons section */}
+                    <View style={styles.reasonsSection}>
+                      <Text style={styles.recReasonsTitle}>Summary:</Text>
+                      {rec.reasons.map((reason: string, i: number) => (
+                        <View key={i} style={styles.reasonRow}>
+                          <Text style={styles.reasonBullet}>•</Text>
+                          <Text style={styles.reasonText}>{reason}</Text>
+                        </View>
+                      ))}
+                    </View>
                   </View>
                 )}
               </TouchableOpacity>

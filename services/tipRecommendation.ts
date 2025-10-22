@@ -18,6 +18,20 @@ interface TipScore {
   _goalMatchRatio: number;  // Percentage of user goals addressed
   _goalF1: number;  // F1 score for secondary sorting
   _lifestyleFit: number;
+  // NEW: Detailed tracking for debugging
+  _debugInfo?: {
+    matchedPreferences: string[];  // e.g., ["restaurant_friends", "walking"]
+    addressedBlockers: string[];   // e.g., ["hate_veggies", "no_time"]
+    matchedGoals: string[];        // e.g., ["more_veggies", "less_sugar"]
+    avoidedItems: string[];        // e.g., ["meal_prep", "counting"]
+    scoreBreakdown: {
+      preferences: { score: number; matched: string[] };
+      blockers: { score: number; addressed: string[] };
+      goals: { score: number; matched: string[] };
+      avoidance: { score: number; violated: string[] };
+      other: { [key: string]: number };
+    };
+  };
 }
 
 // Pre-index tips for performance
@@ -342,10 +356,33 @@ export class TipRecommendationService {
     const reasons: string[] = [];
     let score = 0;
 
+    // Initialize debug info
+    const debugInfo: TipScore['_debugInfo'] = {
+      matchedPreferences: [],
+      addressedBlockers: [],
+      matchedGoals: [],
+      avoidedItems: [],
+      scoreBreakdown: {
+        preferences: { score: 0, matched: [] },
+        blockers: { score: 0, addressed: [] },
+        goals: { score: 0, matched: [] },
+        avoidance: { score: 0, violated: [] },
+        other: {}
+      }
+    };
+
     // NEW: Preference-based scoring (if user has new quiz data)
     if (userProfile.preferences && userProfile.preferences.length > 0) {
       const prefScore = this.calculatePreferenceScore(tip, userProfile);
-      score += prefScore.score * 30; // 30% weight for preferences
+      const prefPoints = prefScore.score * 30; // 30% weight for preferences
+      score += prefPoints;
+
+      debugInfo.scoreBreakdown.preferences = {
+        score: prefPoints,
+        matched: prefScore.matches
+      };
+      debugInfo.matchedPreferences = prefScore.matches;
+
       if (prefScore.matches.length > 0) {
         reasons.push(`Uses: ${prefScore.matches.join(', ')}`);
       }
@@ -354,9 +391,30 @@ export class TipRecommendationService {
     // NEW: Blocker addressing (if user has specific challenges)
     if (userProfile.specific_challenges) {
       const blockerScore = this.calculateBlockerScore(tip, userProfile);
-      score += blockerScore.score * 20; // 20% weight for addressing blockers
+      const blockerPoints = blockerScore.score * 20; // 20% weight for addressing blockers
+      score += blockerPoints;
+
+      debugInfo.scoreBreakdown.blockers = {
+        score: blockerPoints,
+        addressed: blockerScore.addressed
+      };
+      debugInfo.addressedBlockers = blockerScore.addressed;
+
       if (blockerScore.addressed.length > 0) {
         reasons.push(`Helps with: ${blockerScore.addressed.join(', ')}`);
+      }
+    }
+
+    // Check avoidance (penalty)
+    if (userProfile.avoid_approaches && userProfile.avoid_approaches.length > 0) {
+      const avoidScore = this.calculateAvoidanceScore(tip, userProfile);
+      if (avoidScore.violations.length > 0) {
+        score *= (1 - avoidScore.penalty); // Apply penalty
+        debugInfo.scoreBreakdown.avoidance = {
+          score: -avoidScore.penalty * score,
+          violated: avoidScore.violations
+        };
+        debugInfo.avoidedItems = avoidScore.violations;
       }
     }
 
@@ -365,6 +423,14 @@ export class TipRecommendationService {
     const goalWeight = userProfile.preferences ? 20 : this.WEIGHTS.GOAL_ALIGNMENT * 100;
     const goalScore = goalAlign.f1 * goalWeight;
     score += goalScore;
+
+    // Track matched goals
+    const matchedGoals = (tip.goals || []).filter(g => (userProfile.goals || []).includes(g));
+    debugInfo.scoreBreakdown.goals = {
+      score: goalScore,
+      matched: matchedGoals
+    };
+    debugInfo.matchedGoals = matchedGoals;
 
     if (goalAlign.matches > 0) {
       reasons.push(`Matches ${goalAlign.matches}/${userProfile.goals?.length ?? 0} goals`);
@@ -439,6 +505,20 @@ export class TipRecommendationService {
       reasons.push('Great lifestyle fit');
     }
 
+    // Add other scores to debug info
+    debugInfo.scoreBreakdown.other = {
+      effort: effortScore * this.WEIGHTS.EFFORT_MATCH * 100,
+      time: timeScore * this.WEIGHTS.TIME_AVAILABLE * 100,
+      timeOfDay: todScore * this.WEIGHTS.TIME_OF_DAY * 100,
+      success: successScore * this.WEIGHTS.SUCCESS_HISTORY * 100,
+      novelty: noveltyScore * this.WEIGHTS.NOVELTY * 100,
+      difficulty: difficultyScore * this.WEIGHTS.DIFFICULTY * 100,
+      budget: budgetScore * this.WEIGHTS.BUDGET_FIT * 100,
+      chaos: chaosScore * this.WEIGHTS.CHAOS_COMPATIBLE * 100,
+      kitchen: kitchenScore * this.WEIGHTS.KITCHEN_SKILLS * 100,
+      lifestyleFit: lifestyleFit > 0.8 ? 10 : 0
+    };
+
     return {
       tip,
       score: Math.round(score),
@@ -446,7 +526,8 @@ export class TipRecommendationService {
       _goalMatches: goalAlign.matches,
       _goalMatchRatio: goalAlign.matchRatio,
       _goalF1: goalAlign.f1,
-      _lifestyleFit: lifestyleFit
+      _lifestyleFit: lifestyleFit,
+      _debugInfo: debugInfo  // Include debug info
     };
   }
 
@@ -812,6 +893,48 @@ export class TipRecommendationService {
       score: Math.min(1, score),
       addressed: addressed.slice(0, 2)
     };
+  }
+
+  /**
+   * NEW: Calculate avoidance score - penalize if tip includes things user wants to avoid
+   */
+  private calculateAvoidanceScore(
+    tip: SimplifiedTip,
+    userProfile: any
+  ): { penalty: number; violations: string[] } {
+    const avoidList = userProfile.avoid_approaches || [];
+    let penalty = 0;
+    const violations: string[] = [];
+
+    for (const avoid of avoidList) {
+      // Check various tip properties for violations
+      if (avoid === 'gym' && tip.where?.includes('gym')) {
+        penalty += 0.3;
+        violations.push('gym');
+      }
+      if (avoid === 'meal_prep' && (tip.features?.includes('meal_prep') || tip.mechanisms?.includes('planning_ahead'))) {
+        penalty += 0.2;
+        violations.push('meal_prep');
+      }
+      if (avoid === 'counting' && (tip.features?.includes('tracking') || tip.features?.includes('counting'))) {
+        penalty += 0.2;
+        violations.push('counting');
+      }
+      if (avoid === 'morning_routine' && tip.when?.includes('morning')) {
+        penalty += 0.2;
+        violations.push('morning_routine');
+      }
+      if (avoid === 'meditation' && tip.mechanisms?.includes('mindfulness')) {
+        penalty += 0.2;
+        violations.push('meditation');
+      }
+      if (avoid === 'rigid_rules' && tip.features?.includes('strict')) {
+        penalty += 0.2;
+        violations.push('rigid_rules');
+      }
+    }
+
+    return { penalty: Math.min(0.5, penalty), violations };
   }
 
   /**
