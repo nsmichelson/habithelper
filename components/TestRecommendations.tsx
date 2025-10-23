@@ -117,19 +117,12 @@ export default function TestRecommendations() {
         false // Not relaxed mode
       );
 
-      // Debug logging
-      console.log(`\n=== Recommendations for ${selectedProfile.toUpperCase()} ===`);
-      console.log('Profile goals:', profile.goals);
-      console.log('Top 10 recommendations:');
-      recs.slice(0, 10).forEach((rec, i) => {
-        console.log(`${i + 1}. ${rec.tip.summary}`);
-        console.log(`   Score: ${rec.score}, Tip goals: ${rec.tip.goals?.join(', ') || 'none'}`);
-        if (rec._debugInfo) {
-          console.log(`   Matched prefs: ${rec._debugInfo.matchedPreferences.join(', ') || 'none'}`);
-          console.log(`   Addressed blockers: ${rec._debugInfo.addressedBlockers.join(', ') || 'none'}`);
-          console.log(`   Matched goals: ${rec._debugInfo.matchedGoals.join(', ') || 'none'}`);
-        }
-      });
+      // Debug logging - only log summary
+      console.log(`=== Loaded ${recs.length} recommendations for ${selectedProfile} ===`);
+      if (recs.length > 0) {
+        const topRec = recs[0];
+        console.log(`Top recommendation: "${topRec.tip.summary}" (Score: ${topRec.score})`);
+      }
 
       setRecommendations(recs.slice(0, 10)); // Top 10 recommendations
     } catch (error) {

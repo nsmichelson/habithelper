@@ -80,6 +80,7 @@ export class TipRecommendationService {
   private HARD_NON_REPEAT_DAYS = RECOMMENDATION_CONFIG.HARD_NON_REPEAT_DAYS;
   private RELAXED_NON_REPEAT_DAYS = RECOMMENDATION_CONFIG.RELAXED_NON_REPEAT_DAYS;
   private MIN_NON_REPEAT_FLOOR = RECOMMENDATION_CONFIG.MIN_NON_REPEAT_FLOOR;
+  private _hasLoggedNaNWarning = false;
 
   /**
    * Gets safe tips that don't have contraindications for user's medical conditions
@@ -356,6 +357,20 @@ export class TipRecommendationService {
     const reasons: string[] = [];
     let score = 0;
 
+    // Debug check for NaN issues
+    if (!tip || !tip.tip_id) {
+      console.warn('Invalid tip in calculateTipScore:', tip);
+      return {
+        tip,
+        score: 0,
+        reasons: ['Invalid tip'],
+        _goalMatches: 0,
+        _goalMatchRatio: 0,
+        _goalF1: 0,
+        _lifestyleFit: 0
+      };
+    }
+
     // Initialize debug info
     const debugInfo: TipScore['_debugInfo'] = {
       matchedPreferences: [],
@@ -423,6 +438,13 @@ export class TipRecommendationService {
     const goalWeight = userProfile.preferences ? 20 : this.WEIGHTS.GOAL_ALIGNMENT * 100;
     const goalScore = goalAlign.f1 * goalWeight;
     score += goalScore;
+
+    // IMPORTANT: If there's zero goal alignment, heavily penalize the tip
+    if (goalAlign.matches === 0 && userProfile.goals && userProfile.goals.length > 0) {
+      // This tip doesn't match ANY of the user's goals - it's probably irrelevant
+      score = score * 0.1; // Reduce score by 90%
+      reasons.push('No goal alignment - heavily penalized');
+    }
 
     // Track matched goals
     const matchedGoals = (tip.goals || []).filter(g => (userProfile.goals || []).includes(g));
@@ -519,6 +541,16 @@ export class TipRecommendationService {
       lifestyleFit: lifestyleFit > 0.8 ? 10 : 0
     };
 
+    // Check for NaN before returning
+    if (isNaN(score)) {
+      // Only log once per session to avoid spam
+      if (!this._hasLoggedNaNWarning) {
+        console.warn('NaN scores detected - defaulting to 0. First example:', tip.summary);
+        this._hasLoggedNaNWarning = true;
+      }
+      score = 0; // Default to 0 instead of NaN
+    }
+
     return {
       tip,
       score: Math.round(score),
@@ -535,7 +567,7 @@ export class TipRecommendationService {
 
   private calculateEffortScore(tip: SimplifiedTip, userProfile: UserProfile): number {
     const userPref = userProfile.difficulty_preference?.toLowerCase() || 'easy';
-    const tipEffort = tip.effort;
+    const tipEffort = tip.effort || 'medium';
 
     const effortMap: Record<string, number> = {
       'minimal': 1,
@@ -561,7 +593,7 @@ export class TipRecommendationService {
 
   private calculateTimeScore(tip: SimplifiedTip, userProfile: UserProfile): number {
     const userTime = userProfile.cooking_time_available || 'minimal';
-    const tipTime = tip.time;
+    const tipTime = tip.time || '5-15min';
 
     const timeMap: Record<string, number> = {
       '0-5min': 5,
@@ -774,28 +806,41 @@ export class TipRecommendationService {
    */
   private sortByPriority(scores: TipScore[]): TipScore[] {
     return scores.sort((a, b) => {
+      // Handle NaN scores - put them at the end
+      if (isNaN(a.score) && !isNaN(b.score)) return 1;
+      if (!isNaN(a.score) && isNaN(b.score)) return -1;
+      if (isNaN(a.score) && isNaN(b.score)) return 0;
+
       // 1. First by number of goal matches (more matches = better)
-      if (a._goalMatches !== b._goalMatches) {
-        return b._goalMatches - a._goalMatches;
+      const aGoalMatches = a._goalMatches || 0;
+      const bGoalMatches = b._goalMatches || 0;
+      if (aGoalMatches !== bGoalMatches) {
+        return bGoalMatches - aGoalMatches;
       }
 
       // 2. Then by goal match ratio (higher coverage = better)
-      if (Math.abs(a._goalMatchRatio - b._goalMatchRatio) > 0.1) {
-        return b._goalMatchRatio - a._goalMatchRatio;
+      const aMatchRatio = a._goalMatchRatio || 0;
+      const bMatchRatio = b._goalMatchRatio || 0;
+      if (Math.abs(aMatchRatio - bMatchRatio) > 0.1) {
+        return bMatchRatio - aMatchRatio;
       }
 
       // 3. Then by F1 score for goal alignment quality
-      if (Math.abs(a._goalF1 - b._goalF1) > 0.1) {
-        return b._goalF1 - a._goalF1;
+      const aF1 = a._goalF1 || 0;
+      const bF1 = b._goalF1 || 0;
+      if (Math.abs(aF1 - bF1) > 0.1) {
+        return bF1 - aF1;
       }
 
       // 4. Then by lifestyle fit
-      if (Math.abs(a._lifestyleFit - b._lifestyleFit) > 0.1) {
-        return b._lifestyleFit - a._lifestyleFit;
+      const aLifestyle = a._lifestyleFit || 0;
+      const bLifestyle = b._lifestyleFit || 0;
+      if (Math.abs(aLifestyle - bLifestyle) > 0.1) {
+        return bLifestyle - aLifestyle;
       }
 
       // 5. Finally by total score
-      return b.score - a.score;
+      return (b.score || 0) - (a.score || 0);
     });
   }
 
