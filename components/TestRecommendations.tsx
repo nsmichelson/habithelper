@@ -117,6 +117,20 @@ export default function TestRecommendations() {
         false // Not relaxed mode
       );
 
+      // Debug logging
+      console.log(`\n=== Recommendations for ${selectedProfile.toUpperCase()} ===`);
+      console.log('Profile goals:', profile.goals);
+      console.log('Top 10 recommendations:');
+      recs.slice(0, 10).forEach((rec, i) => {
+        console.log(`${i + 1}. ${rec.tip.summary}`);
+        console.log(`   Score: ${rec.score}, Tip goals: ${rec.tip.goals?.join(', ') || 'none'}`);
+        if (rec._debugInfo) {
+          console.log(`   Matched prefs: ${rec._debugInfo.matchedPreferences.join(', ') || 'none'}`);
+          console.log(`   Addressed blockers: ${rec._debugInfo.addressedBlockers.join(', ') || 'none'}`);
+          console.log(`   Matched goals: ${rec._debugInfo.matchedGoals.join(', ') || 'none'}`);
+        }
+      });
+
       setRecommendations(recs.slice(0, 10)); // Top 10 recommendations
     } catch (error) {
       console.error('Error loading recommendations:', error);
@@ -235,10 +249,10 @@ export default function TestRecommendations() {
                     <View style={styles.scoreContainer}>
                       <View style={styles.scoreBar}>
                         <View
-                          style={[styles.scoreFill, { width: `${Math.min(100, rec.score)}%` }]}
+                          style={[styles.scoreFill, { width: `${Math.min(100, rec.score || 0)}%` }]}
                         />
                       </View>
-                      <Text style={styles.scoreText}>{rec.score.toFixed(1)}</Text>
+                      <Text style={styles.scoreText}>{rec.score ? rec.score.toFixed(1) : '0'}</Text>
                     </View>
                   </View>
                   <Ionicons
@@ -253,7 +267,7 @@ export default function TestRecommendations() {
                     {/* Debug Info Section - Shows exact coded values */}
                     {rec._debugInfo && (
                       <View style={styles.debugSection}>
-                        <Text style={styles.debugTitle}>🔍 Debug: How this tip scored {rec.score.toFixed(1)} points</Text>
+                        <Text style={styles.debugTitle}>🔍 Debug: How this tip scored {rec.score ? rec.score.toFixed(1) : '0'} points</Text>
 
                         {/* Matched Preferences */}
                         {rec._debugInfo.matchedPreferences.length > 0 && (
