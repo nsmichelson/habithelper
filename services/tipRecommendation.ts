@@ -439,12 +439,7 @@ export class TipRecommendationService {
     const goalScore = goalAlign.f1 * goalWeight;
     score += goalScore;
 
-    // IMPORTANT: If there's zero goal alignment, heavily penalize the tip
-    if (goalAlign.matches === 0 && userProfile.goals && userProfile.goals.length > 0) {
-      // This tip doesn't match ANY of the user's goals - it's probably irrelevant
-      score = score * 0.1; // Reduce score by 90%
-      reasons.push('No goal alignment - heavily penalized');
-    }
+    // We'll apply the no-goal penalty at the end, after all scores are calculated
 
     // Track matched goals
     const matchedGoals = (tip.goals || []).filter(g => (userProfile.goals || []).includes(g));
@@ -540,6 +535,15 @@ export class TipRecommendationService {
       kitchen: kitchenScore * this.WEIGHTS.KITCHEN_SKILLS * 100,
       lifestyleFit: lifestyleFit > 0.8 ? 10 : 0
     };
+
+    // IMPORTANT: Apply heavy penalty if there's zero goal alignment
+    if (goalAlign.matches === 0 && userProfile.goals && userProfile.goals.length > 0) {
+      // This tip doesn't match ANY of the user's goals - it's probably irrelevant
+      if (score > 0) {
+        score = score * 0.1; // Reduce score by 90%
+        reasons.push('No goal alignment - heavily penalized');
+      }
+    }
 
     // Check for NaN before returning
     if (isNaN(score)) {

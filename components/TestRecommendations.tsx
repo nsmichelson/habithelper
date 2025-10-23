@@ -24,7 +24,7 @@ const TEST_PROFILES = {
     description: 'Restaurant lover who hates veggies',
     profile: {
       primary_focus: 'eating',
-      goals: ['more_veggies', 'less_sugar'],
+      goals: ['nutrient_density', 'flexibility'],  // Changed to goals that exist in tips database
       preferences: ['restaurant_friends', 'coffee_shops', 'walking', 'podcasts_audiobooks'],
       specific_challenges: {
         eating: ['hate_veggies', 'love_sweets', 'social_events', 'no_time_cook']
@@ -117,12 +117,21 @@ export default function TestRecommendations() {
         false // Not relaxed mode
       );
 
-      // Debug logging - only log summary
+      // Debug logging - log top 5 with more detail
       console.log(`=== Loaded ${recs.length} recommendations for ${selectedProfile} ===`);
-      if (recs.length > 0) {
-        const topRec = recs[0];
-        console.log(`Top recommendation: "${topRec.tip.summary}" (Score: ${topRec.score})`);
-      }
+      console.log('Top 5 recommendations:');
+      recs.slice(0, 5).forEach((rec, i) => {
+        console.log(`${i + 1}. "${rec.tip.summary}"`);
+        console.log(`   Score: ${rec.score}, Goals: ${rec.tip.goals?.slice(0,2).join(', ')}...`);
+        if (rec._debugInfo) {
+          const hasMatches = rec._debugInfo.matchedGoals.length > 0 ||
+                            rec._debugInfo.matchedPreferences.length > 0 ||
+                            rec._debugInfo.addressedBlockers.length > 0;
+          if (hasMatches) {
+            console.log(`   Matched: goals=${rec._debugInfo.matchedGoals.length}, prefs=${rec._debugInfo.matchedPreferences.length}, blockers=${rec._debugInfo.addressedBlockers.length}`);
+          }
+        }
+      });
 
       setRecommendations(recs.slice(0, 10)); // Top 10 recommendations
     } catch (error) {
