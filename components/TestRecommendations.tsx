@@ -351,9 +351,29 @@ export default function TestRecommendations() {
                           </View>
                         </View>
 
+                        {/* Tip Goals - What this tip is designed to achieve */}
+                        <View style={styles.debugRow}>
+                          <Text style={styles.debugLabel}>🎯 Tip's Target Goals:</Text>
+                          <View style={styles.codeChipContainer}>
+                            {rec.tip.goals && rec.tip.goals.map((goal: string, i: number) => {
+                              const isMatched = rec._debugInfo.matchedGoals.includes(goal);
+                              return (
+                                <View key={i} style={[
+                                  styles.codeChip,
+                                  isMatched ? styles.goalMatchedChip : styles.goalUnmatchedChip
+                                ]}>
+                                  <Text style={styles.codeChipText}>
+                                    {isMatched && '✓ '}{goal}
+                                  </Text>
+                                </View>
+                              );
+                            })}
+                          </View>
+                        </View>
+
                         {/* Tip Features/Involves (for reference) */}
                         <View style={styles.debugRow}>
-                          <Text style={styles.debugLabel}>📌 Tip Properties:</Text>
+                          <Text style={styles.debugLabel}>📌 Other Properties:</Text>
                           <View style={styles.tipPropsContainer}>
                             {rec.tip.features && rec.tip.features.length > 0 && (
                               <Text style={styles.tipPropText}>
@@ -641,5 +661,88 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold',
     color: '#FFF',
+  },
+  // Debug info styles
+  debugSection: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  debugTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 15,
+  },
+  debugRow: {
+    marginBottom: 12,
+  },
+  debugLabel: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.9)',
+    marginBottom: 8,
+    fontWeight: '600',
+  },
+  penaltyLabel: {
+    color: '#ff9999',
+  },
+  codeChipContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  codeChip: {
+    backgroundColor: 'rgba(100,200,100,0.3)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(100,200,100,0.5)',
+  },
+  codeChipText: {
+    fontSize: 11,
+    color: '#FFF',
+    fontFamily: 'monospace',
+  },
+  blockerChip: {
+    backgroundColor: 'rgba(255,165,0,0.3)',
+    borderColor: 'rgba(255,165,0,0.5)',
+  },
+  goalChip: {
+    backgroundColor: 'rgba(100,150,255,0.3)',
+    borderColor: 'rgba(100,150,255,0.5)',
+  },
+  goalMatchedChip: {
+    backgroundColor: 'rgba(76,175,80,0.4)',
+    borderColor: 'rgba(76,175,80,0.6)',
+  },
+  goalUnmatchedChip: {
+    backgroundColor: 'rgba(150,150,150,0.2)',
+    borderColor: 'rgba(150,150,150,0.3)',
+  },
+  avoidChip: {
+    backgroundColor: 'rgba(255,100,100,0.3)',
+    borderColor: 'rgba(255,100,100,0.5)',
+  },
+  otherScores: {
+    marginTop: 5,
+  },
+  otherScoreText: {
+    fontSize: 11,
+    color: 'rgba(255,255,255,0.8)',
+    marginLeft: 10,
+    lineHeight: 18,
+  },
+  tipPropsContainer: {
+    marginTop: 5,
+  },
+  tipPropText: {
+    fontSize: 11,
+    color: 'rgba(255,255,255,0.7)',
+    marginBottom: 4,
+  },
+  reasonsSection: {
+    marginTop: 10,
   },
 });
