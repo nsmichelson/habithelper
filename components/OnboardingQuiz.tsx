@@ -23,6 +23,7 @@ import StorageService from '../services/storage';
 import { UserProfile } from '../types/tip';
 import { Ionicons } from '@expo/vector-icons';
 import IdentityQuizStep from './quiz/IdentityQuizStep';
+import { getTipGoalsForQuizGoals, GOAL_MAPPINGS } from '../data/goalMappings';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -359,64 +360,17 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           break;
           
         case 'real_goals':
-          // Map real goals to nutrition goals
-          values.forEach(goal => {
-            switch(goal) {
-              case 'look_good':
-              case 'clothes_fit': 
-                addGoal('weight_loss'); 
-                break;
-              case 'more_energy': 
-                addGoal('improve_energy'); 
-                break;
-              case 'health_scare':
-                addGoal('better_lipids');
-                addGoal('lower_blood_pressure');
-                break;
-              case 'less_bloated':
-                addGoal('improve_gut_health');
-                break;
-              case 'athletic':
-                addGoal('endurance_performance');
-                addGoal('strength_performance');
-                break;
-              case 'keep_up_kids':
-                addGoal('improve_energy');
-                break;
-              case 'eat_more_veggies':
-                addGoal('increase_veggies');
-                break;
-              case 'healthy_pregnancy_nutrition':
-                addGoal('healthy_pregnancy');
-                break;
-              case 'just_healthier':
-                addGoal('improve_energy');
-                break;
-            }
-          });
+          // Store original quiz goals
+          profile.quiz_goals = values;
+          // Map quiz goals to tip database goals using the mapping system
+          const mappedGoalsFromQuiz = getTipGoalsForQuizGoals(values);
+          mappedGoalsFromQuiz.forEach(goal => addGoal(goal));
           break;
           
         case 'organization_goals':
-          // Map organization goals  
-          values.forEach(goal => {
-            switch(goal) {
-              case 'less_stress':
-              case 'mental_clarity':
-                addGoal('declutter');
-                break;
-              case 'save_time':
-              case 'focus_better':
-                addGoal('organize_workspace');
-                break;
-              case 'guest_ready':
-              case 'role_model_org':
-                addGoal('organize_home');
-                break;
-              case 'professional':
-                addGoal('organize_workspace');
-                break;
-            }
-          });
+          // Store and map organization goals
+          const orgMappedGoals = getTipGoalsForQuizGoals(values);
+          orgMappedGoals.forEach(goal => addGoal(goal));
           break;
           
         case 'kitchen_reality':
@@ -614,22 +568,14 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   if (showIdentityStep) {
     // Get user's goals from responses - need to map to actual goal tags
     const goalsResponse = responses.find(r => r.questionId === 'real_goals');
-    const mappedGoals: string[] = [];
-    
-    goalsResponse?.values?.forEach(goal => {
-      switch(goal) {
-        case 'lose_weight': mappedGoals.push('weight_loss'); break;
-        case 'gain_muscle': mappedGoals.push('muscle_gain'); break;
-        case 'eat_less_sugar': mappedGoals.push('reduce_sugar'); break;
-        case 'drink_more_water': mappedGoals.push('improve_hydration'); break;
-        case 'lower_cholesterol': mappedGoals.push('better_lipids'); break;
-        case 'eat_less_junk': mappedGoals.push('less_processed_food'); break;
-        case 'eat_more_veggies': mappedGoals.push('increase_veggies'); break;
-        case 'more_energy': mappedGoals.push('improve_energy'); break;
-        case 'lower_bp': mappedGoals.push('lower_blood_pressure'); break;
-        case 'better_digestion': mappedGoals.push('improve_gut_health'); break;
-      }
-    });
+    const quizGoals = goalsResponse?.values || [];
+
+    // Use the comprehensive goal mapping system
+    const mappedGoals = getTipGoalsForQuizGoals(quizGoals);
+
+    // Log the mapping for debugging
+    console.log('Quiz goals:', quizGoals);
+    console.log('Mapped to tip goals:', mappedGoals);
     
     console.log('Goals for identity step:', mappedGoals);
     
