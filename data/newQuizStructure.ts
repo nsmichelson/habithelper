@@ -1,4 +1,5 @@
 import { QuizQuestion } from '../types/quiz';
+import { getTipGoalsForQuizGoals } from './goalMappings';
 
 /**
  * New Quiz Flow:
@@ -43,7 +44,7 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
     helpText: "Pick 1-3 that feel most important right now",
     options: [
       { value: 'more_veggies', label: 'Eat more vegetables & fruits' },
-      { value: 'less_junk', label: 'Cut back on junk food' },
+      { value: 'less_junk', label: 'Cut back on junk/processed food' },
       { value: 'portion_control', label: 'Better portion control' },
       { value: 'less_sugar', label: 'Reduce sugar intake' },
       { value: 'more_protein', label: 'Get more protein' },
@@ -52,6 +53,20 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'meal_planning', label: 'Plan meals better' },
       { value: 'cook_more', label: 'Cook at home more' },
       { value: 'eating_schedule', label: 'Regular eating times' },
+      { value: 'no_binge', label: 'Stop binge/stress eating' },
+      { value: 'diabetic_eating', label: 'Manage blood sugar' },
+      { value: 'pregnancy_eating', label: 'Eat better during pregnancy' },
+      { value: 'plant_based', label: 'Switch to plant-based' },
+      { value: 'no_alcohol', label: 'Cut out alcohol' },
+      { value: 'increase_fiber', label: 'Increase fiber intake' },
+      { value: 'weight_loss', label: 'Lose weight' },
+      { value: 'muscle_gain', label: 'Build muscle' },
+      { value: 'manage_cravings', label: 'Manage cravings better' },
+      { value: 'restaurant_better', label: 'Better restaurant choices' },
+      { value: 'reduce_caffeine', label: 'Reduce caffeine' },
+      { value: 'reduce_carbs', label: 'Lower carb intake' },
+      { value: 'reduce_fat', label: 'Reduce fat intake' },
+      { value: 'reduce_sodium', label: 'Lower sodium' },
     ]
   },
 
@@ -120,6 +135,8 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'find_enjoyable', label: 'Find exercise I enjoy' },
       { value: 'home_workouts', label: 'Exercise at home' },
       { value: 'active_lifestyle', label: 'Be more active daily' },
+      { value: 'endurance_performance', label: 'Improve athletic endurance' },
+      { value: 'strength_performance', label: 'Increase strength performance' },
     ]
   },
 
@@ -550,7 +567,8 @@ export function getNextQuestions(responses: Map<string, string[]>): QuizQuestion
 // Map quiz responses to user profile
 export function mapQuizToProfile(responses: Map<string, any>): Partial<any> {
   const profile: any = {
-    goals: [],
+    goals: [],           // Mapped tip database goals
+    quiz_goals: [],      // Original quiz goals for reference
     preferences: [],
     constraints: [],
     lifestyle: {},
@@ -565,7 +583,10 @@ export function mapQuizToProfile(responses: Map<string, any>): Partial<any> {
 
     // Map specific goals based on area
     const specificGoals = responses.get(`${primaryArea[0]}_specifics`) || [];
-    profile.goals = specificGoals;
+    // Store both the original quiz goals and the mapped tip goals
+    profile.quiz_goals = specificGoals;
+    // Convert quiz goals to tip database goals using the mapping
+    profile.goals = getTipGoalsForQuizGoals(specificGoals);
 
     // Map area-specific blockers
     const blockerKey = `${primaryArea[0]}_blockers`;
