@@ -1371,7 +1371,7 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** With clinician approval, use chewable kids’ multivitamins temporarily until nausea improves.\n\n**Why it Works:** Better than nothing when pills won’t stay down; easier on the stomach.\n\n**How to Try It:**\n• Confirm dose/brand with your provider.\n• Keep focusing on folate‑rich foods meanwhile.\n• Resume a full prenatal as soon as tolerated.",
     "area": "nutrition",
     "goals": [
-      "consistency",
+      "prenatal_nutrition",
       "reduce_nausea",
       "healthy_pregnancy"
     ],
@@ -2853,8 +2853,8 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Start a group chat to post dinner photos and hydration check‑ins.\n\n**Why it Works:** Social accountability and ideas from peers make habits stick.\n\n**How to Try It:**\n• Pick a theme challenge (e.g., 'eat the rainbow').\n• Cheer small wins; no food policing.\n• Share 1 recipe each week.",
     "area": "nutrition",
     "goals": [
-      "accountability",
-      "consistency",
+      "social_support",
+      "eating_habit",
       "produce_intake",
       "healthy_pregnancy"
     ],

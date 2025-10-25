@@ -45,64 +45,64 @@ export const GOAL_MAPPINGS: Record<string, string[]> = {
   'fall_asleep': ['improve_sleep', 'sleep_quality'],
   'stay_asleep': ['improve_sleep', 'sleep_quality'],
   'earlier_bedtime': ['improve_sleep', 'morning_routine'],
-  'consistent_schedule': ['consistency', 'morning_routine', 'sleep_quality'],
+  'consistent_schedule': ['sleep_routine', 'morning_routine', 'sleep_quality'],
   'wake_refreshed': ['improve_sleep', 'sleep_quality', 'improve_energy'],
   'less_screen': ['improve_sleep', 'sleep_quality'],
   'wind_down': ['improve_sleep', 'sleep_quality', 'mindset_shift'],
   'sleep_environment': ['improve_sleep', 'sleep_quality'],
-  'stop_snoozing': ['morning_routine', 'improve_energy', 'consistency'],
+  'stop_snoozing': ['morning_routine', 'improve_energy', 'wake_discipline'],
 
   // ============ PRODUCTIVITY GOALS ============
-  'procrastination': ['consistency', 'motivation', 'accountability'],
-  'focus': ['self_awareness', 'mindful_eating'], // Note: might need productivity-specific goals
-  'time_management': ['time_saving', 'morning_routine'],
+  'procrastination': ['task_completion', 'motivation', 'focus_improvement'],
+  'focus': ['focus_improvement', 'reduce_distractions', 'deep_work'],
+  'time_management': ['time_saving', 'task_prioritization', 'schedule_management'],
   'declutter': ['declutter', 'organize_home'],
-  'organize_digital': ['organize_workspace'],
-  'daily_routine': ['morning_routine', 'consistency', 'better_habits'],
-  'prioritize': ['self_awareness', 'mindset_shift'],
-  'finish_tasks': ['consistency', 'accountability', 'motivation'],
-  'less_overwhelm': ['mindset_shift', 'self_awareness'],
-  'planning': ['meal_prep', 'time_saving'], // For general planning
+  'organize_digital': ['organize_workspace', 'digital_organization'],
+  'daily_routine': ['morning_routine', 'daily_structure', 'better_habits'],
+  'prioritize': ['task_prioritization', 'decision_making', 'mindset_shift'],
+  'finish_tasks': ['task_completion', 'follow_through', 'motivation'],
+  'less_overwhelm': ['stress_management', 'task_prioritization', 'mindset_shift'],
+  'planning': ['task_planning', 'schedule_management', 'time_saving'],
 
   // ============ EXERCISE GOALS ============
-  'start_moving': ['improve_energy', 'consistency'],
-  'consistency': ['consistency', 'accountability', 'better_habits'],
+  'start_moving': ['improve_energy', 'exercise_habit'],
+  'consistency': ['exercise_habit', 'workout_routine', 'better_habits'],
   'strength': ['strength_performance', 'muscle_gain'],
   'cardio': ['endurance_performance', 'heart_health'],
-  'flexibility': ['flexibility'], // May need to add this to tips
+  'flexibility': ['flexibility', 'mobility'],
   'exercise_weight_loss': ['weight_loss', 'improve_energy'],
   'energy': ['improve_energy', 'improve_mood'],
-  'find_enjoyable': ['motivation', 'consistency'],
-  'home_workouts': ['consistency', 'accountability'],
-  'active_lifestyle': ['better_habits', 'improve_energy', 'consistency'],
+  'find_enjoyable': ['motivation', 'exercise_enjoyment'],
+  'home_workouts': ['home_fitness', 'workout_routine'],
+  'active_lifestyle': ['better_habits', 'improve_energy', 'daily_movement'],
   'endurance_performance': ['endurance_performance'],
   'strength_performance': ['strength_performance'],
 
   // ============ MINDSET GOALS ============
-  'stress': ['stress_eating', 'mindset_shift', 'self_awareness'],
-  'anxiety': ['self_awareness', 'mindset_shift', 'improve_mood'],
-  'negative_thoughts': ['mindset_shift', 'self_awareness'],
-  'self_compassion': ['self_awareness', 'mindset_shift'],
-  'confidence': ['motivation', 'self_awareness'],
-  'mindfulness': ['mindful_eating', 'self_awareness'],
-  'gratitude': ['mindset_shift', 'improve_mood'],
-  'boundaries': ['self_awareness', 'consistency'],
-  'perfectionism': ['mindset_shift', 'self_awareness'],
-  'motivation': ['motivation', 'accountability'],
+  'stress': ['stress_management', 'stress_eating', 'mindset_shift'],
+  'anxiety': ['anxiety_management', 'mindset_shift', 'improve_mood'],
+  'negative_thoughts': ['positive_thinking', 'mindset_shift', 'self_awareness'],
+  'self_compassion': ['self_compassion', 'self_awareness', 'mindset_shift'],
+  'confidence': ['build_confidence', 'self_awareness'],
+  'mindfulness': ['mindfulness_practice', 'mindful_eating', 'self_awareness'],
+  'gratitude': ['gratitude_practice', 'mindset_shift', 'improve_mood'],
+  'boundaries': ['healthy_boundaries', 'self_awareness'],
+  'perfectionism': ['overcome_perfectionism', 'mindset_shift', 'self_awareness'],
+  'motivation': ['motivation', 'goal_achievement'],
 
   // ============ RELATIONSHIP GOALS ============
   // Note: Most relationship goals don't have direct tip database matches
   // These might need new tips or could map to general wellness goals
-  'communication': ['self_awareness'],
-  'quality_time': ['time_saving'], // Free up time for relationships
-  'social_connection': ['accountability'], // Social support
-  'conflict_resolution': ['self_awareness', 'mindset_shift'],
-  'express_needs': ['self_awareness'],
-  'listening': ['mindfulness', 'self_awareness'],
-  'work_life_balance': ['time_saving', 'morning_routine', 'consistency'],
-  'family_time': ['time_saving', 'meal_prep'], // Family meals
-  'dating': ['confidence', 'self_awareness'],
-  'friendships': ['accountability'], // Friend support
+  'communication': ['better_communication', 'self_awareness'],
+  'quality_time': ['relationship_time', 'time_saving'],
+  'social_connection': ['social_support', 'community_building'],
+  'conflict_resolution': ['conflict_skills', 'self_awareness', 'mindset_shift'],
+  'express_needs': ['assertiveness', 'self_awareness'],
+  'listening': ['active_listening', 'mindfulness_practice', 'self_awareness'],
+  'work_life_balance': ['work_life_balance', 'time_saving', 'boundary_setting'],
+  'family_time': ['family_connection', 'time_saving', 'meal_prep'],
+  'dating': ['dating_confidence', 'build_confidence', 'self_awareness'],
+  'friendships': ['friendship_building', 'social_support']
 };
 
 /**

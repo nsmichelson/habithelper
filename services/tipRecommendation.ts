@@ -123,7 +123,36 @@ export class TipRecommendationService {
     const scores: TipScore[] = [];
     const timeOfDay = this.getTimeOfDay(currentTime);
 
+    // Map primary focus to tip areas
+    const areaMap: Record<string, string> = {
+      'eating': 'nutrition',
+      'exercise': 'fitness',
+      'sleeping': 'nutrition', // Sleep tips are often in nutrition
+      'productivity': 'organization',
+      'mindset': 'relationships', // Mindset tips often in relationships
+      'relationships': 'relationships'
+    };
+
+    const userFocusArea = areaMap[userProfile.primary_focus || ''] || null;
+
     for (const tip of safeTips) {
+      // AREA FILTER: Prioritize tips from user's focus area
+      // In relaxed mode or if no primary focus, include all areas
+      if (!relaxedMode && userFocusArea && tip.area !== userFocusArea) {
+        // Allow some cross-area tips if they strongly match goals
+        const userGoals = userProfile.goals ?? [];
+        const tipGoals = tip.goals ?? [];
+        const matchCount = tipGoals.filter(g => userGoals.includes(g)).length;
+
+        // Skip cross-area tips unless they match multiple goals
+        if (matchCount < 2) {
+          if (__DEV__) {
+            console.log(`Tip ${tip.summary} skipped: wrong area (${tip.area} vs ${userFocusArea})`);
+          }
+          continue;
+        }
+      }
+
       const eligibility = this.isTipEligible(
         tip,
         userProfile,
@@ -139,7 +168,7 @@ export class TipRecommendationService {
         continue;
       }
 
-      // NEW: Check for goal match BEFORE scoring
+      // Check for goal match BEFORE scoring
       const userGoals = userProfile.goals ?? [];
       const tipGoals = tip.goals ?? [];
       const hasGoalMatch = tipGoals.some(g => userGoals.includes(g));
@@ -165,7 +194,66 @@ export class TipRecommendationService {
     }
 
     // Sort by composite priority
-    return this.sortByPriority(scores);
+    const sortedScores = this.sortByPriority(scores);
+
+    // FALLBACK: If we have too few recommendations, try again with relaxed area filtering
+    if (!relaxedMode && sortedScores.length < 5) {
+      if (__DEV__) {
+        console.log(`Only found ${sortedScores.length} tips for ${userProfile.primary_focus}, trying relaxed area filtering`);
+      }
+
+      // Try again including cross-area tips
+      const relaxedScores: TipScore[] = [];
+      for (const tip of safeTips) {
+        // Skip tips we already scored
+        if (scores.some(s => s.tip.tip_id === tip.tip_id)) {
+          continue;
+        }
+
+        const eligibility = this.isTipEligible(
+          tip,
+          userProfile,
+          previousTips,
+          attempts,
+          relaxedMode
+        );
+
+        if (!eligibility.eligible) {
+          continue;
+        }
+
+        // Check for goal match
+        const userGoals = userProfile.goals ?? [];
+        const tipGoals = tip.goals ?? [];
+        const hasGoalMatch = tipGoals.some(g => userGoals.includes(g));
+
+        // Skip tips with zero goal matches
+        if (userGoals.length > 0 && !hasGoalMatch) {
+          continue;
+        }
+
+        const score = this.calculateTipScore(
+          tip,
+          userProfile,
+          previousTips,
+          attempts,
+          timeOfDay,
+          relaxedMode
+        );
+
+        // Apply penalty for cross-area tips
+        score.score *= 0.7; // 30% penalty for not being in primary area
+        score.reasons.push('Cross-area tip');
+
+        relaxedScores.push(score);
+      }
+
+      // Combine and re-sort all scores
+      const allScores = [...sortedScores, ...relaxedScores];
+      return this.sortByPriority(allScores);
+    }
+
+    return sortedScores;
   }
 
   /**
