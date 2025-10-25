@@ -2674,7 +2674,7 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "nutrition",
     "goals": [
       "meal_prep",
-      "consistency",
+      "eating_habit",
       "reduce_takeout",
       "healthy_pregnancy"
     ],
@@ -3090,7 +3090,7 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Pick one balanced meal that always sounds good and put it on repeat this week.\n\n**Why it Works:** Consistency beats perfection; repeating a well‑tolerated meal ensures steady nutrients.\n\n**How to Try It:**\n• Example: veggie omelet + toast; or turkey‑cheese melt (heated) + salad.\n• Batch prep ingredients to reduce effort.\n• Rotate sides/sauces to prevent boredom.",
     "area": "nutrition",
     "goals": [
-      "consistency",
+      "eating_habit",
       "reduce_nausea",
       "nutrient_density",
       "healthy_pregnancy"
