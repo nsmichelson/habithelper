@@ -139,6 +139,19 @@ export class TipRecommendationService {
         continue;
       }
 
+      // NEW: Check for goal match BEFORE scoring
+      const userGoals = userProfile.goals ?? [];
+      const tipGoals = tip.goals ?? [];
+      const hasGoalMatch = tipGoals.some(g => userGoals.includes(g));
+
+      // Skip tips with zero goal matches (unless user has no goals set)
+      if (userGoals.length > 0 && !hasGoalMatch) {
+        if (__DEV__) {
+          console.log(`Tip ${tip.summary} skipped: no goal match`);
+        }
+        continue;
+      }
+
       const score = this.calculateTipScore(
         tip,
         userProfile,
@@ -386,10 +399,27 @@ export class TipRecommendationService {
       }
     };
 
-    // NEW: Preference-based scoring (if user has new quiz data)
+    // 1. Goal alignment - now just tracking, not scoring heavily
+    const goalAlign = this.computeGoalAlignment(tip, userProfile);
+    const goalBonus = Math.min(goalAlign.matches * 5, 15); // Small bonus for multiple goals (max 15 points)
+    score += goalBonus;
+
+    // Track matched goals
+    const matchedGoals = (tip.goals || []).filter(g => (userProfile.goals || []).includes(g));
+    debugInfo.scoreBreakdown.goals = {
+      score: goalBonus,
+      matched: matchedGoals
+    };
+    debugInfo.matchedGoals = matchedGoals;
+
+    if (goalAlign.matches > 0) {
+      reasons.push(`Matches ${goalAlign.matches}/${userProfile.goals?.length ?? 0} goals`);
+    }
+
+    // 2. PREFERENCES - Primary ranking factor (40% weight)
     if (userProfile.preferences && userProfile.preferences.length > 0) {
       const prefScore = this.calculatePreferenceScore(tip, userProfile);
-      const prefPoints = prefScore.score * 30; // 30% weight for preferences
+      const prefPoints = prefScore.score * 40; // 40% weight for preferences
       score += prefPoints;
 
       debugInfo.scoreBreakdown.preferences = {
@@ -403,10 +433,10 @@ export class TipRecommendationService {
       }
     }
 
-    // NEW: Blocker addressing (if user has specific challenges)
+    // 3. BLOCKERS - Secondary ranking factor (30% weight)
     if (userProfile.specific_challenges) {
       const blockerScore = this.calculateBlockerScore(tip, userProfile);
-      const blockerPoints = blockerScore.score * 20; // 20% weight for addressing blockers
+      const blockerPoints = blockerScore.score * 30; // 30% weight for addressing blockers
       score += blockerPoints;
 
       debugInfo.scoreBreakdown.blockers = {
@@ -420,7 +450,7 @@ export class TipRecommendationService {
       }
     }
 
-    // Check avoidance (penalty)
+    // 4. AVOIDANCE - Major penalty
     if (userProfile.avoid_approaches && userProfile.avoid_approaches.length > 0) {
       const avoidScore = this.calculateAvoidanceScore(tip, userProfile);
       if (avoidScore.violations.length > 0) {
@@ -430,82 +460,73 @@ export class TipRecommendationService {
           violated: avoidScore.violations
         };
         debugInfo.avoidedItems = avoidScore.violations;
+        reasons.push(`Avoids: ${avoidScore.violations.join(', ')}`);
       }
     }
 
-    // 1. Goal alignment (adjusted weight if new data exists)
-    const goalAlign = this.computeGoalAlignment(tip, userProfile);
-    const goalWeight = userProfile.preferences ? 20 : this.WEIGHTS.GOAL_ALIGNMENT * 100;
-    const goalScore = goalAlign.f1 * goalWeight;
-    score += goalScore;
-
-    // We'll apply the no-goal penalty at the end, after all scores are calculated
-
-    // Track matched goals
-    const matchedGoals = (tip.goals || []).filter(g => (userProfile.goals || []).includes(g));
-    debugInfo.scoreBreakdown.goals = {
-      score: goalScore,
-      matched: matchedGoals
-    };
-    debugInfo.matchedGoals = matchedGoals;
-
-    if (goalAlign.matches > 0) {
-      reasons.push(`Matches ${goalAlign.matches}/${userProfile.goals?.length ?? 0} goals`);
-    }
-
-    // 2. Effort matching (using simplified effort field)
+    // 5. Other factors (reduced weights - 30% total for all)
+    // Effort matching (3%)
     const effortScore = this.calculateEffortScore(tip, userProfile);
-    score += effortScore * this.WEIGHTS.EFFORT_MATCH * 100;
+    const effortPoints = effortScore * 3;
+    score += effortPoints;
     if (effortScore > 0.7) {
       reasons.push('Good effort match');
     }
 
-    // 3. Time availability (using simplified time field)
+    // Time availability (3%)
     const timeScore = this.calculateTimeScore(tip, userProfile);
-    score += timeScore * this.WEIGHTS.TIME_AVAILABLE * 100;
+    const timePoints = timeScore * 3;
+    score += timePoints;
     if (timeScore > 0.8) {
       reasons.push('Fits time budget');
     }
 
-    // 4. Time of day matching (using 'when' field)
+    // Time of day matching (2%)
     const todScore = this.calculateTimeOfDayScore(tip, timeOfDay);
-    score += todScore * this.WEIGHTS.TIME_OF_DAY * 100;
+    const todPoints = todScore * 2;
+    score += todPoints;
     if (todScore > 0.8) {
       reasons.push(`Good for ${timeOfDay}`);
     }
 
-    // 5. Success history
+    // Success history (5% - important feedback signal)
     const successScore = this.calculateSuccessScore(tip, attempts);
-    score += successScore * this.WEIGHTS.SUCCESS_HISTORY * 100;
+    const successPoints = successScore * 5;
+    score += successPoints;
     if (successScore > 0.7) {
       reasons.push('Previously successful');
     }
 
-    // 6. Novelty
+    // Novelty (3%)
     const noveltyScore = this.calculateNoveltyScore(tip, previousTips, attempts);
-    score += noveltyScore * this.WEIGHTS.NOVELTY * 100;
+    const noveltyPoints = noveltyScore * 3;
+    score += noveltyPoints;
     if (noveltyScore > 0.8) {
       reasons.push('Fresh option');
     }
 
-    // 7. Difficulty progression
+    // Difficulty progression (2%)
     const difficultyScore = this.calculateDifficultyScore(tip, attempts);
-    score += difficultyScore * this.WEIGHTS.DIFFICULTY * 100;
+    const difficultyPoints = difficultyScore * 2;
+    score += difficultyPoints;
     if (difficultyScore > 0.7) {
       reasons.push('Right difficulty');
     }
 
-    // 8. Budget matching (using simplified cost field)
+    // Budget matching (2%)
     const budgetScore = this.calculateBudgetScore(tip, userProfile);
-    score += budgetScore * this.WEIGHTS.BUDGET_FIT * 100;
+    const budgetPoints = budgetScore * 2;
+    score += budgetPoints;
 
-    // 9. Chaos compatibility (using features field)
+    // Chaos compatibility (2%)
     const chaosScore = this.calculateChaosScore(tip, userProfile);
-    score += chaosScore * this.WEIGHTS.CHAOS_COMPATIBLE * 100;
+    const chaosPoints = chaosScore * 2;
+    score += chaosPoints;
 
-    // 10. Kitchen/cooking compatibility (using requires field)
+    // Kitchen/cooking compatibility (2%)
     const kitchenScore = this.calculateKitchenScore(tip, userProfile);
-    score += kitchenScore * this.WEIGHTS.KITCHEN_SKILLS * 100;
+    const kitchenPoints = kitchenScore * 2;
+    score += kitchenPoints;
 
     // Compute composite lifestyle fit
     const lifestyleFit = this.computeLifestyleFit({
@@ -516,34 +537,27 @@ export class TipRecommendationService {
       timeOfDay: todScore
     });
 
-    // Add bonus for high lifestyle fit
+    // Add small bonus for high lifestyle fit (4%)
+    let lifestylePoints = 0;
     if (lifestyleFit > 0.8) {
-      score += 10;
+      lifestylePoints = 4;
+      score += lifestylePoints;
       reasons.push('Great lifestyle fit');
     }
 
     // Add other scores to debug info
     debugInfo.scoreBreakdown.other = {
-      effort: effortScore * this.WEIGHTS.EFFORT_MATCH * 100,
-      time: timeScore * this.WEIGHTS.TIME_AVAILABLE * 100,
-      timeOfDay: todScore * this.WEIGHTS.TIME_OF_DAY * 100,
-      success: successScore * this.WEIGHTS.SUCCESS_HISTORY * 100,
-      novelty: noveltyScore * this.WEIGHTS.NOVELTY * 100,
-      difficulty: difficultyScore * this.WEIGHTS.DIFFICULTY * 100,
-      budget: budgetScore * this.WEIGHTS.BUDGET_FIT * 100,
-      chaos: chaosScore * this.WEIGHTS.CHAOS_COMPATIBLE * 100,
-      kitchen: kitchenScore * this.WEIGHTS.KITCHEN_SKILLS * 100,
-      lifestyleFit: lifestyleFit > 0.8 ? 10 : 0
+      effort: effortPoints,
+      time: timePoints,
+      timeOfDay: todPoints,
+      success: successPoints,
+      novelty: noveltyPoints,
+      difficulty: difficultyPoints,
+      budget: budgetPoints,
+      chaos: chaosPoints,
+      kitchen: kitchenPoints,
+      lifestyleFit: lifestylePoints
     };
-
-    // IMPORTANT: Apply heavy penalty if there's zero goal alignment
-    if (goalAlign.matches === 0 && userProfile.goals && userProfile.goals.length > 0) {
-      // This tip doesn't match ANY of the user's goals - it's probably irrelevant
-      if (score > 0) {
-        score = score * 0.1; // Reduce score by 90%
-        reasons.push('No goal alignment - heavily penalized');
-      }
-    }
 
     // Check for NaN before returning
     if (isNaN(score)) {
@@ -815,35 +829,7 @@ export class TipRecommendationService {
       if (!isNaN(a.score) && isNaN(b.score)) return -1;
       if (isNaN(a.score) && isNaN(b.score)) return 0;
 
-      // 1. First by number of goal matches (more matches = better)
-      const aGoalMatches = a._goalMatches || 0;
-      const bGoalMatches = b._goalMatches || 0;
-      if (aGoalMatches !== bGoalMatches) {
-        return bGoalMatches - aGoalMatches;
-      }
-
-      // 2. Then by goal match ratio (higher coverage = better)
-      const aMatchRatio = a._goalMatchRatio || 0;
-      const bMatchRatio = b._goalMatchRatio || 0;
-      if (Math.abs(aMatchRatio - bMatchRatio) > 0.1) {
-        return bMatchRatio - aMatchRatio;
-      }
-
-      // 3. Then by F1 score for goal alignment quality
-      const aF1 = a._goalF1 || 0;
-      const bF1 = b._goalF1 || 0;
-      if (Math.abs(aF1 - bF1) > 0.1) {
-        return bF1 - aF1;
-      }
-
-      // 4. Then by lifestyle fit
-      const aLifestyle = a._lifestyleFit || 0;
-      const bLifestyle = b._lifestyleFit || 0;
-      if (Math.abs(aLifestyle - bLifestyle) > 0.1) {
-        return bLifestyle - aLifestyle;
-      }
-
-      // 5. Finally by total score
+      // Simply sort by total score now - preferences and blockers are already weighted heavily
       return (b.score || 0) - (a.score || 0);
     });
   }
