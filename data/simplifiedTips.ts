@@ -405,7 +405,8 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_nausea",
       "boost_energy",
       "stable_blood_sugar",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "protein_intake"
     ],
     "helps_with": [
       "nausea",
@@ -1182,7 +1183,8 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "food_safety",
       "craving_satisfaction",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "protein_intake"
     ],
     "helps_with": [
       "food_safety_anxiety",
@@ -1456,7 +1458,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "flexibility",
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "protein_intake",
+      "produce_intake"
     ],
     "helps_with": [
       "food_aversion",
@@ -1520,7 +1524,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "fiber_intake",
       "prenatal_nutrition",
       "prevent_anemia",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "increase_veggies",
+      "protein_intake"
     ],
     "helps_with": [
       "aversion",
@@ -1592,7 +1598,8 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "prenatal_nutrition",
       "fiber_intake",
       "protein_intake",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "increase_veggies"
     ],
     "helps_with": [
       "aversion",
@@ -6822,7 +6829,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** For the entire day, keep a filled water bottle within your arm's reach and line of sight.\n\n**Why it Works:** This is a classic and highly effective environmental design tactic. The visual cue of the water bottle constantly reminds you to drink, and its accessibility makes it effortless to do so. This simple change can dramatically increase your daily water intake.\n\n**How to Try It:**\n• Choose a reusable water bottle you enjoy using\n• Fill it up first thing in the morning and place it on your desk, in your car's cup holder, or on the counter where you spend the most time\n• Refill it as soon as it's empty",
     "area": "nutrition",
     "goals": [
-      "hydration"
+      "hydration",
+      "habit_formation",
+      "visual_cues"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -7556,7 +7565,10 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Before bed, take two minutes to reflect on your eating today. Identify one small, positive change you could make tomorrow.\n\n**Why it Works:** This practice of reflection and gentle course-correction fosters a growth mindset and prevents the all-or-nothing trap. It's about continuous, incremental improvement rather than perfection. Planning one small change makes the goal feel achievable and builds momentum over time.\n\n**How to Try It:**\n• Ask yourself: \"What went well today? What was one challenge?\"\n• Based on that, decide on one tiny improvement. Examples: \"Tomorrow, I'll pack an apple for my afternoon snack,\" or \"I'll try to have a glass of water with lunch.\"\n• Write it down to increase your commitment",
     "area": "nutrition",
     "goals": [
-      "weight_loss"
+      "weight_loss",
+      "eating_awareness",
+      "self_monitoring",
+      "habit_formation"
     ],
     "helps_with": [
       "mindless_eating",
@@ -9879,7 +9891,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Eat the first 60 seconds without talking or screens.\n\n**Why it Works:** Heightens sensory cues and early satisfaction.\n\n**How to Try It:**\n• Start in silence\n• Notice aroma/texture\n• Decide pace after 1 minute",
     "area": "nutrition",
     "goals": [
-      "mindful_eating"
+      "mindful_eating",
+      "eating_awareness",
+      "reduce_stress"
     ],
     "helps_with": [
       "mindless_eating"
@@ -9971,7 +9985,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Use your non‑dominant hand for a full snack/meal.\n\n**Why it Works:** Disrupts conditioned motor patterns, slowing intake.\n\n**How to Try It:**\n• Commit for the entire portion\n• Put utensil down between bites\n• Notice speed shift",
     "area": "nutrition",
     "goals": [
-      "mindful_eating"
+      "mindful_eating",
+      "eating_awareness",
+      "portion_control"
     ],
     "helps_with": [
       "mindless_eating"
@@ -10012,7 +10028,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Give the first bite total attention and rate it 1–10.\n\n**Why it Works:** Reward is front‑loaded; savoring increases satisfaction with less.\n\n**How to Try It:**\n• Close eyes for first bite\n• Name 3 flavor notes\n• Decide slow pace",
     "area": "nutrition",
     "goals": [
-      "mindful_eating"
+      "mindful_eating",
+      "eating_awareness",
+      "satiety"
     ],
     "helps_with": [
       "mindless_eating",
