@@ -25,8 +25,8 @@ const TEST_PROFILES = {
     description: 'Restaurant lover who hates veggies',
     profile: {
       primary_focus: 'eating',
-      quiz_goals: ['more_veggies', 'less_sugar', 'restaurant_better'],  // Quiz goals
-      goals: getTipGoalsForQuizGoals(['more_veggies', 'less_sugar', 'restaurant_better']),  // Auto-mapped to tip goals
+      quiz_goals: ['eat_more_veggies', 'reduce_sugar', 'healthier_restaurant_choices'],  // Quiz goals
+      goals: getTipGoalsForQuizGoals(['eat_more_veggies', 'reduce_sugar', 'healthier_restaurant_choices']),  // Auto-mapped to tip goals
       preferences: ['restaurant_friends', 'coffee_shops', 'walking', 'podcasts_audiobooks'],
       specific_challenges: {
         eating: ['hate_veggies', 'love_sweets', 'social_events', 'no_time_cook']
@@ -44,8 +44,8 @@ const TEST_PROFILES = {
     description: 'Busy parent who wants to exercise',
     profile: {
       primary_focus: 'exercise',
-      quiz_goals: ['start_moving', 'energy', 'consistency'],
-      goals: getTipGoalsForQuizGoals(['start_moving', 'energy', 'consistency']),
+      quiz_goals: ['start_exercising', 'exercise_for_energy', 'consistent_workouts'],
+      goals: getTipGoalsForQuizGoals(['start_exercising', 'exercise_for_energy', 'consistent_workouts']),
       preferences: ['playing_kids_pets', 'nature_outdoors', 'music_listening', 'spontaneous_adventures'],
       specific_challenges: {
         exercise: ['no_time', 'too_tired', 'hate_gym', 'no_childcare']
@@ -63,8 +63,8 @@ const TEST_PROFILES = {
     description: 'Night owl with sleep issues',
     profile: {
       primary_focus: 'sleeping',
-      quiz_goals: ['fall_asleep', 'consistent_schedule', 'wake_refreshed'],
-      goals: getTipGoalsForQuizGoals(['fall_asleep', 'consistent_schedule', 'wake_refreshed']),
+      quiz_goals: ['fall_asleep_easier', 'consistent_sleep_schedule', 'wake_up_refreshed'],
+      goals: getTipGoalsForQuizGoals(['fall_asleep_easier', 'consistent_sleep_schedule', 'wake_up_refreshed']),
       preferences: ['reading', 'podcasts_audiobooks', 'games_video', 'cozy_comfort', 'solo_time'],
       specific_challenges: {
         sleeping: ['racing_mind', 'phone_addiction', 'revenge_bedtime', 'netflix_binge']
@@ -82,8 +82,8 @@ const TEST_PROFILES = {
     description: 'Creative person with productivity issues',
     profile: {
       primary_focus: 'productivity',
-      quiz_goals: ['procrastination', 'finish_tasks', 'less_overwhelm'],
-      goals: getTipGoalsForQuizGoals(['procrastination', 'finish_tasks', 'less_overwhelm']),
+      quiz_goals: ['stop_procrastinating', 'finish_what_start', 'reduce_overwhelm'],
+      goals: getTipGoalsForQuizGoals(['stop_procrastinating', 'finish_what_start', 'reduce_overwhelm']),
       preferences: ['creative_projects', 'music_listening', 'coffee_shops', 'spontaneous_adventures'],
       specific_challenges: {
         productivity: ['procrastination', 'perfectionism', 'distractions', 'overwhelming_tasks']
