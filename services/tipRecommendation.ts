@@ -142,13 +142,21 @@ export class TipRecommendationService {
       const matchesUserArea = userFocusArea ? tipAreas.includes(userFocusArea) : true;
 
       if (!relaxedMode && userFocusArea && !matchesUserArea) {
-        // For productivity and organization focus, be strict about area matching
-        // These areas should not get nutrition/fitness tips even with goal matches
+        // For productivity focus, allow tips from any area if they match goals
+        // (since we have very few actual organization tips)
         if (userFocusArea === 'productivity' || userFocusArea === 'organization') {
-          if (__DEV__) {
-            console.log(`Tip ${tip.summary} skipped: strict area filtering for ${userFocusArea}`);
+          const userGoals = userProfile.goals ?? [];
+          const tipGoals = tip.goals ?? [];
+          const hasGoalMatch = tipGoals.some(g => userGoals.includes(g));
+
+          // Allow cross-area tips for productivity IF they match goals
+          if (!hasGoalMatch) {
+            if (__DEV__) {
+              console.log(`Tip ${tip.summary} skipped: no goal match for ${userFocusArea} focus`);
+            }
+            continue;
           }
-          continue;
+          // If has goal match, allow it but it will get lower area score
         }
 
         // For other areas (nutrition, fitness, sleep), allow cross-area tips if they match goals

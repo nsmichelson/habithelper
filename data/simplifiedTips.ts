@@ -4727,7 +4727,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "nutrition",
     "goals": [
       "hydration",
-      "boost_energy"
+      "boost_energy",
+      "focus_improvement",
+      "motivation"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -7700,7 +7702,8 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "weight_loss",
       "eating_awareness",
       "self_monitoring",
-      "habit_formation"
+      "habit_formation",
+      "task_prioritization"
     ],
     "helps_with": [
       "mindless_eating",
@@ -8398,7 +8401,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "nutrition",
     "goals": [
       "weight_loss",
-      "reduce_sugar"
+      "reduce_sugar",
+      "task_completion",
+      "follow_through"
     ],
     "helps_with": [
       "stress_eating",
@@ -9054,7 +9059,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "nutrition",
     "goals": [
       "mood_improvement",
-      "stress_eating"
+      "stress_eating",
+      "stress_management",
+      "focus_improvement"
     ],
     "helps_with": [
       "stress_eating",
@@ -9411,7 +9418,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "nutrition",
     "goals": [
       "emotional_eating",
-      "mood_improvement"
+      "mood_improvement",
+      "stress_management",
+      "motivation"
     ],
     "helps_with": [
       "stress_eating",
@@ -10462,7 +10471,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "nutrition",
     "goals": [
       "evening_grazing",
-      "portion_control"
+      "portion_control",
+      "task_completion",
+      "follow_through"
     ],
     "helps_with": [
       "evening_grazing",
@@ -10850,7 +10861,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "nutrition",
     "goals": [
       "sleep_quality",
-      "reduce_cravings"
+      "reduce_cravings",
+      "focus_improvement",
+      "task_prioritization"
     ],
     "helps_with": [
       "reduce_cravings",
@@ -11120,7 +11133,9 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "organization",
     "goals": [
       "declutter",
-      "task_motivation"
+      "task_motivation",
+      "focus_improvement",
+      "stress_management"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -11180,7 +11195,10 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "declutter",
       "home_organization",
-      "workspace_organization"
+      "workspace_organization",
+      "task_prioritization",
+      "motivation",
+      "focus_improvement"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -11225,7 +11243,10 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** For one day, when you pick something up, put it directly in its home—not on the counter or floor.\n\n**Why it Works:** Eliminates double‑handling and prevents pile‑ups; it's a tiny habit with compounding benefits.\n\n**How to Try It:**\n• Start with one room or area\n• Each time you grab something, put it away immediately\n• Notice how much cleaner the space stays",
     "area": "organization",
     "goals": [
-      "declutter"
+      "declutter",
+      "task_completion",
+      "follow_through",
+      "stress_management"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -11263,7 +11284,10 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Set a 2‑minute timer and clear ONE surface entirely—counter, desk, or table.\n\n**Why it Works:** Creates immediate visual calm and proves you can make progress quickly.\n\n**How to Try It:**\n• Pick your most annoying cluttered surface\n• Set timer for 2 minutes\n• Put everything away or in a temporary basket\n• Enjoy the clear space!",
     "area": "organization",
     "goals": [
-      "declutter"
+      "declutter",
+      "task_completion",
+      "stress_management",
+      "motivation"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -11303,7 +11327,10 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_paper_clutter",
       "home_organization",
-      "workspace_organization"
+      "workspace_organization",
+      "task_prioritization",
+      "focus_improvement",
+      "stress_management"
     ],
     "contraindications": [],
     "mechanisms": [
