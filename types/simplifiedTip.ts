@@ -10,7 +10,11 @@ export interface SimplifiedTip {
   // ============ CATEGORIZATION ============
 
   area: 'nutrition' | 'fitness' | 'organization' | 'relationships';
-  // High-level category this tip belongs to
+  // Primary category this tip belongs to (for backward compatibility)
+
+  areas?: ('nutrition' | 'fitness' | 'organization' | 'relationships')[];
+  // All applicable areas (e.g., meal prep is both 'nutrition' and 'organization')
+  // If not provided, defaults to [area]
 
   goals: string[];
   // Specific objectives within the area

@@ -136,18 +136,31 @@ export class TipRecommendationService {
     const userFocusArea = areaMap[userProfile.primary_focus || ''] || null;
 
     for (const tip of safeTips) {
-      // AREA FILTER: Prioritize tips from user's focus area
-      // In relaxed mode or if no primary focus, include all areas
-      if (!relaxedMode && userFocusArea && tip.area !== userFocusArea) {
-        // Allow some cross-area tips if they strongly match goals
+      // AREA FILTER: Check if tip matches user's focus area
+      // Tips can belong to multiple areas (e.g., meal prep is both nutrition and organization)
+      const tipAreas = tip.areas || [tip.area]; // Use areas array if available, else single area
+      const matchesUserArea = userFocusArea ? tipAreas.includes(userFocusArea) : true;
+
+      if (!relaxedMode && userFocusArea && !matchesUserArea) {
+        // For productivity and organization focus, be strict about area matching
+        // These areas should not get nutrition/fitness tips even with goal matches
+        if (userFocusArea === 'productivity' || userFocusArea === 'organization') {
+          if (__DEV__) {
+            console.log(`Tip ${tip.summary} skipped: strict area filtering for ${userFocusArea}`);
+          }
+          continue;
+        }
+
+        // For other areas (nutrition, fitness, sleep), allow cross-area tips if they match goals
+        // but they'll be scored lower than same-area tips
         const userGoals = userProfile.goals ?? [];
         const tipGoals = tip.goals ?? [];
-        const matchCount = tipGoals.filter(g => userGoals.includes(g)).length;
+        const hasGoalMatch = tipGoals.some(g => userGoals.includes(g));
 
-        // Skip cross-area tips unless they match multiple goals
-        if (matchCount < 2) {
+        // Skip cross-area tips that don't match ANY goals
+        if (!hasGoalMatch) {
           if (__DEV__) {
-            console.log(`Tip ${tip.summary} skipped: wrong area (${tip.area} vs ${userFocusArea})`);
+            console.log(`Tip ${tip.summary} skipped: wrong area and no goal match`);
           }
           continue;
         }
@@ -487,9 +500,48 @@ export class TipRecommendationService {
       }
     };
 
-    // 1. Goal alignment - now just tracking, not scoring heavily
+    // 1. AREA MATCHING - Major scoring factor (20-40 points)
+    // Check if tip matches user's focus area (tips can have multiple areas)
+    const areaMap: Record<string, string> = {
+      'eating': 'nutrition',
+      'sleeping': 'nutrition',
+      'productivity': 'organization',
+      'mindset': 'relationships',
+      'relationships': 'relationships',
+      'exercise': 'fitness'
+    };
+    const userFocusArea = areaMap[userProfile.primary_focus || ''] || null;
+    const tipAreas = tip.areas || [tip.area];
+
+    let areaBonus = 0;
+    if (userFocusArea) {
+      if (tipAreas.includes(userFocusArea)) {
+        // Primary area match: big bonus
+        areaBonus = tip.area === userFocusArea ? 40 : 30; // Primary area gets 40, secondary gets 30
+        reasons.push(`Perfect for ${userFocusArea} focus`);
+      } else if (tipAreas.some(a => a === 'organization' && userFocusArea === 'nutrition')) {
+        // Some cross-area synergies make sense (e.g., meal prep for nutrition focus)
+        areaBonus = 20;
+        reasons.push(`Supports ${userFocusArea} through ${tip.area}`);
+      }
+    }
+    score += areaBonus;
+    debugInfo.scoreBreakdown.area = { score: areaBonus };
+
+    // 2. Goal alignment - HEAVILY prioritize multiple goal matches
     const goalAlign = this.computeGoalAlignment(tip, userProfile);
-    const goalBonus = Math.min(goalAlign.matches * 5, 15); // Small bonus for multiple goals (max 15 points)
+    // Exponential bonus for multiple goal matches:
+    // 1 goal = 10 points, 2 goals = 30 points, 3 goals = 60 points, 4+ goals = 100 points
+    let goalBonus = 0;
+    if (goalAlign.matches === 1) {
+      goalBonus = 10;
+    } else if (goalAlign.matches === 2) {
+      goalBonus = 30;
+    } else if (goalAlign.matches === 3) {
+      goalBonus = 60;
+    } else if (goalAlign.matches >= 4) {
+      goalBonus = 100;
+    }
     score += goalBonus;
 
     // Track matched goals
@@ -504,10 +556,10 @@ export class TipRecommendationService {
       reasons.push(`Matches ${goalAlign.matches}/${userProfile.goals?.length ?? 0} goals`);
     }
 
-    // 2. PREFERENCES - Primary ranking factor (40% weight)
+    // 3. PREFERENCES - Important ranking factor (30% weight)
     if (userProfile.preferences && userProfile.preferences.length > 0) {
       const prefScore = this.calculatePreferenceScore(tip, userProfile);
-      const prefPoints = prefScore.score * 40; // 40% weight for preferences
+      const prefPoints = prefScore.score * 30; // 30% weight for preferences
       score += prefPoints;
 
       debugInfo.scoreBreakdown.preferences = {
@@ -521,10 +573,10 @@ export class TipRecommendationService {
       }
     }
 
-    // 3. BLOCKERS - Secondary ranking factor (30% weight)
+    // 4. BLOCKERS - Secondary ranking factor (20% weight)
     if (userProfile.specific_challenges) {
       const blockerScore = this.calculateBlockerScore(tip, userProfile);
-      const blockerPoints = blockerScore.score * 30; // 30% weight for addressing blockers
+      const blockerPoints = blockerScore.score * 20; // 20% weight for addressing blockers
       score += blockerPoints;
 
       debugInfo.scoreBreakdown.blockers = {
@@ -538,7 +590,7 @@ export class TipRecommendationService {
       }
     }
 
-    // 4. AVOIDANCE - Major penalty
+    // 5. AVOIDANCE - Major penalty
     if (userProfile.avoid_approaches && userProfile.avoid_approaches.length > 0) {
       const avoidScore = this.calculateAvoidanceScore(tip, userProfile);
       if (avoidScore.violations.length > 0) {
@@ -552,7 +604,7 @@ export class TipRecommendationService {
       }
     }
 
-    // 5. Other factors (reduced weights - 30% total for all)
+    // 6. Other factors (reduced weights - 20% total for all)
     // Effort matching (3%)
     const effortScore = this.calculateEffortScore(tip, userProfile);
     const effortPoints = effortScore * 3;

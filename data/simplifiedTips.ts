@@ -136,7 +136,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "placeholder": "e.g., Star-shaped molds, mini dinosaurs, or heart shapes"
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -203,7 +207,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "placeholder": "e.g., Arctic Ginger Gems, Lemon Ice Rescue, Nausea Ninjas"
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -462,7 +470,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": false
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -792,7 +804,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       ]
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -2191,7 +2207,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": true
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -2308,7 +2328,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": true
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -2447,7 +2471,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       ]
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -2713,7 +2741,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": true
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -2773,7 +2805,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "placeholder": "e.g., Chili, soup, burrito bowls, lasagna"
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -2833,7 +2869,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": true
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -3006,7 +3046,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": false
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -3136,7 +3180,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": true
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -3191,7 +3239,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "placeholder": "e.g., Veggie omelet + toast, Turkey avocado wrap, Greek yogurt parfait"
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -3312,7 +3364,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       ]
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -3695,7 +3751,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       ]
     },
     "difficulty": 2,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -3899,7 +3959,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": true
     },
     "difficulty": 1,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -4378,7 +4442,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       ]
     },
     "difficulty": 2,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -4702,7 +4770,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 1,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -4771,7 +4843,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 1,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -5001,7 +5077,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -5487,7 +5567,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -5888,7 +5972,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -5961,7 +6049,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 1,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -6159,7 +6251,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -6225,7 +6321,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "dietitian_reviewed",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -6296,7 +6396,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 3,
     "source": "dietitian_reviewed",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -6368,7 +6472,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 3,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -6509,7 +6617,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 1,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -6571,7 +6683,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 1,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -7021,7 +7137,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -7083,7 +7203,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 3,
     "source": "dietitian_reviewed",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -7155,7 +7279,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 3,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -7364,7 +7492,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -7616,7 +7748,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 4,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -7686,7 +7822,12 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "fitness",
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -7818,7 +7959,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "fitness",
+      "nutrition"
+    ]
   },
   {
     
@@ -7970,7 +8115,12 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "fitness",
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -8163,7 +8313,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -8230,7 +8384,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 3,
     "source": "coach_curated",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -8302,7 +8460,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 2,
     "source": "coach_curated",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -8829,7 +8991,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "difficulty": 2,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -9387,7 +9553,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     },
     "difficulty": 1,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -9688,7 +9858,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "difficulty": 1,
     "source": "dietitian_reviewed",
-    "sustainability": "weekly"
+    "sustainability": "weekly",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -9742,7 +9916,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "difficulty": 2,
     "source": "dietitian_reviewed",
-    "sustainability": "weekly"
+    "sustainability": "weekly",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -9789,7 +9967,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "difficulty": 2,
     "source": "dietitian_reviewed",
-    "sustainability": "occasional"
+    "sustainability": "occasional",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -10327,7 +10509,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "difficulty": 1,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -10377,7 +10563,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "difficulty": 1,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -10696,7 +10886,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "difficulty": 2,
     "source": "dietitian_reviewed",
-    "sustainability": "daily"
+    "sustainability": "daily",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -10971,7 +11165,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       ]
     },
     "difficulty": 1,
-    "source": "coach_curated"
+    "source": "coach_curated",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
@@ -11014,7 +11212,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "placeholder": "e.g., Clear desk, only laptop + notebook; calm, easy to focus"
     },
     "difficulty": 1,
-    "source": "coach_curated"
+    "source": "coach_curated",
+    "areas": [
+      "nutrition",
+      "organization"
+    ]
   },
   {
     
