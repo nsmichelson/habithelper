@@ -1,614 +1,434 @@
 import { QuizQuestion } from '../types/quiz';
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
-  // First question - Area selection
+  // ========== QUESTION 1: What brings you here (outcome-focused) ==========
   {
-    id: 'areas_of_interest',
-    question: "What areas would you like to work on?",
+    id: 'primary_motivation',
+    question: "What brings you here?",
+    type: 'single_choice',
+    category: 'goals',
+    required: true,
+    helpText: 'Pick what matters most to you right now - you can always expand later',
+    options: [
+      { value: 'energy', label: '⚡ Improving energy levels' },
+      { value: 'relationships', label: '💝 Improve relationships' },
+      { value: 'effectiveness', label: '🎯 Become more effective' },
+      { value: 'fitness', label: '💪 Improve fitness' },
+      { value: 'health', label: '🏥 Improve health generally' },
+      { value: 'nutrition', label: '🥗 Improve nutrition' },
+      { value: 'look_feel', label: '✨ Look and feel better' },
+    ]
+  },
+
+  // ========== QUESTION 2: Specific goals (conditional on primary motivation) ==========
+
+  // For "Improving energy levels"
+  {
+    id: 'energy_specifics',
+    question: "What specifically would help your energy?",
     type: 'multiple_choice',
     category: 'goals',
     required: true,
-    helpText: 'Select all that apply - you can always add more areas later!',
+    conditionalOn: { questionId: 'primary_motivation', values: ['energy'] },
+    helpText: "Pick 1-3 that could make the biggest difference",
     options: [
-      { value: 'nutrition', label: '🥗 Nutrition - Eating habits & food choices' },
-      { value: 'fitness', label: '💪 Fitness - Movement & exercise' },
-      { value: 'stress', label: '🧘 Stress - Mental wellbeing & relaxation' },
-      { value: 'organization', label: '📋 Organization - Productivity & decluttering' },
+      { value: 'fall_asleep_easier', label: 'Fall asleep easier' },
+      { value: 'wake_up_refreshed', label: 'Wake up actually refreshed' },
+      { value: 'consistent_sleep_schedule', label: 'Get on a sleep schedule' },
+      { value: 'reduce_sugar', label: 'Cut the sugar crashes' },
+      { value: 'eat_more_protein', label: 'Get more sustained energy from food' },
+      { value: 'drink_more_water', label: 'Stay better hydrated' },
+      { value: 'exercise_for_energy', label: 'Use exercise to boost energy' },
+      { value: 'manage_stress', label: 'Stop stress from draining me' },
+      { value: 'reduce_screen_before_bed', label: 'Less screens disrupting sleep' },
+      { value: 'regular_meal_schedule', label: 'Stop energy dips from irregular eating' },
     ]
   },
 
-  // Introduction - Start fun! (Only if nutrition selected)
+  // For "Improve relationships"
   {
-    id: 'real_talk',
-    question: "Let's be real - what's your actual relationship with vegetables?",
-    type: 'single_choice',
-    category: 'food personality',
-    required: true,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
-    },
-    helpText: 'No judgment here! We all have our things.',
-    options: [
-      { value: 'love_them', label: 'I genuinely love them' },
-      { value: 'tolerate', label: 'I eat them because I should' },
-      { value: 'hide_them', label: 'I have to hide them in other foods' },
-      { value: 'avoid', label: 'I basically have the taste buds of a 5-year-old' },
-      { value: 'complicated', label: "It's complicated - depends on the veggie" },
-    ]
-  },
-
-  // What they can't give up (Only if nutrition selected)
-  {
-    id: 'non_negotiables',
-    question: "What's your food kryptonite? (The thing you'd never want to give up)",
+    id: 'relationship_specifics',
+    question: "What relationship area needs work?",
     type: 'multiple_choice',
-    category: 'food personality',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
-    },
-    helpText: "We won't make you give these up - promise! Select all that apply.",
+    category: 'goals',
+    required: true,
+    conditionalOn: { questionId: 'primary_motivation', values: ['relationships'] },
+    helpText: "Pick 1-3 to focus on",
     options: [
-      { value: 'chocolate', label: 'Chocolate is life' },
-      { value: 'cheese', label: 'Cheese on everything' },
-      { value: 'coffee_drinks', label: 'Fancy coffee drinks' },
-      { value: 'chips_crunchy', label: 'Crunchy salty snacks' },
-      { value: 'bread_carbs', label: 'Bread/pasta/carbs' },
-      { value: 'candy', label: 'Candy and sweets' },
-      { value: 'soda', label: 'Soda/energy drinks' },
-      { value: 'alcohol', label: 'My evening wine/beer' },
-      { value: 'fast_food', label: 'Fast food (no shame!)' },
+      { value: 'improve_communication', label: 'Communicate better' },
+      { value: 'more_quality_time', label: 'Make more quality time' },
+      { value: 'stronger_social_connections', label: 'Build stronger connections' },
+      { value: 'handle_conflicts_better', label: 'Handle conflicts better' },
+      { value: 'express_needs_clearly', label: 'Express my needs clearly' },
+      { value: 'become_better_listener', label: 'Be a better listener' },
+      { value: 'improve_work_life_balance', label: 'Balance work and relationships' },
+      { value: 'more_family_time', label: 'Spend more family time' },
+      { value: 'build_dating_confidence', label: 'Improve my dating life' },
+      { value: 'strengthen_friendships', label: 'Nurture friendships better' },
+      { value: 'set_boundaries', label: 'Set healthier boundaries' },
     ]
   },
 
-  // Past attempts (nutrition-specific)
+  // For "Become more effective"
   {
-    id: 'diet_history',
-    question: "What's your history with healthy eating attempts?",
-    type: 'single_choice',
-    category: 'experience',
+    id: 'effectiveness_specifics',
+    question: "What would make you more effective?",
+    type: 'multiple_choice',
+    category: 'goals',
+    required: true,
+    conditionalOn: { questionId: 'primary_motivation', values: ['effectiveness'] },
+    helpText: "Pick 1-3 that would help most",
+    options: [
+      { value: 'stop_procrastinating', label: 'Stop procrastinating' },
+      { value: 'improve_focus', label: 'Focus better' },
+      { value: 'better_time_management', label: 'Manage time better' },
+      { value: 'declutter_spaces', label: 'Declutter my workspace' },
+      { value: 'organize_digital_life', label: 'Organize digital chaos' },
+      { value: 'build_daily_routine', label: 'Build better routines' },
+      { value: 'prioritize_tasks', label: 'Get better at prioritizing' },
+      { value: 'finish_what_start', label: 'Actually finish things' },
+      { value: 'reduce_overwhelm', label: 'Feel less overwhelmed' },
+      { value: 'improve_planning', label: 'Plan ahead better' },
+      { value: 'consistent_sleep_schedule', label: 'Fix my sleep schedule' },
+    ]
+  },
+
+  // For "Improve fitness"
+  {
+    id: 'fitness_specifics',
+    question: "What's your fitness focus?",
+    type: 'multiple_choice',
+    category: 'goals',
+    required: true,
+    conditionalOn: { questionId: 'primary_motivation', values: ['fitness'] },
+    helpText: "Pick 1-3 goals",
+    options: [
+      { value: 'start_exercising', label: 'Just start moving' },
+      { value: 'consistent_workouts', label: 'Be more consistent' },
+      { value: 'build_strength', label: 'Build strength' },
+      { value: 'improve_cardio', label: 'Improve cardio' },
+      { value: 'increase_flexibility', label: 'Increase flexibility' },
+      { value: 'exercise_lose_weight', label: 'Exercise for weight loss' },
+      { value: 'find_enjoyable_exercise', label: 'Find exercise I enjoy' },
+      { value: 'workout_at_home', label: 'Figure out home workouts' },
+      { value: 'more_active_lifestyle', label: 'Be more active daily' },
+      { value: 'boost_endurance', label: 'Build endurance' },
+      { value: 'increase_strength_performance', label: 'Improve performance' },
+    ]
+  },
+
+  // For "Improve health generally"
+  {
+    id: 'health_specifics',
+    question: "What health areas concern you most?",
+    type: 'multiple_choice',
+    category: 'goals',
+    required: true,
+    conditionalOn: { questionId: 'primary_motivation', values: ['health'] },
+    helpText: "Pick 1-3 priorities",
+    options: [
+      { value: 'manage_blood_sugar', label: 'Blood sugar management' },
+      { value: 'lower_blood_pressure', label: 'Blood pressure' },
+      { value: 'improve_gut_health', label: 'Digestive health' },
+      { value: 'reduce_inflammation', label: 'Reduce inflammation' },
+      { value: 'better_lipids', label: 'Cholesterol levels' },
+      { value: 'manage_stress', label: 'Stress management' },
+      { value: 'consistent_sleep_schedule', label: 'Better sleep' },
+      { value: 'quit_alcohol', label: 'Reduce/quit alcohol' },
+      { value: 'reduce_processed_foods', label: 'Cut processed foods' },
+      { value: 'drink_more_water', label: 'Better hydration' },
+      { value: 'regular_checkups', label: 'Stay on top of health' },
+    ]
+  },
+
+  // For "Improve nutrition"
+  {
+    id: 'nutrition_specifics',
+    question: "What nutrition changes do you want to make?",
+    type: 'multiple_choice',
+    category: 'goals',
+    required: true,
+    conditionalOn: { questionId: 'primary_motivation', values: ['nutrition'] },
+    helpText: "Pick 1-3 to focus on",
+    options: [
+      { value: 'eat_more_veggies', label: 'Eat more vegetables' },
+      { value: 'reduce_junk_food', label: 'Cut back on junk food' },
+      { value: 'control_portions', label: 'Control portions better' },
+      { value: 'reduce_sugar', label: 'Reduce sugar intake' },
+      { value: 'eat_more_protein', label: 'Get more protein' },
+      { value: 'drink_more_water', label: 'Drink more water' },
+      { value: 'practice_mindful_eating', label: 'Stop mindless eating' },
+      { value: 'improve_meal_planning', label: 'Plan meals better' },
+      { value: 'cook_at_home', label: 'Cook more at home' },
+      { value: 'regular_meal_schedule', label: 'Regular meal times' },
+      { value: 'stop_binge_eating', label: 'Stop binge eating' },
+      { value: 'manage_cravings', label: 'Manage cravings' },
+      { value: 'healthier_restaurant_choices', label: 'Better restaurant choices' },
+      { value: 'eat_more_fiber', label: 'Increase fiber' },
+      { value: 'reduce_processed_foods', label: 'Cut processed foods' },
+    ]
+  },
+
+  // For "Look and feel better"
+  {
+    id: 'look_feel_specifics',
+    question: "What would help you look and feel better?",
+    type: 'multiple_choice',
+    category: 'goals',
+    required: true,
+    conditionalOn: { questionId: 'primary_motivation', values: ['look_feel'] },
+    helpText: "Pick 1-3 that matter most",
+    options: [
+      { value: 'lose_weight_eating', label: 'Lose weight' },
+      { value: 'eat_for_muscle_gain', label: 'Build muscle' },
+      { value: 'less_bloated', label: 'Reduce bloating' },
+      { value: 'clearer_skin', label: 'Clearer skin' },
+      { value: 'build_strength', label: 'Get stronger' },
+      { value: 'improve_cardio', label: 'Better fitness' },
+      { value: 'build_confidence', label: 'Feel more confident' },
+      { value: 'better_posture', label: 'Improve posture' },
+      { value: 'drink_more_water', label: 'Better hydration' },
+      { value: 'consistent_sleep_schedule', label: 'Get beauty sleep' },
+      { value: 'reduce_stress', label: 'Less stress showing' },
+      { value: 'clothes_fit_better', label: 'Fit into clothes better' },
+    ]
+  },
+
+  // ========== QUESTION 3: Why (conditional on specifics chosen) ==========
+
+  // Why for nutrition/eating goals
+  {
+    id: 'nutrition_why',
+    question: "Why is changing your eating habits important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
     required: true,
     conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
+      questionId: 'primary_motivation',
+      values: ['nutrition', 'health', 'look_feel', 'energy']
     },
+    helpText: 'Be honest - pick what really drives you',
     options: [
-      { value: 'never_tried', label: "Haven't really tried to change" },
-      { value: 'yo_yo', label: 'The classic yo-yo: good for a week, then chaos' },
-      { value: 'too_extreme', label: "Tried going too extreme, crashed and burned" },
-      { value: 'slow_progress', label: "Making slow progress but it's hard" },
-      { value: 'doing_well', label: "Actually doing pretty well, just need refinement" },
-      { value: 'overwhelmed', label: "Too much conflicting info, I'm overwhelmed" },
+      { value: 'health_scare', label: 'Doctor said I need to change' },
+      { value: 'look_better', label: 'Want to look better' },
+      { value: 'feel_better', label: 'Want to feel better' },
+      { value: 'role_model', label: 'Be a good example for family' },
+      { value: 'athletic_goals', label: 'Meet fitness/performance goals' },
+      { value: 'pregnancy', label: 'Pregnancy/trying to conceive' },
+      { value: 'chronic_condition', label: 'Manage a health condition' },
+      { value: 'aging_well', label: 'Age well and stay healthy' },
+      { value: 'confidence', label: 'Build confidence' },
+      { value: 'tired_of_struggling', label: "Tired of the struggle" },
     ]
   },
 
-  // What actually worked (if they've tried before)
+  // Why for exercise goals
+  {
+    id: 'exercise_why',
+    question: "Why does fitness matter to you right now?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['fitness']
+    },
+    helpText: 'Select what resonates',
+    options: [
+      { value: 'look_better', label: 'Want to look better' },
+      { value: 'feel_stronger', label: 'Want to feel stronger' },
+      { value: 'keep_up_kids', label: 'Keep up with kids/family' },
+      { value: 'mental_health', label: 'Mental health benefits' },
+      { value: 'health_issues', label: 'Health concerns' },
+      { value: 'athletic_event', label: 'Training for something' },
+      { value: 'aging_well', label: 'Stay active as I age' },
+      { value: 'stress_relief', label: 'Need stress relief' },
+      { value: 'energy_boost', label: 'Want more energy' },
+      { value: 'social', label: 'Social/community aspect' },
+    ]
+  },
+
+  // ========== QUESTION 4: What has worked (conditional) ==========
+
   {
     id: 'what_worked',
-    question: "If you've tried before, what actually worked for you? (even temporarily)",
+    question: "What has worked (or is working) for you?",
     type: 'multiple_choice',
     category: 'experience',
     required: false,
-    conditionalOn: { 
-      questionId: 'diet_history', 
-      values: ['yo_yo', 'too_extreme', 'slow_progress', 'doing_well'] 
-    },
-    helpText: 'Check all that helped, even a little',
+    helpText: 'Check all that have helped, even a little',
     options: [
-      { value: 'meal_prep', label: 'Meal prepping on weekends' },
-      { value: 'tracking', label: 'Tracking food/calories' },
-      { value: 'accountability', label: 'Having accountability (friend/app/coach)' },
-      { value: 'simple_swaps', label: 'Simple food swaps' },
-      { value: 'cut_out_foods', label: 'Cutting out specific foods completely' },
-      { value: 'small_changes', label: 'Tiny changes that added up' },
-      { value: 'routine', label: 'Having a strict routine' },
-      { value: 'flexibility', label: 'Having flexibility/no strict rules' },
-      { value: 'education', label: 'Learning about nutrition' },
-      { value: 'mindful', label: 'Being more mindful/present' },
+      { value: 'small_changes', label: 'Small, gradual changes' },
+      { value: 'accountability', label: 'Having accountability' },
+      { value: 'routine', label: 'Strict routine' },
+      { value: 'flexibility', label: 'Flexible approach' },
+      { value: 'tracking', label: 'Tracking progress' },
+      { value: 'meal_prep', label: 'Meal prepping' },
+      { value: 'simple_swaps', label: 'Simple substitutions' },
+      { value: 'education', label: 'Learning why things matter' },
+      { value: 'rewards', label: 'Rewarding myself' },
+      { value: 'buddy_system', label: 'Doing it with someone' },
+      { value: 'professional_help', label: 'Professional guidance' },
+      { value: 'apps_tools', label: 'Apps or tools' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
     ]
   },
 
-  // What definitely didn't work
+  // ========== QUESTION 5: What to avoid (conditional) ==========
+
   {
-    id: 'what_failed',
-    question: "What definitely DIDN'T work for you?",
+    id: 'what_to_avoid',
+    question: "What hasn't worked or do you want to avoid?",
     type: 'multiple_choice',
     category: 'experience',
     required: false,
-    conditionalOn: { 
-      questionId: 'diet_history', 
-      values: ['yo_yo', 'too_extreme', 'slow_progress'] 
-    },
-    helpText: 'We\'ll avoid these approaches',
+    helpText: "We'll steer clear of these approaches",
     options: [
-      { value: 'counting', label: 'Counting calories/macros' },
-      { value: 'restrictions', label: 'Cutting out entire food groups' },
-      { value: 'meal_timing', label: 'Specific meal timing rules' },
-      { value: 'expensive_foods', label: 'Expensive special foods/supplements' },
-      { value: 'complex_recipes', label: 'Complicated recipes' },
-      { value: 'all_or_nothing', label: 'All-or-nothing approach' },
-      { value: 'public_accountability', label: 'Public accountability/sharing progress' },
-      { value: 'rigid_plans', label: 'Rigid meal plans' },
-      { value: 'workout_required', label: 'Plans that required exercise too' },
-      { value: 'special_equipment', label: 'Needing special equipment/tools' },
+      { value: 'counting_calories', label: 'Counting calories/macros' },
+      { value: 'extreme_restrictions', label: 'Cutting out food groups' },
+      { value: 'complicated_recipes', label: 'Complicated recipes' },
+      { value: 'meal_prep', label: 'Meal prepping' },
+      { value: 'early_morning', label: 'Early morning routines' },
+      { value: 'gym_required', label: 'Going to a gym' },
+      { value: 'expensive_tools', label: 'Expensive tools/foods' },
+      { value: 'group_activities', label: 'Group activities' },
+      { value: 'rigid_schedules', label: 'Rigid schedules' },
+      { value: 'all_or_nothing', label: 'All-or-nothing approaches' },
+      { value: 'public_sharing', label: 'Sharing progress publicly' },
+      { value: 'meditation', label: 'Meditation/mindfulness' },
+      { value: 'supplements', label: 'Supplements/shakes' },
     ]
   },
 
-  // Current life chaos level
-  {
-    id: 'life_chaos',
-    question: "How chaotic is your life right now?",
-    type: 'single_choice',
-    category: 'lifestyle',
-    required: true,
-    helpText: "Be honest - we'll match tips to your actual life",
-    options: [
-      { value: 'zen', label: 'Pretty chill, I have time and energy' },
-      { value: 'normal', label: 'Normal busy - work, life, the usual' },
-      { value: 'juggling', label: 'Juggling a lot but managing' },
-      { value: 'survival', label: 'Survival mode (kids/work/stress/all of it)' },
-      { value: 'dumpster_fire', label: '🔥 Complete dumpster fire 🔥' },
-    ]
-  },
+  // ========== QUESTION 6: Barriers/Why things haven't worked ==========
 
-  // Daily life persona
   {
-    id: 'daily_life',
-    question: "Which best describes your typical day?",
-    type: 'single_choice',
-    category: 'lifestyle',
-    required: true,
-    options: [
-      { value: 'parent_young_kids', label: 'Parent with young kids (chaos commander)' },
-      { value: 'parent_teens', label: 'Parent with teens (taxi driver extraordinaire)' },
-      { value: 'busy_professional', label: 'Busy professional (meetings all day)' },
-      { value: 'remote_worker', label: 'Remote worker (kitchen is 10 steps away)' },
-      { value: 'shift_worker', label: 'Shift worker (weird hours)' },
-      { value: 'student', label: 'Student (broke and stressed)' },
-      { value: 'retiree', label: 'Retiree (time but maybe health limits)' },
-      { value: 'freelancer', label: 'Freelancer/gig worker (unpredictable schedule)' },
-      { value: 'caregiver', label: 'Caregiver (taking care of others)' },
-    ]
-  },
-
-  // Motivation style
-  {
-    id: 'motivation_style',
-    question: "What actually motivates you to stick with things?",
-    type: 'multiple_choice',
-    category: 'personality',
-    required: true,
-    helpText: 'Be honest - check your top 2-3',
-    options: [
-      { value: 'data', label: 'Seeing numbers/data improve' },
-      { value: 'achievements', label: 'Unlocking achievements/streaks' },
-      { value: 'social', label: 'Doing it with others/accountability' },
-      { value: 'competition', label: 'Friendly competition' },
-      { value: 'novelty', label: 'Trying new things/variety' },
-      { value: 'routine', label: 'Having a set routine' },
-      { value: 'visible_results', label: 'Seeing visible changes' },
-      { value: 'feeling_good', label: 'How I feel day-to-day' },
-      { value: 'proving_wrong', label: 'Proving doubters wrong' },
-      { value: 'rewards', label: 'Small rewards along the way' },
-    ]
-  },
-
-  // Medical stuff (but make it less clinical) - nutrition-specific
-  {
-    id: 'health_stuff',
-    question: 'Any health stuff we should know about?',
-    type: 'multiple_choice',
-    category: 'medical',
-    required: true,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
-    },
-    helpText: "We'll make sure suggestions are safe and helpful for you",
-    options: [
-      { value: 'none', label: "Nope, I'm good" },
-      { value: 'diabetes', label: 'Diabetes (any type)' },
-      { value: 'heart', label: 'Heart/cholesterol issues' },
-      { value: 'digestive', label: 'Digestive issues (IBS, etc)' },
-      { value: 'pregnancy', label: 'Pregnant or breastfeeding' },
-      { value: 'allergies', label: 'Food allergies (we\'ll ask which ones next)' },
-      { value: 'other', label: 'Something else' },
-    ]
-  },
-
-  // Only show if they selected allergies
-  {
-    id: 'which_allergies',
-    question: 'Which allergies do you have?',
-    type: 'multiple_choice',
-    category: 'medical',
-    required: true,
-    conditionalOn: { questionId: 'health_stuff', values: ['allergies'] },
-    options: [
-      { value: 'nuts', label: 'Nuts (peanuts/tree nuts)' },
-      { value: 'dairy', label: 'Dairy/lactose' },
-      { value: 'gluten', label: 'Gluten/celiac' },
-      { value: 'eggs', label: 'Eggs' },
-      { value: 'seafood', label: 'Fish/shellfish' },
-      { value: 'soy', label: 'Soy' },
-    ]
-  },
-
-  // What actually matters to them (nutrition-specific)
-  {
-    id: 'real_goals',
-    question: "What actually matters to you? (Not what you think you 'should' say)",
-    type: 'multiple_choice',
-    category: 'goals',
-    required: true,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
-    },
-    helpText: 'Pick your top 2-3 real motivations',
-    options: [
-      { value: 'look_good', label: 'Look better naked' },
-      { value: 'more_energy', label: 'Not feel tired all the time' },
-      { value: 'clothes_fit', label: 'Fit into my clothes better' },
-      { value: 'health_scare', label: 'Doctor told me I need to change' },
-      { value: 'keep_up_kids', label: 'Keep up with my kids' },
-      { value: 'feel_confident', label: 'Feel more confident' },
-      { value: 'less_bloated', label: 'Stop feeling bloated/gross' },
-      { value: 'role_model', label: 'Be a good example for my family' },
-      { value: 'athletic', label: 'Athletic performance' },
-      { value: 'eat_more_veggies', label: 'Actually eat some vegetables' },
-      { value: 'healthy_pregnancy_nutrition', label: 'Support a healthy pregnancy' },
-      { value: 'just_healthier', label: 'Just want to be healthier' },
-    ]
-  },
-
-  // Kitchen reality (nutrition-specific)
-  {
-    id: 'kitchen_reality',
-    question: 'Your kitchen skills - where are you really?',
-    type: 'single_choice',
-    category: 'skills',
-    required: true,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
-    },
-    options: [
-      { value: 'microwave_master', label: 'Microwave is my best friend' },
-      { value: 'basic', label: 'I can make eggs and pasta' },
-      { value: 'follow_recipe', label: 'I can follow a recipe' },
-      { value: 'confident', label: 'Pretty confident cook' },
-      { value: 'chef', label: 'I actually love cooking' },
-      { value: 'no_kitchen', label: "Don't even have a real kitchen" },
-    ]
-  },
-
-  // Conditional: Interest in learning to cook (shows if kitchen_skills is microwave_master, basic, or no_kitchen)
-  {
-    id: 'cooking_interest',
-    question: 'How do you feel about learning to cook?',
-    type: 'single_choice',
-    category: 'skills',
-    required: false,
-    condition: (responses) => {
-      const skills = responses.find(r => r.questionId === 'kitchen_reality')?.value;
-      return skills === 'microwave_master' || skills === 'basic' || skills === 'no_kitchen';
-    },
-    helpText: "This helps us know whether to suggest cooking tips",
-    options: [
-      { value: 'no_interest', label: "Not interested - just give me easy solutions" },
-      { value: 'no_time', label: "Maybe someday, but not right now" },
-      { value: 'curious', label: "Curious but need super simple starts" },
-      { value: 'want_to_learn', label: "Yes! Teach me easy things" },
-    ]
-  },
-
-  // Time reality (nutrition-specific)
-  {
-    id: 'meal_time_truth',
-    question: 'When you say you\'ll "meal prep on Sunday," what actually happens?',
-    type: 'single_choice',
-    category: 'lifestyle',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
-    },
-    options: [
-      { value: 'actually_do', label: 'I actually do it!' },
-      { value: 'sometimes', label: '50/50 chance it happens' },
-      { value: 'good_intentions', label: 'Good intentions, rarely happens' },
-      { value: 'never', label: 'LOL never gonna happen' },
-      { value: 'what_sunday', label: "Sunday? That's my only free day!" },
-    ]
-  },
-
-  // Eating style (nutrition-specific)
-  {
-    id: 'eating_personality',
-    question: 'Your eating personality is...',
-    type: 'multiple_choice',
-    category: 'personality',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['nutrition']
-    },
-    helpText: 'Check all that sound like you',
-    options: [
-      { value: 'grazer', label: 'Grazer - always snacking' },
-      { value: 'meal_skipper', label: 'Meal skipper - forget to eat then starving' },
-      { value: 'stress_eater', label: 'Stress eater - emotions = food' },
-      { value: 'bored_eater', label: 'Bored eater - eat when nothing to do' },
-      { value: 'social_eater', label: 'Social eater - food = socializing' },
-      { value: 'night_owl', label: 'Night owl - late night munchies' },
-      { value: 'speed_eater', label: 'Speed eater - inhale food' },
-      { value: 'picky', label: 'Picky - specific textures/foods only' },
-    ]
-  },
-
-  // Conditional: Stress eating triggers (only if they selected stress_eater)
-  {
-    id: 'stress_triggers',
-    question: 'What tends to trigger your stress/emotional eating?',
-    type: 'multiple_choice',
-    category: 'personality',
-    required: false,
-    conditionalOn: { questionId: 'eating_personality', values: ['stress_eater'] },
-    helpText: 'Understanding your triggers helps us give better tips',
-    options: [
-      { value: 'work_stress', label: 'Work deadlines/pressure' },
-      { value: 'family_stress', label: 'Family drama/responsibilities' },
-      { value: 'loneliness', label: 'Feeling lonely or isolated' },
-      { value: 'boredom', label: 'Actually boredom disguised as stress' },
-      { value: 'tired', label: 'Being overtired' },
-      { value: 'pms', label: 'PMS/hormonal changes' },
-      { value: 'conflict', label: 'After arguments/conflict' },
-      { value: 'perfectionism', label: 'When things aren\'t perfect' },
-      { value: 'money_worry', label: 'Financial stress' },
-      { value: 'news_events', label: 'World events/news' },
-    ]
-  },
-
-  // Budget reality
-  {
-    id: 'money_truth',
-    question: 'The money situation:',
-    type: 'single_choice',
-    category: 'lifestyle',
-    required: true,
-    options: [
-      { value: 'tight', label: 'Every penny counts' },
-      { value: 'careful', label: 'Need to watch it' },
-      { value: 'flexible', label: 'Some wiggle room' },
-      { value: 'comfortable', label: 'Can spend on improvements' },
-      { value: 'no_limit', label: 'Money not an issue' },
-    ]
-  },
-
-  // What they're willing to try
-  {
-    id: 'experiment_style',
-    question: 'When it comes to trying new things:',
-    type: 'single_choice',
-    category: 'personality',
-    required: true,
-    options: [
-      { value: 'tiny_steps', label: 'Baby steps only - tiny changes' },
-      { value: 'one_thing', label: 'One new thing at a time' },
-      { value: 'moderate', label: "I'll try reasonable stuff" },
-      { value: 'adventurous', label: "Pretty adventurous" },
-      { value: 'all_in', label: 'Go big or go home!' },
-    ]
-  },
-
-  // Support system
-  {
-    id: 'home_situation',
-    question: "Who else are you living/dealing with?",
-    type: 'multiple_choice',
-    category: 'lifestyle',
-    required: false,
-    helpText: "This affects what tips will actually work for you",
-    options: [
-      { value: 'just_me', label: 'Just me' },
-      { value: 'supportive_partner', label: 'Partner who\'s on board' },
-      { value: 'resistant_partner', label: 'Partner who resists change' },
-      { value: 'picky_kids', label: 'Kids' },
-      { value: 'teenagers', label: 'Teenagers' },
-      { value: 'roommates', label: 'Roommates' },
-      { value: 'parents', label: 'Living with parents' },
-    ]
-  },
-
-  // Biggest challenge (general for all areas)
-  {
-    id: 'biggest_obstacle',
-    question: "What's your biggest obstacle to making changes?",
-    type: 'single_choice',
-    category: 'challenges',
-    required: true,
-    helpText: "We'll focus on tips that help with this",
-    options: [
-      { value: 'no_time', label: 'Literally no time' },
-      { value: 'no_energy', label: 'Too exhausted to care' },
-      { value: 'no_knowledge', label: "Don't know what to do" },
-      { value: 'no_willpower', label: 'Willpower of a goldfish' },
-      { value: 'social_pressure', label: 'Social situations/peer pressure' },
-      { value: 'emotional', label: 'Emotional/stress blocks' },
-      { value: 'overwhelmed', label: 'Feel overwhelmed' },
-      { value: 'no_support', label: 'No support system' },
-    ]
-  },
-
-  // Organization-specific questions
-  {
-    id: 'organization_pain_points',
-    question: 'What organizational challenges are driving you crazy?',
+    id: 'current_barriers',
+    question: "What makes change hard for you right now?",
     type: 'multiple_choice',
     category: 'challenges',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['organization']
-    },
-    helpText: 'Select all that apply',
+    required: true,
+    helpText: 'Be real - select all that apply',
     options: [
-      { value: 'clutter', label: 'Clutter everywhere' },
-      { value: 'cant_find', label: "Can't find things when I need them" },
-      { value: 'paper_chaos', label: 'Paper/mail chaos' },
-      { value: 'digital_mess', label: 'Digital files/email overwhelm' },
-      { value: 'time_management', label: 'Always running late' },
-      { value: 'procrastination', label: 'Chronic procrastination' },
-      { value: 'todo_overwhelm', label: 'Too many tasks, no system' },
-      { value: 'workspace_mess', label: 'Messy workspace affecting focus' },
+      { value: 'no_time', label: '⏰ No time' },
+      { value: 'budget_tight', label: '💰 Need to watch spending' },
+      { value: 'family_life', label: '👨‍👩‍👧 Busy family life' },
+      { value: 'work_demands', label: '💼 Demanding job' },
+      { value: 'travel_often', label: '✈️ Travel frequently' },
+      { value: 'shift_work', label: '🌙 Irregular schedule' },
+      { value: 'no_support', label: '😔 No support system' },
+      { value: 'health_issues', label: '🏥 Health limitations' },
+      { value: 'stress_overwhelm', label: '😰 Too stressed/overwhelmed' },
+      { value: 'dont_know_how', label: '🤷 Don\'t know where to start' },
+      { value: 'hate_cooking', label: '👨‍🍳 Hate/can\'t cook' },
+      { value: 'picky_household', label: '🙅 Picky eaters at home' },
+      { value: 'emotional_eating', label: '💔 Emotional challenges' },
+      { value: 'no_motivation', label: '😑 Can\'t stay motivated' },
     ]
   },
 
+  // ========== QUESTION 7: Things you love (for habit pairing) ==========
+
   {
-    id: 'organization_goals',
-    question: 'What would being more organized help you achieve?',
+    id: 'things_you_love',
+    question: "What are some things you genuinely enjoy?",
     type: 'multiple_choice',
-    category: 'goals',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['organization']
-    },
-    options: [
-      { value: 'less_stress', label: 'Less daily stress' },
-      { value: 'save_time', label: 'Save time searching for things' },
-      { value: 'focus_better', label: 'Focus better at work' },
-      { value: 'guest_ready', label: 'Be ready for unexpected guests' },
-      { value: 'role_model_org', label: 'Set good example for family' },
-      { value: 'professional', label: 'Look more professional' },
-      { value: 'mental_clarity', label: 'Mental clarity and peace' },
-    ]
-  },
-
-  // Fitness-specific questions
-  {
-    id: 'current_activity',
-    question: 'Your current activity level?',
-    type: 'single_choice',
-    category: 'fitness',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['fitness']
-    },
-    options: [
-      { value: 'sedentary', label: 'Couch and I are best friends' },
-      { value: 'minimal', label: 'I walk to the fridge' },
-      { value: 'occasional', label: 'Sometimes active' },
-      { value: 'regular', label: '2-3 times a week' },
-      { value: 'active', label: 'Pretty active already' },
-    ]
-  },
-
-  {
-    id: 'fitness_barriers',
-    question: "What's stopping you from moving more?",
-    type: 'multiple_choice',
-    category: 'challenges',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['fitness']
-    },
-    helpText: 'Check all that apply',
-    options: [
-      { value: 'hate_gym', label: 'Hate the gym' },
-      { value: 'no_time_fitness', label: 'No time' },
-      { value: 'injuries', label: 'Injuries/pain' },
-      { value: 'embarrassed', label: 'Feel embarrassed/judged' },
-      { value: 'boring', label: "It's boring" },
-      { value: 'no_energy_fitness', label: 'Too tired' },
-      { value: 'no_equipment', label: 'No equipment/space' },
-      { value: 'weather', label: 'Weather dependent' },
-    ]
-  },
-
-  // Stress-specific questions
-  {
-    id: 'stress_level',
-    question: 'How stressed are you on a typical day?',
-    type: 'single_choice',
-    category: 'stress',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['stress']
-    },
-    options: [
-      { value: 'chill', label: 'Pretty chill actually' },
-      { value: 'manageable', label: 'Manageable most days' },
-      { value: 'moderate', label: 'Moderately stressed' },
-      { value: 'high', label: 'Pretty stressed' },
-      { value: 'overwhelmed', label: '🔥 Constantly overwhelmed' },
-    ]
-  },
-
-  {
-    id: 'stress_symptoms',
-    question: 'How does stress show up for you?',
-    type: 'multiple_choice',
-    category: 'stress',
-    required: false,
-    conditionalOn: {
-      questionId: 'areas_of_interest',
-      values: ['stress']
-    },
-    helpText: 'Select all that apply',
-    options: [
-      { value: 'cant_sleep', label: "Can't sleep" },
-      { value: 'irritable', label: 'Snap at people' },
-      { value: 'anxious', label: 'Anxiety/worry spirals' },
-      { value: 'headaches', label: 'Headaches' },
-      { value: 'stomach', label: 'Stomach issues' },
-      { value: 'chest_tight', label: 'Chest tightness' },
-      { value: 'cant_focus', label: "Can't focus" },
-      { value: 'emotional_eating', label: 'Eat my feelings' },
-    ]
-  },
-
-  // Check-in preference (make it casual)
-  {
-    id: 'reminder_style',
-    question: 'Want me to check in on how experiments went?',
-    type: 'single_choice',
     category: 'preferences',
-    required: true,
+    required: false,
+    helpText: 'These help us make habits more appealing - pick any you enjoy',
     options: [
-      { value: 'morning', label: 'Morning - start fresh' },
-      { value: 'lunch', label: 'Lunchtime check-in' },
-      { value: 'evening_early', label: 'Early evening (6-7pm)' },
-      { value: 'evening_late', label: 'Later evening (8-9pm)' },
-      { value: 'no_thanks', label: "Nah, I'll check in when I want" },
+      { value: 'restaurants', label: '🍽️ Going to restaurants' },
+      { value: 'walking', label: '🚶 Going on walks' },
+      { value: 'podcasts', label: '🎧 Listening to podcasts' },
+      { value: 'music', label: '🎵 Music' },
+      { value: 'cooking_shows', label: '📺 Cooking shows' },
+      { value: 'social_media', label: '📱 Social media' },
+      { value: 'games', label: '🎮 Games/puzzles' },
+      { value: 'reading', label: '📚 Reading' },
+      { value: 'outdoors', label: '🏞️ Being outdoors' },
+      { value: 'coffee_tea', label: '☕ Coffee/tea rituals' },
+      { value: 'friends_time', label: '👥 Time with friends' },
+      { value: 'alone_time', label: '🧘 Alone time' },
+      { value: 'learning', label: '🎓 Learning new things' },
+      { value: 'creating', label: '🎨 Creating/making things' },
+      { value: 'helping_others', label: '🤝 Helping others' },
+      { value: 'competing', label: '🏆 Friendly competition' },
+    ]
+  },
+
+  // ========== QUESTION 8: Open field for additional context ==========
+
+  {
+    id: 'additional_context',
+    question: "Anything else we should know to help find ideas that work for you?",
+    type: 'text',
+    category: 'context',
+    required: false,
+    placeholder: "E.g., dietary restrictions, injuries, upcoming events, specific preferences...",
+    helpText: 'Optional - share anything that might help us personalize better'
+  },
+
+  // ========== Additional conditional deep-dives based on specific goals ==========
+
+  // If someone selected eating-related goals, ask about food relationship
+  {
+    id: 'food_relationship',
+    question: "Quick check - what's your relationship with cooking?",
+    type: 'single_choice',
+    category: 'skills',
+    required: true,
+    conditionalOn: {
+      questionId: 'nutrition_specifics',
+      values: ['cook_at_home', 'improve_meal_planning', 'meal_prep']
+    },
+    options: [
+      { value: 'love_it', label: 'I enjoy it when I have time' },
+      { value: 'tolerate', label: 'It\'s fine, just a chore' },
+      { value: 'hate_it', label: 'Really don\'t like it' },
+      { value: 'no_skills', label: 'Don\'t know how' },
+      { value: 'no_kitchen', label: 'Limited kitchen access' },
+    ]
+  },
+
+  // If stress/overwhelm is a barrier
+  {
+    id: 'stress_sources',
+    question: "What's the main source of your stress?",
+    type: 'multiple_choice',
+    category: 'context',
+    required: false,
+    conditionalOn: {
+      questionId: 'current_barriers',
+      values: ['stress_overwhelm']
+    },
+    helpText: 'Helps us suggest stress-compatible strategies',
+    options: [
+      { value: 'work', label: 'Work pressures' },
+      { value: 'family', label: 'Family responsibilities' },
+      { value: 'health', label: 'Health concerns' },
+      { value: 'financial', label: 'Financial stress' },
+      { value: 'relationship', label: 'Relationship issues' },
+      { value: 'everything', label: 'Everything at once' },
+    ]
+  },
+
+  // For those with kids/family responsibilities
+  {
+    id: 'family_context',
+    question: "What's your family situation?",
+    type: 'single_choice',
+    category: 'context',
+    required: false,
+    conditionalOn: {
+      questionId: 'current_barriers',
+      values: ['family_life', 'picky_household']
+    },
+    options: [
+      { value: 'young_kids', label: 'Young kids (under 10)' },
+      { value: 'teens', label: 'Teenagers' },
+      { value: 'caregiver', label: 'Caring for parents/family' },
+      { value: 'partner_different', label: 'Partner with different goals' },
+      { value: 'complex', label: 'It\'s complicated' },
     ]
   }
 ];
-
-export function getQuestionById(id: string): QuizQuestion | undefined {
-  return QUIZ_QUESTIONS.find(q => q.id === id);
-}
-
-export function getQuestionsByCategory(category: string): QuizQuestion[] {
-  return QUIZ_QUESTIONS.filter(q => q.category === category);
-}
-
-export function getConditionalQuestions(responses: Array<{questionId: string, values?: string[], value?: any}>): QuizQuestion[] {
-  // Filter questions based on conditional logic
-  return QUIZ_QUESTIONS.filter(question => {
-    if (!question.conditionalOn) return true;
-    
-    const response = responses.find(r => r.questionId === question.conditionalOn!.questionId);
-    if (!response) return false;
-    
-    // Handle both .values and .value for backward compatibility
-    const responseValues = response.values || (Array.isArray(response.value) ? response.value : [response.value]);
-    return question.conditionalOn.values.some(v => responseValues.includes(v));
-  });
-}
