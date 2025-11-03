@@ -248,14 +248,166 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // ========== QUESTION 4: What has worked (conditional) ==========
+  // ========== QUESTION 4: What has worked (conditional based on primary motivation) ==========
 
+  // What worked - Nutrition/Health/Look&Feel
   {
-    id: 'what_worked',
+    id: 'what_worked_nutrition',
     question: "What has worked (or is working) for you?",
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['nutrition', 'health', 'look_feel']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'meal_prep', label: 'Meal prepping' },
+      { value: 'simple_swaps', label: 'Simple food swaps' },
+      { value: 'tracking_food', label: 'Tracking what I eat' },
+      { value: 'portion_control', label: 'Portion control tricks' },
+      { value: 'eliminating_triggers', label: 'Removing trigger foods' },
+      { value: 'adding_not_subtracting', label: 'Adding healthy foods vs restricting' },
+      { value: 'mindful_eating', label: 'Mindful/slow eating' },
+      { value: 'regular_meals', label: 'Regular meal schedule' },
+      { value: 'accountability', label: 'Accountability partner' },
+      { value: 'small_changes', label: 'Small gradual changes' },
+      { value: 'education', label: 'Learning about nutrition' },
+      { value: 'professional_help', label: 'Dietitian/nutritionist' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // What worked - Fitness
+  {
+    id: 'what_worked_fitness',
+    question: "What has worked (or is working) for you?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['fitness']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'home_workouts', label: 'Home workouts' },
+      { value: 'gym_routine', label: 'Gym membership' },
+      { value: 'workout_buddy', label: 'Workout partner' },
+      { value: 'classes', label: 'Group fitness classes' },
+      { value: 'walking', label: 'Walking/hiking' },
+      { value: 'sports', label: 'Playing sports' },
+      { value: 'tracking_workouts', label: 'Tracking workouts' },
+      { value: 'morning_exercise', label: 'Morning workouts' },
+      { value: 'evening_exercise', label: 'Evening workouts' },
+      { value: 'small_goals', label: 'Small achievable goals' },
+      { value: 'rewards', label: 'Rewarding milestones' },
+      { value: 'trainer', label: 'Personal trainer' },
+      { value: 'apps', label: 'Fitness apps' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // What worked - Energy
+  {
+    id: 'what_worked_energy',
+    question: "What has worked (or is working) for you?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['energy']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'consistent_schedule', label: 'Consistent sleep schedule' },
+      { value: 'bedtime_routine', label: 'Bedtime routine' },
+      { value: 'no_screens', label: 'No screens before bed' },
+      { value: 'exercise', label: 'Regular exercise' },
+      { value: 'meditation', label: 'Meditation/relaxation' },
+      { value: 'sleep_tracking', label: 'Sleep tracking' },
+      { value: 'bedroom_setup', label: 'Better bedroom setup' },
+      { value: 'caffeine_timing', label: 'Managing caffeine' },
+      { value: 'power_naps', label: 'Strategic napping' },
+      { value: 'diet_changes', label: 'Diet adjustments' },
+      { value: 'stress_management', label: 'Stress reduction' },
+      { value: 'supplements', label: 'Sleep supplements' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // What worked - Productivity/Effectiveness
+  {
+    id: 'what_worked_productivity',
+    question: "What has worked (or is working) for you?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['effectiveness']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'todo_lists', label: 'To-do lists' },
+      { value: 'time_blocking', label: 'Time blocking' },
+      { value: 'pomodoro', label: 'Pomodoro technique' },
+      { value: 'digital_tools', label: 'Digital tools/apps' },
+      { value: 'paper_planning', label: 'Paper planners' },
+      { value: 'morning_routine', label: 'Morning routine' },
+      { value: 'evening_planning', label: 'Evening planning' },
+      { value: 'batching_tasks', label: 'Batching similar tasks' },
+      { value: 'single_tasking', label: 'Single-tasking focus' },
+      { value: 'deadlines', label: 'Setting deadlines' },
+      { value: 'accountability', label: 'Accountability partner' },
+      { value: 'decluttering', label: 'Decluttered workspace' },
+      { value: 'rewards', label: 'Reward system' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // What worked - Relationships
+  {
+    id: 'what_worked_relationships',
+    question: "What has worked (or is working) for you?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['relationships']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'scheduled_time', label: 'Scheduled quality time' },
+      { value: 'communication_practice', label: 'Communication exercises' },
+      { value: 'therapy', label: 'Therapy/counseling' },
+      { value: 'date_nights', label: 'Regular date nights' },
+      { value: 'shared_activities', label: 'Shared hobbies/activities' },
+      { value: 'boundaries', label: 'Setting boundaries' },
+      { value: 'active_listening', label: 'Active listening practice' },
+      { value: 'conflict_resolution', label: 'Conflict resolution skills' },
+      { value: 'appreciation_practice', label: 'Gratitude/appreciation' },
+      { value: 'alone_time', label: 'Maintaining independence' },
+      { value: 'social_groups', label: 'Social groups/communities' },
+      { value: 'self_work', label: 'Personal growth work' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // General what worked (fallback)
+  {
+    id: 'what_worked_general',
+    question: "What has worked (or is working) for you?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: [] // Shows when no specific condition is met
+    },
     helpText: 'Check all that have helped, even a little',
     options: [
       { value: 'small_changes', label: 'Small, gradual changes' },
@@ -263,9 +415,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'routine', label: 'Strict routine' },
       { value: 'flexibility', label: 'Flexible approach' },
       { value: 'tracking', label: 'Tracking progress' },
-      { value: 'meal_prep', label: 'Meal prepping' },
-      { value: 'simple_swaps', label: 'Simple substitutions' },
-      { value: 'education', label: 'Learning why things matter' },
+      { value: 'education', label: 'Learning and education' },
       { value: 'rewards', label: 'Rewarding myself' },
       { value: 'buddy_system', label: 'Doing it with someone' },
       { value: 'professional_help', label: 'Professional guidance' },
