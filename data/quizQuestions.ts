@@ -416,30 +416,182 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // ========== QUESTION 6: Barriers/Why things haven't worked ==========
+  // ========== QUESTION 6: Barriers (conditional based on primary motivation) ==========
 
+  // Barriers - Nutrition/Health/Look&Feel
   {
-    id: 'current_barriers',
-    question: "What makes change hard for you right now?",
+    id: 'barriers_nutrition',
+    question: "What makes healthy eating hard for you?",
     type: 'multiple_choice',
     category: 'challenges',
     required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['nutrition', 'health', 'look_feel']
+    },
     helpText: 'Be real - select all that apply',
     options: [
+      { value: 'no_time', label: '⏰ No time to cook' },
+      { value: 'budget_tight', label: '💰 Healthy food is expensive' },
+      { value: 'family_different', label: '👨‍👩‍👧 Family wants different foods' },
+      { value: 'picky_household', label: '🙅 Picky eaters at home' },
+      { value: 'hate_cooking', label: '👨‍🍳 Hate/can\'t cook' },
+      { value: 'travel_eating', label: '✈️ Travel/eat out a lot' },
+      { value: 'emotional_eating', label: '💔 Emotional eating' },
+      { value: 'stress_eating', label: '😰 Eat when stressed' },
+      { value: 'bored_eating', label: '😑 Eat when bored' },
+      { value: 'love_sweets', label: '🍫 Major sweet tooth' },
+      { value: 'social_events', label: '🎉 Social events = food' },
+      { value: 'no_willpower', label: '😔 Feel like no willpower' },
+      { value: 'dont_know_nutrition', label: '🤷 Confusing nutrition info' },
+      { value: 'night_snacking', label: '🌙 Late night cravings' },
+    ]
+  },
+
+  // Barriers - Fitness
+  {
+    id: 'barriers_fitness',
+    question: "What makes exercise hard for you?",
+    type: 'multiple_choice',
+    category: 'challenges',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['fitness']
+    },
+    helpText: 'Be honest - select all that apply',
+    options: [
       { value: 'no_time', label: '⏰ No time' },
-      { value: 'budget_tight', label: '💰 Need to watch spending' },
+      { value: 'too_tired', label: '😴 Too tired/exhausted' },
+      { value: 'no_childcare', label: '👶 No childcare' },
+      { value: 'hate_gym', label: '🏋️ Hate gym environment' },
+      { value: 'self_conscious', label: '😳 Feel self-conscious' },
+      { value: 'dont_know_how', label: '🤷 Don\'t know how to start' },
+      { value: 'injuries', label: '🤕 Injuries/physical limitations' },
+      { value: 'weather', label: '🌧️ Weather dependent' },
+      { value: 'no_motivation', label: '😑 Can\'t stay motivated' },
+      { value: 'boring', label: '🥱 Find exercise boring' },
+      { value: 'no_results', label: '📉 Don\'t see results' },
+      { value: 'expensive', label: '💰 Too expensive' },
+      { value: 'no_accountability', label: '🤝 No workout buddy' },
+      { value: 'hate_sweating', label: '💦 Hate getting sweaty' },
+    ]
+  },
+
+  // Barriers - Energy
+  {
+    id: 'barriers_energy',
+    question: "What's sabotaging your energy?",
+    type: 'multiple_choice',
+    category: 'challenges',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['energy']
+    },
+    helpText: 'Check all that apply',
+    options: [
+      { value: 'work_schedule', label: '💼 Work schedule conflicts' },
+      { value: 'racing_mind', label: '🧠 Can\'t turn off brain' },
+      { value: 'phone_addiction', label: '📱 Can\'t stop scrolling' },
+      { value: 'netflix_binge', label: '📺 One more episode syndrome' },
+      { value: 'kids_wake', label: '👶 Kids wake me up' },
+      { value: 'partner_schedule', label: '👫 Partner\'s different schedule' },
+      { value: 'stress_anxiety', label: '😰 Stress and anxiety' },
+      { value: 'uncomfortable_bed', label: '🛏️ Uncomfortable sleep setup' },
+      { value: 'noise', label: '🔊 Noisy environment' },
+      { value: 'revenge_bedtime', label: '🎮 Revenge bedtime procrastination' },
+      { value: 'caffeine_dependent', label: '☕ Caffeine cycle' },
+      { value: 'irregular_schedule', label: '🎲 Inconsistent schedule' },
+      { value: 'afternoon_crash', label: '💥 Afternoon energy crashes' },
+      { value: 'poor_nutrition', label: '🍔 Energy-draining diet' },
+    ]
+  },
+
+  // Barriers - Productivity/Effectiveness
+  {
+    id: 'barriers_productivity',
+    question: "What gets in the way of being productive?",
+    type: 'multiple_choice',
+    category: 'challenges',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['effectiveness']
+    },
+    helpText: 'Select all your productivity blockers',
+    options: [
+      { value: 'distractions', label: '📱 Constant distractions' },
+      { value: 'procrastination', label: '⏰ Chronic procrastination' },
+      { value: 'perfectionism', label: '✨ Perfectionism paralysis' },
+      { value: 'no_system', label: '🤷 No organization system' },
+      { value: 'overwhelm', label: '😰 Too much to do' },
+      { value: 'unclear_priorities', label: '❓ Unclear priorities' },
+      { value: 'meetings', label: '👥 Too many meetings' },
+      { value: 'email_overload', label: '📧 Email overload' },
+      { value: 'context_switching', label: '🔄 Constant task switching' },
+      { value: 'no_boundaries', label: '🚫 No work boundaries' },
+      { value: 'cluttered_space', label: '🗑️ Cluttered workspace' },
+      { value: 'poor_tools', label: '💻 Bad tools/systems' },
+      { value: 'decision_fatigue', label: '🤯 Decision fatigue' },
+      { value: 'energy_management', label: '🔋 Poor energy management' },
+    ]
+  },
+
+  // Barriers - Relationships
+  {
+    id: 'barriers_relationships',
+    question: "What makes relationships challenging?",
+    type: 'multiple_choice',
+    category: 'challenges',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['relationships']
+    },
+    helpText: 'Be honest about your challenges',
+    options: [
+      { value: 'no_time', label: '⏰ No quality time' },
+      { value: 'work_life_balance', label: '💼 Work takes over' },
+      { value: 'communication_style', label: '💬 Different communication styles' },
+      { value: 'conflict_avoidance', label: '😶 Avoid difficult conversations' },
+      { value: 'trust_issues', label: '🔒 Trust issues' },
+      { value: 'different_needs', label: '❤️ Different emotional needs' },
+      { value: 'family_stress', label: '👨‍👩‍👧 Family dynamics' },
+      { value: 'long_distance', label: '🌍 Distance/logistics' },
+      { value: 'social_anxiety', label: '😰 Social anxiety' },
+      { value: 'past_baggage', label: '🎒 Past relationship baggage' },
+      { value: 'different_goals', label: '🎯 Different life goals' },
+      { value: 'intimacy_issues', label: '💑 Intimacy challenges' },
+      { value: 'financial_stress', label: '💰 Money stress' },
+      { value: 'parenting_differences', label: '👶 Different parenting styles' },
+    ]
+  },
+
+  // General barriers for multiple areas (shows if none of the above match)
+  {
+    id: 'barriers_general',
+    question: "What makes change hard for you?",
+    type: 'multiple_choice',
+    category: 'challenges',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: [] // This will show when no specific condition is met
+    },
+    helpText: 'Select all that apply',
+    options: [
+      { value: 'no_time', label: '⏰ No time' },
+      { value: 'budget_tight', label: '💰 Limited budget' },
       { value: 'family_life', label: '👨‍👩‍👧 Busy family life' },
       { value: 'work_demands', label: '💼 Demanding job' },
-      { value: 'travel_often', label: '✈️ Travel frequently' },
-      { value: 'shift_work', label: '🌙 Irregular schedule' },
+      { value: 'stress_overwhelm', label: '😰 Too stressed' },
       { value: 'no_support', label: '😔 No support system' },
       { value: 'health_issues', label: '🏥 Health limitations' },
-      { value: 'stress_overwhelm', label: '😰 Too stressed/overwhelmed' },
       { value: 'dont_know_how', label: '🤷 Don\'t know where to start' },
-      { value: 'hate_cooking', label: '👨‍🍳 Hate/can\'t cook' },
-      { value: 'picky_household', label: '🙅 Picky eaters at home' },
-      { value: 'emotional_eating', label: '💔 Emotional challenges' },
       { value: 'no_motivation', label: '😑 Can\'t stay motivated' },
+      { value: 'travel_often', label: '✈️ Travel frequently' },
+      { value: 'shift_work', label: '🌙 Irregular schedule' },
     ]
   },
 
