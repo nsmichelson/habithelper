@@ -1,139 +1,340 @@
 /**
  * Test scenarios for the enhanced recommendation algorithm
  * Shows how different user profiles get personalized recommendations
+ * Updated to match the new outcome-first quiz structure
  */
 
 import { TipRecommendationService } from './tipRecommendation';
 import { UserProfile } from '../types/tip';
 
-// Sample user profiles based on new quiz structure
+// Sample user profiles based on new outcome-first quiz structure
 const TEST_PROFILES = {
-  // Profile 1: Restaurant lover who hates veggies
-  sarahProfile: {
-    primary_focus: 'eating',
-    goals: ['more_veggies', 'less_sugar'],
-    preferences: ['restaurant_friends', 'coffee_shops', 'walking', 'podcasts_audiobooks'],
-    specific_challenges: {
-      eating: ['hate_veggies', 'love_sweets', 'social_events', 'no_time_cook']
-    },
-    avoid_approaches: ['meal_prep', 'counting', 'complex_recipes'],
-    lifestyle: {
-      chaos_level: 'flexible',
-      life_role: 'professional'
-    },
-    success_vision: 'I want to enjoy eating healthier without feeling restricted',
+  // Profile 1: Energy-focused user (tired professional)
+  energyProfile: {
+    // From Q1: What brings you here?
+    primary_motivation: 'energy',
+
+    // From Q2: What specifically would help your energy?
+    goals: ['fall_asleep_easier', 'wake_up_refreshed', 'reduce_sugar', 'manage_stress'],
+
+    // From Q3: Why is this important?
+    motivation_why: ['feel_better', 'tired_of_struggling'],
+
+    // From Q4: What has worked?
+    what_worked: ['small_changes', 'flexible_approach', 'apps_tools'],
+
+    // From Q5: What to avoid?
+    what_to_avoid: ['early_morning', 'rigid_schedules', 'meditation'],
+
+    // From Q6: Current barriers?
+    current_barriers: ['no_time', 'work_demands', 'stress_overwhelm'],
+
+    // From Q7: Things you love?
+    things_you_love: ['coffee_tea', 'podcasts', 'reading', 'alone_time'],
+
+    // Additional context
+    additional_context: 'Night owl by nature, work requires early mornings',
+
+    // Standard profile fields
     medical_conditions: [],
-    allergies: []
+    allergies: [],
+    areas_of_interest: ['nutrition', 'fitness', 'stress'],
+    onboarding_completed: true,
+    created_at: new Date(),
+    id: 'test-energy-1'
   } as UserProfile,
 
-  // Profile 2: Busy parent who wants to exercise
-  mikeProfile: {
-    primary_focus: 'exercise',
-    goals: ['start_moving', 'energy', 'consistency'],
-    preferences: ['playing_kids_pets', 'nature_outdoors', 'music_listening', 'spontaneous_adventures'],
-    specific_challenges: {
-      exercise: ['no_time', 'too_tired', 'hate_gym', 'no_childcare']
-    },
-    avoid_approaches: ['gym', 'long_workouts', 'morning_routine'],
-    lifestyle: {
-      chaos_level: 'total_chaos',
-      life_role: 'parent_young'
-    },
-    success_vision: 'Feel energized and set a good example for my kids',
-    medical_conditions: [],
-    allergies: []
+  // Profile 2: Nutrition-focused user (wants to eat better)
+  nutritionProfile: {
+    // From Q1: What brings you here?
+    primary_motivation: 'nutrition',
+
+    // From Q2: What nutrition changes?
+    goals: ['eat_more_veggies', 'reduce_sugar', 'control_portions', 'manage_cravings'],
+
+    // From Q3: Why is this important?
+    motivation_why: ['health_scare', 'look_better', 'role_model'],
+
+    // From Q4: What has worked?
+    what_worked: ['simple_swaps', 'accountability', 'small_changes'],
+
+    // From Q5: What to avoid?
+    what_to_avoid: ['counting_calories', 'extreme_restrictions', 'complicated_recipes', 'meal_prep'],
+
+    // From Q6: Current barriers?
+    current_barriers: ['love_sweets', 'social_events', 'no_time', 'hate_cooking'],
+
+    // From Q7: Things you love?
+    things_you_love: ['restaurants', 'social_media', 'friends_time', 'coffee_tea'],
+
+    // From conditional Q: Food relationship
+    food_relationship: 'tolerate', // It's fine, just a chore
+
+    // Standard profile fields
+    medical_conditions: ['hypertension'],
+    allergies: [],
+    areas_of_interest: ['nutrition'],
+    veggie_preference: 'hide_them',
+    onboarding_completed: true,
+    created_at: new Date(),
+    id: 'test-nutrition-1'
   } as UserProfile,
 
-  // Profile 3: Night owl with sleep issues
-  alexProfile: {
-    primary_focus: 'sleeping',
-    goals: ['fall_asleep', 'consistent_schedule', 'wake_refreshed'],
-    preferences: ['reading', 'podcasts_audiobooks', 'games_video', 'cozy_comfort', 'solo_time'],
-    specific_challenges: {
-      sleeping: ['racing_mind', 'phone_addiction', 'revenge_bedtime', 'netflix_binge']
-    },
-    avoid_approaches: ['meditation', 'morning_routine', 'rigid_rules'],
-    lifestyle: {
-      chaos_level: 'mostly_routine',
-      life_role: 'remote_worker'
-    },
-    success_vision: 'Actually feel rested and stop being exhausted all day',
+  // Profile 3: Look & Feel Better focused (weight loss + confidence)
+  lookFeelProfile: {
+    // From Q1: What brings you here?
+    primary_motivation: 'look_feel',
+
+    // From Q2: What would help you look and feel better?
+    goals: ['lose_weight_eating', 'less_bloated', 'build_confidence', 'clothes_fit_better'],
+
+    // From Q3: Why is this important?
+    motivation_why: ['look_better', 'feel_better', 'confidence'],
+
+    // From Q4: What has worked?
+    what_worked: ['tracking', 'accountability', 'routine'],
+
+    // From Q5: What to avoid?
+    what_to_avoid: ['extreme_restrictions', 'public_sharing', 'expensive_tools'],
+
+    // From Q6: Current barriers?
+    current_barriers: ['emotional_eating', 'no_motivation', 'stress_overwhelm'],
+
+    // From Q7: Things you love?
+    things_you_love: ['music', 'walking', 'creating', 'learning'],
+
+    // Additional context
+    additional_context: 'Yo-yo dieter, need something sustainable this time',
+
+    // Standard profile fields
     medical_conditions: [],
-    allergies: []
+    allergies: ['lactose_intolerance'],
+    areas_of_interest: ['nutrition', 'fitness'],
+    onboarding_completed: true,
+    created_at: new Date(),
+    id: 'test-lookfeel-1'
   } as UserProfile,
 
-  // Profile 4: Creative person with productivity issues
-  jamieProfile: {
-    primary_focus: 'productivity',
-    goals: ['procrastination', 'finish_tasks', 'less_overwhelm'],
-    preferences: ['creative_projects', 'music_listening', 'coffee_shops', 'spontaneous_adventures'],
-    specific_challenges: {
-      productivity: ['procrastination', 'perfectionism', 'distractions', 'overwhelming_tasks']
-    },
-    avoid_approaches: ['rigid_rules', 'detailed_tracking', 'morning_routine'],
-    lifestyle: {
-      chaos_level: 'unpredictable',
-      life_role: 'entrepreneur'
-    },
-    success_vision: 'Actually finish my creative projects without the stress',
+  // Profile 4: Effectiveness-focused (productivity + organization)
+  effectivenessProfile: {
+    // From Q1: What brings you here?
+    primary_motivation: 'effectiveness',
+
+    // From Q2: What would make you more effective?
+    goals: ['stop_procrastinating', 'improve_focus', 'reduce_overwhelm', 'finish_what_start'],
+
+    // From Q3: Why is this important?
+    motivation_why: ['career_growth', 'reduce_stress', 'achieve_goals'],
+
+    // From Q4: What has worked?
+    what_worked: ['apps_tools', 'rewards', 'flexible_approach'],
+
+    // From Q5: What to avoid?
+    what_to_avoid: ['rigid_schedules', 'early_morning', 'complicated_systems'],
+
+    // From Q6: Current barriers?
+    current_barriers: ['no_time', 'work_demands', 'dont_know_how'],
+
+    // From Q7: Things you love?
+    things_you_love: ['games', 'podcasts', 'coffee_tea', 'learning', 'competing'],
+
+    // Standard profile fields
     medical_conditions: [],
-    allergies: []
+    allergies: [],
+    areas_of_interest: ['organization', 'stress'],
+    onboarding_completed: true,
+    created_at: new Date(),
+    id: 'test-effectiveness-1'
+  } as UserProfile,
+
+  // Profile 5: Relationship-focused user
+  relationshipProfile: {
+    // From Q1: What brings you here?
+    primary_motivation: 'relationships',
+
+    // From Q2: What relationship area needs work?
+    goals: ['improve_communication', 'more_quality_time', 'set_boundaries', 'improve_work_life_balance'],
+
+    // From Q3: Why is this important?
+    motivation_why: ['strengthen_bonds', 'reduce_conflict', 'feel_connected'],
+
+    // From Q4: What has worked?
+    what_worked: ['small_changes', 'professional_help', 'education'],
+
+    // From Q5: What to avoid?
+    what_to_avoid: ['group_activities', 'public_sharing', 'rigid_schedules'],
+
+    // From Q6: Current barriers?
+    current_barriers: ['work_demands', 'no_time', 'family_life'],
+
+    // From Q7: Things you love?
+    things_you_love: ['friends_time', 'outdoors', 'helping_others', 'reading'],
+
+    // From conditional Q: Family context
+    family_context: 'young_kids',
+
+    // Standard profile fields
+    medical_conditions: [],
+    allergies: [],
+    areas_of_interest: ['stress'],
+    onboarding_completed: true,
+    created_at: new Date(),
+    id: 'test-relationship-1'
+  } as UserProfile,
+
+  // Profile 6: Fitness-focused user (busy parent)
+  fitnessProfile: {
+    // From Q1: What brings you here?
+    primary_motivation: 'fitness',
+
+    // From Q2: What's your fitness focus?
+    goals: ['start_exercising', 'find_enjoyable_exercise', 'more_active_lifestyle', 'exercise_for_energy'],
+
+    // From Q3: Why does fitness matter?
+    motivation_why: ['keep_up_kids', 'feel_stronger', 'stress_relief', 'energy_boost'],
+
+    // From Q4: What has worked?
+    what_worked: ['buddy_system', 'small_changes', 'flexible_approach'],
+
+    // From Q5: What to avoid?
+    what_to_avoid: ['gym_required', 'early_morning', 'expensive_tools', 'rigid_schedules'],
+
+    // From Q6: Current barriers?
+    current_barriers: ['family_life', 'no_time', 'picky_household'],
+
+    // From Q7: Things you love?
+    things_you_love: ['outdoors', 'music', 'walking', 'competing', 'games'],
+
+    // From conditional Q: Family context
+    family_context: 'young_kids',
+
+    // Additional context
+    additional_context: 'Need activities I can do with kids around',
+
+    // Standard profile fields
+    medical_conditions: [],
+    allergies: [],
+    areas_of_interest: ['fitness'],
+    onboarding_completed: true,
+    created_at: new Date(),
+    id: 'test-fitness-1'
+  } as UserProfile,
+
+  // Profile 7: Health-focused user (managing conditions)
+  healthProfile: {
+    // From Q1: What brings you here?
+    primary_motivation: 'health',
+
+    // From Q2: What health areas concern you?
+    goals: ['manage_blood_sugar', 'lower_blood_pressure', 'reduce_processed_foods', 'manage_stress'],
+
+    // From Q3: Why is this important?
+    motivation_why: ['health_scare', 'chronic_condition', 'aging_well'],
+
+    // From Q4: What has worked?
+    what_worked: ['professional_help', 'tracking', 'education', 'routine'],
+
+    // From Q5: What to avoid?
+    what_to_avoid: ['supplements', 'extreme_restrictions', 'expensive_tools'],
+
+    // From Q6: Current barriers?
+    current_barriers: ['budget_tight', 'health_issues', 'dont_know_how'],
+
+    // From Q7: Things you love?
+    things_you_love: ['cooking_shows', 'learning', 'reading', 'coffee_tea'],
+
+    // Additional context
+    additional_context: 'Recently diagnosed with pre-diabetes and high blood pressure',
+
+    // Standard profile fields
+    medical_conditions: ['t2_diabetes', 'hypertension'],
+    allergies: [],
+    areas_of_interest: ['nutrition', 'stress'],
+    onboarding_completed: true,
+    created_at: new Date(),
+    id: 'test-health-1'
   } as UserProfile
 };
 
 /**
- * Expected high-scoring tips for each profile
+ * Expected high-scoring tips for each profile based on new structure
  */
 const EXPECTED_RECOMMENDATIONS = {
-  sarah: [
-    "Try veggie appetizers at your favorite restaurant with friends",
-    "Walking coffee date followed by healthy breakfast",
-    "Listen to nutrition podcasts during grocery shopping",
-    "Order extra veggies when dining out - they're professionally prepared",
-    "Sweet afternoon coffee drink as scheduled treat"
+  energy: [
+    "Wind-down podcast routine 30 min before bed",
+    "Afternoon protein snack instead of sugar",
+    "5-minute stress-relief breathing at desk",
+    "Evening herbal tea ritual to signal bedtime",
+    "Weekend sleep schedule consistency hack"
   ],
 
-  mike: [
-    "5-minute dance party with kids before dinner",
-    "Nature scavenger hunt with family",
-    "Playground workout while kids play",
-    "Evening family walk with music",
-    "Active games in backyard - no equipment needed"
+  nutrition: [
+    "Hide veggies in your favorite restaurant dishes",
+    "Social media food swap challenge with friends",
+    "Coffee shop healthy treat alternatives",
+    "Restaurant veggie appetizer experiment",
+    "Sweet tooth satisfaction strategies"
   ],
 
-  alex: [
-    "Replace last episode with audiobook in bed",
-    "Gaming curfew with wind-down playlist",
-    "Cozy reading corner for phone-free time",
-    "Sleep stories podcast instead of scrolling",
-    "Reward good sleep with morning gaming time"
+  lookFeel: [
+    "Walking playlist for mood and movement",
+    "Creative portion control hacks",
+    "Confidence-building morning routine",
+    "Bloat-reducing food swaps",
+    "Progress tracking without the scale"
   ],
 
-  jamie: [
-    "Coffee shop creative sessions with timer",
-    "Music playlists for different project phases",
-    "Creative sprint challenges - beat the song",
-    "Change locations when stuck",
-    "Tiny task list - only 3 items allowed"
+  effectiveness: [
+    "Gamified task completion system",
+    "Coffee shop focus sessions",
+    "Podcast-powered productivity blocks",
+    "Competition-based deadline system",
+    "Learning-enhanced break times"
+  ],
+
+  relationships: [
+    "Family outdoor adventure planning",
+    "Reading together as connection time",
+    "Work boundary setting strategies",
+    "Quality time during daily routines",
+    "Communication during walks"
+  ],
+
+  fitness: [
+    "Musical family dance parties",
+    "Outdoor scavenger hunt workouts",
+    "Playground fitness while kids play",
+    "Walking competition with rewards",
+    "Active gaming as exercise"
+  ],
+
+  health: [
+    "Educational cooking show experiments",
+    "Blood sugar tracking made simple",
+    "Budget-friendly healthy swaps",
+    "Stress management through learning",
+    "Tea ritual for blood pressure"
   ]
 };
 
 /**
- * Test function to run recommendations
+ * Test function to run recommendations with new quiz structure
  */
 export async function testRecommendationAlgorithm() {
   const service = new TipRecommendationService();
 
-  console.log('🧪 Testing Enhanced Recommendation Algorithm\n');
+  console.log('🧪 Testing Enhanced Recommendation Algorithm with New Quiz Structure\n');
   console.log('=' .repeat(60));
 
   for (const [name, profile] of Object.entries(TEST_PROFILES)) {
     const displayName = name.replace('Profile', '');
-    console.log(`\n👤 ${displayName.toUpperCase()}'S PROFILE:`);
-    console.log(`   Focus: ${profile.primary_focus}`);
-    console.log(`   Loves: ${profile.preferences?.slice(0, 3).join(', ')}...`);
-    console.log(`   Challenges: ${profile.specific_challenges?.[profile.primary_focus]?.slice(0, 3).join(', ')}...`);
-    console.log(`   Avoids: ${profile.avoid_approaches?.slice(0, 3).join(', ')}...`);
+    console.log(`\n👤 ${displayName.toUpperCase()} PROFILE:`);
+    console.log(`   Primary Motivation: ${profile.primary_motivation}`);
+    console.log(`   Specific Goals: ${profile.goals?.slice(0, 3).join(', ')}...`);
+    console.log(`   Why It Matters: ${profile.motivation_why?.join(', ')}`);
+    console.log(`   Current Barriers: ${profile.current_barriers?.slice(0, 3).join(', ')}...`);
+    console.log(`   Things They Love: ${profile.things_you_love?.slice(0, 3).join(', ')}...`);
+    console.log(`   Avoids: ${profile.what_to_avoid?.slice(0, 3).join(', ')}...`);
 
     // Get recommendations
     const recommendations = await service.recommendTips(
@@ -148,53 +349,80 @@ export async function testRecommendationAlgorithm() {
 
     recommendations.slice(0, 5).forEach((rec, i) => {
       console.log(`\n   ${i + 1}. ${rec.tip.summary}`);
-      console.log(`      Score: ${rec.score.toFixed(1)}`);
-      console.log(`      Why: ${rec.reasons.slice(0, 2).join(', ')}`);
-
-      // Show how it uses their preferences
-      const prefMatches = rec.reasons.find(r => r.includes('Uses:'));
-      if (prefMatches) {
-        console.log(`      ✨ ${prefMatches}`);
-      }
-
-      // Show what it addresses
-      const helpsMatches = rec.reasons.find(r => r.includes('Helps with:'));
-      if (helpsMatches) {
-        console.log(`      🎯 ${helpsMatches}`);
-      }
+      console.log(`      Score: ${rec.score.toFixed(2)}`);
+      console.log(`      Why: ${rec.reasoning.slice(0, 100)}...`);
     });
 
-    console.log('\n' + '-'.repeat(60));
+    // Compare with expected recommendations
+    const expected = EXPECTED_RECOMMENDATIONS[name.replace('Profile', '')];
+    if (expected) {
+      console.log(`\n   EXPECTED PATTERNS:`);
+      expected.forEach(exp => {
+        console.log(`      ✓ ${exp}`);
+      });
+    }
   }
 
-  console.log('\n✅ Test Complete!\n');
+  console.log('\n' + '='.repeat(60));
+  console.log('✅ Test Complete - Review recommendations for quality\n');
+}
 
+/**
+ * Helper to create a UserProfile from quiz responses matching new structure
+ */
+export function createProfileFromQuizResponses(responses: Record<string, any>): Partial<UserProfile> {
   return {
-    profiles: TEST_PROFILES,
-    expectedRecommendations: EXPECTED_RECOMMENDATIONS
+    // Core motivation
+    primary_motivation: responses.primary_motivation,
+
+    // Goals from specific questions (energy_specifics, nutrition_specifics, etc.)
+    goals: responses[`${responses.primary_motivation}_specifics`] || [],
+
+    // Why it matters
+    motivation_why: responses.nutrition_why || responses.exercise_why || [],
+
+    // Experience
+    what_worked: responses.what_worked || [],
+    what_to_avoid: responses.what_to_avoid || [],
+
+    // Current situation
+    current_barriers: responses.current_barriers || [],
+
+    // Preferences for habit pairing
+    things_you_love: responses.things_you_love || [],
+
+    // Additional context
+    additional_context: responses.additional_context,
+
+    // Conditional deep-dives
+    food_relationship: responses.food_relationship,
+    stress_sources: responses.stress_sources,
+    family_context: responses.family_context,
+
+    // Areas of interest (derived from primary motivation)
+    areas_of_interest: deriveAreasFromMotivation(responses.primary_motivation),
+
+    // Set defaults
+    medical_conditions: [],
+    allergies: [],
+    onboarding_completed: true,
+    created_at: new Date()
   };
 }
 
 /**
- * Example output:
- *
- * SARAH'S PROFILE:
- *   Focus: eating
- *   Loves: restaurant_friends, coffee_shops, walking...
- *   Challenges: hate_veggies, love_sweets, social_events...
- *
- *   TOP RECOMMENDATIONS:
- *   1. Try the vegetable appetizer sampler at a new restaurant
- *      Score: 82.5
- *      Why: Uses: restaurant_friends, social, Helps with: hate_veggies
- *
- *   2. Walking coffee date with healthy breakfast spot
- *      Score: 78.3
- *      Why: Uses: coffee_shops, walking, Matches 2/4 goals
- *
- * This shows how the algorithm now prioritizes tips that:
- * - Use activities the person already loves
- * - Address their specific blockers
- * - Avoid things they hate
- * - Fit their lifestyle
+ * Helper to derive areas of interest from primary motivation
  */
+function deriveAreasFromMotivation(motivation: string): string[] {
+  const mappings = {
+    'energy': ['nutrition', 'fitness', 'stress'],
+    'relationships': ['stress'],
+    'effectiveness': ['organization', 'stress'],
+    'fitness': ['fitness'],
+    'health': ['nutrition', 'stress'],
+    'nutrition': ['nutrition'],
+    'look_feel': ['nutrition', 'fitness']
+  };
+
+  return mappings[motivation] || [];
+}

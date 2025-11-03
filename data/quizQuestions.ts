@@ -432,3 +432,29 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   }
 ];
+
+/**
+ * Gets the list of questions to display based on user responses
+ * Filters out questions that don't meet conditional requirements
+ */
+export function getConditionalQuestions(responses: Array<{ questionId: string; values: string[] }>): QuizQuestion[] {
+  const responseMap = new Map(responses.map(r => [r.questionId, r.values]));
+
+  return QUIZ_QUESTIONS.filter(question => {
+    // If no conditional requirement, always show the question
+    if (!question.conditionalOn) {
+      return true;
+    }
+
+    // Check if the conditional requirement is met
+    const requiredResponses = responseMap.get(question.conditionalOn.questionId);
+    if (!requiredResponses) {
+      return false; // Required question hasn't been answered yet
+    }
+
+    // Check if any of the required values match the user's response
+    return question.conditionalOn.values.some(value =>
+      requiredResponses.includes(value)
+    );
+  });
+}
