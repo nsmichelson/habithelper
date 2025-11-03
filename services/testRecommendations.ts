@@ -23,8 +23,8 @@ const TEST_PROFILES = {
     // From Q4: What has worked?
     what_worked: ['small_changes', 'flexible_approach', 'apps_tools'],
 
-    // From Q5: What to avoid?
-    what_to_avoid: ['early_morning', 'rigid_schedules', 'meditation'],
+    // From Q5: What to avoid? (energy-specific)
+    what_to_avoid_energy: ['early_morning', 'meditation', 'strict_bedtime'],
 
     // From Q6: Current barriers?
     current_barriers: ['no_time', 'work_demands', 'stress_overwhelm'],
@@ -58,8 +58,8 @@ const TEST_PROFILES = {
     // From Q4: What has worked?
     what_worked: ['simple_swaps', 'accountability', 'small_changes'],
 
-    // From Q5: What to avoid?
-    what_to_avoid: ['counting_calories', 'extreme_restrictions', 'complicated_recipes', 'meal_prep'],
+    // From Q5: What to avoid? (nutrition-specific)
+    what_to_avoid_nutrition: ['counting_calories', 'extreme_restrictions', 'complicated_recipes', 'meal_prep'],
 
     // From Q6: Current barriers?
     current_barriers: ['love_sweets', 'social_events', 'no_time', 'hate_cooking'],
@@ -94,8 +94,8 @@ const TEST_PROFILES = {
     // From Q4: What has worked?
     what_worked: ['tracking', 'accountability', 'routine'],
 
-    // From Q5: What to avoid?
-    what_to_avoid: ['extreme_restrictions', 'public_sharing', 'expensive_tools'],
+    // From Q5: What to avoid? (nutrition-specific for look/feel)
+    what_to_avoid_nutrition: ['extreme_restrictions', 'public_weigh_ins', 'expensive_foods'],
 
     // From Q6: Current barriers?
     current_barriers: ['emotional_eating', 'no_motivation', 'stress_overwhelm'],
@@ -129,8 +129,8 @@ const TEST_PROFILES = {
     // From Q4: What has worked?
     what_worked: ['apps_tools', 'rewards', 'flexible_approach'],
 
-    // From Q5: What to avoid?
-    what_to_avoid: ['rigid_schedules', 'early_morning', 'complicated_systems'],
+    // From Q5: What to avoid? (productivity-specific)
+    what_to_avoid_productivity: ['time_blocking', 'early_morning', 'complex_systems'],
 
     // From Q6: Current barriers?
     current_barriers: ['no_time', 'work_demands', 'dont_know_how'],
@@ -161,8 +161,8 @@ const TEST_PROFILES = {
     // From Q4: What has worked?
     what_worked: ['small_changes', 'professional_help', 'education'],
 
-    // From Q5: What to avoid?
-    what_to_avoid: ['group_activities', 'public_sharing', 'rigid_schedules'],
+    // From Q5: What to avoid? (relationship-specific)
+    what_to_avoid_relationships: ['group_therapy', 'public_sharing', 'scheduled_talks'],
 
     // From Q6: Current barriers?
     current_barriers: ['work_demands', 'no_time', 'family_life'],
@@ -196,8 +196,8 @@ const TEST_PROFILES = {
     // From Q4: What has worked?
     what_worked: ['buddy_system', 'small_changes', 'flexible_approach'],
 
-    // From Q5: What to avoid?
-    what_to_avoid: ['gym_required', 'early_morning', 'expensive_tools', 'rigid_schedules'],
+    // From Q5: What to avoid? (fitness-specific)
+    what_to_avoid_fitness: ['gym_required', 'early_morning', 'expensive_equipment', 'rigid_schedules'],
 
     // From Q6: Current barriers?
     current_barriers: ['family_life', 'no_time', 'picky_household'],
@@ -234,8 +234,8 @@ const TEST_PROFILES = {
     // From Q4: What has worked?
     what_worked: ['professional_help', 'tracking', 'education', 'routine'],
 
-    // From Q5: What to avoid?
-    what_to_avoid: ['supplements', 'extreme_restrictions', 'expensive_tools'],
+    // From Q5: What to avoid? (health/nutrition-specific)
+    what_to_avoid_nutrition: ['supplements', 'extreme_restrictions', 'expensive_foods'],
 
     // From Q6: Current barriers?
     current_barriers: ['budget_tight', 'health_issues', 'dont_know_how'],
@@ -383,7 +383,8 @@ export function createProfileFromQuizResponses(responses: Record<string, any>): 
 
     // Experience
     what_worked: responses.what_worked || [],
-    what_to_avoid: responses.what_to_avoid || [],
+    // Get the area-specific what_to_avoid based on primary motivation
+    what_to_avoid: getWhatToAvoid(responses),
 
     // Current situation
     current_barriers: responses.current_barriers || [],
@@ -425,4 +426,25 @@ function deriveAreasFromMotivation(motivation: string): string[] {
   };
 
   return mappings[motivation] || [];
+}
+
+/**
+ * Helper to get the appropriate what_to_avoid field based on primary motivation
+ */
+function getWhatToAvoid(responses: Record<string, any>): string[] {
+  const motivation = responses.primary_motivation;
+
+  // Map motivations to their specific what_to_avoid question IDs
+  const avoidFieldMap = {
+    'nutrition': 'what_to_avoid_nutrition',
+    'health': 'what_to_avoid_nutrition',
+    'look_feel': 'what_to_avoid_nutrition',
+    'fitness': 'what_to_avoid_fitness',
+    'energy': 'what_to_avoid_energy',
+    'effectiveness': 'what_to_avoid_productivity',
+    'relationships': 'what_to_avoid_relationships'
+  };
+
+  const fieldName = avoidFieldMap[motivation];
+  return responses[fieldName] || [];
 }

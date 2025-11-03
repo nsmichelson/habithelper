@@ -274,29 +274,145 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // ========== QUESTION 5: What to avoid (conditional) ==========
+  // ========== QUESTION 5: What to avoid (conditional based on primary motivation) ==========
 
+  // What to avoid - Nutrition/Health/Look&Feel
   {
-    id: 'what_to_avoid',
+    id: 'what_to_avoid_nutrition',
     question: "What hasn't worked or do you want to avoid?",
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['nutrition', 'health', 'look_feel']
+    },
     helpText: "We'll steer clear of these approaches",
     options: [
       { value: 'counting_calories', label: 'Counting calories/macros' },
-      { value: 'extreme_restrictions', label: 'Cutting out food groups' },
+      { value: 'extreme_restrictions', label: 'Cutting out entire food groups' },
       { value: 'complicated_recipes', label: 'Complicated recipes' },
-      { value: 'meal_prep', label: 'Meal prepping' },
-      { value: 'early_morning', label: 'Early morning routines' },
-      { value: 'gym_required', label: 'Going to a gym' },
-      { value: 'expensive_tools', label: 'Expensive tools/foods' },
-      { value: 'group_activities', label: 'Group activities' },
-      { value: 'rigid_schedules', label: 'Rigid schedules' },
+      { value: 'meal_prep', label: 'Meal prepping on weekends' },
+      { value: 'expensive_foods', label: 'Expensive special foods' },
+      { value: 'supplements', label: 'Supplements/meal replacements' },
+      { value: 'rigid_meal_plans', label: 'Rigid meal plans' },
+      { value: 'fasting', label: 'Intermittent fasting' },
+      { value: 'food_journaling', label: 'Detailed food journaling' },
+      { value: 'public_weigh_ins', label: 'Public weigh-ins/accountability' },
+      { value: 'bland_diet_food', label: 'Bland "diet" foods' },
       { value: 'all_or_nothing', label: 'All-or-nothing approaches' },
-      { value: 'public_sharing', label: 'Sharing progress publicly' },
+    ]
+  },
+
+  // What to avoid - Fitness
+  {
+    id: 'what_to_avoid_fitness',
+    question: "What hasn't worked or do you want to avoid?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['fitness']
+    },
+    helpText: "We'll steer clear of these approaches",
+    options: [
+      { value: 'gym_required', label: 'Going to a gym' },
+      { value: 'early_morning', label: 'Early morning workouts' },
+      { value: 'expensive_equipment', label: 'Expensive equipment' },
+      { value: 'group_classes', label: 'Group fitness classes' },
+      { value: 'running', label: 'Running/jogging' },
+      { value: 'long_workouts', label: 'Long workout sessions' },
+      { value: 'complex_programs', label: 'Complex training programs' },
+      { value: 'public_exercise', label: 'Exercising in public' },
+      { value: 'tracking_everything', label: 'Tracking every workout metric' },
+      { value: 'competitive_sports', label: 'Competitive sports/activities' },
+      { value: 'high_intensity', label: 'High intensity training' },
+      { value: 'rigid_schedules', label: 'Rigid workout schedules' },
+    ]
+  },
+
+  // What to avoid - Energy
+  {
+    id: 'what_to_avoid_energy',
+    question: "What hasn't worked or do you want to avoid?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['energy']
+    },
+    helpText: "We'll steer clear of these approaches",
+    options: [
+      { value: 'early_morning', label: 'Forcing early wake times' },
       { value: 'meditation', label: 'Meditation/mindfulness' },
-      { value: 'supplements', label: 'Supplements/shakes' },
+      { value: 'sleep_tracking', label: 'Obsessive sleep tracking' },
+      { value: 'supplements', label: 'Sleep supplements/pills' },
+      { value: 'strict_bedtime', label: 'Rigid bedtime rules' },
+      { value: 'no_screens', label: 'Complete screen elimination' },
+      { value: 'cold_rooms', label: 'Super cold sleeping' },
+      { value: 'expensive_mattress', label: 'Expensive sleep equipment' },
+      { value: 'caffeine_elimination', label: 'Cutting out all caffeine' },
+      { value: 'complex_routines', label: 'Complex wind-down routines' },
+      { value: 'naps', label: 'Daytime napping' },
+      { value: 'sleep_restriction', label: 'Sleep restriction therapy' },
+    ]
+  },
+
+  // What to avoid - Effectiveness/Productivity
+  {
+    id: 'what_to_avoid_productivity',
+    question: "What hasn't worked or do you want to avoid?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['effectiveness']
+    },
+    helpText: "We'll steer clear of these approaches",
+    options: [
+      { value: 'early_morning', label: '5am morning routines' },
+      { value: 'complex_systems', label: 'Complex productivity systems' },
+      { value: 'time_blocking', label: 'Rigid time blocking' },
+      { value: 'pomodoro', label: 'Pomodoro technique' },
+      { value: 'everything_digital', label: 'All-digital organization' },
+      { value: 'paper_only', label: 'Paper-only systems' },
+      { value: 'detailed_tracking', label: 'Tracking every minute' },
+      { value: 'expensive_tools', label: 'Expensive productivity tools' },
+      { value: 'public_accountability', label: 'Public accountability' },
+      { value: 'meditation', label: 'Meditation for focus' },
+      { value: 'no_breaks', label: 'Working without breaks' },
+      { value: 'multitasking', label: 'Trying to multitask' },
+    ]
+  },
+
+  // What to avoid - Relationships
+  {
+    id: 'what_to_avoid_relationships',
+    question: "What hasn't worked or do you want to avoid?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['relationships']
+    },
+    helpText: "We'll steer clear of these approaches",
+    options: [
+      { value: 'group_therapy', label: 'Group therapy/workshops' },
+      { value: 'scheduled_talks', label: 'Scheduled relationship talks' },
+      { value: 'date_nights', label: 'Forced date nights' },
+      { value: 'therapy_homework', label: 'Therapy homework exercises' },
+      { value: 'public_sharing', label: 'Sharing relationship stuff publicly' },
+      { value: 'self_help_books', label: 'Relationship self-help books' },
+      { value: 'communication_scripts', label: 'Using communication scripts' },
+      { value: 'couple_activities', label: 'Forced couple activities' },
+      { value: 'vulnerability_exercises', label: 'Vulnerability exercises' },
+      { value: 'conflict_rules', label: 'Strict conflict resolution rules' },
+      { value: 'relationship_apps', label: 'Relationship improvement apps' },
+      { value: 'social_events', label: 'Forced social events' },
     ]
   },
 
