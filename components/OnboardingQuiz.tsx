@@ -171,6 +171,14 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   useEffect(() => {
     const questions = getConditionalQuestions(responses);
     setAvailableQuestions(questions);
+
+    // Find the first unanswered question
+    const answeredQuestionIds = new Set(responses.map(r => r.questionId));
+    const nextUnansweredIndex = questions.findIndex(q => !answeredQuestionIds.has(q.id));
+
+    if (nextUnansweredIndex !== -1) {
+      setCurrentQuestionIndex(nextUnansweredIndex);
+    }
   }, [responses]);
   
   const currentQuestion = availableQuestions[currentQuestionIndex];
@@ -255,20 +263,25 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       questionOpacity.value = withTiming(1, { duration: 200 });
     });
 
-    // Move to next question or complete
-    if (currentQuestionIndex < availableQuestions.length - 1) {
-      setTimeout(() => {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
+    // Check if there are more questions after response processing
+    // The useEffect will automatically move to the next unanswered question
+    setTimeout(() => {
+      const questions = getConditionalQuestions(newResponses);
+      const answeredIds = new Set(newResponses.map(r => r.questionId));
+      const hasMoreQuestions = questions.some(q => !answeredIds.has(q.id));
+
+      if (!hasMoreQuestions) {
+        console.log('Moving to identity step');
+        // Show identity step instead of completing immediately
+        setShowIdentityStep(true);
+      } else {
+        // Reset form fields for next question
         setSelectedValues([]);
         setTextInputValue('');
         // Scroll to top for new question
         scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-      }, 200);
-    } else {
-      console.log('Moving to identity step');
-      // Show identity step instead of completing immediately
-      setShowIdentityStep(true);
-    }
+      }
+    }, 200);
   };
 
   const handleBack = () => {
