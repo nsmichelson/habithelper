@@ -368,31 +368,118 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // What worked - Relationships
+  // What worked - Friendships specifically
   {
-    id: 'what_worked_relationships',
-    question: "What has worked (or is working) for you?",
+    id: 'what_worked_friendships',
+    question: "What has worked for nurturing friendships?",
     type: 'multiple_choice',
     category: 'experience',
     required: false,
     conditionalOn: {
-      questionId: 'primary_motivation',
-      values: ['relationships']
+      questionId: 'relationship_specifics',
+      values: ['strengthen_friendships', 'stronger_social_connections']
     },
     helpText: 'Check all that have helped, even a little',
     options: [
-      { value: 'scheduled_time', label: 'Scheduled quality time' },
-      { value: 'communication_practice', label: 'Communication exercises' },
-      { value: 'therapy', label: 'Therapy/counseling' },
-      { value: 'date_nights', label: 'Regular date nights' },
+      { value: 'regular_checkins', label: 'Regular check-ins/texts' },
+      { value: 'scheduled_hangouts', label: 'Scheduled friend dates' },
       { value: 'shared_activities', label: 'Shared hobbies/activities' },
-      { value: 'boundaries', label: 'Setting boundaries' },
-      { value: 'active_listening', label: 'Active listening practice' },
+      { value: 'social_groups', label: 'Joining groups/clubs' },
+      { value: 'being_vulnerable', label: 'Being more vulnerable' },
+      { value: 'active_listening', label: 'Better listening' },
+      { value: 'initiating_plans', label: 'Being the one who initiates' },
+      { value: 'boundaries', label: 'Setting healthy boundaries' },
+      { value: 'quality_over_quantity', label: 'Focus on few close friends' },
+      { value: 'online_communities', label: 'Online communities' },
+      { value: 'saying_yes_more', label: 'Saying yes to invitations' },
+      { value: 'remembering_details', label: 'Remembering important dates' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // What worked - Romantic relationships
+  {
+    id: 'what_worked_romantic',
+    question: "What has worked in romantic relationships?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['improve_communication', 'more_quality_time', 'handle_conflicts_better', 'express_needs_clearly', 'build_dating_confidence']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'date_nights', label: 'Regular date nights' },
+      { value: 'communication_practice', label: 'Communication exercises' },
+      { value: 'therapy', label: 'Couples therapy/counseling' },
+      { value: 'love_languages', label: 'Learning love languages' },
+      { value: 'scheduled_talks', label: 'Weekly relationship check-ins' },
       { value: 'conflict_resolution', label: 'Conflict resolution skills' },
-      { value: 'appreciation_practice', label: 'Gratitude/appreciation' },
+      { value: 'appreciation_practice', label: 'Daily appreciation' },
       { value: 'alone_time', label: 'Maintaining independence' },
-      { value: 'social_groups', label: 'Social groups/communities' },
+      { value: 'shared_goals', label: 'Working toward shared goals' },
+      { value: 'physical_touch', label: 'More physical affection' },
+      { value: 'dating_apps', label: 'Dating apps (if single)' },
       { value: 'self_work', label: 'Personal growth work' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // What worked - Family relationships
+  {
+    id: 'what_worked_family',
+    question: "What has worked for family relationships?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['more_family_time', 'improve_work_life_balance']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'family_dinners', label: 'Regular family meals' },
+      { value: 'no_phone_zones', label: 'Phone-free time' },
+      { value: 'family_activities', label: 'Planned family activities' },
+      { value: 'one_on_one', label: 'One-on-one time with each' },
+      { value: 'family_meetings', label: 'Family meetings' },
+      { value: 'traditions', label: 'Creating traditions' },
+      { value: 'chore_sharing', label: 'Sharing responsibilities' },
+      { value: 'boundaries_work', label: 'Work boundaries' },
+      { value: 'vacation_time', label: 'Protected vacation time' },
+      { value: 'bedtime_routines', label: 'Bedtime routines together' },
+      { value: 'outdoor_time', label: 'Outdoor activities together' },
+      { value: 'expressing_feelings', label: 'Expressing feelings openly' },
+      { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    ]
+  },
+
+  // What worked - Professional/boundary relationships
+  {
+    id: 'what_worked_boundaries',
+    question: "What has worked for boundaries and balance?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['set_boundaries', 'become_better_listener', 'improve_work_life_balance']
+    },
+    helpText: 'Check all that have helped, even a little',
+    options: [
+      { value: 'saying_no', label: 'Learning to say no' },
+      { value: 'work_hours', label: 'Strict work hours' },
+      { value: 'communication_limits', label: 'Communication boundaries' },
+      { value: 'self_care_time', label: 'Protected self-care time' },
+      { value: 'therapy', label: 'Therapy/counseling' },
+      { value: 'assertiveness', label: 'Assertiveness training' },
+      { value: 'support_group', label: 'Support groups' },
+      { value: 'journaling', label: 'Journaling about needs' },
+      { value: 'meditation', label: 'Meditation/mindfulness' },
+      { value: 'delegating', label: 'Delegating tasks' },
+      { value: 'calendar_blocking', label: 'Calendar blocking' },
+      { value: 'email_boundaries', label: 'Email boundaries' },
       { value: 'nothing_yet', label: "Nothing's really worked yet" },
     ]
   },
@@ -538,31 +625,115 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // What to avoid - Relationships
+  // What to avoid - Friendships specifically
   {
-    id: 'what_to_avoid_relationships',
-    question: "What hasn't worked or do you want to avoid?",
+    id: 'what_to_avoid_friendships',
+    question: "What hasn't worked for friendships?",
     type: 'multiple_choice',
     category: 'experience',
     required: false,
     conditionalOn: {
-      questionId: 'primary_motivation',
-      values: ['relationships']
+      questionId: 'relationship_specifics',
+      values: ['strengthen_friendships', 'stronger_social_connections']
     },
     helpText: "We'll steer clear of these approaches",
     options: [
-      { value: 'group_therapy', label: 'Group therapy/workshops' },
+      { value: 'forced_socializing', label: 'Forced social events' },
+      { value: 'large_groups', label: 'Large group hangouts' },
+      { value: 'online_only', label: 'Online-only friendships' },
+      { value: 'oversharing', label: 'Oversharing too quickly' },
+      { value: 'people_pleasing', label: 'People pleasing' },
+      { value: 'networking_events', label: 'Networking events' },
+      { value: 'daily_texting', label: 'Pressure to text daily' },
+      { value: 'expensive_activities', label: 'Expensive social activities' },
+      { value: 'drinking_centered', label: 'Alcohol-centered socializing' },
+      { value: 'social_media', label: 'Social media for connection' },
+      { value: 'one_sided', label: 'One-sided effort' },
+      { value: 'meetup_groups', label: 'Random meetup groups' },
+    ]
+  },
+
+  // What to avoid - Romantic relationships
+  {
+    id: 'what_to_avoid_romantic',
+    question: "What hasn't worked in romantic relationships?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['improve_communication', 'more_quality_time', 'handle_conflicts_better', 'express_needs_clearly', 'build_dating_confidence']
+    },
+    helpText: "We'll steer clear of these approaches",
+    options: [
       { value: 'scheduled_talks', label: 'Scheduled relationship talks' },
-      { value: 'date_nights', label: 'Forced date nights' },
+      { value: 'forced_dates', label: 'Forced date nights' },
       { value: 'therapy_homework', label: 'Therapy homework exercises' },
-      { value: 'public_sharing', label: 'Sharing relationship stuff publicly' },
       { value: 'self_help_books', label: 'Relationship self-help books' },
       { value: 'communication_scripts', label: 'Using communication scripts' },
       { value: 'couple_activities', label: 'Forced couple activities' },
       { value: 'vulnerability_exercises', label: 'Vulnerability exercises' },
-      { value: 'conflict_rules', label: 'Strict conflict resolution rules' },
-      { value: 'relationship_apps', label: 'Relationship improvement apps' },
-      { value: 'social_events', label: 'Forced social events' },
+      { value: 'conflict_rules', label: 'Strict conflict rules' },
+      { value: 'relationship_apps', label: 'Relationship apps' },
+      { value: 'public_sharing', label: 'Sharing publicly' },
+      { value: 'comparing', label: 'Comparing to other couples' },
+      { value: 'ignoring_issues', label: 'Ignoring problems' },
+    ]
+  },
+
+  // What to avoid - Family relationships
+  {
+    id: 'what_to_avoid_family',
+    question: "What hasn't worked for family relationships?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['more_family_time', 'improve_work_life_balance']
+    },
+    helpText: "We'll steer clear of these approaches",
+    options: [
+      { value: 'forced_activities', label: 'Forced family activities' },
+      { value: 'family_meetings', label: 'Formal family meetings' },
+      { value: 'screen_bans', label: 'Complete screen bans' },
+      { value: 'rigid_schedules', label: 'Rigid family schedules' },
+      { value: 'oversharing', label: 'Oversharing with kids' },
+      { value: 'perfect_parenting', label: 'Perfect parenting pressure' },
+      { value: 'expensive_outings', label: 'Expensive family outings' },
+      { value: 'comparing_families', label: 'Comparing to other families' },
+      { value: 'no_boundaries', label: 'No personal boundaries' },
+      { value: 'guilt_trips', label: 'Using guilt' },
+      { value: 'forced_togetherness', label: 'Forced togetherness' },
+      { value: 'ignoring_needs', label: 'Ignoring individual needs' },
+    ]
+  },
+
+  // What to avoid - Boundaries/work-life balance
+  {
+    id: 'what_to_avoid_boundaries',
+    question: "What hasn't worked for boundaries?",
+    type: 'multiple_choice',
+    category: 'experience',
+    required: false,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['set_boundaries', 'become_better_listener', 'improve_work_life_balance']
+    },
+    helpText: "We'll steer clear of these approaches",
+    options: [
+      { value: 'aggressive_boundaries', label: 'Overly aggressive boundaries' },
+      { value: 'no_flexibility', label: 'Zero flexibility' },
+      { value: 'explaining_everything', label: 'Over-explaining decisions' },
+      { value: 'guilt_managing', label: 'Managing others\' guilt' },
+      { value: 'all_or_nothing', label: 'All-or-nothing approach' },
+      { value: 'confrontation', label: 'Direct confrontation' },
+      { value: 'written_contracts', label: 'Written agreements' },
+      { value: 'ultimatums', label: 'Using ultimatums' },
+      { value: 'complete_separation', label: 'Complete work/life separation' },
+      { value: 'people_pleasing', label: 'Trying to please everyone' },
+      { value: 'avoiding_conflict', label: 'Avoiding all conflict' },
+      { value: 'rigid_rules', label: 'Rigid boundary rules' },
     ]
   },
 
