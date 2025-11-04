@@ -194,9 +194,87 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // ========== QUESTION 3: Why (conditional on specifics chosen) ==========
+  // ========== QUESTION 3: Why (conditional on specific goals selected) ==========
 
-  // Why for nutrition/eating goals
+  // Why for sleep/energy goals
+  {
+    id: 'sleep_why',
+    question: "Why is improving your sleep important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'energy_specifics',
+      values: ['fall_asleep_easier', 'wake_up_refreshed', 'consistent_sleep_schedule', 'reduce_screen_before_bed']
+    },
+    helpText: 'Be honest - pick what really drives you',
+    options: [
+      { value: 'exhausted', label: 'Exhausted all the time' },
+      { value: 'productivity', label: 'Need to be more productive' },
+      { value: 'mood', label: 'Affecting my mood/relationships' },
+      { value: 'health_concerns', label: 'Health concerns from poor sleep' },
+      { value: 'work_performance', label: 'Impacting work performance' },
+      { value: 'safety', label: 'Safety concerns (driving, etc)' },
+      { value: 'mental_clarity', label: 'Need mental clarity' },
+      { value: 'physical_recovery', label: 'Body needs recovery' },
+      { value: 'quality_of_life', label: 'Want better quality of life' },
+      { value: 'role_model', label: 'Set good example for family' },
+    ]
+  },
+
+  // Why for energy through nutrition
+  {
+    id: 'energy_nutrition_why',
+    question: "Why do you want to change your eating for energy?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'energy_specifics',
+      values: ['reduce_sugar', 'eat_more_protein', 'drink_more_water', 'regular_meal_schedule']
+    },
+    helpText: 'What drives this change?',
+    options: [
+      { value: 'crashes', label: 'Tired of energy crashes' },
+      { value: 'sustained_energy', label: 'Need sustained energy' },
+      { value: 'afternoon_slump', label: 'Beat afternoon slump' },
+      { value: 'productivity', label: 'Be more productive' },
+      { value: 'mood_swings', label: 'Reduce mood swings' },
+      { value: 'focus', label: 'Improve focus' },
+      { value: 'exercise_energy', label: 'Energy for exercise' },
+      { value: 'family_time', label: 'Energy for family' },
+      { value: 'health_long_term', label: 'Long-term health' },
+      { value: 'feel_younger', label: 'Feel younger/vital' },
+    ]
+  },
+
+  // Why for stress/energy management
+  {
+    id: 'stress_energy_why',
+    question: "Why is managing stress important for your energy?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'energy_specifics',
+      values: ['manage_stress', 'exercise_for_energy']
+    },
+    helpText: 'What matters most?',
+    options: [
+      { value: 'burnout', label: 'Preventing burnout' },
+      { value: 'exhaustion', label: 'Stress is exhausting me' },
+      { value: 'sleep_impact', label: 'Stress ruins my sleep' },
+      { value: 'physical_symptoms', label: 'Physical stress symptoms' },
+      { value: 'relationships', label: 'Affecting relationships' },
+      { value: 'work_performance', label: 'Impacting work' },
+      { value: 'health_concerns', label: 'Health worries' },
+      { value: 'quality_of_life', label: 'Want to enjoy life' },
+      { value: 'mental_health', label: 'Mental health' },
+      { value: 'be_present', label: 'Want to be present' },
+    ]
+  },
+
+  // Why for pure nutrition goals
   {
     id: 'nutrition_why',
     question: "Why is changing your eating habits important to you?",
@@ -205,7 +283,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     required: true,
     conditionalOn: {
       questionId: 'primary_motivation',
-      values: ['nutrition', 'health', 'look_feel', 'energy']
+      values: ['nutrition', 'health', 'look_feel']
     },
     helpText: 'Be honest - pick what really drives you',
     options: [
@@ -245,6 +323,58 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'stress_relief', label: 'Need stress relief' },
       { value: 'energy_boost', label: 'Want more energy' },
       { value: 'social', label: 'Social/community aspect' },
+    ]
+  },
+
+  // Why for productivity/effectiveness goals
+  {
+    id: 'productivity_why',
+    question: "Why is being more productive important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['effectiveness']
+    },
+    helpText: 'What drives this need?',
+    options: [
+      { value: 'career_growth', label: 'Career advancement' },
+      { value: 'reduce_stress', label: 'Reduce stress/overwhelm' },
+      { value: 'more_free_time', label: 'Create more free time' },
+      { value: 'achieve_goals', label: 'Achieve important goals' },
+      { value: 'financial', label: 'Financial reasons' },
+      { value: 'role_model', label: 'Set example for others' },
+      { value: 'self_worth', label: 'Feel accomplished' },
+      { value: 'balance', label: 'Better work-life balance' },
+      { value: 'creative_time', label: 'Time for creative work' },
+      { value: 'falling_behind', label: 'Stop falling behind' },
+    ]
+  },
+
+  // Why for relationship goals
+  {
+    id: 'relationship_why',
+    question: "Why are relationships a priority right now?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'primary_motivation',
+      values: ['relationships']
+    },
+    helpText: 'What matters most?',
+    options: [
+      { value: 'lonely', label: 'Feeling lonely/isolated' },
+      { value: 'strengthen_bonds', label: 'Strengthen existing bonds' },
+      { value: 'conflict_resolution', label: 'Reduce conflicts' },
+      { value: 'role_model', label: 'Be example for kids' },
+      { value: 'support_system', label: 'Build support system' },
+      { value: 'happiness', label: 'Key to happiness' },
+      { value: 'life_transition', label: 'Life change/transition' },
+      { value: 'repair', label: 'Repair damaged relationships' },
+      { value: 'growth', label: 'Personal growth' },
+      { value: 'mental_health', label: 'Mental health' },
     ]
   },
 
