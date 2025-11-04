@@ -1,4 +1,4 @@
-export type QuestionType = 'single_choice' | 'multiple_choice' | 'scale' | 'text_input';
+export type QuestionType = 'single_choice' | 'multiple_choice' | 'scale' | 'text_input' | 'text';
 
 export interface QuizOption {
   value: string;
@@ -13,13 +13,14 @@ export interface QuizQuestion {
   options?: QuizOption[];
   required: boolean;
   helpText?: string;
-  category: 'medical' | 'goals' | 'lifestyle' | 'preferences' | 'demographics' | 'learning' | 'food personality' | 'experience' | 'skills' | 'personality' | 'challenges';
+  category: 'medical' | 'goals' | 'lifestyle' | 'preferences' | 'demographics' | 'learning' | 'food personality' | 'experience' | 'skills' | 'personality' | 'challenges' | 'motivation' | 'context';
   conditionalOn?: {
     questionId: string;
     values: string[];
   };
   min?: number; // for scale questions
   max?: number; // for scale questions
+  placeholder?: string; // for text input questions
 }
 
 export interface QuizResponse {

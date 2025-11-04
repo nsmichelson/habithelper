@@ -222,7 +222,33 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Why for energy through nutrition
+  // Why for hydration specifically
+  {
+    id: 'hydration_why',
+    question: "Why do you want to improve your hydration?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'energy_specifics',
+      values: ['drink_more_water']
+    },
+    helpText: 'What motivates this change?',
+    options: [
+      { value: 'headaches', label: 'Frequent headaches' },
+      { value: 'energy', label: 'Low energy/fatigue' },
+      { value: 'skin', label: 'Skin health/appearance' },
+      { value: 'digestion', label: 'Digestive issues' },
+      { value: 'focus', label: 'Brain fog/poor focus' },
+      { value: 'exercise', label: 'Athletic performance' },
+      { value: 'kidney_health', label: 'Kidney/UTI concerns' },
+      { value: 'weight_loss', label: 'Support weight loss' },
+      { value: 'replace_drinks', label: 'Replace unhealthy drinks' },
+      { value: 'doctor_orders', label: 'Medical recommendation' },
+    ]
+  },
+
+  // Why for energy through nutrition (excluding hydration)
   {
     id: 'energy_nutrition_why',
     question: "Why do you want to change your eating for energy?",
@@ -231,7 +257,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     required: true,
     conditionalOn: {
       questionId: 'energy_specifics',
-      values: ['reduce_sugar', 'eat_more_protein', 'drink_more_water', 'regular_meal_schedule']
+      values: ['reduce_sugar', 'eat_more_protein', 'regular_meal_schedule']
     },
     helpText: 'What drives this change?',
     options: [
@@ -274,7 +300,111 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Why for pure nutrition goals
+  // Why for hydration when selected as nutrition goal
+  {
+    id: 'nutrition_hydration_why',
+    question: "Why do you want to improve your hydration?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'nutrition_specifics',
+      values: ['drink_more_water']
+    },
+    helpText: 'What drives this goal?',
+    options: [
+      { value: 'headaches', label: 'Reduce headaches' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'skin', label: 'Better skin' },
+      { value: 'digestion', label: 'Improve digestion' },
+      { value: 'hunger_control', label: 'Control hunger/appetite' },
+      { value: 'replace_calories', label: 'Replace caloric drinks' },
+      { value: 'kidney_health', label: 'Kidney health' },
+      { value: 'exercise', label: 'Athletic performance' },
+      { value: 'detox', label: 'Feel cleansed/detoxed' },
+      { value: 'habit_building', label: 'Start with easy win' },
+    ]
+  },
+
+  // Why for vegetable/fiber goals
+  {
+    id: 'veggies_why',
+    question: "Why do you want to eat more vegetables?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'nutrition_specifics',
+      values: ['eat_more_veggies', 'eat_more_fiber']
+    },
+    helpText: 'What motivates this?',
+    options: [
+      { value: 'health', label: 'Overall health' },
+      { value: 'digestion', label: 'Better digestion' },
+      { value: 'weight', label: 'Weight management' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'disease_prevention', label: 'Prevent disease' },
+      { value: 'role_model', label: 'Set example for family' },
+      { value: 'feel_full', label: 'Feel more satisfied' },
+      { value: 'skin_health', label: 'Skin health' },
+      { value: 'reduce_cravings', label: 'Reduce cravings' },
+      { value: 'doctor_orders', label: 'Medical advice' },
+    ]
+  },
+
+  // Why for mindful eating/portion control
+  {
+    id: 'mindful_eating_why',
+    question: "Why do you want to improve your eating habits?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'nutrition_specifics',
+      values: ['practice_mindful_eating', 'control_portions', 'stop_binge_eating', 'manage_cravings']
+    },
+    helpText: 'What drives this change?',
+    options: [
+      { value: 'weight_loss', label: 'Lose weight' },
+      { value: 'stop_overeating', label: 'Stop feeling too full' },
+      { value: 'enjoy_food', label: 'Enjoy food more' },
+      { value: 'emotional_eating', label: 'Break emotional eating' },
+      { value: 'digestion', label: 'Better digestion' },
+      { value: 'save_money', label: 'Save money' },
+      { value: 'relationship_food', label: 'Healthier relationship with food' },
+      { value: 'control', label: 'Feel in control' },
+      { value: 'energy', label: 'Steady energy' },
+      { value: 'guilt_free', label: 'Eat without guilt' },
+    ]
+  },
+
+  // Why for cooking/meal planning
+  {
+    id: 'cooking_why',
+    question: "Why do you want to cook more at home?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'nutrition_specifics',
+      values: ['cook_at_home', 'improve_meal_planning']
+    },
+    helpText: 'What motivates this?',
+    options: [
+      { value: 'save_money', label: 'Save money' },
+      { value: 'health', label: 'Eat healthier' },
+      { value: 'family', label: 'Family meals' },
+      { value: 'control', label: 'Control ingredients' },
+      { value: 'weight', label: 'Manage weight' },
+      { value: 'enjoyment', label: 'Enjoy cooking' },
+      { value: 'skill', label: 'Learn new skill' },
+      { value: 'reduce_takeout', label: 'Less takeout dependency' },
+      { value: 'allergies', label: 'Manage allergies/restrictions' },
+      { value: 'quality_time', label: 'Quality time activity' },
+    ]
+  },
+
+  // Why for general nutrition goals (fallback)
   {
     id: 'nutrition_why',
     question: "Why is changing your eating habits important to you?",
@@ -282,8 +412,8 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     category: 'motivation',
     required: true,
     conditionalOn: {
-      questionId: 'primary_motivation',
-      values: ['nutrition', 'health', 'look_feel']
+      questionId: 'nutrition_specifics',
+      values: ['reduce_junk_food', 'reduce_sugar', 'eat_more_protein', 'regular_meal_schedule', 'healthier_restaurant_choices', 'reduce_processed_foods']
     },
     helpText: 'Be honest - pick what really drives you',
     options: [
@@ -297,6 +427,136 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'aging_well', label: 'Age well and stay healthy' },
       { value: 'confidence', label: 'Build confidence' },
       { value: 'tired_of_struggling', label: "Tired of the struggle" },
+    ]
+  },
+
+  // Why for weight loss specifically
+  {
+    id: 'weight_loss_why',
+    question: "Why is losing weight important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['lose_weight_eating']
+    },
+    helpText: 'Be honest about your motivation',
+    options: [
+      { value: 'appearance', label: 'Look better' },
+      { value: 'clothes_fit', label: 'Fit into clothes' },
+      { value: 'health', label: 'Health concerns' },
+      { value: 'energy', label: 'Have more energy' },
+      { value: 'confidence', label: 'Feel confident' },
+      { value: 'event', label: 'Upcoming event' },
+      { value: 'mobility', label: 'Move easier' },
+      { value: 'medical', label: 'Doctor\'s orders' },
+      { value: 'role_model', label: 'Set example' },
+      { value: 'photos', label: 'Look better in photos' },
+    ]
+  },
+
+  // Why for muscle/strength goals
+  {
+    id: 'muscle_strength_why',
+    question: "Why do you want to build muscle/strength?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['eat_for_muscle_gain', 'build_strength']
+    },
+    helpText: 'What drives this goal?',
+    options: [
+      { value: 'appearance', label: 'Look more toned' },
+      { value: 'strength', label: 'Be functionally stronger' },
+      { value: 'metabolism', label: 'Boost metabolism' },
+      { value: 'confidence', label: 'Build confidence' },
+      { value: 'aging', label: 'Age better' },
+      { value: 'sports', label: 'Athletic performance' },
+      { value: 'injury_prevention', label: 'Prevent injuries' },
+      { value: 'posture', label: 'Improve posture' },
+      { value: 'daily_tasks', label: 'Easier daily tasks' },
+      { value: 'body_composition', label: 'Change body composition' },
+    ]
+  },
+
+  // Why for bloating/digestive appearance
+  {
+    id: 'bloating_why',
+    question: "Why do you want to reduce bloating?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['less_bloated']
+    },
+    helpText: 'What bothers you most?',
+    options: [
+      { value: 'appearance', label: 'Look slimmer' },
+      { value: 'discomfort', label: 'Physical discomfort' },
+      { value: 'clothes_fit', label: 'Clothes fit better' },
+      { value: 'confidence', label: 'Feel confident' },
+      { value: 'digestion', label: 'Better digestion' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'identify_triggers', label: 'Find food triggers' },
+      { value: 'special_events', label: 'Look good for events' },
+      { value: 'gut_health', label: 'Improve gut health' },
+      { value: 'quality_of_life', label: 'Daily comfort' },
+    ]
+  },
+
+  // Why for skin/appearance goals
+  {
+    id: 'skin_appearance_why',
+    question: "Why do you want clearer skin?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['clearer_skin']
+    },
+    helpText: 'What matters most?',
+    options: [
+      { value: 'confidence', label: 'Feel confident' },
+      { value: 'professional', label: 'Professional appearance' },
+      { value: 'photos', label: 'Look good in photos' },
+      { value: 'makeup_free', label: 'Go makeup-free' },
+      { value: 'aging', label: 'Prevent aging' },
+      { value: 'health_sign', label: 'Sign of health' },
+      { value: 'social', label: 'Social situations' },
+      { value: 'self_esteem', label: 'Self-esteem' },
+      { value: 'partner', label: 'Dating/relationship' },
+      { value: 'tired_trying', label: 'Tired of skin issues' },
+    ]
+  },
+
+  // Why for confidence goals
+  {
+    id: 'confidence_why',
+    question: "Why is building confidence important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['build_confidence']
+    },
+    helpText: 'What would confidence change?',
+    options: [
+      { value: 'social', label: 'Better social life' },
+      { value: 'career', label: 'Career advancement' },
+      { value: 'dating', label: 'Dating/relationships' },
+      { value: 'speaking_up', label: 'Speak up more' },
+      { value: 'opportunities', label: 'Take more chances' },
+      { value: 'happiness', label: 'General happiness' },
+      { value: 'anxiety', label: 'Reduce anxiety' },
+      { value: 'authentic', label: 'Be more authentic' },
+      { value: 'role_model', label: 'Set example' },
+      { value: 'self_worth', label: 'Know my worth' },
     ]
   },
 
@@ -375,6 +635,762 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'repair', label: 'Repair damaged relationships' },
       { value: 'growth', label: 'Personal growth' },
       { value: 'mental_health', label: 'Mental health' },
+    ]
+  },
+
+  // Additional specific "why" questions for goals not covered above
+
+  // Why for specific fitness goals - cardio/endurance
+  {
+    id: 'cardio_endurance_why',
+    question: "Why do you want to improve your cardio/endurance?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['improve_cardio', 'boost_endurance']
+    },
+    helpText: 'What drives this goal?',
+    options: [
+      { value: 'stamina', label: 'Better daily stamina' },
+      { value: 'heart_health', label: 'Heart health' },
+      { value: 'sports', label: 'Sports performance' },
+      { value: 'weight_loss', label: 'Burn more calories' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'running_event', label: 'Training for race/event' },
+      { value: 'keep_up', label: 'Keep up with others' },
+      { value: 'mental_health', label: 'Mental clarity' },
+      { value: 'longevity', label: 'Live longer' },
+      { value: 'challenge', label: 'Personal challenge' },
+    ]
+  },
+
+  // Why for specific fitness goals - flexibility
+  {
+    id: 'flexibility_why',
+    question: "Why is flexibility important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['increase_flexibility']
+    },
+    helpText: 'What would better flexibility help with?',
+    options: [
+      { value: 'pain_relief', label: 'Reduce pain/stiffness' },
+      { value: 'injury_prevention', label: 'Prevent injuries' },
+      { value: 'mobility', label: 'Move better' },
+      { value: 'posture', label: 'Improve posture' },
+      { value: 'sports', label: 'Sports performance' },
+      { value: 'aging', label: 'Stay mobile as I age' },
+      { value: 'daily_tasks', label: 'Easier daily tasks' },
+      { value: 'relaxation', label: 'Stress relief' },
+      { value: 'balance', label: 'Better balance' },
+      { value: 'yoga_practice', label: 'Yoga/movement practice' },
+    ]
+  },
+
+  // Why for starting exercise (beginner focused)
+  {
+    id: 'start_exercise_why',
+    question: "Why do you want to start exercising?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['start_exercising', 'find_enjoyable_exercise']
+    },
+    helpText: 'What matters most to you?',
+    options: [
+      { value: 'doctor_said', label: "Doctor's orders" },
+      { value: 'feel_better', label: 'Want to feel better' },
+      { value: 'look_better', label: 'Want to look better' },
+      { value: 'energy', label: 'Need more energy' },
+      { value: 'mental_health', label: 'Mental health' },
+      { value: 'role_model', label: 'Set example' },
+      { value: 'never_too_late', label: "It's never too late" },
+      { value: 'scared_health', label: 'Health scare' },
+      { value: 'join_others', label: 'Friends/family are active' },
+      { value: 'tired_sedentary', label: 'Tired of being sedentary' },
+    ]
+  },
+
+  // Why for home workouts specifically
+  {
+    id: 'home_workout_why',
+    question: "Why do you prefer working out at home?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['workout_at_home']
+    },
+    helpText: 'What makes home workouts appealing?',
+    options: [
+      { value: 'convenience', label: 'More convenient' },
+      { value: 'save_money', label: 'Save gym fees' },
+      { value: 'privacy', label: 'Privacy/comfort' },
+      { value: 'time_saving', label: 'Save travel time' },
+      { value: 'kids_home', label: 'Kids at home' },
+      { value: 'flexible_schedule', label: 'Flexible timing' },
+      { value: 'gym_intimidating', label: 'Gyms feel intimidating' },
+      { value: 'covid_safety', label: 'Health safety' },
+      { value: 'weather_independent', label: 'Weather-proof' },
+      { value: 'no_equipment', label: 'No equipment needed' },
+    ]
+  },
+
+  // Why for active lifestyle (not structured exercise)
+  {
+    id: 'active_lifestyle_why',
+    question: "Why do you want a more active lifestyle?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['more_active_lifestyle']
+    },
+    helpText: 'What drives this desire?',
+    options: [
+      { value: 'sitting_too_much', label: 'Sit too much' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'longevity', label: 'Live longer/healthier' },
+      { value: 'role_model', label: 'Example for family' },
+      { value: 'enjoyment', label: 'Enjoy being active' },
+      { value: 'mental_health', label: 'Mental wellbeing' },
+      { value: 'weight_management', label: 'Weight control' },
+      { value: 'independence', label: 'Stay independent' },
+      { value: 'social', label: 'Social activities' },
+      { value: 'dog_walks', label: 'Pet needs activity' },
+    ]
+  },
+
+  // Why for consistency in workouts
+  {
+    id: 'workout_consistency_why',
+    question: "Why is workout consistency important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['consistent_workouts']
+    },
+    helpText: 'What would consistency give you?',
+    options: [
+      { value: 'results', label: 'See actual results' },
+      { value: 'habit', label: 'Make it automatic' },
+      { value: 'identity', label: 'Become "that person"' },
+      { value: 'momentum', label: 'Build momentum' },
+      { value: 'confidence', label: 'Build confidence' },
+      { value: 'health_goals', label: 'Reach health goals' },
+      { value: 'stop_starting', label: 'Stop start-stop cycle' },
+      { value: 'accountability', label: 'Keep promises to myself' },
+      { value: 'mental_benefits', label: 'Consistent mental benefits' },
+      { value: 'schedule', label: 'Structure my days' },
+    ]
+  },
+
+  // Why for health-specific goals like blood sugar
+  {
+    id: 'blood_sugar_why',
+    question: "Why is managing blood sugar important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['manage_blood_sugar']
+    },
+    helpText: 'What concerns you most?',
+    options: [
+      { value: 'diabetes_diagnosis', label: 'Diabetes diagnosis' },
+      { value: 'prediabetes', label: 'Prediabetes warning' },
+      { value: 'family_history', label: 'Family history' },
+      { value: 'energy_crashes', label: 'Energy crashes' },
+      { value: 'complications', label: 'Avoid complications' },
+      { value: 'medication', label: 'Reduce medication' },
+      { value: 'quality_life', label: 'Better quality of life' },
+      { value: 'longevity', label: 'Live longer' },
+      { value: 'role_model', label: 'Example for family' },
+      { value: 'doctor_orders', label: "Doctor's orders" },
+    ]
+  },
+
+  // Why for blood pressure goals
+  {
+    id: 'blood_pressure_why',
+    question: "Why is managing blood pressure important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['lower_blood_pressure']
+    },
+    helpText: 'What drives this concern?',
+    options: [
+      { value: 'high_reading', label: 'High readings' },
+      { value: 'medication', label: 'Avoid/reduce medication' },
+      { value: 'family_history', label: 'Family history' },
+      { value: 'heart_health', label: 'Heart health' },
+      { value: 'stroke_risk', label: 'Stroke prevention' },
+      { value: 'doctor_concern', label: 'Doctor concerned' },
+      { value: 'symptoms', label: 'Having symptoms' },
+      { value: 'longevity', label: 'Live longer' },
+      { value: 'stress_related', label: 'Stress-related' },
+      { value: 'lifestyle_change', label: 'Natural management' },
+    ]
+  },
+
+  // Why for gut health
+  {
+    id: 'gut_health_why',
+    question: "Why do you want to improve digestive health?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['improve_gut_health']
+    },
+    helpText: 'What bothers you most?',
+    options: [
+      { value: 'bloating', label: 'Bloating/discomfort' },
+      { value: 'irregular', label: 'Irregularity' },
+      { value: 'pain', label: 'Pain/cramping' },
+      { value: 'ibs', label: 'IBS symptoms' },
+      { value: 'food_intolerance', label: 'Food sensitivities' },
+      { value: 'energy', label: 'Energy levels' },
+      { value: 'immune', label: 'Immune health' },
+      { value: 'skin', label: 'Skin issues' },
+      { value: 'mood', label: 'Mood/mental health' },
+      { value: 'quality_life', label: 'Daily comfort' },
+    ]
+  },
+
+  // Why for inflammation
+  {
+    id: 'inflammation_why',
+    question: "Why do you want to reduce inflammation?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['reduce_inflammation']
+    },
+    helpText: 'What concerns you?',
+    options: [
+      { value: 'pain', label: 'Joint/muscle pain' },
+      { value: 'autoimmune', label: 'Autoimmune condition' },
+      { value: 'chronic_disease', label: 'Disease prevention' },
+      { value: 'recovery', label: 'Better recovery' },
+      { value: 'aging', label: 'Healthy aging' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'brain_fog', label: 'Clear brain fog' },
+      { value: 'skin', label: 'Skin issues' },
+      { value: 'gut_health', label: 'Digestive issues' },
+      { value: 'test_results', label: 'Lab results concern' },
+    ]
+  },
+
+  // Why for cholesterol/lipids
+  {
+    id: 'cholesterol_why',
+    question: "Why are you concerned about cholesterol?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['better_lipids']
+    },
+    helpText: 'What drives this concern?',
+    options: [
+      { value: 'test_results', label: 'Bad test results' },
+      { value: 'family_history', label: 'Family history' },
+      { value: 'heart_disease', label: 'Heart disease risk' },
+      { value: 'medication', label: 'Avoid statins' },
+      { value: 'doctor_orders', label: "Doctor's orders" },
+      { value: 'age_related', label: 'Getting older' },
+      { value: 'lifestyle', label: 'Improve lifestyle' },
+      { value: 'longevity', label: 'Live longer' },
+      { value: 'stroke_risk', label: 'Stroke prevention' },
+      { value: 'natural_approach', label: 'Try natural methods' },
+    ]
+  },
+
+  // Why for quitting alcohol
+  {
+    id: 'quit_alcohol_why',
+    question: "Why do you want to reduce/quit alcohol?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['quit_alcohol']
+    },
+    helpText: 'What motivates this change?',
+    options: [
+      { value: 'health', label: 'Health concerns' },
+      { value: 'sleep', label: 'Better sleep' },
+      { value: 'weight', label: 'Weight loss' },
+      { value: 'mental_health', label: 'Mental health' },
+      { value: 'relationships', label: 'Relationships' },
+      { value: 'productivity', label: 'Be more productive' },
+      { value: 'role_model', label: 'Set example' },
+      { value: 'dependency', label: 'Worried about dependency' },
+      { value: 'save_money', label: 'Save money' },
+      { value: 'clear_headed', label: 'Mental clarity' },
+    ]
+  },
+
+  // Why for specific productivity goals - procrastination
+  {
+    id: 'procrastination_why',
+    question: "Why do you want to stop procrastinating?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['stop_procrastinating']
+    },
+    helpText: 'What would change if you stopped?',
+    options: [
+      { value: 'stress', label: 'Reduce last-minute stress' },
+      { value: 'quality', label: 'Better quality work' },
+      { value: 'reputation', label: 'Professional reputation' },
+      { value: 'goals', label: 'Achieve my goals' },
+      { value: 'guilt', label: 'Stop feeling guilty' },
+      { value: 'opportunities', label: 'Missing opportunities' },
+      { value: 'confidence', label: 'Build confidence' },
+      { value: 'time', label: 'Have more free time' },
+      { value: 'relationships', label: 'Affecting relationships' },
+      { value: 'self_trust', label: 'Trust myself more' },
+    ]
+  },
+
+  // Why for focus improvement
+  {
+    id: 'focus_improvement_why',
+    question: "Why do you need better focus?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['improve_focus']
+    },
+    helpText: 'What would better focus help with?',
+    options: [
+      { value: 'work_quality', label: 'Work quality' },
+      { value: 'distractions', label: 'Too many distractions' },
+      { value: 'deep_work', label: 'Need deep work time' },
+      { value: 'mistakes', label: 'Making mistakes' },
+      { value: 'efficiency', label: 'Work faster' },
+      { value: 'learning', label: 'Learn better' },
+      { value: 'creativity', label: 'Creative work' },
+      { value: 'meetings', label: 'Stay engaged' },
+      { value: 'adhd', label: 'ADHD/attention issues' },
+      { value: 'digital_overload', label: 'Digital overwhelm' },
+    ]
+  },
+
+  // Why for organization/decluttering
+  {
+    id: 'organization_why',
+    question: "Why do you want to get organized?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['declutter_spaces', 'organize_digital_life']
+    },
+    helpText: 'What would being organized give you?',
+    options: [
+      { value: 'peace', label: 'Peace of mind' },
+      { value: 'efficiency', label: 'Find things faster' },
+      { value: 'stress', label: 'Reduce stress' },
+      { value: 'productivity', label: 'Be more productive' },
+      { value: 'embarrassment', label: 'Stop feeling embarrassed' },
+      { value: 'creativity', label: 'Space for creativity' },
+      { value: 'money', label: 'Stop losing/rebuying' },
+      { value: 'time', label: 'Save time' },
+      { value: 'role_model', label: 'Set example' },
+      { value: 'control', label: 'Feel in control' },
+    ]
+  },
+
+  // Why for time management
+  {
+    id: 'time_management_why',
+    question: "Why is better time management important?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['better_time_management', 'improve_planning']
+    },
+    helpText: 'What would it help with?',
+    options: [
+      { value: 'overwhelm', label: 'Feel less overwhelmed' },
+      { value: 'deadlines', label: 'Meet deadlines' },
+      { value: 'balance', label: 'Work-life balance' },
+      { value: 'priorities', label: 'Focus on priorities' },
+      { value: 'free_time', label: 'Create free time' },
+      { value: 'stress', label: 'Reduce stress' },
+      { value: 'goals', label: 'Achieve goals' },
+      { value: 'reactive', label: 'Stop being reactive' },
+      { value: 'family', label: 'More family time' },
+      { value: 'reputation', label: 'Professional image' },
+    ]
+  },
+
+  // Why for finishing things
+  {
+    id: 'completion_why',
+    question: "Why is finishing things important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['finish_what_start']
+    },
+    helpText: 'What would completing things give you?',
+    options: [
+      { value: 'accomplishment', label: 'Sense of accomplishment' },
+      { value: 'credibility', label: 'Build credibility' },
+      { value: 'clutter', label: 'Mental clutter' },
+      { value: 'confidence', label: 'Build confidence' },
+      { value: 'results', label: 'See actual results' },
+      { value: 'guilt', label: 'Stop feeling guilty' },
+      { value: 'progress', label: 'Make real progress' },
+      { value: 'reputation', label: 'Reputation as finisher' },
+      { value: 'momentum', label: 'Build momentum' },
+      { value: 'waste', label: 'Stop wasting effort' },
+    ]
+  },
+
+  // Why for routine building
+  {
+    id: 'routine_building_why',
+    question: "Why do you want better routines?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['build_daily_routine']
+    },
+    helpText: 'What would routines provide?',
+    options: [
+      { value: 'consistency', label: 'More consistency' },
+      { value: 'automatic', label: 'Make things automatic' },
+      { value: 'structure', label: 'Structure my day' },
+      { value: 'peace', label: 'Peace of mind' },
+      { value: 'productivity', label: 'Be more productive' },
+      { value: 'health', label: 'Support health goals' },
+      { value: 'family', label: 'Family stability' },
+      { value: 'decisions', label: 'Fewer decisions' },
+      { value: 'chaos', label: 'Less chaos' },
+      { value: 'identity', label: 'Become disciplined person' },
+    ]
+  },
+
+  // Why for reducing overwhelm
+  {
+    id: 'overwhelm_why',
+    question: "Why do you want to reduce overwhelm?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['reduce_overwhelm']
+    },
+    helpText: 'What would less overwhelm give you?',
+    options: [
+      { value: 'mental_health', label: 'Mental health' },
+      { value: 'clarity', label: 'Mental clarity' },
+      { value: 'decisions', label: 'Better decisions' },
+      { value: 'enjoyment', label: 'Enjoy life more' },
+      { value: 'relationships', label: 'Better relationships' },
+      { value: 'health', label: 'Physical health' },
+      { value: 'presence', label: 'Be more present' },
+      { value: 'effectiveness', label: 'Be more effective' },
+      { value: 'burnout', label: 'Prevent burnout' },
+      { value: 'control', label: 'Feel in control' },
+    ]
+  },
+
+  // Why for prioritization
+  {
+    id: 'prioritization_why',
+    question: "Why do you need better prioritization?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['prioritize_tasks']
+    },
+    helpText: 'What would it help with?',
+    options: [
+      { value: 'important_things', label: 'Focus on what matters' },
+      { value: 'saying_no', label: 'Say no effectively' },
+      { value: 'goals', label: 'Achieve key goals' },
+      { value: 'busy_work', label: 'Escape busy work' },
+      { value: 'value', label: 'Add more value' },
+      { value: 'stress', label: 'Reduce stress' },
+      { value: 'effectiveness', label: 'Be more effective' },
+      { value: 'time', label: 'Use time wisely' },
+      { value: 'clarity', label: 'Clear direction' },
+      { value: 'leadership', label: 'Lead better' },
+    ]
+  },
+
+  // Why for mindset/stress management goals
+  {
+    id: 'mindset_stress_why',
+    question: "Why is managing stress important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['manage_stress']
+    },
+    helpText: 'What impact is stress having?',
+    options: [
+      { value: 'health', label: 'Affecting my health' },
+      { value: 'relationships', label: 'Hurting relationships' },
+      { value: 'sleep', label: 'Ruining sleep' },
+      { value: 'productivity', label: 'Can\'t focus' },
+      { value: 'happiness', label: 'Not enjoying life' },
+      { value: 'burnout', label: 'Heading to burnout' },
+      { value: 'physical', label: 'Physical symptoms' },
+      { value: 'decisions', label: 'Poor decisions' },
+      { value: 'mood', label: 'Mood swings' },
+      { value: 'coping', label: 'Poor coping habits' },
+    ]
+  },
+
+  // Why for specific relationship goals - communication
+  {
+    id: 'communication_why',
+    question: "Why do you want better communication?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['improve_communication', 'express_needs_clearly']
+    },
+    helpText: 'What would it improve?',
+    options: [
+      { value: 'misunderstandings', label: 'Reduce misunderstandings' },
+      { value: 'conflicts', label: 'Fewer conflicts' },
+      { value: 'intimacy', label: 'Deeper connection' },
+      { value: 'needs_met', label: 'Get needs met' },
+      { value: 'trust', label: 'Build trust' },
+      { value: 'resentment', label: 'Reduce resentment' },
+      { value: 'teamwork', label: 'Better teamwork' },
+      { value: 'respect', label: 'Feel heard/respected' },
+      { value: 'modeling', label: 'Model for children' },
+      { value: 'satisfaction', label: 'Relationship satisfaction' },
+    ]
+  },
+
+  // Why for quality time
+  {
+    id: 'quality_time_why',
+    question: "Why is quality time important?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['more_quality_time', 'more_family_time']
+    },
+    helpText: 'What are you missing?',
+    options: [
+      { value: 'connection', label: 'Deeper connections' },
+      { value: 'memories', label: 'Create memories' },
+      { value: 'drifting', label: 'Stop drifting apart' },
+      { value: 'kids_growing', label: 'Kids growing fast' },
+      { value: 'regret', label: 'Avoid regrets' },
+      { value: 'lonely', label: 'Feel less lonely' },
+      { value: 'priorities', label: 'Align priorities' },
+      { value: 'enjoyment', label: 'Enjoy relationships' },
+      { value: 'support', label: 'Build support' },
+      { value: 'love_language', label: "Partner's love language" },
+    ]
+  },
+
+  // Why for boundaries
+  {
+    id: 'boundaries_why',
+    question: "Why do you need better boundaries?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['set_boundaries']
+    },
+    helpText: 'What would boundaries help with?',
+    options: [
+      { value: 'burnout', label: 'Prevent burnout' },
+      { value: 'resentment', label: 'Reduce resentment' },
+      { value: 'respect', label: 'Gain respect' },
+      { value: 'energy', label: 'Protect energy' },
+      { value: 'time', label: 'Protect time' },
+      { value: 'self_care', label: 'Make space for self' },
+      { value: 'toxic', label: 'Handle toxic people' },
+      { value: 'saying_no', label: 'Learn to say no' },
+      { value: 'authenticity', label: 'Be authentic' },
+      { value: 'overwhelm', label: 'Reduce overwhelm' },
+    ]
+  },
+
+  // Why for social connections
+  {
+    id: 'social_connections_why',
+    question: "Why do you want stronger connections?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['stronger_social_connections', 'strengthen_friendships']
+    },
+    helpText: 'What are you seeking?',
+    options: [
+      { value: 'lonely', label: 'Feel less lonely' },
+      { value: 'support', label: 'Build support network' },
+      { value: 'fun', label: 'Have more fun' },
+      { value: 'belonging', label: 'Sense of belonging' },
+      { value: 'mental_health', label: 'Mental wellbeing' },
+      { value: 'shared_interests', label: 'Share interests' },
+      { value: 'growth', label: 'Personal growth' },
+      { value: 'adventure', label: 'New experiences' },
+      { value: 'accountability', label: 'Mutual support' },
+      { value: 'community', label: 'Community connection' },
+    ]
+  },
+
+  // Why for conflict resolution
+  {
+    id: 'conflict_resolution_why',
+    question: "Why improve conflict handling?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['handle_conflicts_better']
+    },
+    helpText: 'What would it change?',
+    options: [
+      { value: 'peace', label: 'More peace at home' },
+      { value: 'stress', label: 'Reduce stress' },
+      { value: 'repair', label: 'Repair faster' },
+      { value: 'modeling', label: 'Model for children' },
+      { value: 'intimacy', label: 'Maintain closeness' },
+      { value: 'respect', label: 'Mutual respect' },
+      { value: 'solutions', label: 'Find solutions' },
+      { value: 'patterns', label: 'Break patterns' },
+      { value: 'safety', label: 'Feel safer' },
+      { value: 'growth', label: 'Grow together' },
+    ]
+  },
+
+  // Why for listening skills
+  {
+    id: 'listening_skills_why',
+    question: "Why become a better listener?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['become_better_listener']
+    },
+    helpText: 'What would it improve?',
+    options: [
+      { value: 'understanding', label: 'Understand others' },
+      { value: 'connection', label: 'Deeper connections' },
+      { value: 'trust', label: 'Build trust' },
+      { value: 'conflicts', label: 'Reduce conflicts' },
+      { value: 'leadership', label: 'Lead better' },
+      { value: 'empathy', label: 'Show empathy' },
+      { value: 'learning', label: 'Learn more' },
+      { value: 'respect', label: 'Show respect' },
+      { value: 'intimacy', label: 'Emotional intimacy' },
+      { value: 'professional', label: 'Professional growth' },
+    ]
+  },
+
+  // Why for work-life balance
+  {
+    id: 'work_life_balance_why',
+    question: "Why improve work-life balance?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['improve_work_life_balance']
+    },
+    helpText: 'What needs attention?',
+    options: [
+      { value: 'family', label: 'Family needs me' },
+      { value: 'burnout', label: 'Preventing burnout' },
+      { value: 'health', label: 'Health suffering' },
+      { value: 'relationships', label: 'Relationships suffering' },
+      { value: 'enjoyment', label: 'Enjoy life more' },
+      { value: 'presence', label: 'Be more present' },
+      { value: 'identity', label: 'Not just work' },
+      { value: 'regret', label: 'Avoid regrets' },
+      { value: 'modeling', label: 'Set example' },
+      { value: 'sustainability', label: 'Long-term sustainability' },
+    ]
+  },
+
+  // Why for dating confidence
+  {
+    id: 'dating_confidence_why',
+    question: "Why build dating confidence?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'relationship_specifics',
+      values: ['build_dating_confidence']
+    },
+    helpText: 'What would it help with?',
+    options: [
+      { value: 'ready', label: 'Feel ready to date' },
+      { value: 'authentic', label: 'Be authentic self' },
+      { value: 'standards', label: 'Maintain standards' },
+      { value: 'rejection', label: 'Handle rejection' },
+      { value: 'opportunities', label: 'Take chances' },
+      { value: 'connection', label: 'Make connections' },
+      { value: 'fun', label: 'Enjoy dating' },
+      { value: 'selection', label: 'Choose wisely' },
+      { value: 'healing', label: 'Healed and ready' },
+      { value: 'partnership', label: 'Find partnership' },
     ]
   },
 
