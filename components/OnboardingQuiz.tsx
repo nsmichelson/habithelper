@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Dimensions,
   Alert,
+  TextInput,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
@@ -43,10 +44,11 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState<QuizResponse[]>([]);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [textInputValue, setTextInputValue] = useState<string>('');
   const [availableQuestions, setAvailableQuestions] = useState<QuizQuestion[]>(QUIZ_QUESTIONS);
   const [showIdentityStep, setShowIdentityStep] = useState(false);
   const [identityData, setIdentityData] = useState<{ adjectives: string[], role: string } | null>(null);
-  
+
   const scrollViewRef = React.useRef<ScrollView>(null);
   const progress = useSharedValue(0);
   const questionOpacity = useSharedValue(1);
@@ -210,15 +212,23 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   };
 
   const handleNext = async () => {
-    if (selectedValues.length === 0 && currentQuestion.required) {
-      Alert.alert('Required', 'Please select at least one option');
-      return;
+    // Check if answer is provided based on question type
+    if (currentQuestion.type === 'text') {
+      if (!textInputValue.trim() && currentQuestion.required) {
+        Alert.alert('Required', 'Please provide an answer');
+        return;
+      }
+    } else {
+      if (selectedValues.length === 0 && currentQuestion.required) {
+        Alert.alert('Required', 'Please select at least one option');
+        return;
+      }
     }
 
     // Create response with consistent structure (always use 'values' as array)
     const response: QuizResponse = {
       questionId: currentQuestion.id,
-      values: selectedValues,
+      values: currentQuestion.type === 'text' ? [textInputValue.trim()] : selectedValues,
     };
     
     // Upsert response by questionId instead of appending
@@ -250,6 +260,7 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       setTimeout(() => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setSelectedValues([]);
+        setTextInputValue('');
         // Scroll to top for new question
         scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
       }, 200);
@@ -277,9 +288,16 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           if (prevResponse) {
             // Use toArray helper to normalize both .value and .values
             const values = prevResponse.values || toArray((prevResponse as any).value);
-            setSelectedValues(values);
+            if (prevQuestion.type === 'text') {
+              setTextInputValue(values[0] || '');
+              setSelectedValues([]);
+            } else {
+              setSelectedValues(values);
+              setTextInputValue('');
+            }
           } else {
             setSelectedValues([]);
+            setTextInputValue('');
           }
         }
         
@@ -564,6 +582,23 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
     );
   };
 
+  const renderTextInput = () => {
+    return (
+      <View style={styles.textInputContainer}>
+        <TextInput
+          style={styles.textInput}
+          value={textInputValue}
+          onChangeText={setTextInputValue}
+          placeholder={currentQuestion.placeholder || 'Type your answer here...'}
+          placeholderTextColor="#999"
+          multiline={true}
+          numberOfLines={4}
+          textAlignVertical="top"
+        />
+      </View>
+    );
+  };
+
   // Show identity step if we've finished all questions
   if (showIdentityStep) {
     // Get user's goals from responses - need to map to actual goal tags
@@ -619,8 +654,10 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
 
             {/* Options */}
             <View style={styles.optionsContainer}>
-              {currentQuestion.type === 'scale' 
+              {currentQuestion.type === 'scale'
                 ? renderScaleOptions()
+                : currentQuestion.type === 'text'
+                ? renderTextInput()
                 : currentQuestion.options?.map(renderOption)}
             </View>
           </Animated.View>
@@ -836,5 +873,20 @@ const styles = StyleSheet.create({
   },
   scaleButtonTextSelected: {
     color: '#2E7D32',
+  },
+  textInputContainer: {
+    marginTop: 20,
+    width: '100%',
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 16,
+    minHeight: 120,
+    backgroundColor: '#F8F9FA',
+    color: '#333',
+    textAlignVertical: 'top',
   },
 });
