@@ -477,34 +477,67 @@ export function getDynamicOptions(
   questionId: string,
   responses: Array<{ questionId: string; values: string[] }>
 ): QuizOption[] | null {
-  // Find the most recent why question response
-  const whyResponse = responses.find(r => r.questionId.includes('_why'));
+  // Find ALL why question responses (there might be multiple if user selected 2 goals)
+  const whyResponses = responses.filter(r => r.questionId.includes('_why'));
 
-  if (!whyResponse) {
+  if (whyResponses.length === 0) {
     return null; // No why question answered yet
   }
 
-  // Determine which mapping to use based on the question ID and why question ID
-  let mapping: WhyToOptionsMapping | null = null;
+  // Combine all why values from all why questions
+  const allWhyValues: string[] = [];
+  whyResponses.forEach(response => {
+    allWhyValues.push(...response.values);
+  });
+
+  // Determine which mapping(s) to use based on the question ID
+  let mappings: WhyToOptionsMapping[] = [];
 
   if (questionId === 'what_worked_energy') {
-    // For energy path, use sleep mappings (since most energy goals relate to sleep)
-    mapping = SLEEP_WHY_TO_WHAT_WORKED;
+    mappings.push(SLEEP_WHY_TO_WHAT_WORKED);
+    // Could also include nutrition mappings if user selected nutrition goals
+    const hasNutritionGoals = responses.find(r =>
+      r.questionId === 'energy_specifics' &&
+      r.values.some(v => ['reduce_sugar', 'eat_more_protein', 'drink_more_water', 'regular_meal_schedule'].includes(v))
+    );
+    if (hasNutritionGoals) {
+      mappings.push(NUTRITION_WHY_TO_WHAT_WORKED);
+    }
   } else if (questionId === 'what_worked_nutrition') {
-    mapping = NUTRITION_WHY_TO_WHAT_WORKED;
+    mappings.push(NUTRITION_WHY_TO_WHAT_WORKED);
   } else if (questionId === 'what_worked_fitness') {
-    mapping = FITNESS_WHY_TO_WHAT_WORKED;
+    mappings.push(FITNESS_WHY_TO_WHAT_WORKED);
   } else if (questionId === 'what_worked_productivity') {
-    mapping = PRODUCTIVITY_WHY_TO_WHAT_WORKED;
+    mappings.push(PRODUCTIVITY_WHY_TO_WHAT_WORKED);
   } else if (questionId.includes('what_worked') && questionId.includes('relationship')) {
-    mapping = RELATIONSHIP_WHY_TO_WHAT_WORKED;
+    mappings.push(RELATIONSHIP_WHY_TO_WHAT_WORKED);
   }
 
-  if (!mapping) {
+  if (mappings.length === 0) {
     return null; // No dynamic options for this question
   }
 
-  return getCombinedOptionsForWhy(whyResponse.values, mapping);
+  // Combine options from all relevant mappings
+  const optionsMap = new Map<string, QuizOption>();
+
+  // Add default options
+  const defaultOptions: QuizOption[] = [
+    { value: 'nothing_yet', label: "Nothing's really worked yet" },
+    { value: 'not_sure', label: "Not sure what's worked" },
+  ];
+  defaultOptions.forEach(opt => optionsMap.set(opt.value, opt));
+
+  // Add options from each mapping based on why values
+  mappings.forEach(mapping => {
+    allWhyValues.forEach(whyValue => {
+      const options = mapping[whyValue] || [];
+      options.forEach(opt => {
+        optionsMap.set(opt.value, opt);
+      });
+    });
+  });
+
+  return Array.from(optionsMap.values());
 }
 
 // Export all mappings for use in other files

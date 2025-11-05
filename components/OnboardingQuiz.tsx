@@ -231,7 +231,16 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       if (selectedValues.includes(value)) {
         setSelectedValues(newValues.filter(v => v !== value));
       } else {
-        setSelectedValues([...newValues, value]);
+        // Check if this is a _specifics question with a limit of 2
+        const isSpecificsQuestion = currentQuestion.id.includes('_specifics');
+        const maxSelections = isSpecificsQuestion ? 2 : 999; // 2 for specifics, unlimited otherwise
+
+        if (newValues.length >= maxSelections) {
+          // Replace the oldest selection with the new one
+          setSelectedValues([...newValues.slice(1), value]);
+        } else {
+          setSelectedValues([...newValues, value]);
+        }
       }
     }
   };

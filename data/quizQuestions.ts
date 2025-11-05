@@ -25,12 +25,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // For "Improving energy levels"
   {
     id: 'energy_specifics',
-    question: "What specifically would help your energy most?",
-    type: 'single_choice',
+    question: "What would help your energy most?",
+    type: 'multiple_choice',
     category: 'goals',
     required: true,
     conditionalOn: { questionId: 'primary_motivation', values: ['energy'] },
-    helpText: "Pick the one that could make the biggest difference right now",
+    helpText: "Pick 1 or 2 things to focus on",
     options: [
       { value: 'fall_asleep_easier', label: 'Fall asleep easier' },
       { value: 'wake_up_refreshed', label: 'Wake up actually refreshed' },
@@ -48,12 +48,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // For "Improve relationships"
   {
     id: 'relationship_specifics',
-    question: "What relationship area needs work most?",
-    type: 'single_choice',
+    question: "What relationship areas need work?",
+    type: 'multiple_choice',
     category: 'goals',
     required: true,
     conditionalOn: { questionId: 'primary_motivation', values: ['relationships'] },
-    helpText: "Pick your top priority right now",
+    helpText: "Pick 1 or 2 to focus on",
     options: [
       { value: 'improve_communication', label: 'Communicate better' },
       { value: 'more_quality_time', label: 'Make more quality time' },
@@ -72,12 +72,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // For "Become more effective"
   {
     id: 'effectiveness_specifics',
-    question: "What would make you most effective?",
-    type: 'single_choice',
+    question: "What would make you more effective?",
+    type: 'multiple_choice',
     category: 'goals',
     required: true,
     conditionalOn: { questionId: 'primary_motivation', values: ['effectiveness'] },
-    helpText: "Pick your biggest blocker",
+    helpText: "Pick 1 or 2 key areas",
     options: [
       { value: 'stop_procrastinating', label: 'Stop procrastinating' },
       { value: 'improve_focus', label: 'Focus better' },
@@ -96,12 +96,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // For "Improve fitness"
   {
     id: 'fitness_specifics',
-    question: "What's your main fitness focus?",
-    type: 'single_choice',
+    question: "What's your fitness focus?",
+    type: 'multiple_choice',
     category: 'goals',
     required: true,
     conditionalOn: { questionId: 'primary_motivation', values: ['fitness'] },
-    helpText: "Pick your primary goal",
+    helpText: "Pick 1 or 2 goals",
     options: [
       { value: 'start_exercising', label: 'Just start moving' },
       { value: 'consistent_workouts', label: 'Be more consistent' },
@@ -120,12 +120,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // For "Improve health generally"
   {
     id: 'health_specifics',
-    question: "What health area concerns you most?",
-    type: 'single_choice',
+    question: "What health areas concern you?",
+    type: 'multiple_choice',
     category: 'goals',
     required: true,
     conditionalOn: { questionId: 'primary_motivation', values: ['health'] },
-    helpText: "Pick your top health priority",
+    helpText: "Pick 1 or 2 priorities",
     options: [
       { value: 'manage_blood_sugar', label: 'Blood sugar management' },
       { value: 'lower_blood_pressure', label: 'Blood pressure' },
@@ -144,12 +144,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // For "Improve nutrition"
   {
     id: 'nutrition_specifics',
-    question: "What nutrition change do you want to make first?",
-    type: 'single_choice',
+    question: "What nutrition changes do you want to make?",
+    type: 'multiple_choice',
     category: 'goals',
     required: true,
     conditionalOn: { questionId: 'primary_motivation', values: ['nutrition'] },
-    helpText: "Pick where to start",
+    helpText: "Pick 1 or 2 to start with",
     options: [
       { value: 'eat_more_veggies', label: 'Eat more vegetables' },
       { value: 'reduce_junk_food', label: 'Cut back on junk food' },
@@ -172,12 +172,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // For "Look and feel better"
   {
     id: 'look_feel_specifics',
-    question: "What would help you look and feel better most?",
-    type: 'single_choice',
+    question: "What would help you look and feel better?",
+    type: 'multiple_choice',
     category: 'goals',
     required: true,
     conditionalOn: { questionId: 'primary_motivation', values: ['look_feel'] },
-    helpText: "Pick your main goal",
+    helpText: "Pick 1 or 2 areas",
     options: [
       { value: 'lose_weight_eating', label: 'Lose weight' },
       { value: 'eat_for_muscle_gain', label: 'Build muscle' },
@@ -199,7 +199,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   // Why for sleep/energy goals
   {
     id: 'sleep_why',
-    question: "Why is improving your sleep important to you?",
+    question: "Why are these changes important to you?",
     type: 'multiple_choice',
     category: 'motivation',
     required: true,

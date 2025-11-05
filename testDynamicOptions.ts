@@ -35,8 +35,28 @@ nutritionOptions?.forEach(opt => {
   console.log(`  - ${opt.label}`);
 });
 
-// Test scenario 3: Check that options are different based on why selections
-console.log('\n\n=== TEST 3: Different Why Selections = Different Options ===');
+// Test scenario 3: Multiple Goals Selected (up to 2)
+console.log('\n\n=== TEST 3: Multiple Goals Selected ===');
+
+const multiGoalResponses = [
+  { questionId: 'primary_motivation', values: ['energy'] },
+  { questionId: 'energy_specifics', values: ['fall_asleep_easier', 'boost_energy'] }, // 2 goals selected
+  { questionId: 'sleep_why', values: ['exhausted', 'productivity'] },
+  { questionId: 'energy_why', values: ['motivation', 'focus'] }
+];
+
+const multiGoalOptions = getDynamicOptions('what_worked_energy', multiGoalResponses);
+console.log('\nSelected goals:', multiGoalResponses[1].values);
+console.log('\nWhy reasons from both paths:');
+console.log('  Sleep why:', multiGoalResponses[2].values);
+console.log('  Energy why:', multiGoalResponses[3].values);
+console.log('\nCombined dynamic options:');
+multiGoalOptions?.forEach(opt => {
+  console.log(`  - ${opt.label}`);
+});
+
+// Test scenario 4: Check that options are different based on why selections
+console.log('\n\n=== TEST 4: Different Why Selections = Different Options ===');
 
 const altEnergyResponses = [
   { questionId: 'primary_motivation', values: ['energy'] },
