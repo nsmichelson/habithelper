@@ -545,7 +545,102 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       await StorageService.saveQuizResponses(allResponses);
       await StorageService.setOnboardingCompleted(true);
 
+      // Log all collected meta tags for analysis
+      console.log('\n========================================');
+      console.log('📊 QUIZ COMPLETED - META TAGS COLLECTED');
+      console.log('========================================\n');
+
+      // Log primary motivation
+      const primaryMotivation = allResponses.find(r => r.questionId === 'primary_motivation');
+      console.log('🎯 PRIMARY MOTIVATION:', primaryMotivation?.values || 'Not specified');
+
+      // Log specific goals selected
+      const specificGoals = allResponses.filter(r => r.questionId.includes('_specifics'));
+      if (specificGoals.length > 0) {
+        console.log('\n📌 SPECIFIC GOALS:');
+        specificGoals.forEach(goal => {
+          console.log(`  - ${goal.questionId}: ${goal.values.join(', ')}`);
+        });
+      }
+
+      // Log all "why" responses (motivations)
+      const whyResponses = allResponses.filter(r => r.questionId.includes('_why'));
+      if (whyResponses.length > 0) {
+        console.log('\n💭 WHY/MOTIVATION TAGS:');
+        whyResponses.forEach(why => {
+          console.log(`  - ${why.questionId}: ${why.values.join(', ')}`);
+        });
+      }
+
+      // Log medical conditions
+      if (profile.medical_conditions && profile.medical_conditions.length > 0) {
+        console.log('\n🏥 MEDICAL CONDITIONS:', profile.medical_conditions.join(', '));
+      }
+
+      // Log dietary preferences
+      if (profile.dietary_preferences && profile.dietary_preferences.length > 0) {
+        console.log('\n🍽️ DIETARY PREFERENCES:', profile.dietary_preferences.join(', '));
+      }
+
+      // Log lifestyle factors
+      const lifestyleResponses = allResponses.filter(r =>
+        ['kitchen_reality', 'money_truth', 'eating_style', 'time_reality'].includes(r.questionId)
+      );
+      if (lifestyleResponses.length > 0) {
+        console.log('\n🏠 LIFESTYLE FACTORS:');
+        lifestyleResponses.forEach(lifestyle => {
+          console.log(`  - ${lifestyle.questionId}: ${lifestyle.values.join(', ')}`);
+        });
+      }
+
+      // Log personality/skills
+      const personalityResponses = allResponses.filter(r =>
+        ['eating_personality', 'skill_level', 'learning_style', 'real_talk'].includes(r.questionId)
+      );
+      if (personalityResponses.length > 0) {
+        console.log('\n🧠 PERSONALITY/SKILLS:');
+        personalityResponses.forEach(personality => {
+          console.log(`  - ${personality.questionId}: ${personality.values.join(', ')}`);
+        });
+      }
+
+      // Log what worked responses
+      const whatWorkedResponses = allResponses.filter(r => r.questionId.includes('what_worked'));
+      if (whatWorkedResponses.length > 0) {
+        console.log('\n✅ WHAT HAS WORKED:');
+        whatWorkedResponses.forEach(worked => {
+          console.log(`  - ${worked.questionId}: ${worked.values.join(', ')}`);
+        });
+      }
+
+      // Log identity if set
+      if (adjectives && role) {
+        console.log('\n🎭 IDENTITY:');
+        console.log(`  - Adjectives: ${adjectives.join(', ')}`);
+        console.log(`  - Role: ${role}`);
+        console.log(`  - Full phrase: "${profile.identityPhrase}"`);
+      }
+
+      // Log final goals array
+      if (profile.goals && profile.goals.length > 0) {
+        console.log('\n🎯 FINAL PROCESSED GOALS:', profile.goals.join(', '));
+      }
+
+      // Log summary statistics
+      console.log('\n📈 SUMMARY:');
+      console.log(`  - Total responses: ${allResponses.length}`);
+      console.log(`  - Total tags collected: ${allResponses.reduce((acc, r) => acc + r.values.length, 0)}`);
+      console.log(`  - Medical conditions: ${profile.medical_conditions?.length || 0}`);
+      console.log(`  - Dietary preferences: ${profile.dietary_preferences?.length || 0}`);
+      console.log(`  - Goals identified: ${profile.goals?.length || 0}`);
+
+      // Log all responses in a structured format for debugging
+      console.log('\n📝 RAW RESPONSES (for debugging):');
+      console.log(JSON.stringify(allResponses, null, 2));
+
+      console.log('\n========================================\n');
       console.log('Quiz completed successfully, calling onComplete callback');
+
       // Call completion callback
       onComplete(profile);
     } catch (error) {
