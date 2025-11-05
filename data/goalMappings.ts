@@ -52,7 +52,7 @@ export const GOAL_MAPPINGS: Record<string, string[]> = {
   'improve_sleep_environment': ['improve_sleep', 'sleep_quality'],
   'stop_hitting_snooze': ['morning_routine', 'improve_energy', 'wake_discipline'],
 
-  // ============ PRODUCTIVITY GOALS ============
+  // ============ PRODUCTIVITY/EFFECTIVENESS GOALS ============
   'stop_procrastinating': ['task_completion', 'motivation', 'focus_improvement'],
   'improve_focus': ['focus_improvement', 'reduce_distractions', 'deep_work'],
   'better_time_management': ['time_saving', 'task_prioritization', 'schedule_management'],
@@ -63,6 +63,11 @@ export const GOAL_MAPPINGS: Record<string, string[]> = {
   'finish_what_start': ['task_completion', 'follow_through', 'motivation'],
   'reduce_overwhelm': ['stress_management', 'task_prioritization', 'mindset_shift'],
   'improve_planning': ['task_planning', 'schedule_management', 'time_saving'],
+
+  // Effectiveness-specific goals from effectiveness_specifics question
+  'better_sleep': ['improve_sleep', 'sleep_quality', 'sleep_routine'],
+  'better_energy': ['improve_energy', 'energy_levels', 'reduce_fatigue'],
+  'manage_stress': ['stress_management', 'stress_eating', 'mindset_shift'],  // Already exists in mindset but adding here for clarity
 
   // ============ EXERCISE GOALS ============
   'start_exercising': ['improve_energy', 'exercise_habit'],

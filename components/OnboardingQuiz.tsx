@@ -380,6 +380,12 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       const values = response.values || toArray((response as any).value);
       
       switch (response.questionId) {
+        // Primary motivation - determines primary_focus
+        case 'primary_motivation':
+          // Set the primary_focus field that tipRecommendationService expects
+          profile.primary_focus = values[0];
+          break;
+
         // Areas of interest
         case 'areas_of_interest':
           profile.areas_of_interest = values as any[];
@@ -418,18 +424,11 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           });
           break;
           
+        // Legacy question IDs - no longer used in current quiz
+        // Keeping empty cases to document they're deprecated
         case 'real_goals':
-          // Store original quiz goals
-          profile.quiz_goals = values;
-          // Map quiz goals to tip database goals using the mapping system
-          const mappedGoalsFromQuiz = getTipGoalsForQuizGoals(values);
-          mappedGoalsFromQuiz.forEach(goal => addGoal(goal));
-          break;
-          
         case 'organization_goals':
-          // Store and map organization goals
-          const orgMappedGoals = getTipGoalsForQuizGoals(values);
-          orgMappedGoals.forEach(goal => addGoal(goal));
+          console.warn(`Legacy question ID detected: ${response.questionId} - this should not appear in current quiz`);
           break;
           
         case 'kitchen_reality':
@@ -525,6 +524,37 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           // Store stress eating triggers
           profile.stress_eating_triggers = values;
           break;
+
+        default:
+          // Handle all _specifics questions (e.g., fitness_specifics, health_specifics, etc.)
+          if (response.questionId.includes('_specifics')) {
+            console.log(`Processing specifics question: ${response.questionId} with values:`, values);
+
+            // These are the specific goals selected by the user
+            // Map them to tip database goals and add them
+            const mappedSpecificGoals = getTipGoalsForQuizGoals(values);
+            console.log(`Mapped ${values.length} quiz goals to ${mappedSpecificGoals.length} tip goals:`, mappedSpecificGoals);
+
+            mappedSpecificGoals.forEach(goal => addGoal(goal));
+
+            // Also store the original quiz goals if not already stored
+            if (!profile.quiz_goals) {
+              profile.quiz_goals = [];
+            }
+            profile.quiz_goals.push(...values);
+          }
+
+          // Handle _why questions - they also map to goals
+          if (response.questionId.includes('_why')) {
+            console.log(`Processing why question: ${response.questionId} with values:`, values);
+
+            // Map why reasons to tip database goals
+            const mappedWhyGoals = getTipGoalsForQuizGoals(values);
+            console.log(`Mapped ${values.length} why reasons to ${mappedWhyGoals.length} tip goals:`, mappedWhyGoals);
+
+            mappedWhyGoals.forEach(goal => addGoal(goal));
+          }
+          break;
       }
     });
 
@@ -539,6 +569,19 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       profile.identityAdjectives = adjectives;
       profile.identityRole = role;
       profile.identityPhrase = `${adjectives.join(' ')} ${role}`;
+    }
+
+    // Log final profile goals for debugging
+    console.log('=== FINAL PROFILE GOALS ===');
+    console.log('Primary Focus:', profile.primary_focus);
+    console.log('Quiz Goals (original):', profile.quiz_goals || []);
+    console.log('Tip Database Goals (mapped):', profile.goals || []);
+    console.log('Total goals count:', profile.goals?.length || 0);
+
+    if (!profile.goals || profile.goals.length === 0) {
+      console.error('⚠️ WARNING: Profile has no goals! Tips will not be properly filtered.');
+    } else {
+      console.log('✅ Profile has', profile.goals.length, 'goals for tip filtering');
     }
     
     try {
