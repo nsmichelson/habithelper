@@ -584,14 +584,36 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
             }
 
             // Extract the area from the question ID (e.g., barriers_nutrition -> nutrition)
-            const area = response.questionId.replace('barriers_', '');
+            let area = response.questionId.replace('barriers_', '');
 
+            // CRITICAL FIX: Map barrier areas to match primary_focus values
+            // The scorer reads specific_challenges[primary_focus], so we need to align keys
+            const barrierAreaMapping: Record<string, string[]> = {
+              'nutrition': ['nutrition', 'health', 'look_feel'], // nutrition barriers apply to all these
+              'fitness': ['fitness', 'exercise'],
+              'productivity': ['productivity', 'effectiveness'], // productivity barriers for effectiveness
+              'energy': ['energy', 'sleeping'],
+              'relationships': ['relationships', 'mindset'],
+              'general': ['general'] // Keep general as-is
+            };
+
+            // Store under the correct primary_focus key(s)
+            const targetAreas = barrierAreaMapping[area] || [area];
+
+            targetAreas.forEach(targetArea => {
+              if (!profile.specific_challenges[targetArea]) {
+                profile.specific_challenges[targetArea] = [];
+              }
+              profile.specific_challenges[targetArea].push(...values);
+            });
+
+            // Also store under the original area for backward compatibility
             if (!profile.specific_challenges[area]) {
               profile.specific_challenges[area] = [];
             }
-
             profile.specific_challenges[area].push(...values);
-            console.log(`Added ${values.length} barriers for ${area}:`, values);
+
+            console.log(`Added ${values.length} barriers for ${area}, mapped to: ${targetAreas.join(', ')}`);
           }
 
           // Handle what_to_avoid questions - map to avoid_approaches (used for penalties in scoring!)
@@ -635,14 +657,38 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
     console.log('Specific Challenges (20% weight):', profile.specific_challenges || {});
     console.log('Avoid Approaches (penalties):', profile.avoid_approaches || []);
 
-    // Validate critical fields
+    // Validate critical fields and add defaults if needed
     const warnings = [];
     if (!profile.goals || profile.goals.length === 0) {
       warnings.push('No goals - tips won\'t be filtered properly');
     }
+
+    // CRITICAL: Handle missing preferences (30% of scoring weight!)
     if (!profile.preferences || profile.preferences.length === 0) {
       warnings.push('No preferences - 30% of scoring weight unused');
+
+      // Add default preferences based on primary focus to avoid losing 30% weight
+      const defaultPreferencesByFocus: Record<string, string[]> = {
+        'nutrition': ['cooking_experimenting', 'planning_organizing'],
+        'health': ['planning_organizing', 'nature_outdoors'],
+        'fitness': ['nature_outdoors', 'walking', 'podcasts_audiobooks'],
+        'exercise': ['nature_outdoors', 'walking', 'podcasts_audiobooks'],
+        'effectiveness': ['planning_organizing', 'podcasts_audiobooks'],
+        'productivity': ['planning_organizing', 'coffee_shops'],
+        'relationships': ['coffee_shops', 'restaurant_friends'],
+        'mindset': ['nature_outdoors', 'walking'],
+        'look_feel': ['planning_organizing', 'nature_outdoors'],
+        'energy': ['nature_outdoors', 'walking'],
+        'sleeping': ['nature_outdoors', 'podcasts_audiobooks']
+      };
+
+      if (profile.primary_focus && defaultPreferencesByFocus[profile.primary_focus]) {
+        profile.preferences = defaultPreferencesByFocus[profile.primary_focus];
+        console.log(`📝 Added default preferences for ${profile.primary_focus}:`, profile.preferences);
+        console.log('ℹ️ User skipped "things you love" question - using defaults to maintain recommendation quality');
+      }
     }
+
     if (!profile.specific_challenges || Object.keys(profile.specific_challenges).length === 0) {
       warnings.push('No barriers/challenges - 20% of scoring weight unused');
     }

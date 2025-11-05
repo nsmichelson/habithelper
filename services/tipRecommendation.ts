@@ -135,7 +135,8 @@ export class TipRecommendationService {
       'mindset': 'relationships',       // Mindset tips often in relationships
       'relationships': 'relationships',
       'health': 'nutrition',     // Health path maps to nutrition
-      'look_feel': 'nutrition'   // Look/feel path maps to nutrition
+      'look_feel': 'nutrition',  // Look/feel path maps to nutrition
+      'energy': 'nutrition'      // Energy tips are mostly nutrition-based
     };
 
     const userFocusArea = areaMap[userProfile.primary_focus || ''] || null;
@@ -509,7 +510,8 @@ export class TipRecommendationService {
       'mindset': 'relationships',
       'relationships': 'relationships',
       'health': 'nutrition',
-      'look_feel': 'nutrition'
+      'look_feel': 'nutrition',
+      'energy': 'nutrition'  // Energy tips are mostly nutrition-based
     };
     const userFocusArea = areaMap[userProfile.primary_focus || ''] || null;
     const tipAreas = tip.areas || [tip.area];
