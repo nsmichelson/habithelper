@@ -411,14 +411,27 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           break;
           
         case 'which_allergies':
-          // Map allergies to medical conditions
+          // Map allergies to BOTH medical conditions AND allergies field
+          // The allergies field is used by the allergen filter in recommendations
+          if (!profile.allergies) {
+            profile.allergies = [];
+          }
+
           values.forEach(allergy => {
+            // Add to allergies array for allergen filtering
+            profile.allergies.push(allergy);
+
+            // Also add to medical_conditions for backward compatibility
             switch(allergy) {
               case 'nuts': profile.medical_conditions.push('nut_allergy'); break;
               case 'dairy': profile.medical_conditions.push('lactose_intolerance'); break;
               case 'gluten': profile.medical_conditions.push('celiac'); break;
               case 'eggs': profile.medical_conditions.push('egg_allergy'); break;
-              case 'seafood': profile.medical_conditions.push('fish_allergy', 'shellfish_allergy'); break;
+              case 'seafood':
+                profile.medical_conditions.push('fish_allergy', 'shellfish_allergy');
+                // Split seafood into fish and shellfish for allergies
+                profile.allergies.push('fish', 'shellfish');
+                break;
               case 'soy': profile.medical_conditions.push('soy_allergy'); break;
             }
           });
@@ -525,6 +538,15 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
           profile.stress_eating_triggers = values;
           break;
 
+        case 'things_you_love':
+          // Map to preferences for the recommendation engine (30% weight!)
+          if (!profile.preferences) {
+            profile.preferences = [];
+          }
+          profile.preferences.push(...values);
+          console.log(`Added ${values.length} preferences from things_you_love:`, values);
+          break;
+
         default:
           // Handle all _specifics questions (e.g., fitness_specifics, health_specifics, etc.)
           if (response.questionId.includes('_specifics')) {
@@ -554,6 +576,34 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
 
             mappedWhyGoals.forEach(goal => addGoal(goal));
           }
+
+          // Handle barrier questions - map to specific_challenges (20% weight in recommendations!)
+          if (response.questionId.includes('barriers_')) {
+            if (!profile.specific_challenges) {
+              profile.specific_challenges = {};
+            }
+
+            // Extract the area from the question ID (e.g., barriers_nutrition -> nutrition)
+            const area = response.questionId.replace('barriers_', '');
+
+            if (!profile.specific_challenges[area]) {
+              profile.specific_challenges[area] = [];
+            }
+
+            profile.specific_challenges[area].push(...values);
+            console.log(`Added ${values.length} barriers for ${area}:`, values);
+          }
+
+          // Handle what_to_avoid questions - map to avoid_approaches (used for penalties in scoring!)
+          if (response.questionId.includes('what_to_avoid_')) {
+            if (!profile.avoid_approaches) {
+              profile.avoid_approaches = [];
+            }
+
+            // Add all values to the avoid list
+            profile.avoid_approaches.push(...values);
+            console.log(`Added ${values.length} things to avoid:`, values);
+          }
           break;
       }
     });
@@ -571,17 +621,40 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       profile.identityPhrase = `${adjectives.join(' ')} ${role}`;
     }
 
-    // Log final profile goals for debugging
-    console.log('=== FINAL PROFILE GOALS ===');
+    // Log final profile for debugging
+    console.log('=== FINAL PROFILE DATA ===');
     console.log('Primary Focus:', profile.primary_focus);
     console.log('Quiz Goals (original):', profile.quiz_goals || []);
     console.log('Tip Database Goals (mapped):', profile.goals || []);
     console.log('Total goals count:', profile.goals?.length || 0);
 
+    // Log recommendation-critical fields
+    console.log('\n📊 RECOMMENDATION ENGINE FIELDS:');
+    console.log('Allergies:', profile.allergies || []);
+    console.log('Preferences (30% weight):', profile.preferences || []);
+    console.log('Specific Challenges (20% weight):', profile.specific_challenges || {});
+    console.log('Avoid Approaches (penalties):', profile.avoid_approaches || []);
+
+    // Validate critical fields
+    const warnings = [];
     if (!profile.goals || profile.goals.length === 0) {
-      console.error('⚠️ WARNING: Profile has no goals! Tips will not be properly filtered.');
+      warnings.push('No goals - tips won\'t be filtered properly');
+    }
+    if (!profile.preferences || profile.preferences.length === 0) {
+      warnings.push('No preferences - 30% of scoring weight unused');
+    }
+    if (!profile.specific_challenges || Object.keys(profile.specific_challenges).length === 0) {
+      warnings.push('No barriers/challenges - 20% of scoring weight unused');
+    }
+    if (!profile.avoid_approaches || profile.avoid_approaches.length === 0) {
+      warnings.push('No avoidance preferences - no penalties will apply');
+    }
+
+    if (warnings.length > 0) {
+      console.warn('⚠️ Profile missing data for optimal recommendations:');
+      warnings.forEach(w => console.warn(`  - ${w}`));
     } else {
-      console.log('✅ Profile has', profile.goals.length, 'goals for tip filtering');
+      console.log('✅ Profile has all data needed for optimal recommendations!');
     }
     
     try {
