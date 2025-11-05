@@ -207,7 +207,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'energy_specifics',
       values: ['fall_asleep_easier', 'wake_up_refreshed', 'consistent_sleep_schedule', 'reduce_screen_before_bed']
     },
-    helpText: 'Be honest - pick what really drives you',
+    helpText: 'Pick up to 3 that really matter to you',
     options: [
       { value: 'exhausted', label: 'Exhausted all the time' },
       { value: 'productivity', label: 'Need to be more productive' },
@@ -233,7 +233,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'energy_specifics',
       values: ['drink_more_water']
     },
-    helpText: 'What motivates this change?',
+    helpText: 'Pick up to 3 reasons',
     options: [
       { value: 'headaches', label: 'Frequent headaches' },
       { value: 'energy', label: 'Low energy/fatigue' },
@@ -259,7 +259,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'energy_specifics',
       values: ['reduce_sugar', 'eat_more_protein', 'regular_meal_schedule']
     },
-    helpText: 'What drives this change?',
+    helpText: 'Pick up to 3 reasons',
     options: [
       { value: 'crashes', label: 'Tired of energy crashes' },
       { value: 'sustained_energy', label: 'Need sustained energy' },
@@ -285,7 +285,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'energy_specifics',
       values: ['manage_stress', 'exercise_for_energy']
     },
-    helpText: 'What matters most?',
+    helpText: 'Pick up to 3 that matter most',
     options: [
       { value: 'burnout', label: 'Preventing burnout' },
       { value: 'exhaustion', label: 'Stress is exhausting me' },
@@ -311,7 +311,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'nutrition_specifics',
       values: ['drink_more_water']
     },
-    helpText: 'What drives this goal?',
+    helpText: 'Pick up to 3 reasons',
     options: [
       { value: 'headaches', label: 'Reduce headaches' },
       { value: 'energy', label: 'More energy' },
@@ -363,7 +363,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'nutrition_specifics',
       values: ['practice_mindful_eating', 'control_portions', 'stop_binge_eating', 'manage_cravings']
     },
-    helpText: 'What drives this change?',
+    helpText: 'Pick up to 3 reasons',
     options: [
       { value: 'weight_loss', label: 'Lose weight' },
       { value: 'stop_overeating', label: 'Stop feeling too full' },
@@ -415,7 +415,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'nutrition_specifics',
       values: ['reduce_junk_food', 'reduce_sugar', 'eat_more_protein', 'regular_meal_schedule', 'healthier_restaurant_choices', 'reduce_processed_foods']
     },
-    helpText: 'Be honest - pick what really drives you',
+    helpText: 'Pick up to 3 that really matter to you',
     options: [
       { value: 'health_scare', label: 'Doctor said I need to change' },
       { value: 'look_better', label: 'Want to look better' },
@@ -467,7 +467,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'look_feel_specifics',
       values: ['eat_for_muscle_gain', 'build_strength']
     },
-    helpText: 'What drives this goal?',
+    helpText: 'Pick up to 3 reasons',
     options: [
       { value: 'appearance', label: 'Look more toned' },
       { value: 'strength', label: 'Be functionally stronger' },
@@ -519,7 +519,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'look_feel_specifics',
       values: ['clearer_skin']
     },
-    helpText: 'What matters most?',
+    helpText: 'Pick up to 3 that matter most',
     options: [
       { value: 'confidence', label: 'Feel confident' },
       { value: 'professional', label: 'Professional appearance' },
@@ -623,7 +623,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'primary_motivation',
       values: ['relationships']
     },
-    helpText: 'What matters most?',
+    helpText: 'Pick up to 3 that matter most',
     options: [
       { value: 'lonely', label: 'Feeling lonely/isolated' },
       { value: 'strengthen_bonds', label: 'Strengthen existing bonds' },
@@ -651,7 +651,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'fitness_specifics',
       values: ['improve_cardio', 'boost_endurance']
     },
-    helpText: 'What drives this goal?',
+    helpText: 'Pick up to 3 reasons',
     options: [
       { value: 'stamina', label: 'Better daily stamina' },
       { value: 'heart_health', label: 'Heart health' },
@@ -937,7 +937,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       questionId: 'health_specifics',
       values: ['quit_alcohol']
     },
-    helpText: 'What motivates this change?',
+    helpText: 'Pick up to 3 reasons',
     options: [
       { value: 'health', label: 'Health concerns' },
       { value: 'sleep', label: 'Better sleep' },
@@ -1403,26 +1403,13 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'primary_motivation',
       values: ['nutrition', 'health', 'look_feel']
     },
     helpText: 'Check all that have helped, even a little',
-    options: [
-      { value: 'meal_prep', label: 'Meal prepping' },
-      { value: 'simple_swaps', label: 'Simple food swaps' },
-      { value: 'tracking_food', label: 'Tracking what I eat' },
-      { value: 'portion_control', label: 'Portion control tricks' },
-      { value: 'eliminating_triggers', label: 'Removing trigger foods' },
-      { value: 'adding_not_subtracting', label: 'Adding healthy foods vs restricting' },
-      { value: 'mindful_eating', label: 'Mindful/slow eating' },
-      { value: 'regular_meals', label: 'Regular meal schedule' },
-      { value: 'accountability', label: 'Accountability partner' },
-      { value: 'small_changes', label: 'Small gradual changes' },
-      { value: 'education', label: 'Learning about nutrition' },
-      { value: 'professional_help', label: 'Dietitian/nutritionist' },
-      { value: 'nothing_yet', label: "Nothing's really worked yet" },
-    ]
+    options: [] // Will be dynamically generated
   },
 
   // What worked - Fitness
@@ -1462,26 +1449,14 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true, // This question will have dynamic options based on why responses
     conditionalOn: {
       questionId: 'primary_motivation',
       values: ['energy']
     },
     helpText: 'Check all that have helped, even a little',
-    options: [
-      { value: 'consistent_schedule', label: 'Consistent sleep schedule' },
-      { value: 'bedtime_routine', label: 'Bedtime routine' },
-      { value: 'no_screens', label: 'No screens before bed' },
-      { value: 'exercise', label: 'Regular exercise' },
-      { value: 'meditation', label: 'Meditation/relaxation' },
-      { value: 'sleep_tracking', label: 'Sleep tracking' },
-      { value: 'bedroom_setup', label: 'Better bedroom setup' },
-      { value: 'caffeine_timing', label: 'Managing caffeine' },
-      { value: 'power_naps', label: 'Strategic napping' },
-      { value: 'diet_changes', label: 'Diet adjustments' },
-      { value: 'stress_management', label: 'Stress reduction' },
-      { value: 'supplements', label: 'Sleep supplements' },
-      { value: 'nothing_yet', label: "Nothing's really worked yet" },
-    ]
+    // Options will be generated dynamically based on why responses
+    options: []
   },
 
   // What worked - Productivity/Effectiveness

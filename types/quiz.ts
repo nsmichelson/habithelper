@@ -11,6 +11,7 @@ export interface QuizQuestion {
   question: string;
   type: QuestionType;
   options?: QuizOption[];
+  dynamicOptions?: boolean; // Flag to indicate this question uses dynamic options
   required: boolean;
   helpText?: string;
   category: 'medical' | 'goals' | 'lifestyle' | 'preferences' | 'demographics' | 'learning' | 'food personality' | 'experience' | 'skills' | 'personality' | 'challenges' | 'motivation' | 'context';

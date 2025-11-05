@@ -18,13 +18,14 @@ import Animated, {
   withTiming,
   interpolate,
 } from 'react-native-reanimated';
-import { QuizQuestion, QuizResponse } from '../types/quiz';
+import { QuizQuestion, QuizResponse, QuizOption } from '../types/quiz';
 import { QUIZ_QUESTIONS, getConditionalQuestions } from '../data/quizQuestions';
 import StorageService from '../services/storage';
 import { UserProfile } from '../types/tip';
 import { Ionicons } from '@expo/vector-icons';
 import IdentityQuizStep from './quiz/IdentityQuizStep';
 import { getTipGoalsForQuizGoals, GOAL_MAPPINGS } from '../data/goalMappings';
+import { getDynamicOptions } from '../data/dynamicOptionMappings';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -183,6 +184,22 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   
   const currentQuestion = availableQuestions[currentQuestionIndex];
   const progressPercentage = ((currentQuestionIndex + 1) / availableQuestions.length) * 100;
+
+  // Get options for current question (dynamic or static)
+  const getCurrentQuestionOptions = (): QuizOption[] => {
+    if (!currentQuestion) return [];
+
+    // Check if this question uses dynamic options
+    if (currentQuestion.dynamicOptions) {
+      const dynamicOpts = getDynamicOptions(currentQuestion.id, responses);
+      if (dynamicOpts) {
+        return dynamicOpts;
+      }
+    }
+
+    // Fall back to static options
+    return currentQuestion.options || [];
+  };
 
   useEffect(() => {
     progress.value = withSpring(progressPercentage);
@@ -671,7 +688,7 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
                 ? renderScaleOptions()
                 : currentQuestion.type === 'text'
                 ? renderTextInput()
-                : currentQuestion.options?.map(renderOption)}
+                : getCurrentQuestionOptions().map(renderOption)}
             </View>
           </Animated.View>
         </ScrollView>
