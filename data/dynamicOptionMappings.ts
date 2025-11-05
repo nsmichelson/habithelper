@@ -607,12 +607,40 @@ export function getDynamicOptions(
     }
   } else if (questionId === 'what_worked_nutrition') {
     mappings.push(NUTRITION_WHY_TO_WHAT_WORKED);
+    // Also add look_feel mappings if relevant
+    const hasLookFeelGoals = responses.find(r =>
+      r.questionId === 'look_feel_specifics'
+    );
+    if (hasLookFeelGoals) {
+      mappings.push(LOOK_FEEL_WHY_TO_WHAT_WORKED);
+    }
   } else if (questionId === 'what_worked_fitness') {
     mappings.push(FITNESS_WHY_TO_WHAT_WORKED);
   } else if (questionId === 'what_worked_productivity') {
     mappings.push(PRODUCTIVITY_WHY_TO_WHAT_WORKED);
-  } else if (questionId.includes('what_worked') && questionId.includes('relationship')) {
+  } else if (questionId === 'what_worked_health') {
+    mappings.push(HEALTH_WHY_TO_WHAT_WORKED);
+  } else if (questionId === 'what_worked_look_feel') {
+    mappings.push(LOOK_FEEL_WHY_TO_WHAT_WORKED);
+  } else if (questionId.includes('what_worked') &&
+             (questionId.includes('relationship') ||
+              questionId.includes('romantic') ||
+              questionId.includes('family') ||
+              questionId.includes('friendships') ||
+              questionId.includes('boundaries'))) {
     mappings.push(RELATIONSHIP_WHY_TO_WHAT_WORKED);
+  } else if (questionId === 'what_worked_general') {
+    // General can pull from multiple mappings based on primary motivation
+    const primaryMotivation = responses.find(r => r.questionId === 'primary_motivation');
+    if (primaryMotivation) {
+      if (primaryMotivation.values.includes('energy')) mappings.push(SLEEP_WHY_TO_WHAT_WORKED);
+      if (primaryMotivation.values.includes('nutrition')) mappings.push(NUTRITION_WHY_TO_WHAT_WORKED);
+      if (primaryMotivation.values.includes('fitness')) mappings.push(FITNESS_WHY_TO_WHAT_WORKED);
+      if (primaryMotivation.values.includes('look_feel')) mappings.push(LOOK_FEEL_WHY_TO_WHAT_WORKED);
+      if (primaryMotivation.values.includes('health')) mappings.push(HEALTH_WHY_TO_WHAT_WORKED);
+      if (primaryMotivation.values.includes('effectiveness')) mappings.push(PRODUCTIVITY_WHY_TO_WHAT_WORKED);
+      if (primaryMotivation.values.includes('relationships')) mappings.push(RELATIONSHIP_WHY_TO_WHAT_WORKED);
+    }
   }
 
   if (mappings.length === 0) {
@@ -642,11 +670,106 @@ export function getDynamicOptions(
   return Array.from(optionsMap.values());
 }
 
+// ============ LOOK_FEEL WHY MAPPINGS ============
+
+export const LOOK_FEEL_WHY_TO_WHAT_WORKED: WhyToOptionsMapping = {
+  // Appearance focused
+  'appearance': [
+    { value: 'progress_photos', label: 'Progress photos' },
+    { value: 'outfit_goals', label: 'Goal outfits' },
+    { value: 'style_upgrade', label: 'Style improvements' },
+    { value: 'grooming_routine', label: 'Better grooming' },
+  ],
+
+  'back_pain': [
+    { value: 'ergonomic_setup', label: 'Ergonomic workspace' },
+    { value: 'stretching_routine', label: 'Daily stretches' },
+    { value: 'posture_reminders', label: 'Posture alerts' },
+    { value: 'core_exercises', label: 'Core strengthening' },
+  ],
+
+  'dark_circles': [
+    { value: 'sleep_hygiene', label: 'Sleep hygiene' },
+    { value: 'eye_care', label: 'Eye care routine' },
+    { value: 'hydration_tracking', label: 'Hydration tracking' },
+    { value: 'stress_management', label: 'Stress reduction' },
+  ],
+
+  'skin_issues': [
+    { value: 'skincare_routine', label: 'Consistent skincare' },
+    { value: 'diet_tracking', label: 'Food-skin diary' },
+    { value: 'stress_reduction', label: 'Stress management' },
+    { value: 'hydration', label: 'Water intake' },
+  ],
+
+  'wardrobe_use': [
+    { value: 'closet_organization', label: 'Closet organization' },
+    { value: 'outfit_planning', label: 'Outfit planning' },
+    { value: 'weight_tracking', label: 'Size tracking' },
+    { value: 'donation_purge', label: 'Regular purging' },
+  ],
+
+  'skin_glow': [
+    { value: 'water_tracking', label: 'Water tracking app' },
+    { value: 'hydration_reminders', label: 'Hydration reminders' },
+    { value: 'infused_water', label: 'Flavored water' },
+    { value: 'hydrating_foods', label: 'Water-rich foods' },
+  ],
+
+  'body_composition': [
+    { value: 'measurements', label: 'Body measurements' },
+    { value: 'dexa_scan', label: 'Body scans' },
+    { value: 'strength_cardio', label: 'Strength + cardio' },
+    { value: 'protein_intake', label: 'Protein tracking' },
+  ],
+};
+
+// ============ HEALTH WHY MAPPINGS ============
+
+export const HEALTH_WHY_TO_WHAT_WORKED: WhyToOptionsMapping = {
+  'physical_symptoms': [
+    { value: 'symptom_diary', label: 'Symptom tracking' },
+    { value: 'stress_techniques', label: 'Stress techniques' },
+    { value: 'medical_consultation', label: 'Doctor consultation' },
+    { value: 'lifestyle_changes', label: 'Lifestyle changes' },
+  ],
+
+  'immune_function': [
+    { value: 'sleep_schedule', label: 'Sleep consistency' },
+    { value: 'vitamin_d', label: 'Vitamin D' },
+    { value: 'probiotics', label: 'Gut health' },
+    { value: 'stress_management', label: 'Stress reduction' },
+  ],
+
+  'inflammation': [
+    { value: 'anti_inflammatory_diet', label: 'Anti-inflammatory foods' },
+    { value: 'omega_3', label: 'Omega-3s' },
+    { value: 'turmeric', label: 'Turmeric/spices' },
+    { value: 'elimination_diet', label: 'Elimination diet' },
+  ],
+
+  'kidney_health': [
+    { value: 'water_bottle', label: 'Large water bottle' },
+    { value: 'hydration_app', label: 'Tracking app' },
+    { value: 'electrolytes', label: 'Electrolyte balance' },
+    { value: 'reduce_sodium', label: 'Lower sodium' },
+  ],
+
+  'prevention': [
+    { value: 'screening_calendar', label: 'Screening calendar' },
+    { value: 'health_app', label: 'Health tracking app' },
+    { value: 'annual_physical', label: 'Annual physicals' },
+    { value: 'specialist_referrals', label: 'Specialist visits' },
+  ],
+};
+
 // Export all mappings for use in other files
 export const ALL_WHY_MAPPINGS = {
   sleep: SLEEP_WHY_TO_WHAT_WORKED,
   nutrition: NUTRITION_WHY_TO_WHAT_WORKED,
   fitness: FITNESS_WHY_TO_WHAT_WORKED,
+  lookFeel: LOOK_FEEL_WHY_TO_WHAT_WORKED,
+  health: HEALTH_WHY_TO_WHAT_WORKED,
   productivity: PRODUCTIVITY_WHY_TO_WHAT_WORKED,
   relationships: RELATIONSHIP_WHY_TO_WHAT_WORKED,
 };

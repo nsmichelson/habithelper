@@ -560,6 +560,162 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
+  // Why for posture improvement
+  {
+    id: 'posture_why',
+    question: "Why do you want to improve your posture?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['better_posture']
+    },
+    helpText: 'Pick up to 3 reasons',
+    options: [
+      { value: 'back_pain', label: 'Reduce back/neck pain' },
+      { value: 'appearance', label: 'Look taller/confident' },
+      { value: 'professional', label: 'Professional presence' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'breathing', label: 'Better breathing' },
+      { value: 'aging', label: 'Prevent issues later' },
+      { value: 'desk_job', label: 'Combat desk job effects' },
+      { value: 'confidence', label: 'Feel more confident' },
+      { value: 'photos', label: 'Look better in photos' },
+      { value: 'health', label: 'Overall health' },
+    ]
+  },
+
+  // Why for beauty sleep
+  {
+    id: 'beauty_sleep_why',
+    question: "Why is getting better sleep important for how you look/feel?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['consistent_sleep_schedule']
+    },
+    helpText: 'Pick up to 3 that matter',
+    options: [
+      { value: 'dark_circles', label: 'Reduce dark circles' },
+      { value: 'skin_quality', label: 'Better skin quality' },
+      { value: 'weight_management', label: 'Support weight goals' },
+      { value: 'mood_appearance', label: 'Look less tired/stressed' },
+      { value: 'aging', label: 'Slow aging signs' },
+      { value: 'puffiness', label: 'Reduce puffiness' },
+      { value: 'energy_glow', label: 'Natural energy/glow' },
+      { value: 'cravings', label: 'Reduce cravings' },
+      { value: 'recovery', label: 'Better recovery' },
+      { value: 'mental_clarity', label: 'Sharper appearance' },
+    ]
+  },
+
+  // Why for stress reduction (appearance)
+  {
+    id: 'stress_appearance_why',
+    question: "How is stress affecting your appearance?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['reduce_stress']
+    },
+    helpText: 'Pick what bothers you most',
+    options: [
+      { value: 'skin_issues', label: 'Breakouts/skin problems' },
+      { value: 'tension_face', label: 'Tension in face/jaw' },
+      { value: 'hair_loss', label: 'Hair issues' },
+      { value: 'weight_changes', label: 'Weight fluctuations' },
+      { value: 'look_tired', label: 'Always look exhausted' },
+      { value: 'premature_aging', label: 'Aging faster' },
+      { value: 'body_language', label: 'Tense body language' },
+      { value: 'digestive_bloat', label: 'Stress bloating' },
+      { value: 'nervous_habits', label: 'Nervous habits showing' },
+      { value: 'overall_appearance', label: 'Just look stressed' },
+    ]
+  },
+
+  // Why for clothes fitting better
+  {
+    id: 'clothes_fit_why',
+    question: "Why do you want your clothes to fit better?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['clothes_fit_better']
+    },
+    helpText: 'Pick up to 3 reasons',
+    options: [
+      { value: 'wardrobe_use', label: 'Use my whole wardrobe' },
+      { value: 'comfort', label: 'Physical comfort' },
+      { value: 'confidence', label: 'Feel confident' },
+      { value: 'professional', label: 'Professional appearance' },
+      { value: 'save_money', label: 'Stop buying new sizes' },
+      { value: 'special_outfit', label: 'Specific outfit goal' },
+      { value: 'fluctuations', label: 'Stop size fluctuations' },
+      { value: 'shopping_easier', label: 'Make shopping easier' },
+      { value: 'photos', label: 'Look better in photos' },
+      { value: 'style_expression', label: 'Express my style' },
+    ]
+  },
+
+  // Why for better hydration (appearance)
+  {
+    id: 'hydration_appearance_why',
+    question: "How would better hydration help your appearance?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['drink_more_water']
+    },
+    helpText: 'Pick your main goals',
+    options: [
+      { value: 'skin_glow', label: 'Glowing skin' },
+      { value: 'reduce_puffiness', label: 'Less puffiness' },
+      { value: 'plump_skin', label: 'Plumper skin' },
+      { value: 'clear_skin', label: 'Clearer complexion' },
+      { value: 'energy_look', label: 'Look more energized' },
+      { value: 'lip_health', label: 'Healthier lips' },
+      { value: 'reduce_wrinkles', label: 'Minimize fine lines' },
+      { value: 'weight_management', label: 'Support weight goals' },
+      { value: 'hair_health', label: 'Better hair' },
+      { value: 'overall_glow', label: 'Overall healthy look' },
+    ]
+  },
+
+  // Why for cardio fitness (appearance focused)
+  {
+    id: 'cardio_appearance_why',
+    question: "How would better fitness improve how you look/feel?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'look_feel_specifics',
+      values: ['improve_cardio']
+    },
+    helpText: 'Pick up to 3 benefits',
+    options: [
+      { value: 'body_composition', label: 'Better body composition' },
+      { value: 'energy_vitality', label: 'Look more vital' },
+      { value: 'posture', label: 'Better posture' },
+      { value: 'confidence', label: 'Confident presence' },
+      { value: 'skin_glow', label: 'Healthy glow' },
+      { value: 'weight_management', label: 'Weight control' },
+      { value: 'muscle_tone', label: 'More toned' },
+      { value: 'stress_relief', label: 'Less stressed look' },
+      { value: 'stamina', label: 'Not get winded' },
+      { value: 'athletic_look', label: 'Athletic appearance' },
+    ]
+  },
+
   // Why for exercise goals
   {
     id: 'exercise_why',
@@ -952,29 +1108,29 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // Why for home workouts
+  // Why for strength performance improvement
   {
-    id: 'home_workout_why',
-    question: "Why do you want to figure out home workouts?",
+    id: 'strength_performance_why',
+    question: "Why do you want to improve your performance?",
     type: 'multiple_choice',
     category: 'motivation',
     required: true,
     conditionalOn: {
       questionId: 'fitness_specifics',
-      values: ['workout_at_home']
+      values: ['increase_strength_performance']
     },
-    helpText: 'What would home workouts solve?',
+    helpText: 'Pick up to 3 goals',
     options: [
-      { value: 'convenience', label: 'More convenient' },
-      { value: 'save_money', label: 'Save gym costs' },
-      { value: 'save_time', label: 'Save commute time' },
-      { value: 'privacy', label: 'Privacy/comfort' },
-      { value: 'childcare', label: 'No childcare needed' },
-      { value: 'flexible_schedule', label: 'Flexible timing' },
-      { value: 'consistency', label: 'Be more consistent' },
-      { value: 'comfort', label: 'Comfort zone' },
-      { value: 'weather', label: 'Weather-proof' },
-      { value: 'covid', label: 'Safety concerns' },
+      { value: 'sport_specific', label: 'Sport performance' },
+      { value: 'competition', label: 'Competition goals' },
+      { value: 'personal_records', label: 'Beat personal records' },
+      { value: 'functional_strength', label: 'Real-world strength' },
+      { value: 'challenge', label: 'Personal challenge' },
+      { value: 'peer_group', label: 'Keep up with others' },
+      { value: 'job_requirements', label: 'Job/activity needs' },
+      { value: 'confidence', label: 'Confidence boost' },
+      { value: 'measurable_progress', label: 'Track progress' },
+      { value: 'athletic_identity', label: 'Athletic identity' },
     ]
   },
 
@@ -1131,6 +1287,136 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'dependency', label: 'Worried about dependency' },
       { value: 'save_money', label: 'Save money' },
       { value: 'clear_headed', label: 'Mental clarity' },
+    ]
+  },
+
+  // Why for stress management (health)
+  {
+    id: 'health_stress_why',
+    question: "Why is managing stress important for your health?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['manage_stress']
+    },
+    helpText: 'Pick up to 3 concerns',
+    options: [
+      { value: 'physical_symptoms', label: 'Physical symptoms' },
+      { value: 'blood_pressure', label: 'Blood pressure concerns' },
+      { value: 'immune_system', label: 'Getting sick often' },
+      { value: 'digestive_issues', label: 'Digestive problems' },
+      { value: 'heart_health', label: 'Heart health' },
+      { value: 'chronic_pain', label: 'Pain/tension' },
+      { value: 'sleep_problems', label: 'Sleep disruption' },
+      { value: 'anxiety', label: 'Anxiety levels' },
+      { value: 'doctor_advice', label: 'Doctor recommendation' },
+      { value: 'family_history', label: 'Family health history' },
+    ]
+  },
+
+  // Why for better sleep (health)
+  {
+    id: 'health_sleep_why',
+    question: "Why is better sleep important for your health?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['consistent_sleep_schedule']
+    },
+    helpText: 'Pick your main health concerns',
+    options: [
+      { value: 'immune_function', label: 'Immune system' },
+      { value: 'weight_management', label: 'Weight management' },
+      { value: 'blood_sugar', label: 'Blood sugar control' },
+      { value: 'heart_health', label: 'Heart health' },
+      { value: 'mental_health', label: 'Mental health' },
+      { value: 'recovery', label: 'Physical recovery' },
+      { value: 'chronic_condition', label: 'Manage condition' },
+      { value: 'medication_effectiveness', label: 'Medication needs' },
+      { value: 'cognitive_function', label: 'Brain health' },
+      { value: 'longevity', label: 'Long-term health' },
+    ]
+  },
+
+  // Why for reducing processed foods (health)
+  {
+    id: 'processed_foods_why',
+    question: "Why do you want to cut processed foods?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['reduce_processed_foods']
+    },
+    helpText: 'Pick up to 3 reasons',
+    options: [
+      { value: 'inflammation', label: 'Reduce inflammation' },
+      { value: 'gut_health', label: 'Improve digestion' },
+      { value: 'blood_sugar', label: 'Blood sugar stability' },
+      { value: 'heart_health', label: 'Heart health' },
+      { value: 'weight', label: 'Weight management' },
+      { value: 'energy', label: 'More stable energy' },
+      { value: 'additives', label: 'Avoid additives' },
+      { value: 'nutrient_density', label: 'More nutrients' },
+      { value: 'family_health', label: 'Family health' },
+      { value: 'clean_eating', label: 'Eat cleaner' },
+    ]
+  },
+
+  // Why for better hydration (health)
+  {
+    id: 'health_hydration_why',
+    question: "Why is hydration important for your health?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['drink_more_water']
+    },
+    helpText: 'Pick your health goals',
+    options: [
+      { value: 'kidney_health', label: 'Kidney function' },
+      { value: 'blood_pressure', label: 'Blood pressure' },
+      { value: 'headaches', label: 'Reduce headaches' },
+      { value: 'constipation', label: 'Digestive health' },
+      { value: 'joint_health', label: 'Joint health' },
+      { value: 'energy', label: 'Energy levels' },
+      { value: 'cognition', label: 'Mental clarity' },
+      { value: 'medication', label: 'Medication needs' },
+      { value: 'UTI_prevention', label: 'Prevent UTIs' },
+      { value: 'detox', label: 'Natural detox' },
+    ]
+  },
+
+  // Why for regular checkups
+  {
+    id: 'checkups_why',
+    question: "Why do you want to stay on top of health checkups?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'health_specifics',
+      values: ['regular_checkups']
+    },
+    helpText: 'Pick up to 3 motivations',
+    options: [
+      { value: 'prevention', label: 'Catch issues early' },
+      { value: 'family_history', label: 'Family history concerns' },
+      { value: 'age_appropriate', label: 'Age-related screening' },
+      { value: 'chronic_management', label: 'Manage conditions' },
+      { value: 'peace_of_mind', label: 'Peace of mind' },
+      { value: 'accountability', label: 'Stay accountable' },
+      { value: 'medication_review', label: 'Medication monitoring' },
+      { value: 'baseline', label: 'Establish baselines' },
+      { value: 'insurance', label: 'Use insurance benefits' },
+      { value: 'role_model', label: 'Set example' },
     ]
   },
 
@@ -1313,6 +1599,32 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'effectiveness', label: 'Be more effective' },
       { value: 'burnout', label: 'Prevent burnout' },
       { value: 'control', label: 'Feel in control' },
+    ]
+  },
+
+  // Why for sleep schedule (effectiveness)
+  {
+    id: 'effectiveness_sleep_why',
+    question: "How would fixing your sleep schedule improve your effectiveness?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'effectiveness_specifics',
+      values: ['consistent_sleep_schedule']
+    },
+    helpText: 'Pick up to 3 impacts',
+    options: [
+      { value: 'focus', label: 'Better focus' },
+      { value: 'productivity', label: 'More productive hours' },
+      { value: 'decision_making', label: 'Clearer decisions' },
+      { value: 'creativity', label: 'More creative' },
+      { value: 'meetings', label: 'Better in meetings' },
+      { value: 'consistency', label: 'Consistent performance' },
+      { value: 'afternoon_slump', label: 'No afternoon crash' },
+      { value: 'morning_routine', label: 'Better mornings' },
+      { value: 'work_quality', label: 'Higher quality work' },
+      { value: 'deadlines', label: 'Meet deadlines easier' },
     ]
   },
 
@@ -1601,6 +1913,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'primary_motivation',
       values: ['fitness']
@@ -1648,6 +1961,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'primary_motivation',
       values: ['effectiveness']
@@ -1678,6 +1992,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'relationship_specifics',
       values: ['strengthen_friendships', 'stronger_social_connections']
@@ -1707,6 +2022,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'relationship_specifics',
       values: ['improve_communication', 'more_quality_time', 'handle_conflicts_better', 'express_needs_clearly', 'build_dating_confidence']
@@ -1736,6 +2052,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'relationship_specifics',
       values: ['more_family_time', 'improve_work_life_balance']
@@ -1765,6 +2082,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'relationship_specifics',
       values: ['set_boundaries', 'become_better_listener', 'improve_work_life_balance']
@@ -1794,6 +2112,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'multiple_choice',
     category: 'experience',
     required: false,
+    dynamicOptions: true,
     conditionalOn: {
       questionId: 'primary_motivation',
       values: [] // Shows when no specific condition is met
