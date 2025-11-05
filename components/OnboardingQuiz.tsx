@@ -352,6 +352,8 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
   };
 
   const completeOnboarding = async (allResponses: QuizResponse[], adjectives?: string[], role?: string) => {
+    console.log('🚀 completeOnboarding called with', allResponses.length, 'responses');
+
     // For retakes, start with existing profile; otherwise create new
     const profile: UserProfile = existingProfile ? {
       ...existingProfile,
@@ -546,97 +548,164 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
       await StorageService.setOnboardingCompleted(true);
 
       // Log all collected meta tags for analysis
+      console.warn('\n========================================');
+      console.warn('📊 QUIZ COMPLETED - COMPREHENSIVE META TAGS LOG');
+      console.warn('========================================\n');
       console.log('\n========================================');
-      console.log('📊 QUIZ COMPLETED - META TAGS COLLECTED');
+      console.log('📊 QUIZ COMPLETED - COMPREHENSIVE META TAGS LOG');
       console.log('========================================\n');
 
-      // Log primary motivation
-      const primaryMotivation = allResponses.find(r => r.questionId === 'primary_motivation');
-      console.log('🎯 PRIMARY MOTIVATION:', primaryMotivation?.values || 'Not specified');
+      // LOG EVERY SINGLE RESPONSE WITH ALL TAGS
+      console.log('📋 ALL QUIZ RESPONSES AND TAGS:');
+      console.log('--------------------------------');
 
-      // Log specific goals selected
-      const specificGoals = allResponses.filter(r => r.questionId.includes('_specifics'));
-      if (specificGoals.length > 0) {
+      allResponses.forEach((response, index) => {
+        console.log(`\n${index + 1}. QUESTION ID: ${response.questionId}`);
+        console.log(`   VALUES/TAGS: ${response.values.join(', ')}`);
+        console.log(`   TAG COUNT: ${response.values.length}`);
+      });
+
+      // Create a comprehensive tag collection
+      const allTags: { [key: string]: string[] } = {};
+
+      allResponses.forEach(response => {
+        allTags[response.questionId] = response.values;
+      });
+
+      console.log('\n\n🏷️ ORGANIZED BY CATEGORY:');
+      console.log('---------------------------');
+
+      // Primary motivation
+      if (allTags.primary_motivation) {
+        console.log('\n🎯 PRIMARY MOTIVATION:', allTags.primary_motivation.join(', '));
+      }
+
+      // All specifics questions
+      const specificsKeys = Object.keys(allTags).filter(k => k.includes('_specifics'));
+      if (specificsKeys.length > 0) {
         console.log('\n📌 SPECIFIC GOALS:');
-        specificGoals.forEach(goal => {
-          console.log(`  - ${goal.questionId}: ${goal.values.join(', ')}`);
+        specificsKeys.forEach(key => {
+          console.log(`  ${key}: ${allTags[key].join(', ')}`);
         });
       }
 
-      // Log all "why" responses (motivations)
-      const whyResponses = allResponses.filter(r => r.questionId.includes('_why'));
-      if (whyResponses.length > 0) {
-        console.log('\n💭 WHY/MOTIVATION TAGS:');
-        whyResponses.forEach(why => {
-          console.log(`  - ${why.questionId}: ${why.values.join(', ')}`);
+      // All why questions
+      const whyKeys = Object.keys(allTags).filter(k => k.includes('_why'));
+      if (whyKeys.length > 0) {
+        console.log('\n💭 ALL WHY/MOTIVATION RESPONSES:');
+        whyKeys.forEach(key => {
+          console.log(`  ${key}: ${allTags[key].join(', ')}`);
         });
       }
 
-      // Log medical conditions
+      // What worked questions
+      const whatWorkedKeys = Object.keys(allTags).filter(k => k.includes('what_worked'));
+      if (whatWorkedKeys.length > 0) {
+        console.log('\n✅ WHAT WORKED RESPONSES:');
+        whatWorkedKeys.forEach(key => {
+          console.log(`  ${key}: ${allTags[key].join(', ')}`);
+        });
+      }
+
+      // Barriers/challenges
+      const barrierKeys = Object.keys(allTags).filter(k => k.includes('barrier') || k.includes('challenge'));
+      if (barrierKeys.length > 0) {
+        console.log('\n🚧 BARRIERS/CHALLENGES:');
+        barrierKeys.forEach(key => {
+          console.log(`  ${key}: ${allTags[key].join(', ')}`);
+        });
+      }
+
+      // What to avoid
+      const avoidKeys = Object.keys(allTags).filter(k => k.includes('avoid'));
+      if (avoidKeys.length > 0) {
+        console.log('\n⛔ WHAT TO AVOID:');
+        avoidKeys.forEach(key => {
+          console.log(`  ${key}: ${allTags[key].join(', ')}`);
+        });
+      }
+
+      // All other questions not categorized above
+      const categorizedKeys = new Set([
+        ...specificsKeys,
+        ...whyKeys,
+        ...whatWorkedKeys,
+        ...barrierKeys,
+        ...avoidKeys,
+        'primary_motivation'
+      ]);
+
+      const otherKeys = Object.keys(allTags).filter(k => !categorizedKeys.has(k));
+      if (otherKeys.length > 0) {
+        console.log('\n📝 OTHER RESPONSES:');
+        otherKeys.forEach(key => {
+          console.log(`  ${key}: ${allTags[key].join(', ')}`);
+        });
+      }
+
+      // Profile-level processed data
+      console.log('\n\n🔄 PROCESSED PROFILE DATA:');
+      console.log('---------------------------');
+
       if (profile.medical_conditions && profile.medical_conditions.length > 0) {
-        console.log('\n🏥 MEDICAL CONDITIONS:', profile.medical_conditions.join(', '));
+        console.log('🏥 Medical Conditions:', profile.medical_conditions.join(', '));
       }
 
-      // Log dietary preferences
       if (profile.dietary_preferences && profile.dietary_preferences.length > 0) {
-        console.log('\n🍽️ DIETARY PREFERENCES:', profile.dietary_preferences.join(', '));
+        console.log('🍽️ Dietary Preferences:', profile.dietary_preferences.join(', '));
       }
 
-      // Log lifestyle factors
-      const lifestyleResponses = allResponses.filter(r =>
-        ['kitchen_reality', 'money_truth', 'eating_style', 'time_reality'].includes(r.questionId)
-      );
-      if (lifestyleResponses.length > 0) {
-        console.log('\n🏠 LIFESTYLE FACTORS:');
-        lifestyleResponses.forEach(lifestyle => {
-          console.log(`  - ${lifestyle.questionId}: ${lifestyle.values.join(', ')}`);
-        });
-      }
-
-      // Log personality/skills
-      const personalityResponses = allResponses.filter(r =>
-        ['eating_personality', 'skill_level', 'learning_style', 'real_talk'].includes(r.questionId)
-      );
-      if (personalityResponses.length > 0) {
-        console.log('\n🧠 PERSONALITY/SKILLS:');
-        personalityResponses.forEach(personality => {
-          console.log(`  - ${personality.questionId}: ${personality.values.join(', ')}`);
-        });
-      }
-
-      // Log what worked responses
-      const whatWorkedResponses = allResponses.filter(r => r.questionId.includes('what_worked'));
-      if (whatWorkedResponses.length > 0) {
-        console.log('\n✅ WHAT HAS WORKED:');
-        whatWorkedResponses.forEach(worked => {
-          console.log(`  - ${worked.questionId}: ${worked.values.join(', ')}`);
-        });
-      }
-
-      // Log identity if set
-      if (adjectives && role) {
-        console.log('\n🎭 IDENTITY:');
-        console.log(`  - Adjectives: ${adjectives.join(', ')}`);
-        console.log(`  - Role: ${role}`);
-        console.log(`  - Full phrase: "${profile.identityPhrase}"`);
-      }
-
-      // Log final goals array
       if (profile.goals && profile.goals.length > 0) {
-        console.log('\n🎯 FINAL PROCESSED GOALS:', profile.goals.join(', '));
+        console.log('🎯 Processed Goals:', profile.goals.join(', '));
       }
 
-      // Log summary statistics
-      console.log('\n📈 SUMMARY:');
-      console.log(`  - Total responses: ${allResponses.length}`);
-      console.log(`  - Total tags collected: ${allResponses.reduce((acc, r) => acc + r.values.length, 0)}`);
-      console.log(`  - Medical conditions: ${profile.medical_conditions?.length || 0}`);
-      console.log(`  - Dietary preferences: ${profile.dietary_preferences?.length || 0}`);
-      console.log(`  - Goals identified: ${profile.goals?.length || 0}`);
+      // Identity data
+      if (adjectives && role) {
+        console.log('\n🎭 IDENTITY DATA:');
+        console.log(`  Adjectives: ${adjectives.join(', ')}`);
+        console.log(`  Role: ${role}`);
+        console.log(`  Full phrase: "${profile.identityPhrase}"`);
+      }
 
-      // Log all responses in a structured format for debugging
-      console.log('\n📝 RAW RESPONSES (for debugging):');
-      console.log(JSON.stringify(allResponses, null, 2));
+      // Statistics
+      console.log('\n\n📊 STATISTICS:');
+      console.log('--------------');
+      console.log(`Total questions answered: ${allResponses.length}`);
+      console.log(`Total tags collected: ${allResponses.reduce((acc, r) => acc + r.values.length, 0)}`);
+
+      // Count tags by category
+      const tagCounts: { [key: string]: number } = {};
+      tagCounts['Specifics'] = specificsKeys.reduce((acc, k) => acc + allTags[k].length, 0);
+      tagCounts['Why/Motivation'] = whyKeys.reduce((acc, k) => acc + allTags[k].length, 0);
+      tagCounts['What Worked'] = whatWorkedKeys.reduce((acc, k) => acc + allTags[k].length, 0);
+      tagCounts['Barriers'] = barrierKeys.reduce((acc, k) => acc + allTags[k].length, 0);
+      tagCounts['Avoid'] = avoidKeys.reduce((acc, k) => acc + allTags[k].length, 0);
+      tagCounts['Other'] = otherKeys.reduce((acc, k) => acc + allTags[k].length, 0);
+
+      console.log('\nTags by category:');
+      Object.entries(tagCounts).forEach(([category, count]) => {
+        if (count > 0) {
+          console.log(`  ${category}: ${count} tags`);
+        }
+      });
+
+      // Complete JSON dump for analysis
+      console.log('\n\n📄 COMPLETE JSON DATA:');
+      console.log('----------------------');
+      console.log(JSON.stringify({
+        responses: allResponses,
+        profile: {
+          medical_conditions: profile.medical_conditions,
+          dietary_preferences: profile.dietary_preferences,
+          goals: profile.goals,
+          identity: profile.identityPhrase
+        },
+        statistics: {
+          total_questions: allResponses.length,
+          total_tags: allResponses.reduce((acc, r) => acc + r.values.length, 0),
+          tags_by_category: tagCounts
+        }
+      }, null, 2));
 
       console.log('\n========================================\n');
       console.log('Quiz completed successfully, calling onComplete callback');
@@ -735,17 +804,34 @@ export default function OnboardingQuiz({ onComplete, existingProfile, isRetake =
 
   // Show identity step if we've finished all questions
   if (showIdentityStep) {
-    // Get user's goals from responses - need to map to actual goal tags
-    const goalsResponse = responses.find(r => r.questionId === 'real_goals');
-    const quizGoals = goalsResponse?.values || [];
+    // Extract goals from primary motivation and specific goals
+    const primaryMotivation = responses.find(r => r.questionId === 'primary_motivation');
+    const specificGoals = responses.filter(r => r.questionId.includes('_specifics'));
+
+    // Combine all goals
+    const quizGoals: string[] = [];
+
+    // Add primary motivation as a goal
+    if (primaryMotivation?.values) {
+      quizGoals.push(...primaryMotivation.values);
+    }
+
+    // Add all specific goals
+    specificGoals.forEach(goal => {
+      if (goal.values) {
+        quizGoals.push(...goal.values);
+      }
+    });
 
     // Use the comprehensive goal mapping system
     const mappedGoals = getTipGoalsForQuizGoals(quizGoals);
 
     // Log the mapping for debugging
-    console.log('Quiz goals:', quizGoals);
+    console.log('Primary motivation:', primaryMotivation?.values);
+    console.log('Specific goals:', specificGoals.map(g => g.values).flat());
+    console.log('Combined quiz goals:', quizGoals);
     console.log('Mapped to tip goals:', mappedGoals);
-    
+
     console.log('Goals for identity step:', mappedGoals);
     
     return (
