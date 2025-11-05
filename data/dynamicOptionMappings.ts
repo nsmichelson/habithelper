@@ -182,7 +182,14 @@ export const NUTRITION_WHY_TO_WHAT_WORKED: WhyToOptionsMapping = {
 // ============ FITNESS WHY MAPPINGS ============
 
 export const FITNESS_WHY_TO_WHAT_WORKED: WhyToOptionsMapping = {
-  // If look better
+  // For appearance/look better goals
+  'appearance': [
+    { value: 'progress_photos', label: 'Progress photos' },
+    { value: 'strength_training', label: 'Weight training' },
+    { value: 'hiit', label: 'HIIT workouts' },
+    { value: 'body_measurements', label: 'Track measurements' },
+  ],
+
   'look_better': [
     { value: 'progress_photos', label: 'Progress photos' },
     { value: 'strength_training', label: 'Weight training' },
@@ -190,31 +197,45 @@ export const FITNESS_WHY_TO_WHAT_WORKED: WhyToOptionsMapping = {
     { value: 'consistency', label: 'Consistent schedule' },
   ],
 
-  // If feel stronger
-  'feel_stronger': [
+  // For strength and functional goals
+  'functional_strength': [
+    { value: 'compound_movements', label: 'Compound exercises' },
+    { value: 'bodyweight', label: 'Bodyweight training' },
+    { value: 'core_work', label: 'Core strengthening' },
+    { value: 'functional_patterns', label: 'Movement patterns' },
+  ],
+
+  'strength': [
     { value: 'progressive_overload', label: 'Progressive overload' },
     { value: 'compound_exercises', label: 'Compound movements' },
     { value: 'personal_trainer', label: 'Personal trainer' },
     { value: 'strength_program', label: 'Structured program' },
   ],
 
-  // If keep up with kids
-  'keep_up_kids': [
-    { value: 'playground_workouts', label: 'Playground workouts' },
-    { value: 'active_play', label: 'Active play time' },
-    { value: 'stroller_fitness', label: 'Stroller workouts' },
-    { value: 'family_activities', label: 'Family active time' },
+  // For energy and vitality
+  'energy': [
+    { value: 'morning_workout', label: 'Morning exercise' },
+    { value: 'lunch_walks', label: 'Lunch break walks' },
+    { value: 'desk_exercises', label: 'Desk exercises' },
+    { value: 'active_breaks', label: 'Active work breaks' },
   ],
 
-  // If mental health
-  'mental_health': [
-    { value: 'outdoor_exercise', label: 'Outdoor activities' },
-    { value: 'yoga', label: 'Yoga practice' },
-    { value: 'group_classes', label: 'Group fitness' },
-    { value: 'mindful_movement', label: 'Mindful movement' },
+  // For confidence building
+  'confidence': [
+    { value: 'small_wins', label: 'Small victories' },
+    { value: 'group_fitness', label: 'Group classes' },
+    { value: 'personal_records', label: 'Track PRs' },
+    { value: 'workout_selfies', label: 'Document progress' },
   ],
 
-  // If health issues
+  // For health management
+  'health': [
+    { value: 'doctor_approved', label: 'Doctor-approved plan' },
+    { value: 'health_tracking', label: 'Track health markers' },
+    { value: 'moderate_exercise', label: 'Moderate intensity' },
+    { value: 'regular_checkups', label: 'Regular checkups' },
+  ],
+
   'health_issues': [
     { value: 'physical_therapy', label: 'Physical therapy' },
     { value: 'low_impact', label: 'Low impact exercise' },
@@ -222,23 +243,29 @@ export const FITNESS_WHY_TO_WHAT_WORKED: WhyToOptionsMapping = {
     { value: 'cardiac_rehab', label: 'Rehab program' },
   ],
 
-  // If athletic event
-  'athletic_event': [
-    { value: 'training_plan', label: 'Training plan' },
-    { value: 'coach', label: 'Coach or mentor' },
-    { value: 'race_registration', label: 'Event registration' },
-    { value: 'training_group', label: 'Training group' },
+  // For family and parenting
+  'keep_up_kids': [
+    { value: 'playground_workouts', label: 'Playground workouts' },
+    { value: 'active_play', label: 'Active play time' },
+    { value: 'family_activities', label: 'Family active time' },
+    { value: 'home_workouts', label: 'Quick home workouts' },
   ],
 
-  // If aging well
-  'aging_well': [
-    { value: 'balance_work', label: 'Balance exercises' },
-    { value: 'flexibility', label: 'Flexibility work' },
-    { value: 'functional_fitness', label: 'Functional movements' },
-    { value: 'senior_classes', label: 'Age-appropriate classes' },
+  'role_model': [
+    { value: 'family_activities', label: 'Family fitness' },
+    { value: 'visible_routine', label: 'Visible exercise routine' },
+    { value: 'healthy_habits', label: 'Model healthy habits' },
+    { value: 'involve_family', label: 'Involve family' },
   ],
 
-  // If stress relief
+  // For mental health
+  'mental_health': [
+    { value: 'outdoor_exercise', label: 'Outdoor activities' },
+    { value: 'yoga', label: 'Yoga practice' },
+    { value: 'group_classes', label: 'Group fitness' },
+    { value: 'mindful_movement', label: 'Mindful movement' },
+  ],
+
   'stress_relief': [
     { value: 'boxing', label: 'Boxing/kickboxing' },
     { value: 'running', label: 'Running/jogging' },
@@ -246,20 +273,95 @@ export const FITNESS_WHY_TO_WHAT_WORKED: WhyToOptionsMapping = {
     { value: 'dance', label: 'Dance classes' },
   ],
 
-  // If energy boost
-  'energy_boost': [
-    { value: 'morning_workout', label: 'Morning exercise' },
-    { value: 'lunch_walks', label: 'Lunch break walks' },
-    { value: 'desk_exercises', label: 'Desk exercises' },
-    { value: 'active_breaks', label: 'Active work breaks' },
+  // For athletic performance
+  'athletic_performance': [
+    { value: 'sport_specific', label: 'Sport-specific training' },
+    { value: 'performance_coach', label: 'Performance coach' },
+    { value: 'recovery_protocol', label: 'Recovery protocol' },
+    { value: 'nutrition_timing', label: 'Nutrition timing' },
   ],
 
-  // If social
+  'athletic_event': [
+    { value: 'training_plan', label: 'Training plan' },
+    { value: 'coach', label: 'Coach or mentor' },
+    { value: 'race_registration', label: 'Event registration' },
+    { value: 'training_group', label: 'Training group' },
+  ],
+
+  // For aging well
+  'aging_well': [
+    { value: 'balance_work', label: 'Balance exercises' },
+    { value: 'flexibility', label: 'Flexibility work' },
+    { value: 'functional_fitness', label: 'Functional movements' },
+    { value: 'senior_classes', label: 'Age-appropriate classes' },
+  ],
+
+  // For metabolism
+  'metabolism': [
+    { value: 'strength_training', label: 'Build muscle mass' },
+    { value: 'hiit', label: 'HIIT workouts' },
+    { value: 'protein_timing', label: 'Protein timing' },
+    { value: 'morning_workout', label: 'Morning exercise' },
+  ],
+
+  // For consistency and habit building
+  'consistency': [
+    { value: 'habit_stacking', label: 'Habit stacking' },
+    { value: 'workout_calendar', label: 'Workout calendar' },
+    { value: 'accountability_buddy', label: 'Accountability partner' },
+    { value: 'small_commitments', label: 'Start small' },
+  ],
+
+  'habit': [
+    { value: 'same_time', label: 'Same time daily' },
+    { value: 'prep_night_before', label: 'Prep night before' },
+    { value: 'visible_reminders', label: 'Visual cues' },
+    { value: 'reward_system', label: 'Reward system' },
+  ],
+
+  // For social connection
   'social': [
     { value: 'workout_buddy', label: 'Workout partner' },
     { value: 'fitness_classes', label: 'Group classes' },
     { value: 'sports_league', label: 'Sports league' },
     { value: 'running_club', label: 'Running/walking club' },
+  ],
+
+  // For convenience and logistics
+  'convenience': [
+    { value: 'home_equipment', label: 'Home equipment' },
+    { value: 'youtube_workouts', label: 'YouTube workouts' },
+    { value: 'fitness_apps', label: 'Fitness apps' },
+    { value: 'minimal_equipment', label: 'Minimal equipment' },
+  ],
+
+  'save_time': [
+    { value: 'quick_hiit', label: 'Quick HIIT sessions' },
+    { value: 'lunch_workouts', label: 'Lunch break workouts' },
+    { value: 'home_gym', label: 'Home gym setup' },
+    { value: 'efficient_routines', label: 'Efficient routines' },
+  ],
+
+  // For specific physical goals
+  'mobility': [
+    { value: 'daily_stretching', label: 'Daily stretching' },
+    { value: 'mobility_drills', label: 'Mobility drills' },
+    { value: 'foam_rolling', label: 'Foam rolling' },
+    { value: 'yoga', label: 'Yoga practice' },
+  ],
+
+  'endurance': [
+    { value: 'couch_to_5k', label: 'Couch to 5K' },
+    { value: 'interval_training', label: 'Interval training' },
+    { value: 'progressive_cardio', label: 'Progressive cardio' },
+    { value: 'cross_training', label: 'Cross training' },
+  ],
+
+  'weight_loss': [
+    { value: 'calorie_tracking', label: 'Track calories burned' },
+    { value: 'cardio_strength_combo', label: 'Cardio + strength' },
+    { value: 'daily_steps', label: '10K steps daily' },
+    { value: 'active_lifestyle', label: 'Active lifestyle' },
   ],
 };
 

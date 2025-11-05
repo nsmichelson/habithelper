@@ -796,6 +796,188 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
+  // Why for building strength
+  {
+    id: 'build_strength_why',
+    question: "Why do you want to build strength?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['build_strength']
+    },
+    helpText: 'Pick up to 3 reasons',
+    options: [
+      { value: 'look_better', label: 'Look more toned/muscular' },
+      { value: 'functional_strength', label: 'Daily activities easier' },
+      { value: 'confidence', label: 'Feel more confident' },
+      { value: 'health_issues', label: 'Prevent/manage health issues' },
+      { value: 'athletic_performance', label: 'Athletic performance' },
+      { value: 'aging_well', label: 'Age better' },
+      { value: 'mental_health', label: 'Mental health benefits' },
+      { value: 'metabolism', label: 'Boost metabolism' },
+      { value: 'injury_prevention', label: 'Prevent injuries' },
+      { value: 'challenge', label: 'Personal challenge' },
+    ]
+  },
+
+  // Why for weight loss through exercise
+  {
+    id: 'exercise_weight_loss_why',
+    question: "Why do you want to lose weight through exercise?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['exercise_lose_weight']
+    },
+    helpText: 'Pick up to 3 that matter most',
+    options: [
+      { value: 'appearance', label: 'Look better' },
+      { value: 'health', label: 'Health concerns' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'confidence', label: 'Build confidence' },
+      { value: 'keep_up_kids', label: 'Keep up with kids/family' },
+      { value: 'clothes_fit', label: 'Fit into clothes' },
+      { value: 'event', label: 'Upcoming event' },
+      { value: 'mobility', label: 'Move easier' },
+      { value: 'mental_health', label: 'Feel better mentally' },
+      { value: 'longevity', label: 'Live longer' },
+    ]
+  },
+
+  // Why for starting to exercise
+  {
+    id: 'start_exercising_why',
+    question: "Why do you want to start exercising?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['start_exercising']
+    },
+    helpText: 'What would exercise give you?',
+    options: [
+      { value: 'health', label: 'Improve health' },
+      { value: 'energy', label: 'More energy' },
+      { value: 'mental_health', label: 'Mental health benefits' },
+      { value: 'appearance', label: 'Look better' },
+      { value: 'stress_relief', label: 'Manage stress' },
+      { value: 'social', label: 'Social connection' },
+      { value: 'confidence', label: 'Build confidence' },
+      { value: 'sleep_better', label: 'Sleep better' },
+      { value: 'doctor_orders', label: 'Doctor recommended' },
+      { value: 'role_model', label: 'Be example for family' },
+    ]
+  },
+
+  // Why for improving cardio
+  {
+    id: 'improve_cardio_why',
+    question: "Why do you want to improve your cardio fitness?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['improve_cardio']
+    },
+    helpText: 'Pick up to 3 reasons',
+    options: [
+      { value: 'endurance', label: 'Better endurance' },
+      { value: 'heart_health', label: 'Heart health' },
+      { value: 'athletic_event', label: 'Training for event' },
+      { value: 'energy', label: 'More daily energy' },
+      { value: 'weight_loss', label: 'Support weight loss' },
+      { value: 'keep_up_kids', label: 'Keep up with kids' },
+      { value: 'mental_health', label: 'Mental clarity' },
+      { value: 'longevity', label: 'Live longer' },
+      { value: 'stairs', label: 'Climb stairs easier' },
+      { value: 'activities', label: 'Enjoy activities more' },
+    ]
+  },
+
+  // Why for flexibility
+  {
+    id: 'flexibility_why',
+    question: "Why do you want to increase flexibility?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['increase_flexibility']
+    },
+    helpText: 'What would flexibility help with?',
+    options: [
+      { value: 'pain_relief', label: 'Reduce pain/stiffness' },
+      { value: 'injury_prevention', label: 'Prevent injuries' },
+      { value: 'mobility', label: 'Better movement' },
+      { value: 'posture', label: 'Improve posture' },
+      { value: 'athletic_performance', label: 'Athletic performance' },
+      { value: 'aging_well', label: 'Age gracefully' },
+      { value: 'stress_relief', label: 'Stress relief' },
+      { value: 'daily_activities', label: 'Daily activities easier' },
+      { value: 'balance', label: 'Better balance' },
+      { value: 'recovery', label: 'Faster recovery' },
+    ]
+  },
+
+  // Why for finding enjoyable exercise
+  {
+    id: 'enjoyable_exercise_why',
+    question: "Why is finding enjoyable exercise important to you?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['find_enjoyable_exercise']
+    },
+    helpText: 'What would enjoyment give you?',
+    options: [
+      { value: 'consistency', label: 'Actually stick with it' },
+      { value: 'fun', label: 'Make fitness fun' },
+      { value: 'social', label: 'Social connection' },
+      { value: 'stress_relief', label: 'Stress relief' },
+      { value: 'mental_health', label: 'Mental health boost' },
+      { value: 'identity', label: 'Become active person' },
+      { value: 'no_dread', label: 'Stop dreading exercise' },
+      { value: 'variety', label: 'More variety' },
+      { value: 'exploration', label: 'Try new things' },
+      { value: 'lifestyle', label: 'Active lifestyle' },
+    ]
+  },
+
+  // Why for home workouts
+  {
+    id: 'home_workout_why',
+    question: "Why do you want to figure out home workouts?",
+    type: 'multiple_choice',
+    category: 'motivation',
+    required: true,
+    conditionalOn: {
+      questionId: 'fitness_specifics',
+      values: ['workout_at_home']
+    },
+    helpText: 'What would home workouts solve?',
+    options: [
+      { value: 'convenience', label: 'More convenient' },
+      { value: 'save_money', label: 'Save gym costs' },
+      { value: 'save_time', label: 'Save commute time' },
+      { value: 'privacy', label: 'Privacy/comfort' },
+      { value: 'childcare', label: 'No childcare needed' },
+      { value: 'flexible_schedule', label: 'Flexible timing' },
+      { value: 'consistency', label: 'Be more consistent' },
+      { value: 'comfort', label: 'Comfort zone' },
+      { value: 'weather', label: 'Weather-proof' },
+      { value: 'covid', label: 'Safety concerns' },
+    ]
+  },
+
   // Why for health-specific goals like blood sugar
   {
     id: 'blood_sugar_why',
