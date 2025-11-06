@@ -1,6 +1,7 @@
 import { SimplifiedTip } from '../types/simplifiedTip';
+import { RELATIONSHIP_SIMPLIFIED_TIPS } from './relationshipsSimplifiedTips';
 
-export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
+const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   
   {
     
@@ -11362,6 +11363,11 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "source": "coach_curated"
   }
 
+];
+
+export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
+  ...BASE_SIMPLIFIED_TIPS,
+  ...RELATIONSHIP_SIMPLIFIED_TIPS,
 ];
 
 // Helper function to get a specific tip by ID
