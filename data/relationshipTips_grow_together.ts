@@ -4,7 +4,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "o1p2q3r4-5s6t-7u8v-9w0x-1y2z3a4b5c6d",
     "summary": "Share one thing you want to learn",
-    "details_md": "**The Experiment:** Each share something new you'd like to learn and explore doing it together.
+    "details_md": `**The Experiment:** Each share something new you'd like to learn and explore doing it together.
 
 **Why it Works:** Learning together creates shared growth experiences and prevents stagnation.
 
@@ -12,7 +12,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Each identify something you want to learn
 • See if you can learn together
 • If not, support each other's learning
-• Share progress regularly",
+• Share progress regularly`,
     "area": "relationships",
     "goals": ["growth", "learning", "shared_experiences"],
     "helps_with": ["stagnation", "boredom", "parallel_lives"],
@@ -32,7 +32,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "p2q3r4s5-6t7u-8v9w-0x1y-2z3a4b5c6d7e",
     "summary": "Read a relationship book together",
-    "details_md": "**The Experiment:** Choose a relationship book to read and discuss chapter by chapter.
+    "details_md": `**The Experiment:** Choose a relationship book to read and discuss chapter by chapter.
 
 **Why it Works:** Intentional relationship learning provides tools and sparks important conversations.
 
@@ -40,7 +40,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Choose a book together
 • Read one chapter weekly
 • Discuss what resonates
-• Try suggested exercises",
+• Try suggested exercises`,
     "area": "relationships",
     "goals": ["relationship_skills", "learning", "intentional_growth"],
     "helps_with": ["skill_gaps", "stagnation", "communication"],
@@ -60,7 +60,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "q3r4s5t6-7u8v-9w0x-1y2z-3a4b5c6d7e8f",
     "summary": "Set individual goals and share progress",
-    "details_md": "**The Experiment:** Each set a personal growth goal and update each other weekly on progress.
+    "details_md": `**The Experiment:** Each set a personal growth goal and update each other weekly on progress.
 
 **Why it Works:** Supporting individual growth while staying connected prevents stagnation and builds admiration.
 
@@ -68,7 +68,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Each choose a personal goal
 • Share why it matters to you
 • Weekly brief progress updates
-• Celebrate milestones together",
+• Celebrate milestones together`,
     "area": "relationships",
     "goals": ["individual_growth", "support", "accountability"],
     "helps_with": ["individual_stagnation", "lack_of_growth", "disconnection"],
@@ -88,7 +88,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "r4s5t6u7-8v9w-0x1y-2z3a-4b5c6d7e8f9g",
     "summary": "Try something that scares you both",
-    "details_md": "**The Experiment:** Choose an activity that pushes both of you outside comfort zones.
+    "details_md": `**The Experiment:** Choose an activity that pushes both of you outside comfort zones.
 
 **Why it Works:** Facing fears together builds trust, creates bonding experiences, and proves you can grow.
 
@@ -96,7 +96,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Identify shared fear or discomfort
 • Choose manageable challenge
 • Face it together
-• Celebrate courage afterward",
+• Celebrate courage afterward`,
     "area": "relationships",
     "goals": ["courage", "growth", "shared_challenge"],
     "helps_with": ["comfort_zone", "stagnation", "fear"],
@@ -116,7 +116,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "s5t6u7v8-9w0x-1y2z-3a4b-5c6d7e8f9g0h",
     "summary": "Teach each other a skill",
-    "details_md": "**The Experiment:** Each teach the other something you know that they don't.
+    "details_md": `**The Experiment:** Each teach the other something you know that they don't.
 
 **Why it Works:** Being both teacher and student creates appreciation and shares knowledge.
 
@@ -124,7 +124,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Each identify a skill to teach
 • Take turns being teacher/student
 • Be patient and encouraging
-• Appreciate the exchange",
+• Appreciate the exchange`,
     "area": "relationships",
     "goals": ["skill_sharing", "patience", "appreciation"],
     "helps_with": ["knowledge_gaps", "appreciation", "connection"],
@@ -144,7 +144,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "t6u7v8w9-0x1y-2z3a-4b5c-6d7e8f9g0h1i",
     "summary": "Create a growth vision board together",
-    "details_md": "**The Experiment:** Make a visual representation of your individual and shared growth goals.
+    "details_md": `**The Experiment:** Make a visual representation of your individual and shared growth goals.
 
 **Why it Works:** Visual reminders of growth goals increase motivation and alignment.
 
@@ -152,7 +152,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Gather magazines, photos, supplies
 • Include individual and couple goals
 • Make it visual and inspiring
-• Display prominently",
+• Display prominently`,
     "area": "relationships",
     "goals": ["vision", "motivation", "alignment"],
     "helps_with": ["lack_of_direction", "motivation", "goal_clarity"],
@@ -172,7 +172,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "u7v8w9x0-1y2z-3a4b-5c6d-7e8f9g0h1i2j",
     "summary": "Attend a workshop or class together",
-    "details_md": "**The Experiment:** Sign up for a class or workshop to learn something new together.
+    "details_md": `**The Experiment:** Sign up for a class or workshop to learn something new together.
 
 **Why it Works:** Structured learning experiences provide shared challenges and accomplishments.
 
@@ -180,7 +180,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Find a class you both find interesting
 • Could be cooking, dancing, art, language
 • Commit to full course
-• Practice together between classes",
+• Practice together between classes`,
     "area": "relationships",
     "goals": ["shared_learning", "commitment", "new_skills"],
     "helps_with": ["routine", "lack_of_novelty", "parallel_lives"],
@@ -200,7 +200,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "v8w9x0y1-2z3a-4b5c-6d7e-8f9g0h1i2j3k",
     "summary": "Share your edges and growth areas",
-    "details_md": "**The Experiment:** Vulnerably share where you know you need to grow personally.
+    "details_md": `**The Experiment:** Vulnerably share where you know you need to grow personally.
 
 **Why it Works:** Sharing growth edges creates accountability and invites support for change.
 
@@ -208,7 +208,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Identify personal growth edge
 • Share vulnerably without self-attack
 • Ask for support, not fixing
-• Offer support for their edges",
+• Offer support for their edges`,
     "area": "relationships",
     "goals": ["vulnerability", "growth_awareness", "support"],
     "helps_with": ["hidden_struggles", "growth_blocks", "support"],
@@ -228,7 +228,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "w9x0y1z2-3a4b-5c6d-7e8f-9g0h1i2j3k4l",
     "summary": "Celebrate growth you see in each other",
-    "details_md": "**The Experiment:** Point out specific growth you've noticed in your partner recently.
+    "details_md": `**The Experiment:** Point out specific growth you've noticed in your partner recently.
 
 **Why it Works:** Acknowledging growth reinforces positive changes and builds confidence.
 
@@ -236,7 +236,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Notice specific growth or change
 • Name it explicitly
 • Share how it impacts you
-• Celebrate the effort it took",
+• Celebrate the effort it took`,
     "area": "relationships",
     "goals": ["recognition", "encouragement", "celebration"],
     "helps_with": ["unnoticed_growth", "lack_of_encouragement", "stagnation"],
@@ -256,7 +256,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "x0y1z2a3-4b5c-6d7e-8f9g-0h1i2j3k4l5m",
     "summary": "Review your growth together quarterly",
-    "details_md": "**The Experiment:** Every three months, reflect on how you've both grown individually and together.
+    "details_md": `**The Experiment:** Every three months, reflect on how you've both grown individually and together.
 
 **Why it Works:** Regular growth review maintains momentum and celebrates progress.
 
@@ -264,7 +264,7 @@ export const GROW_TOGETHER_TIPS: SimplifiedTip[] = [
 • Set quarterly review dates
 • Each share personal growth
 • Identify relationship growth
-• Set intentions for next quarter",
+• Set intentions for next quarter`,
     "area": "relationships",
     "goals": ["reflection", "growth_tracking", "intentionality"],
     "helps_with": ["unconscious_growth", "lack_of_reflection", "direction"],

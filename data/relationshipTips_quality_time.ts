@@ -4,7 +4,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a1b2c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
     "summary": "Block 15 minutes for screen-free connection",
-    "details_md": "**The Experiment:** Schedule 15 minutes today for a screen-free talk or short walk together.\n\n**Why it Works:** Dedicated device-free time creates space for genuine presence and connection. Even brief moments of full attention strengthen relationship bonds.\n\n**How to Try It:**\n• Put all devices in another room\n• Set a 15-minute timer\n• Choose talking, walking, or simple togetherness\n• Focus on being present, not productive",
+    "details_md": `**The Experiment:** Schedule 15 minutes today for a screen-free talk or short walk together.\n\n**Why it Works:** Dedicated device-free time creates space for genuine presence and connection. Even brief moments of full attention strengthen relationship bonds.\n\n**How to Try It:**\n• Put all devices in another room\n• Set a 15-minute timer\n• Choose talking, walking, or simple togetherness\n• Focus on being present, not productive`,
     "area": "relationships",
     "goals": ["quality_time", "presence", "connection"],
     "helps_with": ["digital_distraction", "feeling_disconnected", "busy_schedules"],
@@ -24,7 +24,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "b2c3d4e5-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
     "summary": "Share today's highlight and tomorrow's wish",
-    "details_md": "**The Experiment:** Tonight, each share one highlight from today and one small wish for tomorrow.\n\n**Why it Works:** Sharing positive moments and future hopes creates emotional connection and mutual support. It ends the day on a constructive note.\n\n**How to Try It:**\n• Find a quiet moment tonight\n• Each share one good moment from today\n• Each share one hope for tomorrow\n• Keep it brief and genuine",
+    "details_md": `**The Experiment:** Tonight, each share one highlight from today and one small wish for tomorrow.\n\n**Why it Works:** Sharing positive moments and future hopes creates emotional connection and mutual support. It ends the day on a constructive note.\n\n**How to Try It:**\n• Find a quiet moment tonight\n• Each share one good moment from today\n• Each share one hope for tomorrow\n• Keep it brief and genuine`,
     "area": "relationships",
     "goals": ["emotional_sharing", "positive_focus", "future_planning"],
     "helps_with": ["daily_connection", "positive_communication"],
@@ -44,7 +44,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c3d4e5f6-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
     "summary": "Put phone down at lunch and ask what felt good",
-    "details_md": "**The Experiment:** During lunch, put your phone away and ask your partner \"What's felt good today?\"\n\n**Why it Works:** Mid-day check-ins with positive focus boost mood and connection. Removing phones signals priority and presence.\n\n**How to Try It:**\n• Place phone face-down or in pocket\n• Make eye contact\n• Ask: \"What's felt good so far today?\"\n• Share your own positive moment",
+    "details_md": `**The Experiment:** During lunch, put your phone away and ask your partner \"What's felt good today?\"\n\n**Why it Works:** Mid-day check-ins with positive focus boost mood and connection. Removing phones signals priority and presence.\n\n**How to Try It:**\n• Place phone face-down or in pocket\n• Make eye contact\n• Ask: \"What's felt good so far today?\"\n• Share your own positive moment`,
     "area": "relationships",
     "goals": ["mindful_presence", "positive_communication", "lunch_connection"],
     "helps_with": ["work_day_distance", "digital_distraction"],
@@ -64,7 +64,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
     "summary": "Text a memory that made you think of them",
-    "details_md": "**The Experiment:** Right now, text your partner about a memory that popped up and made you think of them.\n\n**Why it Works:** Sharing spontaneous memories shows ongoing mental connection and reinforces positive shared experiences.\n\n**How to Try It:**\n• Think of a shared memory\n• Text: \"Thinking of you - remembered when we [memory]\"\n• Add what you loved about that moment\n• Send it without overthinking",
+    "details_md": `**The Experiment:** Right now, text your partner about a memory that popped up and made you think of them.\n\n**Why it Works:** Sharing spontaneous memories shows ongoing mental connection and reinforces positive shared experiences.\n\n**How to Try It:**\n• Think of a shared memory\n• Text: \"Thinking of you - remembered when we [memory]\"\n• Add what you loved about that moment\n• Send it without overthinking`,
     "area": "relationships",
     "goals": ["spontaneous_connection", "memory_sharing", "thoughtfulness"],
     "helps_with": ["daily_connection", "romance", "appreciation"],
@@ -84,7 +84,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
     "summary": "Take 10 minutes after work before screens",
-    "details_md": "**The Experiment:** After work, spend 10 minutes together face-to-face before turning to any screens.\n\n**Why it Works:** Transition rituals help shift from work to home mindset. Face-to-face connection before devices sets a positive evening tone.\n\n**How to Try It:**\n• Greet each other when arriving home\n• Set a 10-minute timer\n• Share brief work highlights or decompress\n• Save devices until after this connection",
+    "details_md": `**The Experiment:** After work, spend 10 minutes together face-to-face before turning to any screens.\n\n**Why it Works:** Transition rituals help shift from work to home mindset. Face-to-face connection before devices sets a positive evening tone.\n\n**How to Try It:**\n• Greet each other when arriving home\n• Set a 10-minute timer\n• Share brief work highlights or decompress\n• Save devices until after this connection`,
     "area": "relationships",
     "goals": ["transition_ritual", "work_life_balance", "evening_connection"],
     "helps_with": ["work_stress", "evening_disconnect", "transition_difficulty"],
@@ -104,7 +104,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "f6a7b8c9-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
     "summary": "Cook or clean together with music, not tasks",
-    "details_md": "**The Experiment:** Tonight, do a household task together while focusing on laughter or music instead of efficiency.\n\n**Why it Works:** Transforming chores into connection time makes mundane tasks enjoyable. Shared activities with playfulness strengthen bonds.\n\n**How to Try It:**\n• Choose cooking or cleaning together\n• Put on favorite music\n• Focus on enjoyment over speed\n• Add playfulness - dance, sing, or joke",
+    "details_md": `**The Experiment:** Tonight, do a household task together while focusing on laughter or music instead of efficiency.\n\n**Why it Works:** Transforming chores into connection time makes mundane tasks enjoyable. Shared activities with playfulness strengthen bonds.\n\n**How to Try It:**\n• Choose cooking or cleaning together\n• Put on favorite music\n• Focus on enjoyment over speed\n• Add playfulness - dance, sing, or joke`,
     "area": "relationships",
     "goals": ["shared_activities", "playfulness", "daily_connection"],
     "helps_with": ["chore_stress", "lack_of_fun", "parallel_living"],
@@ -124,7 +124,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a7b8c9d0-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
     "summary": "Add one fun plan to your shared calendar",
-    "details_md": "**The Experiment:** Choose one enjoyable activity today and add it to your shared calendar for this week.\n\n**Why it Works:** Planning fun creates anticipation and ensures quality time happens despite busy schedules. Shared calendars make priorities visible.\n\n**How to Try It:**\n• Discuss one fun idea briefly\n• Pick a specific day and time\n• Add it to both calendars immediately\n• Treat it as non-negotiable",
+    "details_md": `**The Experiment:** Choose one enjoyable activity today and add it to your shared calendar for this week.\n\n**Why it Works:** Planning fun creates anticipation and ensures quality time happens despite busy schedules. Shared calendars make priorities visible.\n\n**How to Try It:**\n• Discuss one fun idea briefly\n• Pick a specific day and time\n• Add it to both calendars immediately\n• Treat it as non-negotiable`,
     "area": "relationships",
     "goals": ["planning_together", "anticipation", "prioritizing_fun"],
     "helps_with": ["spontaneity_loss", "busy_schedules", "routine_rut"],
@@ -144,7 +144,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "b8c9d0e1-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
     "summary": "Play one song and dance or hum together",
-    "details_md": "**The Experiment:** Before dinner, play one favorite song and move to it together - dance, sway, or just hum along.\n\n**Why it Works:** Music and movement release bonding hormones and create joyful shared experiences. Brief playful moments combat stress.\n\n**How to Try It:**\n• Pick a song you both enjoy\n• Stand up together\n• Move however feels good - dance, sway, or hold each other\n• Focus on fun, not performance",
+    "details_md": `**The Experiment:** Before dinner, play one favorite song and move to it together - dance, sway, or just hum along.\n\n**Why it Works:** Music and movement release bonding hormones and create joyful shared experiences. Brief playful moments combat stress.\n\n**How to Try It:**\n• Pick a song you both enjoy\n• Stand up together\n• Move however feels good - dance, sway, or hold each other\n• Focus on fun, not performance`,
     "area": "relationships",
     "goals": ["playfulness", "physical_connection", "joy"],
     "helps_with": ["stress_relief", "physical_distance", "seriousness"],
@@ -164,7 +164,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c9d0e1f2-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
     "summary": "Share one hope for the week ahead",
-    "details_md": "**The Experiment:** Before bed, each share one hope or intention for the upcoming week.\n\n**Why it Works:** Sharing future hopes creates mutual support and aligned expectations. It builds teamwork and positive anticipation.\n\n**How to Try It:**\n• Sit together before sleep\n• Each share one hope for the week\n• Listen without judgment\n• Offer support or encouragement",
+    "details_md": `**The Experiment:** Before bed, each share one hope or intention for the upcoming week.\n\n**Why it Works:** Sharing future hopes creates mutual support and aligned expectations. It builds teamwork and positive anticipation.\n\n**How to Try It:**\n• Sit together before sleep\n• Each share one hope for the week\n• Listen without judgment\n• Offer support or encouragement`,
     "area": "relationships",
     "goals": ["future_planning", "mutual_support", "hope_building"],
     "helps_with": ["weekly_planning", "team_building", "anticipation"],
@@ -184,7 +184,7 @@ export const QUALITY_TIME_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d0e1f2a3-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
     "summary": "End your day with a 20-second hug",
-    "details_md": "**The Experiment:** Tonight, share a 20-second hug or long handhold before sleep.\n\n**Why it Works:** Extended physical touch releases oxytocin, reducing stress and increasing bonding. Twenty seconds is the minimum for significant hormone release.\n\n**How to Try It:**\n• Before getting into bed\n• Embrace for a full 20 seconds\n• Breathe together\n• No need for words - just be present",
+    "details_md": `**The Experiment:** Tonight, share a 20-second hug or long handhold before sleep.\n\n**Why it Works:** Extended physical touch releases oxytocin, reducing stress and increasing bonding. Twenty seconds is the minimum for significant hormone release.\n\n**How to Try It:**\n• Before getting into bed\n• Embrace for a full 20 seconds\n• Breathe together\n• No need for words - just be present`,
     "area": "relationships",
     "goals": ["physical_intimacy", "stress_relief", "bonding"],
     "helps_with": ["physical_distance", "stress", "disconnection"],

@@ -4,7 +4,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "w1x2y3z4-5a6b-7c8d-9e0f-1g2h3i4j5k6l",
     "summary": "Say no to one thing to say yes to couple time",
-    "details_md": "**The Experiment:** Cancel or decline one commitment this week to create time for your relationship.
+    "details_md": `**The Experiment:** Cancel or decline one commitment this week to create time for your relationship.
 
 **Why it Works:** Active prioritization demonstrates that the relationship matters more than being busy.
 
@@ -12,7 +12,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Look at this week's commitments
 • Choose one that's optional
 • Cancel or decline it
-• Use that time for connection",
+• Use that time for connection`,
     "area": "relationships",
     "goals": ["prioritization", "boundaries", "couple_time"],
     "helps_with": ["overcommitment", "no_couple_time", "priority_confusion"],
@@ -32,7 +32,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "x2y3z4a5-6b7c-8d9e-0f1g-2h3i4j5k6l7m",
     "summary": "Book a recurring date night in your calendars",
-    "details_md": "**The Experiment:** Schedule a weekly date night as a recurring, non-negotiable calendar event.
+    "details_md": `**The Experiment:** Schedule a weekly date night as a recurring, non-negotiable calendar event.
 
 **Why it Works:** Protected time ensures connection happens despite busy schedules and competing priorities.
 
@@ -40,7 +40,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Choose a weekly time slot
 • Add to both calendars as recurring
 • Treat like important meeting
-• Plan simple or elaborate dates",
+• Plan simple or elaborate dates`,
     "area": "relationships",
     "goals": ["consistency", "protected_time", "dating"],
     "helps_with": ["no_dates", "schedule_chaos", "drift"],
@@ -60,7 +60,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "y3z4a5b6-7c8d-9e0f-1g2h-3i4j5k6l7m8n",
     "summary": "Put phones in a basket during dinner",
-    "details_md": "**The Experiment:** Create a phone basket for all devices during every meal together.
+    "details_md": `**The Experiment:** Create a phone basket for all devices during every meal together.
 
 **Why it Works:** Removing devices entirely prevents temptation and signals full presence priority.
 
@@ -68,7 +68,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Get a basket or box
 • Place by dining area
 • All phones go in before eating
-• Retrieve only after cleanup",
+• Retrieve only after cleanup`,
     "area": "relationships",
     "goals": ["presence", "boundaries", "mealtime_connection"],
     "helps_with": ["phone_distraction", "divided_attention", "mealtime_disconnection"],
@@ -88,7 +88,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "z4a5b6c7-8d9e-0f1g-2h3i-4j5k6l7m8n9o",
     "summary": "Wake up 15 minutes earlier for morning connection",
-    "details_md": "**The Experiment:** Set alarms 15 minutes earlier to create morning connection time before the day starts.
+    "details_md": `**The Experiment:** Set alarms 15 minutes earlier to create morning connection time before the day starts.
 
 **Why it Works:** Starting the day with connection sets positive tone and ensures quality time happens.
 
@@ -96,7 +96,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Both set alarms 15 minutes earlier
 • Use time for coffee, cuddles, or conversation
 • No phones or planning allowed
-• Just be together",
+• Just be together`,
     "area": "relationships",
     "goals": ["morning_connection", "prioritization", "ritual"],
     "helps_with": ["rushed_mornings", "no_connection_time", "day_disconnect"],
@@ -116,7 +116,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a5b6c7d8-9e0f-1g2h-3i4j-5k6l7m8n9o0p",
     "summary": "Choose an us project to work on together",
-    "details_md": "**The Experiment:** Pick one project to tackle together - home improvement, puzzle, garden, anything collaborative.
+    "details_md": `**The Experiment:** Pick one project to tackle together - home improvement, puzzle, garden, anything collaborative.
 
 **Why it Works:** Shared projects create teamwork, common goals, and quality time with purpose.
 
@@ -124,7 +124,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Brainstorm projects you both find interesting
 • Choose one to start this week
 • Work on it together regularly
-• Celebrate progress together",
+• Celebrate progress together`,
     "area": "relationships",
     "goals": ["collaboration", "shared_goals", "quality_time"],
     "helps_with": ["parallel_living", "no_shared_activities", "teamwork"],
@@ -144,7 +144,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "b6c7d8e9-0f1g-2h3i-4j5k-6l7m8n9o0p1q",
     "summary": "Make relationship goals for this month",
-    "details_md": "**The Experiment:** Set 2-3 specific relationship goals together for the coming month.
+    "details_md": `**The Experiment:** Set 2-3 specific relationship goals together for the coming month.
 
 **Why it Works:** Shared goals create intentionality and mutual investment in relationship growth.
 
@@ -152,7 +152,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Discuss what you'd like to improve
 • Set 2-3 specific, achievable goals
 • Write them down and post them
-• Check in weekly on progress",
+• Check in weekly on progress`,
     "area": "relationships",
     "goals": ["goal_setting", "intentionality", "growth"],
     "helps_with": ["drift", "stagnation", "lack_of_direction"],
@@ -172,7 +172,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c7d8e9f0-1g2h-3i4j-5k6l-7m8n9o0p1q2r",
     "summary": "Leave work conversations at the door",
-    "details_md": "**The Experiment:** Create a ritual of leaving work stress outside before entering your shared space.
+    "details_md": `**The Experiment:** Create a ritual of leaving work stress outside before entering your shared space.
 
 **Why it Works:** Conscious transition protects couple time from work contamination.
 
@@ -180,7 +180,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Before entering home, pause outside
 • Take three deep breaths
 • Mentally leave work at the door
-• Enter as partner, not worker",
+• Enter as partner, not worker`,
     "area": "relationships",
     "goals": ["boundaries", "transition", "presence"],
     "helps_with": ["work_spillover", "stress_contamination", "presence"],
@@ -200,7 +200,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d8e9f0g1-2h3i-4j5k-6l7m-8n9o0p1q2r3s",
     "summary": "Trade off planning responsibilities weekly",
-    "details_md": "**The Experiment:** Alternate who plans your weekly couple time, removing decision fatigue.
+    "details_md": `**The Experiment:** Alternate who plans your weekly couple time, removing decision fatigue.
 
 **Why it Works:** Shared responsibility prevents one person carrying the mental load of relationship maintenance.
 
@@ -208,7 +208,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Agree to weekly couple time
 • Alternate who plans it
 • Planner has full control of activity
-• Other person shows up openly",
+• Other person shows up openly`,
     "area": "relationships",
     "goals": ["shared_responsibility", "mental_load", "surprise"],
     "helps_with": ["planning_burden", "decision_fatigue", "imbalance"],
@@ -228,7 +228,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e9f0g1h2-3i4j-5k6l-7m8n-9o0p1q2r3s4t",
     "summary": "Create a relationship vision board together",
-    "details_md": "**The Experiment:** Spend an evening creating a visual representation of your relationship dreams.
+    "details_md": `**The Experiment:** Spend an evening creating a visual representation of your relationship dreams.
 
 **Why it Works:** Visual goals increase motivation and alignment while creating fun bonding activity.
 
@@ -236,7 +236,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Gather magazines, photos, art supplies
 • Create vision board together
 • Include adventures, milestones, feelings
-• Display it prominently",
+• Display it prominently`,
     "area": "relationships",
     "goals": ["vision_sharing", "creativity", "future_planning"],
     "helps_with": ["unclear_future", "lack_of_dreams", "alignment"],
@@ -256,7 +256,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "f0g1h2i3-4j5k-6l7m-8n9o-0p1q2r3s4t5u",
     "summary": "Protect Sunday mornings for just you two",
-    "details_md": "**The Experiment:** Designate Sunday mornings as couple-only time with no outside commitments.
+    "details_md": `**The Experiment:** Designate Sunday mornings as couple-only time with no outside commitments.
 
 **Why it Works:** Protected recurring time becomes sacred space for connection without negotiation.
 
@@ -264,7 +264,7 @@ export const PRIORITIZE_US_TIPS: SimplifiedTip[] = [
 • Agree Sunday mornings are protected
 • Decline all outside invitations for this time
 • Plan nothing or something special
-• Guard this time fiercely",
+• Guard this time fiercely`,
     "area": "relationships",
     "goals": ["protected_time", "boundaries", "sacred_space"],
     "helps_with": ["no_couple_time", "overcommitment", "external_demands"],

@@ -4,7 +4,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a1b2c3d4-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
     "summary": "Share one money fear without judgment",
-    "details_md": "**The Experiment:** Each share one financial fear or worry you carry, listening without fixing.
+    "details_md": `**The Experiment:** Each share one financial fear or worry you carry, listening without fixing.
 
 **Why it Works:** Money fears affect behavior; sharing them creates understanding and reduces financial tension.
 
@@ -12,7 +12,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Create safe, private space
 • Each share one money fear
 • Listen without judging or solving
-• Thank each other for vulnerability",
+• Thank each other for vulnerability`,
     "area": "relationships",
     "goals": ["financial_intimacy", "vulnerability", "understanding"],
     "helps_with": ["money_stress", "financial_secrets", "fear"],
@@ -32,7 +32,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "b2c3d4e5-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
     "summary": "Have a weekly 10-minute money check-in",
-    "details_md": "**The Experiment:** Set a timer for 10 minutes weekly to quickly review finances together.
+    "details_md": `**The Experiment:** Set a timer for 10 minutes weekly to quickly review finances together.
 
 **Why it Works:** Regular brief check-ins prevent money surprises and keep both partners informed.
 
@@ -40,7 +40,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Pick a weekly time
 • Set 10-minute timer
 • Review spending, upcoming expenses
-• No blame, just information sharing",
+• No blame, just information sharing`,
     "area": "relationships",
     "goals": ["financial_transparency", "regular_communication", "alignment"],
     "helps_with": ["money_surprises", "financial_disconnect", "overspending"],
@@ -60,7 +60,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c3d4e5f6-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
     "summary": "Create fun money for each person",
-    "details_md": "**The Experiment:** Allocate equal 'fun money' that each person can spend without explanation.
+    "details_md": `**The Experiment:** Allocate equal 'fun money' that each person can spend without explanation.
 
 **Why it Works:** Personal spending freedom reduces control issues and respects individual autonomy.
 
@@ -68,7 +68,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Agree on equal amount for each
 • No questions about how it's spent
 • Start small if budget is tight
-• Respect the boundary completely",
+• Respect the boundary completely`,
     "area": "relationships",
     "goals": ["autonomy", "freedom", "respect"],
     "helps_with": ["control_issues", "spending_conflicts", "autonomy"],
@@ -88,7 +88,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d4e5f6g7-8h9i-0j1k-2l3m-4n5o6p7q8r9s",
     "summary": "Dream about a financial goal together",
-    "details_md": "**The Experiment:** Spend 20 minutes dreaming about one shared financial goal without worrying about 'how'.
+    "details_md": `**The Experiment:** Spend 20 minutes dreaming about one shared financial goal without worrying about 'how'.
 
 **Why it Works:** Shared financial dreams create unity and motivation for financial discipline.
 
@@ -96,7 +96,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Set aside reality temporarily
 • Dream about a shared goal
 • Visualize it in detail together
-• Write it down to make it real",
+• Write it down to make it real`,
     "area": "relationships",
     "goals": ["shared_dreams", "motivation", "unity"],
     "helps_with": ["lack_of_goals", "financial_hopelessness", "motivation"],
@@ -116,7 +116,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e5f6g7h8-9i0j-1k2l-3m4n-5o6p7q8r9s0t",
     "summary": "Celebrate small financial wins together",
-    "details_md": "**The Experiment:** When either achieves a financial goal (even tiny), celebrate it together.
+    "details_md": `**The Experiment:** When either achieves a financial goal (even tiny), celebrate it together.
 
 **Why it Works:** Celebrating financial progress reinforces good habits and creates positive money associations.
 
@@ -124,7 +124,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Notice any financial win
 • Could be using coupon, saving $10, paying bill early
 • Celebrate with high-five, dance, treat
-• Make money wins feel good",
+• Make money wins feel good`,
     "area": "relationships",
     "goals": ["celebration", "positive_reinforcement", "team_wins"],
     "helps_with": ["financial_negativity", "lack_of_progress", "motivation"],
@@ -144,7 +144,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "f6g7h8i9-0j1k-2l3m-4n5o-6p7q8r9s0t1u",
     "summary": "Take turns being CFO for a month",
-    "details_md": "**The Experiment:** Alternate who manages bills and budget monthly, sharing the mental load.
+    "details_md": `**The Experiment:** Alternate who manages bills and budget monthly, sharing the mental load.
 
 **Why it Works:** Rotation ensures both understand finances and shares responsibility burden.
 
@@ -152,7 +152,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • One person handles bills for a month
 • Next month, switch roles
 • Support each other during transition
-• Both stay informed throughout",
+• Both stay informed throughout`,
     "area": "relationships",
     "goals": ["shared_responsibility", "understanding", "fairness"],
     "helps_with": ["imbalanced_responsibility", "financial_ignorance", "burden"],
@@ -172,7 +172,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "g7h8i9j0-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
     "summary": "Share childhood money memories",
-    "details_md": "**The Experiment:** Share how money was handled in your childhood homes and what you learned.
+    "details_md": `**The Experiment:** Share how money was handled in your childhood homes and what you learned.
 
 **Why it Works:** Understanding money origins explains current behaviors and creates empathy for differences.
 
@@ -180,7 +180,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Share your earliest money memory
 • Describe your family's money approach
 • Identify what you learned/inherited
-• Notice patterns affecting you now",
+• Notice patterns affecting you now`,
     "area": "relationships",
     "goals": ["understanding", "empathy", "pattern_awareness"],
     "helps_with": ["money_conflicts", "different_approaches", "judgment"],
@@ -200,7 +200,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "h8i9j0k1-2l3m-4n5o-6p7q-8r9s0t1u2v3w",
     "summary": "Do a spending freeze together for a week",
-    "details_md": "**The Experiment:** Challenge yourselves to spend nothing beyond essentials for one week.
+    "details_md": `**The Experiment:** Challenge yourselves to spend nothing beyond essentials for one week.
 
 **Why it Works:** Shared challenges build teamwork and reveal spending patterns while saving money.
 
@@ -208,7 +208,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Agree on what counts as essential
 • Support each other through temptations
 • Find free alternatives for entertainment
-• Celebrate completing the challenge",
+• Celebrate completing the challenge`,
     "area": "relationships",
     "goals": ["teamwork", "saving", "awareness"],
     "helps_with": ["overspending", "lack_of_savings", "unconscious_spending"],
@@ -228,7 +228,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "i9j0k1l2-3m4n-5o6p-7q8r-9s0t1u2v3w4x",
     "summary": "Thank each other for financial contributions",
-    "details_md": "**The Experiment:** Explicitly appreciate each other's financial contributions, whatever the amount.
+    "details_md": `**The Experiment:** Explicitly appreciate each other's financial contributions, whatever the amount.
 
 **Why it Works:** Acknowledging all contributions prevents resentment and values different types of support.
 
@@ -236,7 +236,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Notice all financial contributions
 • Include earning, saving, managing, planning
 • Thank specifically for what they do
-• Value effort, not just amounts",
+• Value effort, not just amounts`,
     "area": "relationships",
     "goals": ["appreciation", "recognition", "value"],
     "helps_with": ["feeling_unvalued", "resentment", "imbalance"],
@@ -256,7 +256,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "j0k1l2m3-4n5o-6p7q-8r9s-0t1u2v3w4x5y",
     "summary": "Set money dates to review and plan",
-    "details_md": "**The Experiment:** Schedule monthly 'money dates' that include treats to make financial planning pleasant.
+    "details_md": `**The Experiment:** Schedule monthly 'money dates' that include treats to make financial planning pleasant.
 
 **Why it Works:** Pairing financial discussions with pleasure reduces anxiety and creates positive associations.
 
@@ -264,7 +264,7 @@ export const MANAGE_FINANCES_TIPS: SimplifiedTip[] = [
 • Schedule monthly money date
 • Include favorite drink or dessert
 • Review finances calmly together
-• End with something fun or romantic",
+• End with something fun or romantic`,
     "area": "relationships",
     "goals": ["regular_planning", "positive_association", "teamwork"],
     "helps_with": ["financial_avoidance", "money_anxiety", "planning"],

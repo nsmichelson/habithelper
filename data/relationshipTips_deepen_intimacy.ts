@@ -4,7 +4,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c1d2e3f4-5g6h-7i8j-9k0l-1m2n3o4p5q6r",
     "summary": "Share something you've never told anyone",
-    "details_md": "**The Experiment:** Share one thing about yourself that you've never told anyone, including your partner.
+    "details_md": `**The Experiment:** Share one thing about yourself that you've never told anyone, including your partner.
 
 **Why it Works:** Unprecedented vulnerability creates unique intimacy and demonstrates ultimate trust.
 
@@ -12,7 +12,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Choose something meaningful but safe
 • Create a calm, private moment
 • Share with genuine vulnerability
-• Thank them for holding space for you",
+• Thank them for holding space for you`,
     "area": "relationships",
     "goals": ["deep_vulnerability", "trust", "unique_intimacy"],
     "helps_with": ["surface_connection", "hidden_self", "intimacy_barriers"],
@@ -32,7 +32,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d2e3f4g5-6h7i-8j9k-0l1m-2n3o4p5q6r7s",
     "summary": "Ask what makes them feel most loved",
-    "details_md": "**The Experiment:** Ask your partner to describe the specific moments when they feel most loved by you.
+    "details_md": `**The Experiment:** Ask your partner to describe the specific moments when they feel most loved by you.
 
 **Why it Works:** Understanding their unique love reception helps you love them more effectively.
 
@@ -40,7 +40,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Ask: \"When do you feel most loved by me?\"
 • Listen for specific examples
 • Ask follow-up questions
-• Take mental notes for future actions",
+• Take mental notes for future actions`,
     "area": "relationships",
     "goals": ["understanding", "love_effectiveness", "deep_listening"],
     "helps_with": ["love_misalignment", "ineffective_care", "understanding_gaps"],
@@ -60,7 +60,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e3f4g5h6-7i8j-9k0l-1m2n-3o4p5q6r7s8t",
     "summary": "Maintain eye contact for two minutes silently",
-    "details_md": "**The Experiment:** Sit facing each other and maintain eye contact for two full minutes without speaking.
+    "details_md": `**The Experiment:** Sit facing each other and maintain eye contact for two full minutes without speaking.
 
 **Why it Works:** Extended eye contact triggers neural synchronization and deep emotional connection.
 
@@ -68,7 +68,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Sit comfortably facing each other
 • Set a gentle timer for 2 minutes
 • Maintain soft eye contact
-• Notice what arises without speaking",
+• Notice what arises without speaking`,
     "area": "relationships",
     "goals": ["deep_connection", "presence", "non_verbal_intimacy"],
     "helps_with": ["emotional_distance", "presence_deficit", "intimacy_avoidance"],
@@ -88,7 +88,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "f4g5h6i7-8j9k-0l1m-2n3o-4p5q6r7s8t9u",
     "summary": "Share your biggest fear about losing them",
-    "details_md": "**The Experiment:** Vulnerably share what you fear most about potentially losing your partner.
+    "details_md": `**The Experiment:** Vulnerably share what you fear most about potentially losing your partner.
 
 **Why it Works:** Sharing deep fears shows how much they matter and creates protective intimacy.
 
@@ -96,7 +96,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Identify your deepest fear about loss
 • Share from vulnerability, not manipulation
 • Express how much they mean to you
-• Allow them to comfort you",
+• Allow them to comfort you`,
     "area": "relationships",
     "goals": ["vulnerability", "depth", "value_expression"],
     "helps_with": ["unspoken_fears", "taking_for_granted", "depth_avoidance"],
@@ -116,7 +116,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "g5h6i7j8-9k0l-1m2n-3o4p-5q6r7s8t9u0v",
     "summary": "Create a relationship vision together",
-    "details_md": "**The Experiment:** Spend 30 minutes creating a shared vision of your ideal relationship future.
+    "details_md": `**The Experiment:** Spend 30 minutes creating a shared vision of your ideal relationship future.
 
 **Why it Works:** Co-creating future visions aligns dreams and deepens commitment to shared growth.
 
@@ -124,7 +124,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Set aside uninterrupted time
 • Each share relationship dreams
 • Find overlapping visions
-• Create a shared picture of your future",
+• Create a shared picture of your future`,
     "area": "relationships",
     "goals": ["future_building", "alignment", "co_creation"],
     "helps_with": ["direction_uncertainty", "misaligned_visions", "future_anxiety"],
@@ -144,7 +144,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "h6i7j8k9-0l1m-2n3o-4p5q-6r7s8t9u0v1w",
     "summary": "Ask about their relationship with their body",
-    "details_md": "**The Experiment:** Gently ask your partner how they feel about their body and how you can support them.
+    "details_md": `**The Experiment:** Gently ask your partner how they feel about their body and how you can support them.
 
 **Why it Works:** Body image affects intimacy deeply; understanding and support create safety for physical vulnerability.
 
@@ -152,7 +152,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Choose a safe, private moment
 • Ask: \"How do you feel about your body lately?\"
 • Listen without fixing or dismissing
-• Ask: \"How can I help you feel good in your body?\"",
+• Ask: \"How can I help you feel good in your body?\"`,
     "area": "relationships",
     "goals": ["body_acceptance", "support", "physical_intimacy"],
     "helps_with": ["body_shame", "physical_distance", "intimacy_blocks"],
@@ -172,7 +172,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "i7j8k9l0-1m2n-3o4p-5q6r-7s8t9u0v1w2x",
     "summary": "Share a fantasy or desire you've hidden",
-    "details_md": "**The Experiment:** Share one fantasy or desire you've kept private, starting small and safe.
+    "details_md": `**The Experiment:** Share one fantasy or desire you've kept private, starting small and safe.
 
 **Why it Works:** Sharing hidden desires builds trust and opens new dimensions of connection and play.
 
@@ -180,7 +180,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Choose something mildly vulnerable to start
 • Share without expectation of fulfillment
 • Focus on the sharing, not the doing
-• Thank them for receiving it without judgment",
+• Thank them for receiving it without judgment`,
     "area": "relationships",
     "goals": ["desire_sharing", "trust", "expansion"],
     "helps_with": ["hidden_desires", "intimacy_limits", "expansion_blocks"],
@@ -200,7 +200,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "j8k9l0m1-2n3o-4p5q-6r7s-8t9u0v1w2x3y",
     "summary": "Give each other a 10-minute massage",
-    "details_md": "**The Experiment:** Take turns giving each other 10-minute massages with full presence and care.
+    "details_md": `**The Experiment:** Take turns giving each other 10-minute massages with full presence and care.
 
 **Why it Works:** Intentional touch releases bonding hormones and creates physical intimacy beyond sexual context.
 
@@ -208,7 +208,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Set timer for 10 minutes each
 • Focus on giving, not trading
 • Ask about pressure preferences
-• Stay present with the touch",
+• Stay present with the touch`,
     "area": "relationships",
     "goals": ["physical_intimacy", "touch", "care_giving"],
     "helps_with": ["touch_deficit", "physical_distance", "stress"],
@@ -228,7 +228,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "k9l0m1n2-3o4p-5q6r-7s8t-9u0v1w2x3y4z",
     "summary": "Describe what first attracted you in detail",
-    "details_md": "**The Experiment:** Share in rich detail what first attracted you to your partner - physical, emotional, and energetic.
+    "details_md": `**The Experiment:** Share in rich detail what first attracted you to your partner - physical, emotional, and energetic.
 
 **Why it Works:** Revisiting initial attraction reminds both partners of their unique magnetism and desirability.
 
@@ -236,7 +236,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Recall your first attraction
 • Share specific details
 • Include physical, emotional, and energy attractions
-• Be genuinely appreciative",
+• Be genuinely appreciative`,
     "area": "relationships",
     "goals": ["attraction_reminder", "appreciation", "romance"],
     "helps_with": ["attraction_fade", "feeling_undesired", "romance_loss"],
@@ -256,7 +256,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "l0m1n2o3-4p5q-6r7s-8t9u-0v1w2x3y4z5a",
     "summary": "Sleep naked together with just skin contact",
-    "details_md": "**The Experiment:** Sleep with skin-to-skin contact, focusing on comfort and connection rather than sexuality.
+    "details_md": `**The Experiment:** Sleep with skin-to-skin contact, focusing on comfort and connection rather than sexuality.
 
 **Why it Works:** Skin contact during sleep promotes bonding, reduces stress, and maintains physical intimacy.
 
@@ -264,7 +264,7 @@ export const DEEPEN_INTIMACY_TIPS: SimplifiedTip[] = [
 • Agree to try sleeping with skin contact
 • Focus on comfort and warmth
 • Maintain some touching throughout night
-• Notice how you feel in the morning",
+• Notice how you feel in the morning`,
     "area": "relationships",
     "goals": ["physical_bonding", "intimacy", "comfort"],
     "helps_with": ["physical_distance", "intimacy_fade", "connection"],

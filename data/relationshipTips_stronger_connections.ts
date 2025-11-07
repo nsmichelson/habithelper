@@ -4,7 +4,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a1b2c3d4-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
     "summary": "Share one vulnerable thought without asking for advice",
-    "details_md": "**The Experiment:** Share something genuine you're thinking about today, without seeking solutions - just connection.
+    "details_md": `**The Experiment:** Share something genuine you're thinking about today, without seeking solutions - just connection.
 
 **Why it Works:** Vulnerability creates emotional intimacy. When we share without needing fixing, we deepen trust and allow our partner to simply witness us.
 
@@ -12,7 +12,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Choose something meaningful but not overwhelming
 • Start with: \"I want to share something, just to be heard\"
 • Share your thought or feeling
-• Thank them for listening without fixing",
+• Thank them for listening without fixing`,
     "area": "relationships",
     "goals": ["vulnerability", "emotional_intimacy", "trust_building"],
     "helps_with": ["emotional_distance", "surface_conversations", "connection"],
@@ -32,7 +32,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "b2c3d4e5-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
     "summary": "Ask about their childhood dreams at dinner",
-    "details_md": "**The Experiment:** Over dinner, ask your partner about a dream they had as a child and if any part still resonates.
+    "details_md": `**The Experiment:** Over dinner, ask your partner about a dream they had as a child and if any part still resonates.
 
 **Why it Works:** Exploring childhood aspirations reveals core values and forgotten parts of identity, creating deeper understanding and connection.
 
@@ -40,7 +40,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • During a relaxed meal together
 • Ask: \"What did you dream of being when you were little?\"
 • Follow up: \"Does any part of that still call to you?\"
-• Share your own childhood dream in return",
+• Share your own childhood dream in return`,
     "area": "relationships",
     "goals": ["deeper_connection", "understanding", "intimacy"],
     "helps_with": ["feeling_unknown", "routine_conversations", "emotional_distance"],
@@ -60,7 +60,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c3d4e5f6-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
     "summary": "Create a two-minute appreciation ritual before bed",
-    "details_md": "**The Experiment:** Start a nightly ritual where you each share one specific thing you appreciated about the other that day.
+    "details_md": `**The Experiment:** Start a nightly ritual where you each share one specific thing you appreciated about the other that day.
 
 **Why it Works:** Regular appreciation releases bonding hormones and counteracts negativity bias, strengthening the relationship foundation.
 
@@ -68,7 +68,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Set a gentle reminder for bedtime
 • Each person shares one specific appreciation
 • Be detailed: what they did and how it affected you
-• Make eye contact while sharing",
+• Make eye contact while sharing`,
     "area": "relationships",
     "goals": ["gratitude_practice", "positive_focus", "bonding"],
     "helps_with": ["taking_for_granted", "negativity_focus", "disconnection"],
@@ -88,7 +88,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d4e5f6g7-8h9i-0j1k-2l3m-4n5o6p7q8r9s",
     "summary": "Plan one micro-adventure for this weekend",
-    "details_md": "**The Experiment:** Together, plan a small 2-hour adventure for this weekend - somewhere new or something different.
+    "details_md": `**The Experiment:** Together, plan a small 2-hour adventure for this weekend - somewhere new or something different.
 
 **Why it Works:** Novel experiences create stronger memories and activate reward centers together, strengthening bonds through shared discovery.
 
@@ -96,7 +96,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Brainstorm 3 small adventures (new cafe, trail, museum)
 • Choose one that excites both of you
 • Keep it under 2 hours and low-pressure
-• Focus on discovery over perfection",
+• Focus on discovery over perfection`,
     "area": "relationships",
     "goals": ["shared_experiences", "adventure", "novelty"],
     "helps_with": ["routine_rut", "boredom", "parallel_living"],
@@ -116,7 +116,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e5f6g7h8-9i0j-1k2l-3m4n-5o6p7q8r9s0t",
     "summary": "Start a shared photo album of daily moments",
-    "details_md": "**The Experiment:** Create a shared digital album and each add one photo daily of something that made you think of each other.
+    "details_md": `**The Experiment:** Create a shared digital album and each add one photo daily of something that made you think of each other.
 
 **Why it Works:** Daily visual sharing creates ongoing connection and builds a library of positive memories to strengthen the relationship narrative.
 
@@ -124,7 +124,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Create a shared album on your phones
 • Each day, add one photo (sunset, coffee, anything)
 • Add a brief note about why it reminded you of them
-• Review together weekly",
+• Review together weekly`,
     "area": "relationships",
     "goals": ["daily_connection", "memory_building", "thoughtfulness"],
     "helps_with": ["feeling_disconnected", "busy_schedules", "appreciation"],
@@ -144,7 +144,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "f6g7h8i9-0j1k-2l3m-4n5o-6p7q8r9s0t1u",
     "summary": "Learn each other's love language with a quiz tonight",
-    "details_md": "**The Experiment:** Take the love languages quiz together and discuss your top two ways of feeling loved.
+    "details_md": `**The Experiment:** Take the love languages quiz together and discuss your top two ways of feeling loved.
 
 **Why it Works:** Understanding how your partner best receives love prevents misdirected efforts and ensures your care lands effectively.
 
@@ -152,7 +152,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Find the free quiz online together
 • Take it side by side
 • Share your top 2 languages
-• Discuss one way to show love in their language this week",
+• Discuss one way to show love in their language this week`,
     "area": "relationships",
     "goals": ["understanding", "love_languages", "communication"],
     "helps_with": ["mismatched_expectations", "feeling_unloved", "miscommunication"],
@@ -172,7 +172,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "g7h8i9j0-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
     "summary": "Write three things you admire on sticky notes",
-    "details_md": "**The Experiment:** Write three specific things you admire about your partner on sticky notes and hide them for discovery.
+    "details_md": `**The Experiment:** Write three specific things you admire about your partner on sticky notes and hide them for discovery.
 
 **Why it Works:** Unexpected appreciation activates joy and creates lasting positive associations. Written words can be kept and revisited.
 
@@ -180,7 +180,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Get colorful sticky notes
 • Write 3 specific admiration statements
 • Hide them in places they'll find (mirror, coffee maker, laptop)
-• Watch for their reaction and enjoy the surprise",
+• Watch for their reaction and enjoy the surprise`,
     "area": "relationships",
     "goals": ["appreciation", "surprise", "affirmation"],
     "helps_with": ["feeling_unappreciated", "routine", "emotional_distance"],
@@ -200,7 +200,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "h8i9j0k1-2l3m-4n5o-6p7q-8r9s0t1u2v3w",
     "summary": "Do a relationship check-in with three questions",
-    "details_md": "**The Experiment:** Have a monthly check-in using three questions: What's working? What needs attention? What's our next adventure?
+    "details_md": `**The Experiment:** Have a monthly check-in using three questions: What's working? What needs attention? What's our next adventure?
 
 **Why it Works:** Regular relationship maintenance prevents small issues from becoming big problems and keeps you aligned on shared goals.
 
@@ -208,7 +208,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Schedule 30 minutes monthly
 • Each answer: What's working well for us?
 • Each share: What needs some attention?
-• Together plan: What's our next shared adventure?",
+• Together plan: What's our next shared adventure?`,
     "area": "relationships",
     "goals": ["relationship_maintenance", "communication", "planning"],
     "helps_with": ["drift", "unaddressed_issues", "lack_of_direction"],
@@ -228,7 +228,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "i9j0k1l2-3m4n-5o6p-7q8r-9s0t1u2v3w4x",
     "summary": "Share your current stress and ask how to help",
-    "details_md": "**The Experiment:** Each share your biggest current stressor, then ask: \"How can I best support you with this?\"
+    "details_md": `**The Experiment:** Each share your biggest current stressor, then ask: \"How can I best support you with this?\"
 
 **Why it Works:** Explicitly asking for support needs prevents misguided help and creates a team approach to individual challenges.
 
@@ -236,7 +236,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Find a calm moment together
 • Each share your main current stressor
 • Ask specifically: \"How can I best support you?\"
-• Listen without immediately offering solutions",
+• Listen without immediately offering solutions`,
     "area": "relationships",
     "goals": ["mutual_support", "stress_management", "teamwork"],
     "helps_with": ["stress", "feeling_unsupported", "miscommunication"],
@@ -256,7 +256,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "j0k1l2m3-4n5o-6p7q-8r9s-0t1u2v3w4x5y",
     "summary": "Recreate your first date in miniature",
-    "details_md": "**The Experiment:** Recreate elements of your first date in a simple way - same food, activity, or conversation topics.
+    "details_md": `**The Experiment:** Recreate elements of your first date in a simple way - same food, activity, or conversation topics.
 
 **Why it Works:** Revisiting relationship origins activates positive memories and reinforces your unique bond story.
 
@@ -264,7 +264,7 @@ export const STRONGER_CONNECTIONS_TIPS: SimplifiedTip[] = [
 • Recall your first date together
 • Pick one element to recreate (food, location, activity)
 • Keep it simple and fun, not perfect
-• Share what you remember feeling that day",
+• Share what you remember feeling that day`,
     "area": "relationships",
     "goals": ["romance", "nostalgia", "connection"],
     "helps_with": ["romance_loss", "routine", "forgetting_beginnings"],

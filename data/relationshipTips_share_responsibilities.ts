@@ -4,7 +4,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c1d2e3f4-5g6h-7i8j-9k0l-1m2n3o4p5q6r",
     "summary": "List all invisible tasks you each do",
-    "details_md": "**The Experiment:** Each write down all the invisible tasks you handle that might go unnoticed.
+    "details_md": `**The Experiment:** Each write down all the invisible tasks you handle that might go unnoticed.
 
 **Why it Works:** Making invisible labor visible prevents resentment and enables fair redistribution.
 
@@ -12,7 +12,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Each list everything you handle
 • Include mental load tasks too
 • Share lists without judgment
-• Appreciate what you each contribute",
+• Appreciate what you each contribute`,
     "area": "relationships",
     "goals": ["fairness", "visibility", "appreciation"],
     "helps_with": ["invisible_labor", "resentment", "imbalance"],
@@ -32,7 +32,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d2e3f4g5-6h7i-8j9k-0l1m-2n3o4p5q6r7s",
     "summary": "Trade one weekly chore this month",
-    "details_md": "**The Experiment:** Swap one regular chore for a month to appreciate what the other usually handles.
+    "details_md": `**The Experiment:** Swap one regular chore for a month to appreciate what the other usually handles.
 
 **Why it Works:** Trading tasks builds empathy and appreciation for each other's contributions.
 
@@ -40,7 +40,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Each pick a chore you always do
 • Trade for one month
 • Notice the effort involved
-• Share appreciation for what you learned",
+• Share appreciation for what you learned`,
     "area": "relationships",
     "goals": ["empathy", "appreciation", "fairness"],
     "helps_with": ["taking_for_granted", "rigid_roles", "appreciation_deficit"],
@@ -60,7 +60,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e3f4g5h6-7i8j-9k0l-1m2n-3o4p5q6r7s8t",
     "summary": "Do the task you hate least together",
-    "details_md": "**The Experiment:** Identify tasks you both dislike and do them together to share the burden.
+    "details_md": `**The Experiment:** Identify tasks you both dislike and do them together to share the burden.
 
 **Why it Works:** Shared suffering builds camaraderie and makes unpleasant tasks more bearable.
 
@@ -68,7 +68,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Identify mutually disliked tasks
 • Do them together
 • Add music or make it fun
-• Celebrate completion together",
+• Celebrate completion together`,
     "area": "relationships",
     "goals": ["teamwork", "burden_sharing", "camaraderie"],
     "helps_with": ["dreaded_tasks", "procrastination", "burden"],
@@ -88,7 +88,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "f4g5h6i7-8j9k-0l1m-2n3o-4p5q6r7s8t9u",
     "summary": "Create a fair play deck for tasks",
-    "details_md": "**The Experiment:** Write all household tasks on cards and deal them out fairly each week.
+    "details_md": `**The Experiment:** Write all household tasks on cards and deal them out fairly each week.
 
 **Why it Works:** Visual task distribution ensures fairness and prevents one person being overloaded.
 
@@ -96,7 +96,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Write each task on a card
 • Include time estimates
 • Deal cards fairly
-• Trade if needed for preferences",
+• Trade if needed for preferences`,
     "area": "relationships",
     "goals": ["fairness", "visual_system", "balance"],
     "helps_with": ["unfair_distribution", "overload", "resentment"],
@@ -116,7 +116,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "g5h6i7j8-9k0l-1m2n-3o4p-5q6r7s8t9u0v",
     "summary": "Thank each other for specific tasks daily",
-    "details_md": "**The Experiment:** Each day, thank your partner for one specific task they completed.
+    "details_md": `**The Experiment:** Each day, thank your partner for one specific task they completed.
 
 **Why it Works:** Daily appreciation prevents taking contributions for granted and reinforces teamwork.
 
@@ -124,7 +124,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Notice one task they did
 • Thank them specifically
 • Acknowledge the effort involved
-• Receive their thanks too",
+• Receive their thanks too`,
     "area": "relationships",
     "goals": ["appreciation", "recognition", "gratitude"],
     "helps_with": ["taking_for_granted", "unappreciated_work", "resentment"],
@@ -144,7 +144,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "h6i7j8k9-0l1m-2n3o-4p5q-6r7s8t9u0v1w",
     "summary": "Batch tasks to do simultaneously",
-    "details_md": "**The Experiment:** Do different tasks in the same space at the same time for company.
+    "details_md": `**The Experiment:** Do different tasks in the same space at the same time for company.
 
 **Why it Works:** Parallel task completion provides companionship while maintaining efficiency.
 
@@ -152,7 +152,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Choose tasks to do simultaneously
 • Work in same space
 • Chat while working
-• Finish together",
+• Finish together`,
     "area": "relationships",
     "goals": ["companionship", "efficiency", "togetherness"],
     "helps_with": ["isolation", "separate_work", "disconnection"],
@@ -172,7 +172,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "i7j8k9l0-1m2n-3o4p-5q6r-7s8t9u0v1w2x",
     "summary": "Own your expertise areas fully",
-    "details_md": "**The Experiment:** Each fully own tasks you're best at without micromanaging each other.
+    "details_md": `**The Experiment:** Each fully own tasks you're best at without micromanaging each other.
 
 **Why it Works:** Playing to strengths increases efficiency and reduces conflict over methods.
 
@@ -180,7 +180,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Identify what each does best
 • Assign those tasks accordingly
 • Trust their method completely
-• Appreciate the results",
+• Appreciate the results`,
     "area": "relationships",
     "goals": ["efficiency", "trust", "strengths"],
     "helps_with": ["micromanaging", "inefficiency", "conflict"],
@@ -200,7 +200,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "j8k9l0m1-2n3o-4p5q-6r7s-8t9u0v1w2x3y",
     "summary": "Set a timer and race to finish tasks",
-    "details_md": "**The Experiment:** Make chores fun by racing to complete different tasks in the same timeframe.
+    "details_md": `**The Experiment:** Make chores fun by racing to complete different tasks in the same timeframe.
 
 **Why it Works:** Gamification makes tedious tasks enjoyable and creates teamwork energy.
 
@@ -208,7 +208,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Choose different tasks of similar duration
 • Set a timer
 • Race to finish
-• Celebrate whoever finishes first (or both!)",
+• Celebrate whoever finishes first (or both!)`,
     "area": "relationships",
     "goals": ["fun", "motivation", "efficiency"],
     "helps_with": ["chore_dread", "motivation", "boredom"],
@@ -228,7 +228,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "k9l0m1n2-3o4p-5q6r-7s8t-9u0v1w2x3y4z",
     "summary": "Hire help for your least favorite task",
-    "details_md": "**The Experiment:** If possible, outsource the one task you both hate most.
+    "details_md": `**The Experiment:** If possible, outsource the one task you both hate most.
 
 **Why it Works:** Removing mutual pain points reduces conflict and frees energy for connection.
 
@@ -236,7 +236,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Identify most hated shared task
 • Research outsourcing options
 • Budget for it if possible
-• Enjoy the freed time together",
+• Enjoy the freed time together`,
     "area": "relationships",
     "goals": ["problem_solving", "life_design", "peace"],
     "helps_with": ["conflict_source", "mutual_hatred", "burden"],
@@ -256,7 +256,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "l0m1n2o3-4p5q-6r7s-8t9u-0v1w2x3y4z5a",
     "summary": "Renegotiate responsibilities quarterly",
-    "details_md": "**The Experiment:** Every three months, review and adjust task distribution based on life changes.
+    "details_md": `**The Experiment:** Every three months, review and adjust task distribution based on life changes.
 
 **Why it Works:** Regular renegotiation prevents outdated arrangements from causing resentment.
 
@@ -264,7 +264,7 @@ export const SHARE_RESPONSIBILITIES_TIPS: SimplifiedTip[] = [
 • Set quarterly review date
 • Discuss what's working and what's not
 • Adjust based on current life
-• Appreciate flexibility",
+• Appreciate flexibility`,
     "area": "relationships",
     "goals": ["flexibility", "fairness", "adaptation"],
     "helps_with": ["rigid_roles", "changing_needs", "resentment"],

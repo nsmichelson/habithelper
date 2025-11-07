@@ -4,7 +4,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "i1j2k3l4-5m6n-7o8p-9q0r-1s2t3u4v5w6x",
     "summary": "Keep one small promise you make today",
-    "details_md": "**The Experiment:** Make one small, specific promise today and follow through completely.
+    "details_md": `**The Experiment:** Make one small, specific promise today and follow through completely.
 
 **Why it Works:** Trust rebuilds through consistent small actions. Each kept promise is a deposit in the trust bank.
 
@@ -12,7 +12,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Make a small, specific promise
 • Set a reminder to ensure you follow through
 • Complete it exactly as promised
-• Acknowledge to your partner that you kept it",
+• Acknowledge to your partner that you kept it`,
     "area": "relationships",
     "goals": ["trust_building", "reliability", "consistency"],
     "helps_with": ["broken_trust", "inconsistency", "reliability_issues"],
@@ -32,7 +32,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "j2k3l4m5-6n7o-8p9q-0r1s-2t3u4v5w6x7y",
     "summary": "Share your location without being asked",
-    "details_md": "**The Experiment:** Proactively share where you're going or what you're doing before your partner asks.
+    "details_md": `**The Experiment:** Proactively share where you're going or what you're doing before your partner asks.
 
 **Why it Works:** Voluntary transparency demonstrates openness and removes the burden of checking from your partner.
 
@@ -40,7 +40,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Before going somewhere, mention it
 • Share your plans for the day
 • Update if plans change
-• Do this without being asked",
+• Do this without being asked`,
     "area": "relationships",
     "goals": ["transparency", "openness", "proactive_sharing"],
     "helps_with": ["secrecy", "trust_issues", "uncertainty"],
@@ -60,7 +60,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "k3l4m5n6-7o8p-9q0r-1s2t-3u4v5w6x7y8z",
     "summary": "Admit a small mistake before it's discovered",
-    "details_md": "**The Experiment:** When you make any mistake, tell your partner before they find out themselves.
+    "details_md": `**The Experiment:** When you make any mistake, tell your partner before they find out themselves.
 
 **Why it Works:** Voluntary admission builds trust faster than perfect behavior. It shows integrity and accountability.
 
@@ -68,7 +68,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • When you make any mistake
 • Tell your partner promptly
 • Own it without excuses
-• Share what you'll do differently",
+• Share what you'll do differently`,
     "area": "relationships",
     "goals": ["accountability", "honesty", "integrity"],
     "helps_with": ["hidden_mistakes", "discovery_fear", "accountability"],
@@ -88,7 +88,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "l4m5n6o7-8p9q-0r1s-2t3u-4v5w6x7y8z9a",
     "summary": "Ask permission before accessing their things",
-    "details_md": "**The Experiment:** Ask before using, moving, or accessing your partner's belongings, even small items.
+    "details_md": `**The Experiment:** Ask before using, moving, or accessing your partner's belongings, even small items.
 
 **Why it Works:** Respecting boundaries with possessions demonstrates respect for personal autonomy and boundaries.
 
@@ -96,7 +96,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Before using their items, ask
 • Wait for actual permission
 • Return things to exact location
-• Thank them for sharing",
+• Thank them for sharing`,
     "area": "relationships",
     "goals": ["respect", "boundaries", "permission"],
     "helps_with": ["boundary_violations", "disrespect", "autonomy"],
@@ -116,7 +116,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "m5n6o7p8-9q0r-1s2t-3u4v-5w6x7y8z9a0b",
     "summary": "Give them access to something private",
-    "details_md": "**The Experiment:** Voluntarily share access to something you've kept private - a journal entry, email, or account.
+    "details_md": `**The Experiment:** Voluntarily share access to something you've kept private - a journal entry, email, or account.
 
 **Why it Works:** Voluntary vulnerability and transparency demonstrate you have nothing to hide and trust them.
 
@@ -124,7 +124,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Choose something meaningful but safe to share
 • Offer access without being asked
 • Be genuinely open to questions
-• Don't monitor their response",
+• Don't monitor their response`,
     "area": "relationships",
     "goals": ["vulnerability", "transparency", "openness"],
     "helps_with": ["secrecy", "hidden_areas", "mistrust"],
@@ -144,7 +144,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "n6o7p8q9-0r1s-2t3u-4v5w-6x7y8z9a0b1c",
     "summary": "Follow through on something you've avoided",
-    "details_md": "**The Experiment:** Complete one task or conversation you've been avoiding that affects your partner.
+    "details_md": `**The Experiment:** Complete one task or conversation you've been avoiding that affects your partner.
 
 **Why it Works:** Addressing avoidance patterns shows commitment to change and reliability in difficult areas.
 
@@ -152,7 +152,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Identify something you've been avoiding
 • Tell your partner you're addressing it today
 • Complete it fully
-• Share the completion without seeking praise",
+• Share the completion without seeking praise`,
     "area": "relationships",
     "goals": ["follow_through", "reliability", "courage"],
     "helps_with": ["avoidance", "unfulfilled_promises", "procrastination"],
@@ -172,7 +172,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "o7p8q9r0-1s2t-3u4v-5w6x-7y8z9a0b1c2d",
     "summary": "Create a shared calendar and update it",
-    "details_md": "**The Experiment:** Set up a shared calendar and consistently update it with your schedule.
+    "details_md": `**The Experiment:** Set up a shared calendar and consistently update it with your schedule.
 
 **Why it Works:** Schedule transparency reduces anxiety and demonstrates commitment to openness about your time.
 
@@ -180,7 +180,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Set up a shared digital calendar
 • Add all your commitments
 • Update changes immediately
-• Include details willingly",
+• Include details willingly`,
     "area": "relationships",
     "goals": ["transparency", "predictability", "sharing"],
     "helps_with": ["schedule_secrecy", "uncertainty", "time_trust"],
@@ -200,7 +200,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "p8q9r0s1-2t3u-4v5w-6x7y-8z9a0b1c2d3e",
     "summary": "Check in about a past hurt without prompting",
-    "details_md": "**The Experiment:** Bring up a past hurt you caused and check how they're feeling about it now.
+    "details_md": `**The Experiment:** Bring up a past hurt you caused and check how they're feeling about it now.
 
 **Why it Works:** Proactive checking shows you remember, care about impact, and take responsibility for healing.
 
@@ -208,7 +208,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Reference a specific past hurt
 • Ask: \"How are you feeling about [incident] now?\"
 • Listen without defending
-• Ask what they still need for healing",
+• Ask what they still need for healing`,
     "area": "relationships",
     "goals": ["healing", "accountability", "care_demonstration"],
     "helps_with": ["unresolved_hurt", "avoidance", "healing"],
@@ -228,7 +228,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "q9r0s1t2-3u4v-5w6x-7y8z-9a0b1c2d3e4f",
     "summary": "Be where you said you'd be on time",
-    "details_md": "**The Experiment:** For every commitment today, arrive exactly when you said you would.
+    "details_md": `**The Experiment:** For every commitment today, arrive exactly when you said you would.
 
 **Why it Works:** Punctuality demonstrates respect for their time and shows your words match actions.
 
@@ -236,7 +236,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Note all time commitments
 • Plan to arrive 5 minutes early
 • Update immediately if running late
-• Apologize for any lateness without excuses",
+• Apologize for any lateness without excuses`,
     "area": "relationships",
     "goals": ["reliability", "respect", "consistency"],
     "helps_with": ["tardiness", "disrespect", "unreliability"],
@@ -256,7 +256,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "r0s1t2u3-4v5w-6x7y-8z9a-0b1c2d3e4f5g",
     "summary": "Share a fear about the relationship honestly",
-    "details_md": "**The Experiment:** Share one relationship fear you have, taking responsibility for the fear without blame.
+    "details_md": `**The Experiment:** Share one relationship fear you have, taking responsibility for the fear without blame.
 
 **Why it Works:** Vulnerable honesty about fears shows trust and invites deeper intimacy and understanding.
 
@@ -264,7 +264,7 @@ export const REBUILD_TRUST_TIPS: SimplifiedTip[] = [
 • Identify a relationship fear
 • Share it using I-statements
 • Own it as your fear, not their fault
-• Ask for reassurance if needed",
+• Ask for reassurance if needed`,
     "area": "relationships",
     "goals": ["vulnerability", "honesty", "intimacy"],
     "helps_with": ["hidden_fears", "surface_communication", "distance"],

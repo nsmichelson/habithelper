@@ -4,7 +4,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "u1v2w3x4-5y6z-7a8b-9c0d-1e2f3g4h5i6j",
     "summary": "Ask for alone time without guilt",
-    "details_md": "**The Experiment:** Request solo time today clearly and without over-explaining or apologizing.
+    "details_md": `**The Experiment:** Request solo time today clearly and without over-explaining or apologizing.
 
 **Why it Works:** Healthy relationships require individual space; asking directly normalizes self-care.
 
@@ -12,7 +12,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • Identify your need for alone time
 • State it simply: \"I need an hour alone\"
 • Don't justify or apologize
-• Take the time guilt-free",
+• Take the time guilt-free`,
     "area": "relationships",
     "goals": ["boundaries", "self_care", "autonomy"],
     "helps_with": ["guilt", "no_alone_time", "enmeshment"],
@@ -32,7 +32,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "v2w3x4y5-6z7a-8b9c-0d1e-2f3g4h5i6j7k",
     "summary": "Say no to one request this week",
-    "details_md": "**The Experiment:** Practice saying no to one request from your partner without extensive explanation.
+    "details_md": `**The Experiment:** Practice saying no to one request from your partner without extensive explanation.
 
 **Why it Works:** Ability to say no maintains individual identity and prevents resentment from over-giving.
 
@@ -40,7 +40,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • When asked for something optional
 • Say: \"No, I can't do that\"
 • Don't over-explain or negotiate
-• Allow them to have their feelings",
+• Allow them to have their feelings`,
     "area": "relationships",
     "goals": ["boundaries", "assertiveness", "autonomy"],
     "helps_with": ["people_pleasing", "resentment", "boundary_weakness"],
@@ -60,7 +60,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "w3x4y5z6-7a8b-9c0d-1e2f-3g4h5i6j7k8l",
     "summary": "Keep one hobby that's just yours",
-    "details_md": "**The Experiment:** Maintain or start one activity that remains completely your own.
+    "details_md": `**The Experiment:** Maintain or start one activity that remains completely your own.
 
 **Why it Works:** Individual interests preserve identity and bring fresh energy to the relationship.
 
@@ -68,7 +68,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • Choose an activity you enjoy alone
 • Protect time for it weekly
 • Share about it if asked, but keep it yours
-• Respect their individual activities too",
+• Respect their individual activities too`,
     "area": "relationships",
     "goals": ["individuality", "interests", "identity"],
     "helps_with": ["identity_loss", "enmeshment", "codependency"],
@@ -88,7 +88,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "x4y5z6a7-8b9c-0d1e-2f3g-4h5i6j7k8l9m",
     "summary": "Have separate friend time monthly",
-    "details_md": "**The Experiment:** Each schedule time with your own friends without your partner this month.
+    "details_md": `**The Experiment:** Each schedule time with your own friends without your partner this month.
 
 **Why it Works:** Individual friendships provide different support and maintain social identity beyond the couple.
 
@@ -96,7 +96,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • Plan time with your friends
 • Go without guilt or checking in constantly
 • Encourage them to do the same
-• Share highlights after if desired",
+• Share highlights after if desired`,
     "area": "relationships",
     "goals": ["friendships", "independence", "social_life"],
     "helps_with": ["social_isolation", "couple_only", "friendship_loss"],
@@ -116,7 +116,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "y5z6a7b8-9c0d-1e2f-3g4h-5i6j7k8l9m0n",
     "summary": "Respect their no without persuading",
-    "details_md": "**The Experiment:** When your partner says no to something, accept it immediately without trying to change their mind.
+    "details_md": `**The Experiment:** When your partner says no to something, accept it immediately without trying to change their mind.
 
 **Why it Works:** Respecting boundaries without pushback creates safety and models healthy limit-setting.
 
@@ -124,7 +124,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • When they say no to anything
 • Simply say \"Okay\" or \"I understand\"
 • Don't negotiate or show disappointment
-• Move on without resentment",
+• Move on without resentment`,
     "area": "relationships",
     "goals": ["respect", "boundaries", "acceptance"],
     "helps_with": ["pushiness", "boundary_crossing", "control"],
@@ -144,7 +144,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "z6a7b8c9-0d1e-2f3g-4h5i-6j7k8l9m0n1o",
     "summary": "Close the bathroom door sometimes",
-    "details_md": "**The Experiment:** Maintain privacy for some bathroom activities, even in long relationships.
+    "details_md": `**The Experiment:** Maintain privacy for some bathroom activities, even in long relationships.
 
 **Why it Works:** Maintaining some privacy preserves mystery and personal boundaries in intimate relationships.
 
@@ -152,7 +152,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • Close the door for bathroom use
 • Don't apologize for wanting privacy
 • Respect their privacy too
-• Keep some things private",
+• Keep some things private`,
     "area": "relationships",
     "goals": ["privacy", "boundaries", "mystery"],
     "helps_with": ["over_exposure", "no_privacy", "boundary_erosion"],
@@ -172,7 +172,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a7b8c9d0-1e2f-3g4h-5i6j-7k8l9m0n1o2p",
     "summary": "Have separate blankets for better sleep",
-    "details_md": "**The Experiment:** Try using separate blankets while sharing a bed for better individual comfort.
+    "details_md": `**The Experiment:** Try using separate blankets while sharing a bed for better individual comfort.
 
 **Why it Works:** Meeting individual comfort needs improves sleep and reduces nighttime conflict.
 
@@ -180,7 +180,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • Get separate blankets for each person
 • Adjust to individual temperature needs
 • No more blanket stealing
-• Better sleep for both",
+• Better sleep for both`,
     "area": "relationships",
     "goals": ["comfort", "practical_boundaries", "sleep"],
     "helps_with": ["sleep_disruption", "blanket_fights", "temperature_differences"],
@@ -200,7 +200,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "b8c9d0e1-2f3g-4h5i-6j7k-8l9m0n1o2p3q",
     "summary": "Keep some thoughts private",
-    "details_md": "**The Experiment:** Practice having thoughts and experiences you don't immediately share with your partner.
+    "details_md": `**The Experiment:** Practice having thoughts and experiences you don't immediately share with your partner.
 
 **Why it Works:** Maintaining internal privacy preserves individual identity and prevents over-sharing dependence.
 
@@ -208,7 +208,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • Have an experience or thought
 • Consciously choose not to share it
 • Not secrets, just private thoughts
-• Notice it's okay to have inner world",
+• Notice it's okay to have inner world`,
     "area": "relationships",
     "goals": ["privacy", "individuality", "internal_world"],
     "helps_with": ["over_sharing", "no_internal_life", "enmeshment"],
@@ -228,7 +228,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "c9d0e1f2-3g4h-5i6j-7k8l-9m0n1o2p3q4r",
     "summary": "Negotiate one boundary that needs adjustment",
-    "details_md": "**The Experiment:** Discuss and adjust one boundary that isn't working for both of you.
+    "details_md": `**The Experiment:** Discuss and adjust one boundary that isn't working for both of you.
 
 **Why it Works:** Boundaries need regular adjustment; negotiating them together creates mutual respect.
 
@@ -236,7 +236,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • Identify a boundary causing tension
 • Discuss both perspectives calmly
 • Find middle ground together
-• Try new boundary for two weeks",
+• Try new boundary for two weeks`,
     "area": "relationships",
     "goals": ["negotiation", "flexibility", "mutual_boundaries"],
     "helps_with": ["rigid_boundaries", "boundary_conflicts", "inflexibility"],
@@ -256,7 +256,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "d0e1f2g3-4h5i-6j7k-8l9m-0n1o2p3q4r5s",
     "summary": "Support their boundary even if you disagree",
-    "details_md": "**The Experiment:** When your partner sets a boundary you don't understand, support it anyway.
+    "details_md": `**The Experiment:** When your partner sets a boundary you don't understand, support it anyway.
 
 **Why it Works:** Supporting boundaries you don't understand shows trust and respect for their autonomy.
 
@@ -264,7 +264,7 @@ export const HEALTHY_BOUNDARIES_TIPS: SimplifiedTip[] = [
 • When they set a boundary
 • Even if it seems unnecessary to you
 • Support it publicly and privately
-• Ask questions later if needed",
+• Ask questions later if needed`,
     "area": "relationships",
     "goals": ["support", "respect", "trust"],
     "helps_with": ["boundary_undermining", "control", "disrespect"],
