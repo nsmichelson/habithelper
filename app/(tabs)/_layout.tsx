@@ -54,6 +54,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="test-profile-creator"
+        options={{
+          title: 'Test Profile Creator',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="create" size={size || 28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: 'My Why',

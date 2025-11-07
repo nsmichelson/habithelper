@@ -34,6 +34,7 @@ interface Props {
   onComplete: (profile: UserProfile) => void;
   existingProfile?: UserProfile;
   isRetake?: boolean;
+  shouldPersistProfile?: boolean;
 }
 
 // Progress bar component
@@ -60,7 +61,12 @@ const ProgressBar = ({ current, total }: { current: number; total: number }) => 
   );
 };
 
-export default function OnboardingQuizNew({ onComplete, existingProfile, isRetake = false }: Props) {
+export default function OnboardingQuizNew({
+  onComplete,
+  existingProfile,
+  isRetake = false,
+  shouldPersistProfile = true,
+}: Props) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState<Map<string, string[]>>(new Map());
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -207,12 +213,13 @@ export default function OnboardingQuizNew({ onComplete, existingProfile, isRetak
       quiz_completed: true,
     };
 
-    // Save to storage
-    await StorageService.saveUserProfile(profile);
-    await StorageService.saveQuizResponses(Array.from(finalResponses.entries()).map(([questionId, values]) => ({
-      questionId,
-      values
-    })));
+    if (shouldPersistProfile) {
+      await StorageService.saveUserProfile(profile);
+      await StorageService.saveQuizResponses(Array.from(finalResponses.entries()).map(([questionId, values]) => ({
+        questionId,
+        values
+      })));
+    }
 
     onComplete(profile);
   };

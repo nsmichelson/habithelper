@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserProfile, DailyTip, TipAttempt } from '../types/tip';
 import { QuizResponse } from '../types/quiz';
+import { TestProfileDefinition } from '../types/testProfile';
 import AwardService from './awardService';
 
 const STORAGE_KEYS = {
@@ -11,6 +12,7 @@ const STORAGE_KEYS = {
   ONBOARDING_COMPLETED: '@HabitHelper:onboardingCompleted',
   LIKED_TIPS: '@HabitHelper:likedTips',
   HABIT_COMPLETIONS: '@HabitHelper:habitCompletions:', // Prefix for daily completion counts
+  TEST_PROFILES: '@HabitHelper:testProfiles',
 } as const;
 
 class StorageService {
@@ -218,6 +220,54 @@ class StorageService {
       await AsyncStorage.setItem(STORAGE_KEYS.QUIZ_RESPONSES, JSON.stringify(responses));
     } catch (error) {
       console.error('Error saving quiz responses:', error);
+      throw error;
+    }
+  }
+
+  // Test Profiles
+  private serializeTestProfiles(
+    profiles: TestProfileDefinition[]
+  ): Array<Omit<TestProfileDefinition, 'source'>> {
+    return profiles.map(({ source: _source, ...rest }) => rest);
+  }
+
+  async getTestProfiles(): Promise<TestProfileDefinition[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.TEST_PROFILES);
+      if (!data) {
+        return [];
+      }
+
+      const parsed: Array<Omit<TestProfileDefinition, 'source'>> = JSON.parse(data);
+      return parsed.map(profile => ({
+        ...profile,
+        source: 'custom' as const,
+        createdAt: profile.createdAt || new Date().toISOString(),
+      }));
+    } catch (error) {
+      console.error('Error getting test profiles:', error);
+      return [];
+    }
+  }
+
+  async saveTestProfiles(profiles: TestProfileDefinition[]): Promise<void> {
+    try {
+      const serialized = this.serializeTestProfiles(profiles);
+      await AsyncStorage.setItem(STORAGE_KEYS.TEST_PROFILES, JSON.stringify(serialized));
+    } catch (error) {
+      console.error('Error saving test profiles:', error);
+      throw error;
+    }
+  }
+
+  async addTestProfile(profile: TestProfileDefinition): Promise<void> {
+    try {
+      const existing = await this.getTestProfiles();
+      const withoutDuplicate = existing.filter(p => p.id !== profile.id);
+      const updated = [...withoutDuplicate, { ...profile, source: 'custom' }];
+      await this.saveTestProfiles(updated);
+    } catch (error) {
+      console.error('Error adding test profile:', error);
       throw error;
     }
   }
