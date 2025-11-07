@@ -55,7 +55,7 @@ if (allGoals.size === 0) {
 }
 
 // Check if specific expected goals are present
-const expectedGoals = ['improve_sleep', 'improve_energy', 'stress_management'];
+const expectedGoals = ['improve_sleep', 'improve_energy', 'stress_coping_plan'];
 const missingGoals = expectedGoals.filter(g => !allGoals.has(g));
 
 if (missingGoals.length > 0) {

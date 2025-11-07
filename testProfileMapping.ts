@@ -18,7 +18,9 @@ const simulatedProfile: UserProfile = {
     'improve_sleep',
     'sleep_quality',
     'improve_energy',
-    'stress_management',
+    'improve_mood',
+    'stress_coping_plan',
+    'stress_reset_routine',
     'stress_eating',
     'mindset_shift'
   ],

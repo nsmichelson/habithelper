@@ -24,7 +24,7 @@
     "contraindications": [],
     "goal_tags": [
       "declutter",
-      "motivation"
+      "declutter_momentum"
     ],
     "tip_type": [
       "mindset_shift",
@@ -67,8 +67,6 @@
     "cooking_skill_required": "none",
     "cognitive_load": 2,
     "helps_with": [
-      "anxiety",
-      "avoidance"
     ],
     "sustainability": "weekly_routine",
     "curriculum_ref": {
@@ -133,8 +131,6 @@
     "cooking_skill_required": "none",
     "cognitive_load": 3,
     "helps_with": [
-      "focus",
-      "decision_fatigue"
     ],
     "sustainability": "one_time",
     "curriculum_ref": {
@@ -210,8 +206,6 @@
     "cooking_skill_required": "none",
     "cognitive_load": 2,
     "helps_with": [
-      "decision_fatigue",
-      "perfectionism"
     ],
     "sustainability": "reusable_template",
     "curriculum_ref": {
@@ -281,8 +275,6 @@
     "cooking_skill_required": "none",
     "cognitive_load": 2,
     "helps_with": [
-      "avoidance",
-      "anxiety"
     ],
     "sustainability": "daily_habit",
     "curriculum_ref": {
@@ -310,7 +302,9 @@
     "details_md": "**The Experiment:** Gather one type of item from all rooms and decide what stays.\n\n**Why it Works:** Seeing the whole category reveals duplicates and the true “top 20%.”\n\n**How to Try It:**\n• Choose one category (e.g., t‑shirts)\n• Lay out all at once\n• Keep favorites/essentials; donate the rest",
     "contraindications": [],
     "goal_tags": [
-      "declutter"
+      "paper_clutter",
+      "organize_home",
+      "organize_workspace"
     ],
     "tip_type": [
       "decluttering"
@@ -348,8 +342,6 @@
     "cooking_skill_required": "none",
     "cognitive_load": 3,
     "helps_with": [
-      "decision_fatigue",
-      "duplicates"
     ],
     "sustainability": "project_sprint",
     "curriculum_ref": {

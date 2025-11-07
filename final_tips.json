@@ -146,7 +146,7 @@
     "goal_tags": [
       "constipation_relief",
       "morning_routine",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -176,8 +176,8 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "comfort",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "post_meal_relief"
     ],
     "helps_with": [
       "heartburn",
@@ -190,7 +190,7 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -203,7 +203,7 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -216,8 +216,8 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "comfort",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "digestive_enzyme_relief"
     ],
     "helps_with": [
       "heartburn",
@@ -300,13 +300,13 @@
     "summary": "If prenatals make you sick, ask about children",
     "details_md": "",
     "goal_tags": [
-      "consistency",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "prenatal_vitamin_routine"
     ],
     "helps_with": [
       "nausea",
-      "adherence"
+      "prenatal_vitamin_adherence"
     ]
   },
   {
@@ -314,10 +314,10 @@
     "summary": "If veggies are a no‑go, lean on fruits, beans, eggs, and dairy for nutrients.",
     "details_md": "",
     "goal_tags": [
-      "flexibility",
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "nausea_safe_swaps"
     ],
     "helps_with": [
       "food_aversion",
@@ -354,7 +354,7 @@
     "helps_with": [
       "aversion",
       "constipation",
-      "energy"
+      "low_energy"
     ]
   },
   {
@@ -363,7 +363,7 @@
     "details_md": "",
     "goal_tags": [
       "fiber_intake",
-      "veggie_exposure",
+      "increase_vegetables",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -596,14 +596,14 @@
     "details_md": "",
     "goal_tags": [
       "meal_prep",
-      "consistency",
       "reduce_takeout",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "freezer_meal_backup"
     ],
     "helps_with": [
-      "fatigue",
+      "low_energy",
       "decision_fatigue",
-      "budget"
+      "grocery_budget"
     ]
   },
   {
@@ -612,13 +612,13 @@
     "details_md": "",
     "goal_tags": [
       "increase_hydration",
-      "produce_intake",
+      "increase_vegetables",
       "protein_intake",
       "healthy_pregnancy"
     ],
     "helps_with": [
-      "consistency",
-      "awareness"
+      "habit_tracking",
+      "intake_awareness"
     ]
   },
   {
@@ -626,7 +626,7 @@
     "summary": "Buy pre‑cut or frozen produce to remove prep barriers.",
     "details_md": "",
     "goal_tags": [
-      "produce_intake",
+      "increase_vegetables",
       "fiber_intake",
       "healthy_pregnancy"
     ],
@@ -641,14 +641,14 @@
     "summary": "Team up with a friend or group to share meal pics and wins.",
     "details_md": "",
     "goal_tags": [
-      "accountability",
-      "consistency",
-      "produce_intake",
-      "healthy_pregnancy"
+      "increase_vegetables",
+      "healthy_pregnancy",
+      "meal_tracking_accountability",
+      "produce_sharing_circle"
     ],
     "helps_with": [
-      "motivation",
-      "variety"
+      "social_accountability",
+      "produce_variety"
     ]
   },
   {
@@ -656,10 +656,10 @@
     "summary": "Keep a 7‑day food + symptom journal to spot your triggers and wins.",
     "details_md": "",
     "goal_tags": [
-      "self_awareness",
       "heartburn_relief",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "symptom_journaling"
     ],
     "helps_with": [
       "reflux_triggers",
@@ -702,15 +702,15 @@
     "summary": "Find a healthy ",
     "details_md": "",
     "goal_tags": [
-      "consistency",
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "safe_meal_routine"
     ],
     "helps_with": [
       "decision_fatigue",
       "aversion",
-      "energy"
+      "low_energy"
     ]
   },
   {
@@ -765,7 +765,7 @@
     ],
     "helps_with": [
       "mindless_eating",
-      "fatigue",
+      "low_energy",
       "dehydration"
     ]
   },
@@ -817,7 +817,7 @@
       "weight_loss",
       "portion_control",
       "mindful_eating",
-      "harm_reduction"
+      "fast_food_portion_cap"
     ],
     "helps_with": [
       "binge_eating",
@@ -857,7 +857,7 @@
     "goal_tags": [
       "increase_protein",
       "meal_prep",
-      "time_saving"
+      "protein_shortcuts"
     ],
     "helps_with": [
       "decision_fatigue"
@@ -946,7 +946,7 @@
     "details_md": "",
     "goal_tags": [
       "weight_loss",
-      "increase_veggies",
+      "increase_vegetables",
       "portion_control",
       "improve_gut_health"
     ],
@@ -973,7 +973,7 @@
     "summary": "Add one serving of vegetables to your dinner.",
     "details_md": "**The Experiment:** Intentionally add one extra serving of vegetables to your dinner plate tonight. A serving is about the size of your fist or one cup.\n\n**Why it Works:** Most people don't eat enough vegetables. They are packed with vitamins, minerals, fiber, and antioxidants that are crucial for health and can lower the risk of chronic diseases. Adding volume with low-calorie, high-fiber vegetables can also help you feel fuller, aiding in portion control and weight management.\n\n**How to Try It:**\n• Add a handful of spinach to a pasta sauce or soup\n• Steam or roast a side of broccoli or green beans\n• Start your meal with a simple side salad\n• Frozen vegetables are a quick and easy option; just microwave and serve",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "weight_loss",
       "improve_gut_health",
       "less_processed_food",
@@ -1060,7 +1060,7 @@
     "details_md": "**The Experiment:** Prepare a \"salad in a jar\" tonight for a ready-to-go, healthy lunch tomorrow.\n\n**Why it Works:** This is a classic meal prep technique that makes a healthy choice incredibly convenient, overcoming the common barrier of not having time to make a healthy lunch during a busy day. It's a form of environmental design for your future self.\n\n**How to Try It:**\n• Get a large mason jar\n• Layer ingredients from wettest to driest: Pour dressing in the bottom. Add hard vegetables (carrots, cucumbers, peppers). Add grains/proteins (quinoa, chickpeas, grilled chicken). Add softer items (cheese, seeds, nuts). Top with leafy greens\n• Seal and store in the fridge. To eat, just shake and pour into a bowl",
     "goal_tags": [
       "weight_loss",
-      "increase_veggies",
+      "increase_vegetables",
       "less_processed_food",
       "plant_based",
       "improve_gut_health"
@@ -1099,7 +1099,7 @@
     "summary": "Swap a processed snack for a piece of whole fruit.",
     "details_md": "**The Experiment:** Today, when you feel like having a snack, replace your usual choice (like chips, cookies, or a granola bar) with a piece of whole fruit.\n\n**Why it Works:** Whole fruit provides fiber, vitamins, and water, making it a more nutrient-dense and filling choice than most processed snacks. This simple swap reduces your intake of added sugars, refined grains, and unhealthy fats while increasing your intake of beneficial nutrients.\n\n**How to Try It:**\n• Keep a bowl of fruit like apples, bananas, or oranges visible on your counter\n• Pack a portable fruit with you for work or errands\n• To make it more satisfying, pair it with a small handful of nuts or a spoonful of peanut butter",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "weight_loss",
       "reduce_sugar",
       "less_processed_food",
@@ -1115,7 +1115,7 @@
     "summary": "Try the ",
     "details_md": "**The Experiment:** For one meal today, try to include foods of at least three different colors on your plate.\n\n**Why it Works:** Different colors in fruits and vegetables signify the presence of different vitamins, minerals, and antioxidant compounds (phytonutrients). \"Eating the rainbow\" is a simple heuristic to ensure you're getting a wide variety of nutrients that support overall health, from your immune system to your cardiovascular system.\n\n**How to Try It:**\n• Make a salad with green lettuce, red tomatoes, and yellow bell peppers\n• Create a stir-fry with purple cabbage, orange carrots, and green broccoli\n• Roast a mix of red onions, green zucchini, and white cauliflower",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "improve_gut_health",
       "less_processed_food",
       "plant_based"
@@ -1174,7 +1174,7 @@
       "less_processed_food",
       "better_lipids",
       "reduce_sugar",
-      "increase_veggies"
+      "increase_vegetables"
     ],
     "helps_with": []
   },
@@ -1197,7 +1197,7 @@
     "details_md": "**The Experiment:** Have a snack that consists of a high-water-content food, like cucumber slices, celery sticks, or watermelon chunks.\n\n**Why it Works:** Hydration doesn't only come from beverages. Many fruits and vegetables have very high water content, contributing to your daily fluid needs. These snacks are also typically low in calories and high in nutrients, making them a refreshing and healthy choice.\n\n**How to Try It:**\n• Slice up a cucumber and enjoy it plain or with a little hummus\n• Cut a watermelon into cubes for a sweet, hydrating treat\n• Pack some celery sticks for a crunchy snack on the go",
     "goal_tags": [
       "improve_hydration",
-      "increase_veggies",
+      "increase_vegetables",
       "weight_loss"
     ],
     "helps_with": [
@@ -1273,7 +1273,7 @@
     "summary": "Fill Half Your Plate with Vegetables First.",
     "details_md": "**The Experiment:** At one meal today, physically fill half of your plate with vegetables before adding any protein or carbohydrates.\n\n**Why it Works:** This \"higher-order habit\" is highly effective. This sequential plating strategy naturally controls portions of more calorie-dense foods while ensuring you meet your fiber and micronutrient needs. It makes a healthy choice the default.\n\n**How to Try It:**\n• Grab your plate. Before adding anything else, load up half of it with a large salad, steamed broccoli, or roasted mixed vegetables\n• Then, use the remaining half of the plate for your protein and carb sources",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "weight_loss",
       "improve_gut_health",
       "plant_based"
@@ -1302,7 +1302,7 @@
     "details_md": "**The Experiment:** For one day this week, or just for one meal, replace the meat with a plant-based protein source.\n\n**Why it Works:** Incorporating more plant-based meals can increase your intake of fiber and beneficial plant compounds, while potentially reducing intake of saturated fat. Beans, peas, and lentils are excellent sources of fiber and protein and are very budget-friendly.\n\n**How to Try It:**\n• Make tacos or chili using black beans or lentils instead of ground beef\n• Try a veggie burger instead of a beef burger\n• Add chickpeas or tofu to a salad or stir-fry for your protein source",
     "goal_tags": [
       "plant_based",
-      "increase_veggies",
+      "increase_vegetables",
       "improve_gut_health",
       "better_lipids",
       "less_processed_food"
@@ -1353,7 +1353,7 @@
     "details_md": "**The Experiment:** Boost the fiber and protein content of a soup or salad by adding a half-cup of canned beans or lentils.\n\n**Why it Works:** Beans and lentils are nutritional powerhouses—high in plant-based protein, dietary fiber, and various micronutrients. Adding them to a meal makes it more filling and satisfying, helping with appetite control. They are also an inexpensive way to add bulk and nutrition.\n\n**How to Try It:**\n• Drain and rinse a can of chickpeas, black beans, or kidney beans\n• Toss them into your favorite green salad\n• Stir them into a canned or homemade soup to make it heartier",
     "goal_tags": [
       "plant_based",
-      "increase_veggies",
+      "increase_vegetables",
       "improve_gut_health",
       "weight_loss",
       "muscle_gain"
@@ -1389,7 +1389,7 @@
     "summary": "Try a vegetable-based ",
     "details_md": "**The Experiment:** For a pasta-style dish, try substituting traditional pasta with a vegetable alternative like spaghetti squash or zucchini noodles (\"zoodles\").\n\n**Why it Works:** This swap dramatically increases the vegetable and fiber content of your meal while significantly reducing the carbohydrate and calorie load. It's a great way to enjoy the comfort of a pasta dish while working towards goals like weight loss or increased vegetable intake.\n\n**How to Try It:**\n• You can buy pre-spiralized zucchini noodles or make your own with a spiralizer. Sauté them for a few minutes until tender\n• For spaghetti squash, cut it in half, roast it, and then scrape out the noodle-like strands with a fork\n• Top with your favorite sauce and protein",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "weight_loss",
       "reduce_sugar",
       "plant_based",
@@ -1417,7 +1417,7 @@
     "details_md": "**The Experiment:** At one meal today, eat the protein and vegetables on your plate before you eat the carbohydrates.\n\n**Why it Works:** Starting with high-fiber vegetables and satiating protein can help you feel fuller sooner. By the time you get to the more calorie-dense carbs, you may be satisfied with a smaller portion. This meal sequencing can trigger satiety hormones and improve post-meal energy levels.\n\n**How to Try It:**\n• If you have a side salad, eat it first\n• If you have roasted broccoli and chicken, finish all the broccoli and chicken before starting the rice or potatoes\n• This works especially well at restaurants when bread is served—ask for a side salad to eat while you wait",
     "goal_tags": [
       "weight_loss",
-      "increase_veggies",
+      "increase_vegetables",
       "improve_gut_health",
       "improve_energy",
       "better_lipids"
@@ -1456,7 +1456,7 @@
     "details_md": "**The Experiment:** For a plant-based lunch, try making a \"tuna-style\" salad using mashed chickpeas instead of tuna.\n\n**Why it Works:** This is a creative, plant-based swap that mimics a familiar comfort food. Chickpeas provide plant-based protein and a high amount of fiber, making it a filling and gut-healthy option. It's a great way to reduce meat consumption and increase plant food variety.\n\n**How to Try It:**\n• Drain a can of chickpeas and mash them with a fork\n• Mix with a small amount of Greek yogurt or vegan mayo, chopped celery, red onion, and seasonings like dill, salt, and pepper\n• Serve on whole-wheat bread or with crackers",
     "goal_tags": [
       "plant_based",
-      "increase_veggies",
+      "increase_vegetables",
       "improve_gut_health",
       "better_lipids"
     ],
@@ -1481,7 +1481,7 @@
     "summary": "Roast a big batch of mixed vegetables.",
     "details_md": "**The Experiment:** Roast a large sheet pan of mixed vegetables to have on hand for the next few days.\n\n**Why it Works:** Roasting brings out the natural sweetness of vegetables, making them delicious and appealing. Having a batch ready in the fridge makes it incredibly easy to add a serving of vegetables to any meal—breakfast, lunch, or dinner—with zero prep time.\n\n**How to Try It:**\n• Chop up hearty vegetables like broccoli, cauliflower, bell peppers, onions, and sweet potatoes\n• Toss with a little olive oil, salt, and pepper\n• Roast on a sheet pan at 400°F (200°C) for 20-30 minutes, until tender and slightly browned\n• Add them to eggs, salads, grain bowls, or eat as a side",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "less_processed_food",
       "plant_based",
       "improve_gut_health"
@@ -1537,7 +1537,7 @@
     "goal_tags": [
       "reduce_sugar",
       "weight_loss",
-      "increase_veggies"
+      "increase_vegetables"
     ],
     "helps_with": [
       "sugar_addiction",
@@ -1562,7 +1562,7 @@
     "summary": "Add a healthy ",
     "details_md": "**The Experiment:** Enhance the nutritional value and flavor of one meal by adding a healthy \"topper.\"\n\n**Why it Works:** Toppers like seeds, nuts, or nutritional yeast are a simple way to add a boost of healthy fats, protein, fiber, or vitamins without fundamentally changing the meal. It's an easy \"add-in\" strategy that improves nutrient density.\n\n**How to Try It:**\n• Sprinkle a tablespoon of hemp seeds or chopped walnuts on a salad or yogurt bowl\n• Add a spoonful of nutritional yeast to scrambled eggs or popcorn for a cheesy, B-vitamin-rich flavor\n• Top a soup or chili with fresh chopped herbs like cilantro or parsley",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "better_lipids",
       "improve_gut_health",
       "muscle_gain"
@@ -1649,7 +1649,7 @@
     "summary": "Add One Extra Serving of Vegetables to Lunch.",
     "details_md": "**The Experiment:** Include one additional cup of vegetables in your lunch today.\n\n**Why it Works:** Increasing vegetable intake is linked to reduced risk of chronic diseases. Adding raw veggies, a side salad, or steamed vegetables boosts fiber and micronutrients, helping you feel fuller and more energized.\n\n**How to Try It:**\n• Add a handful of baby carrots or cherry tomatoes to your lunch bag\n• Mix leftover roasted vegetables into your salad or grain bowl\n• Add a layer of spinach or sprouts to your sandwich",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "improve_gut_health",
       "better_lipids",
       "weight_loss"
@@ -1661,7 +1661,7 @@
     "summary": "Start Dinner with a Salad.",
     "details_md": "**The Experiment:** Begin your evening meal with a side salad or raw vegetables before eating the main course.\n\n**Why it Works:** Meal sequencing research shows starting with low-calorie, high-fiber foods increases overall vegetable consumption and enhances satiety. This can naturally reduce intake of higher-calorie foods later in the meal.\n\n**How to Try It:**\n• Prepare a simple salad with greens and a light vinaigrette\n• Eat the entire salad before your main dish is served\n• At a restaurant, order a side salad as an appetizer",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "weight_loss",
       "improve_gut_health"
     ],
@@ -1822,8 +1822,8 @@
     "summary": "Carry 3 If‑Then pocket plans.",
     "details_md": "",
     "goal_tags": [
-      "better_habits",
-      "stress_eating"
+      "stress_eating",
+      "stress_coping_plan"
     ],
     "helps_with": [
       "stress_eating",
@@ -1877,7 +1877,7 @@
     "details_md": "",
     "goal_tags": [
       "stress_eating",
-      "better_habits"
+      "stress_distraction_tool"
     ],
     "helps_with": [
       "mindless_eating",
@@ -1954,8 +1954,8 @@
     "summary": "90‑second tidy sprint.",
     "details_md": "",
     "goal_tags": [
-      "better_habits",
-      "stress_eating"
+      "stress_eating",
+      "stress_reset_routine"
     ],
     "helps_with": [
       "stress_eating",
@@ -1993,8 +1993,8 @@
     "summary": "Hydration‑only desk rule.",
     "details_md": "",
     "goal_tags": [
-      "better_habits",
-      "stress_eating"
+      "stress_eating",
+      "beverage_boundaries"
     ],
     "helps_with": [
       "work_snacking",
@@ -2006,8 +2006,8 @@
     "summary": "Pantry shuffle (produce front & center).",
     "details_md": "",
     "goal_tags": [
-      "increase_veggies",
-      "better_habits"
+      "increase_vegetables",
+      "produce_visibility"
     ],
     "helps_with": [
       "mindless_eating",
@@ -2032,8 +2032,8 @@
     "summary": "Produce‑first cart (fill ⅓ before anything else).",
     "details_md": "",
     "goal_tags": [
-      "increase_veggies",
-      "better_habits"
+      "increase_vegetables",
+      "produce_priority"
     ],
     "helps_with": [
       "reduce_cravings"
@@ -2045,7 +2045,7 @@
     "details_md": "",
     "goal_tags": [
       "reduce_cravings",
-      "better_habits"
+      "treat_environment_design"
     ],
     "helps_with": [
       "mindless_eating",
@@ -2071,7 +2071,7 @@
     "details_md": "",
     "goal_tags": [
       "stress_eating",
-      "better_habits"
+      "food_delivery_boundary"
     ],
     "helps_with": [
       "impulse_orders",
@@ -2083,8 +2083,8 @@
     "summary": "Post‑meal shopping rule.",
     "details_md": "",
     "goal_tags": [
-      "better_habits",
-      "reduce_cravings"
+      "reduce_cravings",
+      "impulse_control_shopping"
     ],
     "helps_with": [
       "reduce_cravings"
@@ -2156,7 +2156,7 @@
     "details_md": "",
     "goal_tags": [
       "reduce_cravings",
-      "increase_veggies"
+      "increase_vegetables"
     ],
     "helps_with": [
       "stress_eating",
@@ -2242,9 +2242,9 @@
     "summary": "Veggie starter (cup of crunchy veg/soup first).",
     "details_md": "",
     "goal_tags": [
-      "increase_veggies",
+      "increase_vegetables",
       "portion_control",
-      "gut_health"
+      "improve_gut_health"
     ],
     "helps_with": [
       "mindless_eating",
@@ -2258,7 +2258,7 @@
     "goal_tags": [
       "improve_mood",
       "reduce_cravings",
-      "gut_health"
+      "improve_gut_health"
     ],
     "helps_with": [
       "stress_eating",
@@ -2270,7 +2270,7 @@
     "summary": "Ferment‑a‑day (yogurt, kefir, kimchi, sauerkraut).",
     "details_md": "",
     "goal_tags": [
-      "gut_health",
+      "improve_gut_health",
       "improve_mood"
     ],
     "helps_with": [
@@ -2364,7 +2364,7 @@
     "details_md": "**The Experiment:** Walk through your space for 10 minutes noting stress points. Write a one‑sentence ",
     "goal_tags": [
       "declutter",
-      "motivation"
+      "declutter_momentum"
     ],
     "helps_with": []
   },
