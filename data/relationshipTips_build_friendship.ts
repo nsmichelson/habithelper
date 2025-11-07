@@ -4,7 +4,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "s1t2u3v4-5w6x-7y8z-9a0b-1c2d3e4f5g6h",
     "summary": "Share something funny that happened today",
-    "details_md": "**The Experiment:** Each evening, share the funniest thing that happened to you today.
+    "details_md": `**The Experiment:** Each evening, share the funniest thing that happened to you today.
 
 **Why it Works:** Sharing humor builds friendship bonds and creates positive daily connection.
 
@@ -12,7 +12,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Think of something amusing from your day
 • Could be tiny or silly
 • Share it enthusiastically
-• Laugh together about life's absurdities",
+• Laugh together about life's absurdities`,
     "area": "relationships",
     "goals": ["humor", "friendship", "daily_sharing"],
     "helps_with": ["serious_only", "no_fun", "friendship_fade"],
@@ -32,7 +32,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "t2u3v4w5-6x7y-8z9a-0b1c-2d3e4f5g6h7i",
     "summary": "Do something silly together in public",
-    "details_md": "**The Experiment:** Be silly together in public - skip, sing, or act goofy without caring who sees.
+    "details_md": `**The Experiment:** Be silly together in public - skip, sing, or act goofy without caring who sees.
 
 **Why it Works:** Shared silliness creates inside jokes and bonds through playful conspiracy.
 
@@ -40,7 +40,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • While out together, be spontaneously silly
 • Skip instead of walk
 • Sing together in the car
-• Laugh at yourselves",
+• Laugh at yourselves`,
     "area": "relationships",
     "goals": ["playfulness", "friendship", "bonding"],
     "helps_with": ["too_serious", "public_stiffness", "fun_deficit"],
@@ -60,7 +60,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "u3v4w5x6-7y8z-9a0b-1c2d-3e4f5g6h7i8j",
     "summary": "Create an inside joke this week",
-    "details_md": "**The Experiment:** Notice something funny only you two understand and make it your inside joke.
+    "details_md": `**The Experiment:** Notice something funny only you two understand and make it your inside joke.
 
 **Why it Works:** Inside jokes create unique friendship bonds and shared private world.
 
@@ -68,7 +68,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Notice something absurd together
 • Reference it later
 • Build on the joke over time
-• Enjoy your private humor",
+• Enjoy your private humor`,
     "area": "relationships",
     "goals": ["inside_jokes", "friendship", "private_world"],
     "helps_with": ["no_unique_bond", "friendship_distance", "fun_absence"],
@@ -88,7 +88,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "v4w5x6y7-8z9a-0b1c-2d3e-4f5g6h7i8j9k",
     "summary": "Support their weird interest genuinely",
-    "details_md": "**The Experiment:** Show genuine interest in something they love that you find weird or boring.
+    "details_md": `**The Experiment:** Show genuine interest in something they love that you find weird or boring.
 
 **Why it Works:** Supporting each other's quirks builds friendship acceptance and shows genuine care.
 
@@ -96,7 +96,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Ask about their weird interest
 • Listen with genuine curiosity
 • Ask follow-up questions
-• Appreciate their passion",
+• Appreciate their passion`,
     "area": "relationships",
     "goals": ["acceptance", "support", "curiosity"],
     "helps_with": ["judgment", "separate_interests", "support_deficit"],
@@ -116,7 +116,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "w5x6y7z8-9a0b-1c2d-3e4f-5g6h7i8j9k0l",
     "summary": "Share gossip like best friends do",
-    "details_md": "**The Experiment:** Share harmless gossip or observations about others like close friends would.
+    "details_md": `**The Experiment:** Share harmless gossip or observations about others like close friends would.
 
 **Why it Works:** Sharing observations and mild gossip creates friendship intimacy and trust.
 
@@ -124,7 +124,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Share interesting observations about others
 • Keep it harmless and fun
 • Enjoy the conspiracy of sharing
-• Trust them with your thoughts",
+• Trust them with your thoughts`,
     "area": "relationships",
     "goals": ["friendship_intimacy", "trust", "fun"],
     "helps_with": ["formal_only", "no_friendship", "trust"],
@@ -144,7 +144,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "x6y7z8a9-0b1c-2d3e-4f5g-6h7i8j9k0l1m",
     "summary": "Team up against a challenge together",
-    "details_md": "**The Experiment:** Find a challenge to tackle together as teammates - puzzle, game, or project.
+    "details_md": `**The Experiment:** Find a challenge to tackle together as teammates - puzzle, game, or project.
 
 **Why it Works:** Working together against external challenges builds friendship through collaboration.
 
@@ -152,7 +152,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Choose a challenge you both face
 • Approach as teammates
 • Strategize together
-• Celebrate victories as a team",
+• Celebrate victories as a team`,
     "area": "relationships",
     "goals": ["teamwork", "collaboration", "friendship"],
     "helps_with": ["competition", "separation", "teamwork_deficit"],
@@ -172,7 +172,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "y7z8a9b0-1c2d-3e4f-5g6h-7i8j9k0l1m2n",
     "summary": "Have friend-style hangout time",
-    "details_md": "**The Experiment:** Spend time together like friends would - casual, no pressure, just hanging out.
+    "details_md": `**The Experiment:** Spend time together like friends would - casual, no pressure, just hanging out.
 
 **Why it Works:** Friend-style time removes romantic pressure and builds comfortable companionship.
 
@@ -180,7 +180,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Plan nothing specific
 • Just exist in same space
 • Do your own things nearby
-• Chat when you want",
+• Chat when you want`,
     "area": "relationships",
     "goals": ["companionship", "comfort", "friendship"],
     "helps_with": ["pressure", "formal_only", "friendship_loss"],
@@ -200,7 +200,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "z8a9b0c1-2d3e-4f5g-6h7i-8j9k0l1m2n3o",
     "summary": "Give each other silly nicknames",
-    "details_md": "**The Experiment:** Create playful, friendly nicknames for each other that make you both laugh.
+    "details_md": `**The Experiment:** Create playful, friendly nicknames for each other that make you both laugh.
 
 **Why it Works:** Silly nicknames create playful friendship energy and private connection.
 
@@ -208,7 +208,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Notice something funny about them
 • Create affectionate silly nickname
 • Use it playfully
-• Let them nickname you too",
+• Let them nickname you too`,
     "area": "relationships",
     "goals": ["playfulness", "humor", "connection"],
     "helps_with": ["formality", "seriousness", "fun_absence"],
@@ -228,7 +228,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a9b0c1d2-3e4f-5g6h-7i8j-9k0l1m2n3o4p",
     "summary": "Cheer for their small victories",
-    "details_md": "**The Experiment:** Be their enthusiastic cheerleader for even tiny accomplishments.
+    "details_md": `**The Experiment:** Be their enthusiastic cheerleader for even tiny accomplishments.
 
 **Why it Works:** Friends celebrate each other's wins; enthusiasm builds supportive friendship.
 
@@ -236,7 +236,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Notice their small victories
 • Cheer enthusiastically
 • Make a big deal of small wins
-• Be their biggest fan",
+• Be their biggest fan`,
     "area": "relationships",
     "goals": ["support", "celebration", "friendship"],
     "helps_with": ["lack_of_support", "minimizing", "celebration_deficit"],
@@ -256,7 +256,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "b0c1d2e3-4f5g-6h7i-8j9k-0l1m2n3o4p5q",
     "summary": "Share your embarrassing moments",
-    "details_md": "**The Experiment:** Share embarrassing moments from your day and laugh about them together.
+    "details_md": `**The Experiment:** Share embarrassing moments from your day and laugh about them together.
 
 **Why it Works:** Vulnerability through embarrassment builds friendship trust and shared humanity.
 
@@ -264,7 +264,7 @@ export const BUILD_FRIENDSHIP_TIPS: SimplifiedTip[] = [
 • Share something embarrassing
 • Laugh at yourself
 • Let them share theirs
-• Bond over being human",
+• Bond over being human`,
     "area": "relationships",
     "goals": ["vulnerability", "humor", "trust"],
     "helps_with": ["perfectionism", "distance", "trust_issues"],

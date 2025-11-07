@@ -4,7 +4,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e1f2g3h4-5i6j-7k8l-9m0n-1o2p3q4r5s6t",
     "summary": "Agree on one in-law boundary before visits",
-    "details_md": "**The Experiment:** Before family visits, align on one boundary you'll both maintain.
+    "details_md": `**The Experiment:** Before family visits, align on one boundary you'll both maintain.
 
 **Why it Works:** United boundaries with extended family prevent triangulation and protect your partnership.
 
@@ -12,7 +12,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • Before any family visit
 • Choose one boundary together
 • Support each other maintaining it
-• Debrief afterward privately",
+• Debrief afterward privately`,
     "area": "relationships",
     "goals": ["family_boundaries", "unity", "protection"],
     "helps_with": ["in_law_stress", "family_intrusion", "divided_loyalty"],
@@ -32,7 +32,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "f2g3h4i5-6j7k-8l9m-0n1o-2p3q4r5s6t7u",
     "summary": "Create your own holiday tradition",
-    "details_md": "**The Experiment:** Start one holiday tradition that's uniquely yours, separate from both families.
+    "details_md": `**The Experiment:** Start one holiday tradition that's uniquely yours, separate from both families.
 
 **Why it Works:** New traditions establish your identity as a unit distinct from families of origin.
 
@@ -40,7 +40,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • Choose something neither family does
 • Make it meaningful to you both
 • Protect it from family obligations
-• Build it year after year",
+• Build it year after year`,
     "area": "relationships",
     "goals": ["traditions", "identity", "independence"],
     "helps_with": ["family_obligations", "no_couple_identity", "holiday_stress"],
@@ -60,7 +60,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "g3h4i5j6-7k8l-9m0n-1o2p-3q4r5s6t7u8v",
     "summary": "Debrief family events privately together",
-    "details_md": "**The Experiment:** After family gatherings, have a private debrief to process together.
+    "details_md": `**The Experiment:** After family gatherings, have a private debrief to process together.
 
 **Why it Works:** Processing family dynamics together strengthens your bond and prevents misunderstandings.
 
@@ -68,7 +68,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • After family leaves or you return home
 • Share honest feelings privately
 • Support each other's experiences
-• Plan improvements for next time",
+• Plan improvements for next time`,
     "area": "relationships",
     "goals": ["processing", "support", "understanding"],
     "helps_with": ["family_stress", "unprocessed_dynamics", "misunderstandings"],
@@ -88,7 +88,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "h4i5j6k7-8l9m-0n1o-2p3q-4r5s6t7u8v9w",
     "summary": "Take turns being the 'bad guy' with families",
-    "details_md": "**The Experiment:** Alternate who delivers difficult messages to extended families.
+    "details_md": `**The Experiment:** Alternate who delivers difficult messages to extended families.
 
 **Why it Works:** Sharing the emotional labor of family boundaries prevents one person being scapegoated.
 
@@ -96,7 +96,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • When boundaries need setting
 • Take turns being the messenger
 • Support the messenger fully
-• Present united front regardless",
+• Present united front regardless`,
     "area": "relationships",
     "goals": ["shared_responsibility", "support", "fairness"],
     "helps_with": ["scapegoating", "unfair_burden", "family_villain"],
@@ -116,7 +116,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "i5j6k7l8-9m0n-1o2p-3q4r-5s6t7u8v9w0x",
     "summary": "Limit family complaint time to 10 minutes",
-    "details_md": "**The Experiment:** When venting about family, set a 10-minute limit then shift focus.
+    "details_md": `**The Experiment:** When venting about family, set a 10-minute limit then shift focus.
 
 **Why it Works:** Contained venting prevents family issues from dominating couple time.
 
@@ -124,7 +124,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • Set timer when family venting starts
 • Listen supportively for 10 minutes
 • When timer ends, shift topics
-• Focus on your relationship",
+• Focus on your relationship`,
     "area": "relationships",
     "goals": ["boundaries", "time_protection", "focus"],
     "helps_with": ["endless_venting", "family_obsession", "negative_focus"],
@@ -144,7 +144,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "j6k7l8m9-0n1o-2p3q-4r5s-6t7u8v9w0x1y",
     "summary": "Choose couple priorities over family guilt",
-    "details_md": "**The Experiment:** Make one decision this month that prioritizes your relationship despite family pressure.
+    "details_md": `**The Experiment:** Make one decision this month that prioritizes your relationship despite family pressure.
 
 **Why it Works:** Choosing each other over family approval establishes primary loyalty and independence.
 
@@ -152,7 +152,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • Identify a family pressure point
 • Choose what's best for your relationship
 • Support each other through guilt
-• Remind yourselves why you chose it",
+• Remind yourselves why you chose it`,
     "area": "relationships",
     "goals": ["prioritization", "independence", "loyalty"],
     "helps_with": ["guilt", "family_pressure", "divided_loyalty"],
@@ -172,7 +172,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "k7l8m9n0-1o2p-3q4r-5s6t-7u8v9w0x1y2z",
     "summary": "Share childhood family roles privately",
-    "details_md": "**The Experiment:** Discuss what roles you each played in your childhood families.
+    "details_md": `**The Experiment:** Discuss what roles you each played in your childhood families.
 
 **Why it Works:** Understanding family-of-origin roles helps recognize patterns and choose new dynamics.
 
@@ -180,7 +180,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • Share your childhood family role
 • Were you peacemaker, rebel, caretaker?
 • Discuss how it affects you now
-• Choose what roles to keep or change",
+• Choose what roles to keep or change`,
     "area": "relationships",
     "goals": ["understanding", "pattern_awareness", "growth"],
     "helps_with": ["unconscious_patterns", "role_repetition", "understanding"],
@@ -200,7 +200,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "l8m9n0o1-2p3q-4r5s-6t7u-8v9w0x1y2z3a",
     "summary": "Create code words for family situations",
-    "details_md": "**The Experiment:** Develop subtle signals for when you need rescue from family situations.
+    "details_md": `**The Experiment:** Develop subtle signals for when you need rescue from family situations.
 
 **Why it Works:** Secret communication helps partners support each other without family drama.
 
@@ -208,7 +208,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • Create subtle code words or gestures
 • One means \"help me exit this\"
 • Another means \"I need support\"
-• Practice before family events",
+• Practice before family events`,
     "area": "relationships",
     "goals": ["communication", "support", "teamwork"],
     "helps_with": ["family_traps", "stuck_situations", "support_needs"],
@@ -228,7 +228,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "m9n0o1p2-3q4r-5s6t-7u8v-9w0x1y2z3a4b",
     "summary": "Plan family visit recovery time",
-    "details_md": "**The Experiment:** Schedule couple-only recovery time after every family visit.
+    "details_md": `**The Experiment:** Schedule couple-only recovery time after every family visit.
 
 **Why it Works:** Planned recovery ensures you reconnect as a couple after family intensity.
 
@@ -236,7 +236,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • Block time after family events
 • Use for just you two
 • Process, relax, reconnect
-• Make it non-negotiable",
+• Make it non-negotiable`,
     "area": "relationships",
     "goals": ["recovery", "reconnection", "self_care"],
     "helps_with": ["family_exhaustion", "no_recovery", "disconnection"],
@@ -256,7 +256,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "n0o1p2q3-4r5s-6t7u-8v9w-0x1y2z3a4b5c",
     "summary": "Celebrate choosing each other over family",
-    "details_md": "**The Experiment:** Acknowledge and celebrate when you successfully prioritize your relationship over family pressure.
+    "details_md": `**The Experiment:** Acknowledge and celebrate when you successfully prioritize your relationship over family pressure.
 
 **Why it Works:** Celebrating boundary successes reinforces the choice and reduces guilt.
 
@@ -264,7 +264,7 @@ export const FAMILY_DYNAMICS_TIPS: SimplifiedTip[] = [
 • When you maintain a family boundary
 • Acknowledge the difficulty
 • Celebrate choosing each other
-• Reinforce why it matters",
+• Reinforce why it matters`,
     "area": "relationships",
     "goals": ["celebration", "reinforcement", "validation"],
     "helps_with": ["guilt", "doubt", "family_pressure"],

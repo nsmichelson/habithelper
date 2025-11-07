@@ -45,11 +45,31 @@ export interface SimplifiedTip {
 
   // ============ EFFORT & INVESTMENT ============
 
-  effort: 'minimal' | 'low' | 'medium' | 'high';
+  effort: 'minimal' | 'low' | 'medium' | 'moderate' | 'high';
   // Overall effort combining mental, physical, and willpower required
   // minimal = autopilot, high = requires significant discipline
 
-  time: '0-5min' | '5-15min' | '15-30min' | '30min+';
+  time:
+    | '0-5min'
+    | '5-15min'
+    | '10-15min'
+    | '15-30min'
+    | '30-45min'
+    | '30-60min'
+    | '30min+'
+    | '0-60min'
+    | '1 week'
+    | '1-2hrs'
+    | '2-3hrs'
+    | '2-4hrs'
+    | '3-4hrs'
+    | 'full_day'
+    | 'overnight'
+    | 'varies'
+    | 'ongoing'
+    | 'planning'
+    | 'planning_plus_date'
+    | 'research';
   // Time investment per instance of doing the tip
 
   cost: '$' | '$$' | '$$$';
@@ -149,7 +169,19 @@ export interface SimplifiedTip {
 
   // ============ LONGEVITY ============
 
-  sustainability?: 'daily' | 'weekly' | 'occasional' | 'temporary';
+  sustainability?:
+    | 'daily'
+    | 'nightly'
+    | 'weekly'
+    | 'monthly'
+    | 'quarterly'
+    | 'yearly'
+    | 'once'
+    | 'occasional'
+    | 'temporary'
+    | 'as_needed'
+    | 'rarely'
+    | 'ongoing';
   // How often/long this tip is meant to be used
   // daily = can become permanent daily habit
   // weekly = good for weekly routine
