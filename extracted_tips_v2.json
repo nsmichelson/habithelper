@@ -146,7 +146,7 @@
     "goal_tags": [
       "constipation_relief",
       "morning_routine",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -176,8 +176,8 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "comfort",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "post_meal_relief"
     ],
     "helps_with": [
       "heartburn",
@@ -190,7 +190,7 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -203,7 +203,7 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -216,8 +216,8 @@
     "details_md": "",
     "goal_tags": [
       "heartburn_relief",
-      "comfort",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "digestive_enzyme_relief"
     ],
     "helps_with": [
       "heartburn",
@@ -300,13 +300,13 @@
     "summary": "If prenatals make you sick, ask about children",
     "details_md": "",
     "goal_tags": [
-      "consistency",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "prenatal_vitamin_routine"
     ],
     "helps_with": [
       "nausea",
-      "adherence"
+      "prenatal_vitamin_adherence"
     ]
   },
   {
@@ -314,10 +314,10 @@
     "summary": "If veggies are a no‑go, lean on fruits, beans, eggs, and dairy for nutrients.",
     "details_md": "",
     "goal_tags": [
-      "flexibility",
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "nausea_safe_swaps"
     ],
     "helps_with": [
       "food_aversion",
@@ -354,7 +354,7 @@
     "helps_with": [
       "aversion",
       "constipation",
-      "energy"
+      "low_energy"
     ]
   },
   {
@@ -363,7 +363,7 @@
     "details_md": "",
     "goal_tags": [
       "fiber_intake",
-      "veggie_exposure",
+      "increase_vegetables",
       "healthy_pregnancy"
     ],
     "helps_with": [
@@ -596,14 +596,14 @@
     "details_md": "",
     "goal_tags": [
       "meal_prep",
-      "consistency",
       "reduce_takeout",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "freezer_meal_backup"
     ],
     "helps_with": [
-      "fatigue",
+      "low_energy",
       "decision_fatigue",
-      "budget"
+      "grocery_budget"
     ]
   },
   {
@@ -612,13 +612,13 @@
     "details_md": "",
     "goal_tags": [
       "increase_hydration",
-      "produce_intake",
+      "increase_vegetables",
       "protein_intake",
       "healthy_pregnancy"
     ],
     "helps_with": [
-      "consistency",
-      "awareness"
+      "habit_tracking",
+      "intake_awareness"
     ]
   },
   {
@@ -626,7 +626,7 @@
     "summary": "Buy pre‑cut or frozen produce to remove prep barriers.",
     "details_md": "",
     "goal_tags": [
-      "produce_intake",
+      "increase_vegetables",
       "fiber_intake",
       "healthy_pregnancy"
     ],
@@ -641,14 +641,14 @@
     "summary": "Team up with a friend or group to share meal pics and wins.",
     "details_md": "",
     "goal_tags": [
-      "accountability",
-      "consistency",
-      "produce_intake",
-      "healthy_pregnancy"
+      "increase_vegetables",
+      "healthy_pregnancy",
+      "meal_tracking_accountability",
+      "produce_sharing_circle"
     ],
     "helps_with": [
-      "motivation",
-      "variety"
+      "social_accountability",
+      "produce_variety"
     ]
   },
   {
@@ -656,10 +656,10 @@
     "summary": "Keep a 7‑day food + symptom journal to spot your triggers and wins.",
     "details_md": "",
     "goal_tags": [
-      "self_awareness",
       "heartburn_relief",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "symptom_journaling"
     ],
     "helps_with": [
       "reflux_triggers",
@@ -702,15 +702,15 @@
     "summary": "Find a healthy ",
     "details_md": "",
     "goal_tags": [
-      "consistency",
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "safe_meal_routine"
     ],
     "helps_with": [
       "decision_fatigue",
       "aversion",
-      "energy"
+      "low_energy"
     ]
   },
   {
@@ -765,7 +765,7 @@
     ],
     "helps_with": [
       "mindless_eating",
-      "fatigue",
+      "low_energy",
       "dehydration"
     ]
   },
@@ -817,7 +817,7 @@
       "weight_loss",
       "portion_control",
       "mindful_eating",
-      "harm_reduction"
+      "fast_food_portion_cap"
     ],
     "helps_with": [
       "binge_eating",
@@ -857,7 +857,7 @@
     "goal_tags": [
       "increase_protein",
       "meal_prep",
-      "time_saving"
+      "protein_shortcuts"
     ],
     "helps_with": [
       "decision_fatigue"
@@ -946,7 +946,7 @@
     "details_md": "",
     "goal_tags": [
       "weight_loss",
-      "increase_veggies",
+      "increase_vegetables",
       "portion_control",
       "improve_gut_health"
     ],

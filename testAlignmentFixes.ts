@@ -11,7 +11,7 @@ const effectivenessProfile: UserProfile = {
   created_at: new Date(),
   onboarding_completed: true,
   primary_focus: 'effectiveness',
-  goals: ['stress_management', 'focus_improvement', 'task_completion'],
+  goals: ['stress_coping_plan', 'focus_improvement', 'task_completion'],
 
   // This is how barriers are now stored (under multiple keys)
   specific_challenges: {
@@ -60,7 +60,7 @@ const energyProfile: UserProfile = {
   created_at: new Date(),
   onboarding_completed: true,
   primary_focus: 'energy',
-  goals: ['improve_energy', 'reduce_fatigue', 'better_sleep'],
+  goals: ['improve_energy', 'improve_sleep', 'improve_mood'],
 
   specific_challenges: {
     'energy': ['always_tired', 'poor_sleep'],

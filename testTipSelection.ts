@@ -6,7 +6,7 @@ console.log('=== TEST: Tip Selection Based on User Goals ===\n');
 
 // Simulate the user from the quiz log:
 // Primary motivation: effectiveness
-// Specific goals: improve_sleep, sleep_quality, improve_energy, stress_management, stress_eating, mindset_shift
+// Specific goals: improve_sleep, sleep_quality, improve_energy, stress_coping_plan, stress_eating, mindset_shift
 const testProfile: UserProfile = {
   id: 'test-1',
   created_at: new Date(),
@@ -19,11 +19,11 @@ const testProfile: UserProfile = {
   goals: [
     'improve_sleep',
     'sleep_quality',
-    'sleep_routine',
     'improve_energy',
-    'energy_levels',
-    'reduce_fatigue',
-    'stress_management',
+    'improve_mood',
+    'stress_coping_plan',
+    'stress_reset_routine',
+    'stress_distraction_tool',
     'stress_eating',
     'mindset_shift'
   ],

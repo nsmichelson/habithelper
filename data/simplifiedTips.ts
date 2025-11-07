@@ -1419,7 +1419,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "helps_with": [
       "nausea",
-      "adherence"
+      "prenatal_vitamin_adherence"
     ],
     "contraindications": [
       "Only with clinician guidance; gummies may lack iron/iodine/choline. Use only with clinician guidance; children’s gummies often lack iron/iodine/choline and are a temporary bridge, not a full replacement."
@@ -1621,7 +1621,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "helps_with": [
       "aversion",
       "constipation",
-      "energy"
+      "low_energy"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -2761,9 +2761,9 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "healthy_pregnancy"
     ],
     "helps_with": [
-      "fatigue",
+      "low_energy",
       "decision_fatigue",
-      "budget"
+      "grocery_budget"
     ],
     "contraindications": [
       "Cool foods quickly, store safely, and reheat leftovers to 165°F; eat within 3–4 days once thawed."
@@ -2825,8 +2825,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "healthy_pregnancy"
     ],
     "helps_with": [
-      "consistency",
-      "awareness"
+      "habit_tracking",
+      "intake_awareness"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -2952,8 +2952,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "healthy_pregnancy"
     ],
     "helps_with": [
-      "motivation",
-      "variety"
+      "social_accountability",
+      "produce_variety"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -3202,7 +3202,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "helps_with": [
       "decision_fatigue",
       "aversion",
-      "energy"
+      "low_energy"
     ],
     "contraindications": [
       "Ensure meats/eggs are fully cooked and cheeses are pasteurized; vary sides to cover micronutrients over the week."
@@ -3441,7 +3441,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     ],
     "helps_with": [
       "mindless_eating",
-      "fatigue",
+      "low_energy",
       "dehydration"
     ],
     "contraindications": [],
@@ -4185,7 +4185,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "less_processed_food"
     ],
     "helps_with": [
-      "mindless_eating"
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -4388,7 +4388,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "gut_health"
     ],
     "helps_with": [
-      "mindless_eating"
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -4791,9 +4791,9 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "less_processed_food"
     ],
     "helps_with": [
-      "mindless_eating",
-      "boredom_eating",
-      "stress_eating"
+  "mindless_eating",
+  "boredom_eating",
+  "stress_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -5097,8 +5097,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "gut_health"
     ],
     "helps_with": [
-      "speed_eating",
-      "mindless_eating"
+  "speed_eating",
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -5444,7 +5444,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_sugar"
     ],
     "helps_with": [
-      "grazing"
+  "grazing"
     ],
     "contraindications": [
       "nut_allergy"
@@ -5660,8 +5660,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "gut_health"
     ],
     "helps_with": [
-      "speed_eating",
-      "mindless_eating"
+  "speed_eating",
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -5910,7 +5910,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_sugar"
     ],
     "helps_with": [
-      "grazing"
+  "grazing"
     ],
     "contraindications": [
       "celiac"
@@ -6139,7 +6139,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "plant_based"
     ],
     "helps_with": [
-      "mindless_eating"
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -6492,10 +6492,10 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "boost_energy"
     ],
     "helps_with": [
-      "emotional_eating",
-      "stress_eating",
-      "boredom_eating",
-      "mindless_eating"
+  "emotional_eating",
+  "stress_eating",
+  "boredom_eating",
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -6638,8 +6638,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "less_processed_food"
     ],
     "helps_with": [
-      "mindless_eating",
-      "stress_eating"
+  "mindless_eating",
+  "stress_eating"
     ],
     "contraindications": [
       "nut_allergy"
@@ -6822,9 +6822,9 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "weight_loss"
     ],
     "helps_with": [
-      "emotional_eating",
-      "stress_eating",
-      "boredom_eating"
+  "emotional_eating",
+  "stress_eating",
+  "boredom_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -7013,8 +7013,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "weight_loss"
     ],
     "helps_with": [
-      "sugar_addiction",
-      "night_eating"
+  "sugar_addiction",
+  "night_eating"
     ],
     "contraindications": [
       "lactose_intolerance",
@@ -7158,8 +7158,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "boost_energy"
     ],
     "helps_with": [
-      "night_eating",
-      "mindless_eating"
+  "night_eating",
+  "mindless_eating"
     ],
     "contraindications": [
       "t1_diabetes",
@@ -7300,9 +7300,9 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "boost_energy"
     ],
     "helps_with": [
-      "mindless_eating",
-      "grazing",
-      "emotional_eating"
+  "mindless_eating",
+  "grazing",
+  "emotional_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -7707,8 +7707,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_prioritization"
     ],
     "helps_with": [
-      "mindless_eating",
-      "emotional_eating"
+  "mindless_eating",
+  "emotional_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -7845,8 +7845,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "gut_health"
     ],
     "helps_with": [
-      "speed_eating",
-      "mindless_eating"
+  "speed_eating",
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -7982,7 +7982,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "strength_performance"
     ],
     "helps_with": [
-      "grazing"
+  "grazing"
     ],
     "contraindications": [
       "kidney_disease"
@@ -8205,8 +8205,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "gut_health"
     ],
     "helps_with": [
-      "speed_eating",
-      "mindless_eating"
+  "speed_eating",
+  "mindless_eating"
     ],
     "contraindications": [],
     "mechanisms": [
@@ -8407,9 +8407,9 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "follow_through"
     ],
     "helps_with": [
-      "stress_eating",
-      "boredom_eating",
-      "emotional_eating"
+  "stress_eating",
+  "boredom_eating",
+  "emotional_eating"
     ],
     "contraindications": [],
     "mechanisms": [

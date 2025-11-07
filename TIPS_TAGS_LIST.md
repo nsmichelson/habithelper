@@ -1,201 +1,195 @@
-# Habit Helper Tips - Complete Tags List
+# Habit Helper Tips - Tag Reference
 
-## Goal Tags (65 unique tags)
+## Goal Tags (84 unique tags)
 
-These tags represent the goals or objectives that tips are designed to help achieve:
+- `DHA_intake` - Increase DHA intake.
+- `alcohol_free` - Stay alcohol-free.
+- `anemia_prevention` - Prevent anemia.
+- `better_lipids` - Improve cholesterol and lipid labs.
+- `beverage_boundaries` - Set clearer boundaries around beverages.
+- `calcium_intake` - Increase calcium intake.
+- `choline_intake` - Increase choline intake.
+- `constipation_relief` - Support constipation relief.
+- `craving_management` - Manage cravings strategically.
+- `craving_satisfaction` - Satisfy cravings in a healthier way.
+- `declutter` - Reduce home clutter.
+- `declutter_momentum` - Build momentum for decluttering.
+- `digestive_enzyme_relief` - Support relief from digestive enzyme discomfort.
+- `emotional_eating` - Address emotional eating.
+- `endurance_performance` - Support endurance performance.
+- `evening_grazing` - Cut evening grazing.
+- `fast_food_portion_cap` - Cap fast-food portions.
+- `fiber_intake` - Increase fiber intake.
+- `folate_intake` - Increase folate intake.
+- `food_delivery_boundary` - Set boundaries around food-delivery use.
+- `food_safety` - Support safe food handling.
+- `freezer_meal_backup` - Keep freezer meal backups ready.
+- `healthy_breakfast` - Build a healthier breakfast routine.
+- `healthy_pregnancy` - Support a healthy pregnancy.
+- `healthy_snacking` - Choose healthier snacks.
+- `heart_health` - Support heart health.
+- `heartburn_relief` - Ease heartburn and reflux.
+- `improve_energy` - Boost daily energy.
+- `improve_gut_health` - Improve digestive health.
+- `improve_hydration` - Drink more fluids.
+- `improve_mood` - Support better mood.
+- `improve_sleep` - Improve sleep quality.
+- `impulse_control_shopping` - Create rules for impulse shopping.
+- `increase_fiber` - Increase fiber intake.
+- `increase_hydration` - Increase daily hydration.
+- `increase_nutrients` - Increase nutrient-dense foods.
+- `increase_protein` - Increase protein servings.
+- `increase_vegetables` - Eat more vegetables and produce.
+- `iodine_intake` - Increase iodine intake.
+- `iron_intake` - Increase iron intake.
+- `labor_prep_habit` - Prepare for labor with supportive habits.
+- `less_processed_food` - Reduce processed food intake.
+- `meal_prep` - Prep meals ahead of time.
+- `meal_tracking_accountability` - Use accountability for meal tracking.
+- `mindful_eating` - Practice mindful eating.
+- `mindset_shift` - Adopt a supportive mindset.
+- `morning_routine` - Strengthen morning routines.
+- `muscle_gain` - Support muscle gain.
+- `nausea_safe_swaps` - Lean on nausea-friendly swaps.
+- `nutrient_density` - Choose nutrient-dense options.
+- `omega3_intake` - Increase omega-3 intake.
+- `organize_home` - Organize home spaces.
+- `organize_workspace` - Organize workspaces.
+- `paper_clutter` - Reduce paper clutter.
+- `plant_based` - Support plant-forward eating.
+- `portion_control` - Improve portion control.
+- `post_meal_relief` - Create post-meal relief habits.
+- `prenatal_vitamin_routine` - Keep prenatal vitamins on a reliable schedule.
+- `produce_priority` - Make produce a higher priority.
+- `produce_sharing_circle` - Share produce wins with others.
+- `produce_visibility` - Keep produce visible and top-of-mind.
+- `protein_intake` - Increase protein intake.
+- `protein_shortcuts` - Lean on protein shortcuts.
+- `reduce_caffeine` - Cut back on caffeine.
+- `reduce_carbs` - Reduce refined carbs.
+- `reduce_cravings` - Reduce cravings overall.
+- `reduce_fat` - Reduce dietary fat.
+- `reduce_nausea` - Reduce nausea symptoms.
+- `reduce_sodium` - Reduce sodium intake.
+- `reduce_sugar` - Cut back on added sugars.
+- `reduce_takeout` - Cut back on takeout.
+- `reduce_ultra_processed` - Cut ultra-processed foods.
+- `safe_meal_routine` - Keep a default safe meal in rotation.
+- `satiety` - Improve satiety and fullness.
+- `sleep_quality` - Improve sleep quality.
+- `stable_blood_sugar` - Keep blood sugar steadier.
+- `strength_performance` - Support strength performance.
+- `stress_coping_plan` - Create stress coping plans for cravings.
+- `stress_distraction_tool` - Use distraction tools for stress eating.
+- `stress_eating` - Manage stress-driven eating.
+- `stress_reset_routine` - Reset after stress with quick routines.
+- `symptom_journaling` - Keep symptom journaling.
+- `treat_environment_design` - Design your environment to moderate treats.
+- `weight_loss` - Support healthy weight loss habits.
 
-### Nutrition & Intake Goals
-- `DHA_intake` - Increase DHA omega-3 fatty acids
-- `calcium_intake` - Increase calcium consumption
-- `choline_intake` - Increase choline consumption
-- `fiber_intake` - Increase dietary fiber
-- `folate_intake` - Increase folate/folic acid
-- `iodine_intake` - Increase iodine consumption
-- `iron_intake` - Increase iron consumption
-- `omega3_intake` - Increase omega-3 fatty acids
-- `protein_intake` - Increase protein consumption
-- `increase_fiber` - Boost fiber intake
-- `increase_hydration` - Drink more water/fluids
-- `increase_nutrients` - General nutrient increase
-- `increase_protein` - Boost protein intake
-- `increase_vegetables` - Eat more vegetables
-- `increase_veggies` - Eat more vegetables
-- `produce_intake` - Increase fruits and vegetables
-- `veggie_exposure` - Try more vegetables
+## Helps With Tags (77 unique tags)
 
-### Health Condition Support
-- `healthy_pregnancy` - Support pregnancy health
-- `constipation_relief` - Relieve constipation
-- `heartburn_relief` - Reduce heartburn/reflux
-- `reduce_nausea` - Decrease nausea symptoms
-- `anemia_prevention` - Prevent anemia
-- `gut_health` - Improve digestive health
-- `improve_gut_health` - Better digestive health
-- `heart_health` - Support cardiovascular health
-
-### Weight & Body Goals
-- `weight_loss` - Support weight loss
-- `satiety` - Feel fuller longer
-- `stable_blood_sugar` - Maintain blood sugar levels
-- `portion_control` - Control portion sizes
-
-### Lifestyle & Habits
-- `better_habits` - Build better habits
-- `consistency` - Maintain consistent habits
-- `accountability` - Stay accountable
-- `meal_prep` - Prepare meals in advance
-- `time_saving` - Save time
-- `morning_routine` - Improve morning habits
-- `healthy_breakfast` - Better breakfast choices
-- `healthy_snacking` - Healthier snack choices
-- `mindful_eating` - Eat more mindfully
-- `self_awareness` - Increase awareness
-
-### Food Quality Goals
-- `less_processed_food` - Reduce processed foods
-- `reduce_ultra_processed` - Cut ultra-processed foods
-- `food_safety` - Ensure safe food handling
-- `alcohol_free` - Avoid alcohol
-- `reduce_sugar` - Cut sugar intake
-- `reduce_fat` - Lower fat intake
-- `reduce_sodium` - Lower sodium intake
-- `reduce_carbs` - Lower carbohydrate intake
-- `reduce_caffeine` - Cut caffeine consumption
-
-### Mental & Emotional Goals
-- `improve_mood` - Better mood regulation
-- `improve_energy` - Boost energy levels
-- `improve_sleep` - Better sleep quality
-- `sleep_quality` - Improve sleep
-- `stress_eating` - Manage stress eating
-- `emotional_eating` - Control emotional eating
-- `evening_grazing` - Stop evening snacking
-- `reduce_cravings` - Decrease cravings
-- `craving_management` - Manage cravings
-- `craving_satisfaction` - Satisfy cravings healthily
-- `comfort` - Find comfort
-- `flexibility` - Be more flexible
-- `harm_reduction` - Reduce harmful behaviors
-
-### Other Goals
-- `hydration` - Stay hydrated
-- `nutrient_density` - Choose nutrient-dense foods
-- `labor_prep_habit` - Prepare for labor
-- `reduce_takeout` - Order less takeout
-
----
-
-## Helps With Tags (74 unique tags)
-
-These tags represent specific problems or challenges that tips help address:
-
-### Nutritional Gaps
-- `DHA_gap` - DHA deficiency
-- `calcium_gap` - Calcium deficiency
-- `choline_gap` - Choline deficiency
-- `folate_gap` - Folate deficiency
-- `iodine_gap` - Iodine deficiency
-- `protein_gap` - Protein deficiency
-- `micronutrient_gaps` - Various micronutrient deficiencies
-- `nutrient_deficiency` - General nutrient deficiency
-- `nutrient_gaps` - Nutritional gaps
-
-### Digestive Issues
-- `constipation` - Constipation problems
-- `bloating` - Bloating and gas
-- `heartburn` - Heartburn symptoms
-- `reflux` - Acid reflux
-- `indigestion` - Digestive discomfort
-- `reflux_triggers` - Things that trigger reflux
-
-### Nausea & Morning Sickness
-- `nausea` - General nausea
-- `vomiting` - Vomiting issues
-- `odor_triggers` - Smell-triggered nausea
-- `smell_aversion` - Aversion to smells
-- `nausea_triggers` - Things that trigger nausea
-- `nausea_from_empty_stomach` - Empty stomach nausea
-- `nausea_aversion_to_meat` - Meat aversion with nausea
-
-### Eating Behaviors
-- `mindless_eating` - Eating without awareness
-- `overeating` - Eating too much
-- `portion_control` - Portion size issues
-- `binge_eating` - Binge eating episodes
-- `binges` - Binging behaviors
-- `stress_eating` - Eating due to stress
-- `emotional_eating` - Eating due to emotions
-- `boredom_eating` - Eating when bored
-- `evening_grazing` - Nighttime snacking
-- `late_night_eating` - Late night eating
-- `work_snacking` - Snacking at work
-- `snacking` - General snacking issues
-- `snack_attacks` - Sudden snack cravings
-
-### Cravings
-- `cravings` - General cravings
-- `sweet_cravings` - Sugar cravings
-- `salty_cravings` - Salt cravings
-- `chip_cravings` - Chip cravings
-- `evening_cravings` - Evening cravings
-- `random_cravings` - Random cravings
-- `reduce_cravings` - Need to reduce cravings
-- `sugar_addiction` - Sugar dependency
-- `junk_food_addiction` - Junk food dependency
-
-### Energy & Fatigue
-- `energy` - Energy issues
-- `fatigue` - Feeling tired
-- `energy_crashes` - Energy dips
-- `energy_management` - Managing energy levels
-- `morning_energy` - Morning energy problems
-- `overnight_hunger` - Nighttime hunger
-
-### Mental & Emotional Challenges
-- `anxiety` - Anxiety issues
-- `rumination` - Overthinking
-- `loneliness` - Feeling lonely
-- `motivation` - Lack of motivation
-- `perfectionism` - Perfectionist tendencies
-- `diet_trauma` - Past diet trauma
-- `social_pressure` - Social eating pressure
-
-### Practical Challenges
-- `decision_fatigue` - Too many decisions
-- `time_pressure` - Time constraints
-- `budget` - Budget limitations
-- `variety` - Need for variety
-- `consistency` - Consistency issues
-- `awareness` - Lack of awareness
-- `adherence` - Sticking to plans
-- `impulse_orders` - Impulse food ordering
-
-### Physical Symptoms
-- `dehydration` - Not enough fluids
-- `hunger` - Hunger management
-- `satiety` - Feeling full
-- `anemia_risk` - Risk of anemia
-- `jitters` - Caffeine jitters
-- `sleep` - Sleep issues
-
-### Food-Related Challenges
-- `food_aversion` - Aversion to foods
-- `aversion` - General aversions
-- `food_safety_anxiety` - Worry about food safety
-
----
+- `DHA_gap` - Address a DHA gap.
+- `anemia_risk` - Reduce anemia risk.
+- `anxiety` - Ease anxiety around food.
+- `aversion` - Handle food aversions.
+- `binge_eating` - Reduce binge eating.
+- `binges` - Reduce binges.
+- `bloating` - Ease bloating.
+- `boredom_eating` - Curb boredom eating.
+- `calcium_gap` - Address a calcium gap.
+- `chip_cravings` - Handle chip cravings.
+- `choline_gap` - Address a choline gap.
+- `constipation` - Relieve constipation.
+- `cravings` - Reduce cravings.
+- `decision_fatigue` - Reduce decision fatigue.
+- `dehydration` - Solve dehydration.
+- `diet_trauma` - Support diet trauma recovery.
+- `emotional_eating` - Address emotional eating.
+- `energy_crashes` - Prevent energy crashes.
+- `energy_management` - Improve energy management.
+- `evening_cravings` - Handle evening cravings.
+- `evening_grazing` - Reduce evening grazing.
+- `folate_gap` - Address a folate gap.
+- `food_aversion` - Handle specific food aversions.
+- `food_safety_anxiety` - Ease food safety anxiety.
+- `grazing` - Reduce grazing.
+- `grocery_budget` - Work within the grocery budget.
+- `habit_tracking` - Stay consistent with habit tracking.
+- `heartburn` - Ease heartburn.
+- `hunger` - Address persistent hunger.
+- `impulse_orders` - Limit impulse food orders.
+- `indigestion` - Ease indigestion.
+- `intake_awareness` - Improve intake awareness.
+- `iodine_gap` - Address an iodine gap.
+- `jitters` - Reduce jitters.
+- `junk_food_addiction` - Reduce junk food dependence.
+- `late_night_eating` - Curb late-night eating.
+- `loneliness` - Address loneliness.
+- `low_energy` - Lift low energy.
+- `micronutrient_gaps` - Address micronutrient gaps.
+- `mindless_eating` - Reduce mindless eating.
+- `morning_energy` - Boost morning energy.
+- `nausea` - Ease nausea.
+- `nausea_aversion_to_meat` - Handle meat aversion nausea.
+- `nausea_from_empty_stomach` - Prevent empty-stomach nausea.
+- `nausea_triggers` - Identify and manage nausea triggers.
+- `night_eating` - Reduce night eating.
+- `nutrient_deficiency` - Address nutrient deficiencies.
+- `nutrient_gaps` - Address nutrient gaps.
+- `odor_triggers` - Manage smell-driven triggers.
+- `overeating` - Cut overeating episodes.
+- `overnight_hunger` - Prevent overnight hunger.
+- `perfectionism` - Loosen perfectionism.
+- `portion_control` - Improve portion control.
+- `prenatal_vitamin_adherence` - Improve prenatal vitamin adherence.
+- `produce_variety` - Increase produce variety.
+- `protein_gap` - Address a protein gap.
+- `random_cravings` - Handle random cravings.
+- `reduce_cravings` - Reduce cravings.
+- `reflux` - Reduce reflux.
+- `reflux_triggers` - Identify reflux triggers.
+- `rumination` - Reduce rumination.
+- `salty_cravings` - Handle salty cravings.
+- `satiety` - Improve satiety cues.
+- `sleep` - Improve sleep issues.
+- `smell_aversion` - Handle smell aversions.
+- `snack_attacks` - Handle snack attacks.
+- `snacking` - Tame frequent snacking.
+- `social_accountability` - Boost social accountability.
+- `social_eating` - Navigate social eating.
+- `social_pressure` - Navigate social pressure.
+- `speed_eating` - Slow down eating speed.
+- `stress_eating` - Manage stress eating.
+- `sugar_addiction` - Address sugar addiction.
+- `sweet_cravings` - Handle sweet cravings.
+- `time_pressure` - Work around time pressure.
+- `vomiting` - Reduce vomiting.
+- `work_snacking` - Cut back on work snacking.
 
 ## Summary Statistics
 
-- **Total Goal Tags:** 65 unique tags
-- **Total Helps With Tags:** 74 unique tags
-- **Most Common Goal Categories:**
-  - Nutrition & Intake (17 tags)
-  - Mental & Emotional Goals (14 tags)
-  - Health Condition Support (8 tags)
-  
-- **Most Common Problem Categories:**
-  - Cravings (9 tags)
-  - Eating Behaviors (13 tags)
-  - Nutritional Gaps (9 tags)
-  - Digestive Issues (6 tags)
+- **Total Goal Tags:** 84 unique tags
+- **Total Helps With Tags:** 77 unique tags
+- **Most Common Goal Tags:**
+  - `weight_loss` (56 tips)
+  - `healthy_pregnancy` (50 tips)
+  - `improve_gut_health` (29 tips)
+  - `increase_vegetables` (27 tips)
+  - `reduce_sugar` (26 tips)
+  - `improve_energy` (23 tips)
+  - `less_processed_food` (22 tips)
+  - `stress_eating` (22 tips)
+  - `mindful_eating` (20 tips)
+  - `portion_control` (15 tips)
+- **Most Common Helps With Tags:**
+  - `mindless_eating` (56 tips)
+  - `stress_eating` (32 tips)
+  - `portion_control` (13 tips)
+  - `constipation` (12 tips)
+  - `nausea` (10 tips)
+  - `boredom_eating` (10 tips)
+  - `grazing` (10 tips)
+  - `sugar_addiction` (9 tips)
+  - `speed_eating` (8 tips)
+  - `emotional_eating` (8 tips)

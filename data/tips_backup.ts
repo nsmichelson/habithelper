@@ -688,7 +688,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "constipation_relief",
       "morning_routine",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "tip_type": [
@@ -820,8 +820,8 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Avoid nuts if allergic; mint gum can aggravate reflux for some—try fruit flavors.",
     "goal_tags": [
       "heartburn_relief",
-      "comfort",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "post_meal_relief"
     ],
     "tip_type": [
       "symptom_management",
@@ -885,7 +885,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "May aggravate reflux or damage enamel; avoid if advised by clinician or with esophagitis. Avoid undiluted ACV; may irritate esophagus or enamel. Not a replacement for medical GERD treatment; stop if pain or burning worsens.",
     "goal_tags": [
       "heartburn_relief",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "tip_type": [
@@ -947,7 +947,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Citrus can worsen reflux or dental sensitivity—use only if it helps you. Citrus can aggravate reflux or tooth enamel; rinse mouth after acidic drinks and avoid if symptoms worsen.",
     "goal_tags": [
       "heartburn_relief",
-      "hydration",
+      "increase_hydration",
       "healthy_pregnancy"
     ],
     "tip_type": [
@@ -1008,8 +1008,8 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Avoid if allergic to latex/papaya; check with clinician before regular use. Avoid if allergic to latex or papaya. Use packaged enzyme tablets; avoid unripe papaya in large amounts. Check with your clinician before regular use.",
     "goal_tags": [
       "heartburn_relief",
-      "comfort",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "digestive_enzyme_relief"
     ],
     "tip_type": [
       "symptom_management"
@@ -1399,9 +1399,9 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** With clinician approval, use chewable kids’ multivitamins temporarily until nausea improves.\n\n**Why it Works:** Better than nothing when pills won’t stay down; easier on the stomach.\n\n**How to Try It:**\n• Confirm dose/brand with your provider.\n• Keep focusing on folate‑rich foods meanwhile.\n• Resume a full prenatal as soon as tolerated.",
     "contraindications": "Only with clinician guidance; gummies may lack iron/iodine/choline. Use only with clinician guidance; children’s gummies often lack iron/iodine/choline and are a temporary bridge, not a full replacement.",
     "goal_tags": [
-      "consistency",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "prenatal_vitamin_routine"
     ],
     "tip_type": [
       "safety_strategy",
@@ -1443,7 +1443,7 @@ export const TIPS_DATABASE: Tip[] = [
     "cognitive_load": 1,
     "helps_with": [
       "nausea",
-      "adherence"
+      "prenatal_vitamin_adherence"
     ]
   },
   {
@@ -1458,10 +1458,10 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** Build meals from tolerated foods that still supply folate, iron, calcium, and protein.\n\n**Why it Works:** You can meet needs without forcing trigger foods; variety returns as nausea lifts.\n\n**How to Try It:**\n• Prioritize fruit smoothies, beans/lentils, eggs, and yogurt.\n• Add a prenatal and 'gap' foods like choline‑rich eggs when possible.\n• Re‑test veggies later in tiny portions.",
     "contraindications": "Use only pasteurized dairy. If lactose intolerant, choose lactose‑free or fortified non‑dairy alternatives.",
     "goal_tags": [
-      "flexibility",
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "nausea_safe_swaps"
     ],
     "tip_type": [
       "mindset_reframe",
@@ -1646,7 +1646,7 @@ export const TIPS_DATABASE: Tip[] = [
     "helps_with": [
       "aversion",
       "constipation",
-      "energy"
+      "low_energy"
     ]
   },
   {
@@ -1662,7 +1662,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": null,
     "goal_tags": [
       "fiber_intake",
-      "veggie_exposure",
+      "increase_vegetables",
       "healthy_pregnancy"
     ],
     "tip_type": [
@@ -2697,9 +2697,9 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Cool foods quickly, store safely, and reheat leftovers to 165°F; eat within 3–4 days once thawed.",
     "goal_tags": [
       "meal_prep",
-      "consistency",
       "reduce_takeout",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "freezer_meal_backup"
     ],
     "tip_type": [
       "planning",
@@ -2744,9 +2744,9 @@ export const TIPS_DATABASE: Tip[] = [
     "substitution_quality": null,
     "cognitive_load": 1,
     "helps_with": [
-      "fatigue",
+      "low_energy",
       "decision_fatigue",
-      "budget"
+      "grocery_budget"
     ]
   },
   {
@@ -2762,7 +2762,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": null,
     "goal_tags": [
       "increase_hydration",
-      "produce_intake",
+      "increase_vegetables",
       "protein_intake",
       "healthy_pregnancy"
     ],
@@ -2805,8 +2805,8 @@ export const TIPS_DATABASE: Tip[] = [
     "substitution_quality": null,
     "cognitive_load": 1,
     "helps_with": [
-      "consistency",
-      "awareness"
+      "habit_tracking",
+      "intake_awareness"
     ]
   },
   {
@@ -2821,7 +2821,7 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** Stock baby carrots, bagged salad, and frozen veg/fruit for instant sides and smoothies.\n\n**Why it Works:** When the healthy choice is the easy choice, you’ll choose it more often.\n\n**How to Try It:**\n• Place ready‑to‑eat produce at eye level in the fridge.\n• Keep frozen veg for quick steam‑in‑bag sides.\n• Wash grapes/berries as soon as you get home.",
     "contraindications": null,
     "goal_tags": [
-      "produce_intake",
+      "increase_vegetables",
       "fiber_intake",
       "healthy_pregnancy"
     ],
@@ -2882,10 +2882,10 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** Start a group chat to post dinner photos and hydration check‑ins.\n\n**Why it Works:** Social accountability and ideas from peers make habits stick.\n\n**How to Try It:**\n• Pick a theme challenge (e.g., 'eat the rainbow').\n• Cheer small wins; no food policing.\n• Share 1 recipe each week.",
     "contraindications": null,
     "goal_tags": [
-      "accountability",
-      "consistency",
-      "produce_intake",
-      "healthy_pregnancy"
+      "increase_vegetables",
+      "healthy_pregnancy",
+      "meal_tracking_accountability",
+      "produce_sharing_circle"
     ],
     "tip_type": [
       "social_support",
@@ -2926,8 +2926,8 @@ export const TIPS_DATABASE: Tip[] = [
     "substitution_quality": null,
     "cognitive_load": 1,
     "helps_with": [
-      "motivation",
-      "variety"
+      "social_accountability",
+      "produce_variety"
     ]
   },
   {
@@ -2942,10 +2942,10 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** Note what you ate and how you felt (nausea, heartburn, energy) 1–3 hours later.\n\n**Why it Works:** Patterns reveal which foods help or hinder so you can personalize your plan.\n\n**How to Try It:**\n• Keep entries short—bullets or photos are fine.\n• Mark heartburn nights and what you ate before.\n• Use findings to make simple swaps next week.",
     "contraindications": null,
     "goal_tags": [
-      "self_awareness",
       "heartburn_relief",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "symptom_journaling"
     ],
     "tip_type": [
       "mindfulness_practice",
@@ -3129,10 +3129,10 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** Pick one balanced meal that always sounds good and put it on repeat this week.\n\n**Why it Works:** Consistency beats perfection; repeating a well‑tolerated meal ensures steady nutrients.\n\n**How to Try It:**\n• Example: veggie omelet + toast; or turkey‑cheese melt (heated) + salad.\n• Batch prep ingredients to reduce effort.\n• Rotate sides/sauces to prevent boredom.",
     "contraindications": "Ensure meats/eggs are fully cooked and cheeses are pasteurized; vary sides to cover micronutrients over the week.",
     "goal_tags": [
-      "consistency",
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy"
+      "healthy_pregnancy",
+      "safe_meal_routine"
     ],
     "tip_type": [
       "mindset_reframe",
@@ -3176,7 +3176,7 @@ export const TIPS_DATABASE: Tip[] = [
     "helps_with": [
       "decision_fatigue",
       "aversion",
-      "energy"
+      "low_energy"
     ]
   },
   
@@ -3349,7 +3349,7 @@ export const TIPS_DATABASE: Tip[] = [
     "satisfies_craving": null,
     "substitution_quality": null,
     "cognitive_load": 1,
-    "helps_with": ["mindless_eating", "fatigue", "dehydration"]
+    "helps_with": ["mindless_eating", "low_energy", "dehydration"]
   },
   {
     "tip_id": "g7h8i9j0-f007-4007-b007-7890abcdef01",
@@ -3493,7 +3493,7 @@ export const TIPS_DATABASE: Tip[] = [
     },
     "details_md": "**The Experiment:** The next time you have an undeniable craving for a specific fast-food meal, go get it—but order a smaller version. For example, get a 6-piece nugget and small fries instead of a large combo meal.[15]\n\n**Why it Works:** This strategy of mindful indulgence acknowledges that complete restriction often backfires, leading to binges.[15, 16] By satisfying the specific craving with a sensible portion, you avoid feelings of deprivation and the \"all-or-nothing\" cycle, making it a sustainable long-term approach.[15]\n\n**How to Try It:**\n• Plan the indulgence in advance to make it a conscious choice, not an impulse.\n• Skip the sugary soda to save a significant amount of calories and sugar.[17]\n• Savor the smaller portion mindfully, without distractions, to maximize enjoyment.[18]",
     "contraindications": null,
-    "goal_tags": ["weight_loss", "portion_control", "mindful_eating", "harm_reduction"],
+    "goal_tags": ["weight_loss", "portion_control", "mindful_eating", "fast_food_portion_cap"],
     "tip_type": ["behavioral_strategy"],
     "motivational_mechanism": ["crave_buster", "psychological_relief"],
     "time_cost_enum": "0_5_min",
@@ -3621,7 +3621,7 @@ export const TIPS_DATABASE: Tip[] = [
     },
     "details_md": "**The Experiment:** Buy one rotisserie chicken during your weekly grocery shop. As soon as you get home, pull the meat from the bones and store it in the fridge.[22]\n\n**Why it Works:** This is a meal prep game-changer for busy people. It provides a ready-to-use, versatile source of lean protein, eliminating the time and effort of cooking chicken during the week. This makes assembling healthy meals incredibly fast.[23, 22]\n\n**How to Try It:**\n• Add the shredded chicken to bagged salads for a quick lunch.[5]\n• Use it as a filling for wraps or quesadillas with whole-wheat tortillas.[19, 23]\n• Mix it with Greek yogurt or avocado for a healthier chicken salad.[24, 25]",
     "contraindications": null,
-    "goal_tags": ["increase_protein", "meal_prep", "time_saving"],
+    "goal_tags": ["increase_protein", "meal_prep", "protein_shortcuts"],
     "tip_type": ["food_hack", "meal_prep_strategy"],
     "motivational_mechanism": ["convenience", "efficiency"],
     "time_cost_enum": "5_15_min",
@@ -3924,7 +3924,7 @@ export const TIPS_DATABASE: Tip[] = [
   },
   "details_md": "**The Experiment:** For one meal, visually divide your plate and fill half of it with non-starchy vegetables, one quarter with lean protein, and one quarter with whole grains.[3, 12]\n\n**Why it Works:** This simple visual guide, promoted by Harvard's Healthy Eating Plate, naturally increases your intake of fiber, vitamins, and minerals while managing portions of more calorie-dense starches and proteins. It promotes fullness and nutrient density without needing to count calories.[3, 12]\n\n**How to Try It:**\n• Start by filling the largest section (half your plate) with colorful veggies like broccoli, spinach, bell peppers, or a large salad.\n• Add a palm-sized portion of lean protein like grilled chicken, fish, or beans.[12]\n• Fill the final quarter with a fist-sized portion of whole grains like quinoa, brown rice, or whole-wheat pasta.[12]\n• Note: Starchy veggies like potatoes, corn, and peas count as grains in this model.[3]",
   "contraindications": [],
-  "goal_tags": ["weight_loss", "increase_veggies", "portion_control", "improve_gut_health"],
+  "goal_tags": ["weight_loss", "increase_vegetables", "portion_control", "improve_gut_health"],
   "tip_type": ["mindset_shift", "environment_design"],
   "motivational_mechanism": ["mastery", "decision_ease"],
   "time_cost_enum": "0_5_min",
@@ -7235,7 +7235,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Carry 3 If‑Then pocket plans.",
     "details_md": "**The Experiment:** Write: “If I feel __, then I’ll __ (non‑food).”\n\n**Why it Works:** Implementation intentions automate wise choices under stress.\n\n**How to Try It:**\n• Make 3 common If‑Then cards\n• Keep in wallet/phone\n• Use at first trigger",
     "contraindications": [],
-    "goal_tags": ["better_habits", "stress_eating"],
+    "goal_tags": ["stress_eating", "stress_coping_plan"],
     "tip_type": ["planning_ahead", "mindset_shift"],
     "motivational_mechanism": ["decision_ease", "mastery"],
     "time_cost_enum": "0_5_min",
@@ -7366,7 +7366,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Hands‑Busy kit (stress ball, fidget, mini‑puzzle).",
     "details_md": "**The Experiment:** Keep 2–3 tactile items near snack zones.\n\n**Why it Works:** Redirects motor habits and buys time for urges to fade.\n\n**How to Try It:**\n• Place the kit by TV/desk\n• Use for 3–5 minutes when triggered\n• Then decide on food",
     "contraindications": [],
-    "goal_tags": ["stress_eating", "better_habits"],
+    "goal_tags": ["stress_eating", "stress_distraction_tool"],
     "tip_type": ["behavioral_strategy", "planning_ahead"],
     "motivational_mechanism": ["convenience", "relief"],
     "time_cost_enum": "5_15_min",
@@ -7560,7 +7560,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "90‑second tidy sprint.",
     "details_md": "**The Experiment:** Set a timer and clear a small surface or drawer.\n\n**Why it Works:** Creating order restores control that stress eating mimics.\n\n**How to Try It:**\n• 90 seconds only\n• Count items to donate/trash\n• Re‑assess the urge",
     "contraindications": [],
-    "goal_tags": ["better_habits", "stress_eating"],
+    "goal_tags": ["stress_eating", "stress_reset_routine"],
     "tip_type": ["behavioral_strategy"],
     "motivational_mechanism": ["mastery", "relief"],
     "time_cost_enum": "0_5_min",
@@ -7670,7 +7670,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Hydration‑only desk rule.",
     "details_md": "**The Experiment:** Only water/tea at your desk; all eating happens elsewhere.\n\n**Why it Works:** Breaks the work‑stress→snack association.\n\n**How to Try It:**\n• Put a water bottle at desk\n• Move snacks to kitchen\n• Add a desk “No food” note",
     "contraindications": [],
-    "goal_tags": ["better_habits", "stress_eating"],
+    "goal_tags": ["stress_eating", "beverage_boundaries"],
     "tip_type": ["time_ritual", "planning_ahead"],
     "motivational_mechanism": ["mastery"],
     "time_cost_enum": "0_5_min",
@@ -7705,7 +7705,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Pantry shuffle (produce front & center).",
     "details_md": "**The Experiment:** Move fruit/veg to eye level; stash treats high/opaque.\n\n**Why it Works:** What’s visible is what’s eaten; cue management beats willpower.\n\n**How to Try It:**\n• Clear bowls for fruit\n• Opaque bins for treats\n• Label swaps: “See me, eat me”",
     "contraindications": [],
-    "goal_tags": ["increase_veggies", "better_habits"],
+    "goal_tags": ["increase_vegetables", "produce_visibility"],
     "tip_type": ["planning_ahead"],
     "motivational_mechanism": ["convenience"],
     "time_cost_enum": "5_15_min",
@@ -7771,7 +7771,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Produce‑first cart (fill ⅓ before anything else).",
     "details_md": "**The Experiment:** At the store, fill the first third of your cart with produce.\n\n**Why it Works:** Anchoring bias nudges later choices healthier.\n\n**How to Try It:**\n• Shop perimeter first\n• Add grab‑ready veg/fruit\n• Then choose proteins/grains",
     "contraindications": [],
-    "goal_tags": ["increase_veggies", "better_habits"],
+    "goal_tags": ["increase_vegetables", "produce_priority"],
     "tip_type": ["planning_ahead"],
     "motivational_mechanism": ["decision_ease"],
     "time_cost_enum": "5_15_min",
@@ -7802,7 +7802,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Opaque decanting for treats; clear bowls for fruit.",
     "details_md": "**The Experiment:** Move treats to opaque bins; put fruit in clear bowls.\n\n**Why it Works:** Sight drives desire; manage cues to manage choices.\n\n**How to Try It:**\n• Label bins\n• Keep fruit washed/visible\n• Rotate weekly",
     "contraindications": [],
-    "goal_tags": ["reduce_cravings", "better_habits"],
+    "goal_tags": ["reduce_cravings", "treat_environment_design"],
     "tip_type": ["planning_ahead"],
     "motivational_mechanism": ["convenience"],
     "time_cost_enum": "5_15_min",
@@ -7867,7 +7867,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "App hibernation week (offload food delivery apps).",
     "details_md": "**The Experiment:** Offload/hide delivery apps for 7 days.\n\n**Why it Works:** Extra clicks add just enough friction to interrupt impulses.\n\n**How to Try It:**\n• Move apps into a folder or offload\n• Keep a simple meal plan handy\n• Re‑install after the week if desired",
     "contraindications": [],
-    "goal_tags": ["stress_eating", "better_habits"],
+    "goal_tags": ["stress_eating", "food_delivery_boundary"],
     "tip_type": ["planning_ahead"],
     "motivational_mechanism": ["decision_ease", "mastery"],
     "time_cost_enum": "0_5_min",
@@ -7898,7 +7898,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Post‑meal shopping rule.",
     "details_md": "**The Experiment:** Only grocery shop after eating.\n\n**Why it Works:** Lowers hunger‑driven hedonic purchases.\n\n**How to Try It:**\n• Add to calendar notes\n• Keep a standing list\n• Eat a small snack before unexpected runs",
     "contraindications": [],
-    "goal_tags": ["better_habits", "reduce_cravings"],
+    "goal_tags": ["reduce_cravings", "impulse_control_shopping"],
     "tip_type": ["time_ritual", "planning_ahead"],
     "motivational_mechanism": ["decision_ease"],
     "time_cost_enum": "0_5_min",
@@ -8096,7 +8096,7 @@ export const TIPS_DATABASE: Tip[] = [
     },
     "details_md": "**The Experiment:** List crunchy swaps (carrots, cukes, jicama, popcorn) on a visible card.\n\n**Why it Works:** Meets sensory need with lower caloric load.\n\n**How to Try It:**\n• Post near snack zone\n• Pick one when ‘crunch’ hits\n• Plate and sit to eat",
     "contraindications": [],
-    "goal_tags": ["reduce_cravings", "increase_veggies"],
+    "goal_tags": ["reduce_cravings", "increase_vegetables"],
     "tip_type": ["planning_ahead", "behavioral_strategy"],
     "motivational_mechanism": ["sensory", "convenience"],
     "time_cost_enum": "5_15_min",
@@ -8330,7 +8330,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Veggie starter (cup of crunchy veg/soup first).",
     "details_md": "**The Experiment:** Begin meals with a cup of veg or broth‑based soup.\n\n**Why it Works:** Fiber/volume increase satiety and slow pace.\n\n**How to Try It:**\n• Keep pre‑cut veg ready\n• Plate starter first\n• Eat mindfully before mains",
     "contraindications": [],
-    "goal_tags": ["increase_veggies", "portion_control", "gut_health"],
+    "goal_tags": ["increase_vegetables", "portion_control", "improve_gut_health"],
     "tip_type": ["time_ritual", "habit_stacking"],
     "motivational_mechanism": ["sensory", "comfort"],
     "time_cost_enum": "5_15_min",
@@ -8363,7 +8363,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Omega‑3 boost today.",
     "details_md": "**The Experiment:** Add one omega‑3 source (salmon, sardines, chia, walnuts).\n\n**Why it Works:** Omega‑3s support mood regulation and may reduce anxiety‑driven urges.\n\n**How to Try It:**\n• Swap in salmon or sprinkle chia\n• Log mood/urge 0–10 after meals\n• Repeat 2–3×/week",
     "contraindications": "Fish/shellfish allergy; consult your clinician if on blood thinners.",
-    "goal_tags": ["improve_mood", "reduce_cravings", "gut_health"],
+    "goal_tags": ["improve_mood", "reduce_cravings", "improve_gut_health"],
     "tip_type": ["planning_ahead"],
     "motivational_mechanism": ["mastery", "energy_boost"],
     "time_cost_enum": "5_15_min",
@@ -8395,7 +8395,7 @@ export const TIPS_DATABASE: Tip[] = [
     "summary": "Ferment‑a‑day (yogurt, kefir, kimchi, sauerkraut).",
     "details_md": "**The Experiment:** Include one fermented food today.\n\n**Why it Works:** A healthy microbiome supports mood and cravings via the gut–brain axis.\n\n**How to Try It:**\n• Add plain yogurt to breakfast\n• Top bowls with kimchi\n• Note mood/urge changes",
     "contraindications": "Consider histamine intolerance, active reflux, or GI sensitivities.",
-    "goal_tags": ["gut_health", "improve_mood"],
+    "goal_tags": ["improve_gut_health", "improve_mood"],
     "tip_type": ["behavioral_strategy"],
     "motivational_mechanism": ["convenience", "comfort"],
     "time_cost_enum": "0_5_min",
