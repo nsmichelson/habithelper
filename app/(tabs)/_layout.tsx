@@ -71,6 +71,18 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="habits_old"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="test"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }
