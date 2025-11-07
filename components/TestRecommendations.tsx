@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -12,140 +12,227 @@ import { Ionicons } from '@expo/vector-icons';
 import { TipRecommendationService } from '../services/tipRecommendation';
 import { UserProfile } from '../types/tip';
 import { getTipGoalsForQuizGoals } from '../data/goalMappings';
+import { useFocusEffect } from '@react-navigation/native';
+import StorageService from '@/services/storage';
+import { TestProfileDefinition } from '@/types/testProfile';
 
 /**
  * Test UI Component to visualize how recommendations work
  * Add this to your app to see recommendations for different user profiles
  */
 
-// Test profiles
-const TEST_PROFILES = {
-  sarah: {
+// Built-in test profiles always available
+const BUILT_IN_TEST_PROFILES: TestProfileDefinition[] = [
+  {
+    id: 'sarah',
     name: 'Sarah',
     description: 'Restaurant lover who hates veggies',
+    createdAt: 'built-in',
+    source: 'built-in',
     profile: {
       primary_focus: 'eating',
-      quiz_goals: ['eat_more_veggies', 'reduce_sugar', 'healthier_restaurant_choices'],  // Quiz goals
-      goals: getTipGoalsForQuizGoals(['eat_more_veggies', 'reduce_sugar', 'healthier_restaurant_choices']),  // Auto-mapped to tip goals
+      quiz_goals: ['eat_more_veggies', 'reduce_sugar', 'healthier_restaurant_choices'],
+      goals: getTipGoalsForQuizGoals(['eat_more_veggies', 'reduce_sugar', 'healthier_restaurant_choices']),
       preferences: ['restaurant_friends', 'coffee_shops', 'walking', 'podcasts_audiobooks'],
       specific_challenges: {
-        eating: ['hate_veggies', 'love_sweets', 'social_events', 'no_time_cook']
+        eating: ['hate_veggies', 'love_sweets', 'social_events', 'no_time_cook'],
       },
       avoid_approaches: ['meal_prep', 'counting', 'complex_recipes'],
       lifestyle: {
         chaos_level: 'flexible',
-        life_role: 'professional'
+        life_role: 'professional',
       },
       success_vision: 'I want to enjoy eating healthier without feeling restricted',
     } as UserProfile,
   },
-  mike: {
+  {
+    id: 'mike',
     name: 'Mike',
     description: 'Busy parent who wants to exercise',
+    createdAt: 'built-in',
+    source: 'built-in',
     profile: {
       primary_focus: 'exercise',
       quiz_goals: ['start_exercising', 'exercise_for_energy', 'consistent_workouts'],
       goals: getTipGoalsForQuizGoals(['start_exercising', 'exercise_for_energy', 'consistent_workouts']),
       preferences: ['playing_kids_pets', 'nature_outdoors', 'music_listening', 'spontaneous_adventures'],
       specific_challenges: {
-        exercise: ['no_time', 'too_tired', 'hate_gym', 'no_childcare']
+        exercise: ['no_time', 'too_tired', 'hate_gym', 'no_childcare'],
       },
       avoid_approaches: ['gym', 'long_workouts', 'morning_routine'],
       lifestyle: {
         chaos_level: 'total_chaos',
-        life_role: 'parent_young'
+        life_role: 'parent_young',
       },
       success_vision: 'Feel energized and set a good example for my kids',
     } as UserProfile,
   },
-  alex: {
+  {
+    id: 'alex',
     name: 'Alex',
     description: 'Night owl with sleep issues',
+    createdAt: 'built-in',
+    source: 'built-in',
     profile: {
       primary_focus: 'sleeping',
       quiz_goals: ['fall_asleep_easier', 'consistent_sleep_schedule', 'wake_up_refreshed'],
       goals: getTipGoalsForQuizGoals(['fall_asleep_easier', 'consistent_sleep_schedule', 'wake_up_refreshed']),
       preferences: ['reading', 'podcasts_audiobooks', 'games_video', 'cozy_comfort', 'solo_time'],
       specific_challenges: {
-        sleeping: ['racing_mind', 'phone_addiction', 'revenge_bedtime', 'netflix_binge']
+        sleeping: ['racing_mind', 'phone_addiction', 'revenge_bedtime', 'netflix_binge'],
       },
       avoid_approaches: ['meditation', 'morning_routine', 'rigid_rules'],
       lifestyle: {
         chaos_level: 'mostly_routine',
-        life_role: 'remote_worker'
+        life_role: 'remote_worker',
       },
       success_vision: 'Actually feel rested and stop being exhausted all day',
     } as UserProfile,
   },
-  jamie: {
+  {
+    id: 'jamie',
     name: 'Jamie',
     description: 'Creative person with productivity issues',
+    createdAt: 'built-in',
+    source: 'built-in',
     profile: {
       primary_focus: 'productivity',
       quiz_goals: ['stop_procrastinating', 'finish_what_start', 'reduce_overwhelm'],
       goals: getTipGoalsForQuizGoals(['stop_procrastinating', 'finish_what_start', 'reduce_overwhelm']),
       preferences: ['creative_projects', 'music_listening', 'coffee_shops', 'spontaneous_adventures'],
       specific_challenges: {
-        productivity: ['procrastination', 'perfectionism', 'distractions', 'overwhelming_tasks']
+        productivity: ['procrastination', 'perfectionism', 'distractions', 'overwhelming_tasks'],
       },
       avoid_approaches: ['rigid_rules', 'detailed_tracking', 'morning_routine'],
       lifestyle: {
         chaos_level: 'unpredictable',
-        life_role: 'entrepreneur'
+        life_role: 'entrepreneur',
       },
       success_vision: 'Actually finish my creative projects without the stress',
     } as UserProfile,
   },
-};
+];
 
 export default function TestRecommendations() {
-  const [selectedProfile, setSelectedProfile] = useState('sarah');
+  const [customProfiles, setCustomProfiles] = useState<TestProfileDefinition[]>([]);
+  const [selectedProfileId, setSelectedProfileId] = useState<string>(
+    BUILT_IN_TEST_PROFILES[0]?.id ?? ''
+  );
   const [recommendations, setRecommendations] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [showDetails, setShowDetails] = useState<number | null>(null);
 
-  useEffect(() => {
-    loadRecommendations();
-  }, [selectedProfile]);
+  const allProfiles = useMemo(
+    () => [...BUILT_IN_TEST_PROFILES, ...customProfiles],
+    [customProfiles]
+  );
 
-  const loadRecommendations = async () => {
+  useEffect(() => {
+    if (!selectedProfileId && allProfiles.length > 0) {
+      setSelectedProfileId(allProfiles[0].id);
+    }
+  }, [allProfiles, selectedProfileId]);
+
+  useEffect(() => {
+    if (allProfiles.length === 0) {
+      return;
+    }
+    const exists = allProfiles.some(profile => profile.id === selectedProfileId);
+    if (!exists) {
+      setSelectedProfileId(allProfiles[0].id);
+    }
+  }, [allProfiles, selectedProfileId]);
+
+  const selectedProfile = useMemo(
+    () => allProfiles.find(profile => profile.id === selectedProfileId) ?? allProfiles[0],
+    [allProfiles, selectedProfileId]
+  );
+
+  const loadRecommendations = useCallback(async (profileEntry?: TestProfileDefinition) => {
+    if (!profileEntry) {
+      setRecommendations([]);
+      return;
+    }
+
     setLoading(true);
     try {
       const service = new TipRecommendationService();
-      const profile = TEST_PROFILES[selectedProfile as keyof typeof TEST_PROFILES].profile;
-
       const recs = await service.recommendTips(
-        profile,
-        [], // No previous tips
-        [], // No attempts
+        profileEntry.profile,
+        [],
+        [],
         new Date(),
-        false // Not relaxed mode
+        false
       );
 
-      // Debug logging - log top 5 with more detail
-      console.log(`=== Loaded ${recs.length} recommendations for ${selectedProfile} ===`);
+      console.log(`=== Loaded ${recs.length} recommendations for ${profileEntry.name} (${profileEntry.id}) ===`);
       console.log('Top 5 recommendations:');
       recs.slice(0, 5).forEach((rec, i) => {
         console.log(`${i + 1}. "${rec.tip.summary}"`);
-        console.log(`   Score: ${rec.score}, Goals: ${rec.tip.goals?.slice(0,2).join(', ')}...`);
+        console.log(`   Score: ${rec.score}, Goals: ${rec.tip.goals?.slice(0, 2).join(', ')}...`);
         if (rec._debugInfo) {
-          const hasMatches = rec._debugInfo.matchedGoals.length > 0 ||
-                            rec._debugInfo.matchedPreferences.length > 0 ||
-                            rec._debugInfo.addressedBlockers.length > 0;
+          const hasMatches =
+            rec._debugInfo.matchedGoals.length > 0 ||
+            rec._debugInfo.matchedPreferences.length > 0 ||
+            rec._debugInfo.addressedBlockers.length > 0;
           if (hasMatches) {
-            console.log(`   Matched: goals=${rec._debugInfo.matchedGoals.length}, prefs=${rec._debugInfo.matchedPreferences.length}, blockers=${rec._debugInfo.addressedBlockers.length}`);
+            console.log(
+              `   Matched: goals=${rec._debugInfo.matchedGoals.length}, prefs=${rec._debugInfo.matchedPreferences.length}, blockers=${rec._debugInfo.addressedBlockers.length}`
+            );
           }
         }
       });
 
-      setRecommendations(recs.slice(0, 10)); // Top 10 recommendations
+      setRecommendations(recs.slice(0, 10));
     } catch (error) {
       console.error('Error loading recommendations:', error);
     }
     setLoading(false);
-  };
+  }, []);
 
-  const currentTestProfile = TEST_PROFILES[selectedProfile as keyof typeof TEST_PROFILES];
+  useEffect(() => {
+    loadRecommendations(selectedProfile);
+  }, [selectedProfile, loadRecommendations]);
+
+  useFocusEffect(
+    useCallback(() => {
+      let isMounted = true;
+
+      const loadCustomProfiles = async () => {
+        try {
+          const storedProfiles = await StorageService.getTestProfiles();
+          if (isMounted) {
+            setCustomProfiles(storedProfiles);
+          }
+        } catch (error) {
+          console.error('Error loading stored test profiles:', error);
+        }
+      };
+
+      loadCustomProfiles();
+
+      return () => {
+        isMounted = false;
+      };
+    }, [])
+  );
+
+  const currentTestProfile = selectedProfile;
+
+  if (!currentTestProfile) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <LinearGradient colors={['#4A90E2', '#7B68EE']} style={styles.gradient}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Test Recommendation Algorithm</Text>
+            <Text style={styles.subtitle}>
+              Create a test profile to see personalized recommendations.
+            </Text>
+          </View>
+        </LinearGradient>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -163,26 +250,37 @@ export default function TestRecommendations() {
           <View style={styles.profileSelector}>
             <Text style={styles.sectionTitle}>Select Test Profile:</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {Object.entries(TEST_PROFILES).map(([key, data]) => (
+              {allProfiles.map(profile => (
                 <TouchableOpacity
-                  key={key}
+                  key={profile.id}
                   style={[
                     styles.profileCard,
-                    selectedProfile === key && styles.profileCardActive
+                    selectedProfileId === profile.id && styles.profileCardActive,
                   ]}
-                  onPress={() => setSelectedProfile(key)}
+                  onPress={() => setSelectedProfileId(profile.id)}
                 >
-                  <Text style={[
-                    styles.profileName,
-                    selectedProfile === key && styles.profileNameActive
-                  ]}>
-                    {data.name}
-                  </Text>
-                  <Text style={[
-                    styles.profileDesc,
-                    selectedProfile === key && styles.profileDescActive
-                  ]}>
-                    {data.description}
+                  <View style={styles.profileCardHeader}>
+                    <Text
+                      style={[
+                        styles.profileName,
+                        selectedProfileId === profile.id && styles.profileNameActive,
+                      ]}
+                    >
+                      {profile.name}
+                    </Text>
+                    {profile.source === 'custom' && (
+                      <View style={styles.customBadge}>
+                        <Text style={styles.customBadgeText}>Custom</Text>
+                      </View>
+                    )}
+                  </View>
+                  <Text
+                    style={[
+                      styles.profileDesc,
+                      selectedProfileId === profile.id && styles.profileDescActive,
+                    ]}
+                  >
+                    {profile.description}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -473,6 +571,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'transparent',
   },
+  profileCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
   profileCardActive: {
     backgroundColor: 'rgba(255,255,255,0.3)',
     borderColor: '#FFF',
@@ -492,6 +596,18 @@ const styles = StyleSheet.create({
   },
   profileDescActive: {
     color: 'rgba(255,255,255,0.9)',
+  },
+  customBadge: {
+    backgroundColor: 'rgba(76, 175, 80, 0.25)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 10,
+  },
+  customBadgeText: {
+    color: '#B2F5B4',
+    fontSize: 10,
+    fontWeight: '600',
+    letterSpacing: 0.3,
   },
   profileDetails: {
     padding: 20,
