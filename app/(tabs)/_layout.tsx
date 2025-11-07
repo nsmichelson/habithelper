@@ -80,7 +80,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="test"
         options={{
-          href: null,
+          title: 'Test Profiles',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="flask" size={size || 28} color={color} />
+          ),
         }}
       />
     </Tabs>
