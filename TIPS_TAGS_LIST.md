@@ -29,6 +29,7 @@
 - `healthy_snacking` - Choose healthier snacks.
 - `heart_health` - Support heart health.
 - `heartburn_relief` - Ease heartburn and reflux.
+- `better_sleep` - Sleep better and wake rested.
 - `improve_energy` - Boost daily energy.
 - `improve_gut_health` - Improve digestive health.
 - `improve_hydration` - Drink more fluids.
@@ -45,12 +46,20 @@
 - `labor_prep_habit` - Prepare for labor with supportive habits.
 - `less_processed_food` - Reduce processed food intake.
 - `meal_prep` - Prep meals ahead of time.
+- `build_healthy_habits` - Establish healthy habits that stick.
 - `meal_tracking_accountability` - Use accountability for meal tracking.
 - `mindful_eating` - Practice mindful eating.
 - `mindset_shift` - Adopt a supportive mindset.
+- `maintain_consistency` - Stay consistent with your routines.
+- `meet_deadlines` - Consistently deliver work on time.
+- `increased_productivity` - Get more high-value work done.
+- `reduce_distractions` - Minimize interruptions and attention drains.
 - `morning_routine` - Strengthen morning routines.
 - `muscle_gain` - Support muscle gain.
+- `paper_management` - Control and file paperwork effectively.
 - `nausea_safe_swaps` - Lean on nausea-friendly swaps.
+- `stress_free_environment` - Create calmer, lower-stress spaces.
+- `task_system_mastery` - Use a reliable personal task system.
 - `nutrient_density` - Choose nutrient-dense options.
 - `omega3_intake` - Increase omega-3 intake.
 - `organize_home` - Organize home spaces.
@@ -97,12 +106,14 @@
 - `binges` - Reduce binges.
 - `bloating` - Ease bloating.
 - `boredom_eating` - Curb boredom eating.
+- `context_switching` - Rapidly switching tasks reduces efficiency.
 - `calcium_gap` - Address a calcium gap.
 - `chip_cravings` - Handle chip cravings.
 - `choline_gap` - Address a choline gap.
 - `constipation` - Relieve constipation.
 - `cravings` - Reduce cravings.
 - `decision_fatigue` - Reduce decision fatigue.
+- `decision_paralysis` - Getting stuck deciding what to do.
 - `dehydration` - Solve dehydration.
 - `diet_trauma` - Support diet trauma recovery.
 - `emotional_eating` - Address emotional eating.
@@ -126,10 +137,15 @@
 - `junk_food_addiction` - Reduce junk food dependence.
 - `late_night_eating` - Curb late-night eating.
 - `loneliness` - Address loneliness.
+- `lost_items` - Frequently misplacing things.
 - `low_energy` - Lift low energy.
+- `low_motivation` - Lack of drive to start or continue.
 - `micronutrient_gaps` - Address micronutrient gaps.
 - `mindless_eating` - Reduce mindless eating.
 - `morning_energy` - Boost morning energy.
+- `maintenance_failure` - Order breaks down after cleaning up.
+- `meeting_overload` - Too many meetings reduce productivity.
+- `no_systems` - Lack of organizing systems or routines.
 - `nausea` - Ease nausea.
 - `nausea_aversion_to_meat` - Handle meat aversion nausea.
 - `nausea_from_empty_stomach` - Prevent empty-stomach nausea.
@@ -138,33 +154,46 @@
 - `nutrient_deficiency` - Address nutrient deficiencies.
 - `nutrient_gaps` - Address nutrient gaps.
 - `odor_triggers` - Manage smell-driven triggers.
+- `notification_overload` - Too many pings disrupt focus.
+- `overwhelm` - Feeling overloaded or close to burnout.
 - `overeating` - Cut overeating episodes.
 - `overnight_hunger` - Prevent overnight hunger.
 - `perfectionism` - Loosen perfectionism.
 - `portion_control` - Improve portion control.
+- `paper_piles` - Unsorted piles of paper everywhere.
+- `poor_sleep` - Unrefreshing or insufficient sleep.
+- `procrastination` - Putting off tasks that matter.
 - `prenatal_vitamin_adherence` - Improve prenatal vitamin adherence.
 - `produce_variety` - Increase produce variety.
 - `protein_gap` - Address a protein gap.
 - `random_cravings` - Handle random cravings.
+- `racing_mind` - Thoughts racing, hard to wind down.
 - `reduce_cravings` - Reduce cravings.
 - `reflux` - Reduce reflux.
 - `reflux_triggers` - Identify reflux triggers.
 - `rumination` - Reduce rumination.
+- `screen_time_overuse` - Too much evening screen time.
 - `salty_cravings` - Handle salty cravings.
 - `satiety` - Improve satiety cues.
 - `sleep` - Improve sleep issues.
 - `smell_aversion` - Handle smell aversions.
 - `snack_attacks` - Handle snack attacks.
 - `snacking` - Tame frequent snacking.
+- `task_overload` - Too many tasks compete for attention.
 - `social_accountability` - Boost social accountability.
 - `social_eating` - Navigate social eating.
 - `social_pressure` - Navigate social pressure.
 - `speed_eating` - Slow down eating speed.
 - `stress_eating` - Manage stress eating.
+- `time_constraints` - Schedule limits habit time.
 - `sugar_addiction` - Address sugar addiction.
+- `too_many_goals` - Trying to change too many things at once.
+- `too_many_tools` - Using too many apps/tools to manage work.
 - `sweet_cravings` - Handle sweet cravings.
 - `time_pressure` - Work around time pressure.
 - `vomiting` - Reduce vomiting.
+- `unclear_priorities` - Not sure what truly matters first.
+- `visual_chaos` - Too much visual noise to focus.
 - `work_snacking` - Cut back on work snacking.
 
 ## Summary Statistics

@@ -1,4 +1,5 @@
 import { SimplifiedTip } from '../types/simplifiedTip';
+import { PRODUCTIVITY_SIMPLIFIED_TIPS } from './productivitySimplifiedTips';
 import { RELATIONSHIP_SIMPLIFIED_TIPS } from './relationshipsSimplifiedTips';
 
 const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
@@ -11165,6 +11166,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
 
 export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
   ...BASE_SIMPLIFIED_TIPS,
+  ...PRODUCTIVITY_SIMPLIFIED_TIPS,
   ...RELATIONSHIP_SIMPLIFIED_TIPS,
 ];
 
