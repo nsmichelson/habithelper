@@ -1001,6 +1001,7 @@ export class TipRecommendationService {
     const tipMechanisms = tip.mechanisms || [];
     const tipWhen = tip.when || [];
     const tipWhere = tip.where || [];
+    const tipSatisfies = (tip as any).satisfies || []; // Check satisfies field too!
 
     let score = 0;
     const matches: string[] = [];
@@ -1010,13 +1011,14 @@ export class TipRecommendationService {
       const originalPref = originalPrefs[i];
       const mappedValues = getMappedPreferences([originalPref]);
 
-      // Check if any mapped values match tip fields
+      // Check if any mapped values match tip fields (including satisfies!)
       for (const mapped of mappedValues) {
         if (tipFeatures.includes(mapped) ||
             tipInvolves.includes(mapped) ||
             tipMechanisms.includes(mapped) ||
             tipWhen.includes(mapped) ||
-            tipWhere.includes(mapped)) {
+            tipWhere.includes(mapped) ||
+            tipSatisfies.includes(mapped)) {
           score += 0.3;
           matches.push(originalPref);
           break; // Only count once per preference
@@ -1063,6 +1065,7 @@ export class TipRecommendationService {
     const tipHelps = tip.helps_with || [];
     const tipFeatures = tip.features || [];
     const tipMechanisms = tip.mechanisms || [];
+    const tipSatisfies = (tip as any).satisfies || []; // Check satisfies for blockers too!
 
     // Check for matches using mapped blockers
     for (let i = 0; i < originalBlockers.length; i++) {
@@ -1077,6 +1080,14 @@ export class TipRecommendationService {
           score += 0.4;
           addressed.push(originalBlocker);
           break; // Only count once per blocker
+        }
+      }
+
+      // Special check: love_sweets blocker matched by satisfies sweet
+      if (originalBlocker === 'love_sweets' && tipSatisfies.includes('sweet')) {
+        score += 0.3;
+        if (!addressed.includes('love_sweets')) {
+          addressed.push('love_sweets');
         }
       }
 

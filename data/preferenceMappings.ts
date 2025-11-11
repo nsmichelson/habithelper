@@ -41,9 +41,9 @@ export const PREFERENCE_MAPPINGS: Record<string, string[]> = {
 
   // ============ FOOD & COOKING ============
   'cooking_experimenting': ['cooking', 'meal_prep', 'kitchen', 'experimenting', 'recipes'],
-  'baking': ['baking', 'cooking', 'kitchen', 'treats', 'homemade'],
-  'trying_foods': ['food_variety', 'experimenting', 'new_foods', 'adventurous'],
-  'wine_drinks': ['beverages', 'drinks', 'wine', 'alcohol_free', 'mocktails'],
+  'baking': ['baking', 'cooking', 'kitchen', 'treats', 'homemade', 'sweet'],
+  'trying_foods': ['food_variety', 'experimenting', 'new_foods', 'adventurous', 'umami', 'savory'],
+  'wine_drinks': ['beverages', 'drinks', 'wine', 'alcohol_free', 'mocktails', 'bubbly'],
 
   // ============ CREATIVE & HOBBIES ============
   'creative_projects': ['creative', 'crafts', 'projects', 'making', 'art'],
@@ -74,8 +74,8 @@ export const PREFERENCE_MAPPINGS: Record<string, string[]> = {
  */
 export const BLOCKER_MAPPINGS: Record<string, string[]> = {
   // ============ EATING BLOCKERS ============
-  'hate_veggies': ['veggie_aversion', 'picky_eating', 'texture_issues'],
-  'love_sweets': ['sweet_cravings', 'sugar_cravings', 'cravings'],
+  'hate_veggies': ['veggie_aversion', 'picky_eating', 'texture_issues', 'hidden_veggies'],
+  'love_sweets': ['sweet_cravings', 'sugar_cravings', 'cravings', 'sweet', 'chocolate', 'treats'],
   'stress_eating': ['stress_eating', 'emotional_eating', 'stress'],
   'no_time_cook': ['time_constraints', 'quick_meals', 'busy_schedule'],
   'dont_know_cook': ['cooking_skills', 'kitchen_confidence', 'simple_recipes'],
