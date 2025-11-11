@@ -142,7 +142,7 @@ const convertTipToSimplified = (tip: Tip): SimplifiedTip => {
     tip_id: tip.tip_id,
     summary: tip.summary,
     details_md: tip.details_md,
-    area: 'stress',
+    area: 'mindset',
     goals,
     helps_with: helpsWith,
     contraindications: Array.isArray(tip.contraindications)

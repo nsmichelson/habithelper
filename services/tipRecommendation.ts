@@ -2,6 +2,7 @@ import { SimplifiedTip } from '../types/simplifiedTip';
 import { UserProfile, DailyTip, TipAttempt } from '../types/tip';
 import { SIMPLIFIED_TIPS } from '../data/simplifiedTips';
 import { RECOMMENDATION_CONFIG } from './recommendationConfig';
+import { getMappedPreferences, getMappedBlockers, getMappedAvoidances } from '../data/preferenceMappings';
 
 // Check if we're in development mode
 const __DEV__ = process.env.NODE_ENV !== 'production';
@@ -123,20 +124,23 @@ export class TipRecommendationService {
     const scores: TipScore[] = [];
     const timeOfDay = this.getTimeOfDay(currentTime);
 
-    // Map primary focus to tip areas
+    // Direct 1:1 area mapping - no translation needed
+    // Tips should be tagged with these exact areas
     const areaMap: Record<string, string> = {
-      'eating': 'nutrition',
-      'nutrition': 'nutrition',  // Direct mapping for nutrition path
-      'exercise': 'fitness',
-      'fitness': 'fitness',      // Direct mapping for fitness path
-      'sleeping': 'nutrition',   // Sleep tips are often in nutrition
-      'productivity': 'organization',
-      'effectiveness': 'organization',  // Effectiveness maps to organization area
-      'mindset': 'relationships',       // Mindset tips often in relationships
+      'eating': 'eating',
+      'exercise': 'exercise',
+      'sleep': 'sleep',
+      'sleeping': 'sleep',       // Handle both variants
+      'productivity': 'productivity',
+      'mindset': 'mindset',
       'relationships': 'relationships',
-      'health': 'nutrition',     // Health path maps to nutrition
-      'look_feel': 'nutrition',  // Look/feel path maps to nutrition
-      'energy': 'nutrition'      // Energy tips are mostly nutrition-based
+      // Legacy mappings for old quiz (can remove when switching to NEW quiz)
+      'nutrition': 'eating',
+      'fitness': 'exercise',
+      'effectiveness': 'productivity',
+      'health': 'eating',
+      'look_feel': 'eating',
+      'energy': 'eating'
     };
 
     const userFocusArea = areaMap[userProfile.primary_focus || ''] || null;
@@ -499,19 +503,22 @@ export class TipRecommendationService {
 
     // 1. AREA MATCHING - Major scoring factor (20-40 points)
     // Check if tip matches user's focus area (tips can have multiple areas)
+    // Using the same area mapping as in recommendTips method
     const areaMap: Record<string, string> = {
-      'eating': 'nutrition',
-      'nutrition': 'nutrition',
-      'exercise': 'fitness',
-      'fitness': 'fitness',
-      'sleeping': 'nutrition',
-      'productivity': 'organization',
-      'effectiveness': 'organization',
-      'mindset': 'relationships',
+      'eating': 'eating',
+      'exercise': 'exercise',
+      'sleep': 'sleep',
+      'sleeping': 'sleep',
+      'productivity': 'productivity',
+      'mindset': 'mindset',
       'relationships': 'relationships',
-      'health': 'nutrition',
-      'look_feel': 'nutrition',
-      'energy': 'nutrition'  // Energy tips are mostly nutrition-based
+      // Legacy mappings
+      'nutrition': 'eating',
+      'fitness': 'exercise',
+      'effectiveness': 'productivity',
+      'health': 'eating',
+      'look_feel': 'eating',
+      'energy': 'eating'
     };
     const userFocusArea = areaMap[userProfile.primary_focus || ''] || null;
     const tipAreas = tip.areas || [tip.area];
@@ -985,26 +992,43 @@ export class TipRecommendationService {
     tip: SimplifiedTip,
     userProfile: any
   ): { score: number; matches: string[] } {
-    const userPrefs = userProfile.preferences || [];
+    const originalPrefs = userProfile.preferences || [];
+    // Map quiz preferences to tip vocabulary
+    const mappedPrefs = getMappedPreferences(originalPrefs);
+
     const tipFeatures = tip.features || [];
     const tipInvolves = tip.involves || [];
+    const tipMechanisms = tip.mechanisms || [];
+    const tipWhen = tip.when || [];
+    const tipWhere = tip.where || [];
 
     let score = 0;
     const matches: string[] = [];
 
-    // Check for direct matches
-    for (const pref of userPrefs) {
-      if (tipFeatures.includes(pref) || tipInvolves.includes(pref)) {
-        score += 0.3;
-        matches.push(pref);
+    // Check for matches using mapped preferences
+    for (let i = 0; i < originalPrefs.length; i++) {
+      const originalPref = originalPrefs[i];
+      const mappedValues = getMappedPreferences([originalPref]);
+
+      // Check if any mapped values match tip fields
+      for (const mapped of mappedValues) {
+        if (tipFeatures.includes(mapped) ||
+            tipInvolves.includes(mapped) ||
+            tipMechanisms.includes(mapped) ||
+            tipWhen.includes(mapped) ||
+            tipWhere.includes(mapped)) {
+          score += 0.3;
+          matches.push(originalPref);
+          break; // Only count once per preference
+        }
       }
 
-      // Check for related activities
-      const related = this.getRelatedActivities(pref);
+      // Still check for related activities (legacy)
+      const related = this.getRelatedActivities(originalPref);
       for (const rel of related) {
         if (tipFeatures.includes(rel) || tipInvolves.includes(rel)) {
           score += 0.15;
-          matches.push(`${pref}-related`);
+          matches.push(`${originalPref}-related`);
           break;
         }
       }
@@ -1028,42 +1052,54 @@ export class TipRecommendationService {
     userProfile: any
   ): { score: number; addressed: string[] } {
     const primaryArea = userProfile.primary_focus;
-    const blockers = userProfile.specific_challenges?.[primaryArea] || [];
+    const originalBlockers = userProfile.specific_challenges?.[primaryArea] || [];
+
+    // Map blockers to tip vocabulary
+    const mappedBlockers = getMappedBlockers(originalBlockers);
 
     let score = 0;
     const addressed: string[] = [];
 
     const tipHelps = tip.helps_with || [];
     const tipFeatures = tip.features || [];
+    const tipMechanisms = tip.mechanisms || [];
 
-    // Check specific blocker solutions
-    for (const blocker of blockers) {
+    // Check for matches using mapped blockers
+    for (let i = 0; i < originalBlockers.length; i++) {
+      const originalBlocker = originalBlockers[i];
+      const mappedValues = getMappedBlockers([originalBlocker]);
+
+      // Check if any mapped values match what the tip helps with
+      for (const mapped of mappedValues) {
+        if (tipHelps.includes(mapped) ||
+            tipFeatures.includes(mapped) ||
+            tipMechanisms.includes(mapped)) {
+          score += 0.4;
+          addressed.push(originalBlocker);
+          break; // Only count once per blocker
+        }
+      }
+
+      // Keep legacy specific checks for now
       // Quick wins for time blockers
-      if (blocker === 'no_time' && tip.time === '0-5min') {
-        score += 0.4;
-        addressed.push('no_time');
+      if (originalBlocker === 'no_time' && tip.time === '0-5min') {
+        score += 0.2;
+        if (!addressed.includes('no_time')) {
+          addressed.push('no_time');
+        }
       }
 
       // Avoiding triggers
-      if (blocker === 'hate_gym' && !tip.where?.includes('gym')) {
-        score += 0.2;
-      }
-
-      // Addressing specific food issues
-      if (blocker === 'hate_veggies' && tipFeatures.includes('hidden_veggies')) {
-        score += 0.4;
-        addressed.push('hate_veggies');
-      }
-
-      if (blocker === 'love_sweets' && tipFeatures.includes('sweet_alternative')) {
-        score += 0.3;
-        addressed.push('love_sweets');
+      if (originalBlocker === 'hate_gym' && !tip.where?.includes('gym')) {
+        score += 0.1;
       }
 
       // Check if tip explicitly helps with this blocker
-      if (tipHelps.includes(blocker)) {
+      if (tipHelps.includes(originalBlocker)) {
         score += 0.3;
-        addressed.push(blocker);
+        if (!addressed.includes(originalBlocker)) {
+          addressed.push(originalBlocker);
+        }
       }
     }
 
@@ -1080,35 +1116,48 @@ export class TipRecommendationService {
     tip: SimplifiedTip,
     userProfile: any
   ): { penalty: number; violations: string[] } {
-    const avoidList = userProfile.avoid_approaches || [];
+    const originalAvoids = userProfile.avoid_approaches || [];
     let penalty = 0;
     const violations: string[] = [];
 
-    for (const avoid of avoidList) {
-      // Check various tip properties for violations
-      if (avoid === 'gym' && tip.where?.includes('gym')) {
-        penalty += 0.3;
-        violations.push('gym');
+    // Get all tip properties to check against
+    const tipFeatures = tip.features || [];
+    const tipMechanisms = tip.mechanisms || [];
+    const tipWhen = tip.when || [];
+    const tipWhere = tip.where || [];
+    const tipInvolves = tip.involves || [];
+
+    // Check for violations using mapped avoidances
+    for (const originalAvoid of originalAvoids) {
+      const mappedValues = getMappedAvoidances([originalAvoid]);
+      let violated = false;
+
+      // Check if any mapped values appear in tip fields
+      for (const mapped of mappedValues) {
+        if (tipFeatures.includes(mapped) ||
+            tipMechanisms.includes(mapped) ||
+            tipWhen.includes(mapped) ||
+            tipWhere.includes(mapped) ||
+            tipInvolves.includes(mapped)) {
+          penalty += 0.2;
+          violations.push(originalAvoid);
+          violated = true;
+          break;
+        }
       }
-      if (avoid === 'meal_prep' && (tip.features?.includes('meal_prep') || tip.mechanisms?.includes('planning_ahead'))) {
-        penalty += 0.2;
-        violations.push('meal_prep');
-      }
-      if (avoid === 'counting' && (tip.features?.includes('tracking') || tip.features?.includes('counting'))) {
-        penalty += 0.2;
-        violations.push('counting');
-      }
-      if (avoid === 'morning_routine' && tip.when?.includes('morning')) {
-        penalty += 0.2;
-        violations.push('morning_routine');
-      }
-      if (avoid === 'meditation' && tip.mechanisms?.includes('mindfulness')) {
-        penalty += 0.2;
-        violations.push('meditation');
-      }
-      if (avoid === 'rigid_rules' && tip.features?.includes('strict')) {
-        penalty += 0.2;
-        violations.push('rigid_rules');
+
+      // Keep some specific legacy checks for high-penalty items
+      if (!violated) {
+        if (originalAvoid === 'gym' && tipWhere.includes('gym')) {
+          penalty += 0.3;
+          violations.push('gym');
+        } else if (originalAvoid === 'meal_prep' && (tipFeatures.includes('meal_prep') || tipMechanisms.includes('meal_prep'))) {
+          penalty += 0.2;
+          violations.push('meal_prep');
+        } else if (originalAvoid === 'morning_routine' && tipWhen.includes('morning')) {
+          penalty += 0.2;
+          violations.push('morning_routine');
+        }
       }
     }
 

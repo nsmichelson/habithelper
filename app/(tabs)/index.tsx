@@ -22,7 +22,7 @@ import {
   selectFocusTipId,
   selectFocusProgress
 } from '@/store/slices/dailyTipSlice';
-import OnboardingQuiz from '@/components/OnboardingQuiz';
+import OnboardingQuizNew from '@/components/OnboardingQuizNew';
 import DailyTipCardSwipe from '@/components/DailyTipCardSwipe';
 import DailyTipCardEnhanced from '@/components/DailyTipCardEnhanced';
 import EveningCheckIn from '@/components/EveningCheckIn';
@@ -1093,7 +1093,7 @@ export default function HomeScreen() {
 
   if (!userProfile) {
     console.log('Returning onboarding quiz');
-    return <OnboardingQuiz onComplete={handleOnboardingComplete} />;
+    return <OnboardingQuizNew onComplete={handleOnboardingComplete} />;
   }
 
   if (showCheckIn && currentTip) {

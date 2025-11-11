@@ -17,7 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import StorageService from '@/services/storage';
 import { UserProfile } from '@/types/tip';
 import * as Haptics from 'expo-haptics';
-import OnboardingQuiz from '@/components/OnboardingQuiz';
+import OnboardingQuizNew from '@/components/OnboardingQuizNew';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -317,7 +317,7 @@ export default function ProfileScreen() {
   // Show quiz if user wants to retake it
   if (showQuiz) {
     return (
-      <OnboardingQuiz 
+      <OnboardingQuizNew
         onComplete={handleQuizComplete}
         existingProfile={userProfile}
         isRetake={true}
