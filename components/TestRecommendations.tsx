@@ -166,8 +166,8 @@ export default function TestRecommendations() {
       );
 
       console.log(`=== Loaded ${recs.length} recommendations for ${profileEntry.name} (${profileEntry.id}) ===`);
-      console.log('Top 5 recommendations:');
-      recs.slice(0, 5).forEach((rec, i) => {
+      console.log('Top 20 recommendations:');
+      recs.slice(0, 20).forEach((rec, i) => {
         console.log(`${i + 1}. "${rec.tip.summary}"`);
         console.log(`   Score: ${rec.score}, Goals: ${rec.tip.goals?.slice(0, 2).join(', ')}...`);
         if (rec._debugInfo) {
@@ -183,7 +183,7 @@ export default function TestRecommendations() {
         }
       });
 
-      setRecommendations(recs.slice(0, 10));
+      setRecommendations(recs.slice(0, 20));
     } catch (error) {
       console.error('Error loading recommendations:', error);
     }
@@ -336,7 +336,7 @@ export default function TestRecommendations() {
           {/* Recommendations */}
           <View style={styles.recommendations}>
             <Text style={styles.sectionTitle}>
-              Top Recommendations {loading && '(Loading...)'}
+              Top 20 Recommendations {loading && '(Loading...)'}
             </Text>
 
             {recommendations.map((rec, index) => (
@@ -369,6 +369,14 @@ export default function TestRecommendations() {
 
                 {showDetails === index && (
                   <View style={styles.recDetails}>
+                    {/* Tip Details Section */}
+                    {rec.tip.details_md && (
+                      <View style={styles.tipDetailsSection}>
+                        <Text style={styles.tipDetailsTitle}>📋 Tip Details:</Text>
+                        <Text style={styles.tipDetailsText}>{rec.tip.details_md}</Text>
+                      </View>
+                    )}
+
                     {/* Debug Info Section - Shows exact coded values */}
                     {rec._debugInfo && (
                       <View style={styles.debugSection}>
@@ -860,5 +868,22 @@ const styles = StyleSheet.create({
   },
   reasonsSection: {
     marginTop: 10,
+  },
+  tipDetailsSection: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  tipDetailsTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 10,
+  },
+  tipDetailsText: {
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.9)',
+    lineHeight: 20,
   },
 });
