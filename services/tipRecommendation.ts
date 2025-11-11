@@ -1188,7 +1188,7 @@ export class TipRecommendationService {
   /**
    * Get tips by area
    */
-  public getTipsByArea(area: 'nutrition' | 'fitness' | 'organization' | 'relationships'): SimplifiedTip[] {
+  public getTipsByArea(area: 'nutrition' | 'fitness' | 'organization' | 'relationships' | 'stress'): SimplifiedTip[] {
     return SIMPLIFIED_TIPS.filter(tip => tip.area === area);
   }
 }

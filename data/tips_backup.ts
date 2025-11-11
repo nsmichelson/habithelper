@@ -1,4 +1,5 @@
 import { Tip } from '../types/tip';
+import { MINDSET_TIPS } from './mindsetTips';
 
 export const TIPS_DATABASE: Tip[] = [
 //pregnancy ones
@@ -8635,6 +8636,8 @@ export const TIPS_DATABASE: Tip[] = [
     sustainability: 'daily_habit'
   }
 ];
+
+TIPS_DATABASE.push(...MINDSET_TIPS);
 
 // Helper function to get tips that are safe for a user's medical conditions
 export function getSafeTips(medicalConditions: string[] = []): Tip[] {

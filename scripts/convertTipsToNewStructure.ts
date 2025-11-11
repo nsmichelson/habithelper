@@ -9,7 +9,7 @@ interface SimplifiedTip {
   details_md: string;
 
   // Categorization
-  area: 'nutrition' | 'fitness' | 'organization' | 'relationships';
+  area: 'nutrition' | 'fitness' | 'organization' | 'relationships' | 'stress';
   goals: string[];
   helps_with?: string[];
 

@@ -9,10 +9,10 @@ export interface SimplifiedTip {
 
   // ============ CATEGORIZATION ============
 
-  area: 'nutrition' | 'fitness' | 'organization' | 'relationships';
+  area: 'nutrition' | 'fitness' | 'organization' | 'relationships' | 'stress';
   // Primary category this tip belongs to (for backward compatibility)
 
-  areas?: ('nutrition' | 'fitness' | 'organization' | 'relationships')[];
+  areas?: ('nutrition' | 'fitness' | 'organization' | 'relationships' | 'stress')[];
   // All applicable areas (e.g., meal prep is both 'nutrition' and 'organization')
   // If not provided, defaults to [area]
 
