@@ -1,5 +1,6 @@
 import { SimplifiedTip } from '../types/simplifiedTip';
 import { NUTRITION_SIMPLIFIED_TIPS } from './nutritionSimplifiedTips';
+import { FITNESS_SIMPLIFIED_TIPS } from './fitnessSimplifiedTips';
 import { PRODUCTIVITY_SIMPLIFIED_TIPS } from './productivitySimplifiedTips';
 import { RELATIONSHIP_SIMPLIFIED_TIPS } from './relationshipsSimplifiedTips';
 import { MINDSET_SIMPLIFIED_TIPS } from './mindsetSimplifiedTips';
@@ -11170,6 +11171,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
 export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
   ...BASE_SIMPLIFIED_TIPS,
   ...NUTRITION_SIMPLIFIED_TIPS,
+  ...FITNESS_SIMPLIFIED_TIPS,
   ...ORGANIZATION_SIMPLIFIED_TIPS,
   ...PRODUCTIVITY_SIMPLIFIED_TIPS,
   ...RELATIONSHIP_SIMPLIFIED_TIPS,
