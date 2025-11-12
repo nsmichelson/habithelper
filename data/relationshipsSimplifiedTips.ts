@@ -1,6 +1,7 @@
 import { SimplifiedTip } from '../types/simplifiedTip';
+import { RELATIONSHIP_PERSONA_PLAYBOOK_TIPS } from './relationshipTips_persona_playbook';
 
-export const RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
+const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "159620bf-4f8a-4da6-84f8-f8861390348f",
     "summary": "Swap a blaming phrase for one calm I-feel statement today.",
@@ -535,4 +536,9 @@ export const RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "source": "coach_curated",
     "sustainability": "daily"
   }
+];
+
+export const RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
+  ...LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS,
+  ...RELATIONSHIP_PERSONA_PLAYBOOK_TIPS,
 ];
