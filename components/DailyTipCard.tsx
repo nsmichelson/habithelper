@@ -143,6 +143,10 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
 
               <Text style={styles.summary}>{tip.summary}</Text>
 
+              {tip.short_description && (
+                <Text style={styles.summarySubtitle}>{tip.short_description}</Text>
+              )}
+
               {/* Reasons why this tip was chosen */}
               {reasons.length > 0 && (
                 <View style={styles.reasonsContainer}>
@@ -306,7 +310,19 @@ const styles = StyleSheet.create({
   timeBadge: { backgroundColor: '#F5F5F5' },
   difficultyBadge: { backgroundColor: '#E8F5E9' },
   badgeText: { fontSize: 11, color: '#666', fontWeight: '600' },
-  summary: { fontSize: 20, fontWeight: '700', color: '#212121', lineHeight: 28 },
+  summary: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#212121',
+    lineHeight: 28,
+    marginBottom: 6,
+  },
+  summarySubtitle: {
+    fontSize: 15,
+    color: '#555',
+    lineHeight: 22,
+    marginBottom: 12,
+  },
 
   reasonsContainer: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 12, gap: 8 },
   reasonChip: {
