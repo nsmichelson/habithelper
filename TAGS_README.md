@@ -1,6 +1,6 @@
 # Habit Helper Tags Documentation
 
-This directory contains comprehensive documentation of all tags used in the Habit Helper tips data across all five habit areas (Exercise, Nutrition, Organization, Productivity, and Relationships).
+This directory contains comprehensive documentation of all tags used in the Habit Helper tips data across all five habit areas (Exercise, Nutrition, Organization, Productivity, and Relationships). The audit replaced umbrella tags (for example `better_habits`) with intent-specific goal, helps-with, feature, effort, and cost tags and introduced unified timing buckets to simplify downstream filtering.
 
 ## Files Overview
 
@@ -25,10 +25,10 @@ Content includes:
 - Best for: Product managers, UX designers, and strategic decision-makers
 
 Highlights:
-- Why Nutrition is the most detailed area (28 goals, 43 mechanisms)
-- Why Relationships emphasizes safety (10 contraindications across 10 tips)
+- Why Nutrition is the most detailed area (28 specific goals, 23 helps-with tags)
+- Why Relationships emphasizes safety (audit-expanded persona playbook goals and features plus 10 contraindications across 10 tips)
 - Universal design principles across all areas
-- Effort and time trade-offs by area
+- Effort, time, and cost trade-offs by area using standardized buckets
 
 ### 3. TAGS_QUICK_LOOKUP.md (Implementation Guide)
 **Fast reference for common queries**
@@ -54,30 +54,30 @@ Useful for:
   - Relationships: 10
 
 ### Tag Diversity
-- **Unique goals**: 62
-- **Unique mechanisms**: 127
-- **Unique features**: 13
-- **Unique difficulty levels**: 3
-- **Unique time buckets**: 7
-- **Unique locations**: 10
+- **Unique goals**: 61
+- **Unique helps-with tags**: 61
+- **Unique features**: 63
+- **Effort levels in use**: minimal, low, medium, moderate
+- **Standard time buckets**: 0-5, 5-15, 15-30, 30-60, 60+
+- **Cost tiers**: `$`, `$$`
 
 ### Key Statistics by Area
 
 | Metric | Exercise | Nutrition | Organization | Productivity | Relationships |
-|--------|----------|-----------|---------------|--------------|---|
+|--------|----------|-----------|---------------|--------------|-------------|
 | Tips | 100 | 100 | 100 | 75 | 10 |
-| Goals | 6 | 28 | 11 | 13 | 4 |
-| Mechanisms | 24 | 43 | 19 | 30 | 11 |
-| Features | 7 | 9 | 4 | 4 | 4 |
-| Involves items | 41 | 75 | 0 | 0 | 10 |
-| Contraindications | 2 | 1 | 0 | 0 | 10 |
+| Goals | 10 (audit replacements) | 28 | 10 | 10 | 10 |
+| Helps With | 10 | 23 | 10 | 12 | 12 |
+| Features | 7 | 8 | 4 | 4 | 10 |
+| Effort levels | minimal–moderate | minimal–medium | minimal–low | minimal–moderate | minimal–low |
+| Cost tiers | `$` | `$`, `$$` | `$` | `$` | `$` |
 
 ## Universal Patterns
 
 ### Always Present (All Areas)
-- **Features**: chaos_proof, impulse_friendly, no_planning, solo_friendly
-- **Time**: 0-5min and 5-15min options
-- **Cost**: Free or minimal ($)
+- **Features**: chaos_proof, no_planning, solo_friendly (with impulse_friendly appearing in most areas)
+- **Time**: 0-5 and 5-15 minute options anchored to the standardized buckets
+- **Cost**: `$` baseline (Nutrition also offers `$$` upgrades)
 - **When**: "any" is always an option
 - **Difficulty**: Level 1 and 2 available
 - **Source**: All coach_curated
@@ -142,7 +142,7 @@ This aligns with the app's mission to serve "normies" and all users, not just he
 
 ## Key Insights for App Development
 
-1. **Quick-win approach**: All areas support 0-5min and 5-15min experiments, fitting the "daily experiment" model
+1. **Quick-win approach**: All areas surface 0-5 and 5-15 minute experiments within the standardized timing ladder, fitting the "daily experiment" model
 
 2. **Safety first**: Relationships area explicitly includes safety warnings, suggesting the app won't suggest generic relationship advice without acknowledging abuse risk
 
