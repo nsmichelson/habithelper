@@ -401,6 +401,10 @@ export default function ExperimentModeSwipe({
         {/* Experiment Title */}
         <Text style={styles.experimentTitle}>{tip.summary}</Text>
 
+        {tip.short_description && (
+          <Text style={styles.experimentSubtitle}>{tip.short_description}</Text>
+        )}
+
         {/* Main Action Button - Circular with Hold to Confirm */}
         {centralizedCompletionCount === 0 && quickCompletions.length === 0 ? (
           <View>
@@ -629,6 +633,9 @@ export default function ExperimentModeSwipe({
             <View style={styles.summaryBox}>
               <Text style={styles.summaryLabel}>TODAY'S EXPERIMENT</Text>
               <Text style={styles.summaryText}>{tip.summary}</Text>
+              {tip.short_description && (
+                <Text style={styles.summarySubtitle}>{tip.short_description}</Text>
+              )}
             </View>
 
             {/* Full Instructions - parsed How To section */}
@@ -1735,7 +1742,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#212121',
     lineHeight: 28,
-    marginBottom: 24,
+    marginBottom: 8,
+  },
+  experimentSubtitle: {
+    fontSize: 16,
+    color: '#555',
+    lineHeight: 22,
+    marginBottom: 20,
   },
   focusModeIndicator: {
     flexDirection: 'row',
@@ -1957,6 +1970,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#212121',
     lineHeight: 24,
+    marginBottom: 6,
+  },
+  summarySubtitle: {
+    fontSize: 15,
+    color: '#555',
+    lineHeight: 22,
+    marginBottom: 12,
   },
   howToSection: {
     marginBottom: 24,

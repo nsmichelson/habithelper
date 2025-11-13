@@ -6,6 +6,7 @@ export interface SimplifiedTip {
   tip_id: string;                 // Unique identifier
   summary: string;                // 120-char human-readable title shown on card
   details_md: string;             // Full markdown description with "how-to" content
+  short_description?: string;     // 7-12 word teaser shown alongside the summary
 
   // ============ CATEGORIZATION ============
 

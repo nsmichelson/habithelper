@@ -111,6 +111,10 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           </View>
           
           <Text style={styles.summary}>{tip.summary}</Text>
+
+          {tip.short_description && (
+            <Text style={styles.summarySubtitle}>{tip.short_description}</Text>
+          )}
           
           {reasons.length > 0 && (
             <View style={styles.reasonsContainer}>
@@ -378,6 +382,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#212121',
     lineHeight: 28,
+    marginBottom: 6,
+  },
+  summarySubtitle: {
+    fontSize: 15,
+    color: '#555',
+    lineHeight: 22,
+    marginBottom: 12,
   },
   reasonsContainer: {
     flexDirection: 'row',
