@@ -20,7 +20,8 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Replace one \"you always\" or \"you never\" with a calm I-statement that names your feeling and why it matters.\n\n**Why it Works:** I-statements lower defensiveness and clarify needs so your partner can respond without feeling attacked.\n\n**How to Try It:**\n• Notice when you want to lead with blame.\n• Pause, name the feeling (I feel __) and add the impact (because __).\n• Keep it about the current moment, not their personality.",
     "area": "relationships",
     "goals": [
-      "self_awareness"
+      "better_communication",
+      "conflict_resolution"
     ],
     "helps_with": [
       "anxiety"
@@ -31,10 +32,12 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "mechanisms": [
       "self_awareness",
       "mindset_reframe",
-      "behavioral_strategy"
+      "behavioral_strategy",
+      "emotion_labeling",
+      "conflict_deescalation"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -74,7 +77,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Summarize your partner's key point, then check that you understood it before responding.\n\n**Why it Works:** Reflection signals respect, prevents misinterpretations, and slows conflict spirals.\n\n**How to Try It:**\n• Listen for the main feeling or request.\n• Mirror it briefly: \"I heard you say __.\"\n• Ask, \"Did I get that right?\" and adjust if needed.",
     "area": "relationships",
     "goals": [
-      "better_habits"
+      "daily_connection"
     ],
     "helps_with": [
       "loneliness"
@@ -88,7 +91,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "social_support"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -127,7 +130,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Take five minutes tonight to trade one good thing and one tough moment from the day.\n\n**Why it Works:** Daily check-ins build emotional intimacy and keep stress from piling up unspoken.\n\n**How to Try It:**\n• Set a timer for five minutes after dinner or bedtime.\n• Each person shares one highlight and one challenge.\n• Offer empathy or a thank-you instead of jumping straight to fixes.",
     "area": "relationships",
     "goals": [
-      "consistency"
+      "daily_connection"
     ],
     "helps_with": [
       "loneliness"
@@ -141,7 +144,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "self_awareness"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -181,7 +184,8 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** When you feel conflict rising, inhale slowly for four counts before you speak.\n\n**Why it Works:** A paced breath calms your nervous system so you can respond thoughtfully instead of reacting on autopilot.\n\n**How to Try It:**\n• Notice tension building in your body.\n• Breathe in through your nose for four, exhale through your mouth for six.\n• Then choose a calmer first sentence or ask for a pause.",
     "area": "relationships",
     "goals": [
-      "self_awareness"
+      "better_communication",
+      "conflict_resolution"
     ],
     "helps_with": [
       "anxiety"
@@ -192,10 +196,11 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "mechanisms": [
       "mindfulness_practice",
       "self_awareness",
-      "behavioral_strategy"
+      "behavioral_strategy",
+      "conflict_deescalation"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "conflict"
@@ -248,7 +253,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "social_support"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening"
@@ -286,7 +291,8 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** When voices edge up, say, \"Pause—I care about how we talk,\" to reset.\n\n**Why it Works:** Naming the pause breaks escalation and reassures your partner that the relationship matters more than being right.\n\n**How to Try It:**\n• Notice tension or raised voices.\n• Hold up a hand or gently say \"pause.\"\n• Share one caring line before re-entering the conversation.",
     "area": "relationships",
     "goals": [
-      "self_awareness"
+      "better_communication",
+      "conflict_resolution"
     ],
     "helps_with": [
       "anxiety"
@@ -297,10 +303,11 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "mechanisms": [
       "behavioral_strategy",
       "mindset_reframe",
-      "self_awareness"
+      "self_awareness",
+      "conflict_deescalation"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -340,7 +347,8 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** At bedtime, share one sentence that names what you think your partner felt today.\n\n**Why it Works:** Reflecting emotions shows attunement, helping partners feel seen and lowering tension.\n\n**How to Try It:**\n• Think back to a moment your partner shared.\n• Name the emotion you observed (\"It seemed like you felt __ when __\").\n• Ask if you read it right and invite corrections without defending yourself.",
     "area": "relationships",
     "goals": [
-      "self_awareness"
+      "better_communication",
+      "conflict_resolution"
     ],
     "helps_with": [
       "loneliness"
@@ -351,10 +359,11 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "mechanisms": [
       "mindfulness_practice",
       "social_support",
-      "self_awareness"
+      "self_awareness",
+      "emotion_labeling"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "bedtime",
@@ -393,7 +402,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Catch yourself interrupting, pause, apologize briefly, and hand the floor back.\n\n**Why it Works:** Quick repairs rebuild trust and show you value their voice more than finishing your thought.\n\n**How to Try It:**\n• Notice when you jump in early.\n• Say, \"Sorry—please keep going.\"\n• Focus on listening until they're finished before adding your point.",
     "area": "relationships",
     "goals": [
-      "better_habits"
+      "daily_connection"
     ],
     "helps_with": [
       "anxiety"
@@ -407,7 +416,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "behavioral_strategy"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -446,7 +455,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Text one sentence referencing something they shared earlier to prove it stuck.\n\n**Why it Works:** Small memory touches prove attentiveness, strengthening security even on busy days.\n\n**How to Try It:**\n• Think of a detail they mentioned (meeting, craving, worry).\n• Send a supportive line or question about it.\n• End with encouragement or a cheer for how they're handling it.",
     "area": "relationships",
     "goals": [
-      "consistency"
+      "daily_connection"
     ],
     "helps_with": [
       "loneliness"
@@ -460,7 +469,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "behavioral_strategy"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -501,7 +510,8 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Before bed, ask your partner for one suggestion to improve tomorrow's communication.\n\n**Why it Works:** Daily feedback loops catch friction early and keep you aligned on what helps.\n\n**How to Try It:**\n• Choose a calm moment before lights out.\n• Ask, \"What's one way I could communicate better tomorrow?\"\n• Listen without defending, and restate the takeaway you plan to try.",
     "area": "relationships",
     "goals": [
-      "self_awareness"
+      "better_communication",
+      "conflict_resolution"
     ],
     "helps_with": [
       "anxiety"
@@ -515,7 +525,7 @@ const LEGACY_RELATIONSHIP_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "social_support"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",

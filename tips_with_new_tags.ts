@@ -20,7 +20,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_nausea",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "context_tags": [
       "pregnancy"

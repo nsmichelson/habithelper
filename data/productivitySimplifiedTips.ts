@@ -66,7 +66,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "30-60min",
+    "time": "30-60",
     "cost": "$",
     "when": [
       "any",
@@ -107,7 +107,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "set_minimum_floor"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -150,7 +150,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "moderate",
-    "time": "30-60min",
+    "time": "30-60",
     "cost": "$",
     "when": [
       "morning",
@@ -229,7 +229,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "time_blocking"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -268,7 +268,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "implementation_intentions"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening"
@@ -305,7 +305,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "evening",
@@ -330,7 +330,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "productivity",
     "goals": [
       "increased_productivity",
-      "maintain_consistency"
+      "task_system_mastery"
     ],
     "helps_with": [
       "maintenance_failure",
@@ -382,7 +382,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "time_boxed_sessions"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -421,7 +421,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "surface_clearing"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -498,7 +498,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "environment_design"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -536,7 +536,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "environment_design"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "morning",
@@ -575,7 +575,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "single_tasking"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "work_break"
@@ -613,7 +613,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reminder_cues"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning"
@@ -636,8 +636,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Redesign the habit you’re building so the version you must complete takes two minutes or less.\n\n**Why it Works:** Tiny habits reduce activation energy, letting repetition wire the routine before you scale up.\n\n**How to Try It:**\n• Clarify the full habit (e.g., 30-minute workout, daily journal).\n• Define the two-minute starter version that still counts.\n• Celebrate completion and optionally continue only after the mini step.",
     "area": "productivity",
     "goals": [
-      "maintain_consistency",
-      "build_healthy_habits"
+      "task_system_mastery"
     ],
     "helps_with": [
       "low_motivation",
@@ -674,7 +673,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Create a single if-then statement for the habit you’re building (e.g., “If it’s 5:30pm, then I start my shutdown”).\n\n**Why it Works:** Implementation intentions pre-decide your response, boosting follow-through when the cue hits.\n\n**How to Try It:**\n• Choose the habit that slips most often.\n• Identify the reliable cue that will trigger it.\n• Write and post the if-then statement where you’ll see it daily.",
     "area": "productivity",
     "goals": [
-      "maintain_consistency",
+      "task_system_mastery",
       "meet_deadlines"
     ],
     "helps_with": [
@@ -726,7 +725,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -765,7 +764,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning"
@@ -803,7 +802,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "moderate",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -879,7 +878,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any"
@@ -903,7 +902,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** When you finish a block, jot the next physical action at the top of the doc or notebook before you walk away.\n\n**Why it Works:** Next-action cues remove restart friction so you can dive back in without recalibrating.\n\n**How to Try It:**\n• Summarize where you left off in one quick sentence.\n• Write the next verb-driven action (e.g., “Email Jordan draft”).\n• Stage any needed files or links so future-you can hit go.",
     "area": "productivity",
     "goals": [
-      "maintain_consistency",
+      "task_system_mastery",
       "meet_deadlines"
     ],
     "helps_with": [
@@ -956,7 +955,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -995,7 +994,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "single_tasking"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -1034,7 +1033,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "notifications_snooze"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -1073,7 +1072,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "priority_triad"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -1111,7 +1110,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -1149,7 +1148,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -1224,7 +1223,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "30-60min",
+    "time": "30-60",
     "cost": "$",
     "when": [
       "evening",
@@ -1261,7 +1260,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "nature_time"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning"
@@ -1299,7 +1298,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "time_boxed_sessions"
     ],
     "effort": "moderate",
-    "time": "30-60min",
+    "time": "30-60",
     "cost": "$",
     "when": [
       "any",
@@ -1377,7 +1376,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "time_blocking"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -1456,7 +1455,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "set_minimum_floor"
     ],
     "effort": "low",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -1482,7 +1481,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "productivity",
     "goals": [
       "meet_deadlines",
-      "maintain_consistency"
+      "task_system_mastery"
     ],
     "helps_with": [
       "procrastination",
@@ -1533,7 +1532,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -1609,7 +1608,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "moderate",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -1647,7 +1646,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -1685,7 +1684,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "single_tasking"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning"
@@ -1723,7 +1722,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -1761,7 +1760,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "priority_triad"
     ],
     "effort": "moderate",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -1800,7 +1799,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "moderate",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -1837,7 +1836,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "single_tasking"
     ],
     "effort": "moderate",
-    "time": "30-60min",
+    "time": "30-60",
     "cost": "$",
     "when": [
       "any",
@@ -1876,7 +1875,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -1913,7 +1912,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -1952,7 +1951,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning"
@@ -2027,7 +2026,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -2064,7 +2063,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any"
@@ -2100,7 +2099,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "morning",
@@ -2139,7 +2138,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "one_touch_rule"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -2178,7 +2177,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_batching"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "work_break"
@@ -2216,7 +2215,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "single_tasking"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -2240,7 +2239,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Use a dedicated parking-lot note to capture incoming thoughts and revisit them after you finish your focus block.\n\n**Why it Works:** Externalizing interruptions keeps you from derailing focus while making sure ideas aren’t lost.\n\n**How to Try It:**\n• Open a note or sticky labeled “Parking Lot.”\n• When something pops up, jot it down without switching tasks.\n• Review the list during your next break and schedule what matters.",
     "area": "productivity",
     "goals": [
-      "maintain_consistency",
+      "task_system_mastery",
       "reduce_distractions"
     ],
     "helps_with": [
@@ -2331,7 +2330,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "habit_stacking"
     ],
     "effort": "moderate",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening"
@@ -2368,7 +2367,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening"
@@ -2481,7 +2480,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "daily_reset"
     ],
     "effort": "moderate",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening"
@@ -2518,7 +2517,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "surface_clearing"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -2556,7 +2555,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "moderate",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -2593,7 +2592,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -2617,7 +2616,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Document the steps or checklist for a recurring weekly task and save it as a template.\n\n**Why it Works:** Standardization speeds execution and keeps quality consistent.\n\n**How to Try It:**\n• Pick a task you repeat weekly (report, meeting prep).\n• Write the steps in order with any key links or scripts.\n• Store the template where you’ll use it each week.",
     "area": "productivity",
     "goals": [
-      "maintain_consistency",
+      "task_system_mastery",
       "increased_productivity"
     ],
     "helps_with": [
@@ -2631,7 +2630,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_batching"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any",
@@ -2669,7 +2668,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -2707,7 +2706,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "morning",
@@ -2745,7 +2744,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "habit_stacking"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -2783,7 +2782,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "moderate",
-    "time": "30-60min",
+    "time": "30-60",
     "cost": "$",
     "when": [
       "any"
@@ -2819,7 +2818,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "afternoon",
@@ -2859,7 +2858,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "moderate",
-    "time": "15-30min",
+    "time": "15-30",
     "cost": "$",
     "when": [
       "any"

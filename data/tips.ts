@@ -21,7 +21,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_nausea",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -87,7 +87,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_nausea",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "meal_prep",
@@ -157,7 +157,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_nausea",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -227,7 +227,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Peppermint can worsen reflux; avoid if sensitive. Peppermint may relax the LES and worsen reflux; choose non‑mint flavors if GERD is an issue.",
     "goal_tags": [
       "reduce_nausea",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -294,7 +294,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "increase_hydration",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "behavioral_strategy",
@@ -363,7 +363,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_nausea",
       "morning_routine",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -428,7 +428,7 @@ export const TIPS_DATABASE: Tip[] = [
       "reduce_nausea",
       "improve_energy",
       "stable_blood_sugar",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -496,7 +496,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "constipation_relief",
       "fiber_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -564,7 +564,7 @@ export const TIPS_DATABASE: Tip[] = [
       "constipation_relief",
       "fiber_intake",
       "omega3_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "small_changes",
@@ -633,7 +633,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "constipation_relief",
       "fiber_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -701,7 +701,7 @@ export const TIPS_DATABASE: Tip[] = [
       "constipation_relief",
       "morning_routine",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management",
@@ -770,7 +770,7 @@ export const TIPS_DATABASE: Tip[] = [
       "constipation_relief",
       "heartburn_relief",
       "improve_energy",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "behavioral_strategy",
@@ -834,7 +834,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Avoid nuts if allergic; mint gum can aggravate reflux for some—try fruit flavors.",
     "goal_tags": [
       "heartburn_relief",
-      "healthy_pregnancy",
+      "nutrient_density",
       "post_meal_relief"
     ],
     "tip_type": [
@@ -901,7 +901,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "heartburn_relief",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management"
@@ -964,7 +964,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "heartburn_relief",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "symptom_management"
@@ -1025,7 +1025,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Avoid if allergic to latex/papaya; check with clinician before regular use. Avoid if allergic to latex or papaya. Use packaged enzyme tablets; avoid unripe papaya in large amounts. Check with your clinician before regular use.",
     "goal_tags": [
       "heartburn_relief",
-      "healthy_pregnancy",
+      "nutrient_density",
       "digestive_enzyme_relief"
     ],
     "tip_type": [
@@ -1090,7 +1090,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "food_safety",
       "craving_satisfaction",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "food_swap",
@@ -1159,7 +1159,7 @@ export const TIPS_DATABASE: Tip[] = [
       "alcohol_free",
       "healthy_snacking",
       "reduce_sugar",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "food_swap",
@@ -1224,7 +1224,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "food_safety",
       "craving_satisfaction",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "safety_strategy",
@@ -1294,7 +1294,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "food_safety",
       "craving_satisfaction",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "food_swap",
@@ -1358,7 +1358,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_caffeine",
       "sleep_quality",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "food_swap",
@@ -1423,7 +1423,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "Only with clinician guidance; gummies may lack iron/iodine/choline. Use only with clinician guidance; children’s gummies often lack iron/iodine/choline and are a temporary bridge, not a full replacement.",
     "goal_tags": [
       "reduce_nausea",
-      "healthy_pregnancy",
+      "nutrient_density",
       "prenatal_vitamin_routine"
     ],
     "tip_type": [
@@ -1484,7 +1484,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy",
+      "nutrient_density",
       "nausea_safe_swaps"
     ],
     "tip_type": [
@@ -1549,7 +1549,7 @@ export const TIPS_DATABASE: Tip[] = [
       "fiber_intake",
       "folate_intake",
       "iron_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "meal_prep",
@@ -1620,7 +1620,7 @@ export const TIPS_DATABASE: Tip[] = [
       "folate_intake",
       "fiber_intake",
       "protein_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "simple_swap",
@@ -1689,8 +1689,8 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": null,
     "goal_tags": [
       "fiber_intake",
-      "increase_vegetables",
-      "healthy_pregnancy"
+      "produce_priority",
+      "nutrient_density"
     ],
     "tip_type": [
       "simple_swap",
@@ -1757,7 +1757,7 @@ export const TIPS_DATABASE: Tip[] = [
       "protein_intake",
       "choline_intake",
       "satiety",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "nutrition_upgrade",
@@ -1826,7 +1826,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "choline_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "nutrition_upgrade",
@@ -1895,7 +1895,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "protein_intake",
       "calcium_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "simple_swap",
@@ -1961,7 +1961,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "protein_intake",
       "satiety",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "simple_swap",
@@ -2027,7 +2027,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "protein_intake",
       "satiety",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "nutrition_upgrade",
@@ -2095,7 +2095,7 @@ export const TIPS_DATABASE: Tip[] = [
       "iron_intake",
       "folate_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "snacks",
@@ -2161,7 +2161,7 @@ export const TIPS_DATABASE: Tip[] = [
       "iron_intake",
       "fiber_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "meal_prep",
@@ -2227,7 +2227,7 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": "If you’ve been advised to limit iron (e.g., hemochromatosis), use standard cookware instead.",
     "goal_tags": [
       "iron_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "kitchen_hack",
@@ -2287,7 +2287,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "iron_intake",
       "anemia_prevention",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "education",
@@ -2346,7 +2346,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "iodine_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "snacks",
@@ -2412,7 +2412,7 @@ export const TIPS_DATABASE: Tip[] = [
       "iodine_intake",
       "DHA_intake",
       "protein_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "meal_prep",
@@ -2481,7 +2481,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "folate_intake",
       "healthy_breakfast",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "simple_swap",
@@ -2546,7 +2546,7 @@ export const TIPS_DATABASE: Tip[] = [
       "healthy_snacking",
       "fiber_intake",
       "labor_prep_habit",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "snacks",
@@ -2614,7 +2614,7 @@ export const TIPS_DATABASE: Tip[] = [
       "fiber_intake",
       "labor_prep_habit",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "behavioral_strategy",
@@ -2681,7 +2681,7 @@ export const TIPS_DATABASE: Tip[] = [
       "healthy_snacking",
       "stable_blood_sugar",
       "reduce_ultra_processed",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "environmental_design",
@@ -2741,7 +2741,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "meal_prep",
       "reduce_takeout",
-      "healthy_pregnancy",
+      "nutrient_density",
       "freezer_meal_backup"
     ],
     "tip_type": [
@@ -2806,9 +2806,9 @@ export const TIPS_DATABASE: Tip[] = [
     "contraindications": null,
     "goal_tags": [
       "increase_hydration",
-      "increase_vegetables",
+      "produce_priority",
       "protein_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "tracking",
@@ -2866,9 +2866,9 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** Stock baby carrots, bagged salad, and frozen veg/fruit for instant sides and smoothies.\n\n**Why it Works:** When the healthy choice is the easy choice, you’ll choose it more often.\n\n**How to Try It:**\n• Place ready‑to‑eat produce at eye level in the fridge.\n• Keep frozen veg for quick steam‑in‑bag sides.\n• Wash grapes/berries as soon as you get home.",
     "contraindications": null,
     "goal_tags": [
-      "increase_vegetables",
+      "produce_priority",
       "fiber_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "environmental_design",
@@ -2928,8 +2928,8 @@ export const TIPS_DATABASE: Tip[] = [
     "details_md": "**The Experiment:** Start a group chat to post dinner photos and hydration check‑ins.\n\n**Why it Works:** Social accountability and ideas from peers make habits stick.\n\n**How to Try It:**\n• Pick a theme challenge (e.g., 'eat the rainbow').\n• Cheer small wins; no food policing.\n• Share 1 recipe each week.",
     "contraindications": null,
     "goal_tags": [
-      "increase_vegetables",
-      "healthy_pregnancy",
+      "produce_priority",
+      "nutrient_density",
       "meal_tracking_accountability",
       "produce_sharing_circle"
     ],
@@ -2991,7 +2991,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "heartburn_relief",
       "reduce_nausea",
-      "healthy_pregnancy",
+      "nutrient_density",
       "symptom_journaling"
     ],
     "tip_type": [
@@ -3055,7 +3055,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "craving_management",
       "less_processed_food",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "food_swap",
@@ -3118,7 +3118,7 @@ export const TIPS_DATABASE: Tip[] = [
       "DHA_intake",
       "omega3_intake",
       "choline_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "tip_type": [
       "nutrition_upgrade",
@@ -3181,7 +3181,7 @@ export const TIPS_DATABASE: Tip[] = [
     "goal_tags": [
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy",
+      "nutrient_density",
       "safe_meal_routine"
     ],
     "tip_type": [

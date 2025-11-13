@@ -16,7 +16,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_nausea",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "nausea",
@@ -33,7 +33,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -87,7 +87,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_nausea",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "nausea",
@@ -154,7 +154,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_nausea",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "nausea",
@@ -170,7 +170,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -223,7 +223,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "reduce_nausea",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "nausea",
@@ -240,7 +240,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -289,7 +289,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "increase_hydration",
       "reduce_nausea",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "dehydration",
@@ -305,7 +305,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "taste"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -347,7 +347,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_nausea",
       "morning_routine",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "nausea"
@@ -362,7 +362,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -412,7 +412,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_nausea",
       "improve_energy",
       "stable_blood_sugar",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "nausea",
@@ -428,7 +428,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "satiety"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -482,7 +482,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "constipation_relief",
       "fiber_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "constipation"
@@ -497,7 +497,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "routine"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -547,7 +547,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "constipation_relief",
       "fiber_intake",
       "omega3_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "constipation",
@@ -563,7 +563,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "habit"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -614,7 +614,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "constipation_relief",
       "fiber_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "constipation"
@@ -629,7 +629,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "routine"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -678,7 +678,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "constipation_relief",
       "morning_routine",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "constipation",
@@ -692,7 +692,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "ritual"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -743,7 +743,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "constipation_relief",
       "heartburn_relief",
       "improve_energy",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "constipation",
@@ -760,7 +760,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "accountability"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -810,7 +810,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "heartburn_relief",
-      "healthy_pregnancy",
+      "nutrient_density",
       "post_meal_relief"
     ],
     "helps_with": [
@@ -827,7 +827,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -873,7 +873,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "heartburn_relief",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "heartburn"
@@ -887,7 +887,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "ritual"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -934,7 +934,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "heartburn_relief",
       "increase_hydration",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "heartburn"
@@ -948,7 +948,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "experimentation"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -993,7 +993,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "heartburn_relief",
-      "healthy_pregnancy",
+      "nutrient_density",
       "digestive_enzyme_relief"
     ],
     "helps_with": [
@@ -1009,7 +1009,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -1055,7 +1055,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "food_safety",
       "craving_satisfaction",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "food_safety_anxiety",
@@ -1071,7 +1071,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "safety"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1130,7 +1130,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "alcohol_free",
       "healthy_snacking",
       "reduce_sugar",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "social_pressure",
@@ -1145,7 +1145,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "social_norms"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1185,7 +1185,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "food_safety",
       "craving_satisfaction",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "food_safety_anxiety",
@@ -1201,7 +1201,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1260,7 +1260,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "food_safety",
       "craving_satisfaction",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "sweet_cravings",
@@ -1276,7 +1276,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "novelty"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1328,7 +1328,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_caffeine",
       "sleep_quality",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "jitters",
@@ -1344,7 +1344,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1395,7 +1395,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "reduce_nausea",
-      "healthy_pregnancy",
+      "nutrient_density",
       "prenatal_vitamin_routine"
     ],
     "helps_with": [
@@ -1412,7 +1412,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "self_efficacy"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1454,7 +1454,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy",
+      "nutrient_density",
       "nausea_safe_swaps"
     ],
     "helps_with": [
@@ -1472,7 +1472,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "competence"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1518,7 +1518,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "fiber_intake",
       "folate_intake",
       "iron_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "aversion",
@@ -1589,7 +1589,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "folate_intake",
       "fiber_intake",
       "protein_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "aversion",
@@ -1604,7 +1604,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "taste"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1648,8 +1648,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "fiber_intake",
-      "increase_vegetables",
-      "healthy_pregnancy"
+      "produce_priority",
+      "nutrient_density"
     ],
     "helps_with": [
       "aversion",
@@ -1663,7 +1663,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stealth"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1711,7 +1711,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "protein_intake",
       "choline_intake",
       "satiety",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "protein_gap",
@@ -1728,7 +1728,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stealth"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1781,7 +1781,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "choline_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "choline_gap",
@@ -1797,7 +1797,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stealth"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -1853,7 +1853,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "protein_intake",
       "calcium_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "protein_gap",
@@ -1870,7 +1870,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "taste"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1918,7 +1918,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "protein_intake",
       "satiety",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "protein_gap",
@@ -1934,7 +1934,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1981,7 +1981,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "protein_intake",
       "satiety",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "protein_gap",
@@ -1997,7 +1997,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "satiety"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2050,7 +2050,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "iron_intake",
       "folate_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "protein_gap",
@@ -2067,7 +2067,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2115,7 +2115,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "iron_intake",
       "fiber_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "anemia_risk",
@@ -2131,7 +2131,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2186,7 +2186,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "iron_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "anemia_risk"
@@ -2200,7 +2200,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2245,7 +2245,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "iron_intake",
       "anemia_prevention",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "anemia_risk"
@@ -2260,7 +2260,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "self_efficacy"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2306,7 +2306,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "iodine_intake",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "iodine_gap",
@@ -2322,7 +2322,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2372,7 +2372,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "iodine_intake",
       "DHA_intake",
       "protein_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "cravings",
@@ -2388,7 +2388,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "novelty"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2448,7 +2448,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "folate_intake",
       "healthy_breakfast",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "folate_gap",
@@ -2462,7 +2462,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2512,7 +2512,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "healthy_snacking",
       "fiber_intake",
       "labor_prep_habit",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "sweet_cravings",
@@ -2528,7 +2528,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "craving_substitution"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2576,7 +2576,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "fiber_intake",
       "labor_prep_habit",
       "healthy_snacking",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "constipation",
@@ -2592,7 +2592,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "habit"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2646,7 +2646,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "healthy_snacking",
       "stable_blood_sugar",
       "reduce_ultra_processed",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "random_cravings",
@@ -2663,7 +2663,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "self_efficacy"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2714,7 +2714,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "meal_prep",
       "reduce_takeout",
-      "healthy_pregnancy",
+      "nutrient_density",
       "freezer_meal_backup"
     ],
     "helps_with": [
@@ -2732,7 +2732,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "future_self_reward"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any"
@@ -2776,9 +2776,9 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "increase_hydration",
-      "increase_vegetables",
+      "produce_priority",
       "protein_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "habit_tracking",
@@ -2792,7 +2792,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "visual_cues"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2838,9 +2838,9 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Stock baby carrots, bagged salad, and frozen veg/fruit for instant sides and smoothies.\n\n**Why it Works:** When the healthy choice is the easy choice, you’ll choose it more often.\n\n**How to Try It:**\n• Place ready‑to‑eat produce at eye level in the fridge.\n• Keep frozen veg for quick steam‑in‑bag sides.\n• Wash grapes/berries as soon as you get home.",
     "area": "eating",
     "goals": [
-      "increase_vegetables",
+      "produce_priority",
       "fiber_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "constipation",
@@ -2855,7 +2855,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "visual_cues"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2900,8 +2900,8 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Start a group chat to post dinner photos and hydration check‑ins.\n\n**Why it Works:** Social accountability and ideas from peers make habits stick.\n\n**How to Try It:**\n• Pick a theme challenge (e.g., 'eat the rainbow').\n• Cheer small wins; no food policing.\n• Share 1 recipe each week.",
     "area": "eating",
     "goals": [
-      "increase_vegetables",
-      "healthy_pregnancy",
+      "produce_priority",
+      "nutrient_density",
       "meal_tracking_accountability",
       "produce_sharing_circle"
     ],
@@ -2917,7 +2917,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "encouragement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2952,7 +2952,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "heartburn_relief",
       "reduce_nausea",
-      "healthy_pregnancy",
+      "nutrient_density",
       "symptom_journaling"
     ],
     "helps_with": [
@@ -2968,7 +2968,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "insight"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -3014,7 +3014,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "craving_management",
       "less_processed_food",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "sweet_cravings",
@@ -3031,7 +3031,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "autonomy"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -3080,7 +3080,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "DHA_intake",
       "omega3_intake",
       "choline_intake",
-      "healthy_pregnancy"
+      "nutrient_density"
     ],
     "helps_with": [
       "DHA_gap",
@@ -3096,7 +3096,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -3147,7 +3147,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "reduce_nausea",
       "nutrient_density",
-      "healthy_pregnancy",
+      "nutrient_density",
       "safe_meal_routine"
     ],
     "helps_with": [
@@ -3165,7 +3165,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -3217,7 +3217,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "self_awareness"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -3275,7 +3275,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "visual_cues"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -3341,7 +3341,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "satiety"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -3398,7 +3398,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "repetition"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -3434,7 +3434,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "increase_nutrients",
       "increase_fiber",
-      "increase_vegetables"
+      "produce_priority"
     ],
     "helps_with": [
       "nutrient_deficiency"
@@ -3447,7 +3447,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -3509,7 +3509,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "crave_buster"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -3579,7 +3579,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -3651,7 +3651,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "psychological_relief"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -3722,7 +3722,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -3792,7 +3792,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "gamification"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -3865,7 +3865,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "efficiency"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -3929,7 +3929,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -3991,7 +3991,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -4059,7 +4059,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -4132,7 +4132,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -4204,7 +4204,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -4268,7 +4268,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -4319,7 +4319,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "weight_loss",
-      "increase_vegetables",
+      "produce_priority",
       "portion_control",
       "improve_gut_health"
     ],
@@ -4334,7 +4334,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -4408,7 +4408,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -4468,7 +4468,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -4541,7 +4541,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -4669,7 +4669,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -4730,7 +4730,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -4806,7 +4806,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "afternoon",
@@ -4875,7 +4875,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -4943,7 +4943,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "medium",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -5095,7 +5095,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -5164,7 +5164,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -5233,7 +5233,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -5301,7 +5301,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -5379,7 +5379,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -5450,7 +5450,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -5517,7 +5517,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -5647,7 +5647,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -5711,7 +5711,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "novelty"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -5767,7 +5767,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -5840,7 +5840,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -5922,7 +5922,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -5993,7 +5993,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -6065,7 +6065,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -6121,7 +6121,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "medium",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -6252,7 +6252,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "better_lipids",
-      "healthy_pregnancy",
+      "nutrient_density",
       "improve_energy"
     ],
     "contraindications": [
@@ -6265,7 +6265,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -6419,7 +6419,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "medium",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -6487,7 +6487,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -6564,7 +6564,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -6621,7 +6621,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -6745,7 +6745,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "medium",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -6812,7 +6812,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -6866,7 +6866,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -6935,7 +6935,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -7003,7 +7003,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "afternoon",
@@ -7081,7 +7081,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "medium",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -7217,7 +7217,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "high",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -7287,7 +7287,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -7427,7 +7427,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -7544,7 +7544,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -7615,7 +7615,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "medium",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "late_night",
@@ -7674,7 +7674,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -7752,7 +7752,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -7819,7 +7819,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -7889,7 +7889,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "medium",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -7971,7 +7971,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "late_night",
@@ -8039,7 +8039,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "afternoon",
@@ -8109,7 +8109,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -8168,7 +8168,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "morning",
@@ -8236,7 +8236,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "medium",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -8308,7 +8308,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -8384,7 +8384,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8436,7 +8436,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8496,7 +8496,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8546,7 +8546,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8597,7 +8597,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8643,7 +8643,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8698,7 +8698,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8758,7 +8758,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8804,7 +8804,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -8851,7 +8851,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "morning",
@@ -8904,7 +8904,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "fun"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -8952,7 +8952,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -9001,7 +9001,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9049,7 +9049,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -9100,7 +9100,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9154,7 +9154,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9202,7 +9202,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "novelty"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9250,7 +9250,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -9301,7 +9301,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9347,7 +9347,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9396,7 +9396,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -9453,7 +9453,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9513,7 +9513,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9548,7 +9548,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Move fruit/veg to eye level; stash treats high/opaque.\n\n**Why it Works:** What’s visible is what’s eaten; cue management beats willpower.\n\n**How to Try It:**\n• Clear bowls for fruit\n• Opaque bins for treats\n• Label swaps: “See me, eat me”",
     "area": "eating",
     "goals": [
-      "increase_vegetables",
+      "produce_priority",
       "produce_visibility"
     ],
     "helps_with": [
@@ -9561,7 +9561,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -9610,7 +9610,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -9647,7 +9647,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** At the store, fill the first third of your cart with produce.\n\n**Why it Works:** Anchoring bias nudges later choices healthier.\n\n**How to Try It:**\n• Shop perimeter first\n• Add grab‑ready veg/fruit\n• Then choose proteins/grains",
     "area": "eating",
     "goals": [
-      "increase_vegetables",
+      "produce_priority",
       "produce_priority"
     ],
     "helps_with": [
@@ -9659,7 +9659,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -9703,7 +9703,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -9809,7 +9809,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -9858,7 +9858,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "decision_ease"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -9903,7 +9903,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "fun"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9949,7 +9949,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -9993,7 +9993,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10038,7 +10038,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "fun"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10079,7 +10079,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10108,7 +10108,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "area": "eating",
     "goals": [
       "reduce_cravings",
-      "increase_vegetables"
+      "produce_priority"
     ],
     "helps_with": [
       "stress_eating",
@@ -10122,7 +10122,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -10192,7 +10192,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10238,7 +10238,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10282,7 +10282,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10327,7 +10327,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -10385,7 +10385,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10436,7 +10436,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10474,7 +10474,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Begin meals with a cup of veg or broth‑based soup.\n\n**Why it Works:** Fiber/volume increase satiety and slow pace.\n\n**How to Try It:**\n• Keep pre‑cut veg ready\n• Plate starter first\n• Eat mindfully before mains",
     "area": "eating",
     "goals": [
-      "increase_vegetables",
+      "produce_priority",
       "portion_control",
       "improve_gut_health"
     ],
@@ -10490,7 +10490,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "lunch",
@@ -10547,7 +10547,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "energy_boost"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -10599,7 +10599,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10653,7 +10653,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "sensory"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -10706,7 +10706,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "night",
@@ -10756,7 +10756,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "convenience"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -10811,7 +10811,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "comfort"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "evening",
@@ -10866,7 +10866,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "afternoon",
@@ -10967,7 +10967,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -11026,7 +11026,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
       "any",
@@ -11069,7 +11069,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -11106,7 +11106,7 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mastery"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
