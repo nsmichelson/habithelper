@@ -5,6 +5,7 @@ import { PRODUCTIVITY_SIMPLIFIED_TIPS } from './productivitySimplifiedTips';
 import { RELATIONSHIP_SIMPLIFIED_TIPS } from './relationshipsSimplifiedTips';
 import { MINDSET_SIMPLIFIED_TIPS } from './mindsetSimplifiedTips';
 import { ORGANIZATION_SIMPLIFIED_TIPS } from './organizationSimplifiedTips';
+import { SLEEP_SIMPLIFIED_TIPS } from './sleepSimplifiedTips';
 
 const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   {
@@ -11176,6 +11177,7 @@ export const SIMPLIFIED_TIPS: SimplifiedTip[] = [
   ...PRODUCTIVITY_SIMPLIFIED_TIPS,
   ...RELATIONSHIP_SIMPLIFIED_TIPS,
   ...MINDSET_SIMPLIFIED_TIPS,
+  ...SLEEP_SIMPLIFIED_TIPS,
 ];
 
 // Helper function to get a specific tip by ID
