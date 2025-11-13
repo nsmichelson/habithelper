@@ -10,7 +10,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "procrastination",
       "low_motivation",
       "overwhelm"
@@ -22,7 +22,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "time_boxed_sessions"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -54,7 +54,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "procrastination",
       "time_constraints",
       "notification_overload"
@@ -96,7 +96,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "perfectionism",
       "procrastination"
     ],
@@ -139,7 +139,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "increased_productivity",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "time_constraints",
       "task_overload"
     ],
@@ -178,7 +178,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "context_switching"
     ],
@@ -189,7 +189,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -218,7 +218,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "procrastination"
     ],
@@ -257,7 +257,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "decision_fatigue",
       "overwhelm"
     ],
@@ -294,7 +294,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "time_constraints",
       "task_overload"
     ],
@@ -332,7 +332,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "increased_productivity",
       "maintain_consistency"
     ],
-    "helps": [
+    "helps_with": [
       "maintenance_failure",
       "overwhelm"
     ],
@@ -343,7 +343,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "single_tasking"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -371,7 +371,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "organize_workspace",
       "declutter_momentum"
     ],
-    "helps": [
+    "helps_with": [
       "visual_chaos",
       "maintenance_failure"
     ],
@@ -410,7 +410,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "organize_workspace",
       "paper_management"
     ],
-    "helps": [
+    "helps_with": [
       "paper_piles",
       "lost_items"
     ],
@@ -448,7 +448,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "organize_workspace",
       "stress_free_environment"
     ],
-    "helps": [
+    "helps_with": [
       "maintenance_failure",
       "visual_chaos"
     ],
@@ -459,7 +459,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "habit_stacking"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening",
@@ -487,7 +487,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "organize_workspace"
     ],
-    "helps": [
+    "helps_with": [
       "no_systems",
       "lost_items"
     ],
@@ -525,7 +525,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "time_constraints"
     ],
@@ -564,7 +564,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "maintenance_failure",
       "overwhelm"
     ],
@@ -602,7 +602,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "morning_routine",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "maintenance_failure",
       "time_constraints"
     ],
@@ -639,7 +639,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "maintain_consistency",
       "build_healthy_habits"
     ],
-    "helps": [
+    "helps_with": [
       "low_motivation",
       "overwhelm"
     ],
@@ -650,7 +650,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "habit_stacking"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -677,7 +677,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "maintain_consistency",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "decision_fatigue",
       "low_motivation"
     ],
@@ -688,7 +688,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reminder_cues"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -715,7 +715,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "unclear_priorities",
       "overwhelm"
     ],
@@ -754,7 +754,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "increased_productivity",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "unclear_priorities",
       "decision_paralysis"
     ],
@@ -792,7 +792,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "too_many_goals",
       "overwhelm"
     ],
@@ -830,7 +830,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "context_switching",
       "task_overload"
     ],
@@ -841,7 +841,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "moderate",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -868,7 +868,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "perfectionism",
       "overwhelm"
     ],
@@ -906,7 +906,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "maintain_consistency",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "maintenance_failure",
       "low_motivation"
     ],
@@ -917,7 +917,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reminder_cues"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -945,7 +945,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "overwhelm",
       "decision_paralysis"
     ],
@@ -984,7 +984,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "decision_paralysis",
       "overwhelm"
     ],
@@ -1023,7 +1023,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "context_switching",
       "overwhelm"
     ],
@@ -1062,7 +1062,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "overwhelm",
       "time_constraints"
     ],
@@ -1100,7 +1100,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "time_constraints",
       "decision_paralysis"
     ],
@@ -1138,7 +1138,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "stress_free_environment"
     ],
-    "helps": [
+    "helps_with": [
       "time_constraints",
       "overwhelm"
     ],
@@ -1176,7 +1176,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "better_sleep",
       "improve_energy"
     ],
-    "helps": [
+    "helps_with": [
       "poor_sleep",
       "low_energy"
     ],
@@ -1212,7 +1212,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "better_sleep"
     ],
-    "helps": [
+    "helps_with": [
       "poor_sleep",
       "racing_mind",
       "screen_time_overuse"
@@ -1250,7 +1250,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "better_sleep",
       "improve_energy"
     ],
-    "helps": [
+    "helps_with": [
       "morning_energy",
       "poor_sleep"
     ],
@@ -1288,7 +1288,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "context_switching"
     ],
@@ -1327,7 +1327,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "context_switching"
     ],
@@ -1338,7 +1338,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -1366,7 +1366,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "procrastination"
     ],
@@ -1405,7 +1405,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "procrastination",
       "low_motivation"
     ],
@@ -1416,7 +1416,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -1445,7 +1445,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "procrastination",
       "perfectionism"
     ],
@@ -1484,7 +1484,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "maintain_consistency"
     ],
-    "helps": [
+    "helps_with": [
       "procrastination",
       "low_motivation"
     ],
@@ -1495,7 +1495,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1522,7 +1522,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "perfectionism",
       "overwhelm"
     ],
@@ -1560,7 +1560,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "perfectionism",
       "decision_fatigue"
     ],
@@ -1571,7 +1571,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -1598,7 +1598,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "perfectionism",
       "procrastination"
     ],
@@ -1636,7 +1636,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "no_systems",
       "overwhelm"
     ],
@@ -1674,7 +1674,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "decision_paralysis",
       "overwhelm"
     ],
@@ -1712,7 +1712,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "maintenance_failure",
       "overwhelm"
     ],
@@ -1750,7 +1750,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "overwhelm",
       "task_overload"
     ],
@@ -1789,7 +1789,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "too_many_goals",
       "task_overload"
     ],
@@ -1826,7 +1826,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "task_overload",
       "overwhelm"
     ],
@@ -1865,7 +1865,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "unclear_priorities",
       "overwhelm"
     ],
@@ -1902,7 +1902,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "unclear_priorities",
       "maintenance_failure"
     ],
@@ -1941,7 +1941,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "increased_productivity",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "unclear_priorities",
       "decision_paralysis"
     ],
@@ -1979,7 +1979,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "meeting_overload",
       "time_constraints"
     ],
@@ -1990,7 +1990,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "planning_ahead"
     ],
     "effort": "moderate",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2016,7 +2016,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "meeting_overload",
       "context_switching"
     ],
@@ -2053,7 +2053,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "meeting_overload",
       "time_constraints"
     ],
@@ -2089,7 +2089,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "time_constraints"
     ],
@@ -2128,7 +2128,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "time_constraints"
     ],
@@ -2167,7 +2167,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "decision_fatigue"
     ],
@@ -2205,7 +2205,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "context_switching",
       "task_overload"
     ],
@@ -2243,7 +2243,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "maintain_consistency",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "context_switching",
       "overwhelm"
     ],
@@ -2254,7 +2254,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "single_tasking"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -2282,7 +2282,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "reduce_distractions",
       "meet_deadlines"
     ],
-    "helps": [
+    "helps_with": [
       "context_switching",
       "notification_overload"
     ],
@@ -2293,7 +2293,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "pre_commitment"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any"
@@ -2320,7 +2320,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "better_sleep"
     ],
-    "helps": [
+    "helps_with": [
       "maintenance_failure",
       "overwhelm"
     ],
@@ -2357,7 +2357,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "better_sleep"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "poor_sleep"
     ],
@@ -2394,7 +2394,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "reduce_distractions"
     ],
-    "helps": [
+    "helps_with": [
       "notification_overload",
       "overwhelm"
     ],
@@ -2405,7 +2405,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "mindset_shift"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "evening"
@@ -2431,7 +2431,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "organize_workspace",
       "declutter_momentum"
     ],
-    "helps": [
+    "helps_with": [
       "visual_chaos",
       "paper_piles"
     ],
@@ -2442,7 +2442,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "daily_reset"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
       "any",
@@ -2470,7 +2470,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "paper_management",
       "organize_workspace"
     ],
-    "helps": [
+    "helps_with": [
       "paper_piles",
       "maintenance_failure"
     ],
@@ -2507,7 +2507,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "organize_workspace",
       "paper_management"
     ],
-    "helps": [
+    "helps_with": [
       "lost_items",
       "paper_piles"
     ],
@@ -2545,7 +2545,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "increased_productivity",
       "task_system_mastery"
     ],
-    "helps": [
+    "helps_with": [
       "too_many_tools",
       "maintenance_failure"
     ],
@@ -2582,7 +2582,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "task_system_mastery",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "too_many_tools",
       "overwhelm"
     ],
@@ -2620,7 +2620,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "maintain_consistency",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "decision_fatigue",
       "maintenance_failure"
     ],
@@ -2658,7 +2658,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "decision_fatigue",
       "overwhelm"
     ],
@@ -2696,7 +2696,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "stress_free_environment"
     ],
-    "helps": [
+    "helps_with": [
       "decision_fatigue",
       "overwhelm"
     ],
@@ -2734,7 +2734,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "stress_free_environment",
       "morning_routine"
     ],
-    "helps": [
+    "helps_with": [
       "decision_fatigue",
       "time_constraints"
     ],
@@ -2772,7 +2772,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "improve_energy",
       "increased_productivity"
     ],
-    "helps": [
+    "helps_with": [
       "low_energy",
       "overwhelm"
     ],
@@ -2808,7 +2808,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
       "improve_energy"
     ],
-    "helps": [
+    "helps_with": [
       "low_energy",
       "time_constraints"
     ],
@@ -2848,7 +2848,7 @@ export const PRODUCTIVITY_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "meet_deadlines",
       "improve_energy"
     ],
-    "helps": [
+    "helps_with": [
       "low_energy",
       "decision_fatigue"
     ],

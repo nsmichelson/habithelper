@@ -7,9 +7,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Pair 60 seconds of slow calf raises with your first sip.\n\n**Why it Works:** Habit stacking leverages a stable cue (coffee) to trigger action. Minimal viable action reduces psychological friction and builds repetition. Consistency beats intensity for early adherence. Immediate mood boost reinforces the loop.\n\n**How to Try It:**\n• Keep mug by the counter edge\n• Raise/hold 2 seconds up/down\n• Timer for 60 seconds\n• Log “done” immediately",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -26,7 +25,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "morning",
@@ -58,9 +57,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Perform slow bodyweight squats until your hips lightly touch a chair.\n\n**Why it Works:** Microdosing ties movement to a reliable kitchen cue. Tiny, repeatable doses remove dread and build identity as a mover. Environmental anchoring makes motivation optional.\n\n**How to Try It:**\n• Place chair behind you\n• Inhale down, exhale up\n• Stop at 60–90 seconds\n• Track a ✔ on your phone",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -77,7 +75,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "meal_prep",
@@ -109,9 +107,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Stand on one leg for 30 seconds each while brushing teeth.\n\n**Why it Works:** Contextual stability (twice daily brushing) guarantees repetition. Minimal effort builds competence and confidence. Small wins accumulate into durable habits.\n\n**How to Try It:**\n• Hold counter lightly if needed\n• Switch legs at the halfway point\n• Keep hips level\n• Record which leg felt steadier",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -128,7 +125,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "morning",
@@ -159,9 +156,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Forearms on counter; hold a firm plank until the beep.\n\n**Why it Works:** Anchoring to a frequent cue automates behavior. Brief is better for reluctant starters. Immediate somatic engagement creates quick mood lift.\n\n**How to Try It:**\n• Elbows under shoulders\n• Squeeze glutes, light abs\n• Stop before strain\n• Note “felt easier/harder?”",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -178,7 +174,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "meal_prep",
@@ -209,9 +205,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Do hip hinge, gentle spinal roll, and quad stretch right after shoes off.\n\n**Why it Works:** Fixed evening cue = consistent reps. Short, pleasant mobility lowers entry barrier and reinforces comfort-based rewards over intensity.\n\n**How to Try It:**\n• 5 hip hinges\n• 3 slow spinal rolls\n• 20s quad stretch per side\n• Check “done” on a sticky note",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -228,7 +223,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "evening",
@@ -256,9 +251,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Stand, chin nods, shoulder rolls, and wall angels for 60 seconds.\n\n**Why it Works:** Habit stacking with office routine increases reliability. Minimal viable duration reduces friction while building a bodily reward loop.\n\n**How to Try It:**\n• Phone reminder: “After email: reset”\n• 10 shoulder rolls\n• 5 wall angels\n• Log in notes app",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -275,7 +269,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "morning",
@@ -307,9 +301,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Use TV ads as an automatic movement cue.\n\n**Why it Works:** External cueing reduces reliance on motivation. Brief holds increase frequency over intensity. Frequent success strengthens self-efficacy.\n\n**How to Try It:**\n• Forearm plank on carpet\n• 20–40 seconds per break\n• Rest during the show\n• Tally breaks completed",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -326,7 +319,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "evening",
@@ -357,9 +350,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Stack movement onto an existing digital notification.\n\n**Why it Works:** Contextual stability plus microdose equals adherence. Repetition wires the habit loop without mental debate.\n\n**How to Try It:**\n• Chair behind you\n• Knees track toes\n• Exhale up, pause\n• Mark ✓ in your calendar",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -376,7 +368,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "work_break",
@@ -408,9 +400,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Turn hydration into a micro-walk routine.\n\n**Why it Works:** NEAT + stacking: movement attached to frequent cue. Low-effort repetition sustains behavior without motivation spikes.\n\n**How to Try It:**\n• Set 90s timer\n• Fast hallway laps\n• Upright posture\n• Log laps per day",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -427,7 +418,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -458,9 +449,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Hands on frame, gentle chest open every time you pass.\n\n**Why it Works:** Environmental cueing turns space into a reminder. Tiny doses normalize movement and deliver instant relief, reinforcing the loop.\n\n**How to Try It:**\n• Elbows at 90°\n• Step forward, light stretch\n• Breathe 2–3 cycles\n• Count doorway stretches",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -477,7 +467,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -508,9 +498,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Pair common sounds with a brief movement burst.\n\n**Why it Works:** Salient cues ignite automaticity. Small reps reduce cognitive load and build consistent success.\n\n**How to Try It:**\n• Hands on hips\n• Short, controlled range\n• Switch sides smoothly\n• Tick in notes",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -527,7 +516,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -555,9 +544,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Reward completion with a short movement lap.\n\n**Why it Works:** Immediate, pleasant reward strengthens behavior. Movement-linked celebration boosts mood and stitches exercise into daily wins.\n\n**How to Try It:**\n• Set 3-minute timer\n• Walk outside if possible\n• Reflect on “energy now?”\n• Record mood 1–5",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -574,7 +562,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "work_break",
@@ -603,9 +591,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Use pre-call window for postural activation.\n\n**Why it Works:** Stacking on recurring meetings ensures repetition. Small, confidence-boosting movement increases positive affect.\n\n**How to Try It:**\n• Back to wall\n• Slow overhead sweep\n• 5 deep breaths\n• Note “felt readier?”",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -622,7 +609,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "work_break",
@@ -654,9 +641,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Gentle heel raises while standing.\n\n**Why it Works:** Turning idle time into NEAT increases daily activity without “workout” dread. Micro-wins build identity.\n\n**How to Try It:**\n• Small range\n• Even tempo\n• Relax shoulders\n• Count 40–60 reps",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -673,7 +659,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -700,9 +686,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Add micro mobility to an existing hygiene cue.\n\n**Why it Works:** Habit stacking + low effort = consistency. Ease and immediacy encourage adherence.\n\n**How to Try It:**\n• Slow neck arcs\n• Gentle wrist circles\n• Breathe steadily\n• Mark on mirror note",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -719,7 +704,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "morning",
@@ -750,9 +735,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Use pre-meal hunger cue to trigger movement.\n\n**Why it Works:** Reliable cue, brief task, positive sensation = stronger loop.\n\n**How to Try It:**\n• Hands on hips\n• Hinge, not squat\n• Neutral spine\n• Check it off",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -769,7 +753,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "meal_time",
@@ -798,9 +782,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Balance practice during dressing routine.\n\n**Why it Works:** Zero extra time; competence builds motivation. Repetition cements habit.\n\n**How to Try It:**\n• Light support if needed\n• Switch sides\n• Soft knees\n• Track seconds",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -817,7 +800,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "morning",
@@ -848,9 +831,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Extend the walk from car to destination.\n\n**Why it Works:** NEAT microdose piggybacks on an existing trip. Immediate mood bump fosters adherence.\n\n**How to Try It:**\n• Swing arms\n• Eyes up\n• Even breaths\n• Count 90–120 steps",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -867,7 +849,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "routine_design"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -895,9 +877,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Record “enjoyment/mood boost” immediately post-session.\n\n**Why it Works:** Affective feedback predicts long-term adherence better than effort. Capturing positive emotion reinforces intrinsic motivation.\n\n**How to Try It:**\n• Use 1–5 smiley scale\n• Write one word (“calm”)\n• Note setting/music\n• Revisit weekly trends",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -915,7 +896,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "self_awareness"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -946,9 +927,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Design today’s session by choosing from three equally short options.\n\n**Why it Works:** Autonomy satisfies SDT, reducing “forced” feelings. Choice boosts enjoyment, aiding consistency.\n\n**How to Try It:**\n• 8-minute brisk walk\n• 6-minute dance playlist\n• 8-minute mobility flow\n• Log mood after",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -967,7 +947,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1001,9 +981,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** If motivation <5/10, do a 5-minute swap instead of skipping.\n\n**Why it Works:** Pre-planned flexibility prevents abandonment while preserving consistency. Autonomy keeps ownership high.\n\n**How to Try It:**\n• 5-min walk\n• 5-min yoga flow\n• 5-min band circuit\n• Record “glad I moved?”",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1022,7 +1001,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1054,9 +1033,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Before moving, remember one concrete positive sensation from last time.\n\n**Why it Works:** Anticipating immediate rewards counters inertia; intrinsic cues strengthen maintenance.\n\n**How to Try It:**\n• Close eyes 10 seconds\n• Visualize energy lift\n• Start with 2-minute dose\n• Log emotion after",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1075,7 +1053,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "self_awareness"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1102,9 +1080,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Let music selection drive a short session choice.\n\n**Why it Works:** Autonomy and enjoyment enhance adherence. Positive affect predicts long-term consistency.\n\n**How to Try It:**\n• Pick 3 upbeat songs\n• Move continuously\n• Stop at song three\n• Rate enjoyment 1–5",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1123,7 +1100,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -1153,9 +1130,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Keep the session short but let place be your call.\n\n**Why it Works:** Autonomy boosts intrinsic motivation. Environmental variety reduces boredom.\n\n**How to Try It:**\n• Decide in 10 seconds\n• Two-minute movement dose\n• Breath check afterward\n• Note favorite spot",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1174,7 +1150,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1202,9 +1178,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Move gently for time; stop when timer ends.\n\n**Why it Works:** Removing performance pressure increases enjoyment and repeatability.\n\n**How to Try It:**\n• Set 2:00 on phone\n• Any movement: hinges, marches\n• Finish with a smile check\n• Record ease (1–5)",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1222,7 +1197,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1252,9 +1227,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Create relatedness by pinging a friend and moving together apart.\n\n**Why it Works:** Social support enhances intrinsic motivation and adherence.\n\n**How to Try It:**\n• Text one buddy\n• Start 3-minute flow\n• Exchange post-mood emoji\n• Schedule next ping",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1274,7 +1248,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1303,9 +1277,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Start with the movement that feels best.\n\n**Why it Works:** Immediate positive affect increases session completion and future intent.\n\n**How to Try It:**\n• Pick the nicest move\n• Keep it light\n• Smile check after\n• Continue or end",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1324,7 +1297,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "fun"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1351,9 +1324,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Keep a visible menu: walk, yoga, bands, dance.\n\n**Why it Works:** Choice architecture supports SDT autonomy and reduces friction.\n\n**How to Try It:**\n• Write 4 options\n• Place on fridge/desk\n• Point and do 5–10 minutes\n• Log which you chose",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1371,7 +1343,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "environment_design"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1401,9 +1373,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Declare a tiny non-negotiable and execute once.\n\n**Why it Works:** Minimal viable action ensures success, building self-efficacy and habit identity.\n\n**How to Try It:**\n• Say it out loud\n• Start a 2-minute timer\n• Move gently\n• Check ✓ in tracker",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1421,7 +1392,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "self_efficacy"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1448,9 +1419,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Commit to a micro-walk with optional extension.\n\n**Why it Works:** Low commitment reduces dread; pleasant feelings often extend duration voluntarily.\n\n**How to Try It:**\n• Put on shoes\n• Walk two blocks\n• Decide to stop/continue\n• Record mood change",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1469,7 +1439,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "small_changes"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -1496,9 +1466,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Exchange simple reactions post-micro-workout.\n\n**Why it Works:** Relatedness boosts consistency; tiny social loops are sticky.\n\n**How to Try It:**\n• Choose a buddy\n• Send “moving now”\n• React with 👍/🔥 after\n• Keep streak count",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_mood"
+        "increase_activity_consistency",
+        "support_heart_health"
     ],
     "helps_with": [
         "habit_tracking",
@@ -1517,7 +1486,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "accountability"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1546,8 +1515,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** End before fatigue to preserve positive affect.\n\n**Why it Works:** Ending on enjoyment increases future approach motivation.\n\n**How to Try It:**\n• Check pleasure mid-session\n• Stop when still pleasant\n• Note “ended strong”\n• Plan repeat tomorrow",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1568,7 +1537,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "self_awareness"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1594,8 +1563,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Do 40s squats, 20s rest, once per window.\n\n**Why it Works:** Micro-workouts deliver benefits with minimal time; frequency precedes intensity.\n\n**How to Try It:**\n• Set phone timers\n• Chest up, heels down\n• Stop before knee pain\n• Log 1–3 doses",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1613,7 +1582,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "morning",
@@ -1644,8 +1613,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** March in place, 10 push-offs, 10 hinges.\n\n**Why it Works:** Uses idle time; NEAT increases energy expenditure without extra schedule space.\n\n**How to Try It:**\n• Mute, camera off\n• March 60s\n• 10 desk push-ups\n• 10 hip hinges",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1663,7 +1632,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "work_break"
@@ -1693,8 +1662,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Replace elevators/escalators with stairs.\n\n**Why it Works:** NEAT integrates activity seamlessly, ideal for time-poor users.\n\n**How to Try It:**\n• One step at a time\n• Handrail if needed\n• Count total flights\n• Celebrate at day’s end",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1712,7 +1681,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1740,8 +1709,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Use a single track as a micro-session.\n\n**Why it Works:** Enjoyment-first movement reduces dread; brief bursts aid energy.\n\n**How to Try It:**\n• Hit play immediately\n• Keep it playful\n• Smile check\n• Log song title",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1759,7 +1728,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1789,8 +1758,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Bridges, gentle twists, child’s pose.\n\n**Why it Works:** Home fitness with minimal equipment removes friction; positive feel sustains repeat.\n\n**How to Try It:**\n• Use a mat or rug\n• 8 bridges\n• Gentle supine twist\n• 3 breaths in child’s pose",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1808,7 +1777,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "screen_time",
@@ -1838,8 +1807,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Turn movement into a playful mini-competition.\n\n**Why it Works:** Relatedness and play boost intrinsic motivation; kid-inclusive solves childcare blocker.\n\n**How to Try It:**\n• Pick three animals\n• 30s each, rotate\n• High-fives after\n• Mark family point",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1857,7 +1826,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1885,8 +1854,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Gentle volleys around the room.\n\n**Why it Works:** Playful NEAT with low thermic load—great for aversion and childcare constraints.\n\n**How to Try It:**\n• Clear small space\n• No furniture collisions\n• Count longest rally\n• Celebrate a new record",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1904,7 +1873,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -1935,8 +1904,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Fold, lunge, repeat until basket done.\n\n**Why it Works:** Integrates movement into chores (NEAT); repetition through chores increases frequency.\n\n**How to Try It:**\n• Small range if new\n• Switch legs evenly\n• Pause for balance\n• Log total lunges",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1954,7 +1923,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -1980,8 +1949,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Lean back lightly and pull to stand tall.\n\n**Why it Works:** Home-based strength without equipment lowers barrier.\n\n**How to Try It:**\n• Grip both sides\n• Neutral spine\n• Slow pull, slow return\n• Stop if shoulders ache",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -1999,7 +1968,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -2028,8 +1997,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Repeat for five minutes total.\n\n**Why it Works:** Tiny HIIT-style structure, efficient for time-poor users; competence from completion.\n\n**How to Try It:**\n• Start timer\n• 10 controlled squats\n• Breathe until next minute\n• Note heart rate ease",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2047,7 +2016,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2076,8 +2045,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Incline push-ups paired to meal prep.\n\n**Why it Works:** Habit stacking with mealtime cue; single-set to fatigue can be effective for novices.\n\n**How to Try It:**\n• Hands shoulder-width\n• Body straight line\n• Pause at bottom\n• Track reps",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2095,7 +2064,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "meal_prep",
@@ -2125,8 +2094,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Hinge to lift, back neutral, glutes engaged.\n\n**Why it Works:** Functional NEAT integrates strength safely into chores; mastery builds competence.\n\n**How to Try It:**\n• Soften knees\n• Hinge, not round\n• Exhale on stand\n• Count five good lifts",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2144,7 +2113,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "grocery_shopping"
@@ -2174,8 +2143,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** 30s each move, one minute repeat.\n\n**Why it Works:** Accessible, fast, competence-building; suitable for home fitness.\n\n**How to Try It:**\n• Keep band handy\n• Control each rep\n• Stop before pain\n• Log pump/mood",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2193,7 +2162,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "work_break"
@@ -2223,8 +2192,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Rake, sweep, or carry small loads quickly.\n\n**Why it Works:** NEAT elevates daily expenditure without “workout” framing, lowering aversion.\n\n**How to Try It:**\n• Timer on\n• Quick, safe pace\n• Upright posture\n• Note mood shift",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2242,7 +2211,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -2272,8 +2241,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Back-and-forth brisk walking indoors.\n\n**Why it Works:** Micro-cardio fits in tight schedules and spaces.\n\n**How to Try It:**\n• Clear path\n• Soft turns\n• Swing arms\n• Check pulse calming",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2291,7 +2260,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -2317,8 +2286,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Cat-cow, thoracic rotation, hamstring stretch.\n\n**Why it Works:** Planned micro-session solves childcare barrier; pleasant feel reinforces adherence.\n\n**How to Try It:**\n• Quiet mat\n• 5 cat-cows\n• 5 rotations/side\n• 20s hamstring/side",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2336,7 +2305,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2365,8 +2334,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Calf, hip flexor, chest stretch.\n\n**Why it Works:** Anchors to kitchen cue; brief holds create consistent, low-dread mobility.\n\n**How to Try It:**\n• Timer on stove\n• Gentle tension only\n• Steady breathing\n• Mark three holds",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2384,7 +2353,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "meal_prep"
@@ -2413,8 +2382,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Put phone on charger, immediately walk laps.\n\n**Why it Works:** Cue is frequent and reliable; NEAT dose feels easy.\n\n**How to Try It:**\n• Count laps\n• Keep shoulders relaxed\n• Add stairs if available\n• Log start/stop times",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2432,7 +2401,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -2461,8 +2430,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Set of 15 every minute until done.\n\n**Why it Works:** Turns downtime into movement; microdosing supports adherence.\n\n**How to Try It:**\n• Hold steering lightly\n• Slow tempo\n• Heels full range\n• Count total reps",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2480,7 +2449,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -2509,8 +2478,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Farmer carry with safe, moderate load.\n\n**Why it Works:** Functional strength microdose; competence through successful completion.\n\n**How to Try It:**\n• Neutral spine\n• Shoulder down/back\n• Even steps\n• Stop if grip fails",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "improve_energy",
+        "increase_activity_consistency",
+        "improve_cardio_fitness",
         "endurance_performance"
     ],
     "helps_with": [
@@ -2528,7 +2497,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "behavioral_strategy"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -2558,9 +2527,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Wipe, sweep, organize—45s each, repeat.\n\n**Why it Works:** NEAT bursts stack to meaningful activity; brief, flexible design reduces time barrier.\n\n**How to Try It:**\n• Set 5-minute timer\n• Keep movements safe\n• Quick transitions\n• Mood check afterward",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2577,7 +2545,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2606,9 +2574,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Slow, mindful standing flow with gentle weight shifts.\n\n**Why it Works:** Low-thermic, private, and enjoyable—ideal for sweat-averse users; fosters intrinsic motivation.\n\n**How to Try It:**\n• Clear small space\n• Move slowly, breathe\n• Stop if dizzy\n• Rate calm 1–5",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2625,7 +2592,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2654,9 +2621,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Chest-deep water walk, easy pace.\n\n**Why it Works:** Low impact; minimized sweat sensation; pleasant feel supports adherence.\n\n**How to Try It:**\n• Upright posture\n• Natural arm swing\n• 180–200 steps\n• Mood check after",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2673,7 +2639,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2702,9 +2668,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Cat-cow, child’s pose, low lunge, forward fold.\n\n**Why it Works:** Quiet, private setting respects aversions; positive affect drives consistency.\n\n**How to Try It:**\n• Dim lights\n• Breathe 4–6 count\n• Gentle range only\n• End with 3 breaths",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2721,7 +2686,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "evening",
@@ -2751,9 +2716,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Gamified movement sequence indoors.\n\n**Why it Works:** Play reduces boredom; NEAT adds up without sweaty effort.\n\n**How to Try It:**\n• Make a quick list\n• Tiptoe to item\n• Squat to pick up\n• Celebrate completion",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2770,7 +2734,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2800,9 +2764,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Two songs of low-key groove during prep.\n\n**Why it Works:** Enjoyable rhythm transforms chores into movement; intrinsic appeal sustains repeat.\n\n**How to Try It:**\n• Hit play\n• Soft knees, sway\n• Smile check\n• Log song names",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2819,7 +2782,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "meal_prep"
@@ -2849,9 +2812,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Move slowly, notice three sounds and two sights.\n\n**Why it Works:** Pleasant sensory focus elevates affective response; short duration lowers dread.\n\n**How to Try It:**\n• Put phone on silent\n• Inhale/exhale count 4/6\n• Walk 2 minutes\n• Note calm level",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2868,7 +2830,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2894,9 +2856,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Controlled core activation at easy intensity.\n\n**Why it Works:** Low-thermic, private, skillful; competence supports intrinsic motivation.\n\n**How to Try It:**\n• 8 bridges\n• 6 dead bugs/side\n• 10 clamshells/side\n• Breathe steadily",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2913,7 +2874,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2942,9 +2903,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Balance microdose in a private space.\n\n**Why it Works:** Low-effort skill practice; success builds enjoyment.\n\n**How to Try It:**\n• Lightly hold chair\n• Soften knees\n• Switch feet\n• Note wobble reduction",
     "area": "exercise",
     "goals": [
-        "build_healthy_habits",
-        "improve_mood",
-        "maintain_consistency"
+        "support_heart_health",
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -2961,7 +2921,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -2991,9 +2951,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Vary tempo and movement pattern per song.\n\n**Why it Works:** Novelty and autonomy combat boredom; positive affect predicts adherence.\n\n**How to Try It:**\n• Choose diverse beats\n• Change moves each track\n• Keep light effort\n• Rate fun 1–5",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3010,7 +2969,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3040,9 +2999,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Inhale arch/lift chest; exhale round/tuck, repeat 5–10 times.\n\n**Why it Works:** Chair-based mobility supports injury sensitivity and desk-bound needs; pleasant relief reinforces practice.\n\n**How to Try It:**\n• Sit tall, feet grounded\n• Move slowly with breath\n• Stop with pain\n• Note range improvement",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3059,7 +3017,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3089,9 +3047,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Lift knees alternately, light core brace.\n\n**Why it Works:** Low-impact activation raises energy; safe for hurts blocker.\n\n**How to Try It:**\n• Hands on chair sides\n• Smooth rhythm\n• Breathe evenly\n• Count 100+ steps",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3108,7 +3065,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3138,9 +3095,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Slide down to comfortable angle; hold.\n\n**Why it Works:** Low-impact strengthening; brief hold builds competence without flare-ups.\n\n**How to Try It:**\n• Feet forward\n• Back flat to wall\n• Stop before discomfort\n• Log hold time",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3157,7 +3113,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3186,9 +3142,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Smooth ankle circles and letters.\n\n**Why it Works:** Gentle mobility boosts circulation and comfort; easy to repeat.\n\n**How to Try It:**\n• Foot off floor\n• Full, pain-free range\n• A–Z each side\n• Note stiffness change",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3205,7 +3160,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3235,9 +3190,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Back/arms on wall, glide overhead; stop before pain.\n\n**Why it Works:** Controlled range builds mobility safely; mastery fosters competence.\n\n**How to Try It:**\n• Elbows/wrists to wall\n• Slow up and down\n• Chin tucked\n• Log any pinch",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3254,7 +3208,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3284,9 +3238,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Half-kneel or standing lunge; light stretch only.\n\n**Why it Works:** Low-impact relief encourages repeat; safety-first guidance reduces fear.\n\n**How to Try It:**\n• Support with chair\n• Tuck pelvis slightly\n• Breathe 3–4 cycles\n• Switch sides",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3303,7 +3256,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3332,9 +3285,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Pump arms, lift knees for three minutes.\n\n**Why it Works:** Acute movement boosts positive affect and energy up to hours after. Short, efficient burst encourages initiation.\n\n**How to Try It:**\n• Start timer\n• Upright posture\n• Even breathing\n• Rate energy after",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3351,7 +3303,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3380,9 +3332,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Combine light cardio with breath to refresh mood.\n\n**Why it Works:** Acute exercise rapidly reduces negative affect; fresh air amplifies reward.\n\n**How to Try It:**\n• Shoes on\n• Walk to nearest corner\n• 3 slow deep breaths\n• Log mood 1–5",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3399,7 +3350,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3428,9 +3379,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Coordinate breath holds with small stretches.\n\n**Why it Works:** Calming breath plus movement enhances immediate well-being, reinforcing the routine.\n\n**How to Try It:**\n• Inhale 4, hold 4\n• Exhale 4, hold 4\n• Neck side bends\n• Two minutes total",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3447,7 +3397,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "stress"
@@ -3475,9 +3425,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Stand and sit slowly with support as needed.\n\n**Why it Works:** Functional strength with safe range; clear competence win.\n\n**How to Try It:**\n• Feet shoulder-width\n• Nose over toes\n• Exhale to stand\n• Stop with pain",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3494,7 +3443,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3523,9 +3472,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Low intensity, smooth strokes only.\n\n**Why it Works:** Low-impact cardio options protect joints while boosting mood.\n\n**How to Try It:**\n• Light damper\n• Long strokes\n• Even breathing\n• End feeling good",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3542,7 +3490,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -3571,9 +3519,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Keep cadence light and pleasant.\n\n**Why it Works:** Enjoyment-first cardio predicts adherence beyond RPE alone.\n\n**How to Try It:**\n• Choose favorite song\n• Gentle resistance\n• Breathe nose-in, mouth-out\n• Rate enjoyment",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_energy",
@@ -3590,7 +3537,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "relief"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -3621,7 +3568,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3641,7 +3588,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3672,7 +3619,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3690,7 +3637,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "self_monitoring"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3722,7 +3669,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3739,7 +3686,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3767,7 +3714,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3784,7 +3731,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3815,7 +3762,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3832,7 +3779,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "moderate",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3863,7 +3810,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3880,7 +3827,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3911,7 +3858,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3931,7 +3878,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -3959,7 +3906,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -3976,7 +3923,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4009,7 +3956,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -4026,7 +3973,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4054,7 +4001,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -4071,7 +4018,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4102,7 +4049,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -4119,7 +4066,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4150,7 +4097,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -4167,7 +4114,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4195,7 +4142,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -4212,7 +4159,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4243,7 +4190,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -4260,7 +4207,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4292,7 +4239,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "goals": [
         "strength_performance",
         "endurance_performance",
-        "maintain_consistency"
+        "increase_activity_consistency"
     ],
     "helps_with": [
         "low_motivation",
@@ -4309,7 +4256,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "movement"
     ],
     "effort": "low",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -4339,9 +4286,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Focus on how you feel, not metrics.\n\n**Why it Works:** Affective tracking predicts adherence; reinforces pleasant experience.\n\n**How to Try It:**\n• Gentle pace\n• Breathe nose-first\n• Smile check\n• Write one-word note",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4358,7 +4304,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "any"
@@ -4389,9 +4335,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Pair walk with the last dish down.\n\n**Why it Works:** Fixed mealtime cue + short dose = reliable loop; frequent wins.\n\n**How to Try It:**\n• Shoes ready by door\n• Set 5-minute timer\n• Gentle pace\n• Log “post-meal walk”",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4408,7 +4353,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "post_meal",
@@ -4436,9 +4381,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Neck, chest, hip openers.\n\n**Why it Works:** Front-loading success builds identity and reduces later friction.\n\n**How to Try It:**\n• Phone on airplane mode\n• 30s each zone\n• Slow breaths\n• Check phone afterward",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4455,7 +4399,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "morning"
@@ -4485,9 +4429,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Gentle grip work in the car (parked) or transit.\n\n**Why it Works:** NEAT microdose; competence via simple strength feel.\n\n**How to Try It:**\n• Neutral wrist\n• Even squeeze/relax\n• 60–90 seconds\n• Switch hands",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4504,7 +4447,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "commute"
@@ -4534,9 +4477,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Floor or incline plank as comfortable.\n\n**Why it Works:** Pairing to office cue ensures repetition; brevity preserves willingness.\n\n**How to Try It:**\n• Elbows under shoulders\n• Tight glutes/core\n• Stop before strain\n• Track holds/day",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4553,7 +4495,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "work_break"
@@ -4584,9 +4526,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Low-rep microdose attached to a frequent cue.\n\n**Why it Works:** Frequency-first progression before adding intensity or duration.\n\n**How to Try It:**\n• Heels down\n• Chest up\n• Smooth tempo\n• Count total today",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4603,7 +4544,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -4631,9 +4572,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Hands behind back, lift gently.\n\n**Why it Works:** Micro relief reinforces comfort; easy to repeat many times.\n\n**How to Try It:**\n• Interlace fingers\n• Gentle lift\n• Breathe slowly\n• Log “sends stretched”",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4650,7 +4590,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "work_break"
@@ -4677,9 +4617,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Use arrival cue for micro-dose.\n\n**Why it Works:** Contextual stability reduces reliance on motivation; competence builds.\n\n**How to Try It:**\n• Small range\n• Soft landing\n• Tall posture\n• Note knee comfort",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4696,7 +4635,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "evening"
@@ -4723,9 +4662,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Two short sessions anchored to wake/sleep routines.\n\n**Why it Works:** Bookend cues double frequency without added complexity.\n\n**How to Try It:**\n• Morning song: sway/march\n• Night song: stretch\n• Keep low effort\n• Rate both moods",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4742,7 +4680,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "positive_reinforcement"
     ],
     "effort": "minimal",
-    "time": "5-15min",
+    "time": "5-15",
     "cost": "$",
     "when": [
         "morning",
@@ -4774,9 +4712,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Increase frequency, not duration today.\n\n**Why it Works:** Microdosing progression favors frequency first; safer, stickier growth.\n\n**How to Try It:**\n• Choose yesterday’s dose\n• Repeat once more\n• Keep pleasant\n• Log total doses",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4794,7 +4731,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "self_monitoring"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
@@ -4821,9 +4758,8 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "details_md": "**The Experiment:** Tiny celebration + immediate tracking.\n\n**Why it Works:** Reward plus tracking strengthens habit memory and intrinsic satisfaction.\n\n**How to Try It:**\n• Say “nice work!”\n• Add a ✔ or emoji\n• Note mood word\n• Preview tomorrow’s cue",
     "area": "exercise",
     "goals": [
-        "maintain_consistency",
-        "build_healthy_habits",
-        "improve_energy"
+        "increase_activity_consistency",
+        "improve_cardio_fitness"
     ],
     "helps_with": [
         "low_motivation",
@@ -4842,7 +4778,7 @@ export const FITNESS_SIMPLIFIED_TIPS: SimplifiedTip[] = [
         "self_monitoring"
     ],
     "effort": "minimal",
-    "time": "0-5min",
+    "time": "0-5",
     "cost": "$",
     "when": [
         "any"
