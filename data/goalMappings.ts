@@ -15,7 +15,7 @@ export interface GoalMapping {
  */
 export const GOAL_MAPPINGS: Record<string, string[]> = {
   // ============ EATING GOALS ============
-  'eat_more_veggies': ['increase_vegetables', 'produce_priority', 'produce_visibility', 'produce_sharing_circle'],
+  'eat_more_veggies': ['produce_priority', 'produce_visibility', 'produce_sharing_circle'],
   'reduce_junk_food': ['less_processed_food', 'reduce_ultra_processed', 'treat_environment_design', 'impulse_control_shopping'],
   'control_portions': ['portion_control', 'satiety', 'fast_food_portion_cap'],
   'reduce_sugar': ['reduce_sugar', 'reduce_cravings', 'stable_blood_sugar'],
@@ -27,8 +27,8 @@ export const GOAL_MAPPINGS: Record<string, string[]> = {
   'regular_meal_schedule': ['morning_routine', 'healthy_breakfast', 'safe_meal_routine'],
   'stop_binge_eating': ['emotional_eating', 'stress_eating', 'stress_coping_plan', 'stress_distraction_tool', 'stress_reset_routine'],
   'manage_blood_sugar': ['stable_blood_sugar', 'reduce_sugar', 'portion_control', 'post_meal_relief'],
-  'pregnancy_nutrition': ['healthy_pregnancy', 'nutrient_density', 'food_safety', 'prenatal_vitamin_routine', 'DHA_intake', 'iron_intake', 'choline_intake', 'calcium_intake'],
-  'switch_to_plant_based': ['plant_based', 'increase_vegetables', 'increase_nutrients'],
+  'pregnancy_nutrition': ['nutrient_density', 'food_safety', 'prenatal_vitamin_routine', 'DHA_intake', 'iron_intake', 'choline_intake', 'calcium_intake'],
+  'switch_to_plant_based': ['plant_based', 'produce_priority', 'increase_nutrients'],
   'quit_alcohol': ['alcohol_free'],
   'eat_more_fiber': ['fiber_intake', 'increase_fiber', 'constipation_relief', 'improve_gut_health'],
   'lose_weight_eating': ['weight_loss', 'portion_control', 'satiety'],
@@ -46,11 +46,11 @@ export const GOAL_MAPPINGS: Record<string, string[]> = {
   'stay_asleep_night': ['improve_sleep', 'sleep_quality'],
   'go_to_bed_earlier': ['improve_sleep', 'morning_routine'],
   'consistent_sleep_schedule': ['improve_sleep', 'morning_routine', 'sleep_quality'],
-  'wake_up_refreshed': ['improve_sleep', 'sleep_quality', 'improve_energy'],
+  'wake_up_refreshed': ['improve_sleep', 'sleep_quality', 'better_sleep'],
   'reduce_screen_before_bed': ['improve_sleep', 'sleep_quality'],
   'bedtime_wind_down': ['improve_sleep', 'sleep_quality', 'mindset_shift'],
   'improve_sleep_environment': ['improve_sleep', 'sleep_quality'],
-  'stop_hitting_snooze': ['morning_routine', 'improve_energy'],
+  'stop_hitting_snooze': ['morning_routine', 'better_sleep'],
 
   // ============ PRODUCTIVITY/EFFECTIVENESS GOALS ============
   'stop_procrastinating': ['task_completion', 'focus_improvement', 'declutter_momentum'],
@@ -66,31 +66,31 @@ export const GOAL_MAPPINGS: Record<string, string[]> = {
 
   // Effectiveness-specific goals from effectiveness_specifics question
   'better_sleep': ['improve_sleep', 'sleep_quality'],
-  'better_energy': ['improve_energy', 'improve_mood'],
+  'better_energy': ['mental_clarity', 'increased_productivity'],
   'manage_stress': ['stress_coping_plan', 'stress_reset_routine', 'stress_eating'],  // Already exists in mindset but adding here for clarity
 
   // ============ EXERCISE GOALS ============
-  'start_exercising': ['improve_energy', 'exercise_habit'],
-  'consistent_workouts': ['exercise_habit', 'workout_routine'],
-  'build_strength': ['strength_performance', 'muscle_gain'],
-  'improve_cardio': ['endurance_performance', 'heart_health'],
-  'increase_flexibility': ['flexibility', 'mobility'],
-  'exercise_lose_weight': ['weight_loss', 'improve_energy'],
-  'exercise_for_energy': ['improve_energy', 'improve_mood'],
+  'start_exercising': ['increase_activity_consistency', 'improve_cardio_fitness'],
+  'consistent_workouts': ['increase_activity_consistency', 'workout_routine'],
+  'build_strength': ['build_strength', 'strength_performance'],
+  'improve_cardio': ['improve_cardio_fitness', 'support_heart_health'],
+  'increase_flexibility': ['increase_flexibility', 'mobility'],
+  'exercise_lose_weight': ['weight_loss', 'improve_cardio_fitness'],
+  'exercise_for_energy': ['improve_cardio_fitness', 'support_heart_health'],
   'find_enjoyable_exercise': ['exercise_enjoyment', 'mindset_shift'],
   'workout_at_home': ['home_fitness', 'workout_routine'],
-  'more_active_lifestyle': ['exercise_habit', 'improve_energy'],
+  'more_active_lifestyle': ['increase_activity_consistency', 'increase_steps'],
   'boost_endurance': ['endurance_performance'],
   'increase_strength_performance': ['strength_performance'],
 
   // ============ MINDSET GOALS ============
   'manage_stress': ['stress_coping_plan', 'stress_reset_routine', 'mindset_shift'],
-  'reduce_anxiety': ['anxiety_management', 'mindset_shift', 'improve_mood'],
+  'reduce_anxiety': ['anxiety_management', 'mindset_shift'],
   'stop_negative_thoughts': ['positive_thinking', 'mindset_shift'],
   'practice_self_compassion': ['self_compassion', 'mindset_shift'],
   'build_confidence': ['build_confidence', 'mindset_shift'],
   'practice_mindfulness': ['mindfulness_practice', 'mindful_eating'],
-  'cultivate_gratitude': ['gratitude_practice', 'mindset_shift', 'improve_mood'],
+  'cultivate_gratitude': ['gratitude_practice', 'mindset_shift'],
   'set_boundaries': ['healthy_boundaries', 'mindset_shift'],
   'overcome_perfectionism': ['overcome_perfectionism', 'mindset_shift'],
   'stay_motivated': ['goal_achievement', 'mindset_shift'],
@@ -99,15 +99,15 @@ export const GOAL_MAPPINGS: Record<string, string[]> = {
   // Note: Most relationship goals don't have direct tip database matches
   // These might need new tips or could map to general wellness goals
   'improve_communication': ['better_communication', 'mindset_shift'],
-  'more_quality_time': ['relationship_time', 'declutter_momentum'],
+  'more_quality_time': ['quality_time', 'daily_connection'],
   'stronger_social_connections': ['social_support', 'community_building'],
-  'handle_conflicts_better': ['conflict_skills', 'mindset_shift'],
-  'express_needs_clearly': ['assertiveness', 'mindset_shift'],
-  'become_better_listener': ['active_listening', 'mindfulness_practice'],
-  'improve_work_life_balance': ['work_life_balance', 'boundary_setting'],
-  'more_family_time': ['family_connection', 'meal_prep'],
-  'build_dating_confidence': ['dating_confidence', 'build_confidence'],
-  'strengthen_friendships': ['friendship_building', 'social_support']
+  'handle_conflicts_better': ['conflict_resolution', 'mindset_shift'],
+  'express_needs_clearly': ['assertiveness', 'boundaries'],
+  'become_better_listener': ['better_communication', 'mindfulness_practice'],
+  'improve_work_life_balance': ['work_life_balance', 'boundaries'],
+  'more_family_time': ['daily_connection', 'quality_time'],
+  'build_dating_confidence': ['self_trust', 'build_confidence'],
+  'strengthen_friendships': ['daily_connection', 'social_support']
 };
 
 /**

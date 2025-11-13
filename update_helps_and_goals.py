@@ -13,199 +13,199 @@ helps_with_tags = {tag['key']: tag['description'] for tag in all_tags if tag['bu
 # Define updated tags for each tip based on careful content review
 tip_updates = {
     1: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety", "stay_hydrated"],
         "helps_with": ["nausea", "vomiting", "odor_triggers", "smell_aversion"]
     },
     2: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety", "stay_hydrated"],
         "helps_with": ["nausea", "vomiting", "dehydration"]
     },
     3: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety", "stay_hydrated"],
         "helps_with": ["nausea", "dehydration", "vomiting"]
     },
     4: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety"],
         "helps_with": ["nausea", "smell_aversion", "odor_triggers", "heartburn"]
     },
     5: {
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated", "reduce_anxiety"],
+        "goal_tags": ["nutrient_density", "stay_hydrated", "reduce_anxiety"],
         "helps_with": ["dehydration", "nausea"]
     },
     6: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety", "consistent_routines"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety", "consistent_routines"],
         "helps_with": ["nausea", "nausea_from_empty_stomach", "low_morning_energy"]
     },
     7: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety", "improve_energy", "maintain_stable_blood_sugar"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety", "stable_blood_sugar"],
         "helps_with": ["nausea", "overnight_hunger", "nausea_from_empty_stomach", "blood_sugar_spikes"]
     },
     8: {
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "improve_gut_health"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "improve_gut_health"],
         "helps_with": ["constipation", "bloating"]
     },
     9: {
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "adequate_omega_3", "improve_gut_health"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "adequate_omega_3", "improve_gut_health"],
         "helps_with": ["constipation", "low_satiety", "bloating"]
     },
     10: {
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "improve_gut_health"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "improve_gut_health"],
         "helps_with": ["constipation"]
     },
     11: {
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated", "improve_gut_health", "consistent_routines"],
+        "goal_tags": ["nutrient_density", "stay_hydrated", "improve_gut_health", "consistent_routines"],
         "helps_with": ["constipation", "nausea", "dehydration"]
     },
     12: {
-        "goal_tags": ["healthy_pregnancy", "improve_gut_health", "improve_energy", "increase_steps"],
+        "goal_tags": ["nutrient_density", "improve_gut_health", "increase_steps"],
         "helps_with": ["constipation", "bloating", "heartburn", "indigestion"]
     },
     13: {
-        "goal_tags": ["healthy_pregnancy"],
+        "goal_tags": ["nutrient_density"],
         "helps_with": ["heartburn", "reflux", "indigestion"]
     },
     14: {
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["heartburn", "reflux"]
     },
     15: {
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["heartburn", "reflux"]
     },
     16: {
-        "goal_tags": ["healthy_pregnancy"],
+        "goal_tags": ["nutrient_density"],
         "helps_with": ["heartburn", "indigestion", "reflux"]
     },
     17: {
-        "goal_tags": ["healthy_pregnancy", "ensure_food_safety", "manage_cravings"],
+        "goal_tags": ["nutrient_density", "ensure_food_safety", "manage_cravings"],
         "helps_with": ["cravings", "food_safety_anxiety"]
     },
     18: {
-        "goal_tags": ["healthy_pregnancy", "alcohol_free", "reduce_added_sugar"],
+        "goal_tags": ["nutrient_density", "alcohol_free", "reduce_added_sugar"],
         "helps_with": ["social_pressure", "evening_cravings", "sweet_cravings"]
     },
     19: {
-        "goal_tags": ["healthy_pregnancy", "ensure_food_safety", "manage_cravings"],
+        "goal_tags": ["nutrient_density", "ensure_food_safety", "manage_cravings"],
         "helps_with": ["food_safety_anxiety", "cravings"]
     },
     20: {
-        "goal_tags": ["healthy_pregnancy", "ensure_food_safety", "manage_cravings"],
+        "goal_tags": ["nutrient_density", "ensure_food_safety", "manage_cravings"],
         "helps_with": ["sweet_cravings", "food_safety_anxiety", "cravings"]
     },
     21: {
-        "goal_tags": ["healthy_pregnancy", "reduce_caffeine", "improve_sleep"],
+        "goal_tags": ["nutrient_density", "reduce_caffeine", "improve_sleep"],
         "helps_with": ["jitters", "poor_sleep", "caffeine_dependence"]
     },
     22: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety", "adequate_vitamins"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety", "adequate_vitamins"],
         "helps_with": ["nausea", "vomiting"]
     },
     23: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety", "increase_nutrient_density", "healthy_relationship_with_food"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety", "increase_nutrient_density", "healthy_relationship_with_food"],
         "helps_with": ["nausea", "smell_aversion", "perfectionism", "food_anxiety"]
     },
     24: {
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "adequate_folate", "adequate_iron"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "adequate_folate", "adequate_iron"],
         "helps_with": ["constipation", "anemia_risk"]
     },
     25: {
-        "goal_tags": ["healthy_pregnancy", "adequate_folate", "adequate_fiber", "adequate_protein"],
+        "goal_tags": ["nutrient_density", "adequate_folate", "adequate_fiber", "adequate_protein"],
         "helps_with": ["constipation", "low_energy"]
     },
     26: {
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "increase_nutrient_density"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "increase_nutrient_density"],
         "helps_with": ["constipation"]
     },
     27: {
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "adequate_choline", "increase_satiety"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "adequate_choline", "increase_satiety"],
         "helps_with": ["low_satiety", "low_morning_energy", "hunger"]
     },
     28: {
-        "goal_tags": ["healthy_pregnancy", "adequate_choline"],
+        "goal_tags": ["nutrient_density", "adequate_choline"],
         "helps_with": ["sweet_cravings"]
     },
     29: {
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "adequate_calcium"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "adequate_calcium"],
         "helps_with": ["nausea_aversion_to_meat"]
     },
     30: {
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "increase_satiety"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "increase_satiety"],
         "helps_with": ["energy_crashes", "hunger"]
     },
     31: {
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "increase_satiety"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "increase_satiety"],
         "helps_with": ["hunger", "low_satiety"]
     },
     32: {
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "adequate_iron", "adequate_folate"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "adequate_iron", "adequate_folate"],
         "helps_with": ["anemia_risk", "snack_attacks"]
     },
     33: {
-        "goal_tags": ["healthy_pregnancy", "adequate_iron", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "adequate_iron", "adequate_fiber"],
         "helps_with": ["anemia_risk", "constipation"]
     },
     34: {
-        "goal_tags": ["healthy_pregnancy", "adequate_iron"],
+        "goal_tags": ["nutrient_density", "adequate_iron"],
         "helps_with": ["anemia_risk"]
     },
     35: {
-        "goal_tags": ["healthy_pregnancy", "adequate_iron"],
+        "goal_tags": ["nutrient_density", "adequate_iron"],
         "helps_with": ["anemia_risk"]
     },
     36: {
-        "goal_tags": ["healthy_pregnancy", "adequate_iodine"],
+        "goal_tags": ["nutrient_density", "adequate_iodine"],
         "helps_with": ["chip_cravings", "salty_cravings"]
     },
     37: {
-        "goal_tags": ["healthy_pregnancy", "adequate_iodine", "adequate_omega_3", "adequate_protein"],
+        "goal_tags": ["nutrient_density", "adequate_iodine", "adequate_omega_3", "adequate_protein"],
         "helps_with": ["cravings"]
     },
     38: {
-        "goal_tags": ["healthy_pregnancy", "adequate_folate"],
+        "goal_tags": ["nutrient_density", "adequate_folate"],
         "helps_with": ["low_morning_energy"]
     },
     39: {
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "adequate_fiber"],
         "helps_with": ["sweet_cravings", "constipation"]
     },
     40: {
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "adequate_fiber"],
         "helps_with": ["constipation", "sweet_cravings"]
     },
     41: {
-        "goal_tags": ["healthy_pregnancy", "maintain_stable_blood_sugar", "reduce_ultra_processed_foods"],
+        "goal_tags": ["nutrient_density", "maintain_stable_blood_sugar", "reduce_ultra_processed_foods"],
         "helps_with": ["random_cravings", "energy_crashes", "nausea_from_empty_stomach", "hunger"]
     },
     42: {
-        "goal_tags": ["healthy_pregnancy", "consistent_routines", "budget_friendly_eating"],
+        "goal_tags": ["nutrient_density", "consistent_routines", "budget_friendly_eating"],
         "helps_with": ["decision_fatigue", "low_energy", "budget_constraints"]
     },
     43: {
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated", "increase_nutrient_density", "adequate_protein"],
+        "goal_tags": ["nutrient_density", "stay_hydrated", "increase_nutrient_density", "adequate_protein"],
         "helps_with": ["inconsistency", "forgetfulness"]
     },
     44: {
-        "goal_tags": ["healthy_pregnancy", "increase_nutrient_density", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "increase_nutrient_density", "adequate_fiber"],
         "helps_with": ["constipation", "snacking", "time_pressure"]
     },
     45: {
-        "goal_tags": ["healthy_pregnancy", "consistent_routines", "increase_nutrient_density"],
+        "goal_tags": ["nutrient_density", "consistent_routines", "increase_nutrient_density"],
         "helps_with": ["low_motivation", "lack_of_support", "inconsistency"]
     },
     46: {
-        "goal_tags": ["healthy_pregnancy", "reduce_anxiety"],
+        "goal_tags": ["nutrient_density", "reduce_anxiety"],
         "helps_with": ["nausea_triggers", "reflux", "heartburn"]
     },
     47: {
-        "goal_tags": ["healthy_pregnancy", "manage_cravings", "reduce_ultra_processed_foods"],
+        "goal_tags": ["nutrient_density", "manage_cravings", "reduce_ultra_processed_foods"],
         "helps_with": ["sweet_cravings", "salty_cravings", "binge_eating", "cravings"]
     },
     48: {
-        "goal_tags": ["healthy_pregnancy", "adequate_omega_3", "adequate_choline"],
+        "goal_tags": ["nutrient_density", "adequate_omega_3", "adequate_choline"],
         "helps_with": []
     },
     49: {
-        "goal_tags": ["healthy_pregnancy", "consistent_routines", "increase_nutrient_density"],
+        "goal_tags": ["nutrient_density", "consistent_routines", "increase_nutrient_density"],
         "helps_with": ["decision_fatigue", "smell_aversion", "low_energy"]
     },
     50: {
@@ -221,7 +221,7 @@ tip_updates = {
         "helps_with": ["overeating", "portion_size_issues"]
     },
     53: {
-        "goal_tags": ["stay_hydrated", "manage_cravings", "improve_energy"],
+        "goal_tags": ["increase_hydration", "reduce_cravings", "stable_blood_sugar"],
         "helps_with": ["mindless_eating", "low_energy", "dehydration", "cravings"]
     },
     54: {
@@ -253,7 +253,7 @@ tip_updates = {
         "helps_with": ["decision_fatigue", "time_pressure", "meal_planning_overwhelm"]
     },
     61: {
-        "goal_tags": ["lose_weight", "adequate_protein", "manage_cravings", "improve_energy"],
+        "goal_tags": ["lose_weight", "adequate_protein", "reduce_cravings", "stable_blood_sugar"],
         "helps_with": ["mindless_eating", "sugar_addiction", "hunger", "energy_crashes"]
     },
     62: {

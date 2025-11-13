@@ -18,61 +18,61 @@ tip_comprehensive_tags = {
     1: {
         "context_tags": ["pregnancy", "breastfeeding"],  # Also useful for breastfeeding nausea
         "technique_tags": ["environment_design", "pre_commitment", "choose_healthy_snacks", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["nausea", "vomiting", "odor_triggers", "smell_aversion", "nausea_triggers"]
     },
     2: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["batch_cooking", "pre_commitment", "meal_prep", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["nausea", "vomiting", "dehydration", "decision_fatigue"]
     },
     3: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["batch_cooking", "hydration_first", "meal_prep", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["nausea", "dehydration", "vomiting"]
     },
     4: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["distraction", "environment_design", "cue_removal"],
-        "goal_tags": ["healthy_pregnancy"],
+        "goal_tags": ["nutrient_density"],
         "helps_with": ["nausea", "smell_aversion", "odor_triggers", "heartburn", "nausea_triggers"]
     },
     5: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["healthy_swaps", "hydration_first", "reminder_cues"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["dehydration", "nausea", "smell_aversion"]
     },
     6: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["environment_design", "pre_commitment", "habit_stacking", , "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "consistent_routines"],
+        "goal_tags": ["nutrient_density", "consistent_routines"],
         "helps_with": ["nausea", "nausea_from_empty_stomach", "low_morning_energy"]
     },
     7: {
         "context_tags": ["pregnancy"],
         "technique_tags": [, "pre_commitment", "protein_first", , "late_meal_timing_adjustment"],
-        "goal_tags": ["healthy_pregnancy", "improve_energy", "maintain_stable_blood_sugar", "adequate_protein"],
+        "goal_tags": ["nutrient_density", "stable_blood_sugar", "maintain_stable_blood_sugar", "adequate_protein"],
         "helps_with": ["nausea", "overnight_hunger", "nausea_from_empty_stomach", "blood_sugar_spikes", "energy_crashes"]
     },
     8: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["choose_healthy_snacks", "fiber_first", "increase_fiber"],
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "improve_gut_health"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "improve_gut_health"],
         "helps_with": ["constipation", "bloating"]
     },
     9: {
         "context_tags": ["pregnancy"],
         "technique_tags": [, "fiber_first", "habit_stacking", "increase_fiber"],
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "adequate_omega_3", "improve_gut_health"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "adequate_omega_3", "improve_gut_health"],
         "helps_with": ["constipation", "low_satiety", "bloating"]
     },
     10: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["choose_healthy_snacks", "fiber_first", "increase_fiber"],
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "improve_gut_health"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "improve_gut_health"],
         "helps_with": ["constipation"]
     },
 
@@ -80,61 +80,61 @@ tip_comprehensive_tags = {
     11: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["hydration_first", , "consistent_wake_time"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated", "improve_gut_health", "consistent_routines"],
+        "goal_tags": ["nutrient_density", "stay_hydrated", "improve_gut_health", "consistent_routines"],
         "helps_with": ["constipation", "nausea", "dehydration", "low_morning_energy"]
     },
     12: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["walk_after_meals", "movement_breaks", "neat_boosting"],
-        "goal_tags": ["healthy_pregnancy", "improve_gut_health", "improve_energy", "increase_steps"],
+        "goal_tags": ["nutrient_density", "improve_gut_health", "stable_blood_sugar", "increase_steps"],
         "helps_with": ["constipation", "bloating", "heartburn", "indigestion", "reflux"]
     },
     13: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["distraction", "choose_healthy_snacks", "identify_reflux_triggers"],
-        "goal_tags": ["healthy_pregnancy"],
+        "goal_tags": ["nutrient_density"],
         "helps_with": ["heartburn", "reflux", "indigestion"]
     },
     14: {
         "context_tags": ["pregnancy", "gerd"],
         "technique_tags": ["healthy_swaps", "hydration_first"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["heartburn", "reflux", "indigestion"]
     },
     15: {
         "context_tags": ["pregnancy", "gerd"],
         "technique_tags": ["hydration_first", "identify_reflux_triggers"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated"],
+        "goal_tags": ["nutrient_density", "stay_hydrated"],
         "helps_with": ["heartburn", "reflux"]
     },
     16: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["healthy_swaps"],
-        "goal_tags": ["healthy_pregnancy"],
+        "goal_tags": ["nutrient_density"],
         "helps_with": ["heartburn", "indigestion", "reflux"]
     },
     17: {
         "context_tags": ["pregnancy", "food_allergies"],
         "technique_tags": ["healthy_swaps", "coping_plans", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "ensure_food_safety", "manage_cravings"],
+        "goal_tags": ["nutrient_density", "ensure_food_safety", "manage_cravings"],
         "helps_with": ["cravings", "food_safety_anxiety"]
     },
     18: {
         "context_tags": ["pregnancy", "breastfeeding"],
         "technique_tags": ["healthy_swaps", "environment_design", "temptation_bundling"],
-        "goal_tags": ["healthy_pregnancy", "alcohol_free", "reduce_added_sugar"],
+        "goal_tags": ["nutrient_density", "alcohol_free", "reduce_added_sugar"],
         "helps_with": ["social_pressure", "evening_cravings", "sweet_cravings"]
     },
     19: {
         "context_tags": ["pregnancy", "food_allergies"],
         "technique_tags": ["coping_plans", "pre_commitment", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "ensure_food_safety", "manage_cravings"],
+        "goal_tags": ["nutrient_density", "ensure_food_safety", "manage_cravings"],
         "helps_with": ["food_safety_anxiety", "cravings"]
     },
     20: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["healthy_swaps", "pre_commitment", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "ensure_food_safety", "manage_cravings"],
+        "goal_tags": ["nutrient_density", "ensure_food_safety", "manage_cravings"],
         "helps_with": ["sweet_cravings", "food_safety_anxiety", "cravings"]
     },
 
@@ -142,61 +142,61 @@ tip_comprehensive_tags = {
     21: {
         "context_tags": ["pregnancy", "breastfeeding"],
         "technique_tags": ["healthy_swaps", "caffeine_cutoff", "reduce_caffeine"],
-        "goal_tags": ["healthy_pregnancy", "reduce_caffeine", "improve_sleep"],
+        "goal_tags": ["nutrient_density", "reduce_caffeine", "improve_sleep"],
         "helps_with": ["jitters", "poor_sleep", "caffeine_dependence", "insomnia"]
     },
     22: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["coping_plans", "healthy_swaps"],
-        "goal_tags": ["healthy_pregnancy", "adequate_vitamins"],
+        "goal_tags": ["nutrient_density", "adequate_vitamins"],
         "helps_with": ["nausea", "vomiting"]
     },
     23: {
         "context_tags": ["pregnancy", "food_intolerances"],
         "technique_tags": ["intuitive_eating", "coping_plans", "cognitive_reframing"],
-        "goal_tags": ["healthy_pregnancy", "increase_nutrient_density", "healthy_relationship_with_food"],
+        "goal_tags": ["nutrient_density", "increase_nutrient_density", "healthy_relationship_with_food"],
         "helps_with": ["nausea", "smell_aversion", "perfectionism", "food_anxiety", "all_or_nothing_thinking"]
     },
     24: {
         "context_tags": ["pregnancy"],
         "technique_tags": [, "increase_vegetables", "increase_fiber", "batch_cooking"],
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "adequate_folate", "adequate_iron"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "adequate_folate", "adequate_iron"],
         "helps_with": ["constipation", "anemia_risk"]
     },
     25: {
         "context_tags": ["pregnancy"],
         "technique_tags": [, "increase_vegetables", "increase_fiber", "habit_stacking"],
-        "goal_tags": ["healthy_pregnancy", "adequate_folate", "adequate_fiber", "adequate_protein"],
+        "goal_tags": ["nutrient_density", "adequate_folate", "adequate_fiber", "adequate_protein"],
         "helps_with": ["constipation", "low_energy", "smell_aversion"]
     },
     26: {
         "context_tags": ["pregnancy"],
         "technique_tags": [, "increase_vegetables", "increase_fiber"],
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber", "increase_nutrient_density"],
+        "goal_tags": ["nutrient_density", "adequate_fiber", "increase_nutrient_density"],
         "helps_with": ["constipation", "smell_aversion"]
     },
     27: {
         "context_tags": ["pregnancy"],
         "technique_tags": [, "increase_protein", "protein_first", "protein_at_breakfast"],
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "adequate_choline", "increase_satiety"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "adequate_choline", "increase_satiety"],
         "helps_with": ["low_satiety", "low_morning_energy", "hunger"]
     },
     28: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["meal_prep", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "adequate_choline"],
+        "goal_tags": ["nutrient_density", "adequate_choline"],
         "helps_with": ["sweet_cravings"]
     },
     29: {
         "context_tags": ["pregnancy", "lactose_intolerance"],
         "technique_tags": ["healthy_swaps", "increase_protein", ],
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "adequate_calcium"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "adequate_calcium"],
         "helps_with": ["nausea_aversion_to_meat"]
     },
     30: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["healthy_swaps", "increase_protein", ],
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "increase_satiety"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "increase_satiety"],
         "helps_with": ["energy_crashes", "hunger", "low_satiety"]
     },
 
@@ -204,61 +204,61 @@ tip_comprehensive_tags = {
     31: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["increase_protein", "protein_first", "habit_stacking"],
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "increase_satiety"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "increase_satiety"],
         "helps_with": ["hunger", "low_satiety"]
     },
     32: {
         "context_tags": ["pregnancy", "vegetarian"],
         "technique_tags": ["choose_healthy_snacks", "increase_protein"],
-        "goal_tags": ["healthy_pregnancy", "adequate_protein", "adequate_iron", "adequate_folate"],
+        "goal_tags": ["nutrient_density", "adequate_protein", "adequate_iron", "adequate_folate"],
         "helps_with": ["anemia_risk", "snack_attacks", "hunger"]
     },
     33: {
         "context_tags": ["pregnancy", "vegetarian", "vegan"],
         "technique_tags": ["meal_prep", "batch_cooking", "increase_fiber"],
-        "goal_tags": ["healthy_pregnancy", "adequate_iron", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "adequate_iron", "adequate_fiber"],
         "helps_with": ["anemia_risk", "constipation"]
     },
     34: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["environment_design"],
-        "goal_tags": ["healthy_pregnancy", "adequate_iron"],
+        "goal_tags": ["nutrient_density", "adequate_iron"],
         "helps_with": ["anemia_risk"]
     },
     35: {
         "context_tags": ["pregnancy", "vegetarian", "vegan"],
         "technique_tags": [, "pre_commitment", "low_glycemic_pairing"],
-        "goal_tags": ["healthy_pregnancy", "adequate_iron"],
+        "goal_tags": ["nutrient_density", "adequate_iron"],
         "helps_with": ["anemia_risk"]
     },
     36: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["choose_healthy_snacks"],
-        "goal_tags": ["healthy_pregnancy", "adequate_iodine"],
+        "goal_tags": ["nutrient_density", "adequate_iodine"],
         "helps_with": ["chip_cravings", "salty_cravings"]
     },
     37: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["meal_prep", "pre_commitment", "batch_cooking"],
-        "goal_tags": ["healthy_pregnancy", "adequate_iodine", "adequate_omega_3", "adequate_protein"],
+        "goal_tags": ["nutrient_density", "adequate_iodine", "adequate_omega_3", "adequate_protein"],
         "helps_with": ["cravings"]
     },
     38: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["choose_healthy_breakfasts", "increase_vegetables", "habit_stacking"],
-        "goal_tags": ["healthy_pregnancy", "adequate_folate"],
+        "goal_tags": ["nutrient_density", "adequate_folate"],
         "helps_with": ["low_morning_energy"]
     },
     39: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["healthy_swaps", "increase_fiber"],
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "adequate_fiber"],
         "helps_with": ["sweet_cravings", "constipation"]
     },
     40: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["pre_commitment", "habit_stacking", "increase_fiber", "meal_prep"],
-        "goal_tags": ["healthy_pregnancy", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "adequate_fiber"],
         "helps_with": ["constipation", "sweet_cravings"]
     },
 
@@ -266,55 +266,55 @@ tip_comprehensive_tags = {
     41: {
         "context_tags": ["pregnancy", "travel"],
         "technique_tags": ["pre_commitment", "environment_design", "choose_healthy_snacks", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "maintain_stable_blood_sugar", "reduce_ultra_processed_foods"],
+        "goal_tags": ["nutrient_density", "maintain_stable_blood_sugar", "reduce_ultra_processed_foods"],
         "helps_with": ["random_cravings", "energy_crashes", "nausea_from_empty_stomach", "hunger", "impulse_orders"]
     },
     42: {
         "context_tags": ["pregnancy", "postpartum", "new_parent"],
         "technique_tags": ["batch_cooking", "meal_prep", "pre_commitment", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "consistent_routines", "budget_friendly_eating"],
+        "goal_tags": ["nutrient_density", "consistent_routines", "budget_friendly_eating"],
         "helps_with": ["decision_fatigue", "low_energy", "budget_constraints", "overwhelm"]
     },
     43: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["gamification", "self_monitoring", "visual_habit_tracker"],
-        "goal_tags": ["healthy_pregnancy", "stay_hydrated", "increase_nutrient_density", "adequate_protein"],
+        "goal_tags": ["nutrient_density", "stay_hydrated", "increase_nutrient_density", "adequate_protein"],
         "helps_with": ["inconsistency", "forgetfulness", "low_motivation"]
     },
     44: {
         "context_tags": ["pregnancy", "heavy_workload"],
         "technique_tags": ["environment_design", "pre_commitment", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "increase_nutrient_density", "adequate_fiber"],
+        "goal_tags": ["nutrient_density", "increase_nutrient_density", "adequate_fiber"],
         "helps_with": ["constipation", "snacking", "time_pressure", "decision_fatigue"]
     },
     45: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["accountability_partner", "body_doubling", ],
-        "goal_tags": ["healthy_pregnancy", "consistent_routines", "increase_nutrient_density"],
+        "goal_tags": ["nutrient_density", "consistent_routines", "increase_nutrient_density"],
         "helps_with": ["low_motivation", "lack_of_support", "inconsistency"]
     },
     46: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["self_monitoring", "habit_reflection", "identify_reflux_triggers"],
-        "goal_tags": ["healthy_pregnancy"],
+        "goal_tags": ["nutrient_density"],
         "helps_with": ["nausea_triggers", "reflux", "heartburn", "odor_triggers"]
     },
     47: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["healthy_swaps", "coping_plans", "cognitive_reframing"],
-        "goal_tags": ["healthy_pregnancy", "manage_cravings", "reduce_ultra_processed_foods"],
+        "goal_tags": ["nutrient_density", "manage_cravings", "reduce_ultra_processed_foods"],
         "helps_with": ["sweet_cravings", "salty_cravings", "binge_eating", "cravings", "chip_cravings"]
     },
     48: {
         "context_tags": ["pregnancy", "vegetarian", "vegan", "food_allergies"],
         "technique_tags": ["healthy_swaps", "pre_commitment", ],
-        "goal_tags": ["healthy_pregnancy", "adequate_omega_3", "adequate_choline"],
+        "goal_tags": ["nutrient_density", "adequate_omega_3", "adequate_choline"],
         "helps_with": []
     },
     49: {
         "context_tags": ["pregnancy"],
         "technique_tags": ["habit_menu", "pre_commitment", "pre_commitment"],
-        "goal_tags": ["healthy_pregnancy", "consistent_routines", "increase_nutrient_density"],
+        "goal_tags": ["nutrient_density", "consistent_routines", "increase_nutrient_density"],
         "helps_with": ["decision_fatigue", "smell_aversion", "low_energy", "perfectionism"]
     },
 
@@ -340,7 +340,7 @@ tip_comprehensive_tags = {
     53: {
         "context_tags": [],
         "technique_tags": ["habit_stacking", "hydration_first", "reminder_cues", "reminder_cues"],
-        "goal_tags": ["stay_hydrated", "manage_cravings", "improve_energy"],
+        "goal_tags": ["stay_hydrated", "manage_cravings", "stable_blood_sugar"],
         "helps_with": ["mindless_eating", "low_energy", "dehydration", "cravings", "hunger"]
     },
     54: {
@@ -390,7 +390,7 @@ tip_comprehensive_tags = {
     61: {
         "context_tags": [],
         "technique_tags": ["protein_at_breakfast", "protein_first", "increase_protein", ],
-        "goal_tags": ["lose_weight", "adequate_protein", "manage_cravings", "improve_energy"],
+        "goal_tags": ["lose_weight", "adequate_protein", "manage_cravings", "stable_blood_sugar"],
         "helps_with": ["mindless_eating", "sugar_addiction", "hunger", "energy_crashes", "afternoon_slump"]
     },
     62: {

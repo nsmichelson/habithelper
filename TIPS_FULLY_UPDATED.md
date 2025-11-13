@@ -18,7 +18,7 @@ Total Tips: 118
 • If strong ginger is too spicy, try milder ginger drops.
 • Start with small amounts and see what your stomach tolerates.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety, stay_hydrated
+**Goal Tags:** nutrient_density, reduce_anxiety, stay_hydrated
 
 **Helps With:** nausea, vomiting, odor_triggers, smell_aversion
 
@@ -42,7 +42,7 @@ Total Tips: 118
 • Freeze in an ice cube tray and store in a zip bag.
 • Use 1–2 cubes in hot water or suck a cube if cold helps.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety, stay_hydrated
+**Goal Tags:** nutrient_density, reduce_anxiety, stay_hydrated
 
 **Helps With:** nausea, vomiting, dehydration
 
@@ -66,7 +66,7 @@ Total Tips: 118
 • Freeze in trays; keep a bag in the freezer.
 • Use during commutes or morning routines.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety, stay_hydrated
+**Goal Tags:** nutrient_density, reduce_anxiety, stay_hydrated
 
 **Helps With:** nausea, dehydration, vomiting
 
@@ -90,7 +90,7 @@ Total Tips: 118
 • Try sugar-free gum if managing blood sugar or dental health.
 • Use before entering strong-smell environments.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety
+**Goal Tags:** nutrient_density, reduce_anxiety
 
 **Helps With:** nausea, smell_aversion, odor_triggers, heartburn
 
@@ -114,7 +114,7 @@ Total Tips: 118
 • Try flavored ice cubes (juice + water).
 • Use a straw if that makes sipping easier.
 
-**Goal Tags:** healthy_pregnancy, stay_hydrated, reduce_anxiety
+**Goal Tags:** nutrient_density, stay_hydrated, reduce_anxiety
 
 **Helps With:** dehydration, nausea
 
@@ -138,7 +138,7 @@ Total Tips: 118
 • Nibble slowly and wait 5–10 minutes before standing.
 • Keep a small water bottle nearby for sips.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety, consistent_routines
+**Goal Tags:** nutrient_density, reduce_anxiety, consistent_routines
 
 **Helps With:** nausea, nausea_from_empty_stomach, low_morning_energy
 
@@ -162,7 +162,7 @@ Total Tips: 118
 • Keep portions small to prevent reflux.
 • Pair with a few crackers if needed.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety, improve_energy, maintain_stable_blood_sugar
+**Goal Tags:** nutrient_density, reduce_anxiety, stable_blood_sugar
 
 **Helps With:** nausea, overnight_hunger, nausea_from_empty_stomach, blood_sugar_spikes
 
@@ -186,7 +186,7 @@ Total Tips: 118
 • Combine with water to boost effect.
 • Rotate fruits to keep it enjoyable.
 
-**Goal Tags:** healthy_pregnancy, adequate_fiber, improve_gut_health
+**Goal Tags:** nutrient_density, adequate_fiber, improve_gut_health
 
 **Helps With:** constipation, bloating
 
@@ -210,7 +210,7 @@ Total Tips: 118
 • Drink water with added fiber.
 • Store ground flax in the fridge.
 
-**Goal Tags:** healthy_pregnancy, adequate_fiber, adequate_omega_3, improve_gut_health
+**Goal Tags:** nutrient_density, adequate_fiber, adequate_omega_3, improve_gut_health
 
 **Helps With:** constipation, low_satiety, bloating
 
@@ -234,7 +234,7 @@ Total Tips: 118
 • Pair with yogurt or cereal for a quick snack.
 • Choose golden kiwi if you prefer milder flavor.
 
-**Goal Tags:** healthy_pregnancy, adequate_fiber, improve_gut_health
+**Goal Tags:** nutrient_density, adequate_fiber, improve_gut_health
 
 **Helps With:** constipation
 
@@ -258,7 +258,7 @@ Total Tips: 118
 • Try warm prune juice for extra effect.
 • Pair with light stretching.
 
-**Goal Tags:** healthy_pregnancy, stay_hydrated, improve_gut_health, consistent_routines
+**Goal Tags:** nutrient_density, stay_hydrated, improve_gut_health, consistent_routines
 
 **Helps With:** constipation, nausea, dehydration
 
@@ -282,7 +282,7 @@ Total Tips: 118
 • Invite a partner/friend for accountability.
 • Skip right before bed if reflux is an issue—finish 2–3 hours before sleep.
 
-**Goal Tags:** healthy_pregnancy, improve_gut_health, improve_energy, increase_steps
+**Goal Tags:** nutrient_density, improve_gut_health, increase_steps
 
 **Helps With:** constipation, bloating, heartburn, indigestion
 
@@ -306,7 +306,7 @@ Total Tips: 118
 • Chew 10–20 minutes after meals.
 • Pair with staying upright for at least an hour.
 
-**Goal Tags:** healthy_pregnancy
+**Goal Tags:** nutrient_density
 
 **Helps With:** heartburn, reflux, indigestion
 
@@ -330,7 +330,7 @@ Total Tips: 118
 • Rinse mouth after to protect enamel.
 • Stop if it worsens symptoms.
 
-**Goal Tags:** healthy_pregnancy, stay_hydrated
+**Goal Tags:** nutrient_density, stay_hydrated
 
 **Helps With:** heartburn, reflux
 
@@ -354,7 +354,7 @@ Total Tips: 118
 • Avoid near toothbrushing to protect enamel.
 • Prefer warm over cold if cold triggers cramps.
 
-**Goal Tags:** healthy_pregnancy, stay_hydrated
+**Goal Tags:** nutrient_density, stay_hydrated
 
 **Helps With:** heartburn, reflux
 
@@ -378,7 +378,7 @@ Total Tips: 118
 • Use after meals that tend to trigger heartburn.
 • Discuss with your provider if unsure.
 
-**Goal Tags:** healthy_pregnancy
+**Goal Tags:** nutrient_density
 
 **Helps With:** heartburn, indigestion, reflux
 
@@ -402,7 +402,7 @@ Total Tips: 118
 • Make sushi bowls at home with nori strips and cooked fillings.
 • Use low‑sodium soy sauce and plenty of ginger/wasabi for the vibe.
 
-**Goal Tags:** healthy_pregnancy, ensure_food_safety, manage_cravings
+**Goal Tags:** nutrient_density, ensure_food_safety, manage_cravings
 
 **Helps With:** cravings, food_safety_anxiety
 
@@ -426,7 +426,7 @@ Total Tips: 118
 • Garnish (citrus, herbs) to make it feel special.
 • Use unsweetened juices if watching sugar.
 
-**Goal Tags:** healthy_pregnancy, alcohol_free, reduce_added_sugar
+**Goal Tags:** nutrient_density, alcohol_free, reduce_added_sugar
 
 **Helps With:** social_pressure, evening_cravings, sweet_cravings
 
@@ -450,7 +450,7 @@ Total Tips: 118
 • At home, microwave meat 30–60 seconds until steaming.
 • Use pasteurized cheeses and add veggies for crunch.
 
-**Goal Tags:** healthy_pregnancy, ensure_food_safety, manage_cravings
+**Goal Tags:** nutrient_density, ensure_food_safety, manage_cravings
 
 **Helps With:** food_safety_anxiety, cravings
 
@@ -474,7 +474,7 @@ Total Tips: 118
 • DIY: bake flour 5–10 min at ~350°F; omit eggs.
 • Portion a spoonful into yogurt or freeze as bites.
 
-**Goal Tags:** healthy_pregnancy, ensure_food_safety, manage_cravings
+**Goal Tags:** nutrient_density, ensure_food_safety, manage_cravings
 
 **Helps With:** sweet_cravings, food_safety_anxiety, cravings
 
@@ -498,7 +498,7 @@ Total Tips: 118
 • Order half‑caff lattes or decaf at cafés.
 • Track total caffeine from tea/chocolate/cola.
 
-**Goal Tags:** healthy_pregnancy, reduce_caffeine, improve_sleep
+**Goal Tags:** nutrient_density, reduce_caffeine, improve_sleep
 
 **Helps With:** jitters, poor_sleep, caffeine_dependence
 
@@ -522,7 +522,7 @@ Total Tips: 118
 • Keep focusing on folate‑rich foods meanwhile.
 • Resume a full prenatal as soon as tolerated.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety, adequate_vitamins
+**Goal Tags:** nutrient_density, reduce_anxiety, adequate_vitamins
 
 **Helps With:** nausea, vomiting
 
@@ -546,7 +546,7 @@ Total Tips: 118
 • Add a prenatal and 'gap' foods like choline‑rich eggs when possible.
 • Re‑test veggies later in tiny portions.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety, increase_nutrient_density, healthy_relationship_with_food
+**Goal Tags:** nutrient_density, reduce_anxiety, increase_nutrient_density, healthy_relationship_with_food
 
 **Helps With:** nausea, smell_aversion, perfectionism, food_anxiety
 
@@ -570,7 +570,7 @@ Total Tips: 118
 • Blend smooth; freeze portions for later.
 • Season boldly (garlic, herbs) to keep it craveable.
 
-**Goal Tags:** healthy_pregnancy, adequate_fiber, adequate_folate, adequate_iron
+**Goal Tags:** nutrient_density, adequate_fiber, adequate_folate, adequate_iron
 
 **Helps With:** constipation, anemia_risk
 
@@ -594,7 +594,7 @@ Total Tips: 118
 • Add Greek yogurt or protein powder for staying power.
 • Prep freezer smoothie kits on weekends.
 
-**Goal Tags:** healthy_pregnancy, adequate_folate, adequate_fiber, adequate_protein
+**Goal Tags:** nutrient_density, adequate_folate, adequate_fiber, adequate_protein
 
 **Helps With:** constipation, low_energy
 
@@ -618,7 +618,7 @@ Total Tips: 118
 • Mash with potatoes, butter, and seasonings.
 • Try the same trick in mac‑and‑cheese sauces.
 
-**Goal Tags:** healthy_pregnancy, adequate_fiber, increase_nutrient_density
+**Goal Tags:** nutrient_density, adequate_fiber, increase_nutrient_density
 
 **Helps With:** constipation
 
@@ -642,7 +642,7 @@ Total Tips: 118
 • Cook until thick and no liquid egg remains.
 • Top with fruit/nut butter for balance.
 
-**Goal Tags:** healthy_pregnancy, adequate_protein, adequate_choline, increase_satiety
+**Goal Tags:** nutrient_density, adequate_protein, adequate_choline, increase_satiety
 
 **Helps With:** low_satiety, low_morning_energy, hunger
 
@@ -666,7 +666,7 @@ Total Tips: 118
 • Chill for a few hours before serving.
 • Top with berries for freshness.
 
-**Goal Tags:** healthy_pregnancy, adequate_choline
+**Goal Tags:** nutrient_density, adequate_choline
 
 **Helps With:** sweet_cravings
 
@@ -690,7 +690,7 @@ Total Tips: 118
 • Pair cheese with fruit or whole‑grain crackers.
 • Use high‑protein milk in oats/smoothies.
 
-**Goal Tags:** healthy_pregnancy, adequate_protein, adequate_calcium
+**Goal Tags:** nutrient_density, adequate_protein, adequate_calcium
 
 **Helps With:** nausea_aversion_to_meat
 
@@ -714,7 +714,7 @@ Total Tips: 118
 • Pick cereals with ≥10g protein per serving.
 • Rotate options to prevent taste fatigue.
 
-**Goal Tags:** healthy_pregnancy, adequate_protein, increase_satiety
+**Goal Tags:** nutrient_density, adequate_protein, increase_satiety
 
 **Helps With:** energy_crashes, hunger
 
@@ -738,7 +738,7 @@ Total Tips: 118
 • Blend into smoothies or stir into warm oats.
 • Adjust liquid for desired texture.
 
-**Goal Tags:** healthy_pregnancy, adequate_protein, increase_satiety
+**Goal Tags:** nutrient_density, adequate_protein, increase_satiety
 
 **Helps With:** hunger, low_satiety
 
@@ -762,7 +762,7 @@ Total Tips: 118
 • Portion into small bowls to grab‑and‑go.
 • Add chili flakes or lemon if you like.
 
-**Goal Tags:** healthy_pregnancy, adequate_protein, adequate_iron, adequate_folate
+**Goal Tags:** nutrient_density, adequate_protein, adequate_iron, adequate_folate
 
 **Helps With:** anemia_risk, snack_attacks
 
@@ -786,7 +786,7 @@ Total Tips: 118
 • Batch on Sunday; use all week.
 • Add tahini for creaminess if you like.
 
-**Goal Tags:** healthy_pregnancy, adequate_iron, adequate_fiber
+**Goal Tags:** nutrient_density, adequate_iron, adequate_fiber
 
 **Helps With:** anemia_risk, constipation
 
@@ -810,7 +810,7 @@ Total Tips: 118
 • Avoid storing leftovers in cast iron.
 • Pair with vitamin C‑rich sides for better absorption.
 
-**Goal Tags:** healthy_pregnancy, adequate_iron
+**Goal Tags:** nutrient_density, adequate_iron
 
 **Helps With:** anemia_risk
 
@@ -834,7 +834,7 @@ Total Tips: 118
 • Have strawberries with fortified cereal.
 • Take iron 1–2 hours away from dairy/coffee/tea.
 
-**Goal Tags:** healthy_pregnancy, adequate_iron
+**Goal Tags:** nutrient_density, adequate_iron
 
 **Helps With:** anemia_risk
 
@@ -858,7 +858,7 @@ Total Tips: 118
 • Check labels; avoid high‑dose kelp supplements.
 • Pair with cooked rice/avocado for a mini 'sushi' bite.
 
-**Goal Tags:** healthy_pregnancy, adequate_iodine
+**Goal Tags:** nutrient_density, adequate_iodine
 
 **Helps With:** chip_cravings, salty_cravings
 
@@ -882,7 +882,7 @@ Total Tips: 118
 • Lay out fillings and roll like a taco.
 • Serve with soy sauce and pickled ginger.
 
-**Goal Tags:** healthy_pregnancy, adequate_iodine, adequate_omega_3, adequate_protein
+**Goal Tags:** nutrient_density, adequate_iodine, adequate_omega_3, adequate_protein
 
 **Helps With:** cravings
 
@@ -906,7 +906,7 @@ Total Tips: 118
 • Sprinkle seeds for extra fiber.
 • Squeeze lemon if tolerated.
 
-**Goal Tags:** healthy_pregnancy, adequate_folate
+**Goal Tags:** nutrient_density, adequate_folate
 
 **Helps With:** low_morning_energy
 
@@ -930,7 +930,7 @@ Total Tips: 118
 • Add cocoa and ice for a 'chocolate shake'.
 • Adjust dates to taste if very sweet.
 
-**Goal Tags:** healthy_pregnancy, adequate_fiber
+**Goal Tags:** nutrient_density, adequate_fiber
 
 **Helps With:** sweet_cravings, constipation
 
@@ -954,7 +954,7 @@ Total Tips: 118
 • Add to oatmeal or blend into smoothies.
 • Spread intake across the day.
 
-**Goal Tags:** healthy_pregnancy, adequate_fiber
+**Goal Tags:** nutrient_density, adequate_fiber
 
 **Helps With:** constipation, sweet_cravings
 
@@ -978,7 +978,7 @@ Total Tips: 118
 • Keep another kit in your car/desk.
 • Add a small water bottle to the kit.
 
-**Goal Tags:** healthy_pregnancy, maintain_stable_blood_sugar, reduce_ultra_processed_foods
+**Goal Tags:** nutrient_density, maintain_stable_blood_sugar, reduce_ultra_processed_foods
 
 **Helps With:** random_cravings, energy_crashes, nausea_from_empty_stomach, hunger
 
@@ -1002,7 +1002,7 @@ Total Tips: 118
 • Freeze flat in bags for quick thawing.
 • Keep a 'freezer menu' list on the fridge.
 
-**Goal Tags:** healthy_pregnancy, consistent_routines, budget_friendly_eating
+**Goal Tags:** nutrient_density, consistent_routines, budget_friendly_eating
 
 **Helps With:** decision_fatigue, low_energy, budget_constraints
 
@@ -1026,7 +1026,7 @@ Total Tips: 118
 • Celebrate streaks; keep goals gentle.
 • Reset weekly if you miss—no guilt.
 
-**Goal Tags:** healthy_pregnancy, stay_hydrated, increase_nutrient_density, adequate_protein
+**Goal Tags:** nutrient_density, stay_hydrated, increase_nutrient_density, adequate_protein
 
 **Helps With:** inconsistency, forgetfulness
 
@@ -1050,7 +1050,7 @@ Total Tips: 118
 • Keep frozen veg for quick steam‑in‑bag sides.
 • Wash grapes/berries as soon as you get home.
 
-**Goal Tags:** healthy_pregnancy, increase_nutrient_density, adequate_fiber
+**Goal Tags:** nutrient_density, increase_nutrient_density, adequate_fiber
 
 **Helps With:** constipation, snacking, time_pressure
 
@@ -1074,7 +1074,7 @@ Total Tips: 118
 • Cheer small wins; no food policing.
 • Share 1 recipe each week.
 
-**Goal Tags:** healthy_pregnancy, consistent_routines, increase_nutrient_density
+**Goal Tags:** nutrient_density, consistent_routines, increase_nutrient_density
 
 **Helps With:** low_motivation, lack_of_support, inconsistency
 
@@ -1098,7 +1098,7 @@ Total Tips: 118
 • Mark heartburn nights and what you ate before.
 • Use findings to make simple swaps next week.
 
-**Goal Tags:** healthy_pregnancy, reduce_anxiety
+**Goal Tags:** nutrient_density, reduce_anxiety
 
 **Helps With:** nausea_triggers, reflux, heartburn
 
@@ -1122,7 +1122,7 @@ Total Tips: 118
 • Test 2–3 alternatives and rate satisfaction.
 • Keep your favorite swap stocked.
 
-**Goal Tags:** healthy_pregnancy, manage_cravings, reduce_ultra_processed_foods
+**Goal Tags:** nutrient_density, manage_cravings, reduce_ultra_processed_foods
 
 **Helps With:** sweet_cravings, salty_cravings, binge_eating, cravings
 
@@ -1146,7 +1146,7 @@ Total Tips: 118
 • Use omega‑3 eggs in fully cooked dishes.
 • Ask your provider about algae‑based DHA if needed.
 
-**Goal Tags:** healthy_pregnancy, adequate_omega_3, adequate_choline
+**Goal Tags:** nutrient_density, adequate_omega_3, adequate_choline
 
 **Helps With:** 
 
@@ -1170,7 +1170,7 @@ Total Tips: 118
 • Batch prep ingredients to reduce effort.
 • Rotate sides/sauces to prevent boredom.
 
-**Goal Tags:** healthy_pregnancy, consistent_routines, increase_nutrient_density
+**Goal Tags:** nutrient_density, consistent_routines, increase_nutrient_density
 
 **Helps With:** decision_fatigue, smell_aversion, low_energy
 
@@ -1259,7 +1259,7 @@ Total Tips: 118
 • The cue is the action of picking up or looking at your phone.[10]
 • Don't worry about big gulps; small, consistent sips add up.
 
-**Goal Tags:** stay_hydrated, manage_cravings, improve_energy
+**Goal Tags:** increase_hydration, reduce_cravings, stable_blood_sugar
 
 **Helps With:** mindless_eating, low_energy, dehydration, cravings
 
@@ -1435,7 +1435,7 @@ Total Tips: 118
 • Add a scoop of protein powder or a tablespoon of peanut butter to your oatmeal.[3]
 • Top high-protein frozen waffles with nuts and berries.[1]
 
-**Goal Tags:** lose_weight, adequate_protein, manage_cravings, improve_energy
+**Goal Tags:** lose_weight, adequate_protein, reduce_cravings, stable_blood_sugar
 
 **Helps With:** mindless_eating, sugar_addiction, hunger, energy_crashes
 
