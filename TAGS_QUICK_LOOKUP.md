@@ -2,61 +2,43 @@
 
 ## All Unique Tag Values by Field
 
-### GOAL Tags (62 total across all areas)
+### GOAL Tags (61 total across all areas)
 
-**Core consistency goals** (found across multiple areas):
-- better_habits, build_healthy_habits, maintain_consistency
+**Consistency & progression (movement/behavior)**:
+- increase_activity_consistency, increase_steps, build_strength, improve_cardio_fitness, injury_prevention, train_for_event
 
-**Performance/capability goals**:
-- endurance_performance, strength_performance, increased_productivity, task_system_mastery
+**Nutrition sufficiency & moderation**:
+- reduce_ultra_processed, reduce_sugar, portion_control, nutrient_density, increase_hydration, meal_prep, produce_priority, reduce_nausea
 
-**Health/nutrition specific**:
-- alcohol_free, beverage_boundaries, craving_management, craving_satisfaction
-- healthy_snacking, improve_gut_health, increase_fiber, increase_hydration
-- increase_vegetables, mindful_eating, nutrient_density, portion_control
-- produce_priority, protein_intake, reduce_cravings, reduce_sugar
-- reduce_ultra_processed, stable_blood_sugar, treat_environment_design
+**Organization & productivity systems**:
+- declutter_momentum, organize_workspace, task_system_mastery, meet_deadlines, stress_free_environment, morning_routine, paper_management
 
-**Wellness/energy**:
-- better_sleep, improve_energy
+**Wellness, energy, & regulation**:
+- better_sleep, improve_energy, stable_blood_sugar, stress_coping_plan, safety_building, support_heart_health, move_pain_free
 
-**Stress/emotion management**:
-- stress_coping_plan, stress_distraction_tool, stress_reset_routine, mindset_shift
-
-**Productivity/organization**:
-- declutter_momentum, meet_deadlines, morning_routine, organize_workspace
-- paper_management, reduce_distractions, stress_free_environment
-
-**Relationship specific**:
-- comfort, self_awareness, consistency
+**Relationship persona goals**:
+- better_communication, conflict_resolution, emotional_intimacy, daily_connection, boundaries, repair, self_trust, quality_time
 
 ---
 
-### EFFORT Tags (5 unique)
+### EFFORT Tags (4 qualitative levels)
 
-- minimal (universal)
-- low (universal)
-- medium (nutrition only)
-- moderate (exercise, productivity)
+- `minimal` – universal micro-actions
+- `low` – slightly more setup, still approachable in all areas
+- `medium` – nutrition-only prep (longer cooking or planning tasks)
+- `moderate` – reserved for deeper exercise or productivity sessions
 
-**Recommendation**: Use minimal/low for quick-win tips, medium/moderate for tips requiring more dedicated effort.
+**Recommendation**: Default to `minimal`/`low` for onboarding flows; expose `medium`/`moderate` as optional filters for users seeking stretch experiments.
 
 ---
 
-### TIME Tags (7 unique)
+### TIME Tags (standardized)
 
-Quick engagement:
-- 0-5min (universal)
-- 5-15min (universal)
-
-Medium commitment:
-- 15-30min (nutrition, organization, productivity)
-- 30-45min (nutrition only)
-- 30-60min (nutrition, organization, productivity)
-
-Open-ended:
-- ongoing (productivity)
-- planning (nutrition)
+- `0-5` (universal micro-actions)
+- `5-15` (universal short sessions)
+- `15-30` (nutrition, organization, productivity, relationships persona rituals)
+- `30-60` (nutrition batch prep, deeper organization/productivity cleanups, extended relationship rituals)
+- `60+` (nutrition-only legacy "planning" tasks now mapped here)
 
 ---
 
@@ -114,32 +96,19 @@ Frequency expectations:
 
 ---
 
-### EFFORT Tags (5 unique)
+### FEATURE Tags (highlighted clusters)
 
-- minimal (all areas)
-- low (all areas)
-- medium (nutrition)
-- moderate (exercise, productivity)
+**Universal accessibility**:
+- `chaos_proof`, `no_planning`, `solo_friendly`, `impulse_friendly`
 
----
+**Exercise access add-ons**:
+- `family_friendly`, `kid_approved`, `group_activity`
 
-### FEATURE Tags (13 unique)
+**Nutrition care filters**:
+- `diet_trauma_safe`, `not_diety`, `partner_resistant_ok`, `impulse_friendly`, `family_friendly`
 
-**Universal accessibility features** (all areas):
-- chaos_proof - designed to work even in chaotic situations
-- impulse_friendly - can be done on a whim
-- no_planning - doesn't require advance planning
-- solo_friendly - can be done alone
-
-**Exercise specific**:
-- family_friendly
-- group_activity
-- kid_approved
-
-**Nutrition specific**:
-- diet_trauma_safe - safe for people with eating disorder history
-- not_diety - doesn't feel restrictive or diet-like
-- partner_resistant_ok - works even if partner isn't participating
+**Relationship rituals & tools**:
+- `communication_tool`, `connection_builder`, `appreciation_ritual`, `boundary_tool`, `remote_friendly`, `stress_relief`, `daily_ritual`, `work_transition`
 
 ---
 

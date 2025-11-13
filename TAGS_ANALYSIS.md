@@ -5,19 +5,19 @@
 ### GOALS Tags
 
 #### Exercise
-6 unique goals focused on physical performance and consistency
+10 specific goals now emphasize measurable outcomes such as `increase_activity_consistency`, `increase_steps`, `build_strength`, and `improve_cardio_fitness`.
 
 #### Nutrition (largest set)
-28 unique goals - most comprehensive goal set, covering prevention (reduce_sugar, reduce_ultra_processed), supplementation (protein_intake, increase_fiber), and mindset (mindful_eating, craving_management)
+28 goals remain the most comprehensive suite, spanning prevention (`reduce_ultra_processed`, `reduce_sugar`), sufficiency (`increase_hydration`, `nutrient_density`), and coping (`stress_coping_plan`, `reduce_nausea`).
 
 #### Organization
-11 unique goals - productivity focused
+10 focused goals highlight workspace control (`organize_workspace`), flow (`task_system_mastery`), and environmental calm (`stress_free_environment`).
 
 #### Productivity
-13 unique goals - mix of productivity (meet_deadlines, organize_workspace) and self-care (better_sleep)
+10 intent-driven goals balance execution (`meet_deadlines`, `reduce_distractions`) with resilience (`morning_routine`, `better_sleep`).
 
 #### Relationships
-4 unique goals - small, focused set (self_awareness, better_habits, consistency, comfort)
+Persona playbook expansion delivers 10 nuanced goals (`better_communication`, `conflict_resolution`, `emotional_intimacy`, `boundaries`, `repair`, etc.), retiring legacy umbrellas like `better_habits`.
 
 ---
 
@@ -65,25 +65,24 @@ Plus environmental (environment_design, stimulus_control) and mindfulness approa
 - partner_resistant_ok
 These suggest sensitive user considerations
 
-#### Organization, Productivity, Relationships
-4 features each - all focus on accessibility:
-- chaos_proof
-- impulse_friendly
-- no_planning
-- solo_friendly
+#### Organization & Productivity
+Four accessibility anchors dominate (`chaos_proof`, `no_planning`, `solo_friendly`, `impulse_friendly`) to keep workflow experiments frictionless.
+
+#### Relationships (persona playbook)
+Expanded features spotlight connection rituals and safety supports such as `communication_tool`, `connection_builder`, `appreciation_ritual`, `boundary_tool`, `remote_friendly`, and `stress_relief` alongside the universal `chaos_proof`/`no_planning` baseline.
 
 ---
 
 ### EFFORT Tags
 
 | Level | Exercise | Nutrition | Organization | Productivity | Relationships |
-|-------|----------|-----------|---------------|--------------|---|
-| minimal | Y | Y | Y | Y | Y |
-| low | Y | Y | Y | Y | Y |
-| medium | - | Y | - | - | - |
-| moderate | Y | - | - | Y | - |
+|-------|----------|-----------|---------------|--------------|-------------|
+| minimal | ✓ | ✓ | ✓ | ✓ | ✓ |
+| low | ✓ | ✓ | ✓ | ✓ | ✓ |
+| medium | – | ✓ | – | – | – |
+| moderate | ✓ | – | – | ✓ | – |
 
-**Observation**: Nutrition is the only area using "medium" effort. Exercise and productivity offer "moderate" options but nutrition uses "medium".
+**Observation**: Nutrition is the only area still using the `medium` label; Exercise and Productivity reserve higher load experiments under `moderate`, while Relationships stay within minimal/low.
 
 ---
 
@@ -104,16 +103,14 @@ These suggest sensitive user considerations
 ### TIME Tags
 
 | Duration | Exercise | Nutrition | Organization | Productivity | Relationships |
-|----------|----------|-----------|---------------|--------------|---|
-| 0-5min | Y | Y | Y | Y | Y |
-| 5-15min | Y | Y | Y | Y | Y |
-| 15-30min | - | Y | Y | Y | - |
-| 30-45min | - | Y | - | - | - |
-| 30-60min | - | Y | Y | Y | - |
-| ongoing | - | - | - | Y | - |
-| planning | - | Y | - | - | - |
+|----------|----------|-----------|---------------|--------------|-------------|
+| 0-5 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 5-15 | ✓ | ✓ | ✓ | ✓ | ✓ |
+| 15-30 | – | ✓ | ✓ | ✓ | ✓ |
+| 30-60 | – | ✓ | ✓ | ✓ | ✓ |
+| 60+ | – | ✓ (planned meal preps) | – | – | – |
 
-**Observation**: Exercise and Relationships are the quickest (0-5min, 5-15min only). Nutrition and Productivity offer the most time flexibility.
+**Observation**: Exercise remains the quickest category (0-15 minute loops). Relationships now borrow longer persona rituals (15-60 minutes) while Nutrition retains the widest range, with `60+` covering batch-prep experiments mapped from legacy planning tasks.
 
 ---
 
