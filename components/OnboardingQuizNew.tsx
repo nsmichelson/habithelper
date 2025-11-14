@@ -219,6 +219,7 @@ export default function OnboardingQuizNew({
         questionId,
         values
       })));
+      await StorageService.setOnboardingCompleted(true);
     }
 
     onComplete(profile);
