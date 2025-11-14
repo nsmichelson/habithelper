@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SIMPLIFIED_TIPS } from '@/data/simplifiedTips';
 import { UserProfile, DailyTip, TipAttempt } from '../types/tip';
 import { QuizResponse } from '../types/quiz';
 import { TestProfileDefinition } from '../types/testProfile';
@@ -16,6 +17,10 @@ const STORAGE_KEYS = {
 } as const;
 
 class StorageService {
+  private static readonly KNOWN_TIP_IDS = new Set(
+    SIMPLIFIED_TIPS.map(tip => tip.tip_id)
+  );
+
   // User Profile
   async getUserProfile(): Promise<UserProfile | null> {
     try {
@@ -73,8 +78,8 @@ class StorageService {
       // Remove duplicates by keeping only the latest entry for each tip_id on each day
       const uniqueTips = parsedTips.reduce((acc: DailyTip[], tip: DailyTip) => {
         const tipDate = new Date(tip.presented_date).toDateString();
-        const existingIndex = acc.findIndex(t => 
-          t.tip_id === tip.tip_id && 
+        const existingIndex = acc.findIndex(t =>
+          t.tip_id === tip.tip_id &&
           new Date(t.presented_date).toDateString() === tipDate
         );
         
@@ -90,15 +95,33 @@ class StorageService {
         
         return acc;
       }, []);
-      
+
       // If we removed duplicates, save the cleaned data
       if (uniqueTips.length < parsedTips.length) {
         await AsyncStorage.setItem(STORAGE_KEYS.DAILY_TIPS, JSON.stringify(uniqueTips));
         console.log(`Cleaned up ${parsedTips.length - uniqueTips.length} duplicate daily tips`);
       }
-      
-      console.log('💾 STORAGE: getDailyTips - Returning', uniqueTips.length, 'unique tips');
-      return uniqueTips;
+
+      // Filter out any tips that reference IDs no longer present in the catalogue
+      const invalidTipIds: string[] = [];
+      const validTips = uniqueTips.filter(tip => {
+        const isKnown = StorageService.KNOWN_TIP_IDS.has(tip.tip_id);
+        if (!isKnown) {
+          invalidTipIds.push(tip.tip_id);
+        }
+        return isKnown;
+      });
+
+      if (invalidTipIds.length > 0) {
+        console.warn(
+          `💾 STORAGE: Removed ${invalidTipIds.length} daily tips referencing missing IDs`,
+          invalidTipIds
+        );
+        await AsyncStorage.setItem(STORAGE_KEYS.DAILY_TIPS, JSON.stringify(validTips));
+      }
+
+      console.log('💾 STORAGE: getDailyTips - Returning', validTips.length, 'unique tips');
+      return validTips;
     } catch (error) {
       console.error('💾 STORAGE: Error getting daily tips:', error);
       return [];
