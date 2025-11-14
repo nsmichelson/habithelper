@@ -967,6 +967,145 @@ export default function HomeScreen() {
     // - not_for_me: reduce similar tips
   };
 
+  const mergeAttemptIntoList = (existingAttempts: TipAttempt[], newAttempt: TipAttempt): TipAttempt[] => {
+    const newAttemptDate = new Date(newAttempt.attempted_at).toDateString();
+    let merged = false;
+
+    const normalizedAttempts = existingAttempts.map(existing => {
+      if (existing.tip_id !== newAttempt.tip_id) {
+        return existing;
+      }
+
+      const existingDate = new Date(existing.attempted_at).toDateString();
+      if (existingDate === newAttemptDate) {
+        merged = true;
+        return { ...existing, ...newAttempt };
+      }
+
+      return existing;
+    });
+
+    if (!merged) {
+      normalizedAttempts.push(newAttempt);
+    }
+
+    return normalizedAttempts;
+  };
+
+  const logCheckInImpact = (
+    feedback: TipFeedback,
+    notes: string | undefined,
+    attempt: TipAttempt,
+    hasQuickCompletion: boolean,
+    allAttempts: TipAttempt[],
+    tip: SimplifiedTip | null
+  ) => {
+    console.log('--- Recommendation Engine Insight ---');
+    if (!tip) {
+      console.log('  (Tip data missing — unable to describe impact)');
+      console.log('--- End Recommendation Insight ---');
+      return;
+    }
+
+    console.log(`  Tip: ${tip.tip_id} • ${tip.summary}`);
+    console.log('  Goals connected to this experiment:', tip.goals?.join(', ') || '—');
+    console.log('  Feedback recorded:', feedback);
+    console.log('  Reflection notes saved?:', notes ? 'yes' : 'no');
+    console.log('  Had quick completion earlier today?:', hasQuickCompletion);
+
+    const tipAttemptHistory = allAttempts
+      .filter(a => a.tip_id === attempt.tip_id)
+      .sort((a, b) => new Date(b.attempted_at).getTime() - new Date(a.attempted_at).getTime());
+
+    const attemptCounts = tipAttemptHistory.reduce<Record<string, number>>((acc, item) => {
+      const key = (item.feedback ?? 'skipped') as string;
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
+
+    const successNumerator = tipAttemptHistory.reduce((acc, item) => {
+      if (item.feedback === 'went_great') return acc + 1;
+      if (item.feedback === 'went_ok') return acc + 0.5;
+      return acc;
+    }, 0);
+    const successRate = tipAttemptHistory.length > 0
+      ? successNumerator / tipAttemptHistory.length
+      : 0;
+
+    if (tipAttemptHistory.length > 0) {
+      console.log('  Attempt history for this tip (newest first):');
+      tipAttemptHistory.forEach((entry, index) => {
+        const attemptDate = new Date(entry.attempted_at);
+        const descriptor = entry.notes ? ` • notes: ${entry.notes}` : '';
+        console.log(`    ${index + 1}. ${entry.feedback || 'unknown'} on ${attemptDate.toDateString()}${descriptor}`);
+      });
+    } else {
+      console.log('  This is the first recorded attempt for this experiment.');
+    }
+
+    console.log('  Feedback counts so far:', attemptCounts);
+    console.log(
+      '  Success score numerator (great = 1, ok = 0.5):',
+      `${successNumerator.toFixed(1)} / ${tipAttemptHistory.length}`
+    );
+    console.log('  Approximate success rate used in ranking:', `${Math.round(successRate * 100)}%`);
+
+    const snoozedAttempt = tipAttemptHistory.find(a => a.feedback === 'maybe_later' && a.snooze_until);
+    if (snoozedAttempt) {
+      console.log('  Snooze active until:', new Date(snoozedAttempt.snooze_until!).toDateString());
+    } else {
+      console.log('  No active snooze for this experiment.');
+    }
+
+    const hasOptOut = tipAttemptHistory.some(a => a.feedback === 'not_for_me');
+    console.log('  Permanently opted out?:', hasOptOut);
+
+    console.log('  Personalization impact:');
+    switch (feedback) {
+      case 'went_great': {
+        console.log('    • Marks this as a top fit — boosts the success score so similar tips rank higher.');
+        console.log('    • Adds to your liked experiments and habit streak tracking for goals:', tip.goals?.join(', ') || '—');
+        if (!hasQuickCompletion) {
+          console.log('    • Increments the habit completion counter (see storage logs above).');
+        } else {
+          console.log('    • Reinforces the earlier quick-complete success with a full reflection.');
+        }
+        console.log('    • Keeps the tip eligible for Focus Mode prompts and awards.');
+        break;
+      }
+      case 'went_ok': {
+        console.log('    • Gives partial credit (0.5 weight) — tip stays in rotation but below “went great” items.');
+        console.log('    • Helps calibrate difficulty preferences before tomorrow’s recommendation.');
+        break;
+      }
+      case 'not_for_me': {
+        console.log('    • Sets a permanent opt-out — tipRecommendationService will filter this tip out.');
+        console.log('    • Drops the success rate so similar experiments are deprioritized.');
+        break;
+      }
+      case 'maybe_later': {
+        const snoozeDate = attempt.snooze_until ? new Date(attempt.snooze_until) : null;
+        console.log('    • Saves it to the “try later” list — we will resurface it after the snooze window.');
+        console.log(
+          '    • Snooze window ends:',
+          snoozeDate ? snoozeDate.toDateString() : 'unknown (default 7 days)'
+        );
+        console.log('    • Does not count as a success yet, so we keep exploring other options meanwhile.');
+        break;
+      }
+      case 'skipped': {
+        console.log('    • Records a skip — lowers the success rate slightly so we may try easier or new ideas next.');
+        console.log('    • Tip remains eligible and can resurface soon.');
+        break;
+      }
+      default: {
+        console.log('    • Feedback logged with default handling.');
+      }
+    }
+
+    console.log('--- End Recommendation Insight ---');
+  };
+
   const handleCheckIn = async (feedback: TipFeedback, notes?: string) => {
     console.log('\n🌙 EVENING CHECK-IN TRIGGERED');
     console.log('  Feedback:', feedback);
@@ -1034,6 +1173,17 @@ export default function HomeScreen() {
     };
     
     await StorageService.saveTipAttempt(attempt);
+
+    const updatedAttemptsList = mergeAttemptIntoList(attempts, attempt);
+
+    logCheckInImpact(
+      feedback,
+      notes,
+      attempt,
+      hasQuickCompletion,
+      updatedAttemptsList,
+      currentTip as SimplifiedTip | null
+    );
     
     // Update state to show completion view
     setDailyTip({
@@ -1043,7 +1193,7 @@ export default function HomeScreen() {
       ...(hasQuickCompletion && notes ? { evening_reflection: notes } : {}),
     });
     setShowCheckIn(false);
-    setAttempts([...attempts, attempt]);
+    setAttempts(updatedAttemptsList);
     
     // If user loved the tip, show focus mode prompt
     console.log('=== FOCUS MODE CHECK ===');
