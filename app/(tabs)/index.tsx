@@ -51,6 +51,9 @@ import { format } from 'date-fns';
 // Proper type definitions to prevent confusion
 type ResponseStatus = 'try_it' | 'not_interested' | 'maybe_later';
 
+type QuickNote = NonNullable<QuickComplete['quick_note']>;
+type InsightSource = 'quick-complete' | 'evening-check-in';
+
 // Validation helper
 const isValidResponseStatus = (value: any): value is ResponseStatus => {
   return value === 'try_it' || value === 'not_interested' || value === 'maybe_later';
@@ -874,6 +877,20 @@ export default function HomeScreen() {
     }
   };
 
+  const QUICK_NOTE_TO_FEEDBACK: Record<QuickNote, TipFeedback> = {
+    worked_great: 'went_great',
+    went_ok: 'went_ok',
+    not_sure: 'went_ok',
+    not_for_me: 'not_for_me',
+  };
+
+  const QUICK_NOTE_LABEL: Record<QuickNote, string> = {
+    worked_great: 'worked great',
+    went_ok: 'went ok',
+    not_sure: 'not sure yet',
+    not_for_me: 'not for me',
+  };
+
   const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
     console.log('\n🎆 QUICK COMPLETE TRIGGERED');
     console.log('  Note:', note);
@@ -900,6 +917,8 @@ export default function HomeScreen() {
       quick_completions: updatedCompletions,
     });
 
+    const quickCompletionCount = updatedCompletions.length;
+
     // Track quick completion as a check-in event (similar to evening check-in but during the day)
     if (note) {
       const feedbackMap = {
@@ -914,6 +933,35 @@ export default function HomeScreen() {
         'Quick completion during the day',
         !!dailyTip.personalization_data
       );
+    }
+
+    if (note) {
+      const quickNote: QuickNote = note;
+      const derivedFeedback = QUICK_NOTE_TO_FEEDBACK[quickNote];
+      const attempt: TipAttempt = {
+        id: `quick-${Date.now()}`,
+        tip_id: dailyTip.tip_id,
+        attempted_at: currentDate,
+        feedback: derivedFeedback,
+        notes: `[Quick Complete] ${QUICK_NOTE_LABEL[quickNote]}`,
+      };
+
+      await StorageService.saveTipAttempt(attempt);
+
+      const updatedAttemptsList = mergeAttemptIntoList(attempts, attempt);
+      setAttempts(updatedAttemptsList);
+
+      logCheckInImpact(
+        'quick-complete',
+        derivedFeedback,
+        attempt.notes,
+        attempt,
+        quickCompletionCount,
+        updatedAttemptsList,
+        currentTip as SimplifiedTip | null
+      );
+    } else {
+      console.log('  ℹ️ Quick complete recorded without a qualitative note — skipping recommendation insight log.');
     }
 
     // If marked as "worked_great", increment the centralized habit completion count
@@ -993,10 +1041,11 @@ export default function HomeScreen() {
   };
 
   const logCheckInImpact = (
+    source: InsightSource,
     feedback: TipFeedback,
     notes: string | undefined,
     attempt: TipAttempt,
-    hasQuickCompletion: boolean,
+    quickCompletionCount: number,
     allAttempts: TipAttempt[],
     tip: SimplifiedTip | null
   ) => {
@@ -1007,11 +1056,20 @@ export default function HomeScreen() {
       return;
     }
 
+    console.log(
+      '  Event source:',
+      source === 'quick-complete' ? 'Quick Complete (daytime)' : 'Evening Check-In'
+    );
     console.log(`  Tip: ${tip.tip_id} • ${tip.summary}`);
     console.log('  Goals connected to this experiment:', tip.goals?.join(', ') || '—');
     console.log('  Feedback recorded:', feedback);
-    console.log('  Reflection notes saved?:', notes ? 'yes' : 'no');
-    console.log('  Had quick completion earlier today?:', hasQuickCompletion);
+    console.log('  Reflection / note detail:', notes || '—');
+    console.log('  Quick completions logged today:', quickCompletionCount);
+
+    if (source === 'quick-complete') {
+      console.log('  This quick complete immediately updates the ranking inputs for upcoming recommendations.');
+      console.log('  An evening reflection later today will overwrite or enrich this provisional signal.');
+    }
 
     const tipAttemptHistory = allAttempts
       .filter(a => a.tip_id === attempt.tip_id)
@@ -1065,7 +1123,9 @@ export default function HomeScreen() {
       case 'went_great': {
         console.log('    • Marks this as a top fit — boosts the success score so similar tips rank higher.');
         console.log('    • Adds to your liked experiments and habit streak tracking for goals:', tip.goals?.join(', ') || '—');
-        if (!hasQuickCompletion) {
+        if (source === 'quick-complete') {
+          console.log('    • Immediately increases the daytime success weight so upcoming recs lean into this pattern.');
+        } else if (quickCompletionCount === 0) {
           console.log('    • Increments the habit completion counter (see storage logs above).');
         } else {
           console.log('    • Reinforces the earlier quick-complete success with a full reflection.');
@@ -1177,10 +1237,11 @@ export default function HomeScreen() {
     const updatedAttemptsList = mergeAttemptIntoList(attempts, attempt);
 
     logCheckInImpact(
+      'evening-check-in',
       feedback,
-      notes,
+      attempt.notes,
       attempt,
-      hasQuickCompletion,
+      dailyTip.quick_completions?.length || 0,
       updatedAttemptsList,
       currentTip as SimplifiedTip | null
     );
