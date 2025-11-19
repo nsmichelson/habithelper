@@ -3,7 +3,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PersonalizationCard from './PersonalizationCard';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setPendingPersonalizationData, savePersonalizationData } from '@/store/slices/dailyTipSlice';
@@ -62,7 +62,13 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const dispatch = useAppDispatch();
   const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
   const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
-  
+
+  // Reset to first page when tip changes
+  useEffect(() => {
+    setCurrentPage(0);
+    flatListRef.current?.scrollToIndex({ index: 0, animated: false });
+  }, [tip.tip_id]);
+
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
     const content = tip.details_md || '';

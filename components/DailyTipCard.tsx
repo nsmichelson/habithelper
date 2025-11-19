@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -42,6 +42,13 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
   const [page, setPage] = useState(0);
 
   const DETAILS_MAX_HEIGHT = Math.min(420, SCREEN_HEIGHT * 0.55);
+
+  // Reset to first page when tip changes
+  useEffect(() => {
+    setPage(0);
+    scrollX.value = 0;
+    pagerRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+  }, [tip.tip_id]);
 
   const handleResponse = (response: 'try_it' | 'not_interested' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);

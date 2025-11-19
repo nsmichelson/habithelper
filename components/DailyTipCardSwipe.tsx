@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -36,6 +36,13 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   const scrollX = useSharedValue(0);
   const cardScale = useSharedValue(1);
   const flatListRef = useRef<FlatList>(null);
+
+  // Reset to first page when tip changes
+  useEffect(() => {
+    setCurrentPage(0);
+    scrollX.value = 0;
+    flatListRef.current?.scrollToIndex({ index: 0, animated: false });
+  }, [tip.tip_id]);
 
   const handleResponse = (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
