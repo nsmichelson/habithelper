@@ -621,7 +621,7 @@ const styles = StyleSheet.create({
   pageContainer: {
     width: SCREEN_WIDTH,
     paddingHorizontal: CARD_MARGIN,
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 10,
   },
   mainCard: {
