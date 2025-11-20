@@ -1,38 +1,52 @@
-
-
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useRef, useState, useEffect } from 'react';
-import PersonalizationCard from './PersonalizationCard';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setPendingPersonalizationData, savePersonalizationData } from '@/store/slices/dailyTipSlice';
+import React, { useEffect, useRef, useState } from 'react';
 import {
+  Animated,
   Dimensions,
   FlatList,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSequence,
-  withSpring
-} from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import Svg, { Circle, Line, Path, Polygon, Polyline, Rect } from 'react-native-svg';
 import { SimplifiedTip } from '../types/simplifiedTip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH - 40;
+
+// Type definitions
+type ThemeName = 'green' | 'orange' | 'gold' | 'pink' | 'indigo' | 'turquoise' | 'violet';
+
+interface Theme {
+  primary: string;
+  primaryLight: string;
+  primaryLighter: string;
+  primaryLightest: string;
+}
+
+interface StoryItem {
+  id: string;
+  label: string;
+  icon: (color: string) => JSX.Element;
+  active?: boolean;
+  viewed?: boolean;
+  completed?: boolean;
+}
+
+interface BenefitItem {
+  id: string;
+  icon: JSX.Element;
+  text: string;
+}
 
 interface Props {
   tip: SimplifiedTip;
@@ -52,41 +66,118 @@ interface Props {
   savedPersonalizationData?: any;
 }
 
-export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons = [], userGoals = [], rejectionInfo, maybeLaterInfo, onSavePersonalization, savedPersonalizationData }: Props) {
-  const [currentPage, setCurrentPage] = useState(0);
-  const scrollX = useSharedValue(0);
-  const flatListRef = useRef<FlatList>(null);
-  const insets = useSafeAreaInsets();
-  
-  // Redux state
-  const dispatch = useAppDispatch();
-  const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
-  const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
+// Theme configurations
+const themes: Record<ThemeName, Theme> = {
+  green: {
+    primary: '#2E7D32',
+    primaryLight: '#4CAF50',
+    primaryLighter: '#81C784',
+    primaryLightest: '#E8F5E9',
+  },
+  orange: {
+    primary: '#D84315',
+    primaryLight: '#FF6B35',
+    primaryLighter: '#FF8A65',
+    primaryLightest: '#FFF3E0',
+  },
+  gold: {
+    primary: '#F57C00',
+    primaryLight: '#FFB300',
+    primaryLighter: '#FFD54F',
+    primaryLightest: '#FFF8E1',
+  },
+  pink: {
+    primary: '#C2185B',
+    primaryLight: '#EC407A',
+    primaryLighter: '#F48FB1',
+    primaryLightest: '#FCE4EC',
+  },
+  indigo: {
+    primary: '#3949AB',
+    primaryLight: '#5C6BC0',
+    primaryLighter: '#7986CB',
+    primaryLightest: '#E8EAF6',
+  },
+  turquoise: {
+    primary: '#00838F',
+    primaryLight: '#26C6DA',
+    primaryLighter: '#4DD0E1',
+    primaryLightest: '#E0F7FA',
+  },
+  violet: {
+    primary: '#8E24AA',
+    primaryLight: '#BA68C8',
+    primaryLighter: '#CE93D8',
+    primaryLightest: '#F3E5F5',
+  },
+};
 
-  // Reset to first page when tip changes
-  useEffect(() => {
-    setCurrentPage(0);
-    flatListRef.current?.scrollToIndex({ index: 0, animated: false });
-  }, [tip.tip_id]);
+// Neutral colors (constant across themes)
+const neutralColors = {
+  accent: '#7E57C2',
+  accentLight: '#9575CD',
+  accentLightest: '#F3E5F5',
+  gray900: '#1A1A1A',
+  gray700: '#4A4A4A',
+  gray500: '#767676',
+  gray300: '#B8B8B8',
+  gray100: '#F5F5F5',
+  white: '#FFFFFF',
+  warning: '#FF9800',
+  warningLight: '#FFF3E0',
+  error: '#F44336',
+  errorLight: '#FFEBEE',
+};
+
+export default function HabitHelper({ 
+  tip, 
+  onResponse, 
+  onNotForMe, 
+  reasons = [], 
+  userGoals = [], 
+  rejectionInfo, 
+  maybeLaterInfo,
+  onSavePersonalization,
+  savedPersonalizationData
+}: Props) {
+  const [currentTheme, setCurrentTheme] = useState<ThemeName>('green');
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const [activeNavItem, setActiveNavItem] = useState('Today');
+  const [currentPage, setCurrentPage] = useState(0);
+  
+  // Personalization states
+  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
+  const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
+  const [savedChoice, setSavedChoice] = useState<string | null>(savedPersonalizationData?.data || null);
+  const [savedChoices, setSavedChoices] = useState<string[] | null>(savedPersonalizationData?.data || null);
+  const [textInput, setTextInput] = useState('');
+  const [savedTextInput, setSavedTextInput] = useState<string | null>(savedPersonalizationData?.data || null);
+  const [multiTextInputs, setMultiTextInputs] = useState<Record<number, string>>({});
+  const [savedMultiTextInputs, setSavedMultiTextInputs] = useState<Record<number, string> | null>(savedPersonalizationData?.data || null);
+  const [showSaveAnimation, setShowSaveAnimation] = useState(false);
+  
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef<FlatList>(null);
+  
+  const theme = themes[currentTheme];
+  const themeList = Object.keys(themes) as ThemeName[];
 
   // Parse details_md to extract sections
   const parseDetailsContent = () => {
     const content = tip.details_md || '';
     const sections: { experiment?: string; whyItWorks?: string; howToTry?: string } = {};
     
-    // Extract "The Experiment" section
     const experimentMatch = content.match(/\*\*The Experiment:\*\*(.+?)(?=\*\*Why it Works:|\*\*How to|$)/s);
     if (experimentMatch) {
       sections.experiment = experimentMatch[1].trim();
     }
     
-    // Extract "Why it Works" section
     const whyMatch = content.match(/\*\*Why it Works:\*\*(.+?)(?=\*\*How to|$)/s);
     if (whyMatch) {
       sections.whyItWorks = whyMatch[1].trim();
     }
     
-    // Extract "How to Try It" section
     const howMatch = content.match(/\*\*How to Try It:\*\*(.+?)$/s);
     if (howMatch) {
       sections.howToTry = howMatch[1].trim();
@@ -96,58 +187,72 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
   };
   
   const detailsSections = parseDetailsContent();
-  
-  // Get relevant user goals that this tip meets
-  const relevantGoals = userGoals.filter(userGoal =>
-    tip.goals?.includes(userGoal)
-  );
-  
-  // Check if this tip should have a personalization card
-  const shouldShowPersonalization = !!tip.personalization_prompt;
-  
+
+  // Reset to first page when tip changes
+  useEffect(() => {
+    setCurrentPage(0);
+    flatListRef.current?.scrollToIndex({ index: 0, animated: false });
+  }, [tip.tip_id]);
+
+  // Load saved theme on mount
+  useEffect(() => {
+    loadTheme();
+  }, []);
+
+  const loadTheme = async () => {
+    try {
+      const savedTheme = await AsyncStorage.getItem('selectedTheme');
+      if (savedTheme && themeList.includes(savedTheme as ThemeName)) {
+        setCurrentTheme(savedTheme as ThemeName);
+      } else {
+        const randomTheme = themeList[Math.floor(Math.random() * themeList.length)];
+        setCurrentTheme(randomTheme);
+      }
+    } catch (error) {
+      console.error('Error loading theme:', error);
+    }
+  };
+
+  const cycleTheme = async () => {
+    Animated.timing(rotateAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      rotateAnim.setValue(0);
+    });
+
+    const currentIndex = themeList.indexOf(currentTheme);
+    const nextIndex = (currentIndex + 1) % themeList.length;
+    const nextTheme = themeList[nextIndex];
+    
+    setCurrentTheme(nextTheme);
+    try {
+      await AsyncStorage.setItem('selectedTheme', nextTheme);
+    } catch (error) {
+      console.error('Error saving theme:', error);
+    }
+  };
+
   const handleResponse = async (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
-    console.log('DailyTipCardEnhanced - handleResponse called with:', response);
-    console.log('DailyTipCardEnhanced - pendingPersonalizationData from Redux:', pendingPersonalizationData);
-    console.log('DailyTipCardEnhanced - onSavePersonalization exists?', !!onSavePersonalization);
-    
-    // If user is clicking "I'll try it" and there's pending personalization data, save it
-    if (response === 'try_it' && pendingPersonalizationData) {
-      console.log('DailyTipCardEnhanced - Saving pending personalization data before try_it:', pendingPersonalizationData);
-      
-      // Save to Redux store
-      dispatch(savePersonalizationData(pendingPersonalizationData));
-      
-      // Also call the parent's save function to persist to storage
-      if (onSavePersonalization) {
-        try {
-          await onSavePersonalization(pendingPersonalizationData);
-          console.log('DailyTipCardEnhanced - Finished saving personalization data');
-        } catch (error) {
-          console.error('DailyTipCardEnhanced - Error saving personalization data:', error);
-          // Continue anyway - don't block the transition
-        }
+    // Handle personalization saving if needed
+    if (response === 'try_it' && onSavePersonalization) {
+      // Save any pending personalization data
+      if (savedChoice || savedChoices || savedTextInput || savedMultiTextInputs) {
+        const data = savedChoice || savedChoices || savedTextInput || savedMultiTextInputs;
+        await onSavePersonalization({ type: tip.personalization_type, data });
       }
-      
-      // Small delay to ensure state updates have propagated
-      await new Promise(resolve => setTimeout(resolve, 100));
     }
     
-    console.log('DailyTipCardEnhanced - About to call onResponse with:', response);
     onResponse(response);
   };
-  
+
   const handleNotForMe = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onNotForMe();
   };
-
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollX.value = event.contentOffset.x;
-    },
-  });
 
   const navigateCard = (direction: number) => {
     const newIndex = currentPage + direction;
@@ -168,7 +273,6 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
       '5-15min': '5-15 min',
       '15-30min': '15-30 min',
       '30min+': '> 30 min',
-      // Legacy format support
       '0_5_min': '< 5 min',
       '5_15_min': '5-15 min',
       '15_60_min': '15-60 min',
@@ -177,6 +281,147 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     return labels[time] || time;
   };
 
+  const styles = createStyles(theme, neutralColors);
+
+  // Get relevant user goals that this tip meets
+  const relevantGoals = userGoals.filter(userGoal =>
+    tip.goals?.includes(userGoal)
+  );
+
+  // Story items data
+  const stories: StoryItem[] = [
+    {
+      id: 'summary',
+      label: 'Summary',
+      icon: (color: string) => (
+        <Svg width={24} height={24} viewBox="0 0 24 24">
+          <Rect x={4} y={4} width={16} height={16} rx={2} stroke={color} strokeWidth={2} fill="none" />
+          <Line x1={8} y1={9} x2={16} y2={9} stroke={color} strokeWidth={2} />
+          <Line x1={8} y1={13} x2={14} y2={13} stroke={color} strokeWidth={2} />
+        </Svg>
+      ),
+      active: activeStoryIndex === 0,
+      completed: activeStoryIndex >= 0,
+    },
+    {
+      id: 'why',
+      label: 'Why It Works',
+      icon: (color: string) => (
+        <Svg width={24} height={24} viewBox="0 0 24 24">
+          <Circle cx={12} cy={12} r={10} stroke={color} strokeWidth={2} fill="none" />
+          <Circle cx={12} cy={12} r={3} stroke={color} strokeWidth={2} fill="none" />
+        </Svg>
+      ),
+      active: activeStoryIndex === 1,
+      completed: activeStoryIndex >= 1,
+    },
+    {
+      id: 'howto',
+      label: 'How To',
+      icon: (color: string) => (
+        <Svg width={24} height={24} viewBox="0 0 24 24">
+          <Path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a1.82 1.82 0 0 0-2.91-.09z" 
+                stroke={color} strokeWidth={2} fill="none" />
+          <Path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" 
+                stroke={color} strokeWidth={2} fill="none" />
+        </Svg>
+      ),
+      active: activeStoryIndex === 2,
+      completed: activeStoryIndex >= 2,
+    },
+    {
+      id: 'protips',
+      label: 'Pro Tips',
+      icon: (color: string) => (
+        <Svg width={24} height={24} viewBox="0 0 24 24">
+          <Circle cx={12} cy={12} r={10} stroke={color} strokeWidth={2} fill="none" />
+          <Path d="M12 6v6l4 2" stroke={color} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      ),
+      active: activeStoryIndex === 3,
+      completed: activeStoryIndex >= 3,
+    },
+  ];
+
+  // Benefits data based on tip
+  const benefits: BenefitItem[] = [];
+  
+  // Add benefits based on goals
+  if (tip.goals?.includes('mindfulness')) {
+    benefits.push({
+      id: 'mindset',
+      icon: (
+        <Svg width={20} height={20} viewBox="0 0 24 24">
+          <Polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" 
+                   stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+        </Svg>
+      ),
+      text: 'Perfect for mindset focus',
+    });
+  }
+  
+  if (relevantGoals.length >= 3) {
+    benefits.push({
+      id: 'goals',
+      icon: (
+        <Svg width={20} height={20} viewBox="0 0 24 24">
+          <Path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+          <Polyline points="22 4 12 14.01 9 11.01" stroke={theme.primaryLight} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      ),
+      text: `Matches ${relevantGoals.length}/3 goals`,
+    });
+  }
+  
+  // Add default benefits
+  benefits.push(
+    {
+      id: 'effort',
+      icon: (
+        <Svg width={20} height={20} viewBox="0 0 24 24">
+          <Circle cx={12} cy={12} r={10} stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+          <Circle cx={12} cy={12} r={3} stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+        </Svg>
+      ),
+      text: 'Good effort match',
+    },
+    {
+      id: 'time',
+      icon: (
+        <Svg width={20} height={20} viewBox="0 0 24 24">
+          <Circle cx={12} cy={12} r={10} stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+          <Path d="M12 6v6l4 2" stroke={theme.primaryLight} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      ),
+      text: 'Fits time budget',
+    }
+  );
+  
+  if (tip.time_of_day?.includes('morning')) {
+    benefits.push({
+      id: 'morning',
+      icon: (
+        <Svg width={20} height={20} viewBox="0 0 24 24">
+          <Circle cx={12} cy={5} r={3} stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+          <Path d="M5.22 11a10 10 0 0 0 13.56 0" stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+        </Svg>
+      ),
+      text: 'Good for morning',
+    });
+  }
+  
+  benefits.push({
+    id: 'fresh',
+    icon: (
+      <Svg width={20} height={20} viewBox="0 0 24 24">
+        <Path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke={theme.primaryLight} strokeWidth={2} fill="none" />
+        <Line x1={3} y1={6} x2={21} y2={6} stroke={theme.primaryLight} strokeWidth={2} />
+      </Svg>
+    ),
+    text: 'Fresh option',
+  });
+
+  // Render functions for each page
   const renderSummaryCard = () => (
     <View style={styles.pageContainer}>
       <LinearGradient
@@ -278,7 +523,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     </View>
   );
 
-  const renderGoalsCard = () => (
+  const renderBenefitsCard = () => (
     <View style={styles.pageContainer}>
       <LinearGradient
         colors={['#FFFFFF', '#FAFAFA']}
@@ -288,47 +533,29 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          <Text style={styles.sectionTitle}>Goals This Meets</Text>
+          <Text style={styles.sectionTitle}>Why This Works</Text>
           
-          {relevantGoals.length > 0 ? (
-            <View style={styles.goalsMatchSection}>
-              <Text style={styles.goalsMatchTitle}>YOUR GOALS:</Text>
-              <View style={styles.goalsMatchGrid}>
-                {[...new Set(relevantGoals)].map((goal, index) => (
-                  <View key={`${goal}-${index}`} style={styles.userGoalChip}>
-                    <Ionicons name="checkmark-circle" size={16} color="#4CAF50" />
-                    <Text style={styles.userGoalText}>
-                      {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                    </Text>
-                  </View>
-                ))}
-              </View>
+          {detailsSections.whyItWorks ? (
+            <View style={styles.whyItWorksSection}>
+              <Text style={styles.whyItWorksText}>
+                {detailsSections.whyItWorks}
+              </Text>
             </View>
           ) : null}
           
-          <View style={styles.allGoalsSection}>
-            <Text style={styles.allGoalsTitle}>THIS TIP HELPS WITH:</Text>
-            <View style={styles.goalsGrid}>
-              {[...new Set(tip.goals || [])].map((goal, index) => {
-                const isUserGoal = relevantGoals.includes(goal);
-                return (
-                  <View 
-                    key={`${goal}-${index}`} 
-                    style={[styles.goalChip, isUserGoal && styles.goalChipHighlight]}
-                  >
-                    <Text style={[styles.goalChipText, isUserGoal && styles.goalChipTextHighlight]}>
-                      {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                    </Text>
-                  </View>
-                );
-              })}
-            </View>
+          <View style={styles.benefitsGrid}>
+            {benefits.slice(0, 6).map((benefit) => (
+              <View key={benefit.id} style={styles.benefitItem}>
+                {benefit.icon}
+                <Text style={styles.benefitText}>{benefit.text}</Text>
+              </View>
+            ))}
           </View>
         </ScrollView>
       </LinearGradient>
     </View>
   );
-  
+
   const renderHowToCard = () => (
     <View style={styles.pageContainer}>
       <LinearGradient
@@ -392,7 +619,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     </View>
   );
 
-  const renderBenefitsCard = () => (
+  const renderGoalsCard = () => (
     <View style={styles.pageContainer}>
       <LinearGradient
         colors={['#FFFFFF', '#FAFAFA']}
@@ -402,100 +629,49 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          <Text style={styles.sectionTitle}>Why This Works</Text>
+          <Text style={styles.sectionTitle}>Goals This Meets</Text>
           
-          {detailsSections.whyItWorks ? (
-            <View style={styles.whyItWorksSection}>
-              <Text style={styles.whyItWorksText}>
-                {detailsSections.whyItWorks}
-              </Text>
-            </View>
-          ) : null}
-          
-          <View style={styles.benefitsSection}>
-            <Text style={styles.benefitsSectionTitle}>TIP TYPE</Text>
-            <View style={styles.tipTypeGrid}>
-              {(tip.mechanisms || []).map(type => (
-                <View key={type} style={styles.tipTypeBadge}>
-                  <Text style={styles.tipTypeText}>
-                    {type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          {(tip.goals ?? []).length > 0 && (
-            <View style={styles.goalsSection}>
-              <Text style={styles.goalsSectionTitle}>This helps with:</Text>
-              <View style={styles.goalsGrid}>
-                {[...new Set(tip.goals)].map((goal, index) => (
-                  <View key={`${goal}-${index}`} style={styles.goalChip}>
-                    <Text style={styles.goalChipText}>
+          {relevantGoals.length > 0 ? (
+            <View style={styles.goalsMatchSection}>
+              <Text style={styles.goalsMatchTitle}>YOUR GOALS:</Text>
+              <View style={styles.goalsMatchGrid}>
+                {[...new Set(relevantGoals)].map((goal, index) => (
+                  <View key={`${goal}-${index}`} style={styles.userGoalChip}>
+                    <Ionicons name="checkmark-circle" size={16} color="#4CAF50" />
+                    <Text style={styles.userGoalText}>
                       {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                     </Text>
                   </View>
                 ))}
               </View>
             </View>
-          )}
+          ) : null}
+          
+          <View style={styles.allGoalsSection}>
+            <Text style={styles.allGoalsTitle}>THIS TIP HELPS WITH:</Text>
+            <View style={styles.goalsGrid}>
+              {[...new Set(tip.goals || [])].map((goal, index) => {
+                const isUserGoal = relevantGoals.includes(goal);
+                return (
+                  <View 
+                    key={`${goal}-${index}`} 
+                    style={[styles.goalChip, isUserGoal && styles.goalChipHighlight]}
+                  >
+                    <Text style={[styles.goalChipText, isUserGoal && styles.goalChipTextHighlight]}>
+                      {goal.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
         </ScrollView>
-      </LinearGradient>
-    </View>
-  );
-  
-  const personalizationScrollRef = useRef<ScrollView>(null);
-  
-  const renderPersonalizationCard = () => (
-    <View style={styles.pageContainer}>
-      <LinearGradient
-        colors={['#FFFFFF', '#FAFAFA']}
-        style={styles.cardGradient}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1 }}
-          keyboardVerticalOffset={100}
-        >
-          <ScrollView 
-            ref={personalizationScrollRef}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="on-drag"
-          >
-            <PersonalizationCard
-              tip={tip}
-              savedData={savedPersonalizationData || reduxSavedData}
-              scrollViewRef={personalizationScrollRef}
-              onSave={async (data) => {
-              console.log('DailyTipCardEnhanced - PersonalizationCard onSave called with:', data);
-              
-              // Save to Redux store
-              dispatch(savePersonalizationData(data));
-              
-              // Also save to storage
-              if (onSavePersonalization) {
-                await onSavePersonalization(data);
-              }
-              // Don't return anything to avoid issues
-            }}
-            onDataChange={(data) => {
-              console.log('DailyTipCardEnhanced - PersonalizationCard onDataChange called with:', data);
-              
-              // Update pending data in Redux
-              dispatch(setPendingPersonalizationData(data));
-            }}
-            showHeader={true}
-          />
-        </ScrollView>
-        </KeyboardAvoidingView>
       </LinearGradient>
     </View>
   );
 
-  const renderPersonalizationCardOld = () => {
-    // Handle text type  
+  const renderPersonalizationCard = () => {
+    // Handle text type
     if (tip.personalization_type === 'text') {
       const placeholder = tip.personalization_config?.placeholders?.[0] || "Enter your answer";
       
@@ -531,17 +707,17 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                       placeholderTextColor="#999"
                       multiline={false}
                       returnKeyType="done"
-                        onSubmitEditing={() => {
-                          if (textInput.trim()) {
-                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                            setSavedTextInput(textInput.trim());
-                            onSavePersonalization?.({ type: 'text', data: textInput.trim() });
-                            setShowSaveAnimation(true);
-                            setTimeout(() => setShowSaveAnimation(false), 2000);
-                          }
-                        }}
-                      />
-                      
+                      onSubmitEditing={() => {
+                        if (textInput.trim()) {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                          setSavedTextInput(textInput.trim());
+                          onSavePersonalization?.({ type: 'text', data: textInput.trim() });
+                          setShowSaveAnimation(true);
+                          setTimeout(() => setShowSaveAnimation(false), 2000);
+                        }
+                      }}
+                    />
+                    
                     <TouchableOpacity
                       style={[
                         styles.saveTextButton,
@@ -601,116 +777,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         </View>
       );
     }
-    
-    // Handle multi_text type
-    if (tip.personalization_type === 'multi_text') {
-      const items = tip.personalization_config?.items || [];
-      
-      return (
-        <View style={styles.pageContainer}>
-          <LinearGradient
-            colors={['#FFFFFF', '#FAFAFA']}
-            style={styles.cardGradient}
-          >
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              style={{ flex: 1 }}
-              keyboardVerticalOffset={150}
-            >
-              <ScrollView 
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={[styles.scrollContent, { paddingBottom: 150 }]}
-                keyboardShouldPersistTaps="handled"
-              >
-                <Text style={styles.sectionTitle}>Make It Your Own</Text>
-                
-                {!savedMultiTextInputs ? (
-                  <View style={styles.multiTextWrapper}>
-                    <Text style={styles.personalizationPrompt}>
-                      {tip.personalization_prompt}
-                    </Text>
-                    
-                    {items.map((item, index) => (
-                      <View key={index} style={styles.multiTextSection}>
-                        <Text style={styles.multiTextLabel}>{item.label}</Text>
-                        <TextInput
-                          style={styles.textInputField}
-                          placeholder={item.placeholder}
-                          value={multiTextInputs[index] || ''}
-                          onChangeText={(text) => {
-                            setMultiTextInputs({ ...multiTextInputs, [index]: text });
-                          }}
-                          placeholderTextColor="#999"
-                          multiline={false}
-                          returnKeyType="next"
-                        />
-                      </View>
-                    ))}
-                    
-                    <TouchableOpacity
-                      style={[
-                        styles.saveTextButton,
-                        !items.every((_, index) => multiTextInputs[index]?.trim()) && styles.saveTextButtonDisabled
-                      ]}
-                      onPress={() => {
-                        if (items.every((_, index) => multiTextInputs[index]?.trim())) {
-                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                          setSavedMultiTextInputs(multiTextInputs);
-                          onSavePersonalization?.({ type: 'multi_text', data: multiTextInputs });
-                          setShowSaveAnimation(true);
-                          setTimeout(() => setShowSaveAnimation(false), 2000);
-                        }
-                      }}
-                      disabled={!items.every((_, index) => multiTextInputs[index]?.trim())}
-                      activeOpacity={0.7}
-                    >
-                      <Text style={styles.saveTextButtonText}>Save Plan</Text>
-                      <Ionicons name="checkmark" size={20} color="#FFF" />
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  <View style={styles.savedChoiceContainer}>
-                    <View style={styles.savedHeader}>
-                      <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
-                      <Text style={styles.savedTitle}>Your Plan</Text>
-                    </View>
-                    
-                    <View style={styles.savedMultiTextBox}>
-                      {items.map((item, index) => (
-                        <View key={index} style={styles.savedMultiTextItem}>
-                          <Text style={styles.savedMultiTextLabel}>{item.label}</Text>
-                          <Text style={styles.savedMultiTextValue}>{savedMultiTextInputs[index]}</Text>
-                        </View>
-                      ))}
-                    </View>
-                    
-                    <TouchableOpacity
-                      style={styles.editButton}
-                      onPress={() => {
-                        setSavedMultiTextInputs(null);
-                        setMultiTextInputs(savedMultiTextInputs || {});
-                      }}
-                      activeOpacity={0.7}
-                    >
-                      <Ionicons name="pencil" size={16} color="#4CAF50" />
-                      <Text style={styles.editButtonText}>Change My Plan</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-                
-                {showSaveAnimation && (
-                  <View style={styles.celebrationOverlay}>
-                    <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
-                    <Text style={styles.celebrationText}>Saved! 🎯</Text>
-                  </View>
-                )}
-              </ScrollView>
-            </KeyboardAvoidingView>
-          </LinearGradient>
-        </View>
-      );
-    }
-    
+
     // Handle choice type
     if (tip.personalization_type === 'choice') {
       const choices = tip.personalization_config?.choices || [];
@@ -739,23 +806,6 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                       const isSelected = isMultiple 
                         ? selectedChoices.includes(choice)
                         : selectedChoice === choice;
-                      // Define colors for each choice type
-                      const getChoiceColor = () => {
-                        const lowerChoice = choice.toLowerCase();
-                        // Meal times
-                        if (lowerChoice.includes('breakfast')) return '#FFE0B2';
-                        if (lowerChoice.includes('lunch')) return '#C8E6C9';
-                        if (lowerChoice.includes('dinner')) return '#E1BEE7';
-                        if (lowerChoice.includes('snack')) return '#FBBF24';
-                        // Craving types
-                        if (lowerChoice === 'salty') return '#B3E5FC'; // Light blue
-                        if (lowerChoice === 'sweet') return '#FCE4EC'; // Light pink
-                        if (lowerChoice === 'savory') return '#FFCCBC'; // Light orange
-                        if (lowerChoice === 'crunchy') return '#DCEDC8'; // Light green
-                        if (lowerChoice === 'chewy') return '#F3E5F5'; // Light purple
-                        if (lowerChoice === 'creamy') return '#FFF9C4'; // Light yellow
-                        return '#E0E0E0';
-                      };
                       
                       return (
                         <TouchableOpacity
@@ -768,7 +818,6 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                             
                             if (isMultiple) {
-                              // Toggle selection for multiple choice
                               if (selectedChoices.includes(choice)) {
                                 setSelectedChoices(selectedChoices.filter(c => c !== choice));
                               } else {
@@ -776,7 +825,6 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                               }
                             } else {
                               setSelectedChoice(choice);
-                              // Auto-save after a brief delay for single choice
                               setTimeout(() => {
                                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                                 setSavedChoice(choice);
@@ -789,7 +837,7 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                           activeOpacity={0.7}
                         >
                           <View style={styles.choiceItemHeader}>
-                            <View style={[styles.choiceCircle, { backgroundColor: getChoiceColor() }]}>
+                            <View style={styles.choiceCircle}>
                               {isSelected && (
                                 <Ionicons name="checkmark" size={18} color="#424242" />
                               )}
@@ -801,50 +849,10 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
                               {choice}
                             </Text>
                           </View>
-                          {(choice.toLowerCase().includes('breakfast') || 
-                            choice.toLowerCase().includes('lunch') || 
-                            choice.toLowerCase().includes('dinner') || 
-                            choice.toLowerCase().includes('snack')) ? (
-                            <Text style={styles.choiceTimeDescription}>
-                              {choice.toLowerCase().includes('breakfast') && 'Start your day with protein'}
-                              {choice.toLowerCase().includes('lunch') && 'Midday protein boost'}
-                              {choice.toLowerCase().includes('dinner') && 'Evening protein portion'}
-                              {choice.toLowerCase().includes('afternoon') && 'Afternoon protein snack'}
-                              {choice.toLowerCase().includes('evening') && 'Evening protein treat'}
-                            </Text>
-                          ) : (
-                            <Text style={styles.choiceTimeDescription}>
-                              {choice.toLowerCase() === 'salty' && 'Like chips or pretzels'}
-                              {choice.toLowerCase() === 'sweet' && 'Like candy or desserts'}
-                              {choice.toLowerCase() === 'savory' && 'Like cheese or meat'}
-                              {choice.toLowerCase() === 'crunchy' && 'Like crackers or nuts'}
-                              {choice.toLowerCase() === 'chewy' && 'Like gummies or bread'}
-                              {choice.toLowerCase() === 'creamy' && 'Like ice cream or yogurt'}
-                            </Text>
-                          )}
                         </TouchableOpacity>
                       );
                     })}
                   </View>
-                  
-                  {isMultiple && selectedChoices.length > 0 && (
-                    <TouchableOpacity
-                      style={styles.saveMultipleButton}
-                      onPress={() => {
-                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                        setSavedChoices(selectedChoices);
-                        onSavePersonalization?.({ type: 'choice', data: selectedChoices, multiple: true });
-                        setShowSaveAnimation(true);
-                        setTimeout(() => setShowSaveAnimation(false), 2000);
-                      }}
-                      activeOpacity={0.7}
-                    >
-                      <Text style={styles.saveMultipleButtonText}>
-                        Save {selectedChoices.length} Selection{selectedChoices.length > 1 ? 's' : ''}
-                      </Text>
-                      <Ionicons name="checkmark" size={20} color="#FFF" />
-                    </TouchableOpacity>
-                  )}
                 </>
               ) : (
                 <View style={styles.savedChoiceContainer}>
@@ -892,165 +900,12 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         </View>
       );
     }
-    
-    // Original scale type implementation
-    return (
-    <View style={styles.pageContainer}>
-      <LinearGradient
-        colors={['#FFFFFF', '#FAFAFA']}
-        style={styles.cardGradient}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1 }}
-        >
-          <ScrollView 
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-          >
-            <Text style={styles.sectionTitle}>Make It Your Own</Text>
-            
-            {!savedScaleNames ? (
-              <>
-                <Text style={styles.personalizationPrompt}>
-                  {tip.personalization_prompt || "Give your hunger levels fun, memorable names! What would you call each level?"}
-                </Text>
-                
-                <View style={styles.scaleInputContainer}>
-                  <View style={styles.scaleLevel}>
-                    <View style={styles.scaleLevelHeader}>
-                      <View style={styles.scaleNumber}>
-                        <Text style={styles.scaleNumberText}>1</Text>
-                      </View>
-                      <TextInput
-                        style={styles.scaleNameInput}
-                        placeholder="e.g., Lion"
-                        value={scaleNames.level1}
-                        onChangeText={(text) => setScaleNames({ ...scaleNames, level1: text })}
-                        placeholderTextColor="#999"
-                        maxLength={20}
-                      />
-                    </View>
-                    <Text style={styles.scaleDescriptor}>Extremely hungry - stomach growling</Text>
-                  </View>
-                  
-                  <View style={styles.scaleLevel}>
-                    <View style={styles.scaleLevelHeader}>
-                      <View style={[styles.scaleNumber, styles.scaleNumberMid]}>
-                        <Text style={styles.scaleNumberText}>5</Text>
-                      </View>
-                      <TextInput
-                        style={styles.scaleNameInput}
-                        placeholder="e.g., Kitty"
-                        value={scaleNames.level5}
-                        onChangeText={(text) => setScaleNames({ ...scaleNames, level5: text })}
-                        placeholderTextColor="#999"
-                        maxLength={20}
-                      />
-                    </View>
-                    <Text style={styles.scaleDescriptor}>Satisfied - comfortable and content</Text>
-                  </View>
-                  
-                  <View style={styles.scaleLevel}>
-                    <View style={styles.scaleLevelHeader}>
-                      <View style={[styles.scaleNumber, styles.scaleNumberFull]}>
-                        <Text style={styles.scaleNumberText}>10</Text>
-                      </View>
-                      <TextInput
-                        style={styles.scaleNameInput}
-                        placeholder="e.g., Sloth"
-                        value={scaleNames.level10}
-                        onChangeText={(text) => setScaleNames({ ...scaleNames, level10: text })}
-                        placeholderTextColor="#999"
-                        maxLength={20}
-                      />
-                    </View>
-                    <Text style={styles.scaleDescriptor}>Overly full - uncomfortably stuffed</Text>
-                  </View>
-                </View>
-                
-                {(scaleNames.level1 || scaleNames.level5 || scaleNames.level10) && (
-                  <Animated.View style={animatedSaveButtonStyle}>
-                    <TouchableOpacity
-                      style={styles.saveButton}
-                      onPress={handleSavePersonalization}
-                      activeOpacity={0.8}
-                    >
-                      <Ionicons name="sparkles" size={20} color="#FFF" />
-                      <Text style={styles.saveButtonText}>Save My Scale</Text>
-                    </TouchableOpacity>
-                  </Animated.View>
-                )}
-              </>
-            ) : (
-              <View style={styles.savedScaleContainer}>
-                <View style={styles.savedHeader}>
-                  <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
-                  <Text style={styles.savedTitle}>Your Personal Hunger Scale</Text>
-                </View>
-                
-                <View style={styles.savedScaleItems}>
-                  {savedScaleNames.level1 && (
-                    <View style={styles.savedScaleItemWrapper}>
-                      <View style={styles.savedScaleItem}>
-                        <View style={[styles.savedScaleNumber, styles.scaleNumber]}>
-                          <Text style={styles.savedScaleNumberText}>1</Text>
-                        </View>
-                        <Text style={styles.savedScaleName}>{savedScaleNames.level1}</Text>
-                      </View>
-                      <Text style={styles.savedScaleDesc}>Extremely hungry</Text>
-                    </View>
-                  )}
-                  
-                  {savedScaleNames.level5 && (
-                    <View style={styles.savedScaleItemWrapper}>
-                      <View style={styles.savedScaleItem}>
-                        <View style={[styles.savedScaleNumber, styles.scaleNumberMid]}>
-                          <Text style={styles.savedScaleNumberText}>5</Text>
-                        </View>
-                        <Text style={styles.savedScaleName}>{savedScaleNames.level5}</Text>
-                      </View>
-                      <Text style={styles.savedScaleDesc}>Satisfied</Text>
-                    </View>
-                  )}
-                  
-                  {savedScaleNames.level10 && (
-                    <View style={styles.savedScaleItemWrapper}>
-                      <View style={styles.savedScaleItem}>
-                        <View style={[styles.savedScaleNumber, styles.scaleNumberFull]}>
-                          <Text style={styles.savedScaleNumberText}>10</Text>
-                        </View>
-                        <Text style={styles.savedScaleName}>{savedScaleNames.level10}</Text>
-                      </View>
-                      <Text style={styles.savedScaleDesc}>Overly full</Text>
-                    </View>
-                  )}
-                </View>
-                
-                <TouchableOpacity
-                  style={styles.editButton}
-                  onPress={() => setSavedScaleNames(null)}
-                  activeOpacity={0.7}
-                >
-                  <Ionicons name="pencil" size={16} color="#4CAF50" />
-                  <Text style={styles.editButtonText}>Edit My Scale</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            
-            {showSaveAnimation && (
-              <View style={styles.celebrationOverlay}>
-                <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
-                <Text style={styles.celebrationText}>Personalized! 🎉</Text>
-              </View>
-            )}
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </LinearGradient>
-    </View>
-    );
+
+    // Default return for no personalization
+    return null;
   };
+
+  const shouldShowPersonalization = !!tip.personalization_prompt;
 
   const pages = [
     { key: 'summary', render: renderSummaryCard },
@@ -1060,90 +915,107 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
     ...(shouldShowPersonalization ? [{ key: 'personalize', render: renderPersonalizationCard }] : []),
   ];
 
-  const DotIndicator = ({ index }: { index: number }) => {
-    const animatedDotStyle = useAnimatedStyle(() => {
-      const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
-      
-      const width = interpolate(
-        scrollX.value,
-        inputRange,
-        [8, 28, 8],
-        Extrapolate.CLAMP
-      );
-      
-      const opacity = interpolate(
-        scrollX.value,
-        inputRange,
-        [0.4, 1, 0.4],
-        Extrapolate.CLAMP
-      );
-
-      return {
-        width,
-        opacity,
-      };
-    });
-
-    const labelOpacity = useAnimatedStyle(() => {
-      const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
-      
-      const opacity = interpolate(
-        scrollX.value,
-        inputRange,
-        [0, 1, 0],
-        Extrapolate.CLAMP
-      );
-
-      return { opacity };
-    });
-
-    const labels = shouldShowPersonalization 
-      ? ['Summary', 'Goals', 'Why', 'How', 'Plan']
-      : ['Summary', 'Goals', 'Why', 'How'];
-
-    return (
-      <TouchableOpacity
-        style={styles.step}
-        onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          flatListRef.current?.scrollToIndex({ index, animated: true });
-          setCurrentPage(index);
-        }}
-        activeOpacity={0.7}
-      >
-        <Animated.View style={[styles.dot, animatedDotStyle]} />
-        <Animated.Text style={[styles.stepLabel, labelOpacity]}>{labels[index]}</Animated.Text>
-      </TouchableOpacity>
-    );
-  };
+  const spin = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
 
   return (
     <View style={styles.container}>
-      {/* Fixed Header */}
-      <View style={styles.fixedHeader}>
-        <Text style={styles.headerLabel}>TODAY'S IDEA TO TRY</Text>
-        
-        {/* Progress Indicator */}
-        <View style={styles.progressSteps}>
-          {pages.map((_, index) => (
-            <DotIndicator key={index} index={index} />
-          ))}
+      <StatusBar barStyle="dark-content" backgroundColor={neutralColors.white} />
+      
+      {/* Status Bar */}
+      <View style={styles.statusBar}>
+        <Text style={styles.statusTime}>11:56 AM</Text>
+        <View style={styles.statusRight}>
+          <Svg width={16} height={16} viewBox="0 0 24 24">
+            <Path d="M5 12.55a11 11 0 0 1 14 0M8.5 9.05a5.5 5.5 0 0 1 7 0M12 5v.01" 
+                  stroke={neutralColors.gray700} strokeWidth={2} fill="none" strokeLinecap="round" />
+          </Svg>
+          <Svg width={16} height={16} viewBox="0 0 24 24">
+            <Rect x={4} y={6} width={16} height={10} rx={2} stroke={neutralColors.gray700} strokeWidth={2} fill="none" />
+            <Line x1={8} y1={6} x2={8} y2={4} stroke={neutralColors.gray700} strokeWidth={2} strokeLinecap="round" />
+            <Line x1={16} y1={6} x2={16} y2={4} stroke={neutralColors.gray700} strokeWidth={2} strokeLinecap="round" />
+          </Svg>
+          <Text style={styles.statusBattery}>79%</Text>
         </View>
       </View>
 
-      {/* Scrollable Card Content Area */}
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={[styles.appTitle, { color: theme.primary }]}>Habit Helper</Text>
+        <View style={styles.headerIcons}>
+          <TouchableOpacity onPress={cycleTheme}>
+            <Animated.View style={[styles.iconBtn, { 
+              backgroundColor: theme.primary,
+              transform: [{ rotate: spin }] 
+            }]}>
+              <Svg width={20} height={20} viewBox="0 0 24 24">
+                <Circle cx={12} cy={12} r={5} stroke={neutralColors.white} strokeWidth={2} fill="none" />
+                <Line x1={12} y1={1} x2={12} y2={3} stroke={neutralColors.white} strokeWidth={2} strokeLinecap="round" />
+                <Line x1={12} y1={21} x2={12} y2={23} stroke={neutralColors.white} strokeWidth={2} strokeLinecap="round" />
+                <Line x1={4.22} y1={4.22} x2={5.64} y2={5.64} stroke={neutralColors.white} strokeWidth={2} strokeLinecap="round" />
+                <Line x1={18.36} y1={18.36} x2={19.78} y2={19.78} stroke={neutralColors.white} strokeWidth={2} strokeLinecap="round" />
+                <Line x1={1} y1={12} x2={3} y2={12} stroke={neutralColors.white} strokeWidth={2} strokeLinecap="round" />
+                <Line x1={21} y1={12} x2={23} y2={12} stroke={neutralColors.white} strokeWidth={2} strokeLinecap="round" />
+              </Svg>
+            </Animated.View>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Stories Section */}
+      <View style={styles.storiesWrapper}>
+        <ScrollView 
+          horizontal 
+          style={styles.storiesSection} 
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.storiesContent}
+        >
+          {stories.map((story, index) => (
+            <TouchableOpacity 
+              key={story.id} 
+              onPress={() => {
+                setActiveStoryIndex(index);
+                setCurrentPage(Math.min(index, pages.length - 1));
+                flatListRef.current?.scrollToIndex({ index: Math.min(index, pages.length - 1), animated: true });
+              }}
+              style={styles.storyItemWrapper}
+            >
+              <View style={styles.storyItem}>
+                <View style={[
+                  styles.storyCircle,
+                  story.active && { backgroundColor: theme.primaryLight },
+                  story.viewed && !story.active && styles.storyCircleViewed,
+                ]}>
+                  <View style={styles.storyInner}>
+                    {story.icon(story.active ? theme.primary : neutralColors.gray700)}
+                  </View>
+                </View>
+                <Text style={styles.storyLabel}>{story.label}</Text>
+                {index < stories.length - 1 && (
+                  <View style={[
+                    styles.storyLine,
+                    story.completed && { backgroundColor: theme.primaryLight }
+                  ]} />
+                )}
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      {/* Card Content Area */}
       <View style={styles.cardContainer}>
         <View style={styles.cardWrapper}>
-          {/* Card Content */}
           <View style={styles.cardMask}>
-            <Animated.FlatList
+            <FlatList
               ref={flatListRef}
               data={pages}
               renderItem={({ item }) => item.render()}
               horizontal
               pagingEnabled
               showsHorizontalScrollIndicator={false}
-              onScroll={scrollHandler}
               scrollEventThrottle={16}
               keyExtractor={(item) => item.key}
               decelerationRate="fast"
@@ -1178,96 +1050,214 @@ export default function DailyTipCardSwipe({ tip, onResponse, onNotForMe, reasons
         </View>
       </View>
 
-      {/* Fixed Action Buttons - Hide when rejected or saved for later */}
+      {/* Social Proof */}
+      <View style={styles.socialProof}>
+        <Svg width={16} height={16} viewBox="0 0 24 24">
+          <Path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+                fill={theme.primary} />
+        </Svg>
+        <Text style={styles.socialProofText}>
+          <Text style={[styles.socialProofNumber, { color: theme.primary }]}>3,423</Text> tried this
+        </Text>
+      </View>
+
+      {/* Action Buttons - Hide when rejected or saved for later */}
       {!rejectionInfo && !maybeLaterInfo && (
-        <LinearGradient
-          colors={['#f8faf9', '#f5f8f6']}
-          style={[styles.actionContainer, { paddingBottom: 24 + insets.bottom }]}
-        >
-          <TouchableOpacity
-            style={styles.primaryAction}
-            onPress={() => {
-              console.log('==========================================');
-              console.log('BUTTON CLICK: "I\'ll try it" button pressed');
-              console.log('Current state - rejectionInfo:', rejectionInfo);
-              console.log('Current state - maybeLaterInfo:', maybeLaterInfo);
-              console.log('==========================================');
-              handleResponse('try_it');
-            }}
+        <View style={styles.actionSection}>
+          <TouchableOpacity 
+            style={[styles.primaryBtn, { backgroundColor: theme.primary }]}
+            onPress={() => handleResponse('try_it')}
             activeOpacity={0.8}
           >
-            <Ionicons name="checkmark-circle" size={26} color="#FFF" />
-            <Text style={styles.primaryActionText}>I'll Try It!</Text>
+            <Svg width={20} height={20} viewBox="0 0 24 24">
+              <Polyline points="20 6 9 17 4 12" stroke={neutralColors.white} strokeWidth={3} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </Svg>
+            <Text style={styles.primaryBtnText}>I'll Try It!</Text>
           </TouchableOpacity>
-          
+
           <View style={styles.secondaryActions}>
-            <TouchableOpacity
-              style={[styles.secondaryAction, styles.maybeButton]}
+            <TouchableOpacity 
+              style={[styles.secondaryBtn, { borderColor: neutralColors.gray300 }]}
               onPress={() => handleResponse('maybe_later')}
-              activeOpacity={0.8}
+              activeOpacity={0.7}
             >
-              <Ionicons name="bookmark-outline" size={18} color="#FF9800" />
-              <Text style={styles.maybeButtonText}>Maybe Later</Text>
+              <Svg width={16} height={16} viewBox="0 0 24 24">
+                <Path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" 
+                      stroke={neutralColors.gray700} strokeWidth={2} fill="none" />
+              </Svg>
+              <Text style={styles.secondaryBtnText}>Save for Later</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={[styles.secondaryAction, styles.skipButton]}
+
+            <TouchableOpacity 
+              style={[styles.secondaryBtn, { borderColor: neutralColors.gray300 }]}
               onPress={handleNotForMe}
-              activeOpacity={0.8}
+              activeOpacity={0.7}
             >
-              <Ionicons name="close-circle-outline" size={18} color="#757575" />
-              <Text style={styles.skipButtonText}>Not for Me</Text>
+              <Svg width={16} height={16} viewBox="0 0 24 24">
+                <Line x1={18} y1={6} x2={6} y2={18} stroke={neutralColors.gray700} strokeWidth={2} strokeLinecap="round" />
+                <Line x1={6} y1={6} x2={18} y2={18} stroke={neutralColors.gray700} strokeWidth={2} strokeLinecap="round" />
+              </Svg>
+              <Text style={styles.secondaryBtnText}>Pass</Text>
             </TouchableOpacity>
           </View>
-        </LinearGradient>
+        </View>
       )}
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem} onPress={() => setActiveNavItem('Today')}>
+          <Svg width={24} height={24} viewBox="0 0 24 24">
+            <Rect x={3} y={4} width={18} height={18} rx={2} 
+                  stroke={activeNavItem === 'Today' ? theme.primary : neutralColors.gray500} strokeWidth={2} fill="none" />
+            <Line x1={16} y1={2} x2={16} y2={6} stroke={activeNavItem === 'Today' ? theme.primary : neutralColors.gray500} strokeWidth={2} strokeLinecap="round" />
+            <Line x1={8} y1={2} x2={8} y2={6} stroke={activeNavItem === 'Today' ? theme.primary : neutralColors.gray500} strokeWidth={2} strokeLinecap="round" />
+            <Line x1={3} y1={10} x2={21} y2={10} stroke={activeNavItem === 'Today' ? theme.primary : neutralColors.gray500} strokeWidth={2} />
+          </Svg>
+          <Text style={[styles.navLabel, activeNavItem === 'Today' && { color: theme.primary }]}>Today</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem} onPress={() => setActiveNavItem('Habits')}>
+          <Svg width={24} height={24} viewBox="0 0 24 24">
+            <Polyline points="20 6 9 17 4 12" 
+                      stroke={activeNavItem === 'Habits' ? theme.primary : neutralColors.gray500} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          </Svg>
+          <Text style={[styles.navLabel, activeNavItem === 'Habits' && { color: theme.primary }]}>Habits</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem} onPress={() => setActiveNavItem('Progress')}>
+          <Svg width={24} height={24} viewBox="0 0 24 24">
+            <Line x1={18} y1={20} x2={18} y2={10} stroke={activeNavItem === 'Progress' ? theme.primary : neutralColors.gray500} strokeWidth={2} strokeLinecap="round" />
+            <Line x1={12} y1={20} x2={12} y2={4} stroke={activeNavItem === 'Progress' ? theme.primary : neutralColors.gray500} strokeWidth={2} strokeLinecap="round" />
+            <Line x1={6} y1={20} x2={6} y2={14} stroke={activeNavItem === 'Progress' ? theme.primary : neutralColors.gray500} strokeWidth={2} strokeLinecap="round" />
+          </Svg>
+          <Text style={[styles.navLabel, activeNavItem === 'Progress' && { color: theme.primary }]}>Progress</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem} onPress={() => setActiveNavItem('MyWhy')}>
+          <Svg width={24} height={24} viewBox="0 0 24 24">
+            <Path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" 
+                  stroke={activeNavItem === 'MyWhy' ? theme.primary : neutralColors.gray500} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          </Svg>
+          <Text style={[styles.navLabel, activeNavItem === 'MyWhy' && { color: theme.primary }]}>My Why</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.navItem} onPress={() => setActiveNavItem('TestProfile')}>
+          <Svg width={24} height={24} viewBox="0 0 24 24">
+            <Path d="M10 2v20M14 2v20M5 9l14 4L5 17" 
+                  stroke={activeNavItem === 'TestProfile' ? theme.primary : neutralColors.gray500} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          </Svg>
+          <Text style={[styles.navLabel, activeNavItem === 'TestProfile' && { color: theme.primary }]}>Test Profile</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+// Styles
+const createStyles = (theme: Theme, neutralColors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8faf9',
+    backgroundColor: neutralColors.gray100,
   },
-  fixedHeader: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    backgroundColor: '#f8faf9',
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0, 0, 0, 0.03)',
-  },
-  headerLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#4CAF50',
-    letterSpacing: 1,
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  progressSteps: {
+  statusBar: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    backgroundColor: neutralColors.white,
+  },
+  statusTime: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: neutralColors.gray700,
+  },
+  statusRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  statusBattery: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: neutralColors.gray700,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    backgroundColor: neutralColors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.05)',
+  },
+  appTitle: {
+    fontSize: 22,
+    fontWeight: '600',
+    letterSpacing: -0.5,
+  },
+  headerIcons: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  iconBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 12,
+    backgroundColor: neutralColors.gray100,
   },
-  step: {
-    flexDirection: 'row',
+  storiesWrapper: {
+    backgroundColor: neutralColors.white,
+  },
+  storiesSection: {
+    paddingVertical: 20,
+  },
+  storiesContent: {
+    paddingHorizontal: 20,
+    gap: 16,
+  },
+  storyItemWrapper: {
+    marginRight: 16,
+  },
+  storyItem: {
     alignItems: 'center',
-    gap: 4,
+    position: 'relative',
   },
-  dot: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#4CAF50',
-    minWidth: 8,
+  storyCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    padding: 2,
+    backgroundColor: neutralColors.gray300,
+    marginBottom: 8,
   },
-  stepLabel: {
+  storyCircleViewed: {
+    opacity: 0.6,
+  },
+  storyInner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 30,
+    backgroundColor: neutralColors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  storyLabel: {
     fontSize: 11,
-    color: '#4CAF50',
+    color: neutralColors.gray500,
     fontWeight: '500',
-    marginLeft: 4,
+    textAlign: 'center',
+    maxWidth: 70,
+  },
+  storyLine: {
+    position: 'absolute',
+    top: 32,
+    left: 66,
+    width: 12,
+    height: 2,
+    backgroundColor: neutralColors.gray300,
   },
   cardContainer: {
     flex: 1,
@@ -1430,56 +1420,53 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 2,
   },
-  benefitsSection: {
-    marginBottom: 24,
-  },
-  benefitsSectionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#757575',
-    marginBottom: 12,
-  },
-  benefitsBox: {
-    backgroundColor: '#E8F5E9',
-    padding: 16,
-    borderRadius: 12,
-  },
-  longTermBox: {
-    backgroundColor: '#FFF3E0',
-  },
-  benefitItem: {
-    fontSize: 14,
-    color: '#2E7D32',
-    lineHeight: 20,
-    marginBottom: 8,
-  },
-  longTermItem: {
-    color: '#E65100',
-  },
-  goalsSection: {
-    marginTop: 16,
-  },
-  goalsSectionTitle: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#757575',
-    marginBottom: 8,
-  },
-  goalsGrid: {
+  benefitsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: 16,
   },
-  goalChip: {
-    backgroundColor: '#FFF3E0',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
+  benefitItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    width: '48%',
   },
-  goalChipText: {
-    fontSize: 11,
-    color: '#E65100',
+  benefitText: {
+    fontSize: 13,
+    color: neutralColors.gray700,
     fontWeight: '500',
+    flex: 1,
+  },
+  whyItWorksSection: {
+    backgroundColor: '#F0F7FF',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 20,
+  },
+  whyItWorksText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 24,
+  },
+  howToContent: {
+    marginBottom: 24,
+  },
+  bulletPoint: {
+    flexDirection: 'row',
+    marginBottom: 12,
+    paddingLeft: 8,
+  },
+  bulletIcon: {
+    fontSize: 16,
+    color: '#4CAF50',
+    marginRight: 10,
+    fontWeight: '700',
+  },
+  bulletText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 22,
+    flex: 1,
   },
   goalsMatchSection: {
     marginBottom: 24,
@@ -1521,6 +1508,22 @@ const styles = StyleSheet.create({
     color: '#757575',
     marginBottom: 8,
   },
+  goalsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  goalChip: {
+    backgroundColor: '#FFF3E0',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  goalChipText: {
+    fontSize: 11,
+    color: '#E65100',
+    fontWeight: '500',
+  },
   goalChipHighlight: {
     backgroundColor: '#C8E6C9',
     borderWidth: 1,
@@ -1530,141 +1533,178 @@ const styles = StyleSheet.create({
     color: '#2E7D32',
     fontWeight: '600',
   },
-  whyItWorksSection: {
-    backgroundColor: '#F0F7FF',
-    padding: 16,
+  socialProof: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 15,
+    paddingTop: 2,
+    paddingBottom: 16,
+  },
+  socialProofText: {
+    fontSize: 13,
+    color: neutralColors.gray700,
+    fontWeight: '600',
+    letterSpacing: -0.2,
+  },
+  socialProofNumber: {
+    fontWeight: '600',
+  },
+  actionSection: {
+    paddingHorizontal: 15,
+    paddingBottom: 20,
+  },
+  primaryBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    paddingVertical: 16,
     borderRadius: 12,
-    marginBottom: 20,
-  },
-  whyItWorksText: {
-    fontSize: 15,
-    color: '#424242',
-    lineHeight: 24,
-  },
-  tipTypeGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tipTypeBadge: {
-    backgroundColor: '#E3F2FD',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  tipTypeText: {
-    fontSize: 11,
-    color: '#1976D2',
-    fontWeight: '500',
-  },
-  howToContent: {
-    marginBottom: 24,
-  },
-  bulletPoint: {
-    flexDirection: 'row',
     marginBottom: 12,
-    paddingLeft: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 6,
+      },
+    }),
   },
-  bulletIcon: {
+  primaryBtnText: {
     fontSize: 16,
-    color: '#4CAF50',
-    marginRight: 10,
-    fontWeight: '700',
+    fontWeight: '600',
+    color: neutralColors.white,
   },
-  bulletText: {
-    fontSize: 15,
-    color: '#424242',
-    lineHeight: 22,
+  secondaryActions: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  secondaryBtn: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    backgroundColor: neutralColors.white,
   },
+  secondaryBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: neutralColors.gray700,
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingTop: 12,
+    paddingBottom: Platform.OS === 'ios' ? 16 : 12,
+    backgroundColor: neutralColors.white,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.05)',
+  },
+  navItem: {
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 5,
+  },
+  navLabel: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: neutralColors.gray500,
+  },
+  // Personalization styles
   personalizationPrompt: {
     fontSize: 16,
     color: '#424242',
     lineHeight: 24,
     marginBottom: 24,
   },
-  scaleInputContainer: {
-    gap: 20,
-  },
-  scaleLevel: {
-    marginBottom: 8,
-  },
-  scaleLevelHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
-    gap: 12,
-  },
-  
-  scaleNumber: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#FFE0B2',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scaleNumberMid: {
-    backgroundColor: '#C8E6C9',
-  },
-  scaleNumberFull: {
-    backgroundColor: '#FFCDD2',
-  },
-  scaleNumberText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#424242',
-  },
-  scaleLevelLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#757575',
-  },
-  scaleInput: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 12,
-    padding: 12,
-    fontSize: 15,
-    color: '#424242',
-    minHeight: 60,
-    textAlignVertical: 'top',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-  },
-  scaleNameInput: {
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#424242',
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
-    flex: 1,
-  },
-  scaleDescriptor: {
-    fontSize: 13,
-    color: '#757575',
-    marginLeft: 44,
-    fontStyle: 'italic',
-  },
-  saveButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#4CAF50',
-    borderRadius: 14,
-    paddingVertical: 14,
-    marginTop: 24,
+  textInputWrapper: {
+    marginTop: 4,
     gap: 8,
   },
-  saveButtonText: {
+  textInputField: {
+    backgroundColor: '#FFF',
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     fontSize: 16,
-    fontWeight: '700',
+    color: '#333',
+    minHeight: 52,
+    marginTop: 4,
+  },
+  saveTextButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#4CAF50',
+    paddingVertical: 14,
+    borderRadius: 12,
+    marginTop: 8,
+  },
+  saveTextButtonDisabled: {
+    backgroundColor: '#CCCCCC',
+  },
+  saveTextButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
     color: '#FFF',
   },
-  savedScaleContainer: {
+  choiceContainer: {
+    gap: 12,
+    marginTop: 20,
+  },
+  choiceItem: {
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 4,
+    borderWidth: 2,
+    borderColor: '#E8E8E8',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  choiceItemSelected: {
+    backgroundColor: '#F0F7FF',
+    borderColor: '#4CAF50',
+  },
+  choiceItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 2,
+  },
+  choiceCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#E0E0E0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  choiceText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#424242',
+    flex: 1,
+  },
+  choiceTextSelected: {
+    color: '#2E7D32',
+  },
+  savedChoiceContainer: {
     backgroundColor: '#F0F7FF',
     borderRadius: 16,
     padding: 20,
@@ -1680,49 +1720,23 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#212121',
   },
-  savedScaleItems: {
-    gap: 16,
-  },
-  savedScaleItemWrapper: {
+  savedChoiceBox: {
     backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 10,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: '#4CAF50',
   },
-  savedScaleItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  savedScaleDesc: {
-    fontSize: 12,
-    color: '#757575',
-    fontStyle: 'italic',
-    marginLeft: 40,
-    marginTop: 4,
-  },
-  savedScaleNumber: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  savedScaleNumberText: {
+  savedChoicePrompt: {
     fontSize: 14,
-    fontWeight: '700',
-    color: '#424242',
+    color: '#757575',
+    marginBottom: 8,
   },
-  savedScaleText: {
-    fontSize: 15,
-    color: '#424242',
-    flex: 1,
-    fontWeight: '500',
-  },
-  savedScaleName: {
+  savedChoiceText: {
     fontSize: 20,
-    color: '#212121',
     fontWeight: '700',
-    flex: 1,
+    color: '#2E7D32',
   },
   editButton: {
     flexDirection: 'row',
@@ -1758,287 +1772,7 @@ const styles = StyleSheet.create({
     color: '#4CAF50',
     marginTop: 8,
   },
-  choiceContainer: {
-    gap: 12,
-    marginTop: 20,
-  },
-  choiceButton: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
-    paddingVertical: 20,
-    paddingHorizontal: 24,
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  choiceButtonSelected: {
-    backgroundColor: '#E8F5E9',
-    borderColor: '#4CAF50',
-    borderWidth: 2,
-    transform: [{ scale: 0.98 }],
-  },
-  choiceButtonText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#424242',
-    flex: 1,
-  },
-  choiceButtonTextSelected: {
-    color: '#2E7D32',
-  },
-  choiceCheckmark: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: '#4CAF50',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  savedChoiceContainer: {
-    backgroundColor: '#F0F7FF',
-    borderRadius: 16,
-    padding: 20,
-  },
-  savedChoiceBox: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
-  },
-  savedChoicePrompt: {
-    fontSize: 14,
-    color: '#757575',
-    marginBottom: 8,
-  },
-  savedChoiceText: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#2E7D32',
-  },
-  choiceItem: {
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    marginBottom: 4,
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.03,
-    shadowRadius: 4,
-    elevation: 1,
-  },
-  choiceItemSelected: {
-    backgroundColor: '#F0F7FF',
-    borderColor: '#4CAF50',
-  },
-  choiceItemHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 2,
-  },
-  choiceCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  choiceText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#424242',
-    flex: 1,
-  },
-  choiceTextSelected: {
-    color: '#2E7D32',
-  },
-  choiceTimeDescription: {
-    fontSize: 11,
-    color: '#757575',
-    marginLeft: 32,
-    fontStyle: 'italic',
-    lineHeight: 14,
-  },
-  actionContainer: {
-    paddingTop: 16,
-    paddingHorizontal: 20,
-    paddingBottom: 24,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(0, 0, 0, 0.05)',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.04,
-        shadowRadius: 16,
-      },
-      android: {
-        elevation: 10,
-      },
-    }),
-  },
-  primaryAction: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    backgroundColor: '#4CAF50',
-    borderRadius: 14,
-    gap: 8,
-    marginBottom: 14,
-  },
-  primaryActionText: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: '#FFF',
-  },
-  secondaryActions: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  secondaryAction: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 14,
-    borderRadius: 12,
-    gap: 6,
-  },
-  maybeButton: {
-    backgroundColor: '#FFF3E0',
-  },
-  maybeButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FF9800',
-  },
-  skipButton: {
-    backgroundColor: '#F5F5F5',
-  },
-  skipButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#757575',
-  },
-  rejectionStatusWrapper: {
-    position: 'relative',
-  },
-  rejectionCornerLabel: {
-    position: 'absolute',
-    top: -10,
-    right: 20,
-    backgroundColor: '#F87171',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 10,
-    zIndex: 1,
-  },
-  rejectionCornerLabelText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#FFF',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  rejectionStatusCard: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
-    padding: 20,
-    borderWidth: 1.5,
-    borderColor: '#FCA5A5',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  rejectionStatusHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    marginBottom: 16,
-  },
-  rejectionIconWrapper: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#FEE2E2',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rejectionStatusContent: {
-    flex: 1,
-  },
-  rejectionStatusLabel: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#1F2937',
-    marginBottom: 2,
-  },
-  rejectionStatusSubtext: {
-    fontSize: 14,
-    color: '#6B7280',
-    fontStyle: 'italic',
-  },
-  rejectionReasonsCard: {
-    backgroundColor: '#FEF3F2',
-    borderRadius: 12,
-    padding: 14,
-    borderLeftWidth: 3,
-    borderLeftColor: '#F87171',
-  },
-  rejectionReasonHeader: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#7F1D1D',
-    marginBottom: 8,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  rejectionReasonsList: {
-    gap: 6,
-  },
-  rejectionReasonRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 10,
-  },
-  rejectionReasonDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#DC2626',
-    marginTop: 5,
-  },
-  rejectionReasonText: {
-    fontSize: 14,
-    color: '#1F2937',
-    flex: 1,
-    lineHeight: 20,
-  },
-  rejectionEditButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#F3F4F6',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-  },
+  // Rejection/Maybe Later status styles
   rejectionInlineWrapper: {
     position: 'relative',
     marginTop: 20,
@@ -2202,90 +1936,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#78350F',
     lineHeight: 16,
-  },
-  // Text input styles
-  textInputWrapper: {
-    marginTop: 4,
-    gap: 8,
-  },
-  textInputField: {
-    backgroundColor: '#FFF',
-    borderWidth: 2,
-    borderColor: '#E0E0E0',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: '#333',
-    minHeight: 52,
-    marginTop: 4,
-  },
-  saveTextButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    backgroundColor: '#4CAF50',
-    paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 8,
-  },
-  saveTextButtonDisabled: {
-    backgroundColor: '#CCCCCC',
-  },
-  saveTextButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFF',
-  },
-  // Multiple choice save button
-  saveMultipleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    backgroundColor: '#4CAF50',
-    paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 20,
-  },
-  saveMultipleButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFF',
-  },
-  // Multi-text styles
-  multiTextWrapper: {
-    marginTop: 4,
-  },
-  multiTextSection: {
-    marginTop: 16,
-  },
-  multiTextLabel: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 6,
-  },
-  savedMultiTextBox: {
-    backgroundColor: '#F8F8F8',
-    borderRadius: 12,
-    padding: 16,
-    gap: 12,
-  },
-  savedMultiTextItem: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-    paddingBottom: 8,
-  },
-  savedMultiTextLabel: {
-    fontSize: 13,
-    color: '#666',
-    marginBottom: 4,
-  },
-  savedMultiTextValue: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
   },
 });
