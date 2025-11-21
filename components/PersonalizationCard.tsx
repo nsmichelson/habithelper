@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -25,6 +25,34 @@ import { SimplifiedTip } from '@/types/simplifiedTip';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
+// Define Theme interface compatible with DailyTipCardEnhanced
+export interface Theme {
+  primary: string;
+  primaryLight: string;
+  primaryLighter: string;
+  primaryLightest: string;
+  gray900: string;
+  gray700: string;
+  gray500: string;
+  gray300: string;
+  gray100: string;
+  white: string;
+}
+
+// Default theme if none provided
+const DEFAULT_THEME: Theme = {
+  primary: '#2E7D32',
+  primaryLight: '#4CAF50',
+  primaryLighter: '#81C784',
+  primaryLightest: '#E8F5E9',
+  gray900: '#1A1A1A',
+  gray700: '#4A4A4A',
+  gray500: '#767676',
+  gray300: '#B8B8B8',
+  gray100: '#F5F5F5',
+  white: '#FFFFFF',
+};
+
 interface Props {
   tip: SimplifiedTip;
   savedData?: any;
@@ -35,6 +63,7 @@ interface Props {
   scrollViewRef?: React.RefObject<ScrollView>;
   isInFocusMode?: boolean;
   focusDay?: number;
+  theme?: Theme;
 }
 
 export default function PersonalizationCard({
@@ -46,7 +75,8 @@ export default function PersonalizationCard({
   style,
   scrollViewRef,
   isInFocusMode = false,
-  focusDay = 1
+  focusDay = 1,
+  theme = DEFAULT_THEME
 }: Props) {
   // Initialize state based on saved data
   const [scaleNames, setScaleNames] = useState({
@@ -91,6 +121,9 @@ export default function PersonalizationCard({
     }
   }, [isInFocusMode, savedData, focusDay]);
   
+  // Generate styles based on theme
+  const styles = useMemo(() => getStyles(theme), [theme]);
+
   // Animation for save button
   const saveButtonScale = useSharedValue(1);
   const saveButtonOpacity = useSharedValue(1);
@@ -160,7 +193,7 @@ export default function PersonalizationCard({
         {showPlanChoice && savedTextInput && (
           <View style={styles.planChoiceContainer}>
             <View style={styles.planChoiceHeader}>
-              <Ionicons name="fitness" size={24} color="#4CAF50" />
+              <Ionicons name="fitness" size={24} color={theme.primary} />
               <Text style={styles.planChoiceTitle}>Focus Mode • Day {focusDay}</Text>
             </View>
             <Text style={styles.planChoiceSubtitle}>
@@ -182,7 +215,7 @@ export default function PersonalizationCard({
                 activeOpacity={0.8}
               >
                 <LinearGradient
-                  colors={['#4CAF50', '#45A049']}
+                  colors={[theme.primaryLight, theme.primary]}
                   style={styles.keepPlanGradient}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
@@ -202,7 +235,7 @@ export default function PersonalizationCard({
                 }}
                 activeOpacity={0.7}
               >
-                <Ionicons name="pencil" size={18} color="#4CAF50" />
+                <Ionicons name="pencil" size={18} color={theme.primary} />
                 <Text style={styles.updatePlanButtonText}>Update Plan</Text>
               </TouchableOpacity>
             </View>
@@ -212,7 +245,7 @@ export default function PersonalizationCard({
         {!showPlanChoice && savedTextInput ? (
           <View style={styles.savedContainer}>
             <View style={styles.savedHeader}>
-              <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+              <Ionicons name="checkmark-circle" size={28} color={theme.primary} />
               <Text style={styles.savedTitle}>Your Plan</Text>
             </View>
             
@@ -229,7 +262,7 @@ export default function PersonalizationCard({
               }}
               activeOpacity={0.7}
             >
-              <Ionicons name="pencil" size={16} color="#4CAF50" />
+              <Ionicons name="pencil" size={16} color={theme.primary} />
               <Text style={styles.editButtonText}>Change My Answer</Text>
             </TouchableOpacity>
           </View>
@@ -252,7 +285,7 @@ export default function PersonalizationCard({
                   onDataChange?.({ type: 'text', data: text.trim() });
                 }
               }}
-              placeholderTextColor="#999"
+              placeholderTextColor={theme.gray300}
               multiline={false}
               returnKeyType="done"
               onSubmitEditing={() => {
@@ -284,7 +317,7 @@ export default function PersonalizationCard({
               activeOpacity={0.7}
             >
               <LinearGradient
-                colors={textInput.trim() ? ['#4CAF50', '#45A049'] : ['#CCCCCC', '#BBBBBB']}
+                colors={textInput.trim() ? [theme.primaryLight, theme.primary] : [theme.gray300, theme.gray300]}
                 style={styles.saveButton}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -298,7 +331,7 @@ export default function PersonalizationCard({
         
         {showSaveAnimation && (
           <View style={styles.celebrationOverlay}>
-            <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+            <Ionicons name="checkmark-circle" size={60} color={theme.primary} />
             <Text style={styles.celebrationText}>Saved!</Text>
           </View>
         )}
@@ -310,27 +343,6 @@ export default function PersonalizationCard({
   if (tip.personalization_type === 'choice') {
     const choices = tip.personalization_config?.choices || [];
     const isMultiple = tip.personalization_config?.multiple === true;
-
-    // Define colors for each choice type
-    const getChoiceColor = (choice: string) => {
-      const lowerChoice = choice.toLowerCase();
-      // Meal times
-      if (lowerChoice.includes('breakfast')) return '#FFE0B2';
-      if (lowerChoice.includes('lunch')) return '#C8E6C9';
-      if (lowerChoice.includes('dinner')) return '#E1BEE7';
-      if (lowerChoice.includes('snack')) return '#FBBF24';
-      if (lowerChoice.includes('afternoon')) return '#FFE5CC';
-      if (lowerChoice.includes('evening')) return '#D1C4E9';
-      // Craving types
-      if (lowerChoice === 'salty' || lowerChoice.includes('salty')) return '#B3E5FC';
-      if (lowerChoice === 'sweet' || lowerChoice.includes('sweet')) return '#FCE4EC';
-      if (lowerChoice === 'savory' || lowerChoice.includes('savory')) return '#FFCCBC';
-      if (lowerChoice === 'crunchy' || lowerChoice.includes('crunchy')) return '#FFF9C4';
-      if (lowerChoice === 'chewy' || lowerChoice.includes('chewy')) return '#F3E5F5';
-      if (lowerChoice === 'creamy' || lowerChoice.includes('creamy')) return '#E0F2F1';
-      // Default
-      return '#E3F2FD';
-    };
 
     const getChoiceDescription = (choice: string) => {
       const lowerChoice = choice.toLowerCase();
@@ -357,7 +369,7 @@ export default function PersonalizationCard({
         {(savedChoice || savedChoices) ? (
           <View style={styles.savedContainer}>
             <View style={styles.savedHeader}>
-              <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+              <Ionicons name="checkmark-circle" size={28} color={theme.primary} />
               <Text style={styles.savedTitle}>Your Plan</Text>
             </View>
             
@@ -383,7 +395,7 @@ export default function PersonalizationCard({
               }}
               activeOpacity={0.7}
             >
-              <Ionicons name="pencil" size={16} color="#4CAF50" />
+              <Ionicons name="pencil" size={16} color={theme.primary} />
               <Text style={styles.editButtonText}>Change My Selection</Text>
             </TouchableOpacity>
           </View>
@@ -439,12 +451,11 @@ export default function PersonalizationCard({
                     <View style={styles.choiceContent}>
                       <View style={styles.choiceItemHeader}>
                         <View style={[
-                          styles.choiceCircle, 
-                          { backgroundColor: getChoiceColor(choice) },
+                          styles.choiceCircle,
                           isSelected && styles.choiceCircleSelected
                         ]}>
                           {isSelected && (
-                            <Ionicons name="checkmark" size={18} color="#424242" />
+                            <Ionicons name="checkmark" size={18} color={theme.primary} />
                           )}
                         </View>
                         <Text style={[
@@ -454,11 +465,11 @@ export default function PersonalizationCard({
                           {choice}
                         </Text>
                       </View>
-                      {getChoiceDescription(choice) && (
+                      {getChoiceDescription(choice) ? (
                         <Text style={styles.choiceDescription}>
                           {getChoiceDescription(choice)}
                         </Text>
-                      )}
+                      ) : null}
                     </View>
                   </TouchableOpacity>
                 );
@@ -478,7 +489,7 @@ export default function PersonalizationCard({
                 activeOpacity={0.7}
               >
                 <LinearGradient
-                  colors={['#4CAF50', '#45A049']}
+                  colors={[theme.primaryLight, theme.primary]}
                   style={styles.saveButton}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
@@ -495,7 +506,7 @@ export default function PersonalizationCard({
         
         {showSaveAnimation && (
           <View style={styles.celebrationOverlay}>
-            <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+            <Ionicons name="checkmark-circle" size={60} color={theme.primary} />
             <Text style={styles.celebrationText}>Locked in!</Text>
           </View>
         )}
@@ -514,7 +525,7 @@ export default function PersonalizationCard({
         {savedMultiTextInputs ? (
           <View style={styles.savedContainer}>
             <View style={styles.savedHeader}>
-              <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+              <Ionicons name="checkmark-circle" size={28} color={theme.primary} />
               <Text style={styles.savedTitle}>Your Plan</Text>
             </View>
             
@@ -535,7 +546,7 @@ export default function PersonalizationCard({
               }}
               activeOpacity={0.7}
             >
-              <Ionicons name="pencil" size={16} color="#4CAF50" />
+              <Ionicons name="pencil" size={16} color={theme.primary} />
               <Text style={styles.editButtonText}>Change My Plan</Text>
             </TouchableOpacity>
           </View>
@@ -563,7 +574,7 @@ export default function PersonalizationCard({
                       onDataChange?.({ type: 'multi_text', data: newInputs });
                     }
                   }}
-                  placeholderTextColor="#999"
+                  placeholderTextColor={theme.gray300}
                   multiline={false}
                   returnKeyType="next"
                 />
@@ -588,7 +599,7 @@ export default function PersonalizationCard({
               activeOpacity={0.7}
             >
               <LinearGradient
-                colors={items.every((_, index) => multiTextInputs[index]?.trim()) ? ['#4CAF50', '#45A049'] : ['#CCCCCC', '#BBBBBB']}
+                colors={items.every((_, index) => multiTextInputs[index]?.trim()) ? [theme.primaryLight, theme.primary] : [theme.gray300, theme.gray300]}
                 style={styles.saveButton}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -602,7 +613,7 @@ export default function PersonalizationCard({
         
         {showSaveAnimation && (
           <View style={styles.celebrationOverlay}>
-            <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+            <Ionicons name="checkmark-circle" size={60} color={theme.primary} />
             <Text style={styles.celebrationText}>Saved!</Text>
           </View>
         )}
@@ -619,7 +630,7 @@ export default function PersonalizationCard({
         {savedScaleNames ? (
           <View style={styles.savedContainer}>
             <View style={styles.savedHeader}>
-              <Ionicons name="checkmark-circle" size={28} color="#4CAF50" />
+              <Ionicons name="checkmark-circle" size={28} color={theme.primary} />
               <Text style={styles.savedTitle}>Your Personalized Scale</Text>
             </View>
             
@@ -669,7 +680,7 @@ export default function PersonalizationCard({
               }}
               activeOpacity={0.7}
             >
-              <Ionicons name="pencil" size={16} color="#4CAF50" />
+              <Ionicons name="pencil" size={16} color={theme.primary} />
               <Text style={styles.editButtonText}>Edit My Scale</Text>
             </TouchableOpacity>
           </View>
@@ -699,7 +710,7 @@ export default function PersonalizationCard({
                         onDataChange?.({ type: 'scale', data: newNames });
                       }
                     }}
-                    placeholderTextColor="#999"
+                    placeholderTextColor={theme.gray300}
                   />
                 </View>
               </View>
@@ -723,7 +734,7 @@ export default function PersonalizationCard({
                         onDataChange?.({ type: 'scale', data: newNames });
                       }
                     }}
-                    placeholderTextColor="#999"
+                    placeholderTextColor={theme.gray300}
                   />
                 </View>
               </View>
@@ -747,7 +758,7 @@ export default function PersonalizationCard({
                         onDataChange?.({ type: 'scale', data: newNames });
                       }
                     }}
-                    placeholderTextColor="#999"
+                    placeholderTextColor={theme.gray300}
                   />
                 </View>
               </View>
@@ -764,7 +775,7 @@ export default function PersonalizationCard({
                 activeOpacity={0.7}
               >
                 <LinearGradient
-                  colors={(scaleNames.level1.trim() && scaleNames.level5.trim() && scaleNames.level10.trim()) ? ['#4CAF50', '#45A049'] : ['#CCCCCC', '#BBBBBB']}
+                  colors={(scaleNames.level1.trim() && scaleNames.level5.trim() && scaleNames.level10.trim()) ? [theme.primaryLight, theme.primary] : [theme.gray300, theme.gray300]}
                   style={styles.saveButton}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
@@ -779,7 +790,7 @@ export default function PersonalizationCard({
         
         {showSaveAnimation && (
           <View style={styles.celebrationOverlay}>
-            <Ionicons name="checkmark-circle" size={60} color="#4CAF50" />
+            <Ionicons name="checkmark-circle" size={60} color={theme.primary} />
             <Text style={styles.celebrationText}>Personalized!</Text>
           </View>
         )}
@@ -791,17 +802,17 @@ export default function PersonalizationCard({
   return null;
 }
 
-const styles = StyleSheet.create({
+const getStyles = (theme: Theme) => StyleSheet.create({
   container: {
     flex: 1,
   },
   planChoiceContainer: {
-    backgroundColor: '#F0FFF4',
+    backgroundColor: theme.primaryLightest,
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#4CAF50',
+    borderColor: theme.primary,
     borderStyle: 'dashed',
   },
   planChoiceHeader: {
@@ -813,30 +824,30 @@ const styles = StyleSheet.create({
   planChoiceTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#2E7D32',
+    color: theme.primary,
   },
   planChoiceSubtitle: {
     fontSize: 14,
-    color: '#424242',
+    color: theme.gray700,
     marginBottom: 16,
     lineHeight: 20,
   },
   planPreview: {
-    backgroundColor: 'white',
+    backgroundColor: theme.white,
     borderRadius: 12,
     padding: 12,
     marginBottom: 16,
   },
   planPreviewLabel: {
     fontSize: 12,
-    color: '#666',
+    color: theme.gray500,
     marginBottom: 4,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   planPreviewText: {
     fontSize: 15,
-    color: '#212121',
+    color: theme.gray900,
     lineHeight: 22,
   },
   planChoiceButtons: {
@@ -854,7 +865,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   keepPlanButtonText: {
-    color: 'white',
+    color: theme.white,
     fontSize: 15,
     fontWeight: '600',
   },
@@ -862,38 +873,38 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: theme.white,
     borderRadius: 12,
     paddingVertical: 12,
     borderWidth: 1.5,
-    borderColor: '#4CAF50',
+    borderColor: theme.primary,
     gap: 6,
   },
   updatePlanButtonText: {
-    color: '#4CAF50',
+    color: theme.primary,
     fontSize: 15,
     fontWeight: '500',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#212121',
+    color: theme.gray900,
     marginBottom: 20,
   },
   prompt: {
     fontSize: 16,
-    color: '#424242',
+    color: theme.gray700,
     lineHeight: 24,
     marginBottom: 24,
   },
   savedContainer: {
-    backgroundColor: '#F0F7FF',
+    backgroundColor: theme.primaryLightest,
     borderRadius: 16,
     padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
+    shadowColor: theme.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
     elevation: 3,
   },
   savedHeader: {
@@ -905,25 +916,25 @@ const styles = StyleSheet.create({
   savedTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#212121',
+    color: theme.gray900,
   },
   savedBox: {
-    backgroundColor: 'white',
+    backgroundColor: theme.white,
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
     borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: theme.primary,
   },
   savedPrompt: {
     fontSize: 14,
-    color: '#757575',
+    color: theme.gray500,
     marginBottom: 8,
   },
   savedText: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#2E7D32',
+    color: theme.primary,
   },
   editButton: {
     flexDirection: 'row',
@@ -935,7 +946,7 @@ const styles = StyleSheet.create({
   },
   editButtonText: {
     fontSize: 14,
-    color: '#4CAF50',
+    color: theme.primary,
     fontWeight: '600',
   },
   inputWrapper: {
@@ -943,14 +954,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   textInput: {
-    backgroundColor: '#FFF',
+    backgroundColor: theme.white,
     borderWidth: 2,
-    borderColor: '#E0E0E0',
-    borderRadius: 12,
+    borderColor: theme.gray300,
+    borderRadius: 14,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: '#333',
+    color: theme.gray900,
     minHeight: 52,
     marginTop: 8,
     shadowColor: '#000',
@@ -963,7 +974,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     borderRadius: 14,
     overflow: 'hidden',
-    shadowColor: '#4CAF50',
+    shadowColor: theme.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -978,13 +989,13 @@ const styles = StyleSheet.create({
     borderRadius: 14,
   },
   saveButtonDisabled: {
-    shadowColor: '#999',
+    shadowColor: theme.gray500,
     shadowOpacity: 0.1,
   },
   saveButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFF',
+    color: theme.white,
   },
   celebrationOverlay: {
     position: 'absolute',
@@ -992,22 +1003,22 @@ const styles = StyleSheet.create({
     left: '50%',
     transform: [{ translateX: -100 }, { translateY: -60 }],
     width: 200,
-    backgroundColor: 'white',
+    backgroundColor: theme.white,
     borderRadius: 20,
     padding: 24,
     alignItems: 'center',
-    shadowColor: '#4CAF50',
+    shadowColor: theme.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.3,
     shadowRadius: 16,
     elevation: 10,
     borderWidth: 2,
-    borderColor: '#E8F5E9',
+    borderColor: theme.primaryLightest,
   },
   celebrationText: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#2E7D32',
+    color: theme.primary,
     marginTop: 12,
   },
   choiceContainer: {
@@ -1015,12 +1026,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   choiceItem: {
-    backgroundColor: '#FFF',
+    backgroundColor: theme.white,
     borderRadius: 16,
     paddingVertical: 18,
     paddingHorizontal: 16,
     borderWidth: 2,
-    borderColor: '#E8E8E8',
+    borderColor: theme.gray100,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
@@ -1029,10 +1040,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   choiceItemSelected: {
-    backgroundColor: '#E8F5E9',
-    borderColor: '#4CAF50',
+    backgroundColor: theme.primaryLightest,
+    borderColor: theme.primary,
     borderWidth: 2.5,
-    shadowColor: '#4CAF50',
+    shadowColor: theme.primary,
     shadowOpacity: 0.15,
     shadowRadius: 6,
     elevation: 4,
@@ -1050,28 +1061,30 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    borderWidth: 2.5,
-    borderColor: 'rgba(0,0,0,0.08)',
+    borderWidth: 2,
+    borderColor: theme.gray300,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.gray100,
   },
   choiceCircleSelected: {
-    borderColor: '#424242',
+    borderColor: theme.primary,
     borderWidth: 3,
+    backgroundColor: theme.white,
   },
   choiceText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#424242',
+    color: theme.gray700,
     flex: 1,
   },
   choiceTextSelected: {
-    color: '#2E7D32',
+    color: theme.primary,
     fontWeight: '800',
   },
   choiceDescription: {
     fontSize: 13,
-    color: '#757575',
+    color: theme.gray500,
     marginLeft: 50,
     fontStyle: 'italic',
   },
@@ -1084,29 +1097,29 @@ const styles = StyleSheet.create({
   multiTextLabel: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: theme.gray900,
     marginBottom: 6,
   },
   savedMultiBox: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: theme.white,
     borderRadius: 12,
     padding: 16,
     gap: 12,
   },
   savedMultiItem: {
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderBottomColor: theme.gray100,
     paddingBottom: 8,
   },
   savedMultiLabel: {
     fontSize: 13,
-    color: '#666',
+    color: theme.gray500,
     marginBottom: 4,
   },
   savedMultiValue: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: theme.gray900,
   },
   scaleInputWrapper: {
     marginTop: 4,
@@ -1150,28 +1163,28 @@ const styles = StyleSheet.create({
   scaleNumberText: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#333',
+    color: theme.gray900,
   },
   scaleInputTextWrapper: {
     flex: 1,
   },
   scaleInputLabel: {
     fontSize: 13,
-    color: '#666',
+    color: theme.gray500,
     marginBottom: 6,
   },
   scaleInput: {
-    backgroundColor: '#FFF',
+    backgroundColor: theme.white,
     borderWidth: 2,
-    borderColor: '#E0E0E0',
-    borderRadius: 10,
+    borderColor: theme.gray300,
+    borderRadius: 14,
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 15,
-    color: '#333',
+    color: theme.gray900,
   },
   savedScaleBox: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: theme.white,
     borderRadius: 12,
     padding: 16,
     gap: 16,
@@ -1187,11 +1200,11 @@ const styles = StyleSheet.create({
   savedScaleName: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#2E7D32',
+    color: theme.primary,
     marginBottom: 2,
   },
   savedScaleDesc: {
     fontSize: 13,
-    color: '#666',
+    color: theme.gray500,
   },
 });

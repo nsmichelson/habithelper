@@ -430,6 +430,7 @@ export default function DailyTipCardEnhanced({
               onDataChange={(data) => dispatch(setPendingPersonalizationData(data))}
               showHeader={false}
               style={{ paddingHorizontal: 24 }}
+              theme={theme}
            />
         </View>
       </View>

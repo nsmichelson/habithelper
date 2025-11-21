@@ -10487,6 +10487,15 @@ export const MINDSET_TIPS: Tip[] = [
     "area": "stress" as const,
     "summary": "Brag File Drop-In",
     "details_md": "**Action:** Create or open a brag file and add three fresh screenshots, quotes, or metrics that prove your impact.\n\n**Trigger & Frequency:** Once today when you receive feedback or complete work.\n\n**Why it Works:** Stored evidence builds quick-reference counters for future impostor surges.",
+    "personalization_prompt": "What 3 types of evidence will you add to your brag file?",
+    "personalization_type": "multi_text",
+    "personalization_config": {
+      "items": [
+        { "label": "Item 1 (e.g. Screenshot)", "placeholder": "e.g. Slack praise" },
+        { "label": "Item 2 (e.g. Metric)", "placeholder": "e.g. 20% growth" },
+        { "label": "Item 3 (e.g. Quote)", "placeholder": "e.g. 'Great job!'" }
+      ]
+    },
     "media": {
       "cover": {
         "url": require('../assets/tips/organization/create_brag_file.png'),
