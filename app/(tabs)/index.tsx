@@ -42,6 +42,7 @@ import { tipRecommendationService } from '@/services/tipRecommendation';
 import NotificationService from '@/services/notifications';
 import AwardService from '@/services/awardService';
 import AnalyticsService from '@/services/analytics';
+import { preloadImages } from '@/services/imagePreloader';
 import { useAwards, useAwardTrigger } from '@/hooks/useAwards';
 import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete } from '@/types/tip';
 import { SimplifiedTip } from '@/types/simplifiedTip';
@@ -208,7 +209,12 @@ export default function HomeScreen() {
   const initializeApp = async () => {
     try {
       console.log('Starting app initialization...');
-      
+
+      // Preload images in parallel with other initialization
+      const imagePreloadPromise = preloadImages().catch(err => {
+        console.warn('Image preload failed (non-critical):', err);
+      });
+
       // Check if onboarding is completed
       const onboardingCompleted = await StorageService.isOnboardingCompleted();
       console.log('Onboarding completed:', onboardingCompleted);
@@ -239,6 +245,8 @@ export default function HomeScreen() {
       }
       
       console.log('Initialization complete, setting loading to false');
+      // Wait for image preloading to complete (but don't block if it fails)
+      await imagePreloadPromise;
     } catch (error: any) {
       console.error('Error initializing app:', error);
       console.error('Error stack:', error?.stack);

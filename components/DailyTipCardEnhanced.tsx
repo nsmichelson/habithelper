@@ -266,6 +266,8 @@ export default function DailyTipCardEnhanced({
                 style={styles.coverImage}
                 resizeMode="cover"
                 accessibilityLabel={summaryImage.alt_text}
+                // Performance optimizations
+                fadeDuration={0} // Disable fade-in animation for instant display
               />
               <LinearGradient
                 colors={['transparent', 'rgba(0,0,0,0.7)']}
