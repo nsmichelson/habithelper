@@ -10487,6 +10487,20 @@ export const MINDSET_TIPS: Tip[] = [
     "area": "stress" as const,
     "summary": "Brag File Drop-In",
     "details_md": "**Action:** Create or open a brag file and add three fresh screenshots, quotes, or metrics that prove your impact.\n\n**Trigger & Frequency:** Once today when you receive feedback or complete work.\n\n**Why it Works:** Stored evidence builds quick-reference counters for future impostor surges.",
+    "media": {
+      "cover": {
+        "url": require('../assets/tips/organization/create_brag_file.png'),
+        "alt_text": "Professional workspace with organized achievement documents and success metrics displayed",
+        "focus_point": "center"
+      },
+      "pages": {
+        "summary": {
+          "url": require('../assets/tips/organization/create_brag_file.png'),
+          "alt_text": "Visual representation of a brag file with achievements",
+          "placement": "hero"
+        }
+      }
+    },
     "contraindications": [],
     "goal_tags": [
       "build_confidence",

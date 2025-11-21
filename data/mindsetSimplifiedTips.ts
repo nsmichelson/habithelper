@@ -362,6 +362,8 @@ const convertTipToSimplified = (tip: Tip): SimplifiedTip => {
     difficulty: tip.difficulty_tier,
     source: convertSource(tip.created_by),
     sustainability: convertSustainability(tip.sustainability),
+    // Pass through media if it exists
+    ...(tip.media && { media: tip.media }),
   };
 };
 

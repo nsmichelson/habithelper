@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -241,23 +242,58 @@ export default function DailyTipCardEnhanced({
 
   // --- Render Methods ---
 
-  const renderSummaryCard = () => (
-    <View style={styles.pageContainer}>
-      <View style={styles.mainCard}>
-        <LinearGradient
-          colors={[theme.primary, theme.primaryLight]}
-          style={styles.cardVisualGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-        >
-          <CardVisualHeader 
-            title={tip.summary} 
-            subtitle="Today's Idea to Try" 
-            icon="bulb-outline" 
-          />
-        </LinearGradient>
+  const renderSummaryCard = () => {
+    const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
 
-        <View style={styles.cardContent}>
+    // Debug logging
+    console.log('=== IMAGE DEBUG ===');
+    console.log('Tip ID:', tip.tip_id);
+    console.log('Tip Summary:', tip.summary);
+    console.log('Has media object?', !!tip.media);
+    console.log('Media object:', tip.media);
+    console.log('Summary image:', summaryImage);
+    console.log('Image URL:', summaryImage?.url);
+    console.log('===================');
+
+    return (
+      <View style={styles.pageContainer}>
+        <View style={styles.mainCard}>
+          {summaryImage ? (
+            // Show image if available
+            <View style={styles.imageContainer}>
+              <Image
+                source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
+                style={styles.coverImage}
+                resizeMode="cover"
+                accessibilityLabel={summaryImage.alt_text}
+              />
+              <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,0.7)']}
+                style={styles.imageOverlay}
+              >
+                <View style={styles.imageHeaderContent}>
+                  <Text style={styles.imageCardTitle}>{tip.summary}</Text>
+                  <Text style={styles.imageCardSubtitle}>Today's Idea to Try</Text>
+                </View>
+              </LinearGradient>
+            </View>
+          ) : (
+            // Original gradient header when no image
+            <LinearGradient
+              colors={[theme.primary, theme.primaryLight]}
+              style={styles.cardVisualGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              <CardVisualHeader
+                title={tip.summary}
+                subtitle="Today's Idea to Try"
+                icon="bulb-outline"
+              />
+            </LinearGradient>
+          )}
+
+          <View style={styles.cardContent}>
           <View style={styles.benefitsGrid}>
             {reasons.length > 0 ? reasons.map((r, i) => (
               <View key={i} style={styles.benefitItem}>
@@ -287,7 +323,8 @@ export default function DailyTipCardEnhanced({
         </View>
       </View>
     </View>
-  );
+    );
+  };
 
   const renderGoalsCard = () => (
     <View style={styles.pageContainer}>
@@ -653,7 +690,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardVisualGradient: {
-    height: 220, 
+    height: 220,
   },
   cardVisual: {
     flex: 1,
@@ -661,6 +698,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
     padding: 20,
+  },
+  imageContainer: {
+    height: 220,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  coverImage: {
+    width: '100%',
+    height: '100%',
+  },
+  imageOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 120,
+    justifyContent: 'flex-end',
+    padding: 20,
+  },
+  imageHeaderContent: {
+    alignItems: 'flex-start',
+  },
+  imageCardTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: NEUTRALS.white,
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+    marginBottom: 4,
+  },
+  imageCardSubtitle: {
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.9)',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   decoCircleBig: {
     position: 'absolute',

@@ -237,6 +237,9 @@ export interface Tip {
     min_items?: number; // Minimum items for list
     max_items?: number; // Maximum items for list
   };
+
+  // Media/Visual assets for the tip
+  media?: any; // Using any to match SimplifiedTip's media structure
 }
 
 export type TipFeedback = 
