@@ -101,6 +101,11 @@ interface Props {
    * Defaults to true to avoid double headers in main screens.
    */
   hideHeader?: boolean;
+  /**
+   * If true, selects a random theme color when the component first renders.
+   * Defaults to true.
+   */
+  randomizeThemeOnLoad?: boolean;
 }
 
 export default function DailyTipCardEnhanced({ 
@@ -113,10 +118,19 @@ export default function DailyTipCardEnhanced({
   maybeLaterInfo, 
   onSavePersonalization, 
   savedPersonalizationData,
-  hideHeader = true // <--- Now defaults to TRUE
+  hideHeader = true,
+  randomizeThemeOnLoad = true // <--- New Prop Default
 }: Props) {
+  
   // --- Theme State ---
-  const [themeKey, setThemeKey] = useState<keyof typeof THEMES>('green');
+  // Initialize state with a random key if the prop is true
+  const [themeKey, setThemeKey] = useState<keyof typeof THEMES>(() => {
+    if (randomizeThemeOnLoad) {
+      const randomIndex = Math.floor(Math.random() * THEME_KEYS.length);
+      return THEME_KEYS[randomIndex];
+    }
+    return 'green';
+  });
   
   // Derived theme object
   const theme = useMemo(() => ({
@@ -543,7 +557,6 @@ export default function DailyTipCardEnhanced({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // Removed background color to be transparent to parent
   },
   header: {
     paddingHorizontal: 20,
@@ -554,7 +567,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // Removed marginTop: insets.top to avoid double spacing
   },
   appTitle: {
     fontSize: 20,
