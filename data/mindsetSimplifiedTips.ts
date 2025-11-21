@@ -364,6 +364,10 @@ const convertTipToSimplified = (tip: Tip): SimplifiedTip => {
     sustainability: convertSustainability(tip.sustainability),
     // Pass through media if it exists
     ...(tip.media && { media: tip.media }),
+    // Pass through personalization fields
+    personalization_prompt: tip.personalization_prompt,
+    personalization_type: tip.personalization_type,
+    personalization_config: tip.personalization_config,
   };
 };
 

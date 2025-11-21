@@ -151,6 +151,7 @@ export default function DailyTipCardEnhanced({
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
+  const personalizationScrollRef = useRef<ScrollView>(null);
   
   const dispatch = useAppDispatch();
   const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
@@ -295,7 +296,7 @@ export default function DailyTipCardEnhanced({
             </LinearGradient>
           )}
 
-          <View style={styles.cardContent}>
+          <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
           <View style={styles.benefitsGrid}>
             {reasons.length > 0 ? reasons.map((r, i) => (
               <View key={i} style={styles.benefitItem}>
@@ -322,7 +323,7 @@ export default function DailyTipCardEnhanced({
           {tip.short_description && (
             <Text style={styles.bodyText}>{tip.short_description}</Text>
           )}
-        </View>
+        </ScrollView>
       </View>
     </View>
     );
@@ -419,7 +420,12 @@ export default function DailyTipCardEnhanced({
         <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
           <CardVisualHeader title="Your Plan" subtitle="Customize It" icon="create-outline" />
         </LinearGradient>
-        <View style={[styles.cardContent, { paddingHorizontal: 0, flex: 1 }]}>
+        <ScrollView
+          ref={personalizationScrollRef}
+          style={[styles.cardContent, { paddingHorizontal: 0, flex: 1 }]}
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
            <PersonalizationCard
               tip={tip}
               savedData={savedPersonalizationData || reduxSavedData}
@@ -430,8 +436,10 @@ export default function DailyTipCardEnhanced({
               onDataChange={(data) => dispatch(setPendingPersonalizationData(data))}
               showHeader={false}
               style={{ paddingHorizontal: 24 }}
+              theme={theme}
+              scrollViewRef={personalizationScrollRef}
            />
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
