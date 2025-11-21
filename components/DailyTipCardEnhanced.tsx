@@ -296,7 +296,7 @@ export default function DailyTipCardEnhanced({
             </LinearGradient>
           )}
 
-          <View style={styles.cardContent}>
+          <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
           <View style={styles.benefitsGrid}>
             {reasons.length > 0 ? reasons.map((r, i) => (
               <View key={i} style={styles.benefitItem}>
@@ -323,7 +323,7 @@ export default function DailyTipCardEnhanced({
           {tip.short_description && (
             <Text style={styles.bodyText}>{tip.short_description}</Text>
           )}
-        </View>
+        </ScrollView>
       </View>
     </View>
     );
