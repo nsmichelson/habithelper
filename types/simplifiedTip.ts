@@ -8,6 +8,75 @@ export interface SimplifiedTip {
   details_md: string;             // Full markdown description with "how-to" content
   short_description?: string;     // 7-12 word teaser shown alongside the summary
 
+  // ============ MEDIA & VISUALS ============
+
+  media?: {
+    // Hero/cover image for the tip (shown on summary page)
+    cover?: {
+      url: string;                    // Path to image (local or remote)
+      alt_text: string;               // Accessibility description
+      focus_point?: 'center' | 'top' | 'bottom' | 'face'; // For smart cropping
+      credits?: string;               // Photo credits if needed
+    };
+
+    // Page-specific images (matching your card pages)
+    pages?: {
+      summary?: {
+        url: string;
+        alt_text: string;
+        placement?: 'hero' | 'background' | 'inline'; // How it's displayed
+      };
+
+      goals?: {
+        url: string;
+        alt_text: string;
+        type?: 'photo' | 'icon' | 'illustration';
+      };
+
+      benefits?: {                    // The "Why It Works" page
+        url: string;
+        alt_text: string;
+        type?: 'photo' | 'diagram' | 'infographic';
+      };
+
+      howto?: {                       // Step-by-step instructions
+        url: string;
+        alt_text: string;
+        type?: 'photo' | 'diagram' | 'gif' | 'video_thumbnail';
+        steps?: {                     // Optional: Multiple images for different steps
+          step_number: number;
+          url: string;
+          alt_text: string;
+          caption?: string;
+        }[];
+      };
+
+      personalization?: {             // The "Your Plan" page
+        url: string;
+        alt_text: string;
+        type?: 'illustration' | 'photo';
+      };
+    };
+
+    // Additional visual elements
+    thumbnail?: {                     // For lists/history views
+      url: string;
+      alt_text: string;
+    };
+
+    success?: {                       // "After" or completion celebration image
+      url: string;
+      alt_text: string;
+    };
+
+    // Style hints for consistent rendering
+    style?: {
+      aspect_ratio?: '16:9' | '4:3' | '1:1' | '9:16';  // Preferred aspect ratio
+      overlay_text?: boolean;         // Whether text should overlay the image
+      blur_background?: boolean;      // If image should be blurred as background
+    };
+  };
+
   // ============ CATEGORIZATION ============
 
   area: 'nutrition' | 'fitness' | 'organization' | 'relationships' | 'stress' | 'sleep';
