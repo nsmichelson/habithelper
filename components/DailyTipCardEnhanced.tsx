@@ -671,9 +671,9 @@ const styles = StyleSheet.create({
   },
   storyLine: {
     position: 'absolute',
-    top: 28, // Center of circle height
-    left: 56, // Circle width
-    width: 30, // Distance to next circle
+    top: 27, // Center of circle height
+    left: 35, // Center of item
+    width: 86, // Distance to next center (70 width + 16 margin)
     height: 2,
     backgroundColor: NEUTRALS.gray300,
     zIndex: -1,
