@@ -297,6 +297,10 @@ export default function DailyTipCardEnhanced({
           )}
 
           <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
+          {tip.short_description && (
+            <Text style={styles.bodyText}>{tip.short_description}</Text>
+          )}
+
           <View style={styles.benefitsGrid}>
             {reasons.length > 0 ? reasons.map((r, i) => (
               <View key={i} style={styles.benefitItem}>
@@ -309,7 +313,7 @@ export default function DailyTipCardEnhanced({
                  <Text style={styles.benefitText}>Quick & Effective</Text>
               </View>
             )}
-            
+
             <View style={styles.benefitItem}>
               <Ionicons name="people" size={18} color={theme.primaryLight} />
               <Text style={styles.benefitText}>Community Favorite</Text>
@@ -319,10 +323,6 @@ export default function DailyTipCardEnhanced({
               <Text style={styles.benefitText}>{tip.money_cost_enum === 'free' ? 'Completely Free' : 'Low Cost'}</Text>
             </View>
           </View>
-
-          {tip.short_description && (
-            <Text style={styles.bodyText}>{tip.short_description}</Text>
-          )}
         </ScrollView>
       </View>
     </View>
