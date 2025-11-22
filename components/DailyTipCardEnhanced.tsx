@@ -235,7 +235,7 @@ export default function DailyTipCardEnhanced({
         </View>
       </View>
 
-      <Ionicons name={icon} size={56} color="white" style={styles.visualIcon} />
+      <Ionicons name={icon} size={48} color="white" style={styles.visualIcon} />
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardSubtitle}>{subtitle}</Text>
     </View>
@@ -484,7 +484,7 @@ export default function DailyTipCardEnhanced({
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false} 
-          contentContainerStyle={{ paddingHorizontal: 20 }}
+          contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 12 }}
         >
           {pages.map((page, index) => {
             const isActive = index === currentPage;
@@ -633,7 +633,6 @@ const styles = StyleSheet.create({
   // Stories Section
   storiesSection: {
     backgroundColor: NEUTRALS.white,
-    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0,0,0,0.05)',
   },
@@ -700,7 +699,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardVisualGradient: {
-    height: 220,
+    height: 180,
   },
   cardVisual: {
     flex: 1,
@@ -710,7 +709,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   imageContainer: {
-    height: 220,
+    height: 180,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -723,7 +722,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 120,
+    height: 100,
     justifyContent: 'flex-end',
     padding: 20,
   },
@@ -748,21 +747,21 @@ const styles = StyleSheet.create({
   },
   decoCircleBig: {
     position: 'absolute',
-    width: 300,
-    height: 300,
-    borderRadius: 150,
+    width: 240,
+    height: 240,
+    borderRadius: 120,
     backgroundColor: 'rgba(255,255,255,0.1)',
-    top: -150,
-    right: -150,
+    top: -120,
+    right: -120,
   },
   decoCircleSmall: {
     position: 'absolute',
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: 160,
+    height: 160,
+    borderRadius: 80,
     backgroundColor: 'rgba(255,255,255,0.08)',
-    bottom: -100,
-    left: -100,
+    bottom: -80,
+    left: -80,
   },
   timeDifficultyContainer: {
     position: 'absolute',
@@ -793,7 +792,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   cardTitle: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: '700',
     color: NEUTRALS.white,
     textAlign: 'center',
