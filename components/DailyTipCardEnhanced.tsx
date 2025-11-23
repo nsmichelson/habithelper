@@ -18,6 +18,7 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SimplifiedTip } from '../types/simplifiedTip';
 import PersonalizationCard from './PersonalizationCard';
 
@@ -109,20 +110,23 @@ interface Props {
   randomizeThemeOnLoad?: boolean;
 }
 
-export default function DailyTipCardEnhanced({ 
-  tip, 
-  onResponse, 
-  onNotForMe, 
-  reasons = [], 
-  userGoals = [], 
-  rejectionInfo, 
-  maybeLaterInfo, 
-  onSavePersonalization, 
+export default function DailyTipCardEnhanced({
+  tip,
+  onResponse,
+  onNotForMe,
+  reasons = [],
+  userGoals = [],
+  rejectionInfo,
+  maybeLaterInfo,
+  onSavePersonalization,
   savedPersonalizationData,
   hideHeader = true,
   randomizeThemeOnLoad = true // <--- New Prop Default
 }: Props) {
-  
+
+  // Get safe area insets for proper button positioning
+  const insets = useSafeAreaInsets();
+
   // --- Theme State ---
   // Initialize state with a random key if the prop is true
   const [themeKey, setThemeKey] = useState<keyof typeof THEMES>(() => {
@@ -132,7 +136,7 @@ export default function DailyTipCardEnhanced({
     }
     return 'green';
   });
-  
+
   // Derived theme object
   const theme = useMemo(() => ({
     ...THEMES[themeKey],
@@ -566,7 +570,7 @@ export default function DailyTipCardEnhanced({
 
       {/* 5. Action Buttons */}
       {!rejectionInfo && !maybeLaterInfo && (
-        <View style={styles.actionSection}>
+        <View style={[styles.actionSection, { paddingBottom: 20 + insets.bottom }]}>
           <TouchableOpacity
             style={[styles.primaryBtn, { backgroundColor: theme.primary, shadowColor: theme.primary }]}
             onPress={() => handleResponse('try_it')}
