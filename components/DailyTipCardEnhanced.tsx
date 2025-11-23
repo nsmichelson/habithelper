@@ -683,9 +683,11 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     width: SCREEN_WIDTH,
+    height: '100%',
     paddingHorizontal: CARD_MARGIN,
     paddingTop: 12,
     paddingBottom: 8,
+    justifyContent: 'center',
   },
   mainCard: {
     flex: 1,
@@ -785,7 +787,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   visualIcon: {
-    marginBottom: 12,
+    marginBottom: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -797,7 +799,7 @@ const styles = StyleSheet.create({
     color: NEUTRALS.white,
     textAlign: 'center',
     letterSpacing: -0.5,
-    marginBottom: 4,
+    marginBottom: 2,
     textShadowColor: 'rgba(0,0,0,0.1)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
@@ -811,21 +813,21 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flex: 1,
-    padding: 16,
+    padding: 12,
     backgroundColor: NEUTRALS.white,
   },
   benefitsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 12,
   },
   benefitItem: {
     width: '48%',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
+    gap: 6,
+    marginBottom: 8,
   },
   benefitText: {
     fontSize: 13,
@@ -842,7 +844,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: NEUTRALS.gray900,
-    marginBottom: 12,
+    marginBottom: 8,
     textTransform: 'uppercase',
   },
   tagContainer: {
@@ -907,7 +909,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 6,
-    marginBottom: 12,
+    marginBottom: 8,
   },
   primaryBtnText: {
     color: NEUTRALS.white,
