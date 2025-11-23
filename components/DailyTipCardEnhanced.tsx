@@ -223,7 +223,7 @@ export default function DailyTipCardEnhanced({
 
   // --- Helper Components ---
 
-  const CardVisualHeader = ({ title, subtitle, icon }: any) => (
+  const CardVisualHeader = ({ title, subtitle, icon, description }: any) => (
     <View style={styles.cardVisual}>
       {/* Background decoration circles */}
       <View style={styles.decoCircleBig} />
@@ -242,6 +242,9 @@ export default function DailyTipCardEnhanced({
       <Ionicons name={icon} size={56} color="white" style={styles.visualIcon} />
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardSubtitle}>{subtitle}</Text>
+      {description && (
+        <Text style={styles.gradientCardDescription}>{description}</Text>
+      )}
     </View>
   );
 
@@ -281,6 +284,9 @@ export default function DailyTipCardEnhanced({
                 <View style={styles.imageHeaderContent}>
                   <Text style={styles.imageCardTitle}>{tip.summary}</Text>
                   <Text style={styles.imageCardSubtitle}>Today's Idea to Try</Text>
+                  {tip.short_description && (
+                    <Text style={styles.imageCardDescription}>{tip.short_description}</Text>
+                  )}
                 </View>
               </LinearGradient>
             </View>
@@ -296,15 +302,12 @@ export default function DailyTipCardEnhanced({
                 title={tip.summary}
                 subtitle="Today's Idea to Try"
                 icon="bulb-outline"
+                description={tip.short_description}
               />
             </LinearGradient>
           )}
 
           <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
-          {tip.short_description && (
-            <Text style={styles.bodyText}>{tip.short_description}</Text>
-          )}
-
           <View style={styles.benefitsGrid}>
             {reasons.length > 0 ? reasons.map((r, i) => (
               <View key={i} style={styles.benefitItem}>
@@ -704,7 +707,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardVisualGradient: {
-    height: 220,
+    height: 260,  // Increased to accommodate description text
   },
   cardVisual: {
     flex: 1,
@@ -714,7 +717,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   imageContainer: {
-    height: 220,
+    height: 260,  // Increased to accommodate description text
     position: 'relative',
     overflow: 'hidden',
   },
@@ -727,7 +730,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 120,
+    height: 160,  // Increased to accommodate description
     justifyContent: 'flex-end',
     padding: 20,
   },
@@ -749,6 +752,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 1,
+  },
+  imageCardDescription: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.95)',
+    marginTop: 8,
+    lineHeight: 20,
+  },
+  gradientCardDescription: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.95)',
+    marginTop: 8,
+    lineHeight: 20,
+    textAlign: 'center',
+    paddingHorizontal: 20,
   },
   decoCircleBig: {
     position: 'absolute',
