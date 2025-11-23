@@ -235,7 +235,7 @@ export default function DailyTipCardEnhanced({
         </View>
       </View>
 
-      <Ionicons name={icon} size={48} color="white" style={styles.visualIcon} />
+      <Ionicons name={icon} size={40} color="white" style={styles.visualIcon} />
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardSubtitle}>{subtitle}</Text>
     </View>
@@ -484,7 +484,7 @@ export default function DailyTipCardEnhanced({
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false} 
-          contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 12 }}
+          contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
           {pages.map((page, index) => {
             const isActive = index === currentPage;
@@ -684,8 +684,8 @@ const styles = StyleSheet.create({
   pageContainer: {
     width: SCREEN_WIDTH,
     paddingHorizontal: CARD_MARGIN,
-    paddingTop: 20,
-    paddingBottom: 10,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   mainCard: {
     flex: 1,
@@ -699,7 +699,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardVisualGradient: {
-    height: 180,
+    height: 150,
   },
   cardVisual: {
     flex: 1,
@@ -709,7 +709,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   imageContainer: {
-    height: 180,
+    height: 150,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -722,7 +722,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 100,
+    height: 80,
     justifyContent: 'flex-end',
     padding: 20,
   },
@@ -747,21 +747,21 @@ const styles = StyleSheet.create({
   },
   decoCircleBig: {
     position: 'absolute',
-    width: 240,
-    height: 240,
-    borderRadius: 120,
+    width: 220,
+    height: 220,
+    borderRadius: 110,
     backgroundColor: 'rgba(255,255,255,0.1)',
-    top: -120,
-    right: -120,
+    top: -110,
+    right: -110,
   },
   decoCircleSmall: {
     position: 'absolute',
-    width: 160,
-    height: 160,
-    borderRadius: 80,
+    width: 150,
+    height: 150,
+    borderRadius: 75,
     backgroundColor: 'rgba(255,255,255,0.08)',
-    bottom: -80,
-    left: -80,
+    bottom: -75,
+    left: -75,
   },
   timeDifficultyContainer: {
     position: 'absolute',
@@ -792,7 +792,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   cardTitle: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '700',
     color: NEUTRALS.white,
     textAlign: 'center',
@@ -803,7 +803,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
   },
   cardSubtitle: {
-    fontSize: 13,
+    fontSize: 12,
     color: 'rgba(255,255,255,0.9)',
     fontWeight: '600',
     textTransform: 'uppercase',
@@ -811,7 +811,7 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flex: 1,
-    padding: 24,
+    padding: 16,
     backgroundColor: NEUTRALS.white,
   },
   benefitsGrid: {
@@ -885,7 +885,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 6,
-    paddingBottom: 16,
+    paddingBottom: 10,
   },
   socialProofText: {
     fontSize: 13,
@@ -894,11 +894,11 @@ const styles = StyleSheet.create({
   // Actions
   actionSection: {
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingBottom: 12,
   },
   primaryBtn: {
     borderRadius: 14,
-    paddingVertical: 16,
+    paddingVertical: 14,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -924,7 +924,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 6,
-    paddingVertical: 12,
+    paddingVertical: 10,
     borderRadius: 12,
     backgroundColor: NEUTRALS.white,
     borderWidth: 1,
