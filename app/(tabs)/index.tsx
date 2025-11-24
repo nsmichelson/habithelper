@@ -2255,7 +2255,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F5E9',
+    backgroundColor: '#FFFFFF',
   },
   simulationBanner: {
     flexDirection: 'row',
