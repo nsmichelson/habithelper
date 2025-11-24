@@ -540,12 +540,22 @@ export default function DailyTipCardEnhanced({
         />
       </View>
 
-      {/* 4. Social Proof */}
-      <View style={styles.socialProof}>
-        <Ionicons name="people-circle-outline" size={18} color={theme.primary} />
-        <Text style={styles.socialProofText}>
-          <Text style={{ color: theme.primary, fontWeight: '700' }}>2,403</Text> people tried this recently
-        </Text>
+      {/* 4. Quick Info Bar */}
+      <View style={styles.quickInfoBar}>
+        <View style={styles.quickInfoItem}>
+          <Ionicons name="time-outline" size={16} color={theme.primary} />
+          <Text style={styles.quickInfoText}>{tip.time ? tip.time.replace('_', ' ') : '5 min'}</Text>
+        </View>
+        <View style={styles.quickInfoDivider} />
+        <View style={styles.quickInfoItem}>
+          <Ionicons name="people" size={16} color={theme.primary} />
+          <Text style={styles.quickInfoText}>2.4k tried</Text>
+        </View>
+        <View style={styles.quickInfoDivider} />
+        <View style={styles.quickInfoItem}>
+          <Ionicons name="wallet-outline" size={16} color={theme.primary} />
+          <Text style={styles.quickInfoText}>{tip.money_cost_enum === 'free' ? 'Free' : 'Low Cost'}</Text>
+        </View>
       </View>
 
       {/* 5. Action Buttons */}
@@ -752,24 +762,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '400',
   },
-  quickInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 16,
-    backgroundColor: NEUTRALS.gray100,
-    borderRadius: 12,
-    marginBottom: 20,
-  },
-  quickInfoItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  quickInfoText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: NEUTRALS.gray700,
-  },
   reasonsContainer: {
     marginTop: 8,
   },
@@ -930,17 +922,30 @@ const styles = StyleSheet.create({
     marginRight: 8,
     fontWeight: 'bold',
   },
-  // Social Proof
-  socialProof: {
+  // Quick Info Bar
+  quickInfoBar: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 6,
-    paddingBottom: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    backgroundColor: NEUTRALS.white,
   },
-  socialProofText: {
-    fontSize: 13,
+  quickInfoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 12,
+  },
+  quickInfoText: {
+    fontSize: 12,
+    fontWeight: '600',
     color: NEUTRALS.gray700,
+  },
+  quickInfoDivider: {
+    width: 1,
+    height: 16,
+    backgroundColor: NEUTRALS.gray300,
   },
   // Actions
   actionSection: {
