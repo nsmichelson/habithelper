@@ -223,7 +223,7 @@ export default function DailyTipCardEnhanced({
 
   // --- Helper Components ---
 
-  const CardVisualHeader = ({ title, subtitle, icon, description }: any) => (
+  const CardVisualHeader = ({ title, subtitle, icon }: any) => (
     <View style={styles.cardVisual}>
       {/* Background decoration circles */}
       <View style={styles.decoCircleBig} />
@@ -242,9 +242,6 @@ export default function DailyTipCardEnhanced({
       <Ionicons name={icon} size={56} color="white" style={styles.visualIcon} />
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardSubtitle}>{subtitle}</Text>
-      {description && (
-        <Text style={styles.gradientCardDescription}>{description}</Text>
-      )}
     </View>
   );
 
@@ -277,18 +274,6 @@ export default function DailyTipCardEnhanced({
                 // Performance optimizations
                 fadeDuration={0} // Disable fade-in animation for instant display
               />
-              <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.7)']}
-                style={styles.imageOverlay}
-              >
-                <View style={styles.imageHeaderContent}>
-                  <Text style={styles.imageCardTitle}>{tip.summary}</Text>
-                  <Text style={styles.imageCardSubtitle}>Today's Idea to Try</Text>
-                  {tip.short_description && (
-                    <Text style={styles.imageCardDescription}>{tip.short_description}</Text>
-                  )}
-                </View>
-              </LinearGradient>
             </View>
           ) : (
             // Original gradient header when no image
@@ -302,13 +287,32 @@ export default function DailyTipCardEnhanced({
                 title={tip.summary}
                 subtitle="Today's Idea to Try"
                 icon="bulb-outline"
-                description={tip.short_description}
               />
             </LinearGradient>
           )}
 
           <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
-            {/* Content area is now empty - description moved to header */}
+            {/* When there's an image, show the text content below it */}
+            {summaryImage && (
+              <View style={styles.textContentContainer}>
+                <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
+                <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
+                {tip.short_description && (
+                  <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
+                    {tip.short_description}
+                  </Text>
+                )}
+              </View>
+            )}
+            {/* When there's no image (gradient header), the text stays in the header */}
+            {!summaryImage && tip.short_description && (
+              <View style={styles.textContentContainer}>
+                {/* Just show the description since title is already in gradient header */}
+                <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
+                  {tip.short_description}
+                </Text>
+              </View>
+            )}
           </ScrollView>
       </View>
     </View>
@@ -686,7 +690,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardVisualGradient: {
-    height: 360,
+    height: 240,  // Matching image height for consistency
   },
   cardVisual: {
     flex: 1,
@@ -696,7 +700,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   imageContainer: {
-    height: 360,
+    height: 240,  // Reduced since no text overlay needed
     position: 'relative',
     overflow: 'hidden',
   },
@@ -732,19 +736,26 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  imageCardDescription: {
-    fontSize: 15,
-    color: 'rgba(255,255,255,0.95)',
-    marginTop: 10,
-    lineHeight: 22,
+  textContentContainer: {
+    paddingBottom: 20,
   },
-  gradientCardDescription: {
-    fontSize: 15,
-    color: 'rgba(255,255,255,0.95)',
-    marginTop: 10,
-    lineHeight: 22,
-    textAlign: 'center',
-    paddingHorizontal: 30,
+  contentTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 4,
+    letterSpacing: -0.5,
+  },
+  contentSubtitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 12,
+  },
+  contentDescription: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
   },
   quickInfoContainer: {
     flexDirection: 'row',
