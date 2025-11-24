@@ -627,15 +627,16 @@ const styles = StyleSheet.create({
   // Stories Section
   storiesSection: {
     backgroundColor: NEUTRALS.white,
-    paddingVertical: 16,
+    paddingTop: 20,  // Increased top padding to prevent cutoff
+    paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0,0,0,0.05)',
   },
   storyItem: {
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: 0,  // Remove margin, use spacing differently
     position: 'relative',
-    width: 70, // Fixed width for spacing
+    width: 86,  // Increased to accommodate line positioning
   },
   storyCircle: {
     width: 56,
@@ -662,12 +663,13 @@ const styles = StyleSheet.create({
     color: NEUTRALS.gray500,
     fontWeight: '500',
     textAlign: 'center',
+    marginTop: 2,  // Small margin to prevent cutoff
   },
   storyLine: {
     position: 'absolute',
     top: 28, // Center of circle height
-    left: 56, // Circle width
-    width: 30, // Distance to next circle
+    left: 56, // Start from right edge of circle
+    width: 30, // Connect to next circle
     height: 2,
     backgroundColor: NEUTRALS.gray300,
     zIndex: -1,
