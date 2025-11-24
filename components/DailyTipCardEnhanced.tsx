@@ -277,9 +277,9 @@ export default function DailyTipCardEnhanced({
                 // Performance optimizations
                 fadeDuration={0} // Disable fade-in animation for instant display
               />
-              {/* Stronger gradient overlay for better text readability */}
+              {/* Very strong gradient overlay for maximum text readability */}
               <LinearGradient
-                colors={['transparent', 'transparent', 'rgba(0,0,0,0.4)', 'rgba(0,0,0,0.8)', 'rgba(0,0,0,0.9)']}
+                colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.85)', 'rgba(0,0,0,0.95)']}
                 style={styles.imageOverlay}
               >
                 <View style={styles.imageHeaderContent}>
@@ -710,7 +710,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 220,  // Increased to accommodate all text with stronger gradient
+    height: 260,  // Extended gradient area for stronger effect
     justifyContent: 'flex-end',
     padding: 20,
     paddingBottom: 24,
