@@ -468,7 +468,11 @@ export default function DailyTipCardEnhanced({
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false} 
-          contentContainerStyle={{ paddingHorizontal: 20 }}
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            paddingTop: 20,
+            paddingBottom: 16
+          }}
         >
           {pages.map((page, index) => {
             const isActive = index === currentPage;
@@ -627,8 +631,6 @@ const styles = StyleSheet.create({
   // Stories Section
   storiesSection: {
     backgroundColor: NEUTRALS.white,
-    paddingTop: 20,  // Increased top padding to prevent cutoff
-    paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0,0,0,0.05)',
   },
@@ -668,8 +670,8 @@ const styles = StyleSheet.create({
   storyLine: {
     position: 'absolute',
     top: 28, // Center of circle height
-    left: 56, // Start from right edge of circle
-    width: 30, // Connect to next circle
+    left: '50%', // Start from center of current item
+    width: '100%', // Span to center of next item
     height: 2,
     backgroundColor: NEUTRALS.gray300,
     zIndex: -1,
