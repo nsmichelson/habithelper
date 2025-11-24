@@ -223,7 +223,7 @@ export default function DailyTipCardEnhanced({
 
   // --- Helper Components ---
 
-  const CardVisualHeader = ({ title, subtitle, icon, description }: any) => (
+  const CardVisualHeader = ({ title, subtitle, icon }: any) => (
     <View style={styles.cardVisual}>
       {/* Background decoration circles */}
       <View style={styles.decoCircleBig} />
@@ -242,9 +242,6 @@ export default function DailyTipCardEnhanced({
       <Ionicons name={icon} size={56} color="white" style={styles.visualIcon} />
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardSubtitle}>{subtitle}</Text>
-      {description && (
-        <Text style={styles.gradientCardDescription}>{description}</Text>
-      )}
     </View>
   );
 
@@ -267,7 +264,7 @@ export default function DailyTipCardEnhanced({
       <View style={styles.pageContainer}>
         <View style={styles.mainCard}>
           {summaryImage ? (
-            // Show image if available
+            // Show clean image without text overlay
             <View style={styles.imageContainer}>
               <Image
                 source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
@@ -277,19 +274,6 @@ export default function DailyTipCardEnhanced({
                 // Performance optimizations
                 fadeDuration={0} // Disable fade-in animation for instant display
               />
-              {/* Very strong gradient overlay for maximum text readability */}
-              <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.85)', 'rgba(0,0,0,0.95)']}
-                style={styles.imageOverlay}
-              >
-                <View style={styles.imageHeaderContent}>
-                  <Text style={styles.imageCardTitle}>{tip.summary}</Text>
-                  <Text style={styles.imageCardSubtitle}>Today's Idea to Try</Text>
-                  {tip.short_description && (
-                    <Text style={styles.imageCardDescription}>{tip.short_description}</Text>
-                  )}
-                </View>
-              </LinearGradient>
             </View>
           ) : (
             // Original gradient header when no image
@@ -303,13 +287,26 @@ export default function DailyTipCardEnhanced({
                 title={tip.summary}
                 subtitle="Today's Idea to Try"
                 icon="bulb-outline"
-                description={tip.short_description}
               />
             </LinearGradient>
           )}
 
-          <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
-            {/* Content area is now empty - text is in the overlay */}
+          <ScrollView style={[styles.cardContent, { backgroundColor: theme.primaryLightest }]} showsVerticalScrollIndicator={false}>
+            <View style={styles.textContentContainer}>
+              {/* Show title and subtitle for image version */}
+              {summaryImage && (
+                <>
+                  <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
+                  <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
+                </>
+              )}
+              {/* Show description for both image and gradient versions */}
+              {tip.short_description && (
+                <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
+                  {tip.short_description}
+                </Text>
+              )}
+            </View>
           </ScrollView>
       </View>
     </View>
@@ -687,7 +684,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardVisualGradient: {
-    height: 360,
+    height: 220,
   },
   cardVisual: {
     flex: 1,
@@ -697,7 +694,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   imageContainer: {
-    height: 360,
+    height: 220,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -734,20 +731,26 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  imageCardDescription: {
-    fontSize: 15,
-    color: 'rgba(255,255,255,1)',  // Full white for maximum contrast
-    marginTop: 10,
-    lineHeight: 22,
-    fontWeight: '400',
+  textContentContainer: {
+    // Container for text content
   },
-  gradientCardDescription: {
-    fontSize: 15,
-    color: 'rgba(255,255,255,0.95)',
-    marginTop: 10,
-    lineHeight: 22,
-    textAlign: 'center',
-    paddingHorizontal: 30,
+  contentTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 4,
+    letterSpacing: -0.5,
+  },
+  contentSubtitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 16,
+  },
+  contentDescription: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
   },
   quickInfoContainer: {
     flexDirection: 'row',
@@ -860,7 +863,7 @@ const styles = StyleSheet.create({
   cardContent: {
     flex: 1,
     padding: 24,
-    backgroundColor: NEUTRALS.white,
+    // backgroundColor set dynamically with theme.primaryLightest
   },
   benefitsGrid: {
     flexDirection: 'row',
