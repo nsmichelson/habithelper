@@ -1312,7 +1312,7 @@ export default function HomeScreen() {
 
   if (!userProfile) {
     console.log('Returning onboarding quiz');
-    return <OnboardingQuizNew onComplete={handleOnboardingComplete} />;
+    return <OnboardingQuizNew onComplete={handleOnboardingComplete} shouldPersistProfile={true} />;
   }
 
   if (showCheckIn && currentTip) {

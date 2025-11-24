@@ -308,29 +308,8 @@ export default function DailyTipCardEnhanced({
           )}
 
           <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
-          <View style={styles.benefitsGrid}>
-            {reasons.length > 0 ? reasons.map((r, i) => (
-              <View key={i} style={styles.benefitItem}>
-                <Ionicons name="star" size={18} color={theme.primaryLight} />
-                <Text style={styles.benefitText}>{r}</Text>
-              </View>
-            )) : (
-              <View style={styles.benefitItem}>
-                 <Ionicons name="flash" size={18} color={theme.primaryLight} />
-                 <Text style={styles.benefitText}>Quick & Effective</Text>
-              </View>
-            )}
-
-            <View style={styles.benefitItem}>
-              <Ionicons name="people" size={18} color={theme.primaryLight} />
-              <Text style={styles.benefitText}>Community Favorite</Text>
-            </View>
-            <View style={styles.benefitItem}>
-              <Ionicons name="wallet-outline" size={18} color={theme.primaryLight} />
-              <Text style={styles.benefitText}>{tip.money_cost_enum === 'free' ? 'Completely Free' : 'Low Cost'}</Text>
-            </View>
-          </View>
-        </ScrollView>
+            {/* Content area is now empty - description moved to header */}
+          </ScrollView>
       </View>
     </View>
     );
@@ -707,7 +686,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardVisualGradient: {
-    height: 260,  // Increased to accommodate description text
+    height: 360,
   },
   cardVisual: {
     flex: 1,
@@ -717,7 +696,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   imageContainer: {
-    height: 260,  // Increased to accommodate description text
+    height: 360,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -730,7 +709,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 160,  // Increased to accommodate description
+    height: 200,
     justifyContent: 'flex-end',
     padding: 20,
   },
@@ -754,18 +733,62 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   imageCardDescription: {
-    fontSize: 14,
+    fontSize: 15,
     color: 'rgba(255,255,255,0.95)',
-    marginTop: 8,
-    lineHeight: 20,
+    marginTop: 10,
+    lineHeight: 22,
   },
   gradientCardDescription: {
-    fontSize: 14,
+    fontSize: 15,
     color: 'rgba(255,255,255,0.95)',
-    marginTop: 8,
-    lineHeight: 20,
+    marginTop: 10,
+    lineHeight: 22,
     textAlign: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
+  },
+  quickInfoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 16,
+    backgroundColor: NEUTRALS.gray100,
+    borderRadius: 12,
+    marginBottom: 20,
+  },
+  quickInfoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  quickInfoText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: NEUTRALS.gray700,
+  },
+  reasonsContainer: {
+    marginTop: 8,
+  },
+  reasonsLabel: {
+    fontSize: 14,
+    fontWeight: '700',
+    marginBottom: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  reasonItem: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    paddingLeft: 4,
+  },
+  reasonBullet: {
+    fontSize: 16,
+    marginRight: 8,
+    fontWeight: '700',
+  },
+  reasonText: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: NEUTRALS.gray700,
+    flex: 1,
   },
   decoCircleBig: {
     position: 'absolute',
