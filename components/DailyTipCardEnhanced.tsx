@@ -668,8 +668,8 @@ const styles = StyleSheet.create({
   storyLine: {
     position: 'absolute',
     top: 28, // Center of circle height
-    left: 56, // Start from right edge of circle
-    width: 30, // Connect to next circle
+    left: '50%', // Start from center of current item
+    width: '100%', // Span to center of next item
     height: 2,
     backgroundColor: NEUTRALS.gray300,
     zIndex: -1,
