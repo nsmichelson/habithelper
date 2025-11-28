@@ -17,6 +17,15 @@ import {
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withRepeat,
+  withSequence,
+  FadeInUp,
+  FadeOut,
+  ZoomIn,
+  Easing,
+  runOnJS
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SimplifiedTip } from '../types/simplifiedTip';
@@ -24,6 +33,15 @@ import PersonalizationCard from './PersonalizationCard';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_MARGIN = 16;
+
+// Generic teasers for the "tomorrow" reveal
+const TOMORROW_TEASERS = [
+  { icon: 'moon-outline', hint: 'A better way to wake up tomorrow' },
+  { icon: 'water-outline', hint: 'The hydration trick you missed' },
+  { icon: 'restaurant-outline', hint: 'Why your breakfast matters' },
+  { icon: 'barbell-outline', hint: 'Movement that energizes you' },
+  { icon: 'bulb-outline', hint: 'A new way to think about stress' }
+];
 
 // --- 1. Theme Palettes ---
 const THEMES = {
@@ -161,6 +179,50 @@ export default function DailyTipCardEnhanced({
   const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
   const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
 
+  // --- Unwrapping & Teaser State ---
+  const [isRevealed, setIsRevealed] = useState(false);
+  const [postActionState, setPostActionState] = useState<'none' | 'try_it' | 'maybe_later' | 'pass'>('none');
+  const [showTomorrow, setShowTomorrow] = useState(false);
+
+  // Animation for pre-reveal breathing effect
+  const breatheScale = useSharedValue(1);
+
+  useEffect(() => {
+    breatheScale.value = withRepeat(
+      withSequence(
+        withTiming(1.05, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+        withTiming(1, { duration: 1500, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    );
+  }, []);
+
+  const breatheStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: breatheScale.value }]
+  }));
+
+  const tomorrowTeaser = useMemo(() => {
+    return TOMORROW_TEASERS[Math.floor(Math.random() * TOMORROW_TEASERS.length)];
+  }, []);
+
+  const handleActionClick = (action: 'try_it' | 'maybe_later' | 'pass') => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setPostActionState(action);
+
+    // Show tomorrow teaser after delay
+    setTimeout(() => {
+        setShowTomorrow(true);
+    }, 600);
+  };
+
+  const handleFinalContinue = () => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      if (postActionState === 'try_it') handleResponse('try_it');
+      else if (postActionState === 'maybe_later') handleResponse('maybe_later');
+      else if (postActionState === 'pass') handleNotForMe();
+  };
+
   // Reset to first page when tip changes
   useEffect(() => {
     setCurrentPage(0);
@@ -246,6 +308,80 @@ export default function DailyTipCardEnhanced({
   );
 
   // --- Render Methods ---
+
+  const renderPreReveal = () => (
+      <Animated.View
+        style={styles.preRevealContainer}
+        exiting={FadeOut.duration(400)}
+      >
+        <TouchableOpacity
+            style={styles.preRevealTouchable}
+            activeOpacity={0.9}
+            onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                setIsRevealed(true);
+            }}
+        >
+            <Animated.View style={[styles.preRevealIconContainer, { backgroundColor: theme.primaryLightest }, breatheStyle]}>
+                <Ionicons name="sparkles" size={48} color={theme.primary} />
+            </Animated.View>
+            <Text style={[styles.preRevealTitle, { color: theme.gray900 }]}>Your tip is ready</Text>
+            <Text style={[styles.preRevealSubtitle, { color: theme.gray500 }]}>Tap to reveal today's discovery</Text>
+
+            <View style={styles.preRevealDecorRow}>
+                {[0, 1, 2].map(i => (
+                    <View key={i} style={[styles.preRevealDecorDot, { backgroundColor: theme.primaryLight, opacity: 0.4 + (i * 0.2) }]} />
+                ))}
+            </View>
+        </TouchableOpacity>
+      </Animated.View>
+  );
+
+  const renderPostAction = () => (
+      <Animated.View
+        style={[styles.postActionContainer, { paddingBottom: 20 + insets.bottom }]}
+        entering={FadeInUp.duration(400)}
+      >
+        {/* Feedback Card */}
+        <View style={[styles.postActionCard, { backgroundColor: theme.primaryLightest }]}>
+            <Text style={styles.postActionEmoji}>
+                {postActionState === 'try_it' ? '🙌' : postActionState === 'maybe_later' ? '👌' : '👋'}
+            </Text>
+            <Text style={[styles.postActionTitle, { color: theme.gray900 }]}>
+                {postActionState === 'try_it' ? "Great! We'll check in later" :
+                 postActionState === 'maybe_later' ? "Saved for another day" :
+                 "Got it—we'll skip similar tips"}
+            </Text>
+        </View>
+
+        {/* Tomorrow Teaser */}
+        {showTomorrow && (
+            <Animated.View
+                style={styles.tomorrowTeaserContainer}
+                entering={FadeInUp.delay(200).duration(500)}
+            >
+                <View style={[styles.tomorrowTeaserCard, { borderColor: theme.gray300, backgroundColor: 'rgba(255,255,255,0.8)' }]}>
+                    <View style={[styles.tomorrowTeaserIcon, { backgroundColor: theme.primaryLightest }]}>
+                        <Ionicons name={tomorrowTeaser.icon as any} size={24} color={theme.primary} />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <Text style={[styles.tomorrowTeaserLabel, { color: theme.primary }]}>TOMORROW</Text>
+                        <Text style={[styles.tomorrowTeaserText, { color: theme.gray900 }]}>{tomorrowTeaser.hint}</Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={20} color={theme.gray300} />
+                </View>
+
+                <TouchableOpacity
+                    style={[styles.continueButton, { backgroundColor: theme.primary }]}
+                    onPress={handleFinalContinue}
+                >
+                    <Text style={styles.continueButtonText}>Done</Text>
+                    <Ionicons name="arrow-forward" size={20} color="white" />
+                </TouchableOpacity>
+            </Animated.View>
+        )}
+      </Animated.View>
+  );
 
   const renderSummaryCard = () => {
     const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
@@ -441,9 +577,13 @@ export default function DailyTipCardEnhanced({
   return (
     <View style={[styles.container, { backgroundColor: 'transparent' }]}>
       
-      {/* 1. Header Title & Theme Switcher - CONDITIONALLY RENDERED */}
-      {!hideHeader && (
-        <View style={styles.header}>
+      {!isRevealed ? (
+         renderPreReveal()
+      ) : (
+         <Animated.View style={{ flex: 1 }} entering={FadeInUp.duration(600)}>
+            {/* 1. Header Title & Theme Switcher - CONDITIONALLY RENDERED */}
+            {!hideHeader && (
+                <View style={styles.header}>
           <Text style={[styles.appTitle, { color: theme.primary }]}>Habit Helper</Text>
           
           <TouchableOpacity 
@@ -562,12 +702,12 @@ export default function DailyTipCardEnhanced({
         </View>
       </View>
 
-      {/* 5. Action Buttons */}
-      {!rejectionInfo && !maybeLaterInfo && (
+      {/* 5. Action Buttons OR Post Action */}
+      {!rejectionInfo && !maybeLaterInfo && postActionState === 'none' ? (
         <View style={[styles.actionSection, { paddingBottom: 20 + insets.bottom }]}>
           <TouchableOpacity
             style={[styles.primaryBtn, { backgroundColor: theme.primary, shadowColor: theme.primary }]}
-            onPress={() => handleResponse('try_it')}
+            onPress={() => handleActionClick('try_it')}
             activeOpacity={0.9}
           >
             <Ionicons name="checkmark-circle-outline" size={24} color="white" />
@@ -577,7 +717,7 @@ export default function DailyTipCardEnhanced({
           <View style={styles.secondaryActions}>
             <TouchableOpacity
               style={[styles.secondaryBtn, { borderColor: theme.gray300 }]}
-              onPress={() => handleResponse('maybe_later')}
+              onPress={() => handleActionClick('maybe_later')}
               activeOpacity={0.7}
             >
                <Ionicons name="bookmark-outline" size={18} color={theme.gray700} />
@@ -586,7 +726,7 @@ export default function DailyTipCardEnhanced({
             
             <TouchableOpacity
               style={[styles.secondaryBtn, { borderColor: theme.gray300 }]}
-              onPress={handleNotForMe}
+              onPress={() => handleActionClick('pass')}
               activeOpacity={0.7}
             >
                <Ionicons name="close-outline" size={18} color={theme.gray700} />
@@ -594,6 +734,10 @@ export default function DailyTipCardEnhanced({
             </TouchableOpacity>
           </View>
         </View>
+      ) : postActionState !== 'none' ? (
+          renderPostAction()
+      ) : null}
+         </Animated.View>
       )}
     </View>
   );
@@ -603,6 +747,121 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  // --- New Styles for Unwrap & Reveal ---
+  preRevealContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  preRevealTouchable: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  preRevealIconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 24,
+    elevation: 8,
+  },
+  preRevealTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 12,
+    textAlign: 'center',
+    letterSpacing: -0.5,
+  },
+  preRevealSubtitle: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 32,
+    lineHeight: 22,
+  },
+  preRevealDecorRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  preRevealDecorDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+
+  // Post Action Styles
+  postActionContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 12,
+  },
+  postActionCard: {
+    borderRadius: 16,
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  postActionEmoji: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  postActionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  tomorrowTeaserContainer: {
+    width: '100%',
+  },
+  tomorrowTeaserCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    gap: 16,
+    marginBottom: 16,
+  },
+  tomorrowTeaserIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tomorrowTeaserLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  tomorrowTeaserText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  continueButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 14,
+    gap: 8,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  continueButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+
+  // --- Existing Styles ---
   header: {
     paddingHorizontal: 20,
     paddingVertical: 12,
