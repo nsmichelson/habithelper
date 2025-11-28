@@ -5,6 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Animated as RNAnimated,
   Dimensions,
   FlatList,
   Image,
@@ -156,7 +157,16 @@ export default function DailyTipCardEnhanced({
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
   const personalizationScrollRef = useRef<ScrollView>(null);
-  
+  const revealOpacity = useRef(new RNAnimated.Value(1)).current;
+  const revealScale = useRef(new RNAnimated.Value(0.98)).current;
+  const shimmerAnim = useRef(new RNAnimated.Value(0)).current;
+  const pulseAnim = useRef(new RNAnimated.Value(0)).current;
+  const shimmerLoopRef = useRef<RNAnimated.CompositeAnimation | null>(null);
+  const pulseLoopRef = useRef<RNAnimated.CompositeAnimation | null>(null);
+
+  const [isUnwrapped, setIsUnwrapped] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
+
   const dispatch = useAppDispatch();
   const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
   const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
@@ -165,7 +175,59 @@ export default function DailyTipCardEnhanced({
   useEffect(() => {
     setCurrentPage(0);
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
+    setIsUnwrapped(false);
+    setIsRevealing(false);
+    revealOpacity.setValue(1);
+    revealScale.setValue(0.98);
   }, [tip.tip_id]);
+
+  useEffect(() => {
+    shimmerLoopRef.current?.stop?.();
+    pulseLoopRef.current?.stop?.();
+
+    if (!isUnwrapped) {
+      shimmerAnim.setValue(0);
+      pulseAnim.setValue(0);
+
+      shimmerLoopRef.current = RNAnimated.loop(
+        RNAnimated.sequence([
+          RNAnimated.timing(shimmerAnim, {
+            toValue: 1,
+            duration: 1600,
+            useNativeDriver: true,
+          }),
+          RNAnimated.timing(shimmerAnim, {
+            toValue: 0,
+            duration: 1600,
+            useNativeDriver: true,
+          }),
+        ])
+      );
+
+      pulseLoopRef.current = RNAnimated.loop(
+        RNAnimated.sequence([
+          RNAnimated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 1400,
+            useNativeDriver: true,
+          }),
+          RNAnimated.timing(pulseAnim, {
+            toValue: 0,
+            duration: 1400,
+            useNativeDriver: true,
+          }),
+        ])
+      );
+
+      shimmerLoopRef.current.start();
+      pulseLoopRef.current.start();
+    }
+
+    return () => {
+      shimmerLoopRef.current?.stop?.();
+      pulseLoopRef.current?.stop?.();
+    };
+  }, [isUnwrapped, shimmerAnim, pulseAnim]);
 
   // --- Parsing Logic ---
   const parseDetailsContent = () => {
@@ -260,56 +322,177 @@ export default function DailyTipCardEnhanced({
     console.log('Image URL:', summaryImage?.url);
     console.log('===================');
 
+    const shimmerTranslate = shimmerAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-24, 24],
+    });
+
+    const pulseScale = pulseAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1.05],
+    });
+
+    const pulseOpacity = pulseAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.35, 0.75],
+    });
+
     return (
       <View style={styles.pageContainer}>
-        <View style={styles.mainCard}>
-          {summaryImage ? (
-            // Show clean image without text overlay
-            <View style={styles.imageContainer}>
-              <Image
-                source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
-                style={styles.coverImage}
-                resizeMode="cover"
-                accessibilityLabel={summaryImage.alt_text}
-                // Performance optimizations
-                fadeDuration={0} // Disable fade-in animation for instant display
-              />
-            </View>
-          ) : (
-            // Original gradient header when no image
-            <LinearGradient
-              colors={[theme.primary, theme.primaryLight]}
-              style={styles.cardVisualGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            >
-              <CardVisualHeader
-                title={tip.summary}
-                subtitle="Today's Idea to Try"
-                icon="bulb-outline"
-              />
-            </LinearGradient>
-          )}
+        <View style={[styles.mainCard, { overflow: 'hidden' }]}>
+          <View style={{ opacity: isUnwrapped ? 1 : 0 }}>
+            {summaryImage ? (
+              // Show clean image without text overlay
+              <View style={styles.imageContainer}>
+                <Image
+                  source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
+                  style={styles.coverImage}
+                  resizeMode="cover"
+                  accessibilityLabel={summaryImage.alt_text}
+                  // Performance optimizations
+                  fadeDuration={0} // Disable fade-in animation for instant display
+                />
+              </View>
+            ) : (
+              // Original gradient header when no image
+              <LinearGradient
+                colors={[theme.primary, theme.primaryLight]}
+                style={styles.cardVisualGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              >
+                <CardVisualHeader
+                  title={tip.summary}
+                  subtitle="Today's Idea to Try"
+                  icon="bulb-outline"
+                />
+              </LinearGradient>
+            )}
 
-          <ScrollView style={[styles.cardContent, { backgroundColor: theme.primaryLightest }]} showsVerticalScrollIndicator={false}>
-            <View style={styles.textContentContainer}>
-              {/* Show title and subtitle for image version */}
-              {summaryImage && (
-                <>
-                  <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
-                  <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
-                </>
-              )}
-              {/* Show description for both image and gradient versions */}
-              {tip.short_description && (
-                <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
-                  {tip.short_description}
-                </Text>
-              )}
-            </View>
-          </ScrollView>
+            <ScrollView style={[styles.cardContent, { backgroundColor: theme.primaryLightest }]} showsVerticalScrollIndicator={false}>
+              <View style={styles.textContentContainer}>
+                {/* Show title and subtitle for image version */}
+                {summaryImage && (
+                  <>
+                    <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
+                    <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
+                  </>
+                )}
+                {/* Show description for both image and gradient versions */}
+                {tip.short_description && (
+                  <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
+                    {tip.short_description}
+                  </Text>
+                )}
+              </View>
+            </ScrollView>
+          </View>
+
+          {!isUnwrapped && (
+            <TouchableOpacity
+              activeOpacity={0.95}
+              onPress={() => {
+                if (isRevealing) return;
+                setIsRevealing(true);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                RNAnimated.parallel([
+                  RNAnimated.timing(revealOpacity, {
+                    toValue: 0,
+                    duration: 420,
+                    useNativeDriver: true,
+                  }),
+                  RNAnimated.spring(revealScale, {
+                    toValue: 1,
+                    friction: 6,
+                    tension: 80,
+                    useNativeDriver: true,
+                  }),
+                ]).start(({ finished }) => {
+                  if (finished) {
+                    setIsUnwrapped(true);
+                  }
+                  setIsRevealing(false);
+                });
+              }}
+              style={styles.revealOverlay}
+            >
+              <RNAnimated.View
+                style={{
+                  transform: [{ scale: revealScale }],
+                  opacity: revealOpacity,
+                  width: '100%',
+                }}
+              >
+                <LinearGradient
+                  colors={[theme.primaryLightest, '#FFFFFF']}
+                  style={[styles.revealCard, { borderColor: `${theme.primaryLight}33` }]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                >
+                  <View style={styles.revealHeaderRow}>
+                    <View style={[styles.revealBadge, { backgroundColor: `${theme.primaryLight}26` }]}>
+                      <Ionicons name="sparkles-outline" size={16} color={theme.primary} />
+                      <Text style={[styles.revealBadgeText, { color: theme.primary }]}>Today's Discovery</Text>
+                    </View>
+                    <View style={[styles.revealBadge, { backgroundColor: `${theme.primaryLight}26` }]}>
+                      <Ionicons name="flame" size={16} color={theme.primary} />
+                      <Text style={[styles.revealBadgeText, { color: theme.primary }]}>{`Tip • ${tip.area}`}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.revealIconRow}>
+                    <LinearGradient
+                      colors={[theme.primary, theme.primaryLight]}
+                      style={styles.revealIconWrapper}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                    >
+                      <Text style={styles.revealIcon}>✨</Text>
+                    </LinearGradient>
+                    <RNAnimated.View
+                      style={[
+                        styles.revealPulse,
+                        {
+                          backgroundColor: theme.primaryLightest,
+                          opacity: pulseOpacity,
+                          transform: [{ scale: pulseScale }],
+                        }
+                      ]}
+                    />
+                  </View>
+
+                  <Text style={[styles.revealTitle, { color: theme.gray900 }]}>Your tip is ready</Text>
+                  <Text style={[styles.revealSubtitle, { color: theme.gray700 }]}>Tap to unwrap today's idea</Text>
+
+                  <View style={styles.revealDotsRow}>
+                    {[0, 1, 2].map((dot) => (
+                      <RNAnimated.View
+                        key={dot}
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: 999,
+                          backgroundColor: theme.primaryLight,
+                          opacity: shimmerAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0.35 + dot * 0.1, 0.75 + dot * 0.1],
+                          }),
+                          transform: [{ translateY: shimmerTranslate }],
+                        }}
+                      />
+                    ))}
+                  </View>
+
+                  <View style={styles.revealFooterRow}>
+                    <Text style={[styles.revealFooterText, { color: theme.primary }]}>Swipe after opening to explore goals, science, and steps.</Text>
+                    <Ionicons name="arrow-forward" size={18} color={theme.primary} />
+                  </View>
+                </LinearGradient>
+              </RNAnimated.View>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
-    </View>
     );
   };
 
@@ -602,6 +785,105 @@ export default function DailyTipCardEnhanced({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  revealOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    paddingHorizontal: CARD_MARGIN,
+    paddingTop: 20,
+    paddingBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.72)',
+  },
+  revealCard: {
+    borderWidth: 1,
+    borderRadius: 24,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.08,
+    shadowRadius: 24,
+    elevation: 5,
+    gap: 14,
+  },
+  revealHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 10,
+  },
+  revealBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  revealBadgeText: {
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  revealIconRow: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 4,
+    marginBottom: 8,
+  },
+  revealIconWrapper: {
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  revealPulse: {
+    position: 'absolute',
+    width: 92,
+    height: 92,
+    borderRadius: 24,
+    alignSelf: 'center',
+    top: -6,
+  },
+  revealIcon: {
+    fontSize: 32,
+  },
+  revealTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    letterSpacing: -0.4,
+    textAlign: 'center',
+  },
+  revealSubtitle: {
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  revealDotsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 4,
+  },
+  revealFooterRow: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    justifyContent: 'center',
+  },
+  revealFooterText: {
+    fontSize: 13,
+    fontWeight: '600',
+    flex: 1,
+    textAlign: 'center',
   },
   header: {
     paddingHorizontal: 20,
