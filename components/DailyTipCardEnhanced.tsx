@@ -12,11 +12,20 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Platform
 } from 'react-native';
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
+  FadeIn,
+  FadeOut,
+  withRepeat,
+  withSequence,
+  withTiming,
+  withDelay,
+  Easing,
+  useAnimatedStyle,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SimplifiedTip } from '../types/simplifiedTip';
@@ -80,6 +89,30 @@ const NEUTRALS = {
   gray300: '#B8B8B8',
   gray100: '#F5F5F5',
   white: '#FFFFFF',
+};
+
+// --- Helper Components ---
+
+const PulseDot = ({ delay, color }: { delay: number; color: string }) => {
+  const opacity = useSharedValue(0.4);
+
+  useEffect(() => {
+    opacity.value = withDelay(delay, withRepeat(
+      withSequence(
+        withTiming(1, { duration: 750, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0.4, { duration: 750, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    ));
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: opacity.value }]
+  }));
+
+  return <Animated.View style={[{ width: 8, height: 8, borderRadius: 4, backgroundColor: color }, animatedStyle]} />;
 };
 
 interface Props {
@@ -161,10 +194,36 @@ export default function DailyTipCardEnhanced({
   const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
   const reduxSavedData = useAppSelector(state => state.dailyTip.savedPersonalizationData);
 
+  // --- Reveal State ---
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  // Pre-reveal animation
+  const pulseAnim = useSharedValue(1);
+  useEffect(() => {
+    pulseAnim.value = withRepeat(
+      withSequence(
+        withTiming(1.05, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+        withTiming(1, { duration: 1500, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    );
+  }, []);
+
+  const animatedContainerStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: pulseAnim.value }]
+  }));
+
+  const handleReveal = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setIsRevealed(true);
+  };
+
   // Reset to first page when tip changes
   useEffect(() => {
     setCurrentPage(0);
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
+    setIsRevealed(false); // Reset reveal state when tip changes
   }, [tip.tip_id]);
 
   // --- Parsing Logic ---
@@ -221,7 +280,7 @@ export default function DailyTipCardEnhanced({
     }
   };
 
-  // --- Helper Components ---
+  // --- Helper Components for Content ---
 
   const CardVisualHeader = ({ title, subtitle, icon }: any) => (
     <View style={styles.cardVisual}>
@@ -249,16 +308,6 @@ export default function DailyTipCardEnhanced({
 
   const renderSummaryCard = () => {
     const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
-
-    // Debug logging
-    console.log('=== IMAGE DEBUG ===');
-    console.log('Tip ID:', tip.tip_id);
-    console.log('Tip Summary:', tip.summary);
-    console.log('Has media object?', !!tip.media);
-    console.log('Media object:', tip.media);
-    console.log('Summary image:', summaryImage);
-    console.log('Image URL:', summaryImage?.url);
-    console.log('===================');
 
     return (
       <View style={styles.pageContainer}>
@@ -441,159 +490,224 @@ export default function DailyTipCardEnhanced({
   return (
     <View style={[styles.container, { backgroundColor: 'transparent' }]}>
       
-      {/* 1. Header Title & Theme Switcher - CONDITIONALLY RENDERED */}
-      {!hideHeader && (
-        <View style={styles.header}>
-          <Text style={[styles.appTitle, { color: theme.primary }]}>Habit Helper</Text>
-          
-          <TouchableOpacity 
-            style={styles.themeSwitcher} 
-            onPress={cycleTheme}
-            activeOpacity={0.7}
-          >
-             <LinearGradient
-              colors={[theme.primaryLight, theme.primary]}
-              style={styles.themeSwitcherGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-             >
-              <Ionicons name="options" size={18} color="#FFF" />
-             </LinearGradient>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {/* 2. Story Progress Bar */}
-      <View style={styles.storiesSection}>
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false} 
-          contentContainerStyle={{
-            paddingHorizontal: 20,
-            paddingTop: 20,
-            paddingBottom: 16
-          }}
-        >
-          {pages.map((page, index) => {
-            const isActive = index === currentPage;
-            const isCompleted = index < currentPage;
-            
-            return (
-              <TouchableOpacity 
-                key={page.key} 
-                style={styles.storyItem}
-                onPress={() => scrollToPage(index)}
-                activeOpacity={0.8}
+      {!isRevealed ? (
+         <Animated.View exiting={FadeOut.duration(400)} style={StyleSheet.absoluteFill}>
+            <TouchableOpacity
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={handleReveal}
+            >
+              <LinearGradient
+                colors={[theme.primaryLightest, NEUTRALS.white]}
+                style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
               >
-                {/* The Line Connector */}
-                {index < pages.length - 1 && (
-                  <View style={[
-                    styles.storyLine, 
-                    (isCompleted || isActive) && { backgroundColor: theme.primaryLight } 
-                  ]} />
-                )}
-                
-                {/* The Circle */}
-                <View style={[
-                  styles.storyCircle, 
-                  isActive && { 
-                    backgroundColor: theme.primaryLight, 
-                    transform: [{ scale: 1.05 }],
+                <Animated.View style={[{ alignItems: 'center' }, animatedContainerStyle]}>
+                  <View style={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: 24,
+                    backgroundColor: theme.primary,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: 24,
                     shadowColor: theme.primary,
-                    shadowOffset: { width: 0, height: 4 },
+                    shadowOffset: { width: 0, height: 8 },
                     shadowOpacity: 0.3,
-                    shadowRadius: 6,
-                    elevation: 4,
-                  },
-                  (isCompleted && !isActive) && { backgroundColor: theme.primaryLighter, opacity: 0.8 }
-                ]}>
-                  <View style={styles.storyInner}>
-                    <Ionicons 
-                      name={page.icon as any} 
-                      size={20} 
-                      color={isActive ? theme.primary : theme.gray500} 
-                    />
+                    shadowRadius: 12,
+                    elevation: 8,
+                  }}>
+                    <Ionicons name="sparkles" size={36} color="white" />
                   </View>
+
+                  <Text style={{
+                    fontSize: 24,
+                    fontWeight: '600',
+                    color: NEUTRALS.gray900,
+                    marginBottom: 12,
+                    letterSpacing: -0.5,
+                    fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
+                    textAlign: 'center'
+                  }}>
+                    Your tip is ready
+                  </Text>
+
+                  <Text style={{
+                    fontSize: 15,
+                    color: NEUTRALS.gray500,
+                    marginBottom: 32,
+                    textAlign: 'center'
+                  }}>
+                    Tap to reveal today's discovery
+                  </Text>
+
+                   <View style={{ flexDirection: 'row', gap: 8 }}>
+                     {[0, 1, 2].map(i => (
+                       <PulseDot key={i} delay={i * 200} color={theme.primaryLight} />
+                     ))}
+                   </View>
+                </Animated.View>
+              </LinearGradient>
+            </TouchableOpacity>
+         </Animated.View>
+      ) : (
+         <Animated.View entering={FadeIn.delay(200).duration(600)} style={{ flex: 1 }}>
+            {/* 1. Header Title & Theme Switcher - CONDITIONALLY RENDERED */}
+            {!hideHeader && (
+              <View style={styles.header}>
+                <Text style={[styles.appTitle, { color: theme.primary }]}>Habit Helper</Text>
+
+                <TouchableOpacity
+                  style={styles.themeSwitcher}
+                  onPress={cycleTheme}
+                  activeOpacity={0.7}
+                >
+                  <LinearGradient
+                    colors={[theme.primaryLight, theme.primary]}
+                    style={styles.themeSwitcherGradient}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                  >
+                    <Ionicons name="options" size={18} color="#FFF" />
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {/* 2. Story Progress Bar */}
+            <View style={styles.storiesSection}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  paddingHorizontal: 20,
+                  paddingTop: 20,
+                  paddingBottom: 16
+                }}
+              >
+                {pages.map((page, index) => {
+                  const isActive = index === currentPage;
+                  const isCompleted = index < currentPage;
+
+                  return (
+                    <TouchableOpacity
+                      key={page.key}
+                      style={styles.storyItem}
+                      onPress={() => scrollToPage(index)}
+                      activeOpacity={0.8}
+                    >
+                      {/* The Line Connector */}
+                      {index < pages.length - 1 && (
+                        <View style={[
+                          styles.storyLine,
+                          (isCompleted || isActive) && { backgroundColor: theme.primaryLight }
+                        ]} />
+                      )}
+
+                      {/* The Circle */}
+                      <View style={[
+                        styles.storyCircle,
+                        isActive && {
+                          backgroundColor: theme.primaryLight,
+                          transform: [{ scale: 1.05 }],
+                          shadowColor: theme.primary,
+                          shadowOffset: { width: 0, height: 4 },
+                          shadowOpacity: 0.3,
+                          shadowRadius: 6,
+                          elevation: 4,
+                        },
+                        (isCompleted && !isActive) && { backgroundColor: theme.primaryLighter, opacity: 0.8 }
+                      ]}>
+                        <View style={styles.storyInner}>
+                          <Ionicons
+                            name={page.icon as any}
+                            size={20}
+                            color={isActive ? theme.primary : theme.gray500}
+                          />
+                        </View>
+                      </View>
+                      <Text style={[
+                        styles.storyLabel,
+                        isActive && { color: theme.primary, fontWeight: '600' }
+                      ]}>{page.title}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </View>
+
+            {/* 3. Main Card Slider */}
+            <View style={styles.cardContainer}>
+              <Animated.FlatList
+                ref={flatListRef}
+                data={pages}
+                renderItem={({ item }) => item.render()}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                onScroll={scrollHandler}
+                scrollEventThrottle={16}
+                keyExtractor={(item) => item.key}
+                onMomentumScrollEnd={(event) => {
+                  const newPage = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+                  setCurrentPage(newPage);
+                }}
+              />
+            </View>
+
+            {/* 4. Quick Info Bar */}
+            <View style={styles.quickInfoBar}>
+              <View style={styles.quickInfoItem}>
+                <Ionicons name="time-outline" size={16} color={theme.primary} />
+                <Text style={styles.quickInfoText}>{tip.time ? tip.time.replace('_', ' ') : '5 min'}</Text>
+              </View>
+              <View style={styles.quickInfoDivider} />
+              <View style={styles.quickInfoItem}>
+                <Ionicons name="people" size={16} color={theme.primary} />
+                <Text style={styles.quickInfoText}>2.4k tried</Text>
+              </View>
+              <View style={styles.quickInfoDivider} />
+              <View style={styles.quickInfoItem}>
+                <Ionicons name="wallet-outline" size={16} color={theme.primary} />
+                <Text style={styles.quickInfoText}>{tip.money_cost_enum === 'free' ? 'Free' : 'Low Cost'}</Text>
+              </View>
+            </View>
+
+            {/* 5. Action Buttons */}
+            {!rejectionInfo && !maybeLaterInfo && (
+              <View style={[styles.actionSection, { paddingBottom: 20 + insets.bottom }]}>
+                <TouchableOpacity
+                  style={[styles.primaryBtn, { backgroundColor: theme.primary, shadowColor: theme.primary }]}
+                  onPress={() => handleResponse('try_it')}
+                  activeOpacity={0.9}
+                >
+                  <Ionicons name="checkmark-circle-outline" size={24} color="white" />
+                  <Text style={styles.primaryBtnText}>I'll Try It!</Text>
+                </TouchableOpacity>
+
+                <View style={styles.secondaryActions}>
+                  <TouchableOpacity
+                    style={[styles.secondaryBtn, { borderColor: theme.gray300 }]}
+                    onPress={() => handleResponse('maybe_later')}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="bookmark-outline" size={18} color={theme.gray700} />
+                    <Text style={styles.secondaryBtnText}>Save for Later</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.secondaryBtn, { borderColor: theme.gray300 }]}
+                    onPress={handleNotForMe}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="close-outline" size={18} color={theme.gray700} />
+                    <Text style={styles.secondaryBtnText}>Pass</Text>
+                  </TouchableOpacity>
                 </View>
-                <Text style={[
-                  styles.storyLabel,
-                  isActive && { color: theme.primary, fontWeight: '600' }
-                ]}>{page.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-
-      {/* 3. Main Card Slider */}
-      <View style={styles.cardContainer}>
-        <Animated.FlatList
-          ref={flatListRef}
-          data={pages}
-          renderItem={({ item }) => item.render()}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onScroll={scrollHandler}
-          scrollEventThrottle={16}
-          keyExtractor={(item) => item.key}
-          onMomentumScrollEnd={(event) => {
-            const newPage = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
-            setCurrentPage(newPage);
-          }}
-        />
-      </View>
-
-      {/* 4. Quick Info Bar */}
-      <View style={styles.quickInfoBar}>
-        <View style={styles.quickInfoItem}>
-          <Ionicons name="time-outline" size={16} color={theme.primary} />
-          <Text style={styles.quickInfoText}>{tip.time ? tip.time.replace('_', ' ') : '5 min'}</Text>
-        </View>
-        <View style={styles.quickInfoDivider} />
-        <View style={styles.quickInfoItem}>
-          <Ionicons name="people" size={16} color={theme.primary} />
-          <Text style={styles.quickInfoText}>2.4k tried</Text>
-        </View>
-        <View style={styles.quickInfoDivider} />
-        <View style={styles.quickInfoItem}>
-          <Ionicons name="wallet-outline" size={16} color={theme.primary} />
-          <Text style={styles.quickInfoText}>{tip.money_cost_enum === 'free' ? 'Free' : 'Low Cost'}</Text>
-        </View>
-      </View>
-
-      {/* 5. Action Buttons */}
-      {!rejectionInfo && !maybeLaterInfo && (
-        <View style={[styles.actionSection, { paddingBottom: 20 + insets.bottom }]}>
-          <TouchableOpacity
-            style={[styles.primaryBtn, { backgroundColor: theme.primary, shadowColor: theme.primary }]}
-            onPress={() => handleResponse('try_it')}
-            activeOpacity={0.9}
-          >
-            <Ionicons name="checkmark-circle-outline" size={24} color="white" />
-            <Text style={styles.primaryBtnText}>I'll Try It!</Text>
-          </TouchableOpacity>
-          
-          <View style={styles.secondaryActions}>
-            <TouchableOpacity
-              style={[styles.secondaryBtn, { borderColor: theme.gray300 }]}
-              onPress={() => handleResponse('maybe_later')}
-              activeOpacity={0.7}
-            >
-               <Ionicons name="bookmark-outline" size={18} color={theme.gray700} />
-               <Text style={styles.secondaryBtnText}>Save for Later</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={[styles.secondaryBtn, { borderColor: theme.gray300 }]}
-              onPress={handleNotForMe}
-              activeOpacity={0.7}
-            >
-               <Ionicons name="close-outline" size={18} color={theme.gray700} />
-               <Text style={styles.secondaryBtnText}>Pass</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+              </View>
+            )}
+         </Animated.View>
       )}
     </View>
   );
