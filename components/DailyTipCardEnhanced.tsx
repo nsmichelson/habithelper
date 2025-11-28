@@ -6,13 +6,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Dimensions,
+  Easing,
   FlatList,
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Animated as RNAnimated,
 } from 'react-native';
 import Animated, {
   useAnimatedScrollHandler,
@@ -99,6 +101,11 @@ interface Props {
   onSavePersonalization?: (data: any) => void;
   savedPersonalizationData?: any;
   /**
+   * Shows an "unwrap" experience before the full tip renders.
+   * Defaults to true to match the enhanced visual style.
+   */
+  enableUnwrapExperience?: boolean;
+  /**
    * If true, hides the top "Habit Helper" header and Theme Switcher.
    * Defaults to true to avoid double headers in main screens.
    */
@@ -120,6 +127,7 @@ export default function DailyTipCardEnhanced({
   maybeLaterInfo,
   onSavePersonalization,
   savedPersonalizationData,
+  enableUnwrapExperience = true,
   hideHeader = true,
   randomizeThemeOnLoad = true // <--- New Prop Default
 }: Props) {
@@ -143,6 +151,11 @@ export default function DailyTipCardEnhanced({
     ...NEUTRALS
   }), [themeKey]);
 
+  const [isRevealed, setIsRevealed] = useState(!enableUnwrapExperience);
+  const [showTomorrowTeaser, setShowTomorrowTeaser] = useState(false);
+  const shimmer = useRef(new RNAnimated.Value(0)).current;
+  const pulse = useRef(new RNAnimated.Value(0)).current;
+
   const cycleTheme = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setThemeKey(current => {
@@ -151,6 +164,11 @@ export default function DailyTipCardEnhanced({
       return THEME_KEYS[nextIndex];
     });
   };
+
+  useEffect(() => {
+    setIsRevealed(!enableUnwrapExperience);
+    setShowTomorrowTeaser(false);
+  }, [enableUnwrapExperience, tip.tip_id]);
 
   const [currentPage, setCurrentPage] = useState(0);
   const scrollX = useSharedValue(0);
@@ -166,6 +184,59 @@ export default function DailyTipCardEnhanced({
     setCurrentPage(0);
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
   }, [tip.tip_id]);
+
+  useEffect(() => {
+    if (!enableUnwrapExperience || isRevealed) return;
+
+    const shimmerLoop = RNAnimated.loop(
+      RNAnimated.sequence([
+        RNAnimated.timing(shimmer, {
+          toValue: 1,
+          duration: 1800,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true
+        }),
+        RNAnimated.timing(shimmer, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true
+        })
+      ])
+    );
+
+    const pulseLoop = RNAnimated.loop(
+      RNAnimated.sequence([
+        RNAnimated.timing(pulse, {
+          toValue: 1,
+          duration: 800,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true
+        }),
+        RNAnimated.timing(pulse, {
+          toValue: 0,
+          duration: 1200,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true
+        })
+      ])
+    );
+
+    shimmerLoop.start();
+    pulseLoop.start();
+
+    return () => {
+      shimmerLoop.stop();
+      pulseLoop.stop();
+      shimmer.setValue(0);
+      pulse.setValue(0);
+    };
+  }, [enableUnwrapExperience, isRevealed, pulse, shimmer]);
+
+  useEffect(() => {
+    if (!isRevealed) return;
+    const timer = setTimeout(() => setShowTomorrowTeaser(true), 600);
+    return () => clearTimeout(timer);
+  }, [isRevealed]);
 
   // --- Parsing Logic ---
   const parseDetailsContent = () => {
@@ -185,6 +256,11 @@ export default function DailyTipCardEnhanced({
   const shouldShowPersonalization = !!tip.personalization_prompt;
 
   // --- Handlers ---
+
+  const handleReveal = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setIsRevealed(true);
+  };
 
   const handleResponse = async (response: 'try_it' | 'maybe_later') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -222,6 +298,125 @@ export default function DailyTipCardEnhanced({
   };
 
   // --- Helper Components ---
+
+  const renderUnwrapExperience = () => {
+    const shimmerTranslate = shimmer.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['-60%', '120%']
+    });
+
+    const pulseScale = pulse.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1.03]
+    });
+
+    const tomorrowHint = tip.area
+      ? `More ${tip.area.replace('_', ' ')} momentum is on deck for tomorrow.`
+      : 'A fresh idea is lined up for tomorrow.';
+
+    return (
+      <LinearGradient colors={[theme.primaryLightest, NEUTRALS.white]} style={styles.unwrapBackground}>
+        {!hideHeader && (
+          <View style={styles.unwrapHeader}>
+            <Text style={[styles.appTitle, { color: theme.primary }]}>Habit Helper</Text>
+            <View style={[styles.unwrapBadgePill, { backgroundColor: theme.primaryLighter }]}> 
+              <Ionicons name="sparkles" size={14} color={theme.primary} />
+              <Text style={[styles.unwrapBadgeText, { color: theme.primary }]}>Daily Tip</Text>
+            </View>
+          </View>
+        )}
+
+        <View style={styles.unwrapContent}>
+          <RNAnimated.View style={[styles.unwrapCard, { shadowColor: theme.primary, transform: [{ scale: pulseScale }] }]}>
+            <LinearGradient
+              colors={[theme.primary, theme.primaryLight]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.unwrapRibbon}
+            >
+              <View style={styles.unwrapRibbonLeft}>
+                <Ionicons name="gift" size={18} color={NEUTRALS.white} />
+                <Text style={styles.unwrapRibbonText}>Today's Discovery</Text>
+              </View>
+              <View style={styles.unwrapMetaRow}>
+                <View style={styles.unwrapMetaChip}>
+                  <Ionicons name="time-outline" size={12} color={NEUTRALS.white} />
+                  <Text style={styles.unwrapMetaChipText}>{tip.time ? tip.time.replace('_', ' ') : '5 min'}</Text>
+                </View>
+                <View style={styles.unwrapMetaChip}>
+                  <Ionicons name="speedometer-outline" size={12} color={NEUTRALS.white} />
+                  <Text style={styles.unwrapMetaChipText}>{tip.difficulty ? `Level ${tip.difficulty}` : 'Easy'}</Text>
+                </View>
+              </View>
+            </LinearGradient>
+
+            <View style={[styles.unwrapCardBody, { backgroundColor: theme.primaryLightest }]}>
+              <View style={styles.unwrapIconRow}>
+                <View style={[styles.unwrapIconShell, { backgroundColor: theme.primaryLighter }]}> 
+                  <Text style={styles.unwrapIcon}>✨</Text>
+                </View>
+                <View>
+                  <Text style={[styles.unwrapEyebrow, { color: theme.primary }]}>Tap to unwrap</Text>
+                  <Text style={[styles.unwrapKicker, { color: theme.gray900 }]}>Your tip is ready</Text>
+                </View>
+              </View>
+
+              <Text style={[styles.unwrapHook, { color: theme.gray900 }]}>{tip.summary}</Text>
+              {tip.short_description && (
+                <Text style={[styles.unwrapSubtitle, { color: theme.gray700 }]}>{tip.short_description}</Text>
+              )}
+
+              <View style={styles.unwrapBadgesInline}>
+                <View style={[styles.unwrapBadgePill, { backgroundColor: theme.primaryLightest, borderColor: theme.primaryLighter, borderWidth: 1 }]}> 
+                  <Ionicons name="leaf-outline" size={14} color={theme.primary} />
+                  <Text style={[styles.unwrapBadgeText, { color: theme.primary }]}>{tip.area}</Text>
+                </View>
+                <View style={[styles.unwrapBadgePill, { backgroundColor: NEUTRALS.white }]}> 
+                  <Ionicons name="flame-outline" size={14} color={theme.primary} />
+                  <Text style={[styles.unwrapBadgeText, { color: theme.primary }]}>
+                    {(tip.goals && tip.goals[0]) ? tip.goals[0].replace('_', ' ') : 'Goal aligned'}
+                  </Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                activeOpacity={0.92}
+                onPress={handleReveal}
+                style={[styles.unwrapButton, { backgroundColor: theme.primary }]}
+              >
+                <Text style={styles.unwrapButtonText}>Reveal Today's Tip</Text>
+                <Ionicons name="arrow-forward" size={18} color={NEUTRALS.white} />
+                <RNAnimated.View
+                  pointerEvents="none"
+                  style={[styles.unwrapShimmer, { transform: [{ translateX: shimmerTranslate }] }]}
+                />
+              </TouchableOpacity>
+
+              <View style={styles.unwrapPulseRow}>
+                {[0, 1, 2].map(index => (
+                  <View
+                    key={index}
+                    style={[styles.unwrapPulseDot, { backgroundColor: theme.primaryLighter, opacity: 0.5 + index * 0.1 }]}
+                  />
+                ))}
+              </View>
+            </View>
+          </RNAnimated.View>
+
+          <View style={[styles.unwrapTomorrow, { borderColor: theme.primaryLight, backgroundColor: NEUTRALS.white }]}> 
+            <View style={[styles.unwrapIconShell, { backgroundColor: theme.primaryLightest }]}> 
+              <Text style={styles.unwrapIcon}>🌙</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.unwrapEyebrow, { color: theme.primary }]}>Tomorrow</Text>
+              <Text style={[styles.unwrapSubtitle, { color: theme.gray900 }]}>{tomorrowHint}</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={theme.primaryLight} />
+          </View>
+        </View>
+      </LinearGradient>
+    );
+  };
 
   const CardVisualHeader = ({ title, subtitle, icon }: any) => (
     <View style={styles.cardVisual}>
@@ -438,6 +633,10 @@ export default function DailyTipCardEnhanced({
     ...(shouldShowPersonalization ? [{ key: 'personalize', title: 'Plan', icon: 'create', render: renderPersonalizationCard }] : []),
   ];
 
+  if (!isRevealed) {
+    return renderUnwrapExperience();
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: 'transparent' }]}>
       
@@ -544,6 +743,21 @@ export default function DailyTipCardEnhanced({
         />
       </View>
 
+      {showTomorrowTeaser && (
+        <View style={styles.unwrapTomorrowInline}>
+          <View style={[styles.unwrapIconShell, { backgroundColor: theme.primaryLightest }]}> 
+            <Text style={styles.unwrapIcon}>👀</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.unwrapEyebrow, { color: theme.primary }]}>Coming Tomorrow</Text>
+            <Text style={[styles.unwrapSubtitle, { color: theme.gray900 }]}>
+              Another {tip.area.replace('_', ' ')} idea is queued up for you.
+            </Text>
+          </View>
+          <Ionicons name="arrow-forward" size={18} color={theme.primaryLight} />
+        </View>
+      )}
+
       {/* 4. Quick Info Bar */}
       <View style={styles.quickInfoBar}>
         <View style={styles.quickInfoItem}>
@@ -602,6 +816,180 @@ export default function DailyTipCardEnhanced({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  unwrapBackground: {
+    flex: 1,
+    paddingVertical: 24,
+  },
+  unwrapHeader: {
+    paddingHorizontal: 20,
+    paddingBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  unwrapContent: {
+    flex: 1,
+    paddingHorizontal: 20,
+    gap: 16,
+  },
+  unwrapCard: {
+    borderRadius: 22,
+    overflow: 'hidden',
+    backgroundColor: NEUTRALS.white,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.18,
+    shadowRadius: 18,
+    elevation: 8,
+  },
+  unwrapRibbon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+  },
+  unwrapRibbonLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  unwrapRibbonText: {
+    color: NEUTRALS.white,
+    fontWeight: '700',
+    letterSpacing: -0.2,
+  },
+  unwrapMetaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  unwrapMetaChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.14)',
+  },
+  unwrapMetaChipText: {
+    color: NEUTRALS.white,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  unwrapCardBody: {
+    paddingHorizontal: 18,
+    paddingVertical: 20,
+    gap: 14,
+  },
+  unwrapIconRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  unwrapIconShell: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  unwrapIcon: {
+    fontSize: 20,
+  },
+  unwrapEyebrow: {
+    fontSize: 12,
+    letterSpacing: 0.4,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+  },
+  unwrapKicker: {
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  unwrapHook: {
+    fontSize: 20,
+    fontWeight: '800',
+    letterSpacing: -0.4,
+    lineHeight: 26,
+  },
+  unwrapSubtitle: {
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '500',
+  },
+  unwrapBadgesInline: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  unwrapBadgePill: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  unwrapBadgeText: {
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.3,
+  },
+  unwrapButton: {
+    marginTop: 6,
+    paddingVertical: 14,
+    borderRadius: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    overflow: 'hidden',
+  },
+  unwrapButtonText: {
+    color: NEUTRALS.white,
+    fontWeight: '800',
+    fontSize: 15,
+  },
+  unwrapShimmer: {
+    position: 'absolute',
+    top: -12,
+    left: -40,
+    width: 80,
+    height: '140%',
+    backgroundColor: 'rgba(255,255,255,0.28)',
+    transform: [{ rotate: '20deg' }],
+  },
+  unwrapPulseRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 6,
+    paddingTop: 4,
+  },
+  unwrapPulseDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 12,
+  },
+  unwrapTomorrow: {
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  unwrapTomorrowInline: {
+    marginHorizontal: 20,
+    marginBottom: 12,
+    padding: 14,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: NEUTRALS.gray100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: NEUTRALS.white,
   },
   header: {
     paddingHorizontal: 20,
