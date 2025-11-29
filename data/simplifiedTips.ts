@@ -3627,7 +3627,27 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
       "multiple": false
     },
     "difficulty": 2,
-    "source": "dietitian_reviewed"
+    "source": "dietitian_reviewed",
+    "hooks": [
+      {
+        "hook": "I can't believe it's not ice cream",
+        "subtitle": "The frozen banana trick that actually works",
+        "detail": "When you blend frozen bananas, something magical happens—they transform into a creamy, soft-serve texture that genuinely mimics ice cream. You get the cold, sweet, creamy experience with fiber and potassium instead of added sugar and fat.",
+        "action": "Freeze sliced ripe bananas tonight. Tomorrow when you want ice cream, blend them until smooth. Add cocoa powder for chocolate 'nice cream.'"
+      },
+      {
+        "hook": "One ingredient. Ice cream texture.",
+        "subtitle": "How frozen fruit tricks your brain",
+        "detail": "Your brain craves ice cream for the cold, creamy, sweet sensation—not specifically for dairy fat and added sugar. Frozen bananas deliver all three sensory experiences while being naturally sweet and full of fiber.",
+        "action": "Peel and slice two ripe bananas, freeze on a baking sheet, then blend in a food processor until creamy. Takes 2-3 minutes."
+      },
+      {
+        "hook": "The dessert that's actually just fruit",
+        "subtitle": "Why 'nice cream' satisfies ice cream cravings",
+        "detail": "Traditional ice cream combines fat and sugar to hyper-activate reward pathways. Banana 'nice cream' gives you the sensory satisfaction—cold, sweet, creamy—without the blood sugar spike or the calories. Kids love it too.",
+        "action": "Try your first batch plain, then experiment: cocoa powder, peanut butter, frozen berries, or a splash of vanilla extract."
+      }
+    ]
   },
   {
     "tip_id": "j0k1l2m3-f010-4010-b010-0abcdef01234",
@@ -4446,6 +4466,26 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a1b2c3d4-0001-4001-a001-1234567890ab",
     "summary": "Swap one sugary drink for water or sparkling water.",
+    "hooks": [
+      {
+        "hook": "The single swap that cuts the most sugar",
+        "subtitle": "Why liquid calories hit differently than food",
+        "detail": "Sugary drinks are the #1 source of added sugar in the American diet. Unlike solid food, liquid calories don't trigger fullness signals—so you consume more without feeling satisfied. Swapping just one drink removes 150+ empty calories.",
+        "action": "Today, when you'd normally reach for soda or juice, grab sparkling water instead. Add lemon or lime if you want flavor."
+      },
+      {
+        "hook": "Your soda habit is costing you 15+ pounds a year",
+        "subtitle": "The math on liquid sugar",
+        "detail": "One daily soda adds up to 55,000+ calories annually—roughly 15 pounds of body weight. Sparkling water gives you the carbonation and ritual without the sugar or calories. It's the highest-impact single swap you can make.",
+        "action": "Keep sparkling water in the fridge where your soda usually lives. Make it the default reach."
+      },
+      {
+        "hook": "Bubbles without the sugar crash",
+        "subtitle": "How to get the fizz fix without the downside",
+        "detail": "If you love carbonation, you don't have to give it up—just swap what's in the bubbles. Sparkling water satisfies the sensory craving for fizz while keeping blood sugar stable and cutting empty calories.",
+        "action": "At your next meal, order sparkling water with lemon instead of soda. Notice if you miss it as much as you expected."
+      }
+    ],
     "details_md": "**The Experiment:** For one day, whenever you would normally reach for a soda, sweetened juice, or other sugary beverage, substitute it with plain or naturally flavored sparkling water.\n\n**Why it Works:** Sugary drinks are a major source of \"empty\" calories and added sugars, which can contribute to weight gain and blood sugar fluctuations. Water or sparkling water provides hydration and can offer the satisfying carbonation of soda without the sugar or calories, helping to break the sugar habit.\n\n**How to Try It:**\n• Keep a pitcher of cold water or a few cans of sparkling water in the fridge\n• If you enjoy flavor, add a squeeze of fresh lemon, lime, or a few muddled berries yourself\n• When at a restaurant, ask for water or sparkling water with lemon instead of soda",
     "area": "eating",
     "goals": [
@@ -5281,6 +5321,26 @@ const BASE_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "a1b2c3d4-e5f6-7890-abcd-123456789012",
     "summary": "Choose whole grains over refined for one meal.",
+    "hooks": [
+      {
+        "hook": "Same meal, better fuel",
+        "subtitle": "Why the type of carb matters as much as the amount",
+        "detail": "Whole grains keep all three parts of the grain—bran, germ, and endosperm—giving you fiber, B vitamins, and minerals that refined grains strip away. The fiber slows digestion, keeping you full longer and your blood sugar steadier.",
+        "action": "At one meal today, swap white for whole: brown rice instead of white, whole wheat bread instead of white, or quinoa instead of regular pasta."
+      },
+      {
+        "hook": "White carbs are missing the good parts",
+        "subtitle": "What refining actually removes",
+        "detail": "When grains are refined, the fiber-rich bran and nutrient-dense germ are stripped away, leaving only the starchy endosperm. You lose fiber, iron, B vitamins, and the compounds that help you feel full. Whole grains keep everything.",
+        "action": "Check your pantry: pick one refined grain product to swap for whole grain on your next grocery run."
+      },
+      {
+        "hook": "The swap that keeps you full longer",
+        "subtitle": "How fiber changes what happens after you eat",
+        "detail": "Whole grains have 3-4x more fiber than refined grains. That fiber slows digestion, prevents blood sugar spikes, and keeps you satisfied for hours instead of hunting for snacks. Same carbs, different outcome.",
+        "action": "Try this swap at lunch or dinner today: whole wheat pasta, brown rice, or quinoa instead of the white version."
+      }
+    ],
     "details_md": "**The Experiment:** For one meal today, deliberately choose a whole-grain carbohydrate source instead of a refined one.\n\n**Why it Works:** Whole grains like brown rice, quinoa, and whole-wheat bread contain more fiber, vitamins, and minerals than their refined counterparts (white rice, white bread). The higher fiber content helps you feel full for longer, aids in digestion, and supports more stable blood sugar levels.\n\n**How to Try It:**\n• Swap white pasta for whole-wheat pasta\n• Choose brown rice instead of white rice with your stir-fry or curry\n• Make a sandwich using 100% whole-wheat bread. Look for \"100% whole grain\" as the first ingredient",
     "area": "eating",
     "goals": [

@@ -19,6 +19,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Your kitchen layout matters more than willpower",
+        "subtitle": "Behavioral scientists found the #1 predictor of what you eat",
+        "detail": "People eat 70% more from clear containers than opaque ones, and 30% more when food is within arm's reach. Your environment shapes your choices before your brain even gets involved.",
+        "action": "Move one treat to a high shelf or opaque container today, and put fruit where you'll see it first."
+      },
+      {
+        "hook": "Out of sight, out of mind actually works",
+        "subtitle": "The simple reason you keep eating what you don't want to eat",
+        "detail": "Every time you see food, your brain makes a decision—even if you're not hungry. Visible snacks create dozens of mini-willpower battles daily. Hide them once, win automatically.",
+        "action": "Put your most tempting snack somewhere you can't see it without effort—a high cabinet, an opaque bin, or the garage."
+      },
+      {
+        "hook": "What if the cookies just... weren't there?",
+        "subtitle": "The laziest nutrition hack that actually works",
+        "detail": "Self-control is a limited resource that depletes throughout the day. By making unhealthy choices effortful and healthy choices obvious, you conserve willpower for decisions that actually matter.",
+        "action": "Reorganize one shelf: treats go high and hidden, fruit goes eye-level and visible."
+      }
+    ]
   },
   {
     "tip_id": "111eb00c-8654-4f24-afa7-301b1a1acb9f",
@@ -38,6 +58,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "Decide before you're starving",
+        "subtitle": "Why restaurant menus look completely different when you're hungry",
+        "detail": "When blood sugar dips, your brain prioritizes quick energy—making rich, sweet, fatty foods seem irresistible. Decisions made when hungry favor immediate reward over long-term goals.",
+        "action": "Look up the menu before dinner tonight and write down your order. Text it to a friend for extra accountability."
+      },
+      {
+        "hook": "The menu looks different at home",
+        "subtitle": "Pre-commitment: a technique used by behavioral economists and poker players",
+        "detail": "Locking in a decision before you're in the heat of the moment removes impulsivity from the equation. Mixed dishes at restaurants often hide surprising amounts of sugar, sodium, and fat.",
+        "action": "Star your order in the notes app before you leave. When the server comes, you already know."
+      },
+      {
+        "hook": "Decision fatigue peaks when you're hungriest",
+        "subtitle": "The science of why you order the burger when you planned to order the salmon",
+        "detail": "After a day of decisions, your brain takes shortcuts—defaulting to what sounds most appealing in the moment. Pre-deciding outsources the choice to your clear-headed self.",
+        "action": "Pick a restaurant you're going to this week. Look at the menu now and decide what you'll order."
+      }
+    ]
   },
   {
     "tip_id": "98f559e4-7248-4b18-af68-1272bf5dcb4a",
@@ -58,6 +98,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "Don't show up starving",
+        "subtitle": "The counterintuitive trick that helps you eat less at restaurants",
+        "detail": "Arriving hungry amplifies the appeal of bread baskets and rich appetizers. A small snack with protein and fiber 45-60 minutes before stabilizes blood sugar, so you order with your brain, not your stomach.",
+        "action": "Before your next dinner out, eat an apple with peanut butter or a handful of nuts an hour beforehand."
+      },
+      {
+        "hook": "A small snack now saves you from overeating later",
+        "subtitle": "How to outsmart the bread basket",
+        "detail": "Protein and fiber slow digestion and blunt the blood sugar crash that makes everything on the menu look amazing. You'll still enjoy dinner—you just won't feel compelled to overdo it.",
+        "action": "Set a phone reminder for one hour before your reservation: 'Eat a small snack with protein.'"
+      },
+      {
+        "hook": "Why arriving hungry backfires",
+        "subtitle": "The pre-meal strategy that changes how you order",
+        "detail": "When you're very hungry, your brain craves rapid energy—sugar, fat, refined carbs. A small protein-fiber snack beforehand keeps glucose steady, reducing the urgency that leads to impulsive ordering.",
+        "action": "Keep Greek yogurt, string cheese, or nuts accessible. Eat a small portion before heading to any restaurant."
+      }
+    ]
   },
   {
     "tip_id": "57d0910c-aad9-40f4-8b3c-97bc8677669d",
@@ -77,6 +137,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "Half now, free lunch tomorrow",
+        "subtitle": "The restaurant trick that saves money and calories",
+        "detail": "Restaurant portions have roughly doubled since the 1980s. Pre-portioning reframes the default—instead of eating until you're stuffed, you eat until the (reasonable) portion is done.",
+        "action": "At your next restaurant meal, ask for a to-go box with your entrée and pack half before you start eating."
+      },
+      {
+        "hook": "Restaurant portions have doubled since the 1980s",
+        "subtitle": "Why 'cleaning your plate' no longer makes sense",
+        "detail": "Large portions and rich preparations drive overeating through visual cues and the completion impulse. Boxing half immediately removes the temptation to keep going.",
+        "action": "Tell your server: 'Could I get a box with my entrée?' Move half before taking a single bite."
+      },
+      {
+        "hook": "The box trick: split it before you start",
+        "subtitle": "How to enjoy restaurant food without the aftermath",
+        "detail": "Once food is on your plate, willpower has to fight every bite. But if half is already boxed, the decision is made. You preserve self-control for dessert decisions.",
+        "action": "Practice the phrase: 'Can I get a to-go box with that?' Use it at your next meal out."
+      }
+    ]
   },
   {
     "tip_id": "25fb5013-9c16-4e11-aa4e-2ea4d71eab82",
@@ -96,6 +176,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "Three bites is usually enough",
+        "subtitle": "The science of diminishing dessert returns",
+        "detail": "The first few bites of dessert deliver most of the pleasure—after that, you're chasing the initial hit. Fat and sugar together hyper-activate reward pathways, making it hard to stop. Sharing limits exposure while preserving enjoyment.",
+        "action": "Next time dessert arrives, take three slow, mindful bites. Notice if you actually want more, or if you're satisfied."
+      },
+      {
+        "hook": "Four spoons, one dessert",
+        "subtitle": "The social hack for having your cake (a bit of it)",
+        "detail": "Strategic indulgence keeps enjoyment without abandoning the plan. Sharing a dessert gives you the experience and the taste without the full fat-sugar reward hit that drives overeating.",
+        "action": "Suggest splitting one dessert with the table. Choose sorbet or fruit-forward options when possible."
+      },
+      {
+        "hook": "Fat + sugar together hijacks your reward system",
+        "subtitle": "Why rich desserts are so hard to resist—and what to do about it",
+        "detail": "Combining fat and sugar activates distinct reward pathways simultaneously, making the experience more compelling than either alone. Fruit-forward desserts or small shared portions reduce this effect.",
+        "action": "At your next dinner out, order one small dessert for the table or choose a fruit-based option."
+      }
+    ]
   },
   {
     "tip_id": "69e46c1f-504a-489a-b4db-21e6bbddb91c",
@@ -115,6 +215,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 1,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "When thirst disguises itself as hunger",
+        "subtitle": "Your body's signals get crossed more often than you'd think",
+        "detail": "Mild dehydration can trigger sensations that feel like hunger. Drinking water gives your brain time to distinguish between the two—and often, the 'craving' disappears.",
+        "action": "Next time you want a snack, drink a full glass of water first and wait 5 minutes. Then decide if you're still hungry."
+      },
+      {
+        "hook": "Hungry, or just thirsty in disguise?",
+        "subtitle": "The 5-minute water test for cravings",
+        "detail": "Hydration lapses and mineral needs can masquerade as sugar hunger. A brief pause—plus the physical sensation of water filling your stomach—lets satiety signals catch up.",
+        "action": "Keep a water bottle at your desk. Make 'water first' your default response to any craving."
+      },
+      {
+        "hook": "The 5-minute water test",
+        "subtitle": "A simple way to tell real hunger from false alarms",
+        "detail": "Before any snack, drinking 12-16 oz of water creates a pause. This interrupts autopilot eating and gives your brain time to figure out what it actually needs.",
+        "action": "Try this today: before your afternoon snack, drink a full glass of water and set a 5-minute timer."
+      }
+    ]
   },
   {
     "tip_id": "59a67139-9680-47c9-887f-b7b5c0ceae0f",
@@ -134,6 +254,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 1,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Crackers need a buddy",
+        "subtitle": "Why snacking on carbs alone leaves you wanting more",
+        "detail": "Simple carbs eaten solo spike blood sugar fast, then crash it—triggering more cravings within the hour. Adding protein or fat slows absorption, keeping energy and appetite stable.",
+        "action": "Today, pair every carb with something: apple + peanut butter, crackers + cheese, toast + egg."
+      },
+      {
+        "hook": "Why crackers alone leave you wanting more",
+        "subtitle": "The blood sugar rollercoaster explained",
+        "detail": "Solo carbs spike glucose, then crash it hard. Your brain interprets the crash as 'need more energy NOW,' driving you back to quick-energy foods. Pairing with protein or fat flattens the curve.",
+        "action": "Check your snacks: are any carbs-only? Add a protein or fat component to each one."
+      },
+      {
+        "hook": "The pairing principle",
+        "subtitle": "A simple rule that changes how snacks affect you",
+        "detail": "Bread, crackers, fruit, rice—alone, they spike and crash. Paired with cheese, nuts, yogurt, or eggs, they digest slowly, steady your energy, and reduce the drive for quick sugar fixes.",
+        "action": "Make this your snack rule: no naked carbs. Always add a protein or fat buddy."
+      }
+    ]
   },
   {
     "tip_id": "c844ab65-d40b-4ae4-9d6c-6ef9e78376cb",
@@ -153,6 +293,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "daily",
+    "hooks": [
+      {
+        "hook": "Your gut bacteria influence your cravings",
+        "subtitle": "The surprising connection between microbes and sugar-seeking",
+        "detail": "Emerging research links the gut-brain axis to food preferences. Certain gut bacteria can influence GLP-1 signaling and sweet desire. Supporting your microbiome may help reduce sugar-seeking over time.",
+        "action": "Add one serving of fermented food to lunch or dinner today: kimchi, sauerkraut, kefir, or low-sugar kombucha."
+      },
+      {
+        "hook": "The gut-brain connection is real",
+        "subtitle": "How what's in your gut affects what you crave",
+        "detail": "Your gut microbiome communicates with your brain through the vagus nerve and hormone signaling. A diverse, healthy gut population may help regulate appetite and reduce cravings.",
+        "action": "Top your next meal with a forkful of kimchi or sauerkraut. Small amounts, big effects."
+      },
+      {
+        "hook": "Feed the microbes that feed you",
+        "subtitle": "Fermented foods aren't just trendy—they're functional",
+        "detail": "Microbial activity in your gut can influence hunger hormones and sweet desire. Supporting your microbiota with fermented foods is one piece of the craving puzzle.",
+        "action": "Swap your usual drink with a glass of kefir, or choose low-sugar kombucha with dinner."
+      }
+    ]
   },
   {
     "tip_id": "595245fe-ef5f-4e19-bdf7-c4c66bfc943e",
@@ -172,6 +332,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 1,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Nature's dessert",
+        "subtitle": "How whole fruit satisfies sweetness differently",
+        "detail": "Whole fruit delivers fiber, water, and micronutrients alongside natural sugars. This combination satisfies sweetness with better satiety than refined sweets—and avoids the fat-sugar synergy that drives overeating.",
+        "action": "Tonight, make dessert from frozen mango, berries, or kiwi with a sprinkle of cinnamon."
+      },
+      {
+        "hook": "Sweetness with a purpose",
+        "subtitle": "Why fruit satisfies differently than candy",
+        "detail": "The fiber in whole fruit slows sugar absorption, preventing the spike-crash cycle. The water content adds volume. You get the sweet experience without the aftermath.",
+        "action": "Keep frozen fruit stocked. After dinner, serve a small bowl with a drizzle of honey or dash of cinnamon."
+      },
+      {
+        "hook": "The dessert swap that actually satisfies",
+        "subtitle": "How to end the meal sweet without the sugar crash",
+        "detail": "Rich desserts combine fat and sugar, hyper-activating reward pathways. Fruit gives you the sweet ending without the double hit—and the fiber helps you stop when satisfied.",
+        "action": "Replace your usual evening dessert with a colorful fruit bowl tonight. Notice how you feel an hour later."
+      }
+    ]
   },
   {
     "tip_id": "c6bc23ef-273d-46c7-b9d2-a8053350ec6e",
@@ -191,6 +371,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "I can't believe it's not ice cream",
+        "subtitle": "How frozen fruit tricks your brain",
+        "detail": "Frozen banana has a creamy texture that mimics ice cream. Adding cocoa powder satisfies chocolate cravings. You get the indulgent experience with fiber and potassium instead of added fat and sugar.",
+        "action": "Slice a banana, dust with unsweetened cocoa, freeze for 30-60 minutes. Add crushed almonds for crunch."
+      },
+      {
+        "hook": "The chocolate craving hack",
+        "subtitle": "A 3-ingredient treat that actually works",
+        "detail": "Your brain wants chocolate? Give it cocoa—the flavor without the sugar load. Frozen banana provides the creamy, cold, sweet base. Together, they satisfy without the reward overdrive.",
+        "action": "Keep a bag of frozen cocoa banana coins in your freezer. Grab 6-8 when evening cravings hit."
+      },
+      {
+        "hook": "3 ingredients. 5 minutes. Zero guilt.",
+        "subtitle": "The frozen treat you can feel good about",
+        "detail": "Banana provides natural sweetness and fiber. Cocoa delivers the chocolate flavor. Freezing changes the texture to ice-cream-like. You satisfy the craving without the blood sugar spike.",
+        "action": "Tonight, slice a banana, dust with cocoa, add a few almonds. Freeze and taste-test the result."
+      }
+    ]
   },
   {
     "tip_id": "e5e956b6-ce4b-4689-a4b2-6d2eeb59f286",
@@ -210,6 +410,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 3,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "Hunger makes bad decisions",
+        "subtitle": "Why Cinnabon is strategically located at airports",
+        "detail": "Going more than 5 hours without food heightens impulsivity and preference for ultra-processed options. Your brain, running low on glucose, demands quick energy. Planning ahead neutralizes this.",
+        "action": "Before your next trip, pack a kit: nuts, jerky, an apple, and a full water bottle."
+      },
+      {
+        "hook": "Pack snacks like you pack chargers",
+        "subtitle": "The travel essential that changes how you eat on the road",
+        "detail": "Planned protein and fiber stabilizes energy and curbs crash-driven cravings. Without a backup, you're at the mercy of whatever's at the gate—usually sugar and refined carbs.",
+        "action": "Create a travel snack bag that lives in your carry-on: almonds, cheese sticks, dried fruit, jerky."
+      },
+      {
+        "hook": "Going 5+ hours without food changes your brain",
+        "subtitle": "The science behind desperate airport food choices",
+        "detail": "Extended gaps without eating heighten reward sensitivity—junk food looks more appealing, healthy options feel less satisfying. A protein-fiber snack kit prevents this state.",
+        "action": "Portion ¼ cup almonds into bags. Keep them with your travel gear so you never leave without them."
+      }
+    ]
   },
   {
     "tip_id": "db1cfa99-afc9-4d1c-9935-41bf1d510b2d",
@@ -228,6 +448,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Your body has a clock—feed it on schedule",
+        "subtitle": "How irregular meals confuse your hunger signals",
+        "detail": "Routine supports circadian and metabolic regularity. When your body knows when to expect food, hunger and satiety hormones function better. Unpredictable eating increases cravings and overeating risk.",
+        "action": "Set three anchor meal times today. Eat within those windows, even if you adjust portion sizes."
+      },
+      {
+        "hook": "Irregular meals confuse your hunger signals",
+        "subtitle": "Why eating at random times makes you hungrier",
+        "detail": "Your metabolism anticipates meals based on patterns. Erratic timing keeps it guessing, increasing hunger hormones and reducing satiety signals. Predictability is protective.",
+        "action": "Add calendar reminders for your three meal windows. Carry a backup snack for unavoidable delays."
+      },
+      {
+        "hook": "Predictable meals, predictable appetite",
+        "subtitle": "The simple power of consistent timing",
+        "detail": "Decision fatigue and overeating risk drop when meals are predictable. Your body stops sending false hunger alarms, and you're less vulnerable to environmental food cues.",
+        "action": "Pick three realistic anchor times for tomorrow's meals. Stick to them within a 30-minute window."
+      }
+    ]
   },
   {
     "tip_id": "9dc8e1df-7f14-4501-9f93-725d4c24a173",
@@ -246,6 +486,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "Walk the buffet before you serve",
+        "subtitle": "Why the first pass should be eyes only",
+        "detail": "Scanning first avoids impulsive piling. When you see all options before committing, you can build a balanced plate intentionally—rather than loading up on whatever you see first.",
+        "action": "At your next buffet, walk the entire line before picking up a plate. Then build one balanced plate."
+      },
+      {
+        "hook": "First scan, then serve",
+        "subtitle": "The buffet strategy that prevents overeating",
+        "detail": "Impulsive piling starts at the first station. Without a plan, you end up with a plate full of whatever was at eye level first. A quick reconnaissance trip changes everything.",
+        "action": "Make it a rule: survey all options first, mentally plan your plate, then serve yourself once."
+      },
+      {
+        "hook": "One plate, one trip",
+        "subtitle": "The simple boundary that works at buffets",
+        "detail": "Lean proteins, vegetables, and intact grains reduce the fat-sugar reward pull and keep glucose steadier. Fill half the plate with vegetables, quarter with protein, quarter with grains.",
+        "action": "At your next buffet or family-style meal, commit to one plate. Fill half with vegetables first."
+      }
+    ]
   },
   {
     "tip_id": "053c6170-9dad-4c6e-9250-f6ab1fece2e4",
@@ -264,6 +524,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "BYOS: Bring Your Own Safety Net",
+        "subtitle": "How contributing a dish protects your goals",
+        "detail": "Having one reliable option at a gathering removes the mental burden of navigating other people's food choices. You guarantee yourself something aligned with your goals—and help others too.",
+        "action": "For your next party or potluck, bring a dish you'd actually want to eat: a colorful salad, roasted vegetables, or fruit-based dessert."
+      },
+      {
+        "hook": "Guarantee yourself one good option",
+        "subtitle": "The party strategy that shifts focus from food to people",
+        "detail": "When you contribute a dish that works for you, the food becomes less central. You can enjoy the gathering without constantly scanning for 'safe' options.",
+        "action": "Pre-wash greens, add beans and seeds for a satisfying salad. Or make baked apples with oats and cinnamon."
+      },
+      {
+        "hook": "Be the person who brought the good dish",
+        "subtitle": "How to enjoy social eating without derailing",
+        "detail": "Shifting focus to connection rather than food reduces social pressure. Bringing your own contribution gives you control without making a thing of it.",
+        "action": "Place your dish near your seat. Know you have at least one thing you can eat freely."
+      }
+    ]
   },
   {
     "tip_id": "dda6cf5a-8307-4b46-a93c-d909673722b2",
@@ -282,6 +562,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "as_needed",
+    "hooks": [
+      {
+        "hook": "Parties are about people, not plates",
+        "subtitle": "How shifting focus changes what you eat",
+        "detail": "When attention centers on relationships, food is no longer the reward mechanism. Standing near the snack table means constant exposure to eating cues. Positioning yourself for conversation reduces automatic eating.",
+        "action": "At your next gathering, pick three people to connect with meaningfully before thinking about food."
+      },
+      {
+        "hook": "Stand away from the snack table",
+        "subtitle": "The positioning trick that reduces mindless eating",
+        "detail": "Proximity drives consumption. Every minute near the food is a minute of willpower depletion. Moving away from the table reduces cue exposure dramatically.",
+        "action": "Hold a zero-calorie drink as a prop. Position yourself for conversation, not grazing."
+      },
+      {
+        "hook": "When food isn't the main event",
+        "subtitle": "Reframing social gatherings for better eating",
+        "detail": "Environmental cues drive automatic eating at parties—visible food, social permission, multiple options. Setting a social goal shifts your attention and reduces mindless consumption.",
+        "action": "Before your next party, decide: 'I'll have three real conversations before I eat anything.'"
+      }
+    ]
   },
   {
     "tip_id": "12ed3810-2f03-4ff1-b782-b59adcfd5d24",
@@ -302,6 +602,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Water first, wine second",
+        "subtitle": "Why you drink faster when you're thirsty",
+        "detail": "If you're dehydrated when you start drinking alcohol, you'll consume more, faster. Starting with sparkling water or a non-alcoholic drink quenches actual thirst, so you can pace yourself intentionally.",
+        "action": "Order sparkling water with lime before your first alcoholic drink. Finish it completely."
+      },
+      {
+        "hook": "The sparkling water buffer",
+        "subtitle": "A simple pacing trick that reduces alcohol intake",
+        "detail": "Alcohol adds discretionary calories and health risks. Starting non-alcoholic and alternating with water slows absorption and reduces total intake without requiring constant willpower.",
+        "action": "Make it a rule: one full glass of water before your first drink, and one between each alcoholic drink."
+      },
+      {
+        "hook": "Pace yourself without thinking about it",
+        "subtitle": "How starting with water changes the evening",
+        "detail": "Drinking with food slows absorption. Starting with water separates true thirst from social drinking. Simple pacing rules work better than trying to count drinks.",
+        "action": "At your next event, get sparkling water first. Eat protein before sipping alcohol."
+      }
+    ]
   },
   {
     "tip_id": "52ccba48-276b-44ef-94f4-cfc654a8fae1",
@@ -322,6 +642,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Tall glasses, smaller pours",
+        "subtitle": "The optical illusion you can use to your advantage",
+        "detail": "Studies show people pour more into short, wide glasses than tall, narrow ones—even bartenders. Glass shape influences perceived volume. Using slender glasses means you drink less without noticing.",
+        "action": "Tonight, pour wine into a tall, narrow glass instead of a wide goblet. Notice if it feels different."
+      },
+      {
+        "hook": "Glass shape tricks your perception",
+        "subtitle": "Why switching your glassware actually works",
+        "detail": "The same amount of liquid looks like more in a tall glass than a short one. This visual trick reduces consumption without requiring you to track or measure—environment does the work.",
+        "action": "Swap goblets for flutes or tall glasses. Pour to a consistent marker line."
+      },
+      {
+        "hook": "Drink less without noticing",
+        "subtitle": "A subtle environmental tweak that reduces intake",
+        "detail": "People underestimate volume in short, wide containers. Subtle environmental tweaks reduce total alcohol consumed without relying on willpower or conscious tracking.",
+        "action": "Put the bottle out of reach after pouring. Use your tallest, narrowest glasses for wine."
+      }
+    ]
   },
   {
     "tip_id": "840b1672-f7b9-4a88-91d6-c10811c442be",
@@ -341,6 +681,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Out of sight, out of sip",
+        "subtitle": "Why the bar cart works against you",
+        "detail": "Reducing visual cues lowers unplanned consumption. Every time you see alcohol, your brain makes a micro-decision. Moving bottles to a closed cabinet eliminates those constant prompts.",
+        "action": "Move alcohol to a cabinet or secondary fridge today. Clear the bar cart and add seltzers instead."
+      },
+      {
+        "hook": "What you see, you pour",
+        "subtitle": "How visibility drives consumption",
+        "detail": "Environmental control conserves self-control for more meaningful choices. Visible bottles create habitual cue-response patterns. Breaking the visibility breaks the automatic reach.",
+        "action": "Keep a single bottle chilled, not multiples. Buy smaller quantities to reduce what's available."
+      },
+      {
+        "hook": "The bar cart works against you",
+        "subtitle": "Why relocating bottles changes how much you drink",
+        "detail": "Attractive, visible alcohol normalizes daily drinking. Out of sight genuinely means out of mind for habitual behaviors. Add friction and you add choice.",
+        "action": "Find a cabinet with a door. Move all alcohol there. Make the bar cart a sparkling water station."
+      }
+    ]
   },
   {
     "tip_id": "a0227ed3-f873-4f45-a6ea-b4df781de5b1",
@@ -360,6 +720,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Food slows alcohol absorption",
+        "subtitle": "Why drinking on an empty stomach hits differently",
+        "detail": "Eating while drinking slows how quickly alcohol enters your bloodstream. Pacing with food curbs total intake. Setting a hard stop time adds a clear boundary that doesn't require ongoing decisions.",
+        "action": "Start drinking mid-meal, not pre-meal. Set a 'last call' alarm for two hours before bed."
+      },
+      {
+        "hook": "Set a 'last call' for yourself",
+        "subtitle": "How a firm boundary changes your evening",
+        "detail": "Respecting guideline limits reduces cardiometabolic and cancer risks tied to alcohol. A timer removes the ambiguity of 'one more'—you decided earlier, so you don't have to decide now.",
+        "action": "Use a timer for a two-hour drinking window. Switch to tea or sparkling water after it ends."
+      },
+      {
+        "hook": "Kitchen closes at 9pm—for drinks too",
+        "subtitle": "The firm stop that protects tomorrow's energy",
+        "detail": "Late-night alcohol disrupts sleep quality and next-day appetite regulation. A clear cutoff time, decided in advance, works better than trying to assess 'how you feel' in the moment.",
+        "action": "Pick your 'last pour' time tonight. Set an alarm. When it goes off, switch to something non-alcoholic."
+      }
+    ]
   },
   {
     "tip_id": "c5084aef-c366-4cdb-af0b-9db909c81399",
@@ -378,6 +758,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "The 21-day myth sets you up to fail",
+        "subtitle": "Where the number came from and why it's wrong",
+        "detail": "The '21 days to form a habit' idea came from a misread of a 1960s plastic surgery book. Actual research shows habits take an average of 66 days—and can range from 18 to 254 days depending on complexity.",
+        "action": "Pick one habit and set a 6-10 week horizon. Track weekly, not daily perfection."
+      },
+      {
+        "hook": "Habits take 6-10 weeks, not 3",
+        "subtitle": "Why realistic timelines prevent discouragement",
+        "detail": "Unrealistic expectations cause people to quit when they don't see instant results. Small, early wins build self-efficacy and persistence. Patience is part of the strategy.",
+        "action": "Reduce your target habit to a 2-minute starter version. Celebrate weekly streaks, not perfection."
+      },
+      {
+        "hook": "Slow is sustainable",
+        "subtitle": "Why the tortoise beats the hare in habit formation",
+        "detail": "Expectation management plus small wins builds lasting change. If you expect it to take time, you're less likely to abandon ship at week three when it still feels effortful.",
+        "action": "Track a single daily action in a checklist. Review weekly and adjust. Give it eight weeks minimum."
+      }
+    ]
   },
   {
     "tip_id": "72b786da-dfd5-430a-9ee7-191719e6a78e",
@@ -396,6 +796,26 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
     "difficulty": 2,
     "source": "coach_curated",
     "sustainability": "ongoing",
+    "hooks": [
+      {
+        "hook": "Boredom eating isn't about hunger",
+        "subtitle": "What your brain is actually looking for",
+        "detail": "Boredom seeks stimulation, not calories. When you reach for food out of boredom, you're trying to change your mental state. An If-Then plan gives your brain an alternative route to stimulation.",
+        "action": "Create one If-Then plan: 'If I'm scrolling and want a snack, then I'll do 10 squats instead.'"
+      },
+      {
+        "hook": "If-then plans automate your response",
+        "subtitle": "How to replace a habit instead of fighting it",
+        "detail": "Implementation Intentions are one of the most researched behavior change techniques. By pre-deciding your response to a cue, you bypass the decision in the moment—the action becomes automatic.",
+        "action": "Write down: 'If [boredom trigger], then [alternative behavior].' Put it where you'll see it."
+      },
+      {
+        "hook": "Decide now what you'll do later",
+        "subtitle": "The power of pre-commitment for snacking",
+        "detail": "Habit stacking cements new behavior onto an existing cue. Instead of fighting the urge in real-time, you've already decided what happens next. The cue now triggers a different response.",
+        "action": "Choose your if-then: 'If TV ads, then make tea.' 'If waiting, then text a friend.' Test it tonight."
+      }
+    ]
   },
   {
     "tip_id": "b52b47e8-dba8-4119-b6c0-7a6667e42b96",

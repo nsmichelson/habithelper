@@ -1,5 +1,12 @@
 // Simplified tip structure for all areas (nutrition, fitness, organization, relationships)
 
+export interface TipHook {
+  hook: string;           // The attention-grabbing headline (e.g., "When thirst disguises itself as hunger")
+  subtitle: string;       // The intriguing lead-in that builds curiosity
+  detail: string;         // The evidence/teaching - what they learn even if they swipe away
+  action: string;         // The specific thing to try today
+}
+
 export interface SimplifiedTip {
   // ============ CORE IDENTITY ============
 
@@ -228,6 +235,12 @@ export interface SimplifiedTip {
     min_items?: number;
     max_items?: number;
   };
+
+  // ============ HOOKS & ENGAGEMENT ============
+
+  hooks?: TipHook[];
+  // Array of hook options for engaging users before showing the full tip
+  // Each hook is a complete package: headline, subtitle, evidence detail, and action
 
   // ============ QUALITY & METADATA ============
 
