@@ -26,6 +26,7 @@ import Animated, {
   withDelay,
   Easing,
   useAnimatedStyle,
+  Keyframe,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SimplifiedTip } from '../types/simplifiedTip';
@@ -218,6 +219,29 @@ export default function DailyTipCardEnhanced({
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setIsRevealed(true);
   };
+
+  // Custom animations for smoother transition
+  const exitingAnimation = useMemo(() => new Keyframe({
+    0: {
+      opacity: 1,
+      transform: [{ scale: 1 }, { translateY: 0 }],
+    },
+    100: {
+      opacity: 0,
+      transform: [{ scale: 1.05 }, { translateY: -20 }],
+    },
+  }).duration(600), []);
+
+  const enteringAnimation = useMemo(() => new Keyframe({
+    0: {
+      opacity: 0,
+      transform: [{ scale: 0.95 }, { translateY: 20 }],
+    },
+    100: {
+      opacity: 1,
+      transform: [{ scale: 1 }, { translateY: 0 }],
+    },
+  }).duration(800), []);
 
   // Reset to first page when tip changes
   useEffect(() => {
@@ -491,7 +515,7 @@ export default function DailyTipCardEnhanced({
     <View style={[styles.container, { backgroundColor: 'transparent' }]}>
       
       {!isRevealed ? (
-         <Animated.View exiting={FadeOut.duration(400)} style={StyleSheet.absoluteFill}>
+         <Animated.View exiting={exitingAnimation} style={StyleSheet.absoluteFill}>
             <TouchableOpacity
               style={StyleSheet.absoluteFill}
               activeOpacity={1}
@@ -552,7 +576,7 @@ export default function DailyTipCardEnhanced({
             </TouchableOpacity>
          </Animated.View>
       ) : (
-         <Animated.View entering={FadeIn.delay(200).duration(600)} style={{ flex: 1 }}>
+         <Animated.View entering={enteringAnimation} style={{ flex: 1 }}>
             {/* 1. Header Title & Theme Switcher - CONDITIONALLY RENDERED */}
             {!hideHeader && (
               <View style={styles.header}>
