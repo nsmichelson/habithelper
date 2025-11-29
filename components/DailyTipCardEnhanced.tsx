@@ -28,7 +28,7 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SimplifiedTip } from '../types/simplifiedTip';
+import { SimplifiedTip, TipHook } from '../types/simplifiedTip';
 import PersonalizationCard from './PersonalizationCard';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -197,6 +197,15 @@ export default function DailyTipCardEnhanced({
   // --- Reveal State ---
   const [isRevealed, setIsRevealed] = useState(false);
 
+  // --- Hook Selection ---
+  const [activeHook, setActiveHook] = useState<TipHook | null>(() => {
+    if (tip.hooks && tip.hooks.length > 0) {
+      const randomIndex = Math.floor(Math.random() * tip.hooks.length);
+      return tip.hooks[randomIndex];
+    }
+    return null;
+  });
+
   // Pre-reveal animation
   const pulseAnim = useSharedValue(1);
   useEffect(() => {
@@ -224,6 +233,14 @@ export default function DailyTipCardEnhanced({
     setCurrentPage(0);
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
     setIsRevealed(false); // Reset reveal state when tip changes
+
+    // Update active hook
+    if (tip.hooks && tip.hooks.length > 0) {
+      const randomIndex = Math.floor(Math.random() * tip.hooks.length);
+      setActiveHook(tip.hooks[randomIndex]);
+    } else {
+      setActiveHook(null);
+    }
   }, [tip.tip_id]);
 
   // --- Parsing Logic ---
@@ -308,6 +325,70 @@ export default function DailyTipCardEnhanced({
 
   const renderSummaryCard = () => {
     const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
+
+    // Use Active Hook if available
+    if (activeHook) {
+      return (
+        <View style={styles.pageContainer}>
+          <View style={styles.mainCard}>
+            {summaryImage ? (
+               // Image Header Version with Hook
+               <View style={styles.imageContainer}>
+                 <Image
+                   source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
+                   style={styles.coverImage}
+                   resizeMode="cover"
+                   accessibilityLabel={summaryImage.alt_text}
+                   fadeDuration={0}
+                 />
+               </View>
+            ) : (
+               // Gradient Header Version with Hook
+               <LinearGradient
+                  colors={[theme.primary, theme.primaryLight]}
+                  style={styles.cardVisualGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                >
+                  <CardVisualHeader
+                    title={activeHook.hook}
+                    subtitle={activeHook.subtitle}
+                    icon="bulb-outline"
+                  />
+                </LinearGradient>
+            )}
+
+            <ScrollView style={[styles.cardContent, { backgroundColor: theme.primaryLightest }]} showsVerticalScrollIndicator={false}>
+               <View style={styles.textContentContainer}>
+                  {/* If there was an image, we need to show the Title/Subtitle here in the body */}
+                  {summaryImage && (
+                    <>
+                      <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{activeHook.hook}</Text>
+                      <Text style={[styles.contentSubtitle, { color: theme.primary }]}>{activeHook.subtitle}</Text>
+                    </>
+                  )}
+
+                  {/* The Detail/Why */}
+                  <Text style={[styles.contentDescription, { color: theme.gray700, marginBottom: 24 }]}>
+                    {activeHook.detail}
+                  </Text>
+
+                  {/* The Action Box */}
+                  <View style={[styles.actionBox, { backgroundColor: NEUTRALS.white, borderColor: theme.primaryLight }]}>
+                    <View style={[styles.actionHeader, { borderBottomColor: theme.primaryLightest }]}>
+                       <Ionicons name="flash" size={20} color={theme.primary} />
+                       <Text style={[styles.actionTitle, { color: theme.primary }]}>The Experiment</Text>
+                    </View>
+                    <Text style={[styles.actionText, { color: theme.gray900 }]}>
+                       {activeHook.action}
+                    </Text>
+                  </View>
+               </View>
+            </ScrollView>
+          </View>
+        </View>
+      );
+    }
 
     return (
       <View style={styles.pageContainer}>
@@ -1107,5 +1188,33 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: NEUTRALS.gray700,
+  },
+  // --- New Hook/Action Styles ---
+  actionBox: {
+    borderRadius: 12,
+    borderWidth: 1,
+    overflow: 'hidden',
+    marginTop: 8,
+    marginBottom: 24,
+  },
+  actionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+  },
+  actionTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  actionText: {
+    padding: 16,
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
   },
 });
