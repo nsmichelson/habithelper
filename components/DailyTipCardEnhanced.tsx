@@ -189,6 +189,8 @@ export default function DailyTipCardEnhanced({
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
   const personalizationScrollRef = useRef<ScrollView>(null);
+  const hookCycleRef = useRef(0);
+  const [hookIndex, setHookIndex] = useState<number | null>(null);
   
   const dispatch = useAppDispatch();
   const pendingPersonalizationData = useAppSelector(state => state.dailyTip.pendingPersonalizationData);
@@ -216,6 +218,15 @@ export default function DailyTipCardEnhanced({
 
   const handleReveal = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (tip.hooks?.length) {
+      setHookIndex(() => {
+        const nextIndex = hookCycleRef.current % tip.hooks!.length;
+        hookCycleRef.current = (hookCycleRef.current + 1) % tip.hooks!.length;
+        return nextIndex;
+      });
+    } else {
+      setHookIndex(null);
+    }
     setIsRevealed(true);
   };
 
@@ -224,6 +235,8 @@ export default function DailyTipCardEnhanced({
     setCurrentPage(0);
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
     setIsRevealed(false); // Reset reveal state when tip changes
+    hookCycleRef.current = 0;
+    setHookIndex(null);
   }, [tip.tip_id]);
 
   // --- Parsing Logic ---
@@ -238,8 +251,17 @@ export default function DailyTipCardEnhanced({
     if (howMatch) sections.howToTry = howMatch[1].trim();
     return sections;
   };
-  
+
   const detailsSections = parseDetailsContent();
+  const selectedHook = useMemo(() => {
+    if (!tip.hooks?.length) return null;
+    if (hookIndex !== null && tip.hooks[hookIndex]) return tip.hooks[hookIndex];
+    return tip.hooks[0];
+  }, [hookIndex, tip.hooks]);
+  const headlineText = selectedHook?.hook || tip.summary;
+  const subtitleText = selectedHook?.subtitle || 'Today\'s Idea to Try';
+  const detailText = selectedHook?.detail || detailsSections.whyItWorks || tip.short_description;
+  const actionText = selectedHook?.action || detailsSections.experiment;
   const relevantGoals = userGoals.filter(userGoal => tip.goals?.includes(userGoal));
   const shouldShowPersonalization = !!tip.personalization_prompt;
 
@@ -333,8 +355,8 @@ export default function DailyTipCardEnhanced({
               end={{ x: 1, y: 1 }}
             >
               <CardVisualHeader
-                title={tip.summary}
-                subtitle="Today's Idea to Try"
+                title={headlineText}
+                subtitle={subtitleText}
                 icon="bulb-outline"
               />
             </LinearGradient>
@@ -342,15 +364,33 @@ export default function DailyTipCardEnhanced({
 
           <ScrollView style={[styles.cardContent, { backgroundColor: theme.primaryLightest }]} showsVerticalScrollIndicator={false}>
             <View style={styles.textContentContainer}>
-              {/* Show title and subtitle for image version */}
-              {summaryImage && (
-                <>
-                  <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
-                  <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
-                </>
+              {/* Hook-forward layout */}
+              <View style={[styles.hookPill, { backgroundColor: `${theme.primaryLight}20`, borderColor: theme.primaryLight }]}>
+                <Ionicons name="sparkles-outline" size={16} color={theme.primary} />
+                <Text style={[styles.hookPillText, { color: theme.primary }]}>Today&apos;s hook</Text>
+              </View>
+
+              <Text style={[styles.hookTitle, { color: theme.gray900 }]}>{headlineText}</Text>
+              <Text style={[styles.hookSubtitle, { color: theme.primary }]}>{subtitleText}</Text>
+
+              {detailText && (
+                <View style={[styles.detailCard, { borderColor: theme.primaryLight, backgroundColor: `${theme.primaryLightest}` }]}>
+                  <Text style={[styles.sectionLabel, { color: theme.gray700 }]}>Why this works</Text>
+                  <Text style={[styles.detailText, { color: theme.gray900 }]}>{detailText}</Text>
+                </View>
               )}
-              {/* Show description for both image and gradient versions */}
-              {tip.short_description && (
+
+              {actionText && (
+                <View style={[styles.actionCard, { backgroundColor: theme.primary, shadowColor: theme.primary }]}>
+                  <View style={[styles.actionHeader, { backgroundColor: `${theme.primaryLight}30` }]}>
+                    <Ionicons name="flash" size={18} color={NEUTRALS.white} />
+                    <Text style={styles.actionLabel}>Try this today</Text>
+                  </View>
+                  <Text style={styles.actionText}>{actionText}</Text>
+                </View>
+              )}
+
+              {!selectedHook && tip.short_description && (
                 <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
                   {tip.short_description}
                 </Text>
@@ -879,6 +919,84 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '400',
+  },
+  hookPill: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+    borderWidth: 1,
+    marginBottom: 12,
+  },
+  hookPillText: {
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  hookTitle: {
+    fontSize: 26,
+    fontWeight: '800',
+    letterSpacing: -0.6,
+    marginBottom: 6,
+  },
+  hookSubtitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 18,
+    lineHeight: 22,
+  },
+  detailCard: {
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 14,
+  },
+  sectionLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    marginBottom: 6,
+  },
+  detailText: {
+    fontSize: 15,
+    lineHeight: 22,
+  },
+  actionCard: {
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 6,
+  },
+  actionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
+  actionLabel: {
+    color: NEUTRALS.white,
+    fontWeight: '700',
+    fontSize: 13,
+    letterSpacing: 0.4,
+    textTransform: 'uppercase',
+  },
+  actionText: {
+    color: NEUTRALS.white,
+    fontSize: 16,
+    lineHeight: 22,
+    fontWeight: '600',
   },
   reasonsContainer: {
     marginTop: 8,
