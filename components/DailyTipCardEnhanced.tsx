@@ -28,8 +28,15 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SimplifiedTip } from '../types/simplifiedTip';
+import { SimplifiedTip, TipHook } from '../types/simplifiedTip';
 import PersonalizationCard from './PersonalizationCard';
+
+// Helper to select a random hook from available hooks
+const selectRandomHook = (hooks?: TipHook[]): TipHook | null => {
+  if (!hooks || hooks.length === 0) return null;
+  const randomIndex = Math.floor(Math.random() * hooks.length);
+  return hooks[randomIndex];
+};
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_MARGIN = 16;
@@ -197,6 +204,11 @@ export default function DailyTipCardEnhanced({
   // --- Reveal State ---
   const [isRevealed, setIsRevealed] = useState(false);
 
+  // --- Selected Hook (for A/B testing different hooks) ---
+  const [selectedHook, setSelectedHook] = useState<TipHook | null>(() =>
+    selectRandomHook(tip.hooks)
+  );
+
   // Pre-reveal animation
   const pulseAnim = useSharedValue(1);
   useEffect(() => {
@@ -224,6 +236,7 @@ export default function DailyTipCardEnhanced({
     setCurrentPage(0);
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
     setIsRevealed(false); // Reset reveal state when tip changes
+    setSelectedHook(selectRandomHook(tip.hooks)); // Select new random hook for A/B testing
   }, [tip.tip_id]);
 
   // --- Parsing Logic ---
@@ -308,6 +321,7 @@ export default function DailyTipCardEnhanced({
 
   const renderSummaryCard = () => {
     const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
+    const hasHook = !!selectedHook;
 
     return (
       <View style={styles.pageContainer}>
@@ -333,8 +347,8 @@ export default function DailyTipCardEnhanced({
               end={{ x: 1, y: 1 }}
             >
               <CardVisualHeader
-                title={tip.summary}
-                subtitle="Today's Idea to Try"
+                title={hasHook ? selectedHook.hook : tip.summary}
+                subtitle={hasHook ? selectedHook.subtitle : "Today's Idea to Try"}
                 icon="bulb-outline"
               />
             </LinearGradient>
@@ -342,18 +356,55 @@ export default function DailyTipCardEnhanced({
 
           <ScrollView style={[styles.cardContent, { backgroundColor: theme.primaryLightest }]} showsVerticalScrollIndicator={false}>
             <View style={styles.textContentContainer}>
-              {/* Show title and subtitle for image version */}
-              {summaryImage && (
+              {/* Hook-based content structure when hooks are available */}
+              {hasHook ? (
                 <>
-                  <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
-                  <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
+                  {/* For image version, show hook headline */}
+                  {summaryImage && (
+                    <>
+                      <Text style={[styles.hookHeadline, { color: theme.gray900 }]}>
+                        {selectedHook.hook}
+                      </Text>
+                      <Text style={[styles.hookSubtitle, { color: theme.primary }]}>
+                        {selectedHook.subtitle}
+                      </Text>
+                    </>
+                  )}
+
+                  {/* Detail - the evidence/teaching */}
+                  <Text style={[styles.hookDetail, { color: theme.gray700 }]}>
+                    {selectedHook.detail}
+                  </Text>
+
+                  {/* Divider */}
+                  <View style={[styles.hookDivider, { backgroundColor: theme.primaryLighter }]} />
+
+                  {/* Action - the specific thing to try (most important!) */}
+                  <View style={[styles.actionContainer, { backgroundColor: theme.white, borderColor: theme.primaryLight }]}>
+                    <View style={styles.actionHeader}>
+                      <Ionicons name="flash" size={18} color={theme.primary} />
+                      <Text style={[styles.actionLabel, { color: theme.primary }]}>Today's Experiment</Text>
+                    </View>
+                    <Text style={[styles.actionText, { color: theme.gray900 }]}>
+                      {selectedHook.action}
+                    </Text>
+                  </View>
                 </>
-              )}
-              {/* Show description for both image and gradient versions */}
-              {tip.short_description && (
-                <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
-                  {tip.short_description}
-                </Text>
+              ) : (
+                <>
+                  {/* Fallback: Original content when no hooks */}
+                  {summaryImage && (
+                    <>
+                      <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
+                      <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
+                    </>
+                  )}
+                  {tip.short_description && (
+                    <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
+                      {tip.short_description}
+                    </Text>
+                  )}
+                </>
               )}
             </View>
           </ScrollView>
@@ -499,54 +550,68 @@ export default function DailyTipCardEnhanced({
             >
               <LinearGradient
                 colors={[theme.primaryLightest, NEUTRALS.white]}
-                style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}
+                style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
               >
-                <Animated.View style={[{ alignItems: 'center' }, animatedContainerStyle]}>
+                <Animated.View style={[{ alignItems: 'center', maxWidth: 340 }, animatedContainerStyle]}>
                   <View style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: 24,
+                    width: 64,
+                    height: 64,
+                    borderRadius: 20,
                     backgroundColor: theme.primary,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 24,
+                    marginBottom: 20,
                     shadowColor: theme.primary,
                     shadowOffset: { width: 0, height: 8 },
                     shadowOpacity: 0.3,
                     shadowRadius: 12,
                     elevation: 8,
                   }}>
-                    <Ionicons name="sparkles" size={36} color="white" />
+                    <Ionicons name="sparkles" size={28} color="white" />
                   </View>
 
+                  {/* Hook Headline - the attention grabber */}
                   <Text style={{
-                    fontSize: 24,
-                    fontWeight: '600',
+                    fontSize: 26,
+                    fontWeight: '700',
                     color: NEUTRALS.gray900,
                     marginBottom: 12,
                     letterSpacing: -0.5,
                     fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    lineHeight: 32,
                   }}>
-                    Your tip is ready
+                    {selectedHook?.hook || "Your tip is ready"}
                   </Text>
 
+                  {/* Hook Subtitle - builds curiosity */}
                   <Text style={{
                     fontSize: 15,
                     color: NEUTRALS.gray500,
-                    marginBottom: 32,
-                    textAlign: 'center'
+                    marginBottom: 28,
+                    textAlign: 'center',
+                    lineHeight: 22,
                   }}>
-                    Tap to reveal today's discovery
+                    {selectedHook?.subtitle || "Tap to reveal today's discovery"}
                   </Text>
 
-                   <View style={{ flexDirection: 'row', gap: 8 }}>
+                   <View style={{ flexDirection: 'row', gap: 8, marginBottom: 16 }}>
                      {[0, 1, 2].map(i => (
                        <PulseDot key={i} delay={i * 200} color={theme.primaryLight} />
                      ))}
                    </View>
+
+                   <Text style={{
+                     fontSize: 13,
+                     color: theme.primary,
+                     fontWeight: '600',
+                     textTransform: 'uppercase',
+                     letterSpacing: 1,
+                   }}>
+                     Tap to reveal
+                   </Text>
                 </Animated.View>
               </LinearGradient>
             </TouchableOpacity>
@@ -879,6 +944,59 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '400',
+  },
+  // Hook-based content styles
+  hookHeadline: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 6,
+    letterSpacing: -0.5,
+    lineHeight: 30,
+  },
+  hookSubtitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 16,
+    lineHeight: 20,
+    fontStyle: 'italic',
+  },
+  hookDetail: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
+  },
+  hookDivider: {
+    height: 2,
+    marginVertical: 16,
+    borderRadius: 1,
+    opacity: 0.4,
+  },
+  actionContainer: {
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1.5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  actionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  actionLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  actionText: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '500',
   },
   reasonsContainer: {
     marginTop: 8,
