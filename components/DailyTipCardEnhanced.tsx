@@ -28,8 +28,15 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SimplifiedTip } from '../types/simplifiedTip';
+import { SimplifiedTip, TipHook } from '../types/simplifiedTip';
 import PersonalizationCard from './PersonalizationCard';
+
+// Helper to select a random hook from available hooks
+const selectRandomHook = (hooks?: TipHook[]): TipHook | null => {
+  if (!hooks || hooks.length === 0) return null;
+  const randomIndex = Math.floor(Math.random() * hooks.length);
+  return hooks[randomIndex];
+};
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_MARGIN = 16;
@@ -197,6 +204,11 @@ export default function DailyTipCardEnhanced({
   // --- Reveal State ---
   const [isRevealed, setIsRevealed] = useState(false);
 
+  // --- Selected Hook (for A/B testing different hooks) ---
+  const [selectedHook, setSelectedHook] = useState<TipHook | null>(() =>
+    selectRandomHook(tip.hooks)
+  );
+
   // Pre-reveal animation
   const pulseAnim = useSharedValue(1);
   useEffect(() => {
@@ -224,6 +236,7 @@ export default function DailyTipCardEnhanced({
     setCurrentPage(0);
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
     setIsRevealed(false); // Reset reveal state when tip changes
+    setSelectedHook(selectRandomHook(tip.hooks)); // Select new random hook for A/B testing
   }, [tip.tip_id]);
 
   // --- Parsing Logic ---
@@ -308,86 +321,127 @@ export default function DailyTipCardEnhanced({
 
   const renderSummaryCard = () => {
     const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
+    const hasHook = !!selectedHook;
 
     return (
       <View style={styles.pageContainer}>
         <View style={styles.mainCard}>
-          {summaryImage ? (
-            // Show clean image without text overlay
-            <View style={styles.imageContainer}>
-              <Image
-                source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
-                style={styles.coverImage}
-                resizeMode="cover"
-                accessibilityLabel={summaryImage.alt_text}
-                // Performance optimizations
-                fadeDuration={0} // Disable fade-in animation for instant display
-              />
-            </View>
-          ) : (
-            // Original gradient header when no image
-            <LinearGradient
-              colors={[theme.primary, theme.primaryLight]}
-              style={styles.cardVisualGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            >
-              <CardVisualHeader
-                title={tip.summary}
-                subtitle="Today's Idea to Try"
-                icon="bulb-outline"
-              />
-            </LinearGradient>
-          )}
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Image or Gradient Header - now scrolls with content */}
+            {summaryImage ? (
+              <View style={styles.imageContainer}>
+                <Image
+                  source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
+                  style={styles.coverImage}
+                  resizeMode="cover"
+                  accessibilityLabel={summaryImage.alt_text}
+                  fadeDuration={0}
+                />
+              </View>
+            ) : (
+              <LinearGradient
+                colors={[theme.primary, theme.primaryLight]}
+                style={styles.cardVisualGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              >
+                <CardVisualHeader
+                  title={tip.summary}
+                  subtitle="Today's Tip"
+                  icon="bulb-outline"
+                />
+              </LinearGradient>
+            )}
 
-          <ScrollView style={[styles.cardContent, { backgroundColor: theme.primaryLightest }]} showsVerticalScrollIndicator={false}>
-            <View style={styles.textContentContainer}>
-              {/* Show title and subtitle for image version */}
-              {summaryImage && (
-                <>
-                  <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
-                  <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
-                </>
-              )}
-              {/* Show description for both image and gradient versions */}
-              {tip.short_description && (
-                <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
-                  {tip.short_description}
-                </Text>
-              )}
+            {/* Content Section */}
+            <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
+              <View style={styles.textContentContainer}>
+                {/* For image version, always show summary as headline */}
+                {summaryImage && (
+                  <>
+                    <Text style={[styles.hookHeadline, { color: theme.gray900 }]}>
+                      {tip.summary}
+                    </Text>
+                    <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Tip</Text>
+                  </>
+                )}
+
+                {/* Hook-based content structure when hooks are available */}
+                {hasHook ? (
+                  <>
+                    {/* Detail - the evidence/teaching (why it works) */}
+                    <Text style={[styles.hookDetail, { color: theme.gray700 }]}>
+                      {selectedHook.detail}
+                    </Text>
+
+                    {/* Divider */}
+                    <View style={[styles.hookDivider, { backgroundColor: theme.primaryLighter }]} />
+
+                    {/* Action - the specific thing to try today */}
+                    <View style={[styles.actionContainer, { backgroundColor: theme.white, borderColor: theme.primaryLight }]}>
+                      <View style={styles.actionHeader}>
+                        <Ionicons name="flash" size={18} color={theme.primary} />
+                        <Text style={[styles.actionLabel, { color: theme.primary }]}>Today's Experiment</Text>
+                      </View>
+                      <Text style={[styles.actionText, { color: theme.gray900 }]}>
+                        {selectedHook.action}
+                      </Text>
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    {/* Fallback: Original content when no hooks */}
+                    {tip.short_description && (
+                      <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
+                        {tip.short_description}
+                      </Text>
+                    )}
+                  </>
+                )}
+              </View>
             </View>
           </ScrollView>
+        </View>
       </View>
-    </View>
     );
   };
 
   const renderGoalsCard = () => (
     <View style={styles.pageContainer}>
       <View style={styles.mainCard}>
-        <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-          <CardVisualHeader title="Goals" subtitle="Why this matters" icon="trophy-outline" />
-        </LinearGradient>
-        <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
-          <Text style={styles.sectionTitle}>Targeted Goals</Text>
-          <View style={styles.tagContainer}>
-             {[...new Set(tip.goals || [])].map((goal, index) => {
-                const isUserGoal = relevantGoals.includes(goal);
-                return (
-                  <View key={index} style={[
-                    styles.tag, 
-                    isUserGoal && { backgroundColor: theme.primaryLightest, borderColor: theme.primaryLight, borderWidth: 1 }
-                  ]}>
-                    {isUserGoal && <Ionicons name="checkmark-circle" size={16} color={theme.primary} />}
-                    <Text style={[
-                      styles.tagText, 
-                      isUserGoal && { color: theme.primary, fontWeight: '600' }
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+            <CardVisualHeader title="Goals" subtitle="Why this matters" icon="trophy-outline" />
+          </LinearGradient>
+          <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
+            <Text style={styles.sectionTitle}>Targeted Goals</Text>
+            <View style={styles.tagContainer}>
+               {[...new Set(tip.goals || [])].map((goal, index) => {
+                  const isUserGoal = relevantGoals.includes(goal);
+                  return (
+                    <View key={index} style={[
+                      styles.tag,
+                      isUserGoal && { backgroundColor: theme.primaryLightest, borderColor: theme.primaryLight, borderWidth: 1 }
                     ]}>
-                      {goal.replace(/_/g, ' ')}
-                    </Text>
-                  </View>
-                );
-              })}
+                      {isUserGoal && <Ionicons name="checkmark-circle" size={16} color={theme.primary} />}
+                      <Text style={[
+                        styles.tagText,
+                        isUserGoal && { color: theme.primary, fontWeight: '600' }
+                      ]}>
+                        {goal.replace(/_/g, ' ')}
+                      </Text>
+                    </View>
+                  );
+                })}
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -397,23 +451,29 @@ export default function DailyTipCardEnhanced({
   const renderBenefitsCard = () => (
     <View style={styles.pageContainer}>
       <View style={styles.mainCard}>
-        <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-          <CardVisualHeader title="The Science" subtitle="Why it works" icon="school-outline" />
-        </LinearGradient>
-        <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
-          {detailsSections.whyItWorks ? (
-             <Text style={styles.bodyText}>{detailsSections.whyItWorks}</Text>
-          ) : (
-            <Text style={styles.bodyText}>This habit uses psychology to improve your daily routine.</Text>
-          )}
-          <View style={styles.divider} />
-          <Text style={styles.sectionTitle}>Mechanisms</Text>
-          <View style={styles.tagContainer}>
-            {(tip.mechanisms || []).map((m, i) => (
-              <View key={i} style={styles.tag}>
-                 <Text style={styles.tagText}>{m.replace(/_/g, ' ')}</Text>
-              </View>
-            ))}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+            <CardVisualHeader title="The Science" subtitle="Why it works" icon="school-outline" />
+          </LinearGradient>
+          <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
+            {detailsSections.whyItWorks ? (
+               <Text style={styles.bodyText}>{detailsSections.whyItWorks}</Text>
+            ) : (
+              <Text style={styles.bodyText}>This habit uses psychology to improve your daily routine.</Text>
+            )}
+            <View style={styles.divider} />
+            <Text style={styles.sectionTitle}>Mechanisms</Text>
+            <View style={styles.tagContainer}>
+              {(tip.mechanisms || []).map((m, i) => (
+                <View key={i} style={styles.tag}>
+                   <Text style={styles.tagText}>{m.replace(/_/g, ' ')}</Text>
+                </View>
+              ))}
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -423,25 +483,31 @@ export default function DailyTipCardEnhanced({
   const renderHowToCard = () => (
     <View style={styles.pageContainer}>
       <View style={styles.mainCard}>
-        <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-          <CardVisualHeader title="How To" subtitle="Step by Step" icon="list-outline" />
-        </LinearGradient>
-        <ScrollView style={styles.cardContent} showsVerticalScrollIndicator={false}>
-           {detailsSections.howToTry ? (
-            <View>
-              {detailsSections.howToTry.split('\n').map((line, index) => {
-                const isBullet = line.trim().startsWith('•') || line.trim().startsWith('-');
-                return (
-                  <View key={index} style={styles.bulletRow}>
-                    {isBullet && <Text style={[styles.bulletDot, { color: theme.primary }]}>•</Text>}
-                    <Text style={styles.bodyText}>{line.replace(/^[•-]\s*/, '').trim()}</Text>
-                  </View>
-                );
-              })}
-            </View>
-          ) : (
-            <Text style={styles.bodyText}>{detailsSections.experiment || tip.details_md}</Text>
-          )}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+            <CardVisualHeader title="How To" subtitle="Step by Step" icon="list-outline" />
+          </LinearGradient>
+          <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
+             {detailsSections.howToTry ? (
+              <View>
+                {detailsSections.howToTry.split('\n').map((line, index) => {
+                  const isBullet = line.trim().startsWith('•') || line.trim().startsWith('-');
+                  return (
+                    <View key={index} style={styles.bulletRow}>
+                      {isBullet && <Text style={[styles.bulletDot, { color: theme.primary }]}>•</Text>}
+                      <Text style={styles.bodyText}>{line.replace(/^[•-]\s*/, '').trim()}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+            ) : (
+              <Text style={styles.bodyText}>{detailsSections.experiment || tip.details_md}</Text>
+            )}
+          </View>
         </ScrollView>
       </View>
     </View>
@@ -450,28 +516,30 @@ export default function DailyTipCardEnhanced({
   const renderPersonalizationCard = () => (
     <View style={styles.pageContainer}>
       <View style={styles.mainCard}>
-        <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-          <CardVisualHeader title="Your Plan" subtitle="Customize It" icon="create-outline" />
-        </LinearGradient>
         <ScrollView
           ref={personalizationScrollRef}
-          style={[styles.cardContent, { paddingHorizontal: 0, flex: 1 }]}
+          style={{ flex: 1 }}
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-           <PersonalizationCard
-              tip={tip}
-              savedData={savedPersonalizationData || reduxSavedData}
-              onSave={async (data) => {
-                dispatch(savePersonalizationData(data));
-                if (onSavePersonalization) await onSavePersonalization(data);
-              }}
-              onDataChange={(data) => dispatch(setPendingPersonalizationData(data))}
-              showHeader={false}
-              style={{ paddingHorizontal: 24 }}
-              theme={theme}
-              scrollViewRef={personalizationScrollRef}
-           />
+          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+            <CardVisualHeader title="Your Plan" subtitle="Customize It" icon="create-outline" />
+          </LinearGradient>
+          <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest, paddingHorizontal: 0 }]}>
+             <PersonalizationCard
+                tip={tip}
+                savedData={savedPersonalizationData || reduxSavedData}
+                onSave={async (data) => {
+                  dispatch(savePersonalizationData(data));
+                  if (onSavePersonalization) await onSavePersonalization(data);
+                }}
+                onDataChange={(data) => dispatch(setPendingPersonalizationData(data))}
+                showHeader={false}
+                style={{ paddingHorizontal: 24 }}
+                theme={theme}
+                scrollViewRef={personalizationScrollRef}
+             />
+          </View>
         </ScrollView>
       </View>
     </View>
@@ -499,28 +567,29 @@ export default function DailyTipCardEnhanced({
             >
               <LinearGradient
                 colors={[theme.primaryLightest, NEUTRALS.white]}
-                style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}
+                style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 }]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
               >
-                <Animated.View style={[{ alignItems: 'center' }, animatedContainerStyle]}>
+                <Animated.View style={[{ alignItems: 'center', maxWidth: 340 }, animatedContainerStyle]}>
                   <View style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: 24,
+                    width: 64,
+                    height: 64,
+                    borderRadius: 20,
                     backgroundColor: theme.primary,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 24,
+                    marginBottom: 20,
                     shadowColor: theme.primary,
                     shadowOffset: { width: 0, height: 8 },
                     shadowOpacity: 0.3,
                     shadowRadius: 12,
                     elevation: 8,
                   }}>
-                    <Ionicons name="sparkles" size={36} color="white" />
+                    <Ionicons name="sparkles" size={28} color="white" />
                   </View>
 
+                  {/* Main title - consistent "tip is ready" moment */}
                   <Text style={{
                     fontSize: 24,
                     fontWeight: '600',
@@ -528,25 +597,38 @@ export default function DailyTipCardEnhanced({
                     marginBottom: 12,
                     letterSpacing: -0.5,
                     fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
-                    textAlign: 'center'
+                    textAlign: 'center',
                   }}>
                     Your tip is ready
                   </Text>
 
+                  {/* Hook as the teaser - builds curiosity */}
                   <Text style={{
-                    fontSize: 15,
+                    fontSize: 17,
                     color: NEUTRALS.gray500,
-                    marginBottom: 32,
-                    textAlign: 'center'
+                    marginBottom: 28,
+                    textAlign: 'center',
+                    lineHeight: 24,
+                    fontStyle: selectedHook ? 'italic' : 'normal',
                   }}>
-                    Tap to reveal today's discovery
+                    {selectedHook?.hook || "Tap to reveal today's discovery"}
                   </Text>
 
-                   <View style={{ flexDirection: 'row', gap: 8 }}>
+                   <View style={{ flexDirection: 'row', gap: 8, marginBottom: 16 }}>
                      {[0, 1, 2].map(i => (
                        <PulseDot key={i} delay={i * 200} color={theme.primaryLight} />
                      ))}
                    </View>
+
+                   <Text style={{
+                     fontSize: 13,
+                     color: theme.primary,
+                     fontWeight: '600',
+                     textTransform: 'uppercase',
+                     letterSpacing: 1,
+                   }}>
+                     Tap to reveal
+                   </Text>
                 </Animated.View>
               </LinearGradient>
             </TouchableOpacity>
@@ -880,6 +962,59 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '400',
   },
+  // Hook-based content styles
+  hookHeadline: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 6,
+    letterSpacing: -0.5,
+    lineHeight: 30,
+  },
+  hookSubtitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 16,
+    lineHeight: 20,
+    fontStyle: 'italic',
+  },
+  hookDetail: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
+  },
+  hookDivider: {
+    height: 2,
+    marginVertical: 16,
+    borderRadius: 1,
+    opacity: 0.4,
+  },
+  actionContainer: {
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1.5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  actionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  actionLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  actionText: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '500',
+  },
   reasonsContainer: {
     marginTop: 8,
   },
@@ -974,6 +1109,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     // backgroundColor set dynamically with theme.primaryLightest
+  },
+  cardContentScrollable: {
+    padding: 24,
+    flexGrow: 1,
+    // Used when entire card is scrollable (header + content together)
   },
   benefitsGrid: {
     flexDirection: 'row',
