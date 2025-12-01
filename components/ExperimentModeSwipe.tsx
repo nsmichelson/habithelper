@@ -566,13 +566,6 @@ export default function ExperimentModeSwipe({
             </TouchableOpacity>
           )}
           
-          <TouchableOpacity 
-            style={styles.navCard}
-            onPress={() => handleSwipeToPage(3)}
-          >
-            <Ionicons name="trophy-outline" size={20} color="#4CAF50" />
-            <Text style={styles.navCardText}>Your Stats</Text>
-          </TouchableOpacity>
         </View>
 
       </LinearGradient>
@@ -1427,107 +1420,10 @@ export default function ExperimentModeSwipe({
     );
   };
 
-  const renderStatsCard = () => (
-    <View style={[styles.pageContainer, { width: SCREEN_WIDTH }]}>
-      <LinearGradient
-        colors={['#FFFFFF', '#F8FFF8']}
-        style={styles.card}
-      >
-        <View style={styles.instructionsHeader}>
-          <TouchableOpacity 
-            style={styles.backButton}
-            onPress={() => handleSwipeToPage(0)}
-          >
-            <Ionicons name="chevron-back" size={20} color="#4CAF50" />
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.instructionsTitle}>Your Progress</Text>
-          <View style={{ width: 60 }} />
-        </View>
-
-        <ScrollView 
-          style={styles.statsScrollView}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Stats Overview */}
-          <View style={styles.statsOverview}>
-            <Text style={styles.statsTitle}>Your Experiment Journey</Text>
-            <View style={styles.statsGrid}>
-              <TouchableOpacity 
-                style={styles.statCard}
-                onPress={handleShowAllExperiments}
-              >
-                <Text style={styles.statNumber}>{totalExperiments}</Text>
-                <Text style={styles.statLabel}>Total</Text>
-                <Text style={styles.statSubLabel}>Experiments</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.statCard}
-                onPress={handleShowTriedExperiments}
-              >
-                <Text style={styles.statNumber}>{successfulExperiments}</Text>
-                <Text style={styles.statLabel}>Tried</Text>
-                <Text style={styles.statSubLabel}>So far</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.statCard}
-                onPress={handleShowLovedExperiments}
-              >
-                <Text style={styles.statNumber}>
-                  {tipHistory.filter(({ dailyTip }) => 
-                    dailyTip.evening_check_in === 'went_great' || 
-                    dailyTip.quick_completions?.some(c => c.quick_note === 'worked_great')
-                  ).length}
-                </Text>
-                <Text style={styles.statLabel}>Loved</Text>
-                <Text style={styles.statSubLabel}>Keepers!</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* Motivational Message */}
-          <View style={styles.motivationalSection}>
-            <LinearGradient
-              colors={['#E8F5E9', '#F1F8E9']}
-              style={styles.motivationalGradient}
-            >
-              <Ionicons name="star" size={32} color="#4CAF50" />
-              <Text style={styles.motivationalTitle}>Keep Going!</Text>
-              <Text style={styles.motivationalText}>
-                Every experiment teaches you something valuable about what works for YOUR body and life.
-              </Text>
-            </LinearGradient>
-          </View>
-
-          {/* Success Rate */}
-          {successfulExperiments > 0 && (
-            <View style={styles.successRateCard}>
-              <Text style={styles.successRateTitle}>Success Rate</Text>
-              <View style={styles.successRateBar}>
-                <View 
-                  style={[
-                    styles.successRateFill,
-                    { width: `${(successfulExperiments / totalExperiments) * 100}%` }
-                  ]}
-                />
-              </View>
-              <Text style={styles.successRateText}>
-                {Math.round((successfulExperiments / totalExperiments) * 100)}% experiments tried
-              </Text>
-            </View>
-          )}
-        </ScrollView>
-      </LinearGradient>
-    </View>
-  );
-
   const pages = [
     { key: 'progress', render: renderProgressCard },
     { key: 'instructions', render: renderInstructionsCard },
     ...(tip.personalization_prompt || personalizedPlan ? [{ key: 'plan', render: renderPlanCard }] : []),
-    { key: 'stats', render: renderStatsCard },
   ];
 
   const DotIndicator = ({ index }: { index: number }) => {
