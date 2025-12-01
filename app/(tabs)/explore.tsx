@@ -191,6 +191,10 @@ export default function ProgressScreen() {
     // Calculate metrics
     const totalExperiments = tips.length;
     const triedExperiments = tips.filter(t => t.user_response === 'try_it').length;
+    const lovedExperiments = tips.filter(t =>
+      t.evening_check_in === 'went_great' ||
+      t.quick_completions?.some(c => c.quick_note === 'worked_great')
+    ).length;
     const successfulExperiments = tips.filter(t => 
       t.evening_check_in === 'went_great' || t.evening_check_in === 'went_ok'
     ).length;
@@ -212,12 +216,36 @@ export default function ProgressScreen() {
     
     const newInsights: InsightCard[] = [
       {
+        id: 'total',
+        title: 'Total Experiments',
+        value: totalExperiments,
+        subtitle: totalExperiments === 1 ? 'Experiment' : 'Experiments',
+        icon: 'flask',
+        color: ['#9C27B0', '#E91E63'],
+      },
+      {
+        id: 'tried',
+        title: 'Tried So Far',
+        value: triedExperiments,
+        subtitle: 'Experiments',
+        icon: 'checkmark-circle',
+        color: ['#2196F3', '#03A9F4'],
+      },
+      {
+        id: 'loved',
+        title: 'Loved Keepers',
+        value: lovedExperiments,
+        subtitle: 'Keepers!',
+        icon: 'heart',
+        color: ['#FF6B6B', '#FF8E53'],
+      },
+      {
         id: '1',
         title: 'Current Streak',
         value: currentStreak,
         subtitle: currentStreak === 1 ? 'day' : 'days',
         icon: 'flame',
-        color: ['#FF6B6B', '#FF8E53'],
+        color: ['#FF9800', '#FFB74D'],
         trend: currentStreak > 0 ? 'up' : 'stable',
       },
       {
@@ -230,36 +258,12 @@ export default function ProgressScreen() {
         trend: successRate > 50 ? 'up' : 'down',
       },
       {
-        id: '3',
-        title: 'This Week',
-        value: weeklyTried,
-        subtitle: weeklyTried === 1 ? 'experiment tried' : 'experiments tried',
-        icon: 'calendar',
-        color: ['#2196F3', '#03A9F4'],
-      },
-      {
-        id: '4',
-        title: 'Total Journey',
-        value: totalExperiments,
-        subtitle: totalExperiments === 1 ? 'experiment' : 'experiments',
-        icon: 'rocket',
-        color: ['#9C27B0', '#E91E63'],
-      },
-      {
         id: '5',
         title: 'Best Streak',
         value: bestStreak,
         subtitle: bestStreak === 1 ? 'day record' : 'days record',
         icon: 'trophy',
         color: ['#FFD700', '#FFA000'],
-      },
-      {
-        id: '6',
-        title: 'Top Category',
-        value: topCategory?.[0] || 'None',
-        subtitle: `${topCategory?.[1] || 0}% success`,
-        icon: 'star',
-        color: ['#00BCD4', '#00ACC1'],
       },
     ];
     
