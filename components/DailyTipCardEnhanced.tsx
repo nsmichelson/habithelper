@@ -572,29 +572,29 @@ export default function DailyTipCardEnhanced({
                     <Ionicons name="sparkles" size={28} color="white" />
                   </View>
 
-                  {/* Hook Headline - the attention grabber */}
+                  {/* Main title - consistent "tip is ready" moment */}
                   <Text style={{
-                    fontSize: 26,
-                    fontWeight: '700',
+                    fontSize: 24,
+                    fontWeight: '600',
                     color: NEUTRALS.gray900,
                     marginBottom: 12,
                     letterSpacing: -0.5,
                     fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif',
                     textAlign: 'center',
-                    lineHeight: 32,
                   }}>
-                    {selectedHook?.hook || "Your tip is ready"}
+                    Your tip is ready
                   </Text>
 
-                  {/* Hook Subtitle - builds curiosity */}
+                  {/* Hook as the teaser - builds curiosity */}
                   <Text style={{
-                    fontSize: 15,
+                    fontSize: 17,
                     color: NEUTRALS.gray500,
                     marginBottom: 28,
                     textAlign: 'center',
-                    lineHeight: 22,
+                    lineHeight: 24,
+                    fontStyle: selectedHook ? 'italic' : 'normal',
                   }}>
-                    {selectedHook?.subtitle || "Tap to reveal today's discovery"}
+                    {selectedHook?.hook || "Tap to reveal today's discovery"}
                   </Text>
 
                    <View style={{ flexDirection: 'row', gap: 8, marginBottom: 16 }}>
