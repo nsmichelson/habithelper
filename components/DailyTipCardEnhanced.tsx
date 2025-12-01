@@ -350,8 +350,8 @@ export default function DailyTipCardEnhanced({
                 end={{ x: 1, y: 1 }}
               >
                 <CardVisualHeader
-                  title={hasHook ? selectedHook.hook : tip.summary}
-                  subtitle={hasHook ? selectedHook.subtitle : "Today's Idea to Try"}
+                  title={tip.summary}
+                  subtitle="Today's Tip"
                   icon="bulb-outline"
                 />
               </LinearGradient>
@@ -360,22 +360,20 @@ export default function DailyTipCardEnhanced({
             {/* Content Section */}
             <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
               <View style={styles.textContentContainer}>
+                {/* For image version, always show summary as headline */}
+                {summaryImage && (
+                  <>
+                    <Text style={[styles.hookHeadline, { color: theme.gray900 }]}>
+                      {tip.summary}
+                    </Text>
+                    <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Tip</Text>
+                  </>
+                )}
+
                 {/* Hook-based content structure when hooks are available */}
                 {hasHook ? (
                   <>
-                    {/* For image version, show hook headline */}
-                    {summaryImage && (
-                      <>
-                        <Text style={[styles.hookHeadline, { color: theme.gray900 }]}>
-                          {selectedHook.hook}
-                        </Text>
-                        <Text style={[styles.hookSubtitle, { color: theme.primary }]}>
-                          {selectedHook.subtitle}
-                        </Text>
-                      </>
-                    )}
-
-                    {/* Detail - the evidence/teaching */}
+                    {/* Detail - the evidence/teaching (why it works) */}
                     <Text style={[styles.hookDetail, { color: theme.gray700 }]}>
                       {selectedHook.detail}
                     </Text>
@@ -383,7 +381,7 @@ export default function DailyTipCardEnhanced({
                     {/* Divider */}
                     <View style={[styles.hookDivider, { backgroundColor: theme.primaryLighter }]} />
 
-                    {/* Action - the specific thing to try (most important!) */}
+                    {/* Action - the specific thing to try today */}
                     <View style={[styles.actionContainer, { backgroundColor: theme.white, borderColor: theme.primaryLight }]}>
                       <View style={styles.actionHeader}>
                         <Ionicons name="flash" size={18} color={theme.primary} />
@@ -397,12 +395,6 @@ export default function DailyTipCardEnhanced({
                 ) : (
                   <>
                     {/* Fallback: Original content when no hooks */}
-                    {summaryImage && (
-                      <>
-                        <Text style={[styles.contentTitle, { color: theme.gray900 }]}>{tip.summary}</Text>
-                        <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Idea to Try</Text>
-                      </>
-                    )}
                     {tip.short_description && (
                       <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
                         {tip.short_description}
