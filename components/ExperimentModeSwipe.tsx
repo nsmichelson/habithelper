@@ -1,9 +1,9 @@
+import StorageService from '@/services/storage';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Alert,
   Dimensions,
   FlatList,
   KeyboardAvoidingView,
@@ -13,9 +13,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
-import PersonalizationCard from './PersonalizationCard';
 import Animated, {
   Easing,
   Extrapolate,
@@ -31,11 +30,11 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
-import { DailyTip, QuickComplete } from '../types/tip';
 import { SimplifiedTip } from '../types/simplifiedTip';
+import { DailyTip, QuickComplete } from '../types/tip';
+import PersonalizationCard from './PersonalizationCard';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
-import StorageService from '@/services/storage';
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
