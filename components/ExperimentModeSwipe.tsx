@@ -255,7 +255,7 @@ export default function ExperimentModeSwipe({
 
   // Progress ring animation for hold-to-complete
   const holdProgressAnimatedProps = useAnimatedProps(() => {
-    const circumference = 2 * Math.PI * 65; // radius of 65 for larger button
+    const circumference = 2 * Math.PI * 75; // radius of 75 for larger button
     const strokeDashoffset = circumference * (1 - holdProgress.value);
     return {
       strokeDashoffset,
@@ -392,7 +392,7 @@ export default function ExperimentModeSwipe({
                           colors={isHolding ? ['#ea580c', '#d97706'] : ['#fb923c', '#f59e0b']}
                           style={styles.primaryButtonGradient}
                         >
-                          <Ionicons name="checkmark" size={32} color="#FFF" style={styles.actionButtonIcon} />
+                          <Ionicons name="checkmark-sharp" size={38} color="#FFF" style={styles.actionButtonIcon} />
                           <Text style={styles.primaryButtonText}>
                             {isHolding ? 'Hold...' : 'I did it!'}
                           </Text>
@@ -402,31 +402,31 @@ export default function ExperimentModeSwipe({
                     {/* Progress Ring */}
                     <Svg
                       style={styles.primaryProgressRing}
-                      width={140}
-                      height={140}
-                      viewBox="0 0 140 140"
+                      width={160}
+                      height={160}
+                      viewBox="0 0 160 160"
                     >
                       {/* Background circle */}
                       <Circle
-                        cx="70"
-                        cy="70"
-                        r="65"
+                        cx="80"
+                        cy="80"
+                        r="75"
                         stroke="rgba(255,255,255,0.3)"
                         strokeWidth="8"
                         fill="none"
                       />
                       {/* Progress circle */}
                       <AnimatedCircle
-                        cx="70"
-                        cy="70"
-                        r="65"
+                        cx="80"
+                        cy="80"
+                        r="75"
                         stroke="#fff"
                         strokeWidth="8"
                         fill="none"
-                        strokeDasharray={2 * Math.PI * 65}
+                        strokeDasharray={2 * Math.PI * 75}
                         animatedProps={holdProgressAnimatedProps}
                         strokeLinecap="round"
-                        transform="rotate(-90 70 70)"
+                        transform="rotate(-90 80 80)"
                       />
                     </Svg>
                   </TouchableOpacity>
@@ -458,7 +458,7 @@ export default function ExperimentModeSwipe({
                         colors={['#34d399', '#22c55e']}
                         style={styles.completedButtonGradient}
                       >
-                        <Ionicons name="checkmark" size={40} color="#FFF" />
+                        <Ionicons name="checkmark-sharp" size={44} color="#FFF" />
                         <Text style={styles.completedButtonText}>Done!</Text>
                       </LinearGradient>
                     </View>
@@ -1171,11 +1171,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
   },
-  // Primary "I did it" button - large and centered
+  // Primary "I did it" button - large, left of center
   primaryButtonWrapper: {
-    width: 140,
-    height: 140,
+    width: 160,
+    height: 160,
     position: 'relative',
+    marginLeft: -50,
   },
   primaryProgressRing: {
     position: 'absolute',
@@ -1185,14 +1186,14 @@ const styles = StyleSheet.create({
   primaryButtonOuter: {
     width: '100%',
     height: '100%',
-    borderRadius: 70,
+    borderRadius: 80,
     backgroundColor: 'rgba(255,255,255,0.3)',
     padding: 4,
   },
   primaryButtonInner: {
     width: '100%',
     height: '100%',
-    borderRadius: 66,
+    borderRadius: 76,
     backgroundColor: 'rgba(255,255,255,0.5)',
     padding: 2,
     overflow: 'hidden',
@@ -1200,7 +1201,7 @@ const styles = StyleSheet.create({
   primaryButtonGradient: {
     width: '100%',
     height: '100%',
-    borderRadius: 64,
+    borderRadius: 74,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -1209,11 +1210,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
   },
-  // Secondary "Help" button - small, floating lower-right
+  // Secondary "Help" button - small, positioned lower-right of primary
   secondaryButtonWrapper: {
     position: 'absolute',
-    right: -20,
-    bottom: -10,
+    right: -75,
+    bottom: -20,
     width: 72,
     height: 72,
   },
@@ -1287,13 +1288,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   completedButtonWrapper: {
-    width: 140,
-    height: 140,
+    width: 160,
+    height: 160,
   },
   completedButtonGradient: {
     width: '100%',
     height: '100%',
-    borderRadius: 70,
+    borderRadius: 74,
     justifyContent: 'center',
     alignItems: 'center',
   },
