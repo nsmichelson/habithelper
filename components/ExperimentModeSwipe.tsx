@@ -165,6 +165,39 @@ export default function ExperimentModeSwipe({
   const holdTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const streak = focusProgress?.daysCompleted || 5;
 
+  // Bottom sheet animations
+  const backdropOpacity = useSharedValue(0);
+  const sheetTranslateY = useSharedValue(400);
+
+  const backdropAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: backdropOpacity.value,
+  }));
+
+  const sheetAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: sheetTranslateY.value }],
+  }));
+
+  const openSheet = () => {
+    backdropOpacity.value = withTiming(1, { duration: 250 });
+    sheetTranslateY.value = withSpring(0, { damping: 20, stiffness: 300 });
+  };
+
+  const closeSheet = (callback?: () => void) => {
+    backdropOpacity.value = withTiming(0, { duration: 200 });
+    sheetTranslateY.value = withTiming(400, { duration: 250 }, () => {
+      if (callback) {
+        runOnJS(callback)();
+      }
+    });
+  };
+
+  // Open sheet when modals become visible
+  useEffect(() => {
+    if (showHelpMenu || activeCard) {
+      openSheet();
+    }
+  }, [showHelpMenu, activeCard]);
+
   const helpOptions = [
     { emoji: '😅', label: 'I forgot', description: 'Set a reminder for later' },
     { emoji: '⏰', label: 'No time right now', description: 'Try a 2-min version instead' },
@@ -588,54 +621,58 @@ export default function ExperimentModeSwipe({
       <Modal
         visible={showHelpMenu}
         transparent
-        animationType="slide"
-        onRequestClose={() => setShowHelpMenu(false)}
+        animationType="none"
+        onRequestClose={() => closeSheet(() => setShowHelpMenu(false))}
       >
-        <TouchableOpacity
-          style={styles.modalBackdrop}
-          activeOpacity={1}
-          onPress={() => setShowHelpMenu(false)}
-        />
-        <View style={styles.bottomSheet}>
-          <View style={styles.bottomSheetHeader}>
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
             <TouchableOpacity
-              onPress={() => setShowHelpMenu(false)}
-              style={styles.closeButton}
-            >
-              <Ionicons name="close" size={20} color="#9ca3af" />
-            </TouchableOpacity>
-            <View style={styles.bottomSheetHandle} />
-            <View style={{ width: 32 }} />
-          </View>
-
-          <View style={styles.bottomSheetContent}>
-            <Text style={styles.bottomSheetTitle}>What's getting in the way?</Text>
-            <Text style={styles.bottomSheetSubtitle}>No judgment — let's figure it out together</Text>
-
-            <View style={styles.helpOptions}>
-              {helpOptions.map((option, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => setShowHelpMenu(false)}
-                  style={styles.helpOption}
-                >
-                  <Text style={styles.helpOptionEmoji}>{option.emoji}</Text>
-                  <View style={styles.helpOptionContent}>
-                    <Text style={styles.helpOptionLabel}>{option.label}</Text>
-                    <Text style={styles.helpOptionDescription}>{option.description}</Text>
-                  </View>
-                  <Ionicons name="chevron-forward" size={20} color="#d1d5db" />
-                </TouchableOpacity>
-              ))}
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => setShowHelpMenu(false))}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setShowHelpMenu(false))}
+                style={styles.closeButton}
+              >
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
             </View>
 
-            <TouchableOpacity
-              onPress={() => setShowHelpMenu(false)}
-              style={styles.cancelButton}
-            >
-              <Text style={styles.cancelButtonText}>Never mind, I've got this</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={styles.bottomSheetContent}>
+              <Text style={styles.bottomSheetTitle}>What's getting in the way?</Text>
+              <Text style={styles.bottomSheetSubtitle}>No judgment — let's figure it out together</Text>
+
+              <View style={styles.helpOptions}>
+                {helpOptions.map((option, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => closeSheet(() => setShowHelpMenu(false))}
+                    style={styles.helpOption}
+                  >
+                    <Text style={styles.helpOptionEmoji}>{option.emoji}</Text>
+                    <View style={styles.helpOptionContent}>
+                      <Text style={styles.helpOptionLabel}>{option.label}</Text>
+                      <Text style={styles.helpOptionDescription}>{option.description}</Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={20} color="#d1d5db" />
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setShowHelpMenu(false))}
+                style={styles.cancelButton}
+              >
+                <Text style={styles.cancelButtonText}>Never mind, I've got this</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
         </View>
       </Modal>
 
@@ -643,61 +680,65 @@ export default function ExperimentModeSwipe({
       <Modal
         visible={activeCard === 'funfact'}
         transparent
-        animationType="slide"
-        onRequestClose={() => setActiveCard(null)}
+        animationType="none"
+        onRequestClose={() => closeSheet(() => setActiveCard(null))}
       >
-        <TouchableOpacity
-          style={styles.modalBackdrop}
-          activeOpacity={1}
-          onPress={() => setActiveCard(null)}
-        />
-        <View style={styles.bottomSheet}>
-          <View style={styles.bottomSheetHeader}>
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
             <TouchableOpacity
-              onPress={() => setActiveCard(null)}
-              style={styles.closeButton}
-            >
-              <Ionicons name="close" size={20} color="#9ca3af" />
-            </TouchableOpacity>
-            <View style={styles.bottomSheetHandle} />
-            <View style={{ width: 32 }} />
-          </View>
-
-          <View style={styles.modalContent}>
-            <View style={[styles.modalIcon, { backgroundColor: '#fef3c7' }]}>
-              <Ionicons name="bulb" size={32} color="#f59e0b" />
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => setActiveCard(null))}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setActiveCard(null))}
+                style={styles.closeButton}
+              >
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
             </View>
-            <Text style={styles.modalTitle}>Did You Know?</Text>
-            <Text style={styles.modalDescription}>
-              Walking after eating can lower blood sugar levels by <Text style={styles.modalHighlight}>up to 30%</Text>. This happens because your muscles use glucose for energy during movement, helping to regulate insulin response.
-            </Text>
 
-            <View style={styles.modalBonus}>
-              <Text style={styles.modalBonusText}>
-                💡 <Text style={styles.modalBonusBold}>Bonus:</Text> Even a 2-3 minute walk can make a noticeable difference!
+            <View style={styles.modalContent}>
+              <View style={[styles.modalIcon, { backgroundColor: '#fef3c7' }]}>
+                <Ionicons name="bulb" size={32} color="#f59e0b" />
+              </View>
+              <Text style={styles.modalTitle}>Did You Know?</Text>
+              <Text style={styles.modalDescription}>
+                Walking after eating can lower blood sugar levels by <Text style={styles.modalHighlight}>up to 30%</Text>. This happens because your muscles use glucose for energy during movement, helping to regulate insulin response.
               </Text>
-            </View>
 
-            <View style={styles.modalActions}>
-              <TouchableOpacity
-                onPress={() => setActiveCard(null)}
-                style={styles.modalSecondaryButton}
-              >
-                <Text style={styles.modalSecondaryButtonText}>Got it</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setActiveCard(null)}
-                style={styles.modalPrimaryButton}
-              >
-                <LinearGradient
-                  colors={['#f59e0b', '#d97706']}
-                  style={styles.modalPrimaryButtonGradient}
+              <View style={styles.modalBonus}>
+                <Text style={styles.modalBonusText}>
+                  💡 <Text style={styles.modalBonusBold}>Bonus:</Text> Even a 2-3 minute walk can make a noticeable difference!
+                </Text>
+              </View>
+
+              <View style={styles.modalActions}>
+                <TouchableOpacity
+                  onPress={() => closeSheet(() => setActiveCard(null))}
+                  style={styles.modalSecondaryButton}
                 >
-                  <Text style={styles.modalPrimaryButtonText}>Share this</Text>
-                </LinearGradient>
-              </TouchableOpacity>
+                  <Text style={styles.modalSecondaryButtonText}>Got it</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => closeSheet(() => setActiveCard(null))}
+                  style={styles.modalPrimaryButton}
+                >
+                  <LinearGradient
+                    colors={['#f59e0b', '#d97706']}
+                    style={styles.modalPrimaryButtonGradient}
+                  >
+                    <Text style={styles.modalPrimaryButtonText}>Share this</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
 
@@ -705,101 +746,105 @@ export default function ExperimentModeSwipe({
       <Modal
         visible={activeCard === 'quiz'}
         transparent
-        animationType="slide"
-        onRequestClose={() => { setActiveCard(null); setQuizAnswer(null); }}
+        animationType="none"
+        onRequestClose={() => closeSheet(() => { setActiveCard(null); setQuizAnswer(null); })}
       >
-        <TouchableOpacity
-          style={styles.modalBackdrop}
-          activeOpacity={1}
-          onPress={() => { setActiveCard(null); setQuizAnswer(null); }}
-        />
-        <View style={styles.bottomSheet}>
-          <View style={styles.bottomSheetHeader}>
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
             <TouchableOpacity
-              onPress={() => { setActiveCard(null); setQuizAnswer(null); }}
-              style={styles.closeButton}
-            >
-              <Ionicons name="close" size={20} color="#9ca3af" />
-            </TouchableOpacity>
-            <View style={styles.bottomSheetHandle} />
-            <View style={{ width: 32 }} />
-          </View>
-
-          <View style={styles.modalContent}>
-            <View style={[styles.modalIcon, { backgroundColor: '#f3e8ff' }]}>
-              <Ionicons name="school" size={32} color="#9333ea" />
-            </View>
-            <Text style={styles.modalTitle}>Quick Quiz</Text>
-            <Text style={styles.quizQuestion}>
-              When is the best time to take a walk for blood sugar benefits?
-            </Text>
-
-            <View style={styles.quizOptions}>
-              {[
-                { id: 'a', text: 'Right before eating', correct: false },
-                { id: 'b', text: 'Within 30 min after eating', correct: true },
-                { id: 'c', text: '2 hours after eating', correct: false },
-              ].map((option) => (
-                <TouchableOpacity
-                  key={option.id}
-                  onPress={() => setQuizAnswer(option.id)}
-                  disabled={quizAnswer !== null}
-                  style={[
-                    styles.quizOption,
-                    quizAnswer === null && styles.quizOptionDefault,
-                    quizAnswer !== null && option.correct && styles.quizOptionCorrect,
-                    quizAnswer === option.id && !option.correct && styles.quizOptionIncorrect,
-                    quizAnswer !== null && !option.correct && quizAnswer !== option.id && styles.quizOptionFaded
-                  ]}
-                >
-                  <View style={[
-                    styles.quizOptionLetter,
-                    quizAnswer === null && styles.quizOptionLetterDefault,
-                    quizAnswer !== null && option.correct && styles.quizOptionLetterCorrect,
-                    quizAnswer === option.id && !option.correct && styles.quizOptionLetterIncorrect
-                  ]}>
-                    <Text style={[
-                      styles.quizOptionLetterText,
-                      quizAnswer !== null && option.correct && styles.quizOptionLetterTextCorrect
-                    ]}>
-                      {option.id.toUpperCase()}
-                    </Text>
-                  </View>
-                  <Text style={[
-                    styles.quizOptionText,
-                    quizAnswer !== null && option.correct && styles.quizOptionTextCorrect
-                  ]}>
-                    {option.text}
-                  </Text>
-                  {quizAnswer !== null && option.correct && (
-                    <Ionicons name="checkmark" size={20} color="#22c55e" style={styles.quizCheckmark} />
-                  )}
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            {quizAnswer && (
-              <View style={[styles.quizResult, quizAnswer === 'b' ? styles.quizResultCorrect : styles.quizResultIncorrect]}>
-                <Text style={[styles.quizResultText, quizAnswer === 'b' ? styles.quizResultTextCorrect : styles.quizResultTextIncorrect]}>
-                  {quizAnswer === 'b'
-                    ? "Nice work! Walking within 30 minutes after eating is most effective because that's when blood sugar peaks."
-                    : "💡 Good try! The best time is within 30 minutes after eating, when blood sugar levels are at their peak."}
-                </Text>
-              </View>
-            )}
-
-            <TouchableOpacity
-              onPress={() => { setActiveCard(null); setQuizAnswer(null); }}
-              style={styles.quizDoneButton}
-            >
-              <LinearGradient
-                colors={['#9333ea', '#7c3aed']}
-                style={styles.quizDoneButtonGradient}
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => { setActiveCard(null); setQuizAnswer(null); })}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => { setActiveCard(null); setQuizAnswer(null); })}
+                style={styles.closeButton}
               >
-                <Text style={styles.quizDoneButtonText}>{quizAnswer ? 'Done' : 'Skip for now'}</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
+            </View>
+
+            <View style={styles.modalContent}>
+              <View style={[styles.modalIcon, { backgroundColor: '#f3e8ff' }]}>
+                <Ionicons name="school" size={32} color="#9333ea" />
+              </View>
+              <Text style={styles.modalTitle}>Quick Quiz</Text>
+              <Text style={styles.quizQuestion}>
+                When is the best time to take a walk for blood sugar benefits?
+              </Text>
+
+              <View style={styles.quizOptions}>
+                {[
+                  { id: 'a', text: 'Right before eating', correct: false },
+                  { id: 'b', text: 'Within 30 min after eating', correct: true },
+                  { id: 'c', text: '2 hours after eating', correct: false },
+                ].map((option) => (
+                  <TouchableOpacity
+                    key={option.id}
+                    onPress={() => setQuizAnswer(option.id)}
+                    disabled={quizAnswer !== null}
+                    style={[
+                      styles.quizOption,
+                      quizAnswer === null && styles.quizOptionDefault,
+                      quizAnswer !== null && option.correct && styles.quizOptionCorrect,
+                      quizAnswer === option.id && !option.correct && styles.quizOptionIncorrect,
+                      quizAnswer !== null && !option.correct && quizAnswer !== option.id && styles.quizOptionFaded
+                    ]}
+                  >
+                    <View style={[
+                      styles.quizOptionLetter,
+                      quizAnswer === null && styles.quizOptionLetterDefault,
+                      quizAnswer !== null && option.correct && styles.quizOptionLetterCorrect,
+                      quizAnswer === option.id && !option.correct && styles.quizOptionLetterIncorrect
+                    ]}>
+                      <Text style={[
+                        styles.quizOptionLetterText,
+                        quizAnswer !== null && option.correct && styles.quizOptionLetterTextCorrect
+                      ]}>
+                        {option.id.toUpperCase()}
+                      </Text>
+                    </View>
+                    <Text style={[
+                      styles.quizOptionText,
+                      quizAnswer !== null && option.correct && styles.quizOptionTextCorrect
+                    ]}>
+                      {option.text}
+                    </Text>
+                    {quizAnswer !== null && option.correct && (
+                      <Ionicons name="checkmark" size={20} color="#22c55e" style={styles.quizCheckmark} />
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {quizAnswer && (
+                <View style={[styles.quizResult, quizAnswer === 'b' ? styles.quizResultCorrect : styles.quizResultIncorrect]}>
+                  <Text style={[styles.quizResultText, quizAnswer === 'b' ? styles.quizResultTextCorrect : styles.quizResultTextIncorrect]}>
+                    {quizAnswer === 'b'
+                      ? "Nice work! Walking within 30 minutes after eating is most effective because that's when blood sugar peaks."
+                      : "💡 Good try! The best time is within 30 minutes after eating, when blood sugar levels are at their peak."}
+                  </Text>
+                </View>
+              )}
+
+              <TouchableOpacity
+                onPress={() => closeSheet(() => { setActiveCard(null); setQuizAnswer(null); })}
+                style={styles.quizDoneButton}
+              >
+                <LinearGradient
+                  colors={['#9333ea', '#7c3aed']}
+                  style={styles.quizDoneButtonGradient}
+                >
+                  <Text style={styles.quizDoneButtonText}>{quizAnswer ? 'Done' : 'Skip for now'}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
         </View>
       </Modal>
 
@@ -807,62 +852,66 @@ export default function ExperimentModeSwipe({
       <Modal
         visible={activeCard === 'protip'}
         transparent
-        animationType="slide"
-        onRequestClose={() => setActiveCard(null)}
+        animationType="none"
+        onRequestClose={() => closeSheet(() => setActiveCard(null))}
       >
-        <TouchableOpacity
-          style={styles.modalBackdrop}
-          activeOpacity={1}
-          onPress={() => setActiveCard(null)}
-        />
-        <View style={styles.bottomSheet}>
-          <View style={styles.bottomSheetHeader}>
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
             <TouchableOpacity
-              onPress={() => setActiveCard(null)}
-              style={styles.closeButton}
-            >
-              <Ionicons name="close" size={20} color="#9ca3af" />
-            </TouchableOpacity>
-            <View style={styles.bottomSheetHandle} />
-            <View style={{ width: 32 }} />
-          </View>
-
-          <View style={styles.modalContent}>
-            <View style={[styles.modalIcon, { backgroundColor: '#ccfbf1' }]}>
-              <Ionicons name="heart" size={32} color="#14b8a6" />
-            </View>
-            <Text style={styles.modalTitle}>Pro Tip</Text>
-            <Text style={styles.modalDescription}>
-              Make your walk more enjoyable by pairing it with something you love!
-            </Text>
-
-            <View style={styles.proTipSuggestions}>
-              <View style={styles.proTipItem}>
-                <Text style={styles.proTipEmoji}>🎧</Text>
-                <Text style={styles.proTipText}>Listen to a favorite podcast or audiobook</Text>
-              </View>
-              <View style={styles.proTipItem}>
-                <Text style={styles.proTipEmoji}>📞</Text>
-                <Text style={styles.proTipText}>Call a friend or family member</Text>
-              </View>
-              <View style={styles.proTipItem}>
-                <Text style={styles.proTipEmoji}>🎵</Text>
-                <Text style={styles.proTipText}>Create a special walking playlist</Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => setActiveCard(null)}
-              style={styles.proTipDoneButton}
-            >
-              <LinearGradient
-                colors={['#14b8a6', '#0d9488']}
-                style={styles.proTipDoneButtonGradient}
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => setActiveCard(null))}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setActiveCard(null))}
+                style={styles.closeButton}
               >
-                <Text style={styles.proTipDoneButtonText}>Great idea!</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
+            </View>
+
+            <View style={styles.modalContent}>
+              <View style={[styles.modalIcon, { backgroundColor: '#ccfbf1' }]}>
+                <Ionicons name="heart" size={32} color="#14b8a6" />
+              </View>
+              <Text style={styles.modalTitle}>Pro Tip</Text>
+              <Text style={styles.modalDescription}>
+                Make your walk more enjoyable by pairing it with something you love!
+              </Text>
+
+              <View style={styles.proTipSuggestions}>
+                <View style={styles.proTipItem}>
+                  <Text style={styles.proTipEmoji}>🎧</Text>
+                  <Text style={styles.proTipText}>Listen to a favorite podcast or audiobook</Text>
+                </View>
+                <View style={styles.proTipItem}>
+                  <Text style={styles.proTipEmoji}>📞</Text>
+                  <Text style={styles.proTipText}>Call a friend or family member</Text>
+                </View>
+                <View style={styles.proTipItem}>
+                  <Text style={styles.proTipEmoji}>🎵</Text>
+                  <Text style={styles.proTipText}>Create a special walking playlist</Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setActiveCard(null))}
+                style={styles.proTipDoneButton}
+              >
+                <LinearGradient
+                  colors={['#14b8a6', '#0d9488']}
+                  style={styles.proTipDoneButtonGradient}
+                >
+                  <Text style={styles.proTipDoneButtonText}>Great idea!</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
         </View>
       </Modal>
 
@@ -870,67 +919,71 @@ export default function ExperimentModeSwipe({
       <Modal
         visible={activeCard === 'community'}
         transparent
-        animationType="slide"
-        onRequestClose={() => setActiveCard(null)}
+        animationType="none"
+        onRequestClose={() => closeSheet(() => setActiveCard(null))}
       >
-        <TouchableOpacity
-          style={styles.modalBackdrop}
-          activeOpacity={1}
-          onPress={() => setActiveCard(null)}
-        />
-        <View style={styles.bottomSheet}>
-          <View style={styles.bottomSheetHeader}>
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
             <TouchableOpacity
-              onPress={() => setActiveCard(null)}
-              style={styles.closeButton}
-            >
-              <Ionicons name="close" size={20} color="#9ca3af" />
-            </TouchableOpacity>
-            <View style={styles.bottomSheetHandle} />
-            <View style={{ width: 32 }} />
-          </View>
-
-          <View style={styles.modalContent}>
-            <Text style={styles.communityModalEmoji}>👥</Text>
-            <Text style={styles.modalTitle}>You're Not Alone!</Text>
-            <Text style={styles.communityModalCount}>
-              <Text style={styles.communityModalNumber}>2,341</Text> people completed this tip today
-            </Text>
-
-            <View style={styles.communityStats}>
-              <View style={styles.communityStatItem}>
-                <Text style={styles.communityStatNumber}>87%</Text>
-                <Text style={styles.communityStatLabel}>found it helpful</Text>
-              </View>
-              <View style={styles.communityStatItem}>
-                <Text style={styles.communityStatNumber}>12k</Text>
-                <Text style={styles.communityStatLabel}>tried this week</Text>
-              </View>
-              <View style={styles.communityStatItem}>
-                <Text style={styles.communityStatNumber}>4.8⭐</Text>
-                <Text style={styles.communityStatLabel}>avg rating</Text>
-              </View>
-            </View>
-
-            <View style={styles.communityTestimonial}>
-              <Text style={styles.communityTestimonialText}>
-                "Started doing this 2 weeks ago and I feel so much better after lunch. Game changer!"
-              </Text>
-              <Text style={styles.communityTestimonialAuthor}>— Sarah, Day 14</Text>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => setActiveCard(null)}
-              style={styles.communityShareButton}
-            >
-              <LinearGradient
-                colors={['#f97316', '#ea580c']}
-                style={styles.communityShareButtonGradient}
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => setActiveCard(null))}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setActiveCard(null))}
+                style={styles.closeButton}
               >
-                <Text style={styles.communityShareButtonText}>Share my win</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
+            </View>
+
+            <View style={styles.modalContent}>
+              <Text style={styles.communityModalEmoji}>👥</Text>
+              <Text style={styles.modalTitle}>You're Not Alone!</Text>
+              <Text style={styles.communityModalCount}>
+                <Text style={styles.communityModalNumber}>2,341</Text> people completed this tip today
+              </Text>
+
+              <View style={styles.communityStats}>
+                <View style={styles.communityStatItem}>
+                  <Text style={styles.communityStatNumber}>87%</Text>
+                  <Text style={styles.communityStatLabel}>found it helpful</Text>
+                </View>
+                <View style={styles.communityStatItem}>
+                  <Text style={styles.communityStatNumber}>12k</Text>
+                  <Text style={styles.communityStatLabel}>tried this week</Text>
+                </View>
+                <View style={styles.communityStatItem}>
+                  <Text style={styles.communityStatNumber}>4.8⭐</Text>
+                  <Text style={styles.communityStatLabel}>avg rating</Text>
+                </View>
+              </View>
+
+              <View style={styles.communityTestimonial}>
+                <Text style={styles.communityTestimonialText}>
+                  "Started doing this 2 weeks ago and I feel so much better after lunch. Game changer!"
+                </Text>
+                <Text style={styles.communityTestimonialAuthor}>— Sarah, Day 14</Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setActiveCard(null))}
+                style={styles.communityShareButton}
+              >
+                <LinearGradient
+                  colors={['#f97316', '#ea580c']}
+                  style={styles.communityShareButtonGradient}
+                >
+                  <Text style={styles.communityShareButtonText}>Share my win</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
         </View>
       </Modal>
 
@@ -1350,15 +1403,15 @@ const styles = StyleSheet.create({
   },
 
   // Bottom Sheet & Modal Styles
-  modalBackdrop: {
+  modalContainer: {
     flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   bottomSheet: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
     backgroundColor: '#fff',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
