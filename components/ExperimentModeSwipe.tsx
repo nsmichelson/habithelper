@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import Animated, {
   Easing,
+  runOnJS,
+  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -22,10 +24,13 @@ import Animated, {
   withSpring,
   withTiming
 } from 'react-native-reanimated';
+import Svg, { Circle } from 'react-native-svg';
 import { SimplifiedTip } from '../types/simplifiedTip';
 import { DailyTip, QuickComplete } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -152,9 +157,12 @@ export default function ExperimentModeSwipe({
   const [showCelebration, setShowCelebration] = useState(true);
   const [hasSeenCelebration, setHasSeenCelebration] = useState(false);
   const [centralizedCompletionCount, setCentralizedCompletionCount] = useState(0);
+  const [isHolding, setIsHolding] = useState(false);
 
   const celebrationScale = useSharedValue(0);
   const celebrationOpacity = useSharedValue(0);
+  const holdProgress = useSharedValue(0);
+  const holdTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const streak = focusProgress?.daysCompleted || 5;
 
   const helpOptions = [
@@ -211,10 +219,51 @@ export default function ExperimentModeSwipe({
     opacity: celebrationOpacity.value,
   }));
 
+  // Progress ring animation for hold-to-complete
+  const holdProgressAnimatedProps = useAnimatedProps(() => {
+    const circumference = 2 * Math.PI * 52; // radius of 52
+    const strokeDashoffset = circumference * (1 - holdProgress.value);
+    return {
+      strokeDashoffset,
+    };
+  });
+
   const handleComplete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     setCompleted(true);
     setShowQuickComplete(true);
+  };
+
+  const handlePressIn = () => {
+    setIsHolding(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+    // Start the hold progress animation
+    holdProgress.value = withTiming(1, {
+      duration: 1500, // 1.5 seconds to complete
+      easing: Easing.linear,
+    });
+
+    // Set timeout to trigger completion
+    holdTimeoutRef.current = setTimeout(() => {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      setCompleted(true);
+      setShowQuickComplete(true);
+      setIsHolding(false);
+      holdProgress.value = 0;
+    }, 1500);
+  };
+
+  const handlePressOut = () => {
+    if (isHolding) {
+      setIsHolding(false);
+      // Cancel the completion
+      if (holdTimeoutRef.current) {
+        clearTimeout(holdTimeoutRef.current);
+      }
+      // Reset the progress
+      holdProgress.value = withTiming(0, { duration: 200 });
+    }
   };
 
   const handleCardTap = (cardId: string) => {
@@ -296,23 +345,56 @@ export default function ExperimentModeSwipe({
             <View style={styles.actionButtonsContainer}>
               {!completed ? (
                 <View style={styles.actionButtonsRow}>
-                  {/* I Did It Button */}
+                  {/* I Did It Button - Hold to Complete */}
                   <TouchableOpacity
-                    onPress={handleComplete}
-                    activeOpacity={0.9}
+                    onPressIn={handlePressIn}
+                    onPressOut={handlePressOut}
+                    activeOpacity={0.95}
                     style={styles.actionButtonWrapper}
                   >
                     <View style={styles.actionButtonOuter}>
                       <View style={styles.actionButtonInner}>
                         <LinearGradient
-                          colors={['#fb923c', '#f59e0b']}
+                          colors={isHolding ? ['#ea580c', '#d97706'] : ['#fb923c', '#f59e0b']}
                           style={styles.actionButtonGradient}
                         >
                           <Ionicons name="checkmark" size={24} color="#FFF" style={styles.actionButtonIcon} />
-                          <Text style={styles.actionButtonText}>I did it!</Text>
+                          <Text style={styles.actionButtonText}>
+                            {isHolding ? 'Hold...' : 'I did it!'}
+                          </Text>
                         </LinearGradient>
                       </View>
                     </View>
+                    {/* Progress Ring */}
+                    <Svg
+                      style={styles.progressRing}
+                      width={112}
+                      height={112}
+                      viewBox="0 0 112 112"
+                    >
+                      {/* Background circle */}
+                      <Circle
+                        cx="56"
+                        cy="56"
+                        r="52"
+                        stroke="rgba(255,255,255,0.3)"
+                        strokeWidth="8"
+                        fill="none"
+                      />
+                      {/* Progress circle */}
+                      <AnimatedCircle
+                        cx="56"
+                        cy="56"
+                        r="52"
+                        stroke="#fff"
+                        strokeWidth="8"
+                        fill="none"
+                        strokeDasharray={2 * Math.PI * 52}
+                        animatedProps={holdProgressAnimatedProps}
+                        strokeLinecap="round"
+                        transform="rotate(-90 56 56)"
+                      />
+                    </Svg>
                   </TouchableOpacity>
 
                   {/* Send Help Button */}
@@ -350,7 +432,9 @@ export default function ExperimentModeSwipe({
                 </View>
               )}
               {!completed && (
-                <Text style={styles.actionHint}>Tap to complete or get support</Text>
+                <Text style={styles.actionHint}>
+                  {isHolding ? 'Keep holding...' : 'Hold to complete or tap for support'}
+                </Text>
               )}
             </View>
           </LinearGradient>
@@ -999,6 +1083,12 @@ const styles = StyleSheet.create({
   actionButtonWrapper: {
     width: 112,
     height: 112,
+    position: 'relative',
+  },
+  progressRing: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   actionButtonOuter: {
     width: '100%',
