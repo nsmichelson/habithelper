@@ -255,7 +255,7 @@ export default function ExperimentModeSwipe({
 
   // Progress ring animation for hold-to-complete
   const holdProgressAnimatedProps = useAnimatedProps(() => {
-    const circumference = 2 * Math.PI * 52; // radius of 52
+    const circumference = 2 * Math.PI * 65; // radius of 65 for larger button
     const strokeDashoffset = circumference * (1 - holdProgress.value);
     return {
       strokeDashoffset,
@@ -378,22 +378,22 @@ export default function ExperimentModeSwipe({
             {/* Action Buttons */}
             <View style={styles.actionButtonsContainer}>
               {!completed ? (
-                <View style={styles.actionButtonsRow}>
-                  {/* I Did It Button - Hold to Complete */}
+                <View style={styles.actionButtonsContainer}>
+                  {/* I Did It Button - Hold to Complete (Primary/Large) */}
                   <TouchableOpacity
                     onPressIn={handlePressIn}
                     onPressOut={handlePressOut}
                     activeOpacity={0.95}
-                    style={styles.actionButtonWrapper}
+                    style={styles.primaryButtonWrapper}
                   >
-                    <View style={styles.actionButtonOuter}>
-                      <View style={styles.actionButtonInner}>
+                    <View style={styles.primaryButtonOuter}>
+                      <View style={styles.primaryButtonInner}>
                         <LinearGradient
                           colors={isHolding ? ['#ea580c', '#d97706'] : ['#fb923c', '#f59e0b']}
-                          style={styles.actionButtonGradient}
+                          style={styles.primaryButtonGradient}
                         >
-                          <Ionicons name="checkmark" size={24} color="#FFF" style={styles.actionButtonIcon} />
-                          <Text style={styles.actionButtonText}>
+                          <Ionicons name="checkmark" size={32} color="#FFF" style={styles.actionButtonIcon} />
+                          <Text style={styles.primaryButtonText}>
                             {isHolding ? 'Hold...' : 'I did it!'}
                           </Text>
                         </LinearGradient>
@@ -401,50 +401,50 @@ export default function ExperimentModeSwipe({
                     </View>
                     {/* Progress Ring */}
                     <Svg
-                      style={styles.progressRing}
-                      width={112}
-                      height={112}
-                      viewBox="0 0 112 112"
+                      style={styles.primaryProgressRing}
+                      width={140}
+                      height={140}
+                      viewBox="0 0 140 140"
                     >
                       {/* Background circle */}
                       <Circle
-                        cx="56"
-                        cy="56"
-                        r="52"
+                        cx="70"
+                        cy="70"
+                        r="65"
                         stroke="rgba(255,255,255,0.3)"
                         strokeWidth="8"
                         fill="none"
                       />
                       {/* Progress circle */}
                       <AnimatedCircle
-                        cx="56"
-                        cy="56"
-                        r="52"
+                        cx="70"
+                        cy="70"
+                        r="65"
                         stroke="#fff"
                         strokeWidth="8"
                         fill="none"
-                        strokeDasharray={2 * Math.PI * 52}
+                        strokeDasharray={2 * Math.PI * 65}
                         animatedProps={holdProgressAnimatedProps}
                         strokeLinecap="round"
-                        transform="rotate(-90 56 56)"
+                        transform="rotate(-90 70 70)"
                       />
                     </Svg>
                   </TouchableOpacity>
 
-                  {/* Send Help Button */}
+                  {/* Send Help Button (Secondary/Small - floating lower right) */}
                   <TouchableOpacity
                     onPress={() => setShowHelpMenu(true)}
                     activeOpacity={0.9}
-                    style={styles.actionButtonWrapper}
+                    style={styles.secondaryButtonWrapper}
                   >
-                    <View style={styles.actionButtonOuter}>
-                      <View style={styles.actionButtonInner}>
+                    <View style={styles.secondaryButtonOuter}>
+                      <View style={styles.secondaryButtonInner}>
                         <LinearGradient
                           colors={['#fb7185', '#ec4899']}
-                          style={styles.actionButtonGradient}
+                          style={styles.secondaryButtonGradient}
                         >
-                          <Ionicons name="alert-circle" size={24} color="#FFF" style={styles.actionButtonIcon} />
-                          <Text style={styles.actionButtonText}>Send help</Text>
+                          <Ionicons name="heart" size={18} color="#FFF" />
+                          <Text style={styles.secondaryButtonText}>Help</Text>
                         </LinearGradient>
                       </View>
                     </View>
@@ -452,13 +452,13 @@ export default function ExperimentModeSwipe({
                 </View>
               ) : (
                 <View style={styles.completedButtonWrapper}>
-                  <View style={styles.actionButtonOuter}>
-                    <View style={styles.actionButtonInner}>
+                  <View style={styles.primaryButtonOuter}>
+                    <View style={styles.primaryButtonInner}>
                       <LinearGradient
                         colors={['#34d399', '#22c55e']}
                         style={styles.completedButtonGradient}
                       >
-                        <Ionicons name="checkmark" size={36} color="#FFF" />
+                        <Ionicons name="checkmark" size={40} color="#FFF" />
                         <Text style={styles.completedButtonText}>Done!</Text>
                       </LinearGradient>
                     </View>
@@ -1171,6 +1171,81 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
   },
+  // Primary "I did it" button - large and centered
+  primaryButtonWrapper: {
+    width: 140,
+    height: 140,
+    position: 'relative',
+  },
+  primaryProgressRing: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  primaryButtonOuter: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 70,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    padding: 4,
+  },
+  primaryButtonInner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 66,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    padding: 2,
+    overflow: 'hidden',
+  },
+  primaryButtonGradient: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 64,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  primaryButtonText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 18,
+  },
+  // Secondary "Help" button - small, floating lower-right
+  secondaryButtonWrapper: {
+    position: 'absolute',
+    right: -20,
+    bottom: -10,
+    width: 72,
+    height: 72,
+  },
+  secondaryButtonOuter: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 36,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    padding: 3,
+  },
+  secondaryButtonInner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 33,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    padding: 2,
+    overflow: 'hidden',
+  },
+  secondaryButtonGradient: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 31,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 11,
+    marginTop: 2,
+  },
+  // Legacy styles kept for completed state
   actionButtonWrapper: {
     width: 112,
     height: 112,
@@ -1212,27 +1287,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   completedButtonWrapper: {
-    width: 128,
-    height: 128,
+    width: 140,
+    height: 140,
   },
   completedButtonGradient: {
     width: '100%',
     height: '100%',
-    borderRadius: 60,
+    borderRadius: 70,
     justifyContent: 'center',
     alignItems: 'center',
   },
   completedButtonText: {
     color: '#fff',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 18,
     marginTop: 4,
   },
   actionHint: {
     color: 'rgba(255,255,255,0.7)',
     fontSize: 12,
     fontWeight: '500',
-    marginTop: 12,
+    marginTop: 16,
   },
 
   // Content Area Styles
