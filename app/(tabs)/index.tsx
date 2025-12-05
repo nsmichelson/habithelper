@@ -1995,9 +1995,10 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            {/* Stats */}
+            {/* Stats - Hidden during Experiment Mode (when user has accepted tip but not completed check-in) */}
+            {!(dailyTip?.user_response === 'try_it' && !dailyTip?.evening_check_in) && (
             <View style={styles.statsContainer}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.statCard}
                 onPress={handleShowAllExperiments}
                 activeOpacity={0.7}
@@ -2005,35 +2006,36 @@ export default function HomeScreen() {
                 <Text style={styles.statNumber}>{getUniqueTipCount(previousTips) + (dailyTip && !previousTips.some(t => t.tip_id === dailyTip.tip_id) ? 1 : 0)}</Text>
                 <Text style={styles.statLabel}>Experiments</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.statCard}
                 onPress={handleShowTriedExperiments}
                 activeOpacity={0.7}
               >
                 <Text style={styles.statNumber}>
-                  {getUniqueTipCount(previousTips.filter(tip => tip.user_response === 'try_it')) + 
+                  {getUniqueTipCount(previousTips.filter(tip => tip.user_response === 'try_it')) +
                    (dailyTip?.user_response === 'try_it' && !previousTips.some(t => t.tip_id === dailyTip.tip_id && t.user_response === 'try_it') ? 1 : 0)}
                 </Text>
                 <Text style={styles.statLabel}>Tried</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.statCard}
                 onPress={handleShowLovedExperiments}
                 activeOpacity={0.7}
               >
                 <Text style={styles.statNumber}>
-                  {getUniqueTipCount(previousTips.filter(tip => 
+                  {getUniqueTipCount(previousTips.filter(tip =>
                     tip.quick_completions?.some(c => c.quick_note === 'worked_great') ||
                     tip.evening_check_in === 'went_great'
-                  )) + 
-                  ((dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') || 
-                    dailyTip?.evening_check_in === 'went_great') && 
-                   !previousTips.some(t => t.tip_id === dailyTip.tip_id && 
+                  )) +
+                  ((dailyTip?.quick_completions?.some(c => c.quick_note === 'worked_great') ||
+                    dailyTip?.evening_check_in === 'went_great') &&
+                   !previousTips.some(t => t.tip_id === dailyTip.tip_id &&
                      (t.quick_completions?.some(c => c.quick_note === 'worked_great') || t.evening_check_in === 'went_great')) ? 1 : 0)}
                 </Text>
                 <Text style={styles.statLabel}>Loved</Text>
               </TouchableOpacity>
             </View>
+            )}
 
             {/* Daily Tip, Experiment Mode, or Completion View */}
             {console.log('Main content check - currentTip:', currentTip ? 'exists' : 'null', 'dailyTip:', dailyTip ? 'exists' : 'null') && null}
