@@ -1995,7 +1995,8 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            {/* Stats */}
+            {/* Stats - Hide if in experiment mode (try_it but no check-in yet) as it has its own header */}
+            {!(dailyTip?.user_response === 'try_it' && !dailyTip?.evening_check_in) && (
             <View style={styles.statsContainer}>
               <TouchableOpacity 
                 style={styles.statCard}
@@ -2034,6 +2035,7 @@ export default function HomeScreen() {
                 <Text style={styles.statLabel}>Loved</Text>
               </TouchableOpacity>
             </View>
+            )}
 
             {/* Daily Tip, Experiment Mode, or Completion View */}
             {console.log('Main content check - currentTip:', currentTip ? 'exists' : 'null', 'dailyTip:', dailyTip ? 'exists' : 'null') && null}
