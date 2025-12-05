@@ -148,6 +148,7 @@ export default function ExperimentModeSwipe({
   const [completed, setCompleted] = useState(false);
   const [showHelpMenu, setShowHelpMenu] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const [viewedCards, setViewedCards] = useState<string[]>(['protip']);
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [quizAnswer, setQuizAnswer] = useState<string | null>(null);
@@ -474,22 +475,59 @@ export default function ExperimentModeSwipe({
 
           {/* Content Area */}
           <View style={styles.contentArea}>
-            {!showPlan ? (
+            {!showPlan && !showDetails ? (
+              // Default view - just title and action links
               <>
-                <Text style={styles.tipTitle}>{tip.summary}</Text>
                 <Text style={styles.todaysFocus}>TODAY'S FOCUS</Text>
+                <Text style={styles.tipTitle}>{tip.summary}</Text>
+                <View style={styles.contentLinks}>
+                  <TouchableOpacity
+                    onPress={() => setShowDetails(true)}
+                    style={styles.contentLink}
+                  >
+                    <Ionicons name="information-circle-outline" size={16} color="#9ca3af" />
+                    <Text style={styles.contentLinkText}>Details</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.contentLinkDivider}>•</Text>
+                  <TouchableOpacity
+                    onPress={() => setShowPlan(true)}
+                    style={styles.contentLink}
+                  >
+                    <Ionicons name="calendar-outline" size={16} color="#9ca3af" />
+                    <Text style={styles.contentLinkText}>Plan</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : showDetails ? (
+              // Details view
+              <>
+                <View style={styles.planHeader}>
+                  <Text style={styles.planTitle}>About This Tip</Text>
+                  <TouchableOpacity
+                    onPress={() => setShowDetails(false)}
+                    style={styles.backButton}
+                  >
+                    <Ionicons name="chevron-back" size={16} color="#9ca3af" />
+                    <Text style={styles.backButtonText}>Back</Text>
+                  </TouchableOpacity>
+                </View>
                 <Text style={styles.tipDescription}>
                   {tip.short_description || tip.details_md.split('\n')[0].replace('**The Experiment:** ', '')}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => setShowPlan(true)}
-                  style={styles.viewPlanButton}
-                >
-                  <Text style={styles.viewPlanText}>View plan</Text>
-                  <Ionicons name="chevron-forward" size={12} color="#9ca3af" />
-                </TouchableOpacity>
+                {tip.details_md && (
+                  <Text style={styles.tipDetailsExtra}>
+                    {tip.details_md
+                      .replace('**The Experiment:** ', '')
+                      .replace(/\*\*/g, '')
+                      .split('\n')
+                      .filter((line: string) => line.trim())
+                      .slice(1, 4)
+                      .join('\n\n')}
+                  </Text>
+                )}
               </>
             ) : (
+              // Plan view
               <>
                 <View style={styles.planHeader}>
                   <Text style={styles.planTitle}>Your 7-Day Plan</Text>
@@ -1205,20 +1243,46 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     color: '#1f2937',
-    marginBottom: 4,
   },
   todaysFocus: {
     color: '#f97316',
     fontWeight: '600',
     fontSize: 12,
     letterSpacing: 0.5,
-    marginBottom: 12,
+    marginBottom: 6,
+  },
+  contentLinks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 4,
+  },
+  contentLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  contentLinkText: {
+    color: '#9ca3af',
+    fontSize: 14,
+  },
+  contentLinkDivider: {
+    color: '#d1d5db',
+    fontSize: 12,
   },
   tipDescription: {
     color: '#4b5563',
     fontSize: 14,
     lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: 12,
+  },
+  tipDetailsExtra: {
+    color: '#6b7280',
+    fontSize: 14,
+    lineHeight: 22,
   },
   viewPlanButton: {
     flexDirection: 'row',
