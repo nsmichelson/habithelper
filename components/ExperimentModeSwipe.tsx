@@ -160,6 +160,13 @@ export default function ExperimentModeSwipe({
   const [centralizedCompletionCount, setCentralizedCompletionCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
 
+  // Check-in state
+  const [showCheckIn, setShowCheckIn] = useState(false);
+  const [hasCheckedInToday, setHasCheckedInToday] = useState(false);
+  const [selectedBarriers, setSelectedBarriers] = useState<string[]>([]);
+  const [selectedWins, setSelectedWins] = useState<string[]>([]);
+  const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
+
   const celebrationScale = useSharedValue(0);
   const celebrationOpacity = useSharedValue(0);
   const holdProgress = useSharedValue(0);
@@ -194,10 +201,10 @@ export default function ExperimentModeSwipe({
 
   // Open sheet when modals become visible
   useEffect(() => {
-    if (showHelpMenu || activeCard) {
+    if (showHelpMenu || activeCard || showCheckIn) {
       openSheet();
     }
-  }, [showHelpMenu, activeCard]);
+  }, [showHelpMenu, activeCard, showCheckIn]);
 
   const helpOptions = [
     { emoji: '😅', label: 'I forgot', description: 'Set a reminder for later' },
@@ -205,6 +212,67 @@ export default function ExperimentModeSwipe({
     { emoji: '😔', label: 'Not feeling it', description: 'Get a motivation boost' },
     { emoji: '🤔', label: "Something's in the way", description: "Let's problem-solve together" },
   ];
+
+  // Check-in options with Ionicons
+  const checkInOptions = {
+    barriers: {
+      label: "What's getting in the way?",
+      options: [
+        { id: 'forgot', icon: 'help-circle-outline' as const, label: 'Keep forgetting' },
+        { id: 'no_time', icon: 'time-outline' as const, label: 'No time' },
+        { id: 'low_energy', icon: 'moon-outline' as const, label: 'Low energy' },
+        { id: 'too_hard', icon: 'barbell-outline' as const, label: 'Feels hard' },
+        { id: 'social', icon: 'people-outline' as const, label: 'Social pressure' },
+        { id: 'environment', icon: 'home-outline' as const, label: 'Wrong setting' },
+      ]
+    },
+    wins: {
+      label: "What's helping?",
+      options: [
+        { id: 'reminder', icon: 'notifications-outline' as const, label: 'Reminders' },
+        { id: 'easy', icon: 'sparkles-outline' as const, label: 'Easier than expected' },
+        { id: 'buddy', icon: 'heart-outline' as const, label: 'Support from others' },
+        { id: 'routine', icon: 'refresh-outline' as const, label: 'Fits my routine' },
+        { id: 'motivated', icon: 'flash-outline' as const, label: 'Feeling motivated' },
+        { id: 'enjoyed', icon: 'happy-outline' as const, label: 'Actually enjoying it' },
+      ]
+    },
+    feeling: {
+      label: "How are you feeling right now?",
+      options: [
+        { id: 'great', icon: 'sunny-outline' as const, label: 'Great' },
+        { id: 'good', icon: 'happy-outline' as const, label: 'Good' },
+        { id: 'okay', icon: 'remove-outline' as const, label: 'Okay' },
+        { id: 'tired', icon: 'moon-outline' as const, label: 'Tired' },
+        { id: 'stressed', icon: 'cloudy-outline' as const, label: 'Stressed' },
+      ]
+    }
+  };
+
+  const toggleBarrier = (id: string) => {
+    if (selectedBarriers.includes(id)) {
+      setSelectedBarriers(selectedBarriers.filter(b => b !== id));
+    } else {
+      setSelectedBarriers([...selectedBarriers, id]);
+    }
+  };
+
+  const toggleWin = (id: string) => {
+    if (selectedWins.includes(id)) {
+      setSelectedWins(selectedWins.filter(w => w !== id));
+    } else {
+      setSelectedWins([...selectedWins, id]);
+    }
+  };
+
+  const handleSaveCheckIn = () => {
+    // Would save to storage/state
+    setHasCheckedInToday(true);
+    closeSheet(() => setShowCheckIn(false));
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  };
+
+  const totalCheckInSelections = selectedBarriers.length + selectedWins.length + (selectedFeeling ? 1 : 0);
 
   // Load centralized completion count on mount
   useEffect(() => {
@@ -573,6 +641,77 @@ export default function ExperimentModeSwipe({
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.insightsScroll}
           >
+            {/* Check-in Card - Featured first card */}
+            <TouchableOpacity
+              onPress={() => setShowCheckIn(true)}
+              style={[styles.heroCard, hasCheckedInToday && styles.heroCardCheckedIn]}
+              activeOpacity={0.9}
+            >
+              <LinearGradient
+                colors={hasCheckedInToday ? ['#d1fae5', '#a7f3d0'] : ['#fed7aa', '#fde68a']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.heroCardGradient}
+              >
+                <View style={styles.heroCardTopRow}>
+                  <Text style={[
+                    styles.heroCardLabel,
+                    hasCheckedInToday ? styles.heroCardLabelCheckedIn : styles.heroCardLabelOrange
+                  ]}>
+                    {hasCheckedInToday ? 'CHECKED IN' : 'CHECK IN'}
+                  </Text>
+                  <View style={[
+                    styles.heroCardPlusButton,
+                    hasCheckedInToday && styles.heroCardPlusButtonCheckedIn
+                  ]}>
+                    <Ionicons
+                      name={hasCheckedInToday ? "checkmark" : "add"}
+                      size={18}
+                      color={hasCheckedInToday ? "#059669" : "#ea580c"}
+                    />
+                  </View>
+                </View>
+
+                {hasCheckedInToday ? (
+                  // Show selected icons when checked in
+                  <>
+                    <View style={styles.checkInIconsRow}>
+                      {selectedWins.slice(0, 3).map((winId) => {
+                        const win = checkInOptions.wins.options.find(w => w.id === winId);
+                        return win ? (
+                          <View key={winId} style={styles.checkInIconBubble}>
+                            <Ionicons name={win.icon} size={14} color="#059669" />
+                          </View>
+                        ) : null;
+                      })}
+                      {selectedBarriers.slice(0, 2).map((barrierId) => {
+                        const barrier = checkInOptions.barriers.options.find(b => b.id === barrierId);
+                        return barrier ? (
+                          <View key={barrierId} style={[styles.checkInIconBubble, styles.checkInIconBubbleBarrier]}>
+                            <Ionicons name={barrier.icon} size={14} color="#ea580c" />
+                          </View>
+                        ) : null;
+                      })}
+                      {(selectedWins.length + selectedBarriers.length) > 5 && (
+                        <View style={styles.checkInIconBubbleMore}>
+                          <Text style={styles.checkInIconBubbleMoreText}>
+                            +{selectedWins.length + selectedBarriers.length - 5}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                    <Text style={styles.heroCardSubtitleCheckedIn}>Tap to update</Text>
+                  </>
+                ) : (
+                  // Show prompt when not checked in
+                  <>
+                    <Text style={styles.heroCardTitleOrange}>How's it going?</Text>
+                    <Text style={styles.heroCardSubtitleOrange}>Quick 10-sec check-in</Text>
+                  </>
+                )}
+              </LinearGradient>
+            </TouchableOpacity>
+
             {/* Fun Fact Card */}
             <TouchableOpacity
               onPress={() => handleCardTap('funfact')}
@@ -1025,6 +1164,180 @@ export default function ExperimentModeSwipe({
         </View>
       </Modal>
 
+      {/* Check-in Modal */}
+      <Modal
+        visible={showCheckIn}
+        transparent
+        animationType="none"
+        onRequestClose={() => closeSheet(() => setShowCheckIn(false))}
+      >
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
+            <TouchableOpacity
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => setShowCheckIn(false))}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.checkInSheet, sheetAnimatedStyle]}>
+            {/* Header */}
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setShowCheckIn(false))}
+                style={styles.closeButton}
+              >
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
+            </View>
+
+            <ScrollView
+              style={styles.checkInScrollContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {/* Title */}
+              <Text style={styles.checkInTitle}>Quick Check-in</Text>
+              <Text style={styles.checkInSubtitle}>
+                Tap all that apply - we're learning together what works for you
+              </Text>
+
+              {/* Barriers Section */}
+              <View style={styles.checkInSection}>
+                <Text style={styles.checkInSectionLabel}>
+                  {checkInOptions.barriers.label}
+                </Text>
+                <View style={styles.checkInBubbles}>
+                  {checkInOptions.barriers.options.map((option) => (
+                    <TouchableOpacity
+                      key={option.id}
+                      onPress={() => toggleBarrier(option.id)}
+                      style={[
+                        styles.checkInBubble,
+                        styles.checkInBubbleBarrier,
+                        selectedBarriers.includes(option.id) && styles.checkInBubbleBarrierSelected
+                      ]}
+                    >
+                      <Ionicons
+                        name={option.icon}
+                        size={16}
+                        color={selectedBarriers.includes(option.id) ? '#ea580c' : '#9ca3af'}
+                        style={styles.checkInBubbleIcon}
+                      />
+                      <Text style={[
+                        styles.checkInBubbleLabel,
+                        selectedBarriers.includes(option.id) && styles.checkInBubbleLabelBarrierSelected
+                      ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Wins Section */}
+              <View style={styles.checkInSection}>
+                <Text style={styles.checkInSectionLabel}>
+                  {checkInOptions.wins.label}
+                </Text>
+                <View style={styles.checkInBubbles}>
+                  {checkInOptions.wins.options.map((option) => (
+                    <TouchableOpacity
+                      key={option.id}
+                      onPress={() => toggleWin(option.id)}
+                      style={[
+                        styles.checkInBubble,
+                        styles.checkInBubbleWin,
+                        selectedWins.includes(option.id) && styles.checkInBubbleWinSelected
+                      ]}
+                    >
+                      <Ionicons
+                        name={option.icon}
+                        size={16}
+                        color={selectedWins.includes(option.id) ? '#059669' : '#9ca3af'}
+                        style={styles.checkInBubbleIcon}
+                      />
+                      <Text style={[
+                        styles.checkInBubbleLabel,
+                        selectedWins.includes(option.id) && styles.checkInBubbleLabelWinSelected
+                      ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Feeling Section */}
+              <View style={styles.checkInSection}>
+                <Text style={styles.checkInSectionLabel}>
+                  {checkInOptions.feeling.label}
+                </Text>
+                <View style={styles.checkInFeelings}>
+                  {checkInOptions.feeling.options.map((option) => (
+                    <TouchableOpacity
+                      key={option.id}
+                      onPress={() => setSelectedFeeling(
+                        selectedFeeling === option.id ? null : option.id
+                      )}
+                      style={[
+                        styles.checkInFeeling,
+                        selectedFeeling === option.id && styles.checkInFeelingSelected
+                      ]}
+                    >
+                      <Ionicons
+                        name={option.icon}
+                        size={24}
+                        color={selectedFeeling === option.id ? '#f59e0b' : '#9ca3af'}
+                      />
+                      <Text style={[
+                        styles.checkInFeelingLabel,
+                        selectedFeeling === option.id && styles.checkInFeelingLabelSelected
+                      ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              <View style={{ height: 100 }} />
+            </ScrollView>
+
+            {/* Save Button */}
+            <View style={styles.checkInSaveContainer}>
+              <TouchableOpacity
+                onPress={handleSaveCheckIn}
+                style={[
+                  styles.checkInSaveButton,
+                  totalCheckInSelections === 0 && styles.checkInSaveButtonDisabled
+                ]}
+                disabled={totalCheckInSelections === 0}
+              >
+                <LinearGradient
+                  colors={totalCheckInSelections > 0 ? ['#fb923c', '#f59e0b'] : ['#d1d5db', '#d1d5db']}
+                  style={styles.checkInSaveButtonGradient}
+                >
+                  <Text style={styles.checkInSaveButtonText}>
+                    {totalCheckInSelections > 0
+                      ? `Save Check-in (${totalCheckInSelections})`
+                      : 'Select at least one'
+                    }
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setShowCheckIn(false))}
+                style={styles.checkInSkipButton}
+              >
+                <Text style={styles.checkInSkipButtonText}>Skip for now</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </View>
+      </Modal>
+
       {/* Quick Complete Modal */}
       <QuickCompleteModal
         visible={showQuickComplete}
@@ -1452,8 +1765,127 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingRight: 20,
   },
+  // Hero Card - Featured first card (same width as others, but colorful)
+  heroCard: {
+    width: 160,
+    borderRadius: 16,
+    shadowColor: '#ec4899',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
+    overflow: 'hidden',
+  },
+  heroCardGradient: {
+    flex: 1,
+    padding: 16,
+  },
+  heroCardTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  heroCardLabel: {
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: 11,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+  },
+  heroCardPlusButton: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heroCardTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  heroCardTitleOrange: {
+    color: '#9a3412',
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  heroCardTitleCheckedIn: {
+    color: '#047857',
+  },
+  heroCardSubtitle: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 12,
+  },
+  heroCardSubtitleOrange: {
+    color: '#c2410c',
+    fontSize: 12,
+  },
+  heroCardSubtitleCheckedIn: {
+    color: '#059669',
+    fontSize: 12,
+    marginTop: 8,
+  },
+  heroCardLabelOrange: {
+    color: '#9a3412',
+  },
+  heroCardLabelCheckedIn: {
+    color: '#047857',
+  },
+  heroCardPlusButtonCheckedIn: {
+    backgroundColor: '#d1fae5',
+  },
+  heroCardCheckedIn: {
+    shadowColor: '#10b981',
+  },
+  checkInIconsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 8,
+  },
+  checkInIconBubble: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#d1fae5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkInIconBubbleBarrier: {
+    backgroundColor: '#ffedd5',
+  },
+  checkInIconBubbleMore: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkInIconBubbleMoreText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#059669',
+  },
+  heroProgressContainer: {
+    marginTop: 'auto',
+  },
+  heroProgressTrack: {
+    height: 5,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    borderRadius: 3,
+  },
+  heroProgressFill: {
+    height: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 3,
+  },
+  // Regular insight cards
   insightCard: {
-    width: 176,
+    width: 160,
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
@@ -1923,5 +2355,142 @@ const styles = StyleSheet.create({
   communityShareButtonText: {
     color: '#fff',
     fontWeight: '500',
+  },
+
+  // Check-in Modal Styles
+  checkInSheet: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '85%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 20,
+  },
+  checkInScrollContent: {
+    padding: 20,
+  },
+  checkInTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1f2937',
+    marginBottom: 4,
+  },
+  checkInSubtitle: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginBottom: 24,
+  },
+  checkInSection: {
+    marginBottom: 24,
+  },
+  checkInSectionLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 12,
+  },
+  checkInBubbles: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  checkInBubble: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  checkInBubbleIcon: {
+    marginRight: 6,
+  },
+  checkInBubbleBarrier: {
+    backgroundColor: '#fff7ed',
+  },
+  checkInBubbleBarrierSelected: {
+    backgroundColor: '#ffedd5',
+    borderColor: '#fb923c',
+  },
+  checkInBubbleWin: {
+    backgroundColor: '#f0fdf4',
+  },
+  checkInBubbleWinSelected: {
+    backgroundColor: '#dcfce7',
+    borderColor: '#4ade80',
+  },
+  checkInBubbleLabel: {
+    fontSize: 13,
+    color: '#6b7280',
+    fontWeight: '500',
+  },
+  checkInBubbleLabelBarrierSelected: {
+    color: '#ea580c',
+    fontWeight: '600',
+  },
+  checkInBubbleLabelWinSelected: {
+    color: '#059669',
+    fontWeight: '600',
+  },
+  checkInFeelings: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  checkInFeeling: {
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: '#f9fafb',
+    width: 62,
+  },
+  checkInFeelingSelected: {
+    backgroundColor: '#ffedd5',
+    borderWidth: 2,
+    borderColor: '#fb923c',
+  },
+  checkInFeelingLabel: {
+    fontSize: 10,
+    color: '#6b7280',
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  checkInFeelingLabelSelected: {
+    color: '#ea580c',
+    fontWeight: '600',
+  },
+  checkInSaveContainer: {
+    padding: 20,
+    paddingBottom: 36,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#f3f4f6',
+  },
+  checkInSaveButton: {
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  checkInSaveButtonDisabled: {
+    opacity: 0.7,
+  },
+  checkInSaveButtonGradient: {
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  checkInSaveButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  checkInSkipButton: {
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  checkInSkipButtonText: {
+    color: '#9ca3af',
+    fontSize: 14,
   },
 });
