@@ -212,41 +212,183 @@ export default function ExperimentModeSwipe({
     { emoji: '🤔', label: "Something's in the way", description: "Let's problem-solve together" },
   ];
 
-  // Check-in options with Ionicons
-  const checkInOptions = {
-    feeling: {
+  // Area-specific check-in options
+  const getCheckInOptions = () => {
+    const area = tip?.area || 'nutrition';
+
+    type CheckInOption = { id: string; icon: keyof typeof Ionicons.glyphMap; label: string };
+    type CheckInSection = { label: string; options: CheckInOption[] };
+
+    // Feeling is the same across all areas
+    const feeling: CheckInSection = {
       label: "How are you feeling?",
       options: [
-        { id: 'great', icon: 'sunny-outline' as const, label: 'Great' },
-        { id: 'good', icon: 'happy-outline' as const, label: 'Good' },
-        { id: 'okay', icon: 'remove-outline' as const, label: 'Okay' },
-        { id: 'tired', icon: 'moon-outline' as const, label: 'Tired' },
-        { id: 'stressed', icon: 'cloudy-outline' as const, label: 'Stressed' },
+        { id: 'great', icon: 'sunny-outline', label: 'Great' },
+        { id: 'good', icon: 'happy-outline', label: 'Good' },
+        { id: 'okay', icon: 'remove-outline', label: 'Okay' },
+        { id: 'tired', icon: 'moon-outline', label: 'Tired' },
+        { id: 'stressed', icon: 'cloudy-outline', label: 'Stressed' },
       ]
-    },
-    inFavor: {
-      label: "What's working in your favor?",
-      options: [
-        { id: 'motivated', icon: 'flash-outline' as const, label: 'Feeling motivated' },
-        { id: 'energized', icon: 'battery-full-outline' as const, label: 'Energized' },
-        { id: 'free_time', icon: 'time-outline' as const, label: 'Have free time' },
-        { id: 'prepared', icon: 'checkbox-outline' as const, label: 'Already prepped' },
-        { id: 'support', icon: 'people-outline' as const, label: 'Have support' },
-        { id: 'good_mood', icon: 'happy-outline' as const, label: 'In a good mood' },
-      ]
-    },
-    obstacles: {
-      label: "What might get in the way?",
-      options: [
-        { id: 'busy', icon: 'calendar-outline' as const, label: 'Busy schedule' },
-        { id: 'tired', icon: 'moon-outline' as const, label: 'Feeling tired' },
-        { id: 'stressed', icon: 'cloudy-outline' as const, label: 'Stressed out' },
-        { id: 'unprepared', icon: 'alert-circle-outline' as const, label: 'Not prepared' },
-        { id: 'temptation', icon: 'pizza-outline' as const, label: 'Temptations around' },
-        { id: 'alone', icon: 'person-outline' as const, label: 'No support today' },
-      ]
-    }
+    };
+
+    // Area-specific "in favor" and "obstacles" options
+    const areaOptions: Record<string, { inFavor: CheckInSection; obstacles: CheckInSection }> = {
+      nutrition: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
+            { id: 'meal_prepped', icon: 'restaurant-outline', label: 'Meals prepped' },
+            { id: 'healthy_food', icon: 'leaf-outline', label: 'Healthy food available' },
+            { id: 'not_hungry', icon: 'thumbs-up-outline', label: 'Not too hungry' },
+            { id: 'support', icon: 'people-outline', label: 'Supportive people around' },
+            { id: 'home', icon: 'home-outline', label: 'Eating at home' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'cravings', icon: 'pizza-outline', label: 'Cravings' },
+            { id: 'social_eating', icon: 'people-outline', label: 'Social eating' },
+            { id: 'no_healthy_options', icon: 'close-circle-outline', label: 'No healthy options' },
+            { id: 'stressed', icon: 'cloudy-outline', label: 'Stress eating' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired to cook' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
+          ]
+        }
+      },
+      fitness: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'energized', icon: 'battery-full-outline', label: 'Feeling energized' },
+            { id: 'motivated', icon: 'flash-outline', label: 'Motivated' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+            { id: 'gear_ready', icon: 'fitness-outline', label: 'Gear ready' },
+            { id: 'buddy', icon: 'people-outline', label: 'Workout buddy' },
+            { id: 'good_weather', icon: 'sunny-outline', label: 'Good weather' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'tired', icon: 'moon-outline', label: 'Feeling tired' },
+            { id: 'sore', icon: 'bandage-outline', label: 'Body is sore' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
+            { id: 'weather', icon: 'rainy-outline', label: 'Bad weather' },
+            { id: 'no_motivation', icon: 'trending-down-outline', label: 'Low motivation' },
+            { id: 'no_gym', icon: 'close-circle-outline', label: 'No gym access' },
+          ]
+        }
+      },
+      sleep: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'relaxed', icon: 'leaf-outline', label: 'Feeling relaxed' },
+            { id: 'no_caffeine', icon: 'cafe-outline', label: 'No late caffeine' },
+            { id: 'early_dinner', icon: 'restaurant-outline', label: 'Ate dinner early' },
+            { id: 'quiet_home', icon: 'home-outline', label: 'Quiet at home' },
+            { id: 'tired', icon: 'moon-outline', label: 'Naturally tired' },
+            { id: 'no_screens', icon: 'phone-portrait-outline', label: 'Limiting screens' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'wired', icon: 'flash-outline', label: 'Feeling wired' },
+            { id: 'screens', icon: 'phone-portrait-outline', label: 'Screen temptation' },
+            { id: 'late_caffeine', icon: 'cafe-outline', label: 'Had caffeine late' },
+            { id: 'stress', icon: 'cloudy-outline', label: 'Mind racing' },
+            { id: 'noise', icon: 'volume-high-outline', label: 'Noisy environment' },
+            { id: 'late_plans', icon: 'calendar-outline', label: 'Late night plans' },
+          ]
+        }
+      },
+      stress: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'calm', icon: 'leaf-outline', label: 'Feeling calm' },
+            { id: 'light_day', icon: 'sunny-outline', label: 'Light schedule' },
+            { id: 'support', icon: 'people-outline', label: 'Support available' },
+            { id: 'slept_well', icon: 'moon-outline', label: 'Slept well' },
+            { id: 'quiet_space', icon: 'home-outline', label: 'Have quiet space' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'overwhelmed', icon: 'alert-circle-outline', label: 'Feeling overwhelmed' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Packed schedule' },
+            { id: 'deadlines', icon: 'time-outline', label: 'Deadlines looming' },
+            { id: 'conflict', icon: 'people-outline', label: 'People stress' },
+            { id: 'no_space', icon: 'close-circle-outline', label: 'No quiet space' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+          ]
+        }
+      },
+      organization: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+            { id: 'clear_head', icon: 'sunny-outline', label: 'Clear headed' },
+            { id: 'tools_ready', icon: 'construct-outline', label: 'Tools ready' },
+            { id: 'home', icon: 'home-outline', label: 'At home' },
+            { id: 'energized', icon: 'battery-full-outline', label: 'Energized' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'overwhelmed', icon: 'alert-circle-outline', label: 'Feeling overwhelmed' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Too busy' },
+            { id: 'distractions', icon: 'notifications-outline', label: 'Distractions' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'not_home', icon: 'car-outline', label: 'Away from home' },
+            { id: 'procrastinating', icon: 'hourglass-outline', label: 'Procrastinating' },
+          ]
+        }
+      },
+      relationships: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'good_mood', icon: 'happy-outline', label: 'In a good mood' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have quality time' },
+            { id: 'connected', icon: 'heart-outline', label: 'Feeling connected' },
+            { id: 'partner_available', icon: 'people-outline', label: 'Partner available' },
+            { id: 'calm', icon: 'leaf-outline', label: 'Feeling patient' },
+            { id: 'rested', icon: 'sunny-outline', label: 'Well rested' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'stressed', icon: 'cloudy-outline', label: 'Stressed out' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Both busy' },
+            { id: 'tension', icon: 'alert-circle-outline', label: 'Some tension' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'distracted', icon: 'phone-portrait-outline', label: 'Distractions' },
+            { id: 'apart', icon: 'location-outline', label: 'Not together' },
+          ]
+        }
+      }
+    };
+
+    const areaConfig = areaOptions[area] || areaOptions.nutrition;
+
+    return {
+      feeling,
+      inFavor: areaConfig.inFavor,
+      obstacles: areaConfig.obstacles
+    };
   };
+
+  const checkInOptions = getCheckInOptions();
 
   const toggleInFavor = (id: string) => {
     if (selectedInFavor.includes(id)) {
