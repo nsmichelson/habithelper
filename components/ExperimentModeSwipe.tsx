@@ -413,6 +413,189 @@ export default function ExperimentModeSwipe({
 
   const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + (selectedFeeling ? 1 : 0);
 
+  // Dynamic motivation cards based on check-in selections
+  type MotivationCard = {
+    id: string;
+    type: 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact';
+    icon: keyof typeof Ionicons.glyphMap;
+    iconBg: string;
+    iconColor: string;
+    title: string;
+    text: string;
+    priority: number; // Higher = shows first
+  };
+
+  const getMotivationCards = (): MotivationCard[] => {
+    const cards: MotivationCard[] = [];
+
+    // Feeling-based cards
+    if (selectedFeeling === 'tired') {
+      cards.push({
+        id: 'tired-gentle',
+        type: 'encouragement',
+        icon: 'heart-outline',
+        iconBg: '#fef3c7',
+        iconColor: '#d97706',
+        title: 'Be Gentle',
+        text: "Tired days are real. Even a tiny step counts - you don't have to be perfect today.",
+        priority: 10,
+      });
+      cards.push({
+        id: 'tired-energy',
+        type: 'tip',
+        icon: 'flash-outline',
+        iconBg: '#dbeafe',
+        iconColor: '#2563eb',
+        title: 'Quick Energy',
+        text: 'A 5-min walk or glass of cold water can boost alertness more than you think.',
+        priority: 8,
+      });
+    }
+
+    if (selectedFeeling === 'stressed') {
+      cards.push({
+        id: 'stressed-breathe',
+        type: 'strategy',
+        icon: 'leaf-outline',
+        iconBg: '#d1fae5',
+        iconColor: '#059669',
+        title: 'Pause First',
+        text: 'Try 3 deep breaths before deciding anything. Stress makes everything feel harder than it is.',
+        priority: 10,
+      });
+    }
+
+    if (selectedFeeling === 'great' || selectedFeeling === 'good') {
+      cards.push({
+        id: 'good-momentum',
+        type: 'encouragement',
+        icon: 'rocket-outline',
+        iconBg: '#ede9fe',
+        iconColor: '#7c3aed',
+        title: 'Ride the Wave',
+        text: "You're in a good headspace - perfect time to build momentum!",
+        priority: 7,
+      });
+    }
+
+    // Obstacle-based cards
+    if (selectedObstacles.includes('cravings')) {
+      cards.push({
+        id: 'cravings-delay',
+        type: 'strategy',
+        icon: 'timer-outline',
+        iconBg: '#fce7f3',
+        iconColor: '#db2777',
+        title: '10-Min Rule',
+        text: "Cravings peak then fade. Wait 10 mins, drink water, then decide. You're in control.",
+        priority: 9,
+      });
+    }
+
+    if (selectedObstacles.includes('stressed')) {
+      cards.push({
+        id: 'stress-eating-reframe',
+        type: 'reframe',
+        icon: 'bulb-outline',
+        iconBg: '#fef3c7',
+        iconColor: '#d97706',
+        title: 'Stress Eating?',
+        text: "It's your brain seeking comfort, not hunger. What else might help? A walk, music, or texting a friend?",
+        priority: 9,
+      });
+    }
+
+    if (selectedObstacles.includes('social_eating')) {
+      cards.push({
+        id: 'social-strategy',
+        type: 'strategy',
+        icon: 'people-outline',
+        iconBg: '#dbeafe',
+        iconColor: '#2563eb',
+        title: 'Social Situations',
+        text: 'Eat a small healthy snack before. You\'ll feel less pressure and make calmer choices.',
+        priority: 8,
+      });
+    }
+
+    if (selectedObstacles.includes('busy')) {
+      cards.push({
+        id: 'busy-micro',
+        type: 'tip',
+        icon: 'time-outline',
+        iconBg: '#ccfbf1',
+        iconColor: '#0d9488',
+        title: 'Micro-Moments',
+        text: "Busy day? Look for 2-minute windows. Small actions add up more than you'd think.",
+        priority: 8,
+      });
+    }
+
+    if (selectedObstacles.includes('tired') || selectedObstacles.includes('no_healthy_options')) {
+      cards.push({
+        id: 'tired-easy-win',
+        type: 'strategy',
+        icon: 'checkmark-circle-outline',
+        iconBg: '#d1fae5',
+        iconColor: '#059669',
+        title: 'Easy Win',
+        text: "Lower the bar today. What's the easiest version of this you could do?",
+        priority: 8,
+      });
+    }
+
+    // In-favor reinforcement cards
+    if (selectedInFavor.includes('healthy_food') || selectedInFavor.includes('meal_prepped')) {
+      cards.push({
+        id: 'prepped-leverage',
+        type: 'encouragement',
+        icon: 'star-outline',
+        iconBg: '#fef3c7',
+        iconColor: '#d97706',
+        title: 'You Planned Ahead!',
+        text: "Past-you set up today-you for success. Use that prep - it's already done!",
+        priority: 7,
+      });
+    }
+
+    if (selectedInFavor.includes('motivated')) {
+      cards.push({
+        id: 'motivated-action',
+        type: 'tip',
+        icon: 'flash-outline',
+        iconBg: '#ede9fe',
+        iconColor: '#7c3aed',
+        title: 'Strike Now',
+        text: "Motivation fades - action creates more motivation. Start within the next 5 mins!",
+        priority: 8,
+      });
+    }
+
+    if (selectedInFavor.includes('support')) {
+      cards.push({
+        id: 'support-share',
+        type: 'tip',
+        icon: 'chatbubble-outline',
+        iconBg: '#dbeafe',
+        iconColor: '#2563eb',
+        title: 'Share Your Goal',
+        text: "Tell someone what you're trying today. Saying it out loud makes it more real.",
+        priority: 6,
+      });
+    }
+
+    // Only return cards if user has made check-in selections
+    // (the static cards Fun Fact, Quiz, Pro Tip, Community are always shown)
+    if (cards.length === 0) {
+      return [];
+    }
+
+    // Sort by priority (highest first) and return top 3 contextual cards
+    return cards.sort((a, b) => b.priority - a.priority).slice(0, 3);
+  };
+
+  const motivationCards = getMotivationCards();
+
   // Load centralized completion count on mount
   useEffect(() => {
     const loadCompletionCount = async () => {
@@ -808,42 +991,56 @@ export default function ExperimentModeSwipe({
 
                 {/* Show icons if any selections exist, otherwise show prompt */}
                 {hasSelections ? (
-                  // Show selected icons
+                  // Show selected icons with color coding by section
                   <>
-                    <View style={styles.checkInIconsRow}>
-                      {selectedFeeling && (
-                        <View style={styles.checkInCardIconBubble}>
+                    {/* Feeling row - amber */}
+                    {selectedFeeling && (
+                      <View style={styles.checkInIconsRow}>
+                        <View style={[styles.checkInCardIconBubble, styles.checkInCardIconFeeling]}>
                           <Ionicons
                             name={checkInOptions.feeling.options.find(f => f.id === selectedFeeling)?.icon || 'help-outline'}
                             size={14}
-                            color="#ea580c"
+                            color="#d97706"
                           />
                         </View>
-                      )}
-                      {selectedInFavor.slice(0, 2).map((favorId) => {
-                        const favor = checkInOptions.inFavor.options.find(f => f.id === favorId);
-                        return favor ? (
-                          <View key={favorId} style={styles.checkInCardIconBubble}>
-                            <Ionicons name={favor.icon} size={14} color="#ea580c" />
+                      </View>
+                    )}
+                    {/* In favor row - green */}
+                    {selectedInFavor.length > 0 && (
+                      <View style={styles.checkInIconsRow}>
+                        {selectedInFavor.slice(0, 3).map((favorId) => {
+                          const favor = checkInOptions.inFavor.options.find(f => f.id === favorId);
+                          return favor ? (
+                            <View key={favorId} style={[styles.checkInCardIconBubble, styles.checkInCardIconInFavor]}>
+                              <Ionicons name={favor.icon} size={14} color="#059669" />
+                            </View>
+                          ) : null;
+                        })}
+                        {selectedInFavor.length > 3 && (
+                          <View style={[styles.checkInCardIconBubble, styles.checkInCardIconInFavor]}>
+                            <Text style={styles.checkInCardIconInFavorMoreText}>+{selectedInFavor.length - 3}</Text>
                           </View>
-                        ) : null;
-                      })}
-                      {selectedObstacles.slice(0, 2).map((obstacleId) => {
-                        const obstacle = checkInOptions.obstacles.options.find(o => o.id === obstacleId);
-                        return obstacle ? (
-                          <View key={obstacleId} style={styles.checkInCardIconBubble}>
-                            <Ionicons name={obstacle.icon} size={14} color="#ea580c" />
+                        )}
+                      </View>
+                    )}
+                    {/* Obstacles row - orange/red */}
+                    {selectedObstacles.length > 0 && (
+                      <View style={styles.checkInIconsRow}>
+                        {selectedObstacles.slice(0, 3).map((obstacleId) => {
+                          const obstacle = checkInOptions.obstacles.options.find(o => o.id === obstacleId);
+                          return obstacle ? (
+                            <View key={obstacleId} style={[styles.checkInCardIconBubble, styles.checkInCardIconObstacle]}>
+                              <Ionicons name={obstacle.icon} size={14} color="#dc2626" />
+                            </View>
+                          ) : null;
+                        })}
+                        {selectedObstacles.length > 3 && (
+                          <View style={[styles.checkInCardIconBubble, styles.checkInCardIconObstacle]}>
+                            <Text style={styles.checkInCardIconObstacleMoreText}>+{selectedObstacles.length - 3}</Text>
                           </View>
-                        ) : null;
-                      })}
-                      {(selectedInFavor.length + selectedObstacles.length) > 4 && (
-                        <View style={styles.checkInCardIconBubble}>
-                          <Text style={styles.checkInCardIconBubbleMoreText}>
-                            +{selectedInFavor.length + selectedObstacles.length - 4}
-                          </Text>
-                        </View>
-                      )}
-                    </View>
+                        )}
+                      </View>
+                    )}
                     <Text style={styles.heroCardSubtitleOrange}>Tap to update</Text>
                   </>
                 ) : (
@@ -857,6 +1054,39 @@ export default function ExperimentModeSwipe({
                 </TouchableOpacity>
               );
             })()}
+
+            {/* Dynamic Motivation Cards based on check-in - show first if any */}
+            {motivationCards.map((card) => (
+              <TouchableOpacity
+                key={card.id}
+                onPress={() => handleCardTap(card.id)}
+                style={[
+                  styles.insightCard,
+                  !viewedCards.includes(card.id) && styles.insightCardUnread
+                ]}
+              >
+                {!viewedCards.includes(card.id) && (
+                  <View style={[styles.unreadDot, { backgroundColor: card.iconColor }]} />
+                )}
+                <View style={styles.insightCardHeader}>
+                  <View style={[styles.insightIcon, { backgroundColor: card.iconBg }]}>
+                    <Ionicons name={card.icon} size={16} color={card.iconColor} />
+                  </View>
+                  <Text style={[
+                    styles.insightCardTitle,
+                    viewedCards.includes(card.id) && styles.insightCardTitleViewed
+                  ]}>
+                    {card.title}
+                  </Text>
+                </View>
+                <Text style={[
+                  styles.insightCardText,
+                  viewedCards.includes(card.id) && styles.insightCardTextViewed
+                ]}>
+                  {card.text}
+                </Text>
+              </TouchableOpacity>
+            ))}
 
             {/* Fun Fact Card */}
             <TouchableOpacity
@@ -1914,6 +2144,7 @@ const styles = StyleSheet.create({
   // Hero Card - Featured first card (same width as others, but colorful)
   heroCard: {
     width: 160,
+    minHeight: 160,
     borderRadius: 16,
     shadowColor: '#ec4899',
     shadowOffset: { width: 0, height: 4 },
@@ -1989,22 +2220,35 @@ const styles = StyleSheet.create({
   checkInIconsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 6,
-    marginTop: 8,
+    gap: 4,
+    marginTop: 4,
   },
-  // Icon bubbles on the card (warm colors)
+  // Icon bubbles on the card - color coded by section
   checkInCardIconBubble: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  checkInCardIconBubbleMoreText: {
-    fontSize: 10,
+  checkInCardIconFeeling: {
+    backgroundColor: '#fef3c7', // amber/yellow
+  },
+  checkInCardIconInFavor: {
+    backgroundColor: '#d1fae5', // green
+  },
+  checkInCardIconObstacle: {
+    backgroundColor: '#fee2e2', // red/pink
+  },
+  checkInCardIconInFavorMoreText: {
+    fontSize: 9,
     fontWeight: '600',
-    color: '#ea580c',
+    color: '#059669',
+  },
+  checkInCardIconObstacleMoreText: {
+    fontSize: 9,
+    fontWeight: '600',
+    color: '#dc2626',
   },
   // Icon bubbles in the modal (keep green/orange distinction)
   checkInIconBubble: {
@@ -2050,6 +2294,7 @@ const styles = StyleSheet.create({
   // Regular insight cards
   insightCard: {
     width: 160,
+    minHeight: 160,
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
