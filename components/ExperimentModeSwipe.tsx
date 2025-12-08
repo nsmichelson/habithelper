@@ -162,10 +162,9 @@ export default function ExperimentModeSwipe({
 
   // Check-in state
   const [showCheckIn, setShowCheckIn] = useState(false);
-  const [hasCheckedInToday, setHasCheckedInToday] = useState(false);
   const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
-  const [selectedHelpers, setSelectedHelpers] = useState<string[]>([]);
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
+  const [selectedInFavor, setSelectedInFavor] = useState<string[]>([]);
+  const [selectedObstacles, setSelectedObstacles] = useState<string[]>([]);
 
   const celebrationScale = useSharedValue(0);
   const celebrationOpacity = useSharedValue(0);
@@ -225,54 +224,52 @@ export default function ExperimentModeSwipe({
         { id: 'stressed', icon: 'cloudy-outline' as const, label: 'Stressed' },
       ]
     },
-    helpers: {
-      label: "What might help you today?",
+    inFavor: {
+      label: "What's working in your favor?",
       options: [
-        { id: 'reminder', icon: 'notifications-outline' as const, label: 'Set a reminder' },
-        { id: 'smaller', icon: 'resize-outline' as const, label: 'Start smaller' },
-        { id: 'buddy', icon: 'people-outline' as const, label: 'Do it with someone' },
-        { id: 'schedule', icon: 'calendar-outline' as const, label: 'Pick a specific time' },
-        { id: 'prep', icon: 'checkbox-outline' as const, label: 'Prep in advance' },
-        { id: 'reward', icon: 'gift-outline' as const, label: 'Plan a reward' },
+        { id: 'motivated', icon: 'flash-outline' as const, label: 'Feeling motivated' },
+        { id: 'energized', icon: 'battery-full-outline' as const, label: 'Energized' },
+        { id: 'free_time', icon: 'time-outline' as const, label: 'Have free time' },
+        { id: 'prepared', icon: 'checkbox-outline' as const, label: 'Already prepped' },
+        { id: 'support', icon: 'people-outline' as const, label: 'Have support' },
+        { id: 'good_mood', icon: 'happy-outline' as const, label: 'In a good mood' },
       ]
     },
-    concerns: {
-      label: "Any concerns?",
+    obstacles: {
+      label: "What might get in the way?",
       options: [
-        { id: 'forgetting', icon: 'help-circle-outline' as const, label: 'Might forget' },
-        { id: 'time', icon: 'time-outline' as const, label: 'Finding time' },
-        { id: 'energy', icon: 'battery-half-outline' as const, label: 'Low energy' },
-        { id: 'motivation', icon: 'trending-down-outline' as const, label: 'Staying motivated' },
-        { id: 'social', icon: 'chatbubbles-outline' as const, label: 'What others think' },
-        { id: 'hard', icon: 'barbell-outline' as const, label: 'Seems difficult' },
+        { id: 'busy', icon: 'calendar-outline' as const, label: 'Busy schedule' },
+        { id: 'tired', icon: 'moon-outline' as const, label: 'Feeling tired' },
+        { id: 'stressed', icon: 'cloudy-outline' as const, label: 'Stressed out' },
+        { id: 'unprepared', icon: 'alert-circle-outline' as const, label: 'Not prepared' },
+        { id: 'temptation', icon: 'pizza-outline' as const, label: 'Temptations around' },
+        { id: 'alone', icon: 'person-outline' as const, label: 'No support today' },
       ]
     }
   };
 
-  const toggleHelper = (id: string) => {
-    if (selectedHelpers.includes(id)) {
-      setSelectedHelpers(selectedHelpers.filter(h => h !== id));
+  const toggleInFavor = (id: string) => {
+    if (selectedInFavor.includes(id)) {
+      setSelectedInFavor(selectedInFavor.filter(f => f !== id));
     } else {
-      setSelectedHelpers([...selectedHelpers, id]);
+      setSelectedInFavor([...selectedInFavor, id]);
     }
   };
 
-  const toggleConcern = (id: string) => {
-    if (selectedConcerns.includes(id)) {
-      setSelectedConcerns(selectedConcerns.filter(c => c !== id));
+  const toggleObstacle = (id: string) => {
+    if (selectedObstacles.includes(id)) {
+      setSelectedObstacles(selectedObstacles.filter(o => o !== id));
     } else {
-      setSelectedConcerns([...selectedConcerns, id]);
+      setSelectedObstacles([...selectedObstacles, id]);
     }
   };
 
   const handleSaveCheckIn = () => {
-    // Would save to storage/state
-    setHasCheckedInToday(true);
     closeSheet(() => setShowCheckIn(false));
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
-  const totalCheckInSelections = selectedHelpers.length + selectedConcerns.length + (selectedFeeling ? 1 : 0);
+  const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + (selectedFeeling ? 1 : 0);
 
   // Load centralized completion count on mount
   useEffect(() => {
@@ -642,75 +639,82 @@ export default function ExperimentModeSwipe({
             contentContainerStyle={styles.insightsScroll}
           >
             {/* Check-in Card - Featured first card */}
-            <TouchableOpacity
-              onPress={() => setShowCheckIn(true)}
-              style={[styles.heroCard, hasCheckedInToday && styles.heroCardCheckedIn]}
-              activeOpacity={0.9}
-            >
-              <LinearGradient
-                colors={hasCheckedInToday ? ['#d1fae5', '#a7f3d0'] : ['#fed7aa', '#fde68a']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.heroCardGradient}
-              >
-                <View style={styles.heroCardTopRow}>
-                  <Text style={[
-                    styles.heroCardLabel,
-                    hasCheckedInToday ? styles.heroCardLabelCheckedIn : styles.heroCardLabelOrange
-                  ]}>
-                    {hasCheckedInToday ? 'CHECKED IN' : 'CHECK IN'}
-                  </Text>
-                  <View style={[
-                    styles.heroCardPlusButton,
-                    hasCheckedInToday && styles.heroCardPlusButtonCheckedIn
-                  ]}>
-                    <Ionicons
-                      name={hasCheckedInToday ? "checkmark" : "add"}
-                      size={18}
-                      color={hasCheckedInToday ? "#059669" : "#ea580c"}
-                    />
-                  </View>
-                </View>
+            {(() => {
+              const hasSelections = selectedInFavor.length > 0 || selectedObstacles.length > 0 || selectedFeeling;
+              return (
+                <TouchableOpacity
+                  onPress={() => setShowCheckIn(true)}
+                  style={styles.heroCard}
+                  activeOpacity={0.9}
+                >
+                  <LinearGradient
+                    colors={hasSelections ? ['#fef3c7', '#fde68a'] : ['#fed7aa', '#fde68a']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={styles.heroCardGradient}
+                  >
+                    <View style={styles.heroCardTopRow}>
+                      <Text style={styles.heroCardLabelOrange}>CHECK-IN</Text>
+                      <View style={styles.heroCardPlusButton}>
+                        <Ionicons
+                          name={hasSelections ? "create-outline" : "add"}
+                          size={18}
+                          color="#ea580c"
+                        />
+                      </View>
+                    </View>
 
-                {hasCheckedInToday ? (
-                  // Show selected icons when checked in
+                {/* Show icons if any selections exist, otherwise show prompt */}
+                {hasSelections ? (
+                  // Show selected icons
                   <>
                     <View style={styles.checkInIconsRow}>
-                      {selectedHelpers.slice(0, 3).map((helperId) => {
-                        const helper = checkInOptions.helpers.options.find(h => h.id === helperId);
-                        return helper ? (
-                          <View key={helperId} style={styles.checkInIconBubble}>
-                            <Ionicons name={helper.icon} size={14} color="#059669" />
+                      {selectedFeeling && (
+                        <View style={styles.checkInCardIconBubble}>
+                          <Ionicons
+                            name={checkInOptions.feeling.options.find(f => f.id === selectedFeeling)?.icon || 'help-outline'}
+                            size={14}
+                            color="#ea580c"
+                          />
+                        </View>
+                      )}
+                      {selectedInFavor.slice(0, 2).map((favorId) => {
+                        const favor = checkInOptions.inFavor.options.find(f => f.id === favorId);
+                        return favor ? (
+                          <View key={favorId} style={styles.checkInCardIconBubble}>
+                            <Ionicons name={favor.icon} size={14} color="#ea580c" />
                           </View>
                         ) : null;
                       })}
-                      {selectedConcerns.slice(0, 2).map((concernId) => {
-                        const concern = checkInOptions.concerns.options.find(c => c.id === concernId);
-                        return concern ? (
-                          <View key={concernId} style={[styles.checkInIconBubble, styles.checkInIconBubbleConcern]}>
-                            <Ionicons name={concern.icon} size={14} color="#ea580c" />
+                      {selectedObstacles.slice(0, 2).map((obstacleId) => {
+                        const obstacle = checkInOptions.obstacles.options.find(o => o.id === obstacleId);
+                        return obstacle ? (
+                          <View key={obstacleId} style={styles.checkInCardIconBubble}>
+                            <Ionicons name={obstacle.icon} size={14} color="#ea580c" />
                           </View>
                         ) : null;
                       })}
-                      {(selectedHelpers.length + selectedConcerns.length) > 5 && (
-                        <View style={styles.checkInIconBubbleMore}>
-                          <Text style={styles.checkInIconBubbleMoreText}>
-                            +{selectedHelpers.length + selectedConcerns.length - 5}
+                      {(selectedInFavor.length + selectedObstacles.length) > 4 && (
+                        <View style={styles.checkInCardIconBubble}>
+                          <Text style={styles.checkInCardIconBubbleMoreText}>
+                            +{selectedInFavor.length + selectedObstacles.length - 4}
                           </Text>
                         </View>
                       )}
                     </View>
-                    <Text style={styles.heroCardSubtitleCheckedIn}>Tap to update</Text>
+                    <Text style={styles.heroCardSubtitleOrange}>Tap to update</Text>
                   </>
                 ) : (
-                  // Show prompt when not checked in
+                  // Show prompt when nothing selected
                   <>
-                    <Text style={styles.heroCardTitleOrange}>Plan your day</Text>
+                    <Text style={styles.heroCardTitleOrange}>How's today?</Text>
                     <Text style={styles.heroCardSubtitleOrange}>Quick check-in</Text>
                   </>
                 )}
-              </LinearGradient>
-            </TouchableOpacity>
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            })()}
 
             {/* Fun Fact Card */}
             <TouchableOpacity
@@ -1197,9 +1201,9 @@ export default function ExperimentModeSwipe({
               showsVerticalScrollIndicator={false}
             >
               {/* Title */}
-              <Text style={styles.checkInTitle}>Plan Your Day</Text>
+              <Text style={styles.checkInTitle}>Check-in</Text>
               <Text style={styles.checkInSubtitle}>
-                Let's set you up for success
+                How's today shaping up?
               </Text>
 
               {/* Feeling Section - First */}
@@ -1235,31 +1239,31 @@ export default function ExperimentModeSwipe({
                 </View>
               </View>
 
-              {/* Helpers Section */}
+              {/* In Favor Section */}
               <View style={styles.checkInSection}>
                 <Text style={styles.checkInSectionLabel}>
-                  {checkInOptions.helpers.label}
+                  {checkInOptions.inFavor.label}
                 </Text>
                 <View style={styles.checkInBubbles}>
-                  {checkInOptions.helpers.options.map((option) => (
+                  {checkInOptions.inFavor.options.map((option) => (
                     <TouchableOpacity
                       key={option.id}
-                      onPress={() => toggleHelper(option.id)}
+                      onPress={() => toggleInFavor(option.id)}
                       style={[
                         styles.checkInBubble,
-                        styles.checkInBubbleHelper,
-                        selectedHelpers.includes(option.id) && styles.checkInBubbleHelperSelected
+                        styles.checkInBubbleInFavor,
+                        selectedInFavor.includes(option.id) && styles.checkInBubbleInFavorSelected
                       ]}
                     >
                       <Ionicons
                         name={option.icon}
                         size={16}
-                        color={selectedHelpers.includes(option.id) ? '#059669' : '#9ca3af'}
+                        color={selectedInFavor.includes(option.id) ? '#059669' : '#9ca3af'}
                         style={styles.checkInBubbleIcon}
                       />
                       <Text style={[
                         styles.checkInBubbleLabel,
-                        selectedHelpers.includes(option.id) && styles.checkInBubbleLabelHelperSelected
+                        selectedInFavor.includes(option.id) && styles.checkInBubbleLabelInFavorSelected
                       ]}>
                         {option.label}
                       </Text>
@@ -1268,31 +1272,31 @@ export default function ExperimentModeSwipe({
                 </View>
               </View>
 
-              {/* Concerns Section */}
+              {/* Obstacles Section */}
               <View style={styles.checkInSection}>
                 <Text style={styles.checkInSectionLabel}>
-                  {checkInOptions.concerns.label}
+                  {checkInOptions.obstacles.label}
                 </Text>
                 <View style={styles.checkInBubbles}>
-                  {checkInOptions.concerns.options.map((option) => (
+                  {checkInOptions.obstacles.options.map((option) => (
                     <TouchableOpacity
                       key={option.id}
-                      onPress={() => toggleConcern(option.id)}
+                      onPress={() => toggleObstacle(option.id)}
                       style={[
                         styles.checkInBubble,
-                        styles.checkInBubbleConcern,
-                        selectedConcerns.includes(option.id) && styles.checkInBubbleConcernSelected
+                        styles.checkInBubbleObstacle,
+                        selectedObstacles.includes(option.id) && styles.checkInBubbleObstacleSelected
                       ]}
                     >
                       <Ionicons
                         name={option.icon}
                         size={16}
-                        color={selectedConcerns.includes(option.id) ? '#ea580c' : '#9ca3af'}
+                        color={selectedObstacles.includes(option.id) ? '#ea580c' : '#9ca3af'}
                         style={styles.checkInBubbleIcon}
                       />
                       <Text style={[
                         styles.checkInBubbleLabel,
-                        selectedConcerns.includes(option.id) && styles.checkInBubbleLabelConcernSelected
+                        selectedObstacles.includes(option.id) && styles.checkInBubbleLabelObstacleSelected
                       ]}>
                         {option.label}
                       </Text>
@@ -1846,6 +1850,21 @@ const styles = StyleSheet.create({
     gap: 6,
     marginTop: 8,
   },
+  // Icon bubbles on the card (warm colors)
+  checkInCardIconBubble: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkInCardIconBubbleMoreText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#ea580c',
+  },
+  // Icon bubbles in the modal (keep green/orange distinction)
   checkInIconBubble: {
     width: 28,
     height: 28,
@@ -1856,6 +1875,9 @@ const styles = StyleSheet.create({
   },
   checkInIconBubbleConcern: {
     backgroundColor: '#ffedd5',
+  },
+  checkInIconBubbleFeeling: {
+    backgroundColor: '#fef3c7',
   },
   checkInIconBubbleMore: {
     width: 28,
@@ -2409,17 +2431,17 @@ const styles = StyleSheet.create({
   checkInBubbleIcon: {
     marginRight: 6,
   },
-  checkInBubbleHelper: {
+  checkInBubbleInFavor: {
     backgroundColor: '#f0fdf4',
   },
-  checkInBubbleHelperSelected: {
+  checkInBubbleInFavorSelected: {
     backgroundColor: '#dcfce7',
     borderColor: '#4ade80',
   },
-  checkInBubbleConcern: {
+  checkInBubbleObstacle: {
     backgroundColor: '#fff7ed',
   },
-  checkInBubbleConcernSelected: {
+  checkInBubbleObstacleSelected: {
     backgroundColor: '#ffedd5',
     borderColor: '#fb923c',
   },
@@ -2428,11 +2450,11 @@ const styles = StyleSheet.create({
     color: '#6b7280',
     fontWeight: '500',
   },
-  checkInBubbleLabelHelperSelected: {
+  checkInBubbleLabelInFavorSelected: {
     color: '#059669',
     fontWeight: '600',
   },
-  checkInBubbleLabelConcernSelected: {
+  checkInBubbleLabelObstacleSelected: {
     color: '#ea580c',
     fontWeight: '600',
   },
