@@ -148,6 +148,7 @@ export default function ExperimentModeSwipe({
   const [completed, setCompleted] = useState(false);
   const [showHelpMenu, setShowHelpMenu] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const [viewedCards, setViewedCards] = useState<string[]>(['protip']);
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [quizAnswer, setQuizAnswer] = useState<string | null>(null);
@@ -158,6 +159,12 @@ export default function ExperimentModeSwipe({
   const [hasSeenCelebration, setHasSeenCelebration] = useState(false);
   const [centralizedCompletionCount, setCentralizedCompletionCount] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
+
+  // Check-in state
+  const [showCheckIn, setShowCheckIn] = useState(false);
+  const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
+  const [selectedInFavor, setSelectedInFavor] = useState<string[]>([]);
+  const [selectedObstacles, setSelectedObstacles] = useState<string[]>([]);
 
   const celebrationScale = useSharedValue(0);
   const celebrationOpacity = useSharedValue(0);
@@ -193,10 +200,10 @@ export default function ExperimentModeSwipe({
 
   // Open sheet when modals become visible
   useEffect(() => {
-    if (showHelpMenu || activeCard) {
+    if (showHelpMenu || activeCard || showCheckIn) {
       openSheet();
     }
-  }, [showHelpMenu, activeCard]);
+  }, [showHelpMenu, activeCard, showCheckIn]);
 
   const helpOptions = [
     { emoji: '😅', label: 'I forgot', description: 'Set a reminder for later' },
@@ -204,6 +211,390 @@ export default function ExperimentModeSwipe({
     { emoji: '😔', label: 'Not feeling it', description: 'Get a motivation boost' },
     { emoji: '🤔', label: "Something's in the way", description: "Let's problem-solve together" },
   ];
+
+  // Area-specific check-in options
+  const getCheckInOptions = () => {
+    const area = tip?.area || 'nutrition';
+
+    type CheckInOption = { id: string; icon: keyof typeof Ionicons.glyphMap; label: string };
+    type CheckInSection = { label: string; options: CheckInOption[] };
+
+    // Feeling is the same across all areas
+    const feeling: CheckInSection = {
+      label: "How are you feeling?",
+      options: [
+        { id: 'great', icon: 'sunny-outline', label: 'Great' },
+        { id: 'good', icon: 'happy-outline', label: 'Good' },
+        { id: 'okay', icon: 'remove-outline', label: 'Okay' },
+        { id: 'tired', icon: 'moon-outline', label: 'Tired' },
+        { id: 'stressed', icon: 'cloudy-outline', label: 'Stressed' },
+      ]
+    };
+
+    // Area-specific "in favor" and "obstacles" options
+    const areaOptions: Record<string, { inFavor: CheckInSection; obstacles: CheckInSection }> = {
+      nutrition: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
+            { id: 'meal_prepped', icon: 'restaurant-outline', label: 'Meals prepped' },
+            { id: 'healthy_food', icon: 'leaf-outline', label: 'Healthy food available' },
+            { id: 'not_hungry', icon: 'thumbs-up-outline', label: 'Not too hungry' },
+            { id: 'support', icon: 'people-outline', label: 'Supportive people around' },
+            { id: 'home', icon: 'home-outline', label: 'Eating at home' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'cravings', icon: 'pizza-outline', label: 'Cravings' },
+            { id: 'social_eating', icon: 'people-outline', label: 'Social eating' },
+            { id: 'no_healthy_options', icon: 'close-circle-outline', label: 'No healthy options' },
+            { id: 'stressed', icon: 'cloudy-outline', label: 'Stress eating' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired to cook' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
+          ]
+        }
+      },
+      fitness: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'energized', icon: 'battery-full-outline', label: 'Feeling energized' },
+            { id: 'motivated', icon: 'flash-outline', label: 'Motivated' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+            { id: 'gear_ready', icon: 'fitness-outline', label: 'Gear ready' },
+            { id: 'buddy', icon: 'people-outline', label: 'Workout buddy' },
+            { id: 'good_weather', icon: 'sunny-outline', label: 'Good weather' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'tired', icon: 'moon-outline', label: 'Feeling tired' },
+            { id: 'sore', icon: 'bandage-outline', label: 'Body is sore' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
+            { id: 'weather', icon: 'rainy-outline', label: 'Bad weather' },
+            { id: 'no_motivation', icon: 'trending-down-outline', label: 'Low motivation' },
+            { id: 'no_gym', icon: 'close-circle-outline', label: 'No gym access' },
+          ]
+        }
+      },
+      sleep: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'relaxed', icon: 'leaf-outline', label: 'Feeling relaxed' },
+            { id: 'no_caffeine', icon: 'cafe-outline', label: 'No late caffeine' },
+            { id: 'early_dinner', icon: 'restaurant-outline', label: 'Ate dinner early' },
+            { id: 'quiet_home', icon: 'home-outline', label: 'Quiet at home' },
+            { id: 'tired', icon: 'moon-outline', label: 'Naturally tired' },
+            { id: 'no_screens', icon: 'phone-portrait-outline', label: 'Limiting screens' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'wired', icon: 'flash-outline', label: 'Feeling wired' },
+            { id: 'screens', icon: 'phone-portrait-outline', label: 'Screen temptation' },
+            { id: 'late_caffeine', icon: 'cafe-outline', label: 'Had caffeine late' },
+            { id: 'stress', icon: 'cloudy-outline', label: 'Mind racing' },
+            { id: 'noise', icon: 'volume-high-outline', label: 'Noisy environment' },
+            { id: 'late_plans', icon: 'calendar-outline', label: 'Late night plans' },
+          ]
+        }
+      },
+      stress: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'calm', icon: 'leaf-outline', label: 'Feeling calm' },
+            { id: 'light_day', icon: 'sunny-outline', label: 'Light schedule' },
+            { id: 'support', icon: 'people-outline', label: 'Support available' },
+            { id: 'slept_well', icon: 'moon-outline', label: 'Slept well' },
+            { id: 'quiet_space', icon: 'home-outline', label: 'Have quiet space' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'overwhelmed', icon: 'alert-circle-outline', label: 'Feeling overwhelmed' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Packed schedule' },
+            { id: 'deadlines', icon: 'time-outline', label: 'Deadlines looming' },
+            { id: 'conflict', icon: 'people-outline', label: 'People stress' },
+            { id: 'no_space', icon: 'close-circle-outline', label: 'No quiet space' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+          ]
+        }
+      },
+      organization: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+            { id: 'clear_head', icon: 'sunny-outline', label: 'Clear headed' },
+            { id: 'tools_ready', icon: 'construct-outline', label: 'Tools ready' },
+            { id: 'home', icon: 'home-outline', label: 'At home' },
+            { id: 'energized', icon: 'battery-full-outline', label: 'Energized' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'overwhelmed', icon: 'alert-circle-outline', label: 'Feeling overwhelmed' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Too busy' },
+            { id: 'distractions', icon: 'notifications-outline', label: 'Distractions' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'not_home', icon: 'car-outline', label: 'Away from home' },
+            { id: 'procrastinating', icon: 'hourglass-outline', label: 'Procrastinating' },
+          ]
+        }
+      },
+      relationships: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'good_mood', icon: 'happy-outline', label: 'In a good mood' },
+            { id: 'free_time', icon: 'time-outline', label: 'Have quality time' },
+            { id: 'connected', icon: 'heart-outline', label: 'Feeling connected' },
+            { id: 'partner_available', icon: 'people-outline', label: 'Partner available' },
+            { id: 'calm', icon: 'leaf-outline', label: 'Feeling patient' },
+            { id: 'rested', icon: 'sunny-outline', label: 'Well rested' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'stressed', icon: 'cloudy-outline', label: 'Stressed out' },
+            { id: 'busy', icon: 'calendar-outline', label: 'Both busy' },
+            { id: 'tension', icon: 'alert-circle-outline', label: 'Some tension' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'distracted', icon: 'phone-portrait-outline', label: 'Distractions' },
+            { id: 'apart', icon: 'location-outline', label: 'Not together' },
+          ]
+        }
+      }
+    };
+
+    const areaConfig = areaOptions[area] || areaOptions.nutrition;
+
+    return {
+      feeling,
+      inFavor: areaConfig.inFavor,
+      obstacles: areaConfig.obstacles
+    };
+  };
+
+  const checkInOptions = getCheckInOptions();
+
+  const toggleInFavor = (id: string) => {
+    if (selectedInFavor.includes(id)) {
+      setSelectedInFavor(selectedInFavor.filter(f => f !== id));
+    } else {
+      setSelectedInFavor([...selectedInFavor, id]);
+    }
+  };
+
+  const toggleObstacle = (id: string) => {
+    if (selectedObstacles.includes(id)) {
+      setSelectedObstacles(selectedObstacles.filter(o => o !== id));
+    } else {
+      setSelectedObstacles([...selectedObstacles, id]);
+    }
+  };
+
+  const handleSaveCheckIn = () => {
+    closeSheet(() => setShowCheckIn(false));
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  };
+
+  const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + (selectedFeeling ? 1 : 0);
+
+  // Dynamic motivation cards based on check-in selections
+  type MotivationCard = {
+    id: string;
+    type: 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact';
+    icon: keyof typeof Ionicons.glyphMap;
+    iconBg: string;
+    iconColor: string;
+    title: string;
+    text: string;
+    priority: number; // Higher = shows first
+  };
+
+  const getMotivationCards = (): MotivationCard[] => {
+    const cards: MotivationCard[] = [];
+
+    // Feeling-based cards
+    if (selectedFeeling === 'tired') {
+      cards.push({
+        id: 'tired-gentle',
+        type: 'encouragement',
+        icon: 'heart-outline',
+        iconBg: '#fef3c7',
+        iconColor: '#d97706',
+        title: 'Be Gentle',
+        text: "Tired days are real. Even a tiny step counts - you don't have to be perfect today.",
+        priority: 10,
+      });
+      cards.push({
+        id: 'tired-energy',
+        type: 'tip',
+        icon: 'flash-outline',
+        iconBg: '#dbeafe',
+        iconColor: '#2563eb',
+        title: 'Quick Energy',
+        text: 'A 5-min walk or glass of cold water can boost alertness more than you think.',
+        priority: 8,
+      });
+    }
+
+    if (selectedFeeling === 'stressed') {
+      cards.push({
+        id: 'stressed-breathe',
+        type: 'strategy',
+        icon: 'leaf-outline',
+        iconBg: '#d1fae5',
+        iconColor: '#059669',
+        title: 'Pause First',
+        text: 'Try 3 deep breaths before deciding anything. Stress makes everything feel harder than it is.',
+        priority: 10,
+      });
+    }
+
+    if (selectedFeeling === 'great' || selectedFeeling === 'good') {
+      cards.push({
+        id: 'good-momentum',
+        type: 'encouragement',
+        icon: 'rocket-outline',
+        iconBg: '#ede9fe',
+        iconColor: '#7c3aed',
+        title: 'Ride the Wave',
+        text: "You're in a good headspace - perfect time to build momentum!",
+        priority: 7,
+      });
+    }
+
+    // Obstacle-based cards
+    if (selectedObstacles.includes('cravings')) {
+      cards.push({
+        id: 'cravings-delay',
+        type: 'strategy',
+        icon: 'timer-outline',
+        iconBg: '#fce7f3',
+        iconColor: '#db2777',
+        title: '10-Min Rule',
+        text: "Cravings peak then fade. Wait 10 mins, drink water, then decide. You're in control.",
+        priority: 9,
+      });
+    }
+
+    if (selectedObstacles.includes('stressed')) {
+      cards.push({
+        id: 'stress-eating-reframe',
+        type: 'reframe',
+        icon: 'bulb-outline',
+        iconBg: '#fef3c7',
+        iconColor: '#d97706',
+        title: 'Stress Eating?',
+        text: "It's your brain seeking comfort, not hunger. What else might help? A walk, music, or texting a friend?",
+        priority: 9,
+      });
+    }
+
+    if (selectedObstacles.includes('social_eating')) {
+      cards.push({
+        id: 'social-strategy',
+        type: 'strategy',
+        icon: 'people-outline',
+        iconBg: '#dbeafe',
+        iconColor: '#2563eb',
+        title: 'Social Situations',
+        text: 'Eat a small healthy snack before. You\'ll feel less pressure and make calmer choices.',
+        priority: 8,
+      });
+    }
+
+    if (selectedObstacles.includes('busy')) {
+      cards.push({
+        id: 'busy-micro',
+        type: 'tip',
+        icon: 'time-outline',
+        iconBg: '#ccfbf1',
+        iconColor: '#0d9488',
+        title: 'Micro-Moments',
+        text: "Busy day? Look for 2-minute windows. Small actions add up more than you'd think.",
+        priority: 8,
+      });
+    }
+
+    if (selectedObstacles.includes('tired') || selectedObstacles.includes('no_healthy_options')) {
+      cards.push({
+        id: 'tired-easy-win',
+        type: 'strategy',
+        icon: 'checkmark-circle-outline',
+        iconBg: '#d1fae5',
+        iconColor: '#059669',
+        title: 'Easy Win',
+        text: "Lower the bar today. What's the easiest version of this you could do?",
+        priority: 8,
+      });
+    }
+
+    // In-favor reinforcement cards
+    if (selectedInFavor.includes('healthy_food') || selectedInFavor.includes('meal_prepped')) {
+      cards.push({
+        id: 'prepped-leverage',
+        type: 'encouragement',
+        icon: 'star-outline',
+        iconBg: '#fef3c7',
+        iconColor: '#d97706',
+        title: 'You Planned Ahead!',
+        text: "Past-you set up today-you for success. Use that prep - it's already done!",
+        priority: 7,
+      });
+    }
+
+    if (selectedInFavor.includes('motivated')) {
+      cards.push({
+        id: 'motivated-action',
+        type: 'tip',
+        icon: 'flash-outline',
+        iconBg: '#ede9fe',
+        iconColor: '#7c3aed',
+        title: 'Strike Now',
+        text: "Motivation fades - action creates more motivation. Start within the next 5 mins!",
+        priority: 8,
+      });
+    }
+
+    if (selectedInFavor.includes('support')) {
+      cards.push({
+        id: 'support-share',
+        type: 'tip',
+        icon: 'chatbubble-outline',
+        iconBg: '#dbeafe',
+        iconColor: '#2563eb',
+        title: 'Share Your Goal',
+        text: "Tell someone what you're trying today. Saying it out loud makes it more real.",
+        priority: 6,
+      });
+    }
+
+    // Only return cards if user has made check-in selections
+    // (the static cards Fun Fact, Quiz, Pro Tip, Community are always shown)
+    if (cards.length === 0) {
+      return [];
+    }
+
+    // Sort by priority (highest first) and return top 3 contextual cards
+    return cards.sort((a, b) => b.priority - a.priority).slice(0, 3);
+  };
+
+  const motivationCards = getMotivationCards();
 
   // Load centralized completion count on mount
   useEffect(() => {
@@ -254,7 +645,7 @@ export default function ExperimentModeSwipe({
 
   // Progress ring animation for hold-to-complete
   const holdProgressAnimatedProps = useAnimatedProps(() => {
-    const circumference = 2 * Math.PI * 52; // radius of 52
+    const circumference = 2 * Math.PI * 75; // radius of 75 for larger button
     const strokeDashoffset = circumference * (1 - holdProgress.value);
     return {
       strokeDashoffset,
@@ -377,22 +768,22 @@ export default function ExperimentModeSwipe({
             {/* Action Buttons */}
             <View style={styles.actionButtonsContainer}>
               {!completed ? (
-                <View style={styles.actionButtonsRow}>
-                  {/* I Did It Button - Hold to Complete */}
+                <View style={styles.actionButtonsContainer}>
+                  {/* I Did It Button - Hold to Complete (Primary/Large) */}
                   <TouchableOpacity
                     onPressIn={handlePressIn}
                     onPressOut={handlePressOut}
                     activeOpacity={0.95}
-                    style={styles.actionButtonWrapper}
+                    style={styles.primaryButtonWrapper}
                   >
-                    <View style={styles.actionButtonOuter}>
-                      <View style={styles.actionButtonInner}>
+                    <View style={styles.primaryButtonOuter}>
+                      <View style={styles.primaryButtonInner}>
                         <LinearGradient
                           colors={isHolding ? ['#ea580c', '#d97706'] : ['#fb923c', '#f59e0b']}
-                          style={styles.actionButtonGradient}
+                          style={styles.primaryButtonGradient}
                         >
-                          <Ionicons name="checkmark" size={24} color="#FFF" style={styles.actionButtonIcon} />
-                          <Text style={styles.actionButtonText}>
+                          <Ionicons name="checkmark-sharp" size={38} color="#FFF" style={styles.actionButtonIcon} />
+                          <Text style={styles.primaryButtonText}>
                             {isHolding ? 'Hold...' : 'I did it!'}
                           </Text>
                         </LinearGradient>
@@ -400,50 +791,50 @@ export default function ExperimentModeSwipe({
                     </View>
                     {/* Progress Ring */}
                     <Svg
-                      style={styles.progressRing}
-                      width={112}
-                      height={112}
-                      viewBox="0 0 112 112"
+                      style={styles.primaryProgressRing}
+                      width={160}
+                      height={160}
+                      viewBox="0 0 160 160"
                     >
                       {/* Background circle */}
                       <Circle
-                        cx="56"
-                        cy="56"
-                        r="52"
+                        cx="80"
+                        cy="80"
+                        r="75"
                         stroke="rgba(255,255,255,0.3)"
                         strokeWidth="8"
                         fill="none"
                       />
                       {/* Progress circle */}
                       <AnimatedCircle
-                        cx="56"
-                        cy="56"
-                        r="52"
+                        cx="80"
+                        cy="80"
+                        r="75"
                         stroke="#fff"
                         strokeWidth="8"
                         fill="none"
-                        strokeDasharray={2 * Math.PI * 52}
+                        strokeDasharray={2 * Math.PI * 75}
                         animatedProps={holdProgressAnimatedProps}
                         strokeLinecap="round"
-                        transform="rotate(-90 56 56)"
+                        transform="rotate(-90 80 80)"
                       />
                     </Svg>
                   </TouchableOpacity>
 
-                  {/* Send Help Button */}
+                  {/* Send Help Button (Secondary/Small - floating lower right) */}
                   <TouchableOpacity
                     onPress={() => setShowHelpMenu(true)}
                     activeOpacity={0.9}
-                    style={styles.actionButtonWrapper}
+                    style={styles.secondaryButtonWrapper}
                   >
-                    <View style={styles.actionButtonOuter}>
-                      <View style={styles.actionButtonInner}>
+                    <View style={styles.secondaryButtonOuter}>
+                      <View style={styles.secondaryButtonInner}>
                         <LinearGradient
                           colors={['#fb7185', '#ec4899']}
-                          style={styles.actionButtonGradient}
+                          style={styles.secondaryButtonGradient}
                         >
-                          <Ionicons name="alert-circle" size={24} color="#FFF" style={styles.actionButtonIcon} />
-                          <Text style={styles.actionButtonText}>Send help</Text>
+                          <Ionicons name="heart" size={18} color="#FFF" />
+                          <Text style={styles.secondaryButtonText}>Help</Text>
                         </LinearGradient>
                       </View>
                     </View>
@@ -451,13 +842,13 @@ export default function ExperimentModeSwipe({
                 </View>
               ) : (
                 <View style={styles.completedButtonWrapper}>
-                  <View style={styles.actionButtonOuter}>
-                    <View style={styles.actionButtonInner}>
+                  <View style={styles.primaryButtonOuter}>
+                    <View style={styles.primaryButtonInner}>
                       <LinearGradient
                         colors={['#34d399', '#22c55e']}
                         style={styles.completedButtonGradient}
                       >
-                        <Ionicons name="checkmark" size={36} color="#FFF" />
+                        <Ionicons name="checkmark-sharp" size={44} color="#FFF" />
                         <Text style={styles.completedButtonText}>Done!</Text>
                       </LinearGradient>
                     </View>
@@ -474,22 +865,59 @@ export default function ExperimentModeSwipe({
 
           {/* Content Area */}
           <View style={styles.contentArea}>
-            {!showPlan ? (
+            {!showPlan && !showDetails ? (
+              // Default view - just title and action links
               <>
-                <Text style={styles.tipTitle}>{tip.summary}</Text>
                 <Text style={styles.todaysFocus}>TODAY'S FOCUS</Text>
+                <Text style={styles.tipTitle}>{tip.summary}</Text>
+                <View style={styles.contentLinks}>
+                  <TouchableOpacity
+                    onPress={() => setShowDetails(true)}
+                    style={styles.contentLink}
+                  >
+                    <Ionicons name="information-circle-outline" size={16} color="#9ca3af" />
+                    <Text style={styles.contentLinkText}>Details</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.contentLinkDivider}>•</Text>
+                  <TouchableOpacity
+                    onPress={() => setShowPlan(true)}
+                    style={styles.contentLink}
+                  >
+                    <Ionicons name="calendar-outline" size={16} color="#9ca3af" />
+                    <Text style={styles.contentLinkText}>Plan</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : showDetails ? (
+              // Details view
+              <>
+                <View style={styles.planHeader}>
+                  <Text style={styles.planTitle}>About This Tip</Text>
+                  <TouchableOpacity
+                    onPress={() => setShowDetails(false)}
+                    style={styles.backButton}
+                  >
+                    <Ionicons name="chevron-back" size={16} color="#9ca3af" />
+                    <Text style={styles.backButtonText}>Back</Text>
+                  </TouchableOpacity>
+                </View>
                 <Text style={styles.tipDescription}>
                   {tip.short_description || tip.details_md.split('\n')[0].replace('**The Experiment:** ', '')}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => setShowPlan(true)}
-                  style={styles.viewPlanButton}
-                >
-                  <Text style={styles.viewPlanText}>View plan</Text>
-                  <Ionicons name="chevron-forward" size={12} color="#9ca3af" />
-                </TouchableOpacity>
+                {tip.details_md && (
+                  <Text style={styles.tipDetailsExtra}>
+                    {tip.details_md
+                      .replace('**The Experiment:** ', '')
+                      .replace(/\*\*/g, '')
+                      .split('\n')
+                      .filter((line: string) => line.trim())
+                      .slice(1, 4)
+                      .join('\n\n')}
+                  </Text>
+                )}
               </>
             ) : (
+              // Plan view
               <>
                 <View style={styles.planHeader}>
                   <Text style={styles.planTitle}>Your 7-Day Plan</Text>
@@ -535,6 +963,131 @@ export default function ExperimentModeSwipe({
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.insightsScroll}
           >
+            {/* Check-in Card - Featured first card */}
+            {(() => {
+              const hasSelections = selectedInFavor.length > 0 || selectedObstacles.length > 0 || selectedFeeling;
+              return (
+                <TouchableOpacity
+                  onPress={() => setShowCheckIn(true)}
+                  style={styles.heroCard}
+                  activeOpacity={0.9}
+                >
+                  <LinearGradient
+                    colors={hasSelections ? ['#fef3c7', '#fde68a'] : ['#fed7aa', '#fde68a']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={styles.heroCardGradient}
+                  >
+                    <View style={styles.heroCardTopRow}>
+                      <Text style={styles.heroCardLabelOrange}>CHECK-IN</Text>
+                      <View style={styles.heroCardPlusButton}>
+                        <Ionicons
+                          name={hasSelections ? "create-outline" : "add"}
+                          size={18}
+                          color="#ea580c"
+                        />
+                      </View>
+                    </View>
+
+                {/* Show icons if any selections exist, otherwise show prompt */}
+                {hasSelections ? (
+                  // Show selected icons with color coding by section
+                  <>
+                    {/* Feeling row - amber */}
+                    {selectedFeeling && (
+                      <View style={styles.checkInIconsRow}>
+                        <View style={[styles.checkInCardIconBubble, styles.checkInCardIconFeeling]}>
+                          <Ionicons
+                            name={checkInOptions.feeling.options.find(f => f.id === selectedFeeling)?.icon || 'help-outline'}
+                            size={14}
+                            color="#d97706"
+                          />
+                        </View>
+                      </View>
+                    )}
+                    {/* In favor row - green */}
+                    {selectedInFavor.length > 0 && (
+                      <View style={styles.checkInIconsRow}>
+                        {selectedInFavor.slice(0, 3).map((favorId) => {
+                          const favor = checkInOptions.inFavor.options.find(f => f.id === favorId);
+                          return favor ? (
+                            <View key={favorId} style={[styles.checkInCardIconBubble, styles.checkInCardIconInFavor]}>
+                              <Ionicons name={favor.icon} size={14} color="#059669" />
+                            </View>
+                          ) : null;
+                        })}
+                        {selectedInFavor.length > 3 && (
+                          <View style={[styles.checkInCardIconBubble, styles.checkInCardIconInFavor]}>
+                            <Text style={styles.checkInCardIconInFavorMoreText}>+{selectedInFavor.length - 3}</Text>
+                          </View>
+                        )}
+                      </View>
+                    )}
+                    {/* Obstacles row - orange/red */}
+                    {selectedObstacles.length > 0 && (
+                      <View style={styles.checkInIconsRow}>
+                        {selectedObstacles.slice(0, 3).map((obstacleId) => {
+                          const obstacle = checkInOptions.obstacles.options.find(o => o.id === obstacleId);
+                          return obstacle ? (
+                            <View key={obstacleId} style={[styles.checkInCardIconBubble, styles.checkInCardIconObstacle]}>
+                              <Ionicons name={obstacle.icon} size={14} color="#dc2626" />
+                            </View>
+                          ) : null;
+                        })}
+                        {selectedObstacles.length > 3 && (
+                          <View style={[styles.checkInCardIconBubble, styles.checkInCardIconObstacle]}>
+                            <Text style={styles.checkInCardIconObstacleMoreText}>+{selectedObstacles.length - 3}</Text>
+                          </View>
+                        )}
+                      </View>
+                    )}
+                    <Text style={styles.heroCardSubtitleOrange}>Tap to update</Text>
+                  </>
+                ) : (
+                  // Show prompt when nothing selected
+                  <>
+                    <Text style={styles.heroCardTitleOrange}>How's today?</Text>
+                    <Text style={styles.heroCardSubtitleOrange}>Quick check-in</Text>
+                  </>
+                )}
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            })()}
+
+            {/* Dynamic Motivation Cards based on check-in - show first if any */}
+            {motivationCards.map((card) => (
+              <TouchableOpacity
+                key={card.id}
+                onPress={() => handleCardTap(card.id)}
+                style={[
+                  styles.insightCard,
+                  !viewedCards.includes(card.id) && styles.insightCardUnread
+                ]}
+              >
+                {!viewedCards.includes(card.id) && (
+                  <View style={[styles.unreadDot, { backgroundColor: card.iconColor }]} />
+                )}
+                <View style={styles.insightCardHeader}>
+                  <View style={[styles.insightIcon, { backgroundColor: card.iconBg }]}>
+                    <Ionicons name={card.icon} size={16} color={card.iconColor} />
+                  </View>
+                  <Text style={[
+                    styles.insightCardTitle,
+                    viewedCards.includes(card.id) && styles.insightCardTitleViewed
+                  ]}>
+                    {card.title}
+                  </Text>
+                </View>
+                <Text style={[
+                  styles.insightCardText,
+                  viewedCards.includes(card.id) && styles.insightCardTextViewed
+                ]}>
+                  {card.text}
+                </Text>
+              </TouchableOpacity>
+            ))}
+
             {/* Fun Fact Card */}
             <TouchableOpacity
               onPress={() => handleCardTap('funfact')}
@@ -987,6 +1540,180 @@ export default function ExperimentModeSwipe({
         </View>
       </Modal>
 
+      {/* Check-in Modal */}
+      <Modal
+        visible={showCheckIn}
+        transparent
+        animationType="none"
+        onRequestClose={() => closeSheet(() => setShowCheckIn(false))}
+      >
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
+            <TouchableOpacity
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => setShowCheckIn(false))}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.checkInSheet, sheetAnimatedStyle]}>
+            {/* Header */}
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setShowCheckIn(false))}
+                style={styles.closeButton}
+              >
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
+            </View>
+
+            <ScrollView
+              style={styles.checkInScrollContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {/* Title */}
+              <Text style={styles.checkInTitle}>Check-in</Text>
+              <Text style={styles.checkInSubtitle}>
+                How's today shaping up?
+              </Text>
+
+              {/* Feeling Section - First */}
+              <View style={styles.checkInSection}>
+                <Text style={styles.checkInSectionLabel}>
+                  {checkInOptions.feeling.label}
+                </Text>
+                <View style={styles.checkInFeelings}>
+                  {checkInOptions.feeling.options.map((option) => (
+                    <TouchableOpacity
+                      key={option.id}
+                      onPress={() => setSelectedFeeling(
+                        selectedFeeling === option.id ? null : option.id
+                      )}
+                      style={[
+                        styles.checkInFeeling,
+                        selectedFeeling === option.id && styles.checkInFeelingSelected
+                      ]}
+                    >
+                      <Ionicons
+                        name={option.icon}
+                        size={24}
+                        color={selectedFeeling === option.id ? '#f59e0b' : '#9ca3af'}
+                      />
+                      <Text style={[
+                        styles.checkInFeelingLabel,
+                        selectedFeeling === option.id && styles.checkInFeelingLabelSelected
+                      ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* In Favor Section */}
+              <View style={styles.checkInSection}>
+                <Text style={styles.checkInSectionLabel}>
+                  {checkInOptions.inFavor.label}
+                </Text>
+                <View style={styles.checkInBubbles}>
+                  {checkInOptions.inFavor.options.map((option) => (
+                    <TouchableOpacity
+                      key={option.id}
+                      onPress={() => toggleInFavor(option.id)}
+                      style={[
+                        styles.checkInBubble,
+                        styles.checkInBubbleInFavor,
+                        selectedInFavor.includes(option.id) && styles.checkInBubbleInFavorSelected
+                      ]}
+                    >
+                      <Ionicons
+                        name={option.icon}
+                        size={16}
+                        color={selectedInFavor.includes(option.id) ? '#059669' : '#9ca3af'}
+                        style={styles.checkInBubbleIcon}
+                      />
+                      <Text style={[
+                        styles.checkInBubbleLabel,
+                        selectedInFavor.includes(option.id) && styles.checkInBubbleLabelInFavorSelected
+                      ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Obstacles Section */}
+              <View style={styles.checkInSection}>
+                <Text style={styles.checkInSectionLabel}>
+                  {checkInOptions.obstacles.label}
+                </Text>
+                <View style={styles.checkInBubbles}>
+                  {checkInOptions.obstacles.options.map((option) => (
+                    <TouchableOpacity
+                      key={option.id}
+                      onPress={() => toggleObstacle(option.id)}
+                      style={[
+                        styles.checkInBubble,
+                        styles.checkInBubbleObstacle,
+                        selectedObstacles.includes(option.id) && styles.checkInBubbleObstacleSelected
+                      ]}
+                    >
+                      <Ionicons
+                        name={option.icon}
+                        size={16}
+                        color={selectedObstacles.includes(option.id) ? '#ea580c' : '#9ca3af'}
+                        style={styles.checkInBubbleIcon}
+                      />
+                      <Text style={[
+                        styles.checkInBubbleLabel,
+                        selectedObstacles.includes(option.id) && styles.checkInBubbleLabelObstacleSelected
+                      ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              <View style={{ height: 100 }} />
+            </ScrollView>
+
+            {/* Save Button */}
+            <View style={styles.checkInSaveContainer}>
+              <TouchableOpacity
+                onPress={handleSaveCheckIn}
+                style={[
+                  styles.checkInSaveButton,
+                  totalCheckInSelections === 0 && styles.checkInSaveButtonDisabled
+                ]}
+                disabled={totalCheckInSelections === 0}
+              >
+                <LinearGradient
+                  colors={totalCheckInSelections > 0 ? ['#fb923c', '#f59e0b'] : ['#d1d5db', '#d1d5db']}
+                  style={styles.checkInSaveButtonGradient}
+                >
+                  <Text style={styles.checkInSaveButtonText}>
+                    {totalCheckInSelections > 0
+                      ? `Save Check-in (${totalCheckInSelections})`
+                      : 'Select at least one'
+                    }
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => closeSheet(() => setShowCheckIn(false))}
+                style={styles.checkInSkipButton}
+              >
+                <Text style={styles.checkInSkipButtonText}>Skip for now</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </View>
+      </Modal>
+
       {/* Quick Complete Modal */}
       <QuickCompleteModal
         visible={showQuickComplete}
@@ -1133,6 +1860,83 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
   },
+  // Primary "I did it" button - large, left of center
+  primaryButtonWrapper: {
+    width: 160,
+    height: 160,
+    position: 'relative',
+    marginLeft: -50,
+  },
+  primaryProgressRing: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  primaryButtonOuter: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 80,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    padding: 4,
+  },
+  primaryButtonInner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 76,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    padding: 2,
+    overflow: 'hidden',
+  },
+  primaryButtonGradient: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 74,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  primaryButtonText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 18,
+  },
+  //work on this
+  // Secondary "Help" button - small, positioned lower-right of primary
+  secondaryButtonWrapper: {
+    position: 'absolute',
+    right: -75,
+    bottom: -20,
+    width: 72,
+    height: 72,
+  },
+  secondaryButtonOuter: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 36,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    padding: 3,
+  },
+  secondaryButtonInner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 33,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    padding: 2,
+    overflow: 'hidden',
+  },
+  secondaryButtonGradient: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 31,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 11,
+    marginTop: 2,
+  },
+  // Legacy styles kept for completed state
   actionButtonWrapper: {
     width: 112,
     height: 112,
@@ -1174,27 +1978,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   completedButtonWrapper: {
-    width: 128,
-    height: 128,
+    width: 160,
+    height: 160,
   },
   completedButtonGradient: {
     width: '100%',
     height: '100%',
-    borderRadius: 60,
+    borderRadius: 74,
     justifyContent: 'center',
     alignItems: 'center',
   },
   completedButtonText: {
     color: '#fff',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 18,
     marginTop: 4,
   },
   actionHint: {
     color: 'rgba(255,255,255,0.7)',
     fontSize: 12,
     fontWeight: '500',
-    marginTop: 12,
+    marginTop: 16,
   },
 
   // Content Area Styles
@@ -1205,20 +2009,46 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     color: '#1f2937',
-    marginBottom: 4,
   },
   todaysFocus: {
     color: '#f97316',
     fontWeight: '600',
     fontSize: 12,
     letterSpacing: 0.5,
-    marginBottom: 12,
+    marginBottom: 6,
+  },
+  contentLinks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 4,
+  },
+  contentLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  contentLinkText: {
+    color: '#9ca3af',
+    fontSize: 14,
+  },
+  contentLinkDivider: {
+    color: '#d1d5db',
+    fontSize: 12,
   },
   tipDescription: {
     color: '#4b5563',
     fontSize: 14,
     lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: 12,
+  },
+  tipDetailsExtra: {
+    color: '#6b7280',
+    fontSize: 14,
+    lineHeight: 22,
   },
   viewPlanButton: {
     flexDirection: 'row',
@@ -1311,8 +2141,160 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingRight: 20,
   },
+  // Hero Card - Featured first card (same width as others, but colorful)
+  heroCard: {
+    width: 160,
+    minHeight: 160,
+    borderRadius: 16,
+    shadowColor: '#ec4899',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
+    overflow: 'hidden',
+  },
+  heroCardGradient: {
+    flex: 1,
+    padding: 16,
+  },
+  heroCardTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  heroCardLabel: {
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: 11,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+  },
+  heroCardPlusButton: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heroCardTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  heroCardTitleOrange: {
+    color: '#9a3412',
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  heroCardTitleCheckedIn: {
+    color: '#047857',
+  },
+  heroCardSubtitle: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 12,
+  },
+  heroCardSubtitleOrange: {
+    color: '#c2410c',
+    fontSize: 12,
+  },
+  heroCardSubtitleCheckedIn: {
+    color: '#059669',
+    fontSize: 12,
+    marginTop: 8,
+  },
+  heroCardLabelOrange: {
+    color: '#9a3412',
+  },
+  heroCardLabelCheckedIn: {
+    color: '#047857',
+  },
+  heroCardPlusButtonCheckedIn: {
+    backgroundColor: '#d1fae5',
+  },
+  heroCardCheckedIn: {
+    shadowColor: '#10b981',
+  },
+  checkInIconsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+    marginTop: 4,
+  },
+  // Icon bubbles on the card - color coded by section
+  checkInCardIconBubble: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkInCardIconFeeling: {
+    backgroundColor: '#fef3c7', // amber/yellow
+  },
+  checkInCardIconInFavor: {
+    backgroundColor: '#d1fae5', // green
+  },
+  checkInCardIconObstacle: {
+    backgroundColor: '#fee2e2', // red/pink
+  },
+  checkInCardIconInFavorMoreText: {
+    fontSize: 9,
+    fontWeight: '600',
+    color: '#059669',
+  },
+  checkInCardIconObstacleMoreText: {
+    fontSize: 9,
+    fontWeight: '600',
+    color: '#dc2626',
+  },
+  // Icon bubbles in the modal (keep green/orange distinction)
+  checkInIconBubble: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#d1fae5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkInIconBubbleConcern: {
+    backgroundColor: '#ffedd5',
+  },
+  checkInIconBubbleFeeling: {
+    backgroundColor: '#fef3c7',
+  },
+  checkInIconBubbleMore: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkInIconBubbleMoreText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#059669',
+  },
+  heroProgressContainer: {
+    marginTop: 'auto',
+  },
+  heroProgressTrack: {
+    height: 5,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    borderRadius: 3,
+  },
+  heroProgressFill: {
+    height: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 3,
+  },
+  // Regular insight cards
   insightCard: {
-    width: 176,
+    width: 160,
+    minHeight: 160,
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
@@ -1782,5 +2764,142 @@ const styles = StyleSheet.create({
   communityShareButtonText: {
     color: '#fff',
     fontWeight: '500',
+  },
+
+  // Check-in Modal Styles
+  checkInSheet: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '85%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 20,
+  },
+  checkInScrollContent: {
+    padding: 20,
+  },
+  checkInTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1f2937',
+    marginBottom: 4,
+  },
+  checkInSubtitle: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginBottom: 24,
+  },
+  checkInSection: {
+    marginBottom: 24,
+  },
+  checkInSectionLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 12,
+  },
+  checkInBubbles: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  checkInBubble: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  checkInBubbleIcon: {
+    marginRight: 6,
+  },
+  checkInBubbleInFavor: {
+    backgroundColor: '#f0fdf4',
+  },
+  checkInBubbleInFavorSelected: {
+    backgroundColor: '#dcfce7',
+    borderColor: '#4ade80',
+  },
+  checkInBubbleObstacle: {
+    backgroundColor: '#fff7ed',
+  },
+  checkInBubbleObstacleSelected: {
+    backgroundColor: '#ffedd5',
+    borderColor: '#fb923c',
+  },
+  checkInBubbleLabel: {
+    fontSize: 13,
+    color: '#6b7280',
+    fontWeight: '500',
+  },
+  checkInBubbleLabelInFavorSelected: {
+    color: '#059669',
+    fontWeight: '600',
+  },
+  checkInBubbleLabelObstacleSelected: {
+    color: '#ea580c',
+    fontWeight: '600',
+  },
+  checkInFeelings: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  checkInFeeling: {
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: '#f9fafb',
+    width: 62,
+  },
+  checkInFeelingSelected: {
+    backgroundColor: '#ffedd5',
+    borderWidth: 2,
+    borderColor: '#fb923c',
+  },
+  checkInFeelingLabel: {
+    fontSize: 10,
+    color: '#6b7280',
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  checkInFeelingLabelSelected: {
+    color: '#ea580c',
+    fontWeight: '600',
+  },
+  checkInSaveContainer: {
+    padding: 20,
+    paddingBottom: 36,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#f3f4f6',
+  },
+  checkInSaveButton: {
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  checkInSaveButtonDisabled: {
+    opacity: 0.7,
+  },
+  checkInSaveButtonGradient: {
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  checkInSaveButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  checkInSkipButton: {
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  checkInSkipButtonText: {
+    color: '#9ca3af',
+    fontSize: 14,
   },
 });
