@@ -162,7 +162,7 @@ export default function ExperimentModeSwipe({
 
   // Check-in state
   const [showCheckIn, setShowCheckIn] = useState(false);
-  const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
+  const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
   const [selectedInFavor, setSelectedInFavor] = useState<string[]>([]);
   const [selectedObstacles, setSelectedObstacles] = useState<string[]>([]);
 
@@ -411,7 +411,7 @@ export default function ExperimentModeSwipe({
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
-  const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + (selectedFeeling ? 1 : 0);
+  const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + selectedFeelings.length;
 
   // Dynamic motivation cards based on check-in selections
   type MotivationCard = {
@@ -429,7 +429,7 @@ export default function ExperimentModeSwipe({
     const cards: MotivationCard[] = [];
 
     // Feeling-based cards
-    if (selectedFeeling === 'tired') {
+    if (selectedFeelings.includes('tired')) {
       cards.push({
         id: 'tired-gentle',
         type: 'encouragement',
@@ -452,7 +452,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    if (selectedFeeling === 'stressed') {
+    if (selectedFeelings.includes('stressed')) {
       cards.push({
         id: 'stressed-breathe',
         type: 'strategy',
@@ -465,7 +465,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    if (selectedFeeling === 'great' || selectedFeeling === 'good') {
+    if (selectedFeelings.includes('great') || selectedFeelings.includes('good')) {
       cards.push({
         id: 'good-momentum',
         type: 'encouragement',
@@ -965,7 +965,7 @@ export default function ExperimentModeSwipe({
           >
             {/* Check-in Card - Featured first card */}
             {(() => {
-              const hasSelections = selectedInFavor.length > 0 || selectedObstacles.length > 0 || selectedFeeling;
+              const hasSelections = selectedInFavor.length > 0 || selectedObstacles.length > 0 || selectedFeelings.length > 0;
               return (
                 <TouchableOpacity
                   onPress={() => setShowCheckIn(true)}
@@ -993,16 +993,20 @@ export default function ExperimentModeSwipe({
                 {hasSelections ? (
                   // Show selected icons with color coding by section
                   <>
-                    {/* Feeling row - amber */}
-                    {selectedFeeling && (
+                    {/* Feelings row - amber */}
+                    {selectedFeelings.length > 0 && (
                       <View style={styles.checkInIconsRow}>
-                        <View style={[styles.checkInCardIconBubble, styles.checkInCardIconFeeling]}>
-                          <Ionicons
-                            name={checkInOptions.feeling.options.find(f => f.id === selectedFeeling)?.icon || 'help-outline'}
-                            size={14}
-                            color="#d97706"
-                          />
-                        </View>
+                        {selectedFeelings.slice(0, 3).map((feelingId) => {
+                          const feeling = checkInOptions.feeling.options.find(f => f.id === feelingId);
+                          return feeling ? (
+                            <View key={feelingId} style={[styles.checkInCardIconBubble, styles.checkInCardIconFeeling]}>
+                              <Ionicons name={feeling.icon} size={14} color="#d97706" />
+                            </View>
+                          ) : null;
+                        })}
+                        {selectedFeelings.length > 3 && (
+                          <Text style={styles.checkInCardMoreText}>+{selectedFeelings.length - 3}</Text>
+                        )}
                       </View>
                     )}
                     {/* In favor row - green */}
@@ -1578,36 +1582,43 @@ export default function ExperimentModeSwipe({
                 How's today shaping up?
               </Text>
 
-              {/* Feeling Section - First */}
+              {/* Feeling Section - First (multi-select) */}
               <View style={styles.checkInSection}>
                 <Text style={styles.checkInSectionLabel}>
                   {checkInOptions.feeling.label}
                 </Text>
                 <View style={styles.checkInFeelings}>
-                  {checkInOptions.feeling.options.map((option) => (
-                    <TouchableOpacity
-                      key={option.id}
-                      onPress={() => setSelectedFeeling(
-                        selectedFeeling === option.id ? null : option.id
-                      )}
-                      style={[
-                        styles.checkInFeeling,
-                        selectedFeeling === option.id && styles.checkInFeelingSelected
-                      ]}
-                    >
-                      <Ionicons
-                        name={option.icon}
-                        size={24}
-                        color={selectedFeeling === option.id ? '#f59e0b' : '#9ca3af'}
-                      />
-                      <Text style={[
-                        styles.checkInFeelingLabel,
-                        selectedFeeling === option.id && styles.checkInFeelingLabelSelected
-                      ]}>
-                        {option.label}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
+                  {checkInOptions.feeling.options.map((option) => {
+                    const isSelected = selectedFeelings.includes(option.id);
+                    return (
+                      <TouchableOpacity
+                        key={option.id}
+                        onPress={() => {
+                          if (isSelected) {
+                            setSelectedFeelings(selectedFeelings.filter(id => id !== option.id));
+                          } else {
+                            setSelectedFeelings([...selectedFeelings, option.id]);
+                          }
+                        }}
+                        style={[
+                          styles.checkInFeeling,
+                          isSelected && styles.checkInFeelingSelected
+                        ]}
+                      >
+                        <Ionicons
+                          name={option.icon}
+                          size={24}
+                          color={isSelected ? '#f59e0b' : '#9ca3af'}
+                        />
+                        <Text style={[
+                          styles.checkInFeelingLabel,
+                          isSelected && styles.checkInFeelingLabelSelected
+                        ]}>
+                          {option.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
                 </View>
               </View>
 
@@ -2239,6 +2250,11 @@ const styles = StyleSheet.create({
   },
   checkInCardIconObstacle: {
     backgroundColor: '#fee2e2', // red/pink
+  },
+  checkInCardMoreText: {
+    fontSize: 9,
+    fontWeight: '600',
+    color: '#d97706', // amber for feelings
   },
   checkInCardIconInFavorMoreText: {
     fontSize: 9,
