@@ -151,6 +151,7 @@ export default function ExperimentModeSwipe({
   const [showDetails, setShowDetails] = useState(false);
   const [viewedCards, setViewedCards] = useState<string[]>(['protip']);
   const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [activeCardData, setActiveCardData] = useState<any | null>(null);
   const [quizAnswer, setQuizAnswer] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -549,19 +550,194 @@ export default function ExperimentModeSwipe({
   const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + selectedFeelings.length;
 
   // Dynamic motivation cards based on check-in selections
+  type QuizContent = {
+    question: string;
+    options: { id: string; text: string; correct: boolean }[];
+    explanation: { correct: string; incorrect: string };
+  };
+
+  type FunFactContent = {
+    description: string;
+    highlight: string;
+    bonus: string;
+  };
+
+  type ProTipContent = {
+    description: string;
+    suggestions: { emoji: string; text: string }[];
+  };
+
   type MotivationCard = {
     id: string;
-    type: 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact';
+    type: 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact' | 'quiz' | 'protip';
     icon: keyof typeof Ionicons.glyphMap;
     iconBg: string;
     iconColor: string;
     title: string;
     text: string;
     priority: number; // Higher = shows first
+    modalContent?: {
+      type: 'quiz' | 'funfact' | 'protip';
+      data: QuizContent | FunFactContent | ProTipContent;
+    };
   };
 
   const getMotivationCards = (): MotivationCard[] => {
     const cards: MotivationCard[] = [];
+
+    // --- SLEEP SPECIFIC CONTENT ---
+
+    // 1. Screens / Blue Light (Blocker: screens, Helper: no_screens)
+    if (selectedObstacles.includes('screens') || selectedInFavor.includes('no_screens')) {
+      cards.push({
+        id: 'sleep-screens-quiz',
+        type: 'quiz',
+        icon: 'phone-portrait-outline',
+        iconBg: '#e0e7ff',
+        iconColor: '#4f46e5',
+        title: 'Screen Time Quiz',
+        text: 'How exactly do screens affect your sleep? Test your knowledge.',
+        priority: 12,
+        modalContent: {
+          type: 'quiz',
+          data: {
+            question: "Why does blue light from screens keep you awake?",
+            options: [
+              { id: 'a', text: 'It heats up your eyes', correct: false },
+              { id: 'b', text: 'It suppresses melatonin', correct: true },
+              { id: 'c', text: 'It makes you hungry', correct: false },
+            ],
+            explanation: {
+              correct: "Correct! Blue light tricks your brain into thinking it's daytime, suppressing the sleep hormone melatonin.",
+              incorrect: "Not quite. Blue light suppresses melatonin, the hormone that signals your body it's time to sleep."
+            }
+          } as QuizContent
+        }
+      });
+    }
+
+    // 2. Wired / Racing Mind (Blocker: wired, stress)
+    if (selectedObstacles.includes('wired') || selectedObstacles.includes('stress')) {
+      cards.push({
+        id: 'sleep-wired-protip',
+        type: 'protip',
+        icon: 'leaf-outline',
+        iconBg: '#dcfce7',
+        iconColor: '#16a34a',
+        title: 'Calm the Mind',
+        text: 'Feeling wired? Try this physical technique to force relaxation.',
+        priority: 11,
+        modalContent: {
+          type: 'protip',
+          data: {
+            description: "When your mind is racing, you can use your body to calm it down. Try the '4-7-8' breathing technique.",
+            suggestions: [
+              { emoji: '😤', text: 'Inhale through nose for 4 seconds' },
+              { emoji: '😶', text: 'Hold breath for 7 seconds' },
+              { emoji: '😮‍💨', text: 'Exhale through mouth for 8 seconds' }
+            ]
+          } as ProTipContent
+        }
+      });
+    }
+
+    // 3. Caffeine (Blocker: late_caffeine, Helper: no_caffeine)
+    if (selectedObstacles.includes('late_caffeine') || selectedInFavor.includes('no_caffeine')) {
+      cards.push({
+        id: 'sleep-caffeine-fact',
+        type: 'fact',
+        icon: 'cafe-outline',
+        iconBg: '#fef3c7',
+        iconColor: '#d97706',
+        title: 'Caffeine Fact',
+        text: 'That afternoon coffee might stick around longer than you think...',
+        priority: 10,
+        modalContent: {
+          type: 'funfact',
+          data: {
+            description: "Caffeine has a half-life of about 5-6 hours. This means 6 hours after your cup, ",
+            highlight: "half of it is still in your system!",
+            bonus: "💡 If you drink a coffee at 4 PM, at 10 PM you still have 50% of that caffeine buzzing around!"
+          } as FunFactContent
+        }
+      });
+    }
+
+    // 4. Temperature (Helper: cool_room, Blocker: too_hot_cold)
+    if (selectedInFavor.includes('cool_room') || selectedObstacles.includes('too_hot_cold')) {
+      cards.push({
+        id: 'sleep-temp-fact',
+        type: 'fact',
+        icon: 'thermometer-outline',
+        iconBg: '#e0f2fe',
+        iconColor: '#0284c7',
+        title: 'Ideal Temp',
+        text: 'Your bedroom temperature plays a huge role in falling asleep.',
+        priority: 9,
+        modalContent: {
+          type: 'funfact',
+          data: {
+            description: "Your body needs to drop its core temperature to initiate sleep. The ideal room temperature is ",
+            highlight: "between 60-67°F (15-19°C).",
+            bonus: "💡 A warm bath before bed actually helps cool your body down as blood rushes to your skin surface!"
+          } as FunFactContent
+        }
+      });
+    }
+
+    // 5. Eating Late (Blocker: ate_late, Helper: early_dinner)
+    if (selectedObstacles.includes('ate_late') || selectedInFavor.includes('early_dinner')) {
+      cards.push({
+        id: 'sleep-digestion-quiz',
+        type: 'quiz',
+        icon: 'restaurant-outline',
+        iconBg: '#ffedd5',
+        iconColor: '#c2410c',
+        title: 'Late Night Snacking',
+        text: 'Is it bad to eat right before bed? Take a guess.',
+        priority: 9,
+        modalContent: {
+          type: 'quiz',
+          data: {
+            question: "How does eating a heavy meal late affect sleep quality?",
+            options: [
+              { id: 'a', text: 'It helps you sleep deeper', correct: false },
+              { id: 'b', text: 'It increases body temp & alertness', correct: true },
+              { id: 'c', text: 'It has no effect', correct: false },
+            ],
+            explanation: {
+              correct: "Correct! Digestion requires energy and raises your body temperature, which signals 'wakefulness' to your brain.",
+              incorrect: "Actually, heavy meals rev up your digestion and body temperature, making it harder to get deep sleep."
+            }
+          } as QuizContent
+        }
+      });
+    }
+
+    // 6. Wind Down (Helper: winddown_time)
+    if (selectedInFavor.includes('winddown_time')) {
+      cards.push({
+        id: 'sleep-winddown-protip',
+        type: 'protip',
+        icon: 'book-outline',
+        iconBg: '#f3e8ff',
+        iconColor: '#7c3aed',
+        title: 'Wind Down Routine',
+        text: 'Great job taking time to wind down. Here is a pro tip for next time.',
+        priority: 10,
+        modalContent: {
+          type: 'protip',
+          data: {
+            description: "Struggling to switch off? Try the 'Brain Dump' method before your wind-down time.",
+            suggestions: [
+              { emoji: '📝', text: 'Write down tomorrow\'s to-do list' },
+              { emoji: '🧠', text: 'Get worries out of your head onto paper' },
+              { emoji: '😴', text: 'Tell your brain: We are done for today.' }
+            ]
+          } as ProTipContent
+        }
+      });
+    }
 
     // Feeling-based cards
     if (selectedFeelings.includes('tired')) {
@@ -844,7 +1020,14 @@ export default function ExperimentModeSwipe({
   };
 
   const handleCardTap = (cardId: string) => {
+    const card = motivationCards.find(c => c.id === cardId);
     setActiveCard(cardId);
+    if (card?.modalContent) {
+      setActiveCardData(card.modalContent.data);
+    } else {
+      setActiveCardData(null);
+    }
+
     if (!viewedCards.includes(cardId)) {
       setViewedCards([...viewedCards, cardId]);
     }
@@ -1363,9 +1546,9 @@ export default function ExperimentModeSwipe({
         </View>
       </Modal>
 
-      {/* Fun Fact Modal */}
+      {/* Fun Fact Modal (Handles both static and dynamic) */}
       <Modal
-        visible={activeCard === 'funfact'}
+        visible={activeCard === 'funfact' || (activeCard?.includes('fact') && !!activeCardData)}
         transparent
         animationType="none"
         onRequestClose={() => closeSheet(() => setActiveCard(null))}
@@ -1395,15 +1578,29 @@ export default function ExperimentModeSwipe({
                 <Ionicons name="bulb" size={32} color="#f59e0b" />
               </View>
               <Text style={styles.modalTitle}>Did You Know?</Text>
-              <Text style={styles.modalDescription}>
-                Walking after eating can lower blood sugar levels by <Text style={styles.modalHighlight}>up to 30%</Text>. This happens because your muscles use glucose for energy during movement, helping to regulate insulin response.
-              </Text>
 
-              <View style={styles.modalBonus}>
-                <Text style={styles.modalBonusText}>
-                  💡 <Text style={styles.modalBonusBold}>Bonus:</Text> Even a 2-3 minute walk can make a noticeable difference!
-                </Text>
-              </View>
+              {/* Dynamic Content or Static Fallback */}
+              {activeCardData ? (
+                <>
+                  <Text style={styles.modalDescription}>
+                    {activeCardData.description} <Text style={styles.modalHighlight}>{activeCardData.highlight}</Text>
+                  </Text>
+                  <View style={styles.modalBonus}>
+                    <Text style={styles.modalBonusText}>{activeCardData.bonus}</Text>
+                  </View>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.modalDescription}>
+                    Walking after eating can lower blood sugar levels by <Text style={styles.modalHighlight}>up to 30%</Text>. This happens because your muscles use glucose for energy during movement, helping to regulate insulin response.
+                  </Text>
+                  <View style={styles.modalBonus}>
+                    <Text style={styles.modalBonusText}>
+                      💡 <Text style={styles.modalBonusBold}>Bonus:</Text> Even a 2-3 minute walk can make a noticeable difference!
+                    </Text>
+                  </View>
+                </>
+              )}
 
               <View style={styles.modalActions}>
                 <TouchableOpacity
@@ -1429,9 +1626,9 @@ export default function ExperimentModeSwipe({
         </View>
       </Modal>
 
-      {/* Quiz Modal */}
+      {/* Quiz Modal (Handles both static and dynamic) */}
       <Modal
-        visible={activeCard === 'quiz'}
+        visible={activeCard === 'quiz' || (activeCard?.includes('quiz') && !!activeCardData)}
         transparent
         animationType="none"
         onRequestClose={() => closeSheet(() => { setActiveCard(null); setQuizAnswer(null); })}
@@ -1461,16 +1658,17 @@ export default function ExperimentModeSwipe({
                 <Ionicons name="school" size={32} color="#9333ea" />
               </View>
               <Text style={styles.modalTitle}>Quick Quiz</Text>
+
               <Text style={styles.quizQuestion}>
-                When is the best time to take a walk for blood sugar benefits?
+                {activeCardData ? activeCardData.question : "When is the best time to take a walk for blood sugar benefits?"}
               </Text>
 
               <View style={styles.quizOptions}>
-                {[
+                {(activeCardData ? activeCardData.options : [
                   { id: 'a', text: 'Right before eating', correct: false },
                   { id: 'b', text: 'Within 30 min after eating', correct: true },
                   { id: 'c', text: '2 hours after eating', correct: false },
-                ].map((option) => (
+                ]).map((option: any) => (
                   <TouchableOpacity
                     key={option.id}
                     onPress={() => setQuizAnswer(option.id)}
@@ -1510,11 +1708,26 @@ export default function ExperimentModeSwipe({
               </View>
 
               {quizAnswer && (
-                <View style={[styles.quizResult, quizAnswer === 'b' ? styles.quizResultCorrect : styles.quizResultIncorrect]}>
-                  <Text style={[styles.quizResultText, quizAnswer === 'b' ? styles.quizResultTextCorrect : styles.quizResultTextIncorrect]}>
-                    {quizAnswer === 'b'
-                      ? "Nice work! Walking within 30 minutes after eating is most effective because that's when blood sugar peaks."
-                      : "💡 Good try! The best time is within 30 minutes after eating, when blood sugar levels are at their peak."}
+                <View style={[
+                  styles.quizResult,
+                  (activeCardData ? activeCardData.options.find((o: any) => o.id === quizAnswer)?.correct : quizAnswer === 'b')
+                    ? styles.quizResultCorrect
+                    : styles.quizResultIncorrect
+                ]}>
+                  <Text style={[
+                    styles.quizResultText,
+                    (activeCardData ? activeCardData.options.find((o: any) => o.id === quizAnswer)?.correct : quizAnswer === 'b')
+                      ? styles.quizResultTextCorrect
+                      : styles.quizResultTextIncorrect
+                  ]}>
+                    {activeCardData
+                      ? (activeCardData.options.find((o: any) => o.id === quizAnswer)?.correct
+                          ? activeCardData.explanation.correct
+                          : activeCardData.explanation.incorrect)
+                      : (quizAnswer === 'b'
+                          ? "Nice work! Walking within 30 minutes after eating is most effective because that's when blood sugar peaks."
+                          : "💡 Good try! The best time is within 30 minutes after eating, when blood sugar levels are at their peak.")
+                    }
                   </Text>
                 </View>
               )}
@@ -1535,9 +1748,9 @@ export default function ExperimentModeSwipe({
         </View>
       </Modal>
 
-      {/* Pro Tip Modal */}
+      {/* Pro Tip Modal (Handles both static and dynamic) */}
       <Modal
-        visible={activeCard === 'protip'}
+        visible={activeCard === 'protip' || (activeCard?.includes('protip') && !!activeCardData)}
         transparent
         animationType="none"
         onRequestClose={() => closeSheet(() => setActiveCard(null))}
@@ -1567,23 +1780,22 @@ export default function ExperimentModeSwipe({
                 <Ionicons name="heart" size={32} color="#14b8a6" />
               </View>
               <Text style={styles.modalTitle}>Pro Tip</Text>
+
               <Text style={styles.modalDescription}>
-                Make your walk more enjoyable by pairing it with something you love!
+                {activeCardData ? activeCardData.description : "Make your walk more enjoyable by pairing it with something you love!"}
               </Text>
 
               <View style={styles.proTipSuggestions}>
-                <View style={styles.proTipItem}>
-                  <Text style={styles.proTipEmoji}>🎧</Text>
-                  <Text style={styles.proTipText}>Listen to a favorite podcast or audiobook</Text>
-                </View>
-                <View style={styles.proTipItem}>
-                  <Text style={styles.proTipEmoji}>📞</Text>
-                  <Text style={styles.proTipText}>Call a friend or family member</Text>
-                </View>
-                <View style={styles.proTipItem}>
-                  <Text style={styles.proTipEmoji}>🎵</Text>
-                  <Text style={styles.proTipText}>Create a special walking playlist</Text>
-                </View>
+                {(activeCardData ? activeCardData.suggestions : [
+                  { emoji: '🎧', text: 'Listen to a favorite podcast or audiobook' },
+                  { emoji: '📞', text: 'Call a friend or family member' },
+                  { emoji: '🎵', text: 'Create a special walking playlist' },
+                ]).map((suggestion: any, index: number) => (
+                  <View key={index} style={styles.proTipItem}>
+                    <Text style={styles.proTipEmoji}>{suggestion.emoji}</Text>
+                    <Text style={styles.proTipText}>{suggestion.text}</Text>
+                  </View>
+                ))}
               </View>
 
               <TouchableOpacity
