@@ -152,6 +152,7 @@ export default function ExperimentModeSwipe({
   const [viewedCards, setViewedCards] = useState<string[]>(['protip']);
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [quizAnswer, setQuizAnswer] = useState<string | null>(null);
+  const [dynamicQuizAnswer, setDynamicQuizAnswer] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: SimplifiedTip }>>([]);
@@ -513,7 +514,7 @@ export default function ExperimentModeSwipe({
     };
 
     // Map 'exercise' to 'fitness' since tips use 'exercise' but options use 'fitness'
-    const mappedArea = area === 'exercise' ? 'fitness' : area;
+    const mappedArea = (area as string) === 'exercise' ? 'fitness' : area;
     const areaConfig = areaOptions[mappedArea] || areaOptions.nutrition;
 
     return {
@@ -551,19 +552,29 @@ export default function ExperimentModeSwipe({
   // Dynamic motivation cards based on check-in selections
   type MotivationCard = {
     id: string;
-    type: 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact';
+    type: 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact' | 'quiz';
     icon: keyof typeof Ionicons.glyphMap;
     iconBg: string;
     iconColor: string;
     title: string;
     text: string;
     priority: number; // Higher = shows first
+    modalContent?: {
+      title: string;
+      description?: string;
+      mainText?: string; // For standard content
+      question?: string; // For quiz
+      options?: Array<{ id: string; text: string; correct: boolean }>; // For quiz
+      answerExplanation?: string; // For quiz
+      buttonText?: string;
+    };
   };
 
   const getMotivationCards = (): MotivationCard[] => {
     const cards: MotivationCard[] = [];
+    const area = tip?.area || 'nutrition';
 
-    // Feeling-based cards
+    // --- SHARED (Feeling based) ---
     if (selectedFeelings.includes('tired')) {
       cards.push({
         id: 'tired-gentle',
@@ -574,6 +585,12 @@ export default function ExperimentModeSwipe({
         title: 'Be Gentle',
         text: "Tired days are real. Even a tiny step counts - you don't have to be perfect today.",
         priority: 10,
+        modalContent: {
+          title: "Be Gentle With Yourself",
+          description: "Pushing through exhaustion often leads to burnout, not progress.",
+          mainText: "Today, success might just mean 'doing the bare minimum' and that is completely okay. Consistency matters more than intensity.",
+          buttonText: "I accept this"
+        }
       });
       cards.push({
         id: 'tired-energy',
@@ -597,6 +614,12 @@ export default function ExperimentModeSwipe({
         title: 'Pause First',
         text: 'Try 3 deep breaths before deciding anything. Stress makes everything feel harder than it is.',
         priority: 10,
+        modalContent: {
+          title: "The 4-7-8 Breath",
+          description: "A quick reset for your nervous system.",
+          mainText: "1. Inhale through nose for 4 seconds.\n2. Hold for 7 seconds.\n3. Exhale through mouth for 8 seconds.\n\nRepeat 3 times to lower cortisol levels instantly.",
+          buttonText: "Feeling better"
+        }
       });
     }
 
@@ -613,21 +636,165 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    // Obstacle-based cards
-    if (selectedObstacles.includes('cravings')) {
-      cards.push({
-        id: 'cravings-delay',
-        type: 'strategy',
-        icon: 'timer-outline',
-        iconBg: '#fce7f3',
-        iconColor: '#db2777',
-        title: '10-Min Rule',
-        text: "Cravings peak then fade. Wait 10 mins, drink water, then decide. You're in control.",
-        priority: 9,
-      });
+    // --- NUTRITION SPECIFIC ---
+    if (area === 'nutrition') {
+      // OBSTACLES
+      if (selectedObstacles.includes('boredom')) {
+        cards.push({
+          id: 'boredom-quiz',
+          type: 'quiz',
+          icon: 'game-controller-outline',
+          iconBg: '#f3e8ff',
+          iconColor: '#9333ea',
+          title: 'Hungry vs Bored',
+          text: "Not sure if you need food? Take the 10-second test.",
+          priority: 10,
+          modalContent: {
+            title: "The Apple Test",
+            question: "If I offered you a plain apple right now, would you eat it?",
+            options: [
+              { id: 'yes', text: "Yes, I'd eat it", correct: true },
+              { id: 'no', text: "No, I want chips/chocolate", correct: false }
+            ],
+            answerExplanation: "If you'd eat an apple, you're likely physically hungry. If only specific treats sound good, it's probably boredom or a craving!",
+            buttonText: "Got it"
+          }
+        });
+      }
+
+      if (selectedObstacles.includes('thirsty')) {
+        cards.push({
+          id: 'thirst-fact',
+          type: 'fact',
+          icon: 'water-outline',
+          iconBg: '#dbeafe',
+          iconColor: '#2563eb',
+          title: 'Brain Signals',
+          text: "Your brain often mixes up thirst and hunger signals.",
+          priority: 9,
+          modalContent: {
+            title: "Mixed Signals",
+            description: "37% of people mistake thirst for hunger because the signals come from the same part of the brain (the hypothalamus).",
+            mainText: "Try drinking a glass of water and waiting 15 minutes before eating. You might find the 'hunger' disappears!",
+            buttonText: "I'll drink water"
+          }
+        });
+      }
+
+      if (selectedObstacles.includes('social_eating') || selectedObstacles.includes('celebration')) {
+        cards.push({
+          id: 'social-strategy-bookend',
+          type: 'strategy',
+          icon: 'people-outline',
+          iconBg: '#dcfce7',
+          iconColor: '#16a34a',
+          title: 'The Bookend Strategy',
+          text: "How to enjoy the party without derailing your progress.",
+          priority: 9,
+          modalContent: {
+            title: "Bookend Your Event",
+            description: "Don't go in starving! Eat a healthy snack before you go, and plan a healthy meal for the next day.",
+            mainText: "When you arrive not ravenous, you can make choices based on what you *really* want to taste, rather than what your blood sugar is screaming for.",
+            buttonText: "Good plan"
+          }
+        });
+      }
+
+      if (selectedObstacles.includes('traveling') || selectedObstacles.includes('no_healthy_options')) {
+        cards.push({
+          id: 'travel-survival',
+          type: 'strategy',
+          icon: 'map-outline',
+          iconBg: '#ffedd5',
+          iconColor: '#ea580c',
+          title: 'Travel Survival',
+          text: "Stuck with gas station food? Here's the best of the worst.",
+          priority: 8,
+          modalContent: {
+            title: "The Best of the Worst",
+            description: "If you have limited options, look for:",
+            mainText: "• Jerky or boiled eggs (Protein)\n• Nuts or seeds (Healthy Fats)\n• Whole fruit (Fiber)\n\nAvoid the sugary drinks—they cause the energy crash that makes travel harder.",
+            buttonText: "Noted"
+          }
+        });
+      }
+
+      if (selectedObstacles.includes('cravings')) {
+        cards.push({
+          id: 'cravings-delay',
+          type: 'strategy',
+          icon: 'timer-outline',
+          iconBg: '#fce7f3',
+          iconColor: '#db2777',
+          title: '10-Min Rule',
+          text: "Cravings peak then fade. Wait 10 mins, drink water, then decide.",
+          priority: 9,
+          modalContent: {
+            title: "Surfing the Urge",
+            description: "Cravings are like waves—they build, peak, and crash. They usually only last 3-5 minutes if you don't feed them.",
+            mainText: "Set a timer for 10 minutes. If you still truly want it after the timer goes off, have a small amount mindfully.",
+            buttonText: "Setting timer"
+          }
+        });
+      }
+
+      // HELPERS
+      if (selectedInFavor.includes('hydrated')) {
+        cards.push({
+          id: 'hydrated-boost',
+          type: 'fact',
+          icon: 'water-outline',
+          iconBg: '#dbeafe',
+          iconColor: '#2563eb',
+          title: 'Metabolism Boost',
+          text: "Water does more than just quench thirst.",
+          priority: 8,
+          modalContent: {
+            title: "Liquid Energy",
+            description: "Drinking 500ml of water can temporarily boost your metabolism by 24-30%.",
+            mainText: "You're not just hydrating, you're revving up your body's engine. Keep it up!",
+            buttonText: "Awesome"
+          }
+        });
+      }
+
+      if (selectedInFavor.includes('leftovers') || selectedInFavor.includes('meal_prepped')) {
+        cards.push({
+          id: 'leftover-gift',
+          type: 'encouragement',
+          icon: 'gift-outline',
+          iconBg: '#f3e8ff',
+          iconColor: '#9333ea',
+          title: 'Gift to Future You',
+          text: "Cooking once and eating twice is the ultimate consistency hack.",
+          priority: 8,
+          modalContent: {
+            title: "Smart Move",
+            description: "By preparing food ahead of time, you removed the friction of decision-making.",
+            mainText: "Willpower is a finite resource. You saved yours for something else today. That's how habits stick!",
+            buttonText: "Go me!"
+          }
+        });
+      }
+
+      if (selectedInFavor.includes('rhythm')) {
+         cards.push({
+          id: 'rhythm-flow',
+          type: 'encouragement',
+          icon: 'infinite-outline',
+          iconBg: '#d1fae5',
+          iconColor: '#059669',
+          title: 'In the Flow',
+          text: "Consistency feels easier when you find your rhythm.",
+          priority: 7,
+        });
+      }
     }
 
-    if (selectedObstacles.includes('stressed')) {
+    // --- GENERIC FALLBACKS (if not handled above) ---
+    // (Preserve some generic logic for other areas or general cases)
+
+    if (selectedObstacles.includes('stress_eating') && !cards.find(c => c.id === 'stress-eating-reframe')) {
       cards.push({
         id: 'stress-eating-reframe',
         type: 'reframe',
@@ -640,20 +807,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    if (selectedObstacles.includes('social_eating')) {
-      cards.push({
-        id: 'social-strategy',
-        type: 'strategy',
-        icon: 'people-outline',
-        iconBg: '#dbeafe',
-        iconColor: '#2563eb',
-        title: 'Social Situations',
-        text: 'Eat a small healthy snack before. You\'ll feel less pressure and make calmer choices.',
-        priority: 8,
-      });
-    }
-
-    if (selectedObstacles.includes('busy')) {
+    if (selectedObstacles.includes('busy') && !cards.find(c => c.id === 'busy-micro')) {
       cards.push({
         id: 'busy-micro',
         type: 'tip',
@@ -666,7 +820,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    if (selectedObstacles.includes('tired') || selectedObstacles.includes('no_healthy_options')) {
+    if ((selectedObstacles.includes('tired') || selectedObstacles.includes('no_healthy_options')) && !cards.some(c => c.id.includes('tired'))) {
       cards.push({
         id: 'tired-easy-win',
         type: 'strategy',
@@ -679,21 +833,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    // In-favor reinforcement cards
-    if (selectedInFavor.includes('healthy_food') || selectedInFavor.includes('meal_prepped')) {
-      cards.push({
-        id: 'prepped-leverage',
-        type: 'encouragement',
-        icon: 'star-outline',
-        iconBg: '#fef3c7',
-        iconColor: '#d97706',
-        title: 'You Planned Ahead!',
-        text: "Past-you set up today-you for success. Use that prep - it's already done!",
-        priority: 7,
-      });
-    }
-
-    if (selectedInFavor.includes('motivated')) {
+    if (selectedInFavor.includes('motivated') && !cards.find(c => c.id === 'motivated-action')) {
       cards.push({
         id: 'motivated-action',
         type: 'tip',
@@ -706,7 +846,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    if (selectedInFavor.includes('support')) {
+    if (selectedInFavor.includes('support') && !cards.find(c => c.id === 'support-share')) {
       cards.push({
         id: 'support-share',
         type: 'tip',
@@ -730,6 +870,7 @@ export default function ExperimentModeSwipe({
   };
 
   const motivationCards = getMotivationCards();
+  const activeMotivationCard = motivationCards.find(c => c.id === activeCard);
 
   // Load centralized completion count on mount
   useEffect(() => {
@@ -1303,6 +1444,122 @@ export default function ExperimentModeSwipe({
           </ScrollView>
         </View>
       </ScrollView>
+
+      {/* Dynamic Motivation Modal */}
+      <Modal
+        visible={!!activeMotivationCard?.modalContent}
+        transparent
+        animationType="none"
+        onRequestClose={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+      >
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
+            <TouchableOpacity
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+                style={styles.closeButton}
+              >
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
+            </View>
+
+            {activeMotivationCard?.modalContent && (
+              <View style={styles.modalContent}>
+                <View style={[styles.modalIcon, { backgroundColor: activeMotivationCard.iconBg }]}>
+                  <Ionicons name={activeMotivationCard.icon} size={32} color={activeMotivationCard.iconColor} />
+                </View>
+                <Text style={styles.modalTitle}>{activeMotivationCard.modalContent.title}</Text>
+
+                {/* Description / Question */}
+                {activeMotivationCard.type === 'quiz' ? (
+                   <Text style={styles.quizQuestion}>{activeMotivationCard.modalContent.question}</Text>
+                ) : (
+                   <Text style={styles.modalDescription}>{activeMotivationCard.modalContent.description}</Text>
+                )}
+
+                {/* Content Body */}
+                {activeMotivationCard.type === 'quiz' ? (
+                   <>
+                     <View style={styles.quizOptions}>
+                       {activeMotivationCard.modalContent.options?.map((option) => (
+                         <TouchableOpacity
+                           key={option.id}
+                           onPress={() => setDynamicQuizAnswer(option.id)}
+                           disabled={dynamicQuizAnswer !== null}
+                           style={[
+                             styles.quizOption,
+                             dynamicQuizAnswer === null && styles.quizOptionDefault,
+                             dynamicQuizAnswer !== null && option.correct && styles.quizOptionCorrect,
+                             dynamicQuizAnswer === option.id && !option.correct && styles.quizOptionIncorrect,
+                             dynamicQuizAnswer !== null && !option.correct && dynamicQuizAnswer !== option.id && styles.quizOptionFaded
+                           ]}
+                         >
+                            <View style={[
+                              styles.quizOptionLetter,
+                              dynamicQuizAnswer === null && styles.quizOptionLetterDefault,
+                              dynamicQuizAnswer !== null && option.correct && styles.quizOptionLetterCorrect,
+                              dynamicQuizAnswer === option.id && !option.correct && styles.quizOptionLetterIncorrect
+                            ]}>
+                              <Text style={[
+                                styles.quizOptionLetterText,
+                                dynamicQuizAnswer !== null && option.correct && styles.quizOptionLetterTextCorrect
+                              ]}>
+                                {option.id === 'yes' ? 'A' : option.id === 'no' ? 'B' : option.id.toUpperCase()}
+                              </Text>
+                            </View>
+                            <Text style={[
+                              styles.quizOptionText,
+                              dynamicQuizAnswer !== null && option.correct && styles.quizOptionTextCorrect
+                            ]}>{option.text}</Text>
+                             {dynamicQuizAnswer !== null && option.correct && (
+                                <Ionicons name="checkmark" size={20} color="#22c55e" style={styles.quizCheckmark} />
+                              )}
+                         </TouchableOpacity>
+                       ))}
+                     </View>
+                     {dynamicQuizAnswer && (
+                        <View style={[styles.quizResult, styles.quizResultCorrect]}>
+                           <Text style={styles.quizResultText}>
+                             {activeMotivationCard.modalContent.answerExplanation}
+                           </Text>
+                        </View>
+                     )}
+                   </>
+                ) : (
+                   <View style={styles.modalBonus}>
+                      <Text style={styles.modalBonusText}>
+                        {activeMotivationCard.modalContent.mainText}
+                      </Text>
+                   </View>
+                )}
+
+                {/* Button */}
+                <TouchableOpacity
+                  onPress={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+                  style={styles.quizDoneButton}
+                >
+                  <LinearGradient
+                    colors={[activeMotivationCard.iconColor, activeMotivationCard.iconColor]} // Or gradient
+                    style={styles.quizDoneButtonGradient}
+                  >
+                    <Text style={styles.quizDoneButtonText}>{activeMotivationCard.modalContent.buttonText || 'Got it'}</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+
+              </View>
+            )}
+          </Animated.View>
+        </View>
+      </Modal>
 
       {/* Help Menu Bottom Sheet */}
       <Modal
