@@ -162,7 +162,7 @@ export default function ExperimentModeSwipe({
 
   // Check-in state
   const [showCheckIn, setShowCheckIn] = useState(false);
-  const [selectedFeeling, setSelectedFeeling] = useState<string | null>(null);
+  const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
   const [selectedInFavor, setSelectedInFavor] = useState<string[]>([]);
   const [selectedObstacles, setSelectedObstacles] = useState<string[]>([]);
 
@@ -171,6 +171,26 @@ export default function ExperimentModeSwipe({
   const holdProgress = useSharedValue(0);
   const holdTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const streak = focusProgress?.daysCompleted || 5;
+
+  // Button spring animation
+  const buttonsScale = useSharedValue(0.8);
+  const buttonsOpacity = useSharedValue(0);
+  const buttonsTranslateY = useSharedValue(20);
+
+  // Trigger button spring animation on mount
+  useEffect(() => {
+    buttonsScale.value = withSpring(1, { damping: 12, stiffness: 150 });
+    buttonsOpacity.value = withSpring(1, { damping: 15, stiffness: 100 });
+    buttonsTranslateY.value = withSpring(0, { damping: 14, stiffness: 120 });
+  }, []);
+
+  const buttonsAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: buttonsOpacity.value,
+    transform: [
+      { scale: buttonsScale.value },
+      { translateY: buttonsTranslateY.value },
+    ],
+  }));
 
   // Bottom sheet animations
   const backdropOpacity = useSharedValue(0);
@@ -411,7 +431,7 @@ export default function ExperimentModeSwipe({
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
-  const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + (selectedFeeling ? 1 : 0);
+  const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + selectedFeelings.length;
 
   // Dynamic motivation cards based on check-in selections
   type MotivationCard = {
@@ -429,7 +449,7 @@ export default function ExperimentModeSwipe({
     const cards: MotivationCard[] = [];
 
     // Feeling-based cards
-    if (selectedFeeling === 'tired') {
+    if (selectedFeelings.includes('tired')) {
       cards.push({
         id: 'tired-gentle',
         type: 'encouragement',
@@ -452,7 +472,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    if (selectedFeeling === 'stressed') {
+    if (selectedFeelings.includes('stressed')) {
       cards.push({
         id: 'stressed-breathe',
         type: 'strategy',
@@ -465,7 +485,7 @@ export default function ExperimentModeSwipe({
       });
     }
 
-    if (selectedFeeling === 'great' || selectedFeeling === 'good') {
+    if (selectedFeelings.includes('great') || selectedFeelings.includes('good')) {
       cards.push({
         id: 'good-momentum',
         type: 'encouragement',
@@ -652,6 +672,24 @@ export default function ExperimentModeSwipe({
     };
   });
 
+  // Smaller progress ring for inline button
+  const holdProgressAnimatedPropsSmall = useAnimatedProps(() => {
+    const circumference = 2 * Math.PI * 46; // radius of 46 for smaller button
+    const strokeDashoffset = circumference * (1 - holdProgress.value);
+    return {
+      strokeDashoffset,
+    };
+  });
+
+  // Bigger progress ring for primary button (140px, radius 66)
+  const holdProgressAnimatedPropsBig = useAnimatedProps(() => {
+    const circumference = 2 * Math.PI * 66;
+    const strokeDashoffset = circumference * (1 - holdProgress.value);
+    return {
+      strokeDashoffset,
+    };
+  });
+
   const handleComplete = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     setCompleted(true);
@@ -765,25 +803,124 @@ export default function ExperimentModeSwipe({
             <View style={[styles.decorCircle, styles.decorCircle2]} />
             <View style={[styles.decorCircle, styles.decorCircle3]} />
 
-            {/* Action Buttons */}
-            <View style={styles.actionButtonsContainer}>
+            {/* Tip Content */}
+            <View style={styles.tipContentInHeader}>
+              {!showPlan && !showDetails ? (
+                // Default view - title and action links
+                <>
+                  <Text style={styles.todaysFocusHeader}>TODAY'S FOCUS</Text>
+                  <Text style={styles.tipTitleHeader}>{tip.summary}</Text>
+
+                  {/* Secondary actions row: Details, Plan, Help */}
+                  <View style={styles.secondaryActionsRow}>
+                    <TouchableOpacity
+                      onPress={() => setShowDetails(true)}
+                      style={styles.secondaryActionPill}
+                    >
+                      <Ionicons name="information-circle-outline" size={16} color="#92400e" />
+                      <Text style={styles.secondaryActionText}>Details</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.secondaryActionDivider}>•</Text>
+                    <TouchableOpacity
+                      onPress={() => setShowPlan(true)}
+                      style={styles.secondaryActionPill}
+                    >
+                      <Ionicons name="calendar-outline" size={16} color="#92400e" />
+                      <Text style={styles.secondaryActionText}>Plan</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.secondaryActionDivider}>•</Text>
+                    <TouchableOpacity
+                      onPress={() => setShowHelpMenu(true)}
+                      style={styles.secondaryActionPill}
+                    >
+                      <Ionicons name="heart" size={16} color="#db2777" />
+                      <Text style={styles.secondaryActionText}>Help</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              ) : showDetails ? (
+                // Details view
+                <>
+                  <View style={styles.planHeaderInHeader}>
+                    <Text style={styles.planTitleHeader}>About This Tip</Text>
+                    <TouchableOpacity
+                      onPress={() => setShowDetails(false)}
+                      style={styles.backButtonHeader}
+                    >
+                      <Ionicons name="chevron-back" size={16} color="#92400e" />
+                      <Text style={styles.backButtonTextHeader}>Back</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.tipDescriptionHeader}>
+                    {tip.short_description || tip.details_md.split('\n')[0].replace('**The Experiment:** ', '')}
+                  </Text>
+                  {tip.details_md && (
+                    <Text style={styles.tipDetailsExtraHeader}>
+                      {tip.details_md
+                        .replace('**The Experiment:** ', '')
+                        .replace(/\*\*/g, '')
+                        .split('\n')
+                        .filter((line: string) => line.trim())
+                        .slice(1, 3)
+                        .join('\n\n')}
+                    </Text>
+                  )}
+                </>
+              ) : (
+                // Plan view
+                <>
+                  <View style={styles.planHeaderInHeader}>
+                    <Text style={styles.planTitleHeader}>Your 7-Day Plan</Text>
+                    <TouchableOpacity
+                      onPress={() => setShowPlan(false)}
+                      style={styles.backButtonHeader}
+                    >
+                      <Ionicons name="chevron-back" size={16} color="#92400e" />
+                      <Text style={styles.backButtonTextHeader}>Back</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.planStepsHeader}>
+                    <View style={styles.planStepHeader}>
+                      <View style={[styles.planStepIndicatorHeader, styles.planStepCompleteHeader]}>
+                        <Text style={styles.planStepCheckmarkHeader}>✓</Text>
+                      </View>
+                      <Text style={styles.planStepTextHeader}>Days 1-4: Walk after one meal</Text>
+                    </View>
+                    <View style={styles.planStepHeader}>
+                      <View style={[styles.planStepIndicatorHeader, styles.planStepCurrentHeader]}>
+                        <Text style={styles.planStepNumberHeader}>5</Text>
+                      </View>
+                      <Text style={styles.planStepTextHeader}>Days 5-6: Walk after two meals</Text>
+                    </View>
+                    <View style={styles.planStepHeader}>
+                      <View style={[styles.planStepIndicatorHeader, styles.planStepPendingHeader]}>
+                        <Text style={styles.planStepNumberPendingHeader}>7</Text>
+                      </View>
+                      <Text style={styles.planStepTextPendingHeader}>Day 7: Walk after every meal</Text>
+                    </View>
+                  </View>
+                </>
+              )}
+            </View>
+
+            {/* Primary Action Button - Big "I did it!" */}
+            <Animated.View style={[styles.primaryActionContainer, buttonsAnimatedStyle]}>
               {!completed ? (
-                <View style={styles.actionButtonsContainer}>
-                  {/* I Did It Button - Hold to Complete (Primary/Large) */}
+                <>
                   <TouchableOpacity
                     onPressIn={handlePressIn}
                     onPressOut={handlePressOut}
                     activeOpacity={0.95}
-                    style={styles.primaryButtonWrapper}
+                    style={styles.primaryButtonWrapperBig}
                   >
-                    <View style={styles.primaryButtonOuter}>
-                      <View style={styles.primaryButtonInner}>
+                    <View style={styles.primaryButtonOuterBig}>
+                      <View style={styles.primaryButtonInnerBig}>
                         <LinearGradient
-                          colors={isHolding ? ['#ea580c', '#d97706'] : ['#fb923c', '#f59e0b']}
-                          style={styles.primaryButtonGradient}
+                          colors={isHolding ? ['#c2410c', '#b45309'] : ['#e85d04', '#dc2f02']}
+                          style={styles.primaryButtonGradientBig}
                         >
-                          <Ionicons name="checkmark-sharp" size={38} color="#FFF" style={styles.actionButtonIcon} />
-                          <Text style={styles.primaryButtonText}>
+                          <Ionicons name="checkmark-sharp" size={36} color="#fff" />
+                          <Text style={styles.primaryButtonTextBigPop}>
                             {isHolding ? 'Hold...' : 'I did it!'}
                           </Text>
                         </LinearGradient>
@@ -791,167 +928,45 @@ export default function ExperimentModeSwipe({
                     </View>
                     {/* Progress Ring */}
                     <Svg
-                      style={styles.primaryProgressRing}
-                      width={160}
-                      height={160}
-                      viewBox="0 0 160 160"
+                      style={styles.primaryProgressRingBig}
+                      width={140}
+                      height={140}
+                      viewBox="0 0 140 140"
                     >
-                      {/* Background circle */}
                       <Circle
-                        cx="80"
-                        cy="80"
-                        r="75"
-                        stroke="rgba(255,255,255,0.3)"
-                        strokeWidth="8"
+                        cx="70"
+                        cy="70"
+                        r="66"
+                        stroke="rgba(232,93,4,0.35)"
+                        strokeWidth="6"
                         fill="none"
                       />
-                      {/* Progress circle */}
                       <AnimatedCircle
-                        cx="80"
-                        cy="80"
-                        r="75"
-                        stroke="#fff"
-                        strokeWidth="8"
+                        cx="70"
+                        cy="70"
+                        r="66"
+                        stroke="#e85d04"
+                        strokeWidth="6"
                         fill="none"
-                        strokeDasharray={2 * Math.PI * 75}
-                        animatedProps={holdProgressAnimatedProps}
+                        strokeDasharray={2 * Math.PI * 66}
+                        animatedProps={holdProgressAnimatedPropsBig}
                         strokeLinecap="round"
-                        transform="rotate(-90 80 80)"
+                        transform="rotate(-90 70 70)"
                       />
                     </Svg>
                   </TouchableOpacity>
-
-                  {/* Send Help Button (Secondary/Small - floating lower right) */}
-                  <TouchableOpacity
-                    onPress={() => setShowHelpMenu(true)}
-                    activeOpacity={0.9}
-                    style={styles.secondaryButtonWrapper}
-                  >
-                    <View style={styles.secondaryButtonOuter}>
-                      <View style={styles.secondaryButtonInner}>
-                        <LinearGradient
-                          colors={['#fb7185', '#ec4899']}
-                          style={styles.secondaryButtonGradient}
-                        >
-                          <Ionicons name="heart" size={18} color="#FFF" />
-                          <Text style={styles.secondaryButtonText}>Help</Text>
-                        </LinearGradient>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View style={styles.completedButtonWrapper}>
-                  <View style={styles.primaryButtonOuter}>
-                    <View style={styles.primaryButtonInner}>
-                      <LinearGradient
-                        colors={['#34d399', '#22c55e']}
-                        style={styles.completedButtonGradient}
-                      >
-                        <Ionicons name="checkmark-sharp" size={44} color="#FFF" />
-                        <Text style={styles.completedButtonText}>Done!</Text>
-                      </LinearGradient>
-                    </View>
-                  </View>
-                </View>
-              )}
-              {!completed && (
-                <Text style={styles.actionHint}>
-                  {isHolding ? 'Keep holding...' : 'Hold to complete or tap for support'}
-                </Text>
-              )}
-            </View>
-          </LinearGradient>
-
-          {/* Content Area */}
-          <View style={styles.contentArea}>
-            {!showPlan && !showDetails ? (
-              // Default view - just title and action links
-              <>
-                <Text style={styles.todaysFocus}>TODAY'S FOCUS</Text>
-                <Text style={styles.tipTitle}>{tip.summary}</Text>
-                <View style={styles.contentLinks}>
-                  <TouchableOpacity
-                    onPress={() => setShowDetails(true)}
-                    style={styles.contentLink}
-                  >
-                    <Ionicons name="information-circle-outline" size={16} color="#9ca3af" />
-                    <Text style={styles.contentLinkText}>Details</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.contentLinkDivider}>•</Text>
-                  <TouchableOpacity
-                    onPress={() => setShowPlan(true)}
-                    style={styles.contentLink}
-                  >
-                    <Ionicons name="calendar-outline" size={16} color="#9ca3af" />
-                    <Text style={styles.contentLinkText}>Plan</Text>
-                  </TouchableOpacity>
-                </View>
-              </>
-            ) : showDetails ? (
-              // Details view
-              <>
-                <View style={styles.planHeader}>
-                  <Text style={styles.planTitle}>About This Tip</Text>
-                  <TouchableOpacity
-                    onPress={() => setShowDetails(false)}
-                    style={styles.backButton}
-                  >
-                    <Ionicons name="chevron-back" size={16} color="#9ca3af" />
-                    <Text style={styles.backButtonText}>Back</Text>
-                  </TouchableOpacity>
-                </View>
-                <Text style={styles.tipDescription}>
-                  {tip.short_description || tip.details_md.split('\n')[0].replace('**The Experiment:** ', '')}
-                </Text>
-                {tip.details_md && (
-                  <Text style={styles.tipDetailsExtra}>
-                    {tip.details_md
-                      .replace('**The Experiment:** ', '')
-                      .replace(/\*\*/g, '')
-                      .split('\n')
-                      .filter((line: string) => line.trim())
-                      .slice(1, 4)
-                      .join('\n\n')}
+                  <Text style={styles.actionHintOnGradient}>
+                    {isHolding ? 'Keep holding...' : 'Hold to complete'}
                   </Text>
-                )}
-              </>
-            ) : (
-              // Plan view
-              <>
-                <View style={styles.planHeader}>
-                  <Text style={styles.planTitle}>Your 7-Day Plan</Text>
-                  <TouchableOpacity
-                    onPress={() => setShowPlan(false)}
-                    style={styles.backButton}
-                  >
-                    <Ionicons name="chevron-back" size={16} color="#9ca3af" />
-                    <Text style={styles.backButtonText}>Back</Text>
-                  </TouchableOpacity>
+                </>
+              ) : (
+                <View style={styles.completedButtonOnGradient}>
+                  <Ionicons name="checkmark-sharp" size={36} color="#22c55e" />
+                  <Text style={styles.completedButtonTextOnGradient}>Done!</Text>
                 </View>
-                <View style={styles.planSteps}>
-                  <View style={styles.planStep}>
-                    <View style={[styles.planStepIndicator, styles.planStepComplete]}>
-                      <Text style={styles.planStepCheckmark}>✓</Text>
-                    </View>
-                    <Text style={styles.planStepText}>Days 1-4: Walk after one meal</Text>
-                  </View>
-                  <View style={styles.planStep}>
-                    <View style={[styles.planStepIndicator, styles.planStepCurrent]}>
-                      <Text style={styles.planStepNumber}>5</Text>
-                    </View>
-                    <Text style={styles.planStepText}>Days 5-6: Walk after two meals</Text>
-                  </View>
-                  <View style={styles.planStep}>
-                    <View style={[styles.planStepIndicator, styles.planStepPending]}>
-                      <Text style={styles.planStepNumberPending}>7</Text>
-                    </View>
-                    <Text style={styles.planStepTextPending}>Day 7: Walk after every meal</Text>
-                  </View>
-                </View>
-              </>
-            )}
-          </View>
+              )}
+            </Animated.View>
+          </LinearGradient>
         </View>
 
         {/* Daily Insights Section */}
@@ -965,7 +980,7 @@ export default function ExperimentModeSwipe({
           >
             {/* Check-in Card - Featured first card */}
             {(() => {
-              const hasSelections = selectedInFavor.length > 0 || selectedObstacles.length > 0 || selectedFeeling;
+              const hasSelections = selectedInFavor.length > 0 || selectedObstacles.length > 0 || selectedFeelings.length > 0;
               return (
                 <TouchableOpacity
                   onPress={() => setShowCheckIn(true)}
@@ -993,16 +1008,20 @@ export default function ExperimentModeSwipe({
                 {hasSelections ? (
                   // Show selected icons with color coding by section
                   <>
-                    {/* Feeling row - amber */}
-                    {selectedFeeling && (
+                    {/* Feelings row - amber */}
+                    {selectedFeelings.length > 0 && (
                       <View style={styles.checkInIconsRow}>
-                        <View style={[styles.checkInCardIconBubble, styles.checkInCardIconFeeling]}>
-                          <Ionicons
-                            name={checkInOptions.feeling.options.find(f => f.id === selectedFeeling)?.icon || 'help-outline'}
-                            size={14}
-                            color="#d97706"
-                          />
-                        </View>
+                        {selectedFeelings.slice(0, 3).map((feelingId) => {
+                          const feeling = checkInOptions.feeling.options.find(f => f.id === feelingId);
+                          return feeling ? (
+                            <View key={feelingId} style={[styles.checkInCardIconBubble, styles.checkInCardIconFeeling]}>
+                              <Ionicons name={feeling.icon} size={14} color="#d97706" />
+                            </View>
+                          ) : null;
+                        })}
+                        {selectedFeelings.length > 3 && (
+                          <Text style={styles.checkInCardMoreText}>+{selectedFeelings.length - 3}</Text>
+                        )}
                       </View>
                     )}
                     {/* In favor row - green */}
@@ -1578,36 +1597,43 @@ export default function ExperimentModeSwipe({
                 How's today shaping up?
               </Text>
 
-              {/* Feeling Section - First */}
+              {/* Feeling Section - First (multi-select) */}
               <View style={styles.checkInSection}>
                 <Text style={styles.checkInSectionLabel}>
                   {checkInOptions.feeling.label}
                 </Text>
                 <View style={styles.checkInFeelings}>
-                  {checkInOptions.feeling.options.map((option) => (
-                    <TouchableOpacity
-                      key={option.id}
-                      onPress={() => setSelectedFeeling(
-                        selectedFeeling === option.id ? null : option.id
-                      )}
-                      style={[
-                        styles.checkInFeeling,
-                        selectedFeeling === option.id && styles.checkInFeelingSelected
-                      ]}
-                    >
-                      <Ionicons
-                        name={option.icon}
-                        size={24}
-                        color={selectedFeeling === option.id ? '#f59e0b' : '#9ca3af'}
-                      />
-                      <Text style={[
-                        styles.checkInFeelingLabel,
-                        selectedFeeling === option.id && styles.checkInFeelingLabelSelected
-                      ]}>
-                        {option.label}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
+                  {checkInOptions.feeling.options.map((option) => {
+                    const isSelected = selectedFeelings.includes(option.id);
+                    return (
+                      <TouchableOpacity
+                        key={option.id}
+                        onPress={() => {
+                          if (isSelected) {
+                            setSelectedFeelings(selectedFeelings.filter(id => id !== option.id));
+                          } else {
+                            setSelectedFeelings([...selectedFeelings, option.id]);
+                          }
+                        }}
+                        style={[
+                          styles.checkInFeeling,
+                          isSelected && styles.checkInFeelingSelected
+                        ]}
+                      >
+                        <Ionicons
+                          name={option.icon}
+                          size={24}
+                          color={isSelected ? '#f59e0b' : '#9ca3af'}
+                        />
+                        <Text style={[
+                          styles.checkInFeelingLabel,
+                          isSelected && styles.checkInFeelingLabelSelected
+                        ]}>
+                          {option.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
                 </View>
               </View>
 
@@ -1775,10 +1801,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   visualArea: {
-    height: 224,
     position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 16,
+    borderRadius: 24,
   },
   celebrationOverlay: {
     position: 'absolute',
@@ -1858,6 +1883,8 @@ const styles = StyleSheet.create({
   },
   actionButtonsRow: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: 16,
   },
   // Primary "I did it" button - large, left of center
@@ -2001,7 +2028,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 
-  // Content Area Styles
+  // Content Area Styles (legacy - keeping for reference)
   contentArea: {
     padding: 20,
   },
@@ -2049,6 +2076,247 @@ const styles = StyleSheet.create({
     color: '#6b7280',
     fontSize: 14,
     lineHeight: 22,
+  },
+
+  // NEW: Tip content in header styles
+  tipContentInHeader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingBottom: 20,
+  },
+  todaysFocusHeader: {
+    color: '#9a3412',
+    fontWeight: '700',
+    fontSize: 11,
+    letterSpacing: 1,
+    marginBottom: 8,
+    textTransform: 'uppercase',
+  },
+  tipTitleHeader: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#78350f',
+    textAlign: 'center',
+    lineHeight: 28,
+  },
+  contentLinksHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 12,
+  },
+  contentLinkHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 16,
+  },
+  contentLinkTextHeader: {
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  contentLinkDividerHeader: {
+    color: 'rgba(255,255,255,0.5)',
+    fontSize: 12,
+  },
+  planHeaderInHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+    width: '100%',
+  },
+  planTitleHeader: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#78350f',
+  },
+  backButtonHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(120,53,15,0.1)',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+  },
+  backButtonTextHeader: {
+    color: '#92400e',
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  tipDescriptionHeader: {
+    color: '#78350f',
+    fontSize: 15,
+    lineHeight: 22,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  tipDetailsExtraHeader: {
+    color: '#92400e',
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  planStepsHeader: {
+    width: '100%',
+    gap: 8,
+  },
+  planStepHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: 'rgba(120,53,15,0.08)',
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+  },
+  planStepIndicatorHeader: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  planStepCompleteHeader: {
+    backgroundColor: '#dcfce7',
+  },
+  planStepCurrentHeader: {
+    backgroundColor: '#fff',
+  },
+  planStepPendingHeader: {
+    backgroundColor: 'rgba(120,53,15,0.1)',
+  },
+  planStepCheckmarkHeader: {
+    color: '#22c55e',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  planStepNumberHeader: {
+    color: '#f97316',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  planStepNumberPendingHeader: {
+    color: '#92400e',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  planStepTextHeader: {
+    color: '#78350f',
+    fontSize: 14,
+    fontWeight: '500',
+    flex: 1,
+  },
+  planStepTextPendingHeader: {
+    color: '#92400e',
+    fontSize: 14,
+    fontWeight: '500',
+    flex: 1,
+  },
+
+  // Secondary actions row (Details, Plan, Help)
+  secondaryActionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    gap: 6,
+  },
+  secondaryActionPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    backgroundColor: 'rgba(120,53,15,0.1)',
+    borderRadius: 20,
+  },
+  secondaryActionText: {
+    color: '#92400e',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  secondaryActionDivider: {
+    color: '#c2410c',
+    fontSize: 10,
+  },
+
+  // Primary action container
+  primaryActionContainer: {
+    alignItems: 'center',
+    paddingBottom: 28,
+    paddingTop: 8,
+  },
+
+  // Big primary button styles
+  primaryButtonWrapperBig: {
+    position: 'relative',
+    width: 140,
+    height: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  primaryButtonOuterBig: {
+    width: 124,
+    height: 124,
+    borderRadius: 62,
+    padding: 4,
+    backgroundColor: 'rgba(232,93,4,0.25)',
+  },
+  primaryButtonInnerBig: {
+    flex: 1,
+    borderRadius: 60,
+    overflow: 'hidden',
+  },
+  primaryButtonGradientBig: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  primaryButtonTextBig: {
+    color: '#ea580c',
+    fontSize: 15,
+    fontWeight: '700',
+    marginTop: 4,
+  },
+  primaryButtonTextBigPop: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '700',
+    marginTop: 4,
+  },
+  primaryProgressRingBig: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+
+  completedButtonOnGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 40,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    borderRadius: 30,
+  },
+  completedButtonTextOnGradient: {
+    color: '#22c55e',
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  actionHintOnGradient: {
+    color: '#92400e',
+    fontSize: 12,
+    marginTop: 12,
   },
   viewPlanButton: {
     flexDirection: 'row',
@@ -2239,6 +2507,11 @@ const styles = StyleSheet.create({
   },
   checkInCardIconObstacle: {
     backgroundColor: '#fee2e2', // red/pink
+  },
+  checkInCardMoreText: {
+    fontSize: 9,
+    fontWeight: '600',
+    color: '#d97706', // amber for feelings
   },
   checkInCardIconInFavorMoreText: {
     fontSize: 9,

@@ -4,6 +4,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState, useEffect } from 'react';
 import {
   Dimensions,
+  Image,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -111,10 +113,37 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
     return labels[time] ?? time;
   };
 
+  // Get gradient colors based on tip area
+  const getAreaGradient = (): [string, string] => {
+    const gradients: Record<string, [string, string]> = {
+      nutrition: ['#81C784', '#4CAF50'],
+      fitness: ['#64B5F6', '#2196F3'],
+      sleep: ['#9575CD', '#673AB7'],
+      stress: ['#FFB74D', '#FF9800'],
+      organization: ['#4DD0E1', '#00BCD4'],
+      relationships: ['#F06292', '#E91E63'],
+    };
+    return gradients[tip.area] || ['#81C784', '#4CAF50'];
+  };
+
+  // Get area icon
+  const getAreaIcon = (): keyof typeof Ionicons.glyphMap => {
+    const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
+      nutrition: 'nutrition-outline',
+      fitness: 'fitness-outline',
+      sleep: 'moon-outline',
+      stress: 'leaf-outline',
+      organization: 'calendar-outline',
+      relationships: 'heart-outline',
+    };
+    return icons[tip.area] || 'sparkles-outline';
+  };
+
+  const hasCoverImage = tip.media?.cover?.url;
+
   return (
     <Animated.View style={[styles.container, cardAnimatedStyle]}>
-      <LinearGradient
-        colors={['#FFFFFF', '#F8FBF8']}
+      <View
         style={styles.card}
         onLayout={(e) => setCardWidth(e.nativeEvent.layout.width)}
       >
@@ -130,28 +159,106 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
           scrollEventThrottle={16}
           contentContainerStyle={{ alignItems: 'stretch' }}
         >
-          {/* PAGE 1 — Summary */}
+          {/* PAGE 1 — Visual Summary */}
           <View style={[styles.page, { width: cardWidth || SCREEN_WIDTH }]}>
-            {/* Header */}
-            <View style={styles.header}>
-              <View style={styles.headerTop}>
-                <Text style={styles.label}>TODAY'S EXPERIMENT</Text>
+            {hasCoverImage ? (
+              <ImageBackground
+                source={{ uri: tip.media!.cover!.url }}
+                style={styles.heroBackground}
+                imageStyle={styles.heroImage}
+              >
+                <LinearGradient
+                  colors={['transparent', 'rgba(0,0,0,0.7)']}
+                  style={styles.heroOverlay}
+                >
+                  <View style={styles.heroContent}>
+                    {/* Badges at top */}
+                    <View style={styles.heroBadges}>
+                      <View style={[styles.badge, styles.heroBadge]}>
+                        <Ionicons name="time-outline" size={14} color="#FFF" />
+                        <Text style={styles.heroBadgeText}>{getTimeLabel(tip.time)}</Text>
+                      </View>
+                      <View style={[styles.badge, styles.heroBadge]}>
+                        <Text style={styles.heroBadgeText}>{getDifficultyLabel(tip.difficulty)}</Text>
+                      </View>
+                    </View>
 
-                <View style={styles.badges}>
-                  <View style={[styles.badge, styles.timeBadge]}>
-                    <Ionicons name="time-outline" size={14} color="#666" />
-                    <Text style={styles.badgeText}>{getTimeLabel(tip.time)}</Text>
+                    {/* Title at bottom */}
+                    <View style={styles.heroTitleContainer}>
+                      <Text style={styles.heroLabel}>TODAY'S EXPERIMENT</Text>
+                      <Text style={styles.heroTitle}>{tip.summary}</Text>
+                    </View>
                   </View>
-                  <View style={[styles.badge, styles.difficultyBadge]}>
-                    <Text style={styles.badgeText}>{getDifficultyLabel(tip.difficulty)}</Text>
+                </LinearGradient>
+              </ImageBackground>
+            ) : (
+              <LinearGradient
+                colors={getAreaGradient()}
+                style={styles.heroBackground}
+              >
+                <View style={styles.heroContent}>
+                  {/* Area icon as visual element */}
+                  <View style={styles.heroIconContainer}>
+                    <Ionicons name={getAreaIcon()} size={64} color="rgba(255,255,255,0.3)" />
+                  </View>
+
+                  {/* Badges at top */}
+                  <View style={styles.heroBadges}>
+                    <View style={[styles.badge, styles.heroBadge]}>
+                      <Ionicons name="time-outline" size={14} color="#FFF" />
+                      <Text style={styles.heroBadgeText}>{getTimeLabel(tip.time)}</Text>
+                    </View>
+                    <View style={[styles.badge, styles.heroBadge]}>
+                      <Text style={styles.heroBadgeText}>{getDifficultyLabel(tip.difficulty)}</Text>
+                    </View>
+                  </View>
+
+                  {/* Title at bottom */}
+                  <View style={styles.heroTitleContainer}>
+                    <Text style={styles.heroLabel}>TODAY'S EXPERIMENT</Text>
+                    <Text style={styles.heroTitle}>{tip.summary}</Text>
                   </View>
                 </View>
-              </View>
+              </LinearGradient>
+            )}
 
-              <Text style={styles.summary}>{tip.summary}</Text>
+            {/* Call to view details */}
+            <TouchableOpacity
+              style={styles.expandButton}
+              onPress={() => goToPage(1)}
+              accessibilityRole="button"
+              accessibilityHint="Opens the how-to instructions"
+            >
+              <Text style={styles.expandButtonText}>Learn More</Text>
+              <Ionicons name="chevron-forward" size={20} color="#4CAF50" />
+            </TouchableOpacity>
+          </View>
 
+          {/* PAGE 2 — Details */}
+          <View style={[styles.page, { width: cardWidth || SCREEN_WIDTH }]}>
+            {/* Back to summary */}
+            <View style={styles.detailsHeaderRow}>
+              <TouchableOpacity
+                onPress={() => goToPage(0)}
+                style={styles.backBtn}
+                accessibilityRole="button"
+                accessibilityLabel="Back to summary"
+              >
+                <Ionicons name="chevron-back" size={20} color="#4CAF50" />
+                <Text style={styles.backBtnText}>Back</Text>
+              </TouchableOpacity>
+
+              <Text style={styles.detailsTitle}>{tip.summary}</Text>
+            </View>
+
+            <ScrollView
+              style={{ maxHeight: DETAILS_MAX_HEIGHT }}
+              showsVerticalScrollIndicator={false}
+              nestedScrollEnabled
+            >
+              {/* Short description moved here */}
               {tip.short_description && (
-                <Text style={styles.summarySubtitle}>{tip.short_description}</Text>
+                <Text style={styles.shortDescription}>{tip.short_description}</Text>
               )}
 
               {/* Reasons why this tip was chosen */}
@@ -165,55 +272,25 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
                   ))}
                 </View>
               )}
-            </View>
 
-            {/* Call to view details */}
-            <TouchableOpacity
-              style={styles.expandButton}
-              onPress={() => goToPage(1)}
-              accessibilityRole="button"
-              accessibilityHint="Opens the how-to instructions"
-            >
-              <Text style={styles.expandButtonText}>See How To Do It</Text>
-              <Ionicons name="chevron-forward" size={20} color="#4CAF50" />
-            </TouchableOpacity>
-          </View>
-
-          {/* PAGE 2 — How-to / Details */}
-          <View style={[styles.page, { width: cardWidth || SCREEN_WIDTH }]}>
-            {/* Back to summary */}
-            <View style={styles.detailsHeaderRow}>
-              <TouchableOpacity
-                onPress={() => goToPage(0)}
-                style={styles.backBtn}
-                accessibilityRole="button"
-                accessibilityLabel="Back to summary"
-              >
-                <Ionicons name="chevron-back" size={20} color="#4CAF50" />
-                <Text style={styles.backBtnText}>Summary</Text>
-              </TouchableOpacity>
-
-              <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-                <Ionicons name="construct-outline" size={18} color="#666" />
-                <Text style={styles.detailsTitle}>How to do it</Text>
+              {/* How to do it section */}
+              <View style={styles.howToSection}>
+                <View style={styles.sectionHeader}>
+                  <Ionicons name="construct-outline" size={18} color="#4CAF50" />
+                  <Text style={styles.sectionTitle}>How to do it</Text>
+                </View>
+                <Text style={styles.detailsText}>{tip.details_md}</Text>
               </View>
-            </View>
-
-            <ScrollView
-              style={{ maxHeight: DETAILS_MAX_HEIGHT }}
-              showsVerticalScrollIndicator={false}
-              nestedScrollEnabled
-            >
-              <Text style={styles.detailsText}>{tip.details_md}</Text>
 
               {/* Additional Info */}
               <View style={styles.infoGrid}>
                 <View style={styles.infoItem}>
-                  <Ionicons name="restaurant-outline" size={20} color="#666" />
-                  <Text style={styles.infoLabel}>Best Time</Text>
+                  <Ionicons name="sunny-outline" size={20} color="#666" />
+                  <Text style={styles.infoLabel}>When</Text>
                   <Text style={styles.infoValue}>
-                    {tip.time_of_day
-                      .map((t) => t.charAt(0).toUpperCase() + t.slice(1))
+                    {(tip.when || [])
+                      .slice(0, 2)
+                      .map((t) => t.replace(/_/g, ' ').charAt(0).toUpperCase() + t.replace(/_/g, ' ').slice(1))
                       .join(', ')}
                   </Text>
                 </View>
@@ -221,14 +298,15 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
                 <View style={styles.infoItem}>
                   <Ionicons name="cash-outline" size={20} color="#666" />
                   <Text style={styles.infoLabel}>Cost</Text>
-                  <Text style={styles.infoValue}>{tip.money_cost_enum}</Text>
+                  <Text style={styles.infoValue}>{tip.cost}</Text>
                 </View>
 
                 <View style={styles.infoItem}>
                   <Ionicons name="location-outline" size={20} color="#666" />
                   <Text style={styles.infoLabel}>Where</Text>
                   <Text style={styles.infoValue}>
-                    {tip.location_tags
+                    {(tip.where || [])
+                      .slice(0, 2)
                       .map((l) => l.charAt(0).toUpperCase() + l.slice(1))
                       .join(', ')}
                   </Text>
@@ -288,7 +366,7 @@ export default function DailyTipCardPager({ tip, onResponse, reasons = [] }: Pro
             </TouchableOpacity>
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </Animated.View>
   );
 }
@@ -297,89 +375,282 @@ const styles = StyleSheet.create({
   container: { margin: 16 },
   card: {
     borderRadius: 20,
-    padding: 20,
+    backgroundColor: '#FFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 5,
+    overflow: 'hidden',
   },
-  page: { },
-  header: { marginBottom: 16 },
-  headerTop: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12,
+  page: {},
+
+  // Hero styles for PAGE 1
+  heroBackground: {
+    height: 200,
+    borderRadius: 16,
+    overflow: 'hidden',
+    margin: 12,
   },
-  label: { fontSize: 12, fontWeight: '700', color: '#4CAF50', letterSpacing: 1 },
-  badges: { flexDirection: 'row', gap: 8 },
+  heroImage: {
+    borderRadius: 16,
+  },
+  heroOverlay: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  heroContent: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  heroIconContainer: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  heroBadges: {
+    flexDirection: 'row',
+    gap: 8,
+    alignSelf: 'flex-start',
+  },
   badge: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 12, gap: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 16,
+    gap: 4,
   },
-  timeBadge: { backgroundColor: '#F5F5F5' },
-  difficultyBadge: { backgroundColor: '#E8F5E9' },
-  badgeText: { fontSize: 11, color: '#666', fontWeight: '600' },
-  summary: {
-    fontSize: 20,
+  heroBadge: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  heroBadgeText: {
+    fontSize: 12,
+    color: '#FFF',
+    fontWeight: '600',
+  },
+  heroTitleContainer: {
+    marginTop: 'auto',
+  },
+  heroLabel: {
+    fontSize: 11,
     fontWeight: '700',
-    color: '#212121',
-    lineHeight: 28,
+    color: 'rgba(255,255,255,0.8)',
+    letterSpacing: 1,
     marginBottom: 6,
   },
-  summarySubtitle: {
+  heroTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#FFF',
+    lineHeight: 28,
+    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
+  },
+
+  expandButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    gap: 8,
+  },
+  expandButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#4CAF50',
+  },
+
+  // Details page styles (PAGE 2)
+  detailsHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+    gap: 12,
+  },
+  backBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 6,
+  },
+  backBtnText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4CAF50',
+  },
+  detailsTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#212121',
+    flex: 1,
+  },
+
+  shortDescription: {
     fontSize: 15,
     color: '#555',
     lineHeight: 22,
+    paddingHorizontal: 16,
     marginBottom: 12,
   },
 
-  reasonsContainer: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 12, gap: 8 },
+  reasonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    gap: 8,
+  },
   reasonChip: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: '#E8F5E9',
-    paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12, gap: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
+    gap: 4,
   },
-  reasonText: { fontSize: 11, color: '#2E7D32', fontWeight: '500' },
-
-  expandButton: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12, gap: 8,
+  reasonText: {
+    fontSize: 12,
+    color: '#2E7D32',
+    fontWeight: '500',
   },
-  expandButtonText: { fontSize: 14, fontWeight: '600', color: '#4CAF50' },
 
-  detailsHeaderRow: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8,
+  howToSection: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
   },
-  backBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingVertical: 6, paddingRight: 8 },
-  backBtnText: { fontSize: 13, fontWeight: '600', color: '#4CAF50' },
-  detailsTitle: { fontSize: 14, fontWeight: '700', color: '#424242' },
-
-  detailsText: { fontSize: 15, color: '#424242', lineHeight: 22, marginBottom: 20 },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#424242',
+  },
+  detailsText: {
+    fontSize: 15,
+    color: '#424242',
+    lineHeight: 22,
+  },
 
   infoGrid: {
-    flexDirection: 'row', justifyContent: 'space-around', marginVertical: 20, paddingVertical: 16,
-    borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#E0E0E0',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginHorizontal: 16,
+    marginVertical: 16,
+    paddingVertical: 16,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#E0E0E0',
   },
-  infoItem: { alignItems: 'center' },
-  infoLabel: { fontSize: 11, color: '#757575', marginTop: 4 },
-  infoValue: { fontSize: 12, color: '#424242', fontWeight: '600', marginTop: 2 },
+  infoItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  infoLabel: {
+    fontSize: 11,
+    color: '#757575',
+    marginTop: 4,
+  },
+  infoValue: {
+    fontSize: 12,
+    color: '#424242',
+    fontWeight: '600',
+    marginTop: 2,
+    textAlign: 'center',
+  },
 
-  goalsSection: { marginTop: 16 },
-  goalsSectionTitle: { fontSize: 12, fontWeight: '600', color: '#757575', marginBottom: 8 },
-  goalsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  goalChip: { backgroundColor: '#FFF3E0', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
-  goalChipText: { fontSize: 11, color: '#E65100', fontWeight: '500' },
+  goalsSection: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  goalsSectionTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#757575',
+    marginBottom: 8,
+  },
+  goalsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  goalChip: {
+    backgroundColor: '#FFF3E0',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+  goalChipText: {
+    fontSize: 11,
+    color: '#E65100',
+    fontWeight: '500',
+  },
 
-  pagerDots: { flexDirection: 'row', alignSelf: 'center', gap: 8, marginTop: 10 },
+  pagerDots: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    gap: 8,
+    paddingVertical: 8,
+  },
   dot: {
-    width: 8, height: 8, borderRadius: 4, backgroundColor: '#C8E6C9',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#C8E6C9',
   },
 
-  responseContainer: { marginTop: 16, gap: 12 },
-  responseButton: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 14, borderRadius: 12, gap: 8,
+  responseContainer: {
+    padding: 16,
+    paddingTop: 8,
+    gap: 12,
   },
-  tryButton: { backgroundColor: '#4CAF50' },
-  tryButtonText: { fontSize: 16, fontWeight: '700', color: '#FFF' },
-  secondaryButtons: { flexDirection: 'row', gap: 12 },
-  maybeButton: { flex: 1, backgroundColor: '#FFF3E0' },
-  maybeButtonText: { fontSize: 14, fontWeight: '600', color: '#FF9800' },
-  skipButton: { flex: 1, backgroundColor: '#F5F5F5' },
-  skipButtonText: { fontSize: 14, fontWeight: '600', color: '#757575' },
+  responseButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 12,
+    gap: 8,
+  },
+  tryButton: {
+    backgroundColor: '#4CAF50',
+  },
+  tryButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFF',
+  },
+  secondaryButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  maybeButton: {
+    flex: 1,
+    backgroundColor: '#FFF3E0',
+  },
+  maybeButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FF9800',
+  },
+  skipButton: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+  },
+  skipButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#757575',
+  },
 });

@@ -321,6 +321,91 @@ export default function DailyTipCardEnhanced({
 
   const renderSummaryCard = () => {
     const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
+
+    return (
+      <View style={styles.pageContainer}>
+        <View style={styles.mainCard}>
+          {/* Full visual card - image or gradient fills the space */}
+          {summaryImage ? (
+            <View style={styles.visualHeroContainer}>
+              <Image
+                source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
+                style={styles.visualHeroImage}
+                resizeMode="cover"
+                accessibilityLabel={summaryImage.alt_text}
+                fadeDuration={0}
+              />
+              {/* Overlay gradient for text readability */}
+              <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,0.7)']}
+                style={styles.visualHeroOverlay}
+              >
+                {/* Badges at top */}
+                <View style={styles.visualHeroBadges}>
+                  <View style={styles.visualHeroBadge}>
+                    <Ionicons name="time-outline" size={14} color="#FFF" />
+                    <Text style={styles.visualHeroBadgeText}>{tip.time ? tip.time.replace('_', ' ') : '5 min'}</Text>
+                  </View>
+                  <View style={styles.visualHeroBadge}>
+                    <Text style={styles.visualHeroBadgeText}>{tip.difficulty ? `Level ${tip.difficulty}` : 'Easy'}</Text>
+                  </View>
+                </View>
+
+                {/* Title at bottom */}
+                <View style={styles.visualHeroTitleContainer}>
+                  <Text style={styles.visualHeroLabel}>TODAY'S EXPERIMENT</Text>
+                  <Text style={styles.visualHeroTitle}>{tip.summary}</Text>
+                  {tip.short_description && (
+                    <Text style={styles.visualHeroSubtitle}>{tip.short_description}</Text>
+                  )}
+                </View>
+              </LinearGradient>
+            </View>
+          ) : (
+            <LinearGradient
+              colors={[theme.primary, theme.primaryLight]}
+              style={styles.visualHeroContainer}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              {/* Background decoration */}
+              <View style={styles.decoCircleBig} />
+              <View style={styles.decoCircleSmall} />
+
+              {/* Badges at top */}
+              <View style={styles.visualHeroBadges}>
+                <View style={[styles.visualHeroBadge, { backgroundColor: 'rgba(255,255,255,0.2)' }]}>
+                  <Ionicons name="time-outline" size={14} color="#FFF" />
+                  <Text style={styles.visualHeroBadgeText}>{tip.time ? tip.time.replace('_', ' ') : '5 min'}</Text>
+                </View>
+                <View style={[styles.visualHeroBadge, { backgroundColor: 'rgba(255,255,255,0.2)' }]}>
+                  <Text style={styles.visualHeroBadgeText}>{tip.difficulty ? `Level ${tip.difficulty}` : 'Easy'}</Text>
+                </View>
+              </View>
+
+              {/* Centered content */}
+              <View style={styles.visualHeroCenter}>
+                <Ionicons name="bulb-outline" size={64} color="rgba(255,255,255,0.3)" style={{ marginBottom: 16 }} />
+                <Text style={styles.visualHeroLabel}>TODAY'S EXPERIMENT</Text>
+                <Text style={styles.visualHeroTitle}>{tip.summary}</Text>
+                {tip.short_description && (
+                  <Text style={styles.visualHeroSubtitle}>{tip.short_description}</Text>
+                )}
+              </View>
+
+              {/* Swipe hint at bottom */}
+              <View style={styles.swipeHint}>
+                <Text style={styles.swipeHintText}>Swipe for details</Text>
+                <Ionicons name="chevron-forward" size={16} color="rgba(255,255,255,0.7)" />
+              </View>
+            </LinearGradient>
+          )}
+        </View>
+      </View>
+    );
+  };
+
+  const renderDetailsCard = () => {
     const hasHook = !!selectedHook;
 
     return (
@@ -331,122 +416,71 @@ export default function DailyTipCardEnhanced({
             contentContainerStyle={{ flexGrow: 1 }}
             showsVerticalScrollIndicator={false}
           >
-            {/* Image or Gradient Header - now scrolls with content */}
-            {summaryImage ? (
-              <View style={styles.imageContainer}>
-                <Image
-                  source={typeof summaryImage.url === 'string' ? { uri: summaryImage.url } : summaryImage.url}
-                  style={styles.coverImage}
-                  resizeMode="cover"
-                  accessibilityLabel={summaryImage.alt_text}
-                  fadeDuration={0}
-                />
-              </View>
-            ) : (
-              <LinearGradient
-                colors={[theme.primary, theme.primaryLight]}
-                style={styles.cardVisualGradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-              >
-                <CardVisualHeader
-                  title={tip.summary}
-                  subtitle="Today's Tip"
-                  icon="bulb-outline"
-                />
-              </LinearGradient>
-            )}
-
-            {/* Content Section */}
+            <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+              <CardVisualHeader title="Details" subtitle="Learn more" icon="information-circle-outline" />
+            </LinearGradient>
             <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
-              <View style={styles.textContentContainer}>
-                {/* For image version, always show summary as headline */}
-                {summaryImage && (
-                  <>
-                    <Text style={[styles.hookHeadline, { color: theme.gray900 }]}>
-                      {tip.summary}
-                    </Text>
-                    <Text style={[styles.contentSubtitle, { color: theme.primary }]}>Today's Tip</Text>
-                  </>
-                )}
+              {/* Hook-based content structure when hooks are available */}
+              {hasHook ? (
+                <>
+                  {/* Detail - the evidence/teaching (why it works) */}
+                  <Text style={[styles.hookDetail, { color: theme.gray700 }]}>
+                    {selectedHook.detail}
+                  </Text>
 
-                {/* Hook-based content structure when hooks are available */}
-                {hasHook ? (
-                  <>
-                    {/* Detail - the evidence/teaching (why it works) */}
-                    <Text style={[styles.hookDetail, { color: theme.gray700 }]}>
-                      {selectedHook.detail}
-                    </Text>
+                  {/* Divider */}
+                  <View style={[styles.hookDivider, { backgroundColor: theme.primaryLighter }]} />
 
-                    {/* Divider */}
-                    <View style={[styles.hookDivider, { backgroundColor: theme.primaryLighter }]} />
-
-                    {/* Action - the specific thing to try today */}
-                    <View style={[styles.actionContainer, { backgroundColor: theme.white, borderColor: theme.primaryLight }]}>
-                      <View style={styles.actionHeader}>
-                        <Ionicons name="flash" size={18} color={theme.primary} />
-                        <Text style={[styles.actionLabel, { color: theme.primary }]}>Today's Experiment</Text>
-                      </View>
-                      <Text style={[styles.actionText, { color: theme.gray900 }]}>
-                        {selectedHook.action}
-                      </Text>
+                  {/* Action - the specific thing to try today */}
+                  <View style={[styles.actionContainer, { backgroundColor: theme.white, borderColor: theme.primaryLight }]}>
+                    <View style={styles.actionHeader}>
+                      <Ionicons name="flash" size={18} color={theme.primary} />
+                      <Text style={[styles.actionLabel, { color: theme.primary }]}>Today's Experiment</Text>
                     </View>
-                  </>
-                ) : (
-                  <>
-                    {/* Fallback: Original content when no hooks */}
-                    {tip.short_description && (
-                      <Text style={[styles.contentDescription, { color: theme.gray700 }]}>
-                        {tip.short_description}
-                      </Text>
-                    )}
-                  </>
-                )}
-              </View>
+                    <Text style={[styles.actionText, { color: theme.gray900 }]}>
+                      {selectedHook.action}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                <>
+                  {/* Fallback: Show details_md content */}
+                  <Text style={styles.bodyText}>{detailsSections.experiment || tip.details_md}</Text>
+                </>
+              )}
+
+              {/* Goals section */}
+              {(tip.goals && tip.goals.length > 0) && (
+                <>
+                  <View style={styles.divider} />
+                  <Text style={styles.sectionTitle}>This helps with</Text>
+                  <View style={styles.tagContainer}>
+                    {[...new Set(tip.goals || [])].map((goal, index) => {
+                      const isUserGoal = relevantGoals.includes(goal);
+                      return (
+                        <View key={index} style={[
+                          styles.tag,
+                          isUserGoal && { backgroundColor: theme.primaryLightest, borderColor: theme.primaryLight, borderWidth: 1 }
+                        ]}>
+                          {isUserGoal && <Ionicons name="checkmark-circle" size={16} color={theme.primary} />}
+                          <Text style={[
+                            styles.tagText,
+                            isUserGoal && { color: theme.primary, fontWeight: '600' }
+                          ]}>
+                            {goal.replace(/_/g, ' ')}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                </>
+              )}
             </View>
           </ScrollView>
         </View>
       </View>
     );
   };
-
-  const renderGoalsCard = () => (
-    <View style={styles.pageContainer}>
-      <View style={styles.mainCard}>
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-            <CardVisualHeader title="Goals" subtitle="Why this matters" icon="trophy-outline" />
-          </LinearGradient>
-          <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
-            <Text style={styles.sectionTitle}>Targeted Goals</Text>
-            <View style={styles.tagContainer}>
-               {[...new Set(tip.goals || [])].map((goal, index) => {
-                  const isUserGoal = relevantGoals.includes(goal);
-                  return (
-                    <View key={index} style={[
-                      styles.tag,
-                      isUserGoal && { backgroundColor: theme.primaryLightest, borderColor: theme.primaryLight, borderWidth: 1 }
-                    ]}>
-                      {isUserGoal && <Ionicons name="checkmark-circle" size={16} color={theme.primary} />}
-                      <Text style={[
-                        styles.tagText,
-                        isUserGoal && { color: theme.primary, fontWeight: '600' }
-                      ]}>
-                        {goal.replace(/_/g, ' ')}
-                      </Text>
-                    </View>
-                  );
-                })}
-            </View>
-          </View>
-        </ScrollView>
-      </View>
-    </View>
-  );
 
   const renderBenefitsCard = () => (
     <View style={styles.pageContainer}>
@@ -549,7 +583,7 @@ export default function DailyTipCardEnhanced({
 
   const pages = [
     { key: 'summary', title: 'Summary', icon: 'flash', render: renderSummaryCard },
-    { key: 'goals', title: 'Goals', icon: 'trophy', render: renderGoalsCard },
+    { key: 'details', title: 'Details', icon: 'information-circle', render: renderDetailsCard },
     { key: 'benefits', title: 'Why', icon: 'school', render: renderBenefitsCard },
     { key: 'howto', title: 'How To', icon: 'list', render: renderHowToCard },
     ...(shouldShowPersonalization ? [{ key: 'personalize', title: 'Plan', icon: 'create', render: renderPersonalizationCard }] : []),
@@ -752,7 +786,7 @@ export default function DailyTipCardEnhanced({
               <View style={styles.quickInfoDivider} />
               <View style={styles.quickInfoItem}>
                 <Ionicons name="wallet-outline" size={16} color={theme.primary} />
-                <Text style={styles.quickInfoText}>{tip.money_cost_enum === 'free' ? 'Free' : 'Low Cost'}</Text>
+                <Text style={styles.quickInfoText}>{tip.cost === '$' ? 'Free' : tip.cost === '$$' ? 'Low Cost' : 'Premium'}</Text>
               </View>
             </View>
 
@@ -902,6 +936,87 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
     padding: 20,
+  },
+  // Visual Hero styles for summary page
+  visualHeroContainer: {
+    flex: 1,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  visualHeroImage: {
+    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
+  },
+  visualHeroOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  visualHeroBadges: {
+    flexDirection: 'row',
+    gap: 8,
+    alignSelf: 'flex-start',
+  },
+  visualHeroBadge: {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  visualHeroBadgeText: {
+    fontSize: 12,
+    color: '#FFF',
+    fontWeight: '600',
+  },
+  visualHeroTitleContainer: {
+    marginTop: 'auto',
+  },
+  visualHeroCenter: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+  },
+  visualHeroLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: 'rgba(255,255,255,0.8)',
+    letterSpacing: 1.5,
+    marginBottom: 8,
+    textTransform: 'uppercase',
+  },
+  visualHeroTitle: {
+    fontSize: 26,
+    fontWeight: '700',
+    color: '#FFF',
+    textAlign: 'center',
+    lineHeight: 32,
+    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+    marginBottom: 8,
+  },
+  visualHeroSubtitle: {
+    fontSize: 15,
+    color: 'rgba(255,255,255,0.85)',
+    textAlign: 'center',
+    lineHeight: 22,
+  },
+  swipeHint: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    paddingBottom: 20,
+  },
+  swipeHintText: {
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.7)',
+    fontWeight: '500',
   },
   imageContainer: {
     height: 220,
