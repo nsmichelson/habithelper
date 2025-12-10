@@ -239,9 +239,12 @@ export default function ExperimentModeSwipe({
           options: [
             { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
             { id: 'meal_prepped', icon: 'restaurant-outline', label: 'Meals prepped' },
+            { id: 'hydrated', icon: 'water-outline', label: 'Hydrated' },
             { id: 'healthy_food', icon: 'leaf-outline', label: 'Healthy food available' },
             { id: 'not_hungry', icon: 'thumbs-up-outline', label: 'Not too hungry' },
-            { id: 'support', icon: 'people-outline', label: 'Supportive people around' },
+            { id: 'planned_leftovers', icon: 'calendar-outline', label: 'Leftovers ready' },
+            { id: 'support', icon: 'people-outline', label: 'Supportive people' },
+            { id: 'good_routine', icon: 'repeat-outline', label: 'In a rhythm' },
             { id: 'home', icon: 'home-outline', label: 'Eating at home' },
           ]
         },
@@ -250,9 +253,14 @@ export default function ExperimentModeSwipe({
           options: [
             { id: 'cravings', icon: 'pizza-outline', label: 'Cravings' },
             { id: 'social_eating', icon: 'people-outline', label: 'Social eating' },
+            { id: 'boredom', icon: 'game-controller-outline', label: 'Boredom' },
+            { id: 'thirst', icon: 'water-outline', label: 'Thirsty' },
             { id: 'no_healthy_options', icon: 'close-circle-outline', label: 'No healthy options' },
             { id: 'stressed', icon: 'cloudy-outline', label: 'Stress eating' },
+            { id: 'celebration', icon: 'gift-outline', label: 'Celebration' },
             { id: 'tired', icon: 'moon-outline', label: 'Too tired to cook' },
+            { id: 'travel', icon: 'airplane-outline', label: 'Traveling' },
+            { id: 'emotional', icon: 'heart-dislike-outline', label: 'Emotional' },
             { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
           ]
         }
@@ -263,8 +271,11 @@ export default function ExperimentModeSwipe({
           options: [
             { id: 'energized', icon: 'battery-full-outline', label: 'Feeling energized' },
             { id: 'motivated', icon: 'flash-outline', label: 'Motivated' },
+            { id: 'playlist', icon: 'musical-notes-outline', label: 'Good playlist' },
             { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+            { id: 'goal_focus', icon: 'trophy-outline', label: 'Goal in mind' },
             { id: 'gear_ready', icon: 'fitness-outline', label: 'Gear ready' },
+            { id: 'routine', icon: 'sync-outline', label: 'Habit established' },
             { id: 'buddy', icon: 'people-outline', label: 'Workout buddy' },
             { id: 'good_weather', icon: 'sunny-outline', label: 'Good weather' },
           ]
@@ -274,8 +285,12 @@ export default function ExperimentModeSwipe({
           options: [
             { id: 'tired', icon: 'moon-outline', label: 'Feeling tired' },
             { id: 'sore', icon: 'bandage-outline', label: 'Body is sore' },
+            { id: 'injury', icon: 'medkit-outline', label: 'Minor ache' },
             { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
+            { id: 'no_equipment', icon: 'barbell-outline', label: 'No equipment' },
+            { id: 'self_conscious', icon: 'eye-off-outline', label: 'Self-conscious' },
             { id: 'weather', icon: 'rainy-outline', label: 'Bad weather' },
+            { id: 'family_duty', icon: 'people-outline', label: 'Family needs' },
             { id: 'no_motivation', icon: 'trending-down-outline', label: 'Low motivation' },
             { id: 'no_gym', icon: 'close-circle-outline', label: 'No gym access' },
           ]
@@ -286,10 +301,14 @@ export default function ExperimentModeSwipe({
           label: "What's working in your favor?",
           options: [
             { id: 'relaxed', icon: 'leaf-outline', label: 'Feeling relaxed' },
+            { id: 'cool_room', icon: 'thermometer-outline', label: 'Cool room' },
             { id: 'no_caffeine', icon: 'cafe-outline', label: 'No late caffeine' },
+            { id: 'fresh_bedding', icon: 'bed-outline', label: 'Fresh sheets' },
             { id: 'early_dinner', icon: 'restaurant-outline', label: 'Ate dinner early' },
             { id: 'quiet_home', icon: 'home-outline', label: 'Quiet at home' },
+            { id: 'darkness', icon: 'moon-outline', label: 'Dark room' },
             { id: 'tired', icon: 'moon-outline', label: 'Naturally tired' },
+            { id: 'wind_down', icon: 'book-outline', label: 'Wind-down time' },
             { id: 'no_screens', icon: 'phone-portrait-outline', label: 'Limiting screens' },
           ]
         },
@@ -299,9 +318,14 @@ export default function ExperimentModeSwipe({
             { id: 'wired', icon: 'flash-outline', label: 'Feeling wired' },
             { id: 'screens', icon: 'phone-portrait-outline', label: 'Screen temptation' },
             { id: 'late_caffeine', icon: 'cafe-outline', label: 'Had caffeine late' },
+            { id: 'temperature', icon: 'thermometer-outline', label: 'Too hot/cold' },
             { id: 'stress', icon: 'cloudy-outline', label: 'Mind racing' },
+            { id: 'pets', icon: 'paw-outline', label: 'Pets' },
+            { id: 'partner', icon: 'people-outline', label: 'Partner/Kids' },
             { id: 'noise', icon: 'volume-high-outline', label: 'Noisy environment' },
+            { id: 'pain', icon: 'bandage-outline', label: 'Discomfort' },
             { id: 'late_plans', icon: 'calendar-outline', label: 'Late night plans' },
+            { id: 'late_meal', icon: 'restaurant-outline', label: 'Ate late' },
           ]
         }
       },
@@ -310,10 +334,14 @@ export default function ExperimentModeSwipe({
           label: "What's working in your favor?",
           options: [
             { id: 'calm', icon: 'leaf-outline', label: 'Feeling calm' },
+            { id: 'nature', icon: 'flower-outline', label: 'Nature time' },
             { id: 'light_day', icon: 'sunny-outline', label: 'Light schedule' },
+            { id: 'music', icon: 'musical-notes-outline', label: 'Music/Audio' },
             { id: 'support', icon: 'people-outline', label: 'Support available' },
+            { id: 'perspective', icon: 'glasses-outline', label: 'Good perspective' },
             { id: 'slept_well', icon: 'moon-outline', label: 'Slept well' },
             { id: 'quiet_space', icon: 'home-outline', label: 'Have quiet space' },
+            { id: 'exercise', icon: 'walk-outline', label: 'Moved body' },
             { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
           ]
         },
@@ -321,10 +349,15 @@ export default function ExperimentModeSwipe({
           label: "What might get in the way?",
           options: [
             { id: 'overwhelmed', icon: 'alert-circle-outline', label: 'Feeling overwhelmed' },
+            { id: 'news', icon: 'newspaper-outline', label: 'News/Socials' },
             { id: 'busy', icon: 'calendar-outline', label: 'Packed schedule' },
+            { id: 'money', icon: 'cash-outline', label: 'Financial worry' },
+            { id: 'health', icon: 'pulse-outline', label: 'Health worry' },
             { id: 'deadlines', icon: 'time-outline', label: 'Deadlines looming' },
             { id: 'conflict', icon: 'people-outline', label: 'People stress' },
+            { id: 'commute', icon: 'car-outline', label: 'Traffic/Travel' },
             { id: 'no_space', icon: 'close-circle-outline', label: 'No quiet space' },
+            { id: 'hangry', icon: 'pizza-outline', label: 'Hungry' },
             { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
           ]
         }
@@ -334,9 +367,13 @@ export default function ExperimentModeSwipe({
           label: "What's working in your favor?",
           options: [
             { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
+            { id: 'written_plan', icon: 'list-outline', label: 'Have a list' },
             { id: 'free_time', icon: 'time-outline', label: 'Have free time' },
+            { id: 'clean_space', icon: 'sparkles-outline', label: 'Clear space' },
             { id: 'clear_head', icon: 'sunny-outline', label: 'Clear headed' },
+            { id: 'deadline', icon: 'timer-outline', label: 'Good pressure' },
             { id: 'tools_ready', icon: 'construct-outline', label: 'Tools ready' },
+            { id: 'small_win', icon: 'checkmark-circle-outline', label: 'Early win' },
             { id: 'home', icon: 'home-outline', label: 'At home' },
             { id: 'energized', icon: 'battery-full-outline', label: 'Energized' },
           ]
@@ -345,10 +382,15 @@ export default function ExperimentModeSwipe({
           label: "What might get in the way?",
           options: [
             { id: 'overwhelmed', icon: 'alert-circle-outline', label: 'Feeling overwhelmed' },
+            { id: 'messy', icon: 'trash-outline', label: 'Messy space' },
             { id: 'busy', icon: 'calendar-outline', label: 'Too busy' },
+            { id: 'perfectionism', icon: 'create-outline', label: 'Perfectionism' },
             { id: 'distractions', icon: 'notifications-outline', label: 'Distractions' },
+            { id: 'interruptions', icon: 'people-outline', label: 'Interruptions' },
             { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'brain_fog', icon: 'cloud-outline', label: 'Brain fog' },
             { id: 'not_home', icon: 'car-outline', label: 'Away from home' },
+            { id: 'missing_info', icon: 'help-circle-outline', label: 'Missing info' },
             { id: 'procrastinating', icon: 'hourglass-outline', label: 'Procrastinating' },
           ]
         }
@@ -358,10 +400,14 @@ export default function ExperimentModeSwipe({
           label: "What's working in your favor?",
           options: [
             { id: 'good_mood', icon: 'happy-outline', label: 'In a good mood' },
+            { id: 'shared_activity', icon: 'bicycle-outline', label: 'Shared activity' },
             { id: 'free_time', icon: 'time-outline', label: 'Have quality time' },
+            { id: 'good_news', icon: 'star-outline', label: 'Good news' },
             { id: 'connected', icon: 'heart-outline', label: 'Feeling connected' },
             { id: 'partner_available', icon: 'people-outline', label: 'Partner available' },
+            { id: 'touch', icon: 'hand-left-outline', label: 'Physical touch' },
             { id: 'calm', icon: 'leaf-outline', label: 'Feeling patient' },
+            { id: 'willingness', icon: 'heart-outline', label: 'Both willing' },
             { id: 'rested', icon: 'sunny-outline', label: 'Well rested' },
           ]
         },
@@ -369,10 +415,15 @@ export default function ExperimentModeSwipe({
           label: "What might get in the way?",
           options: [
             { id: 'stressed', icon: 'cloudy-outline', label: 'Stressed out' },
+            { id: 'miscommunication', icon: 'chatbubble-outline', label: 'Miscommunication' },
             { id: 'busy', icon: 'calendar-outline', label: 'Both busy' },
+            { id: 'money', icon: 'cash-outline', label: 'Money stress' },
             { id: 'tension', icon: 'alert-circle-outline', label: 'Some tension' },
+            { id: 'hangry', icon: 'restaurant-outline', label: 'Hunger/Hangry' },
             { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'screens', icon: 'phone-portrait-outline', label: 'Screens present' },
             { id: 'distracted', icon: 'phone-portrait-outline', label: 'Distractions' },
+            { id: 'kids', icon: 'people-outline', label: 'Parenting' },
             { id: 'apart', icon: 'location-outline', label: 'Not together' },
           ]
         }
