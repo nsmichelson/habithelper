@@ -851,7 +851,7 @@ export default function ExperimentModeSwipe({
           iconColor: '#9333ea',
           title: 'Gift to Future You',
           text: "Cooking once and eating twice is the ultimate consistency hack.",
-          priority: 8,
+          priority: 9,
           modalContent: {
             title: "Smart Move",
             description: "By preparing food ahead of time, you removed the friction of decision-making.",
