@@ -1,0 +1,312 @@
+Starting project at /app
+Starting Metro Bundler
+The following packages should be updated for best compatibility with the installed expo version:
+  @react-native-async-storage/async-storage@2.2.0 - expected version: 2.1.2
+  expo-image@2.4.0 - expected version: ~2.4.1
+  expo-router@5.1.4 - expected version: ~5.1.8
+  expo-system-ui@5.0.10 - expected version: ~5.0.11
+  lottie-react-native@7.3.2 - expected version: 7.2.2
+  react-native@0.79.5 - expected version: 0.79.6
+  react-native-svg@15.12.1 - expected version: 15.11.2
+Your project may not work correctly until you install the expected versions of the packages.
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules/expo-router/entry.js ▓▓▓░░░░░░░░░░░░░ 20.2% ( 80/178)
+λ node_modules/expo-router/node/render.js ▓▓▓▓░░░░░░░░░░░░ 26.9% (170/328)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 50.2% (196/315)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓░░░░░░░░░ 47.3% (387/594)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 51.8% (304/429)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓░░░░░░░░░ 47.7% (536/994)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 51.8% (333/506)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 58.2% ( 894/1172)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 51.8% (499/949)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 76.2% (1141/1307)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 51.8% ( 698/1186)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 80.2% (1237/1381)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓░░░░░░ 63.7% (1041/1304)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 89.0% (1352/1433)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 80.0% (1301/1455)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 90.7% (1482/1565)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 96.6% (1622/1661)
+λ node_modules/expo-router/node/render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.3% (1660/1666)
+λ Bundled 31676ms node_modules/expo-router/node/render.js (1666 modules)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:32:08.510Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (1673/1673)
+Web Bundled 38112ms node_modules/expo-router/entry.js (1673 modules)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (1673/1673)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓░░░░░░░░░░ 42.6% (370/567)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 54.1% ( 835/1135)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 80.6% (1310/1459)
+λ Bundled 75ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:32:22.677Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 2104ms node_modules/expo-router/entry.js (1 module)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 83.8% (1418/1549)
+Web Bundled 16481ms node_modules/expo-router/entry.js (1674 modules)
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 48ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:32:37.585Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 1382ms node_modules/expo-router/entry.js (1 module)
+Web Bundled 244ms node_modules/expo-router/entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 68ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:33:25.173Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 1156ms node_modules/expo-router/entry.js (1 module)
+Web Bundled 87ms node_modules/expo-router/entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 76ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:34:10.332Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 1146ms node_modules/expo-router/entry.js (1 module)
+Web Bundled 86ms node_modules/expo-router/entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 71ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:36:12.605Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 1190ms node_modules/expo-router/entry.js (1 module)
+Web Bundled 85ms node_modules/expo-router/entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 76ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:37:30.592Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 1166ms node_modules/expo-router/entry.js (1 module)
+Web Bundled 87ms node_modules/expo-router/entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 72ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:38:21.376Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 1188ms node_modules/expo-router/entry.js (1 module)
+Web Bundled 87ms node_modules/expo-router/entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 76ms node_modules/expo-router/node/render.js (1 module)
+λ  WARN  "shadow*" style props are deprecated. Use "boxShadow".
+λ  WARN  Require cycle: services/storage.ts -> services/awardService.ts -> services/storage.ts
+
+Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+  factory (services/awardService.ts:5:1)
+  factory (services/storage.ts:6:1)
+λ  WARN  "textShadow*" style props are deprecated. Use "textShadow".
+  factory (components/DailyTipCardEnhanced.tsx:832:27)
+λ  WARN  [expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+[2025-12-10T02:39:19.351Z]  @firebase/analytics: Analytics: Firebase Analytics is not supported in this environment. Wrap initialization of analytics in analytics.isSupported() to prevent initialization in unsupported environments. Details: (1) Cookies are not available. (analytics/invalid-analytics-context).
+λ  ERROR  Failed to initialize Firebase: ReferenceError: window is not defined
+    at getOrCreateDataLayer (/app/node_modules/@firebase/analytics/dist/index.cjs.js:181:23)
+    at factory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1044:9)
+    at Component.instanceFactory (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1252:16)
+    at Provider.getOrInitializeService (/app/node_modules/@firebase/component/dist/index.cjs.js:293:39)
+    at Provider.initialize (/app/node_modules/@firebase/component/dist/index.cjs.js:237:31)
+    at initializeAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1093:49)
+    at getAnalytics (/app/node_modules/@firebase/analytics/dist/index.cjs.js:1072:12)
+    at AnalyticsService.initialize (/app/services/analytics.ts:41:38)
+    at new AnalyticsService (/app/services/analytics.ts:33:10)
+    at /app/services/analytics.ts:298:16
+  AnalyticsService.initialize (services/analytics.ts:50:15)
+  new AnalyticsService (services/analytics.ts:33:10)
+  factory (services/analytics.ts:298:16)
+  factory (app/(tabs)/index.tsx:44:1)
+λ  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+Web Bundled 1154ms node_modules/expo-router/entry.js (1 module)
+Web Bundled 86ms node_modules/expo-router/entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
