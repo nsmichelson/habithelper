@@ -447,10 +447,74 @@ export default function ExperimentModeSwipe({
             { id: 'parenting', icon: 'people-outline', label: 'Parenting' },
           ]
         }
+      },
+      mindset: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
+            { id: 'clear_head', icon: 'sunny-outline', label: 'Clear head' },
+            { id: 'rested', icon: 'bed-outline', label: 'Well rested' },
+            { id: 'quiet_time', icon: 'volume-off-outline', label: 'Quiet time' },
+            { id: 'good_mood', icon: 'happy-outline', label: 'Good mood' },
+            { id: 'journal_ready', icon: 'book-outline', label: 'Journal ready' },
+            { id: 'support', icon: 'people-outline', label: 'Support available' },
+            { id: 'accomplished', icon: 'trophy-outline', label: 'Recent win' },
+            { id: 'curious', icon: 'bulb-outline', label: 'Feeling curious' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'anxious', icon: 'alert-circle-outline', label: 'Anxious thoughts' },
+            { id: 'distracted', icon: 'phone-portrait-outline', label: 'Distracted' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'overwhelmed', icon: 'cloud-outline', label: 'Overwhelmed' },
+            { id: 'negative_thoughts', icon: 'sad-outline', label: 'Negative thoughts' },
+            { id: 'no_time', icon: 'time-outline', label: 'No time' },
+            { id: 'noisy', icon: 'volume-high-outline', label: 'Noisy environment' },
+            { id: 'comparison', icon: 'people-outline', label: 'Comparing myself' },
+            { id: 'perfectionism', icon: 'checkmark-done-outline', label: 'Perfectionism' },
+            { id: 'low_energy', icon: 'battery-dead-outline', label: 'Low energy' },
+          ]
+        }
+      },
+      productivity: {
+        inFavor: {
+          label: "What's working in your favor?",
+          options: [
+            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
+            { id: 'clear_schedule', icon: 'calendar-outline', label: 'Clear schedule' },
+            { id: 'rested', icon: 'sunny-outline', label: 'Well rested' },
+            { id: 'quiet_space', icon: 'volume-off-outline', label: 'Quiet space' },
+            { id: 'have_list', icon: 'list-outline', label: 'Have a list' },
+            { id: 'deadline', icon: 'timer-outline', label: 'Good deadline pressure' },
+            { id: 'tools_ready', icon: 'laptop-outline', label: 'Tools ready' },
+            { id: 'focused', icon: 'eye-outline', label: 'Feeling focused' },
+            { id: 'early_win', icon: 'trophy-outline', label: 'Early win today' },
+          ]
+        },
+        obstacles: {
+          label: "What might get in the way?",
+          options: [
+            { id: 'distracted', icon: 'phone-portrait-outline', label: 'Distractions' },
+            { id: 'tired', icon: 'moon-outline', label: 'Too tired' },
+            { id: 'overwhelmed', icon: 'cloud-outline', label: 'Overwhelmed' },
+            { id: 'procrastinating', icon: 'hourglass-outline', label: 'Procrastinating' },
+            { id: 'interruptions', icon: 'notifications-outline', label: 'Interruptions' },
+            { id: 'unclear_priorities', icon: 'help-circle-outline', label: 'Unclear priorities' },
+            { id: 'low_energy', icon: 'battery-dead-outline', label: 'Low energy' },
+            { id: 'perfectionism', icon: 'checkmark-done-outline', label: 'Perfectionism' },
+            { id: 'meetings', icon: 'people-outline', label: 'Too many meetings' },
+            { id: 'decision_fatigue', icon: 'git-branch-outline', label: 'Decision fatigue' },
+          ]
+        }
       }
     };
 
-    const areaConfig = areaOptions[area] || areaOptions.nutrition;
+    // Map 'exercise' to 'fitness' since tips use 'exercise' but options use 'fitness'
+    const mappedArea = area === 'exercise' ? 'fitness' : area;
+    const areaConfig = areaOptions[mappedArea] || areaOptions.nutrition;
 
     return {
       feeling,
