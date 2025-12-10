@@ -738,7 +738,83 @@ export default function ExperimentModeSwipe({
         });
       }
 
+      if (selectedObstacles.includes('emotional')) {
+        cards.push({
+          id: 'emotional-halt',
+          type: 'strategy',
+          icon: 'heart-dislike-outline',
+          iconBg: '#fee2e2',
+          iconColor: '#ef4444',
+          title: 'Check H.A.L.T.',
+          text: "Emotional hunger comes on suddenly. Physical hunger comes on gradually.",
+          priority: 10,
+          modalContent: {
+            title: "The H.A.L.T. Check",
+            description: "Before you eat, ask yourself: Am I...",
+            mainText: "• Hungry?\n• Angry?\n• Lonely?\n• Tired?\n\nIf it's not Hunger, food won't fix it. Try a 'comfort menu' item instead: call a friend, take a nap, or go for a walk.",
+            buttonText: "Good check"
+          }
+        });
+      }
+
       // HELPERS
+      if (selectedInFavor.includes('healthy_food')) {
+        cards.push({
+          id: 'environment-design',
+          type: 'fact',
+          icon: 'leaf-outline',
+          iconBg: '#dcfce7',
+          iconColor: '#16a34a',
+          title: 'Visual Cues',
+          text: "You are 3x more likely to eat the first food you see in the kitchen.",
+          priority: 8,
+          modalContent: {
+            title: "The Fruit Bowl Effect",
+            description: "Google found that simply moving fruit baskets to the front of the cafeteria increased consumption by 50%.",
+            mainText: "By keeping healthy food visible and ready, you're hacking your own psychology. Well done!",
+            buttonText: "Science!"
+          }
+        });
+      }
+
+      if (selectedInFavor.includes('not_hungry')) {
+        cards.push({
+          id: 'body-wisdom',
+          type: 'encouragement',
+          icon: 'thumbs-up-outline',
+          iconBg: '#e0e7ff',
+          iconColor: '#4f46e5',
+          title: 'Trusting Your Gut',
+          text: "Listening to your body's 'enough' signal is a superpower.",
+          priority: 8,
+          modalContent: {
+            title: "The Hunger Scale",
+            description: "Many of us eat by the clock, not by our bodies.",
+            mainText: "Recognizing you aren't hungry and choosing not to eat is a huge win for intuitive eating. You're building a healthy relationship with food.",
+            buttonText: "Feeling good"
+          }
+        });
+      }
+
+      if (selectedInFavor.includes('home')) {
+        cards.push({
+          id: 'home-salt',
+          type: 'fact',
+          icon: 'home-outline',
+          iconBg: '#ffedd5',
+          iconColor: '#ea580c',
+          title: 'The Salt Secret',
+          text: "Restaurant meals often contain 2-3x the sodium of home-cooked food.",
+          priority: 7,
+          modalContent: {
+            title: "Hidden Sodium",
+            description: "Restaurants use salt to boost flavor quickly.",
+            mainText: "By eating at home today, you've automatically saved your heart and kidneys from a massive sodium spike. Your body thanks you!",
+            buttonText: "Tasty & Healthy"
+          }
+        });
+      }
+
       if (selectedInFavor.includes('hydrated')) {
         cards.push({
           id: 'hydrated-boost',
@@ -758,6 +834,8 @@ export default function ExperimentModeSwipe({
         });
       }
 
+      // Note: 'healthy_food' is handled specifically above for nutrition, but we keep this as a fallback/general encouragement
+      // if 'meal_prepped' is selected or for other areas.
       if (selectedInFavor.includes('leftovers') || selectedInFavor.includes('meal_prepped')) {
         cards.push({
           id: 'leftover-gift',
