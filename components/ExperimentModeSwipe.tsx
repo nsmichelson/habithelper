@@ -574,6 +574,12 @@ export default function ExperimentModeSwipe({
     const cards: MotivationCard[] = [];
     const area = tip?.area || 'nutrition';
 
+    // Determine effective area (mirroring getCheckInOptions logic)
+    // If the area isn't one of the specific known types, it falls back to nutrition options in the UI,
+    // so we should also fallback to nutrition cards logic here.
+    const mappedArea = (area as string) === 'exercise' ? 'fitness' : area;
+    const isNutrition = mappedArea === 'nutrition' || !['fitness', 'sleep', 'stress', 'organization', 'relationships', 'mindset', 'productivity'].includes(mappedArea as string);
+
     // --- SHARED (Feeling based) ---
     if (selectedFeelings.includes('tired')) {
       cards.push({
@@ -637,7 +643,7 @@ export default function ExperimentModeSwipe({
     }
 
     // --- NUTRITION SPECIFIC ---
-    if (area === 'nutrition') {
+    if (isNutrition) {
       // OBSTACLES
       if (selectedObstacles.includes('boredom')) {
         cards.push({
