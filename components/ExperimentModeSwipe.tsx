@@ -1,5 +1,11 @@
 import StorageService from '@/services/storage';
 import { getMotivationCards, MotivationCard } from '@/data/motivationCards';
+import {
+  NUTRITION_OBSTACLES,
+  NUTRITION_HELPERS,
+  getPersonalizedCheckInOptions,
+  extractNutritionProfileData,
+} from '@/data/checkInMappings';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -27,7 +33,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 import { SimplifiedTip } from '../types/simplifiedTip';
-import { DailyTip, QuickComplete } from '../types/tip';
+import { DailyTip, QuickComplete, UserProfile } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
 
@@ -60,6 +66,7 @@ interface Props {
     daysCompleted: number;
     daysTotal: number;
   };
+  userProfile?: UserProfile | null;
 }
 
 // Confetti particle component
@@ -143,7 +150,8 @@ export default function ExperimentModeSwipe({
   showHeaderStats = false,
   onToggleHeaderStats,
   isInFocusMode = false,
-  focusProgress
+  focusProgress,
+  userProfile
 }: Props) {
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -253,38 +261,43 @@ export default function ExperimentModeSwipe({
       ]
     };
 
+    // Extract user's nutrition data for personalization (supports both old and new quiz structures)
+    const nutritionData = extractNutritionProfileData(userProfile as any);
+
+    // Debug: Log what profile data we're working with
+    if (__DEV__) {
+      console.log('CheckIn - User profile primary_focus:', (userProfile as any)?.primary_focus);
+      console.log('CheckIn - User profile specific_challenges:', (userProfile as any)?.specific_challenges);
+      console.log('CheckIn - Extracted nutrition data:', nutritionData);
+    }
+
+    // Get personalized nutrition options based on onboarding
+    const personalizedNutritionHelpers = getPersonalizedCheckInOptions(
+      NUTRITION_HELPERS,
+      nutritionData.barriers,
+      nutritionData.goals,
+      nutritionData.worked,
+      nutritionData.avoided
+    );
+
+    const personalizedNutritionObstacles = getPersonalizedCheckInOptions(
+      NUTRITION_OBSTACLES,
+      nutritionData.barriers,
+      nutritionData.goals,
+      nutritionData.worked,
+      nutritionData.avoided
+    );
+
     // Area-specific "in favor" and "obstacles" options
     const areaOptions: Record<string, { inFavor: CheckInSection; obstacles: CheckInSection }> = {
       nutrition: {
         inFavor: {
           label: "What's working in your favor?",
-          options: [
-            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
-            { id: 'meal_prepped', icon: 'restaurant-outline', label: 'Meals prepped' },
-            { id: 'healthy_food', icon: 'leaf-outline', label: 'Healthy food available' },
-            { id: 'not_hungry', icon: 'thumbs-up-outline', label: 'Not too hungry' },
-            { id: 'support', icon: 'people-outline', label: 'Supportive people' },
-            { id: 'home', icon: 'home-outline', label: 'Eating at home' },
-            { id: 'hydrated', icon: 'water-outline', label: 'Hydrated' },
-            { id: 'leftovers', icon: 'calendar-outline', label: 'Leftovers ready' },
-            { id: 'rhythm', icon: 'repeat-outline', label: 'In a rhythm' },
-          ]
+          options: personalizedNutritionHelpers as CheckInOption[]
         },
         obstacles: {
           label: "What might get in the way?",
-          options: [
-            { id: 'cravings', icon: 'pizza-outline', label: 'Cravings' },
-            { id: 'social_eating', icon: 'people-outline', label: 'Social eating' },
-            { id: 'no_healthy_options', icon: 'close-circle-outline', label: 'No healthy options' },
-            { id: 'stressed', icon: 'cloudy-outline', label: 'Stress eating' },
-            { id: 'tired', icon: 'moon-outline', label: 'Too tired to cook' },
-            { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
-            { id: 'boredom', icon: 'game-controller-outline', label: 'Boredom' },
-            { id: 'thirsty', icon: 'water-outline', label: 'Thirsty (not hungry)' },
-            { id: 'celebration', icon: 'gift-outline', label: 'Celebration' },
-            { id: 'traveling', icon: 'airplane-outline', label: 'Traveling' },
-            { id: 'emotional', icon: 'heart-dislike-outline', label: 'Emotional' },
-          ]
+          options: personalizedNutritionObstacles as CheckInOption[]
         }
       },
       fitness: {

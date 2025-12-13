@@ -2121,9 +2121,10 @@ export default function HomeScreen() {
                     dailyTip: dt,
                     tip: getTipById(dt.tip_id)!
                   })).filter(item => item.tip); // Filter out any where tip wasn't found
-                  
+
                   return history;
                 })()}
+                userProfile={userProfile}
               />
               )
             ) : rejectedTipInfo ? (

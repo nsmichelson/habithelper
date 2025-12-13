@@ -309,6 +309,278 @@ export const MOTIVATION_CARDS: MotivationCardDefinition[] = [
   },
 
   // ============================================
+  // NEW PERSONALIZED NUTRITION CARDS
+  // ============================================
+
+  // Sugar cravings (from love_sweets barrier)
+  {
+    id: 'sugar-cravings-strategy',
+    type: 'strategy',
+    icon: 'ice-cream-outline',
+    iconBg: '#fce7f3',
+    iconColor: '#db2777',
+    title: 'Sweet Tooth Hack',
+    text: "Sugar cravings usually pass in 15-20 minutes. Can you wait it out?",
+    priority: 10,
+    triggers: { obstacles: ['sugar_cravings'], areas: ['nutrition'] },
+    modalContent: {
+      title: "Outsmart the Sweet Tooth",
+      description: "Sugar cravings are intense but short-lived.",
+      mainText: "Try this: Have a piece of fruit, brush your teeth, or drink flavored sparkling water. Often the craving passes before you finish!\n\nIf you still want something sweet after 20 mins, have a small portion mindfully.",
+      buttonText: "I'll try it"
+    }
+  },
+
+  // Late night cravings (time-gated, from night_snacking barrier)
+  {
+    id: 'late-night-strategy',
+    type: 'strategy',
+    icon: 'moon-outline',
+    iconBg: '#312e81',
+    iconColor: '#c7d2fe',
+    title: 'Night Owl Snacking',
+    text: "Late night hunger often isn't real hunger - it's habit or tiredness.",
+    priority: 10,
+    triggers: { obstacles: ['late_night_cravings'], areas: ['nutrition'] },
+    modalContent: {
+      title: "Breaking the Night Snack Cycle",
+      description: "Your body confuses tiredness with hunger at night.",
+      mainText: "Ask yourself: Am I actually hungry, or am I tired/bored/procrastinating sleep?\n\nTry: Herbal tea, brushing your teeth, or going to bed 30 mins earlier. Often sleep is what you really need.",
+      buttonText: "Going to bed"
+    }
+  },
+
+  // Afternoon slump (time-gated)
+  {
+    id: 'afternoon-slump-tip',
+    type: 'tip',
+    icon: 'sunny-outline',
+    iconBg: '#fef3c7',
+    iconColor: '#d97706',
+    title: 'Afternoon Slump',
+    text: "That 3pm energy crash? It's often dehydration or blood sugar, not real hunger.",
+    priority: 9,
+    triggers: { obstacles: ['afternoon_slump'], areas: ['nutrition'] },
+    modalContent: {
+      title: "Beat the 3pm Crash",
+      description: "The afternoon slump is predictable - and preventable.",
+      mainText: "Try these in order:\n1. Drink a full glass of water\n2. Take a 5-minute walk\n3. Have a protein-rich snack (not sugar!)\n\nSugar gives a quick boost but crashes you harder in 30 mins.",
+      buttonText: "Got it"
+    }
+  },
+
+  // Budget constraints
+  {
+    id: 'budget-tip',
+    type: 'tip',
+    icon: 'wallet-outline',
+    iconBg: '#dcfce7',
+    iconColor: '#16a34a',
+    title: 'Budget-Friendly Win',
+    text: "Healthy eating doesn't have to be expensive. Frozen veggies are just as nutritious!",
+    priority: 7,
+    triggers: { obstacles: ['budget'], areas: ['nutrition'] },
+    modalContent: {
+      title: "Eat Well on a Budget",
+      description: "Some of the healthiest foods are also the cheapest.",
+      mainText: "Budget superstars:\n• Frozen vegetables (same nutrition as fresh!)\n• Eggs (protein powerhouse)\n• Beans & lentils\n• Oats\n• Bananas & apples\n\nBatch cooking saves money AND time.",
+      buttonText: "Good to know"
+    }
+  },
+
+  // Family wants different food
+  {
+    id: 'family-food-strategy',
+    type: 'strategy',
+    icon: 'home-outline',
+    iconBg: '#e0e7ff',
+    iconColor: '#4f46e5',
+    title: 'Family Meal Hack',
+    text: "Cook one base meal, customize toppings. Everyone wins!",
+    priority: 8,
+    triggers: { obstacles: ['family_food'], areas: ['nutrition'] },
+    modalContent: {
+      title: "One Meal, Many Versions",
+      description: "You don't have to cook separate meals.",
+      mainText: "The 'build your own' approach:\n• Taco night: same protein, everyone picks toppings\n• Pasta: you have veggies, kids have plain\n• Buddha bowls: same base, different additions\n\nYou eat healthy without being a short-order cook.",
+      buttonText: "Smart!"
+    }
+  },
+
+  // Don't feel like cooking
+  {
+    id: 'no-cook-tip',
+    type: 'tip',
+    icon: 'restaurant-outline',
+    iconBg: '#ffedd5',
+    iconColor: '#ea580c',
+    title: 'No-Cook Night',
+    text: "Not every healthy meal needs cooking. Sandwiches, salads, and wraps count!",
+    priority: 8,
+    triggers: { obstacles: ['dont_want_cook'], areas: ['nutrition'] },
+    modalContent: {
+      title: "Healthy Without the Stove",
+      description: "Cooking fatigue is real. These require zero cooking:",
+      mainText: "• Deli turkey + cheese + veggies in a wrap\n• Greek yogurt + fruit + nuts\n• Hummus + veggies + pita\n• Rotisserie chicken + bagged salad\n• Overnight oats (prep night before)\n\nHealthy ≠ complicated.",
+      buttonText: "Easy wins"
+    }
+  },
+
+  // Willpower low
+  {
+    id: 'willpower-reframe',
+    type: 'reframe',
+    icon: 'battery-dead-outline',
+    iconBg: '#fee2e2',
+    iconColor: '#ef4444',
+    title: 'Willpower Reality',
+    text: "Willpower is a muscle that gets tired. That's normal, not a character flaw.",
+    priority: 9,
+    triggers: { obstacles: ['willpower_low'], areas: ['nutrition'] },
+    modalContent: {
+      title: "It's Not About Willpower",
+      description: "Willpower depletes throughout the day - that's science, not weakness.",
+      mainText: "When willpower is low, rely on environment instead:\n• Remove temptations from sight\n• Pre-portion snacks\n• Have healthy options front and center\n\nSmart setup beats strong willpower every time.",
+      buttonText: "Makes sense"
+    }
+  },
+
+  // Urge to binge/overeat
+  {
+    id: 'binge-urge-strategy',
+    type: 'strategy',
+    icon: 'warning-outline',
+    iconBg: '#fef3c7',
+    iconColor: '#d97706',
+    title: 'Pause Button',
+    text: "Feeling the urge to overeat? Let's slow this down together.",
+    priority: 10,
+    triggers: { obstacles: ['urge_to_binge'], areas: ['nutrition'] },
+    modalContent: {
+      title: "The 5-Minute Pause",
+      description: "Binge urges feel urgent but usually pass.",
+      mainText: "Try this:\n1. Set a 5-minute timer\n2. Leave the kitchen/food area\n3. Do something with your hands (text someone, stretch, etc.)\n4. After 5 mins, check in: Still want it?\n\nIf yes, have a portion mindfully. No guilt.",
+      buttonText: "I'll pause"
+    }
+  },
+
+  // Mindless eating
+  {
+    id: 'mindless-eating-tip',
+    type: 'tip',
+    icon: 'phone-portrait-outline',
+    iconBg: '#dbeafe',
+    iconColor: '#2563eb',
+    title: 'Mindful Moment',
+    text: "Eating while distracted? You'll eat 25% more without realizing.",
+    priority: 8,
+    triggers: { obstacles: ['mindless_eating'], areas: ['nutrition'] },
+    modalContent: {
+      title: "One Meal, Full Attention",
+      description: "Screens while eating = eating more without satisfaction.",
+      mainText: "Just for this meal:\n• Put the phone face-down\n• Sit at a table (not the couch)\n• Take 3 breaths before eating\n• Notice the first 3 bites\n\nYou'll feel more satisfied with less food.",
+      buttonText: "I'll try it"
+    }
+  },
+
+  // Simple swaps helper
+  {
+    id: 'simple-swaps-encouragement',
+    type: 'encouragement',
+    icon: 'swap-horizontal-outline',
+    iconBg: '#dcfce7',
+    iconColor: '#16a34a',
+    title: 'Swap Champion',
+    text: "Small swaps add up. You're playing the long game - and winning.",
+    priority: 8,
+    triggers: { helpers: ['simple_swaps'], areas: ['nutrition'] },
+  },
+
+  // Flexible mindset helper
+  {
+    id: 'flexible-mindset-encouragement',
+    type: 'encouragement',
+    icon: 'infinite-outline',
+    iconBg: '#ede9fe',
+    iconColor: '#7c3aed',
+    title: 'Flexible Wins',
+    text: "No all-or-nothing thinking today. That's exactly the mindset that sticks!",
+    priority: 8,
+    triggers: { helpers: ['flexible_mindset'], areas: ['nutrition'] },
+    modalContent: {
+      title: "The 80/20 Mindset",
+      description: "Perfectionism kills progress. Flexibility builds habits.",
+      mainText: "Eating well 80% of the time is sustainable.\nEating 'perfectly' 100% of the time leads to burnout and binges.\n\nYou're doing this the smart way.",
+      buttonText: "Balance FTW"
+    }
+  },
+
+  // Family on board helper
+  {
+    id: 'family-support-encouragement',
+    type: 'encouragement',
+    icon: 'people-outline',
+    iconBg: '#dbeafe',
+    iconColor: '#2563eb',
+    title: 'Team Effort',
+    text: "Having family support makes healthy eating so much easier. That's a win!",
+    priority: 8,
+    triggers: { helpers: ['family_support'], areas: ['nutrition'] },
+  },
+
+  // Listening to body helper
+  {
+    id: 'body-signals-encouragement',
+    type: 'encouragement',
+    icon: 'body-outline',
+    iconBg: '#d1fae5',
+    iconColor: '#059669',
+    title: 'Body Wisdom',
+    text: "You're tuning into your body's signals. That's intuitive eating in action!",
+    priority: 8,
+    triggers: { helpers: ['listening_to_body'], areas: ['nutrition'] },
+  },
+
+  // Seeing progress helper
+  {
+    id: 'progress-momentum',
+    type: 'encouragement',
+    icon: 'trending-up-outline',
+    iconBg: '#fef3c7',
+    iconColor: '#d97706',
+    title: 'Momentum Building',
+    text: "Noticing progress - even small wins - keeps you motivated. Keep looking for them!",
+    priority: 8,
+    triggers: { helpers: ['seeing_progress'], areas: ['nutrition'] },
+  },
+
+  // Morning fresh helper
+  {
+    id: 'morning-fresh-tip',
+    type: 'tip',
+    icon: 'sunny-outline',
+    iconBg: '#fef3c7',
+    iconColor: '#d97706',
+    title: 'Fresh Start Energy',
+    text: "Morning motivation is real! Make your healthy choice before it fades.",
+    priority: 7,
+    triggers: { helpers: ['morning_fresh'], areas: ['nutrition'] },
+  },
+
+  // Good energy helper
+  {
+    id: 'good-energy-tip',
+    type: 'tip',
+    icon: 'battery-full-outline',
+    iconBg: '#dcfce7',
+    iconColor: '#16a34a',
+    title: 'Ride the Energy',
+    text: "Good energy = easier decisions. This is the perfect time to prep something healthy!",
+    priority: 7,
+    triggers: { helpers: ['good_energy'], areas: ['nutrition'] },
+  },
+
+  // ============================================
   // GENERIC FALLBACK CARDS (Any Area)
   // ============================================
   {
