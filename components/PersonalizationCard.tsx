@@ -114,6 +114,35 @@ export default function PersonalizationCard({
   // Refs for input fields
   const inputRefs = useRef<any>({});
 
+  // Debug logging for savedData prop
+  console.log('PersonalizationCard - savedData prop received:', savedData);
+  console.log('PersonalizationCard - tip.personalization_type:', tip.personalization_type);
+
+  // Update saved states when savedData prop changes (e.g., when component is reused)
+  useEffect(() => {
+    console.log('PersonalizationCard useEffect - savedData changed:', savedData);
+    if (savedData) {
+      if (savedData.type === 'scale' && savedData.data) {
+        console.log('PersonalizationCard - Setting savedScaleNames:', savedData.data);
+        setSavedScaleNames(savedData.data);
+      } else if (savedData.type === 'choice') {
+        if (savedData.multiple) {
+          console.log('PersonalizationCard - Setting savedChoices:', savedData.data);
+          setSavedChoices(savedData.data);
+        } else {
+          console.log('PersonalizationCard - Setting savedChoice:', savedData.data);
+          setSavedChoice(savedData.data);
+        }
+      } else if (savedData.type === 'text' && savedData.data) {
+        console.log('PersonalizationCard - Setting savedTextInput:', savedData.data);
+        setSavedTextInput(savedData.data);
+      } else if (savedData.type === 'multi_text' && savedData.data) {
+        console.log('PersonalizationCard - Setting savedMultiTextInputs:', savedData.data);
+        setSavedMultiTextInputs(savedData.data);
+      }
+    }
+  }, [savedData]);
+
   // Check if we should show the plan choice prompt (focus mode, has saved data, day > 1)
   useEffect(() => {
     if (isInFocusMode && savedData && focusDay > 1) {

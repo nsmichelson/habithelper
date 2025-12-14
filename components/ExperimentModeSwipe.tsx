@@ -36,6 +36,7 @@ import { SimplifiedTip } from '../types/simplifiedTip';
 import { DailyTip, QuickComplete, UserProfile } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
+import PersonalizationCard from './PersonalizationCard';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -54,11 +55,8 @@ interface Props {
     dailyTip: DailyTip;
     tip: SimplifiedTip;
   }>;
-  personalizationData?: {
-    type?: string;
-    prompt?: string;
-    savedData?: any;
-  };
+  personalizationData?: any; // Can be raw saved data { type, data } or { savedData: { type, data } }
+  onSavePersonalization?: (data: any) => void;
   showHeaderStats?: boolean;
   onToggleHeaderStats?: () => void;
   isInFocusMode?: boolean;
@@ -147,12 +145,23 @@ export default function ExperimentModeSwipe({
   successfulExperiments = 0,
   tipHistory = [],
   personalizationData,
+  onSavePersonalization,
   showHeaderStats = false,
   onToggleHeaderStats,
   isInFocusMode = false,
   focusProgress,
   userProfile
 }: Props) {
+  // Normalize personalization data - can come as raw { type, data } or nested { savedData: { type, data } }
+  const savedPersonalizationData = personalizationData?.savedData ||
+    (personalizationData?.type ? personalizationData : null);
+  const hasSavedPlan = !!savedPersonalizationData;
+
+  // Debug logging for personalization data
+  console.log('ExperimentModeSwipe - personalizationData received:', personalizationData);
+  console.log('ExperimentModeSwipe - savedPersonalizationData normalized:', savedPersonalizationData);
+  console.log('ExperimentModeSwipe - hasSavedPlan:', hasSavedPlan);
+
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [showHelpMenu, setShowHelpMenu] = useState(false);
@@ -788,8 +797,14 @@ export default function ExperimentModeSwipe({
                       onPress={() => setShowPlan(true)}
                       style={styles.secondaryActionPill}
                     >
-                      <Ionicons name="calendar-outline" size={16} color="#92400e" />
-                      <Text style={styles.secondaryActionText}>Plan</Text>
+                      <View style={styles.planButtonContainer}>
+                        <Ionicons name="calendar-outline" size={16} color="#92400e" />
+                        <Text style={styles.secondaryActionText}>Plan</Text>
+                        {/* Show unread indicator when tip supports personalization but no plan is saved */}
+                        {tip.personalization_prompt && !hasSavedPlan && (
+                          <View style={styles.unreadIndicator} />
+                        )}
+                      </View>
                     </TouchableOpacity>
                     <Text style={styles.secondaryActionDivider}>•</Text>
                     <TouchableOpacity
@@ -833,7 +848,9 @@ export default function ExperimentModeSwipe({
                 // Plan view
                 <>
                   <View style={styles.planHeaderInHeader}>
-                    <Text style={styles.planTitleHeader}>Your 7-Day Plan</Text>
+                    <Text style={styles.planTitleHeader}>
+                      {hasSavedPlan ? 'Your Plan' : 'Make It Yours'}
+                    </Text>
                     <TouchableOpacity
                       onPress={() => setShowPlan(false)}
                       style={styles.backButtonHeader}
@@ -842,26 +859,38 @@ export default function ExperimentModeSwipe({
                       <Text style={styles.backButtonTextHeader}>Back</Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.planStepsHeader}>
-                    <View style={styles.planStepHeader}>
-                      <View style={[styles.planStepIndicatorHeader, styles.planStepCompleteHeader]}>
-                        <Text style={styles.planStepCheckmarkHeader}>✓</Text>
-                      </View>
-                      <Text style={styles.planStepTextHeader}>Days 1-4: Walk after one meal</Text>
+
+                  {/* Show PersonalizationCard if tip supports it */}
+                  {tip.personalization_prompt ? (
+                    <View style={styles.planPersonalizationContainer}>
+                      <PersonalizationCard
+                        tip={tip}
+                        savedData={savedPersonalizationData}
+                        onSave={onSavePersonalization}
+                        showHeader={false}
+                        theme={{
+                          primary: '#ea580c',
+                          primaryLight: '#fb923c',
+                          primaryLighter: '#fdba74',
+                          primaryLightest: '#fff7ed',
+                          gray900: '#1A1A1A',
+                          gray700: '#4A4A4A',
+                          gray500: '#767676',
+                          gray300: '#B8B8B8',
+                          gray100: '#F5F5F5',
+                          white: '#FFFFFF',
+                        }}
+                      />
                     </View>
-                    <View style={styles.planStepHeader}>
-                      <View style={[styles.planStepIndicatorHeader, styles.planStepCurrentHeader]}>
-                        <Text style={styles.planStepNumberHeader}>5</Text>
-                      </View>
-                      <Text style={styles.planStepTextHeader}>Days 5-6: Walk after two meals</Text>
+                  ) : (
+                    // Fallback for tips without personalization - show generic message
+                    <View style={styles.noPlanContainer}>
+                      <Ionicons name="bulb-outline" size={32} color="#92400e" />
+                      <Text style={styles.noPlanText}>
+                        Try this experiment today and see how it goes!
+                      </Text>
                     </View>
-                    <View style={styles.planStepHeader}>
-                      <View style={[styles.planStepIndicatorHeader, styles.planStepPendingHeader]}>
-                        <Text style={styles.planStepNumberPendingHeader}>7</Text>
-                      </View>
-                      <Text style={styles.planStepTextPendingHeader}>Day 7: Walk after every meal</Text>
-                    </View>
-                  </View>
+                  )}
                 </>
               )}
             </View>
@@ -2299,6 +2328,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     flex: 1,
+  },
+  planPersonalizationContainer: {
+    width: '100%',
+    marginTop: 8,
+  },
+  noPlanContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+    gap: 12,
+  },
+  noPlanText: {
+    color: '#78350f',
+    fontSize: 15,
+    textAlign: 'center',
+    lineHeight: 22,
+    paddingHorizontal: 16,
+  },
+  planButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  unreadIndicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#ef4444',
+    marginLeft: 2,
   },
 
   // Secondary actions row (Details, Plan, Help)
