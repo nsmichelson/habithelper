@@ -268,6 +268,8 @@ export default function ExperimentModeSwipe({
     if (__DEV__) {
       console.log('CheckIn - User profile primary_focus:', (userProfile as any)?.primary_focus);
       console.log('CheckIn - User profile specific_challenges:', (userProfile as any)?.specific_challenges);
+      console.log('CheckIn - User profile medical_conditions:', (userProfile as any)?.medical_conditions);
+      console.log('CheckIn - User profile lifestyle:', (userProfile as any)?.lifestyle);
       console.log('CheckIn - Extracted nutrition data:', nutritionData);
     }
 
@@ -277,7 +279,9 @@ export default function ExperimentModeSwipe({
       nutritionData.barriers,
       nutritionData.goals,
       nutritionData.worked,
-      nutritionData.avoided
+      nutritionData.avoided,
+      nutritionData.conditions,
+      nutritionData.lifeRole
     );
 
     const personalizedNutritionObstacles = getPersonalizedCheckInOptions(
@@ -285,7 +289,9 @@ export default function ExperimentModeSwipe({
       nutritionData.barriers,
       nutritionData.goals,
       nutritionData.worked,
-      nutritionData.avoided
+      nutritionData.avoided,
+      nutritionData.conditions,
+      nutritionData.lifeRole
     );
 
     // Area-specific "in favor" and "obstacles" options

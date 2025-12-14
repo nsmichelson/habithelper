@@ -28,6 +28,10 @@ export type PersonalizedCheckInOption = CheckInOption & {
   showIfWorked?: string[];        // what_worked_nutrition values
   hideIfAvoided?: string[];       // what_to_avoid_nutrition values
 
+  // Health/life condition triggers
+  showIfConditions?: string[];    // medical_conditions values (pregnancy, digestive, diabetes, etc.)
+  showIfLifeRole?: string[];      // lifestyle.life_role values (parent_young, shift_worker, etc.)
+
   // Time-based conditions
   timeCondition?: TimeCondition;
 
@@ -227,6 +231,216 @@ export const NUTRITION_OBSTACLES: PersonalizedCheckInOption[] = [
     timeCondition: { afterHour: 14, beforeHour: 17 }, // 2pm-5pm
     priority: 8,
   },
+
+  // ============================================
+  // PREGNANCY-SPECIFIC OBSTACLES
+  // ============================================
+  {
+    id: 'pregnancy_cravings',
+    icon: 'heart-outline',
+    label: 'Pregnancy cravings',
+    showIfConditions: ['pregnancy'],
+    priority: 10,
+  },
+  {
+    id: 'food_aversions',
+    icon: 'close-circle-outline',
+    label: 'Food aversions',
+    showIfConditions: ['pregnancy'],
+    priority: 9,
+  },
+  {
+    id: 'nausea',
+    icon: 'medical-outline',
+    label: 'Nausea/morning sickness',
+    showIfConditions: ['pregnancy'],
+    priority: 10,
+  },
+  {
+    id: 'acid_reflux',
+    icon: 'flame-outline',
+    label: 'Acid reflux/heartburn',
+    showIfConditions: ['pregnancy', 'digestive'],
+    priority: 8,
+  },
+  {
+    id: 'pregnancy_exhaustion',
+    icon: 'bed-outline',
+    label: 'Pregnancy exhaustion',
+    showIfConditions: ['pregnancy'],
+    priority: 9,
+  },
+  {
+    id: 'cant_eat_much',
+    icon: 'remove-circle-outline',
+    label: 'Can only eat small amounts',
+    showIfConditions: ['pregnancy', 'digestive'],
+    priority: 7,
+  },
+
+  // ============================================
+  // DIGESTIVE ISSUES OBSTACLES
+  // ============================================
+  {
+    id: 'stomach_upset',
+    icon: 'medical-outline',
+    label: 'Stomach bothering me',
+    showIfConditions: ['digestive'],
+    priority: 9,
+  },
+  {
+    id: 'bloating',
+    icon: 'ellipse-outline',
+    label: 'Feeling bloated',
+    showIfConditions: ['digestive'],
+    priority: 7,
+  },
+  {
+    id: 'food_fear',
+    icon: 'alert-circle-outline',
+    label: 'Nervous about eating',
+    showIfConditions: ['digestive'],
+    priority: 8,
+  },
+  {
+    id: 'limited_safe_foods',
+    icon: 'ban-outline',
+    label: 'Limited safe foods',
+    showIfConditions: ['digestive', 'allergies'],
+    priority: 7,
+  },
+
+  // ============================================
+  // DIABETES OBSTACLES
+  // ============================================
+  {
+    id: 'blood_sugar_off',
+    icon: 'analytics-outline',
+    label: 'Blood sugar feels off',
+    showIfConditions: ['diabetes'],
+    priority: 9,
+  },
+  {
+    id: 'carb_cravings',
+    icon: 'nutrition-outline',
+    label: 'Carb cravings',
+    showIfConditions: ['diabetes'],
+    priority: 8,
+  },
+  {
+    id: 'meal_timing_hard',
+    icon: 'time-outline',
+    label: 'Hard to time meals right',
+    showIfConditions: ['diabetes'],
+    priority: 7,
+  },
+
+  // ============================================
+  // HEART/BLOOD PRESSURE OBSTACLES
+  // ============================================
+  {
+    id: 'salty_cravings',
+    icon: 'water-outline',
+    label: 'Craving salty foods',
+    showIfConditions: ['heart'],
+    priority: 8,
+  },
+  {
+    id: 'restaurant_sodium',
+    icon: 'restaurant-outline',
+    label: 'Restaurant sodium worries',
+    showIfConditions: ['heart'],
+    priority: 7,
+  },
+
+  // ============================================
+  // MENTAL HEALTH OBSTACLES
+  // ============================================
+  {
+    id: 'no_appetite',
+    icon: 'remove-outline',
+    label: 'No appetite',
+    showIfConditions: ['mental_health'],
+    priority: 9,
+  },
+  {
+    id: 'comfort_food_pull',
+    icon: 'heart-dislike-outline',
+    label: 'Strong comfort food pull',
+    showIfConditions: ['mental_health'],
+    priority: 9,
+  },
+  {
+    id: 'overwhelmed_choices',
+    icon: 'help-circle-outline',
+    label: 'Overwhelmed by choices',
+    showIfConditions: ['mental_health'],
+    priority: 8,
+  },
+  {
+    id: 'eating_feels_hard',
+    icon: 'sad-outline',
+    label: 'Eating feels like a chore',
+    showIfConditions: ['mental_health'],
+    priority: 8,
+  },
+
+  // ============================================
+  // PARENT OF YOUNG KIDS OBSTACLES
+  // ============================================
+  {
+    id: 'kids_wont_eat',
+    icon: 'happy-outline',
+    label: "Kids won't eat it",
+    showIfLifeRole: ['parent_young', 'parent_teens'],
+    priority: 7,
+  },
+  {
+    id: 'no_kid_free_time',
+    icon: 'time-outline',
+    label: 'No time without kids',
+    showIfLifeRole: ['parent_young'],
+    priority: 8,
+  },
+  {
+    id: 'kids_food_temptation',
+    icon: 'fast-food-outline',
+    label: "Tempted by kids' food",
+    showIfLifeRole: ['parent_young', 'parent_teens'],
+    priority: 8,
+  },
+  {
+    id: 'parenting_exhaustion',
+    icon: 'bed-outline',
+    label: 'Exhausted from parenting',
+    showIfLifeRole: ['parent_young'],
+    priority: 9,
+  },
+
+  // ============================================
+  // SHIFT WORKER OBSTACLES
+  // ============================================
+  {
+    id: 'weird_eating_hours',
+    icon: 'time-outline',
+    label: 'Eating at weird hours',
+    showIfLifeRole: ['shift_worker'],
+    priority: 8,
+  },
+  {
+    id: 'vending_only',
+    icon: 'cube-outline',
+    label: 'Only vending machines available',
+    showIfLifeRole: ['shift_worker'],
+    priority: 8,
+  },
+  {
+    id: 'sleep_affecting_appetite',
+    icon: 'moon-outline',
+    label: 'Sleep schedule affecting appetite',
+    showIfLifeRole: ['shift_worker'],
+    priority: 7,
+  },
 ];
 
 // ============================================
@@ -386,6 +600,153 @@ export const NUTRITION_HELPERS: PersonalizedCheckInOption[] = [
     alwaysShow: true,
     priority: 7,
   },
+
+  // ============================================
+  // PREGNANCY-SPECIFIC HELPERS
+  // ============================================
+  {
+    id: 'eating_for_baby',
+    icon: 'heart-outline',
+    label: 'Motivated for baby',
+    showIfConditions: ['pregnancy'],
+    priority: 9,
+  },
+  {
+    id: 'pregnancy_good_day',
+    icon: 'sunny-outline',
+    label: 'Good energy today',
+    showIfConditions: ['pregnancy'],
+    priority: 8,
+  },
+  {
+    id: 'cravings_manageable',
+    icon: 'checkmark-circle-outline',
+    label: 'Cravings manageable',
+    showIfConditions: ['pregnancy'],
+    priority: 7,
+  },
+  {
+    id: 'nausea_ok_today',
+    icon: 'happy-outline',
+    label: 'Nausea better today',
+    showIfConditions: ['pregnancy'],
+    priority: 8,
+  },
+
+  // ============================================
+  // DIGESTIVE-SPECIFIC HELPERS
+  // ============================================
+  {
+    id: 'stomach_calm',
+    icon: 'checkmark-circle-outline',
+    label: 'Stomach feels calm',
+    showIfConditions: ['digestive'],
+    priority: 9,
+  },
+  {
+    id: 'safe_foods_available',
+    icon: 'leaf-outline',
+    label: 'Safe foods available',
+    showIfConditions: ['digestive', 'allergies'],
+    priority: 8,
+  },
+
+  // ============================================
+  // DIABETES-SPECIFIC HELPERS
+  // ============================================
+  {
+    id: 'blood_sugar_stable',
+    icon: 'analytics-outline',
+    label: 'Blood sugar stable',
+    showIfConditions: ['diabetes'],
+    priority: 9,
+  },
+  {
+    id: 'balanced_meal_ready',
+    icon: 'nutrition-outline',
+    label: 'Balanced meal ready',
+    showIfConditions: ['diabetes'],
+    priority: 8,
+  },
+
+  // ============================================
+  // HEART-SPECIFIC HELPERS
+  // ============================================
+  {
+    id: 'low_sodium_ready',
+    icon: 'heart-outline',
+    label: 'Low-sodium food ready',
+    showIfConditions: ['heart'],
+    priority: 8,
+  },
+
+  // ============================================
+  // MENTAL HEALTH HELPERS
+  // ============================================
+  {
+    id: 'good_mental_day',
+    icon: 'sunny-outline',
+    label: 'Good mental health day',
+    showIfConditions: ['mental_health'],
+    priority: 9,
+  },
+  {
+    id: 'someone_cooking',
+    icon: 'people-outline',
+    label: 'Someone else cooking',
+    showIfConditions: ['mental_health'],
+    priority: 8,
+  },
+  {
+    id: 'simple_meal_planned',
+    icon: 'checkmark-outline',
+    label: 'Simple meal planned',
+    showIfConditions: ['mental_health'],
+    priority: 7,
+  },
+
+  // ============================================
+  // PARENT OF YOUNG KIDS HELPERS
+  // ============================================
+  {
+    id: 'kids_occupied',
+    icon: 'happy-outline',
+    label: 'Kids napping/occupied',
+    showIfLifeRole: ['parent_young'],
+    priority: 9,
+  },
+  {
+    id: 'partner_helping',
+    icon: 'people-outline',
+    label: 'Partner handling kids',
+    showIfLifeRole: ['parent_young', 'parent_teens'],
+    priority: 8,
+  },
+  {
+    id: 'kid_friendly_healthy',
+    icon: 'nutrition-outline',
+    label: 'Kid-friendly healthy food',
+    showIfLifeRole: ['parent_young', 'parent_teens'],
+    priority: 7,
+  },
+
+  // ============================================
+  // SHIFT WORKER HELPERS
+  // ============================================
+  {
+    id: 'packed_food',
+    icon: 'briefcase-outline',
+    label: 'Packed food from home',
+    showIfLifeRole: ['shift_worker'],
+    priority: 9,
+  },
+  {
+    id: 'proper_break',
+    icon: 'pause-outline',
+    label: 'Have a proper break',
+    showIfLifeRole: ['shift_worker'],
+    priority: 8,
+  },
 ];
 
 // ============================================
@@ -427,7 +788,9 @@ export function shouldShowOption(
   userBarriers: string[],
   userGoals: string[],
   userWorked: string[],
-  userAvoided: string[]
+  userAvoided: string[],
+  userConditions: string[] = [],
+  userLifeRole: string = ''
 ): boolean {
   // Always show options are always visible
   if (option.alwaysShow) return true;
@@ -441,8 +804,10 @@ export function shouldShowOption(
   const matchesBarrier = option.showIfBarriers?.some(b => userBarriers.includes(b));
   const matchesGoal = option.showIfGoals?.some(g => userGoals.includes(g));
   const matchesWorked = option.showIfWorked?.some(w => userWorked.includes(w));
+  const matchesCondition = option.showIfConditions?.some(c => userConditions.includes(c));
+  const matchesLifeRole = option.showIfLifeRole?.some(r => r === userLifeRole);
 
-  return Boolean(matchesBarrier || matchesGoal || matchesWorked);
+  return Boolean(matchesBarrier || matchesGoal || matchesWorked || matchesCondition || matchesLifeRole);
 }
 
 /**
@@ -453,14 +818,16 @@ export function getPersonalizedCheckInOptions(
   userBarriers: string[],
   userGoals: string[],
   userWorked: string[],
-  userAvoided: string[]
+  userAvoided: string[],
+  userConditions: string[] = [],
+  userLifeRole: string = ''
 ): CheckInOption[] {
   const now = new Date();
   const currentDay = now.getDay();
 
   return allOptions
     // Filter by onboarding selections
-    .filter(opt => shouldShowOption(opt, userBarriers, userGoals, userWorked, userAvoided))
+    .filter(opt => shouldShowOption(opt, userBarriers, userGoals, userWorked, userAvoided, userConditions, userLifeRole))
     // Filter by time conditions
     .filter(opt => matchesTimeCondition(opt.timeCondition))
     // Sort by priority (and boost weekend options on weekends)
@@ -499,6 +866,13 @@ type ExtendedUserProfile = {
   successful_strategies?: string[];
   failed_approaches?: string[];
   quiz_responses?: Array<{ questionId: string; value: any }>;
+  // Health and lifestyle fields
+  medical_conditions?: string[];
+  health_conditions?: string[];
+  lifestyle?: {
+    life_role?: string;
+    chaos_level?: string;
+  };
 };
 
 // Helper to find a quiz response by multiple possible question IDs (legacy support)
@@ -630,6 +1004,48 @@ export function extractAvoidedFromProfile(
 }
 
 /**
+ * Extract medical/health conditions from user profile
+ */
+export function extractConditionsFromProfile(
+  userProfile: ExtendedUserProfile | null | undefined
+): string[] {
+  if (!userProfile) return [];
+
+  // Check medical_conditions array (new quiz stores here)
+  if (userProfile.medical_conditions?.length) {
+    return userProfile.medical_conditions;
+  }
+
+  // Also check health_conditions
+  if (userProfile.health_conditions?.length) {
+    return userProfile.health_conditions;
+  }
+
+  // Fallback to quiz_responses
+  return findQuizResponse(userProfile.quiz_responses, [
+    'health_considerations',
+  ]);
+}
+
+/**
+ * Extract life role from user profile
+ */
+export function extractLifeRoleFromProfile(
+  userProfile: ExtendedUserProfile | null | undefined
+): string {
+  if (!userProfile) return '';
+
+  // Check lifestyle.life_role (new quiz stores here)
+  if (userProfile.lifestyle?.life_role) {
+    return userProfile.lifestyle.life_role;
+  }
+
+  // Fallback to quiz_responses
+  const lifeRoleResponse = findQuizResponse(userProfile.quiz_responses, ['life_role']);
+  return lifeRoleResponse[0] || '';
+}
+
+/**
  * Convenience function to get all nutrition-related data from user profile
  * Works with both old quiz_responses structure and new profile fields
  */
@@ -640,12 +1056,16 @@ export function extractNutritionProfileData(
   goals: string[];
   worked: string[];
   avoided: string[];
+  conditions: string[];
+  lifeRole: string;
 } {
   return {
     barriers: extractBarriersFromProfile(userProfile),
     goals: extractGoalsFromProfile(userProfile),
     worked: extractWorkedFromProfile(userProfile),
     avoided: extractAvoidedFromProfile(userProfile),
+    conditions: extractConditionsFromProfile(userProfile),
+    lifeRole: extractLifeRoleFromProfile(userProfile),
   };
 }
 
