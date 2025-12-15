@@ -1621,7 +1621,6 @@ export default function ExperimentModeSwipe({
                 </TouchableOpacity>
               )}
             </View>
-            </View>
           </Animated.View>
         </View>
       </Modal>
