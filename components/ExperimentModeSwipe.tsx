@@ -165,7 +165,7 @@ export default function ExperimentModeSwipe({
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [showHelpMenu, setShowHelpMenu] = useState(false);
-  const [helpView, setHelpView] = useState<'main' | 'sub_options' | 'resolution'>('main');
+  const [helpPath, setHelpPath] = useState<string[]>(['main']);
   const [selectedHelpCategory, setSelectedHelpCategory] = useState<string | null>(null);
   const [selectedHelpSubOption, setSelectedHelpSubOption] = useState<string | null>(null);
   const [showPlan, setShowPlan] = useState(false);
@@ -241,10 +241,24 @@ export default function ExperimentModeSwipe({
   };
 
   const resetHelpMenu = () => {
-    setHelpView('main');
+    setHelpPath(['main']);
     setSelectedHelpCategory(null);
     setSelectedHelpSubOption(null);
   };
+
+  const navigateToHelpView = (view: string) => {
+    setHelpPath(prev => [...prev, view]);
+  };
+
+  const navigateBackHelp = () => {
+    if (helpPath.length > 1) {
+      setHelpPath(prev => prev.slice(0, -1));
+    } else {
+      closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); });
+    }
+  };
+
+  const currentHelpView = helpPath[helpPath.length - 1];
 
   // Open sheet when modals become visible
   useEffect(() => {
@@ -336,12 +350,12 @@ export default function ExperimentModeSwipe({
           // For simplicity, let's reuse resolution with a special ID
           setSelectedHelpCategory('schedule'); // Reuse schedule category as it likely has the "no time" option which maps to micro
           setSelectedHelpSubOption('no_time');
-          setHelpView('resolution');
+          navigateToHelpView('resolution');
         } else {
           // Fallback if no micro version defined
           setSelectedHelpCategory('schedule');
           setSelectedHelpSubOption('no_time');
-          setHelpView('resolution');
+          navigateToHelpView('resolution');
         }
       }
     },
@@ -352,12 +366,12 @@ export default function ExperimentModeSwipe({
       description: 'See 2-3 alternative options',
       action: () => {
         if (tip.variants && tip.variants.length > 0) {
-          setHelpView('variants');
+          navigateToHelpView('variants');
         } else {
           // If no variants, maybe default to "I don't have equipment" or similar?
           // Or show a message saying "No variants available"
           setSelectedHelpCategory('logistics');
-          setHelpView('sub_options'); // Fallback to logistics
+          navigateToHelpView('sub_options'); // Fallback to logistics
         }
       }
     },
@@ -367,7 +381,7 @@ export default function ExperimentModeSwipe({
       label: 'Troubleshoot',
       description: "Something's getting in the way",
       action: () => {
-        setHelpView('troubleshoot_categories');
+        navigateToHelpView('troubleshoot_categories');
       }
     }
   ];
@@ -1435,17 +1449,9 @@ export default function ExperimentModeSwipe({
           </Animated.View>
           <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
             <View style={styles.bottomSheetHeader}>
-              {helpView !== 'main' ? (
+              {currentHelpView !== 'main' ? (
                 <TouchableOpacity
-                  onPress={() => {
-                    if (helpView === 'resolution') {
-                      setHelpView('sub_options');
-                      setSelectedHelpSubOption(null);
-                    } else {
-                      setHelpView('main');
-                      setSelectedHelpCategory(null);
-                    }
-                  }}
+                  onPress={navigateBackHelp}
                   style={styles.closeButton}
                 >
                   <Ionicons name="chevron-back" size={24} color="#374151" />
@@ -1464,7 +1470,7 @@ export default function ExperimentModeSwipe({
             </View>
 
             <View style={styles.bottomSheetContent}>
-              {helpView === 'main' && (
+              {currentHelpView === 'main' && (
                 <>
                   <Text style={styles.bottomSheetTitle}>How can we help?</Text>
                   <Text style={styles.bottomSheetSubtitle}>Pick an option to get moving</Text>
@@ -1494,7 +1500,7 @@ export default function ExperimentModeSwipe({
                 </>
               )}
 
-              {helpView === 'variants' && (
+              {currentHelpView === 'variants' && (
                 <>
                   <Text style={styles.bottomSheetTitle}>Try something else</Text>
                   <Text style={styles.bottomSheetSubtitle}>Pick a variation that fits better today</Text>
@@ -1523,7 +1529,7 @@ export default function ExperimentModeSwipe({
                 </>
               )}
 
-              {helpView === 'troubleshoot_categories' && (
+              {currentHelpView === 'troubleshoot_categories' && (
                 <>
                   <Text style={styles.bottomSheetTitle}>What's getting in the way?</Text>
                   <Text style={styles.bottomSheetSubtitle}>No judgment — let's figure it out together</Text>
@@ -1534,7 +1540,7 @@ export default function ExperimentModeSwipe({
                         key={category.id}
                         onPress={() => {
                           setSelectedHelpCategory(category.id);
-                          setHelpView('sub_options');
+                          navigateToHelpView('sub_options');
                         }}
                         style={styles.helpOption}
                       >
@@ -1550,7 +1556,7 @@ export default function ExperimentModeSwipe({
                 </>
               )}
 
-              {helpView === 'sub_options' && selectedHelpCategory && (
+              {currentHelpView === 'sub_options' && selectedHelpCategory && (
                 <>
                   <Text style={styles.bottomSheetTitle}>
                     {helpCategories.find(c => c.id === selectedHelpCategory)?.label}
@@ -1563,7 +1569,7 @@ export default function ExperimentModeSwipe({
                         key={option.id}
                         onPress={() => {
                           setSelectedHelpSubOption(option.id);
-                          setHelpView('resolution');
+                          navigateToHelpView('resolution');
                         }}
                         style={styles.helpOption}
                       >
@@ -1577,7 +1583,7 @@ export default function ExperimentModeSwipe({
                 </>
               )}
 
-              {helpView === 'resolution' && selectedHelpCategory && selectedHelpSubOption && (
+              {currentHelpView === 'resolution' && selectedHelpCategory && selectedHelpSubOption && (
                 <>
                   <View style={styles.resolutionContainer}>
                     <View style={styles.resolutionIconContainer}>
@@ -1606,7 +1612,7 @@ export default function ExperimentModeSwipe({
                 </>
               )}
 
-              {helpView === 'main' && (
+              {currentHelpView === 'main' && (
                 <TouchableOpacity
                   onPress={() => closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); })}
                   style={styles.cancelButton}
@@ -1614,6 +1620,7 @@ export default function ExperimentModeSwipe({
                   <Text style={styles.cancelButtonText}>Never mind, I've got this</Text>
                 </TouchableOpacity>
               )}
+            </View>
             </View>
           </Animated.View>
         </View>
