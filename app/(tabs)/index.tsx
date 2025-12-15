@@ -2095,8 +2095,23 @@ export default function HomeScreen() {
                   console.log('index.tsx - From Redux:', reduxSavedData);
                   return dataToPass;
                 })()}
+                onSavePersonalization={async (data) => {
+                  try {
+                    console.log('index.tsx - ExperimentModeSwipe onSavePersonalization called:', data);
+                    if (dailyTip) {
+                      const updatedDailyTip = { ...dailyTip, personalization_data: data };
+                      await StorageService.saveDailyTip(updatedDailyTip);
+                      dispatch(savePersonalizationData(data));
+                      setDailyTip(updatedDailyTip);
+                      dispatch(setDailyTipRedux(updatedDailyTip));
+                      console.log('index.tsx - Personalization saved from ExperimentModeSwipe');
+                    }
+                  } catch (error) {
+                    console.error('index.tsx - Error saving personalization from ExperimentModeSwipe:', error);
+                  }
+                }}
                 isInFocusMode={isInFocusMode}
-                focusProgress={focusProgress}
+                focusProgress={focusProgress || undefined}
                 showHeaderStats={showHeaderStats}
                 onToggleHeaderStats={() => setShowHeaderStats(!showHeaderStats)}
                 onViewDetails={() => {
@@ -2121,9 +2136,10 @@ export default function HomeScreen() {
                     dailyTip: dt,
                     tip: getTipById(dt.tip_id)!
                   })).filter(item => item.tip); // Filter out any where tip wasn't found
-                  
+
                   return history;
                 })()}
+                userProfile={userProfile}
               />
               )
             ) : rejectedTipInfo ? (

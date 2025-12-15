@@ -1,4 +1,11 @@
 import StorageService from '@/services/storage';
+import { getMotivationCards, MotivationCard } from '@/data/motivationCards';
+import {
+  NUTRITION_OBSTACLES,
+  NUTRITION_HELPERS,
+  getPersonalizedCheckInOptions,
+  extractNutritionProfileData,
+} from '@/data/checkInMappings';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -26,9 +33,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 import { SimplifiedTip } from '../types/simplifiedTip';
-import { DailyTip, QuickComplete } from '../types/tip';
+import { DailyTip, QuickComplete, UserProfile } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
 import TipHistoryModal from './TipHistoryModal';
+import PersonalizationCard from './PersonalizationCard';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -47,11 +55,8 @@ interface Props {
     dailyTip: DailyTip;
     tip: SimplifiedTip;
   }>;
-  personalizationData?: {
-    type?: string;
-    prompt?: string;
-    savedData?: any;
-  };
+  personalizationData?: any; // Can be raw saved data { type, data } or { savedData: { type, data } }
+  onSavePersonalization?: (data: any) => void;
   showHeaderStats?: boolean;
   onToggleHeaderStats?: () => void;
   isInFocusMode?: boolean;
@@ -59,6 +64,7 @@ interface Props {
     daysCompleted: number;
     daysTotal: number;
   };
+  userProfile?: UserProfile | null;
 }
 
 // Confetti particle component
@@ -139,11 +145,23 @@ export default function ExperimentModeSwipe({
   successfulExperiments = 0,
   tipHistory = [],
   personalizationData,
+  onSavePersonalization,
   showHeaderStats = false,
   onToggleHeaderStats,
   isInFocusMode = false,
-  focusProgress
+  focusProgress,
+  userProfile
 }: Props) {
+  // Normalize personalization data - can come as raw { type, data } or nested { savedData: { type, data } }
+  const savedPersonalizationData = personalizationData?.savedData ||
+    (personalizationData?.type ? personalizationData : null);
+  const hasSavedPlan = !!savedPersonalizationData;
+
+  // Debug logging for personalization data
+  console.log('ExperimentModeSwipe - personalizationData received:', personalizationData);
+  console.log('ExperimentModeSwipe - savedPersonalizationData normalized:', savedPersonalizationData);
+  console.log('ExperimentModeSwipe - hasSavedPlan:', hasSavedPlan);
+
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [showHelpMenu, setShowHelpMenu] = useState(false);
@@ -152,6 +170,7 @@ export default function ExperimentModeSwipe({
   const [viewedCards, setViewedCards] = useState<string[]>(['protip']);
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [quizAnswer, setQuizAnswer] = useState<string | null>(null);
+  const [dynamicQuizAnswer, setDynamicQuizAnswer] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalTips, setModalTips] = useState<Array<{ dailyTip: DailyTip; tip: SimplifiedTip }>>([]);
@@ -251,38 +270,49 @@ export default function ExperimentModeSwipe({
       ]
     };
 
+    // Extract user's nutrition data for personalization (supports both old and new quiz structures)
+    const nutritionData = extractNutritionProfileData(userProfile as any);
+
+    // Debug: Log what profile data we're working with
+    if (__DEV__) {
+      console.log('CheckIn - User profile primary_focus:', (userProfile as any)?.primary_focus);
+      console.log('CheckIn - User profile specific_challenges:', (userProfile as any)?.specific_challenges);
+      console.log('CheckIn - User profile medical_conditions:', (userProfile as any)?.medical_conditions);
+      console.log('CheckIn - User profile lifestyle:', (userProfile as any)?.lifestyle);
+      console.log('CheckIn - Extracted nutrition data:', nutritionData);
+    }
+
+    // Get personalized nutrition options based on onboarding
+    const personalizedNutritionHelpers = getPersonalizedCheckInOptions(
+      NUTRITION_HELPERS,
+      nutritionData.barriers,
+      nutritionData.goals,
+      nutritionData.worked,
+      nutritionData.avoided,
+      nutritionData.conditions,
+      nutritionData.lifeRole
+    );
+
+    const personalizedNutritionObstacles = getPersonalizedCheckInOptions(
+      NUTRITION_OBSTACLES,
+      nutritionData.barriers,
+      nutritionData.goals,
+      nutritionData.worked,
+      nutritionData.avoided,
+      nutritionData.conditions,
+      nutritionData.lifeRole
+    );
+
     // Area-specific "in favor" and "obstacles" options
     const areaOptions: Record<string, { inFavor: CheckInSection; obstacles: CheckInSection }> = {
       nutrition: {
         inFavor: {
           label: "What's working in your favor?",
-          options: [
-            { id: 'motivated', icon: 'flash-outline', label: 'Feeling motivated' },
-            { id: 'meal_prepped', icon: 'restaurant-outline', label: 'Meals prepped' },
-            { id: 'healthy_food', icon: 'leaf-outline', label: 'Healthy food available' },
-            { id: 'not_hungry', icon: 'thumbs-up-outline', label: 'Not too hungry' },
-            { id: 'support', icon: 'people-outline', label: 'Supportive people' },
-            { id: 'home', icon: 'home-outline', label: 'Eating at home' },
-            { id: 'hydrated', icon: 'water-outline', label: 'Hydrated' },
-            { id: 'leftovers', icon: 'calendar-outline', label: 'Leftovers ready' },
-            { id: 'rhythm', icon: 'repeat-outline', label: 'In a rhythm' },
-          ]
+          options: personalizedNutritionHelpers as CheckInOption[]
         },
         obstacles: {
           label: "What might get in the way?",
-          options: [
-            { id: 'cravings', icon: 'pizza-outline', label: 'Cravings' },
-            { id: 'social_eating', icon: 'people-outline', label: 'Social eating' },
-            { id: 'no_healthy_options', icon: 'close-circle-outline', label: 'No healthy options' },
-            { id: 'stressed', icon: 'cloudy-outline', label: 'Stress eating' },
-            { id: 'tired', icon: 'moon-outline', label: 'Too tired to cook' },
-            { id: 'busy', icon: 'calendar-outline', label: 'Busy schedule' },
-            { id: 'boredom', icon: 'game-controller-outline', label: 'Boredom' },
-            { id: 'thirsty', icon: 'water-outline', label: 'Thirsty (not hungry)' },
-            { id: 'celebration', icon: 'gift-outline', label: 'Celebration' },
-            { id: 'traveling', icon: 'airplane-outline', label: 'Traveling' },
-            { id: 'emotional', icon: 'heart-dislike-outline', label: 'Emotional' },
-          ]
+          options: personalizedNutritionObstacles as CheckInOption[]
         }
       },
       fitness: {
@@ -513,7 +543,7 @@ export default function ExperimentModeSwipe({
     };
 
     // Map 'exercise' to 'fitness' since tips use 'exercise' but options use 'fitness'
-    const mappedArea = area === 'exercise' ? 'fitness' : area;
+    const mappedArea = (area as string) === 'exercise' ? 'fitness' : area;
     const areaConfig = areaOptions[mappedArea] || areaOptions.nutrition;
 
     return {
@@ -548,188 +578,15 @@ export default function ExperimentModeSwipe({
 
   const totalCheckInSelections = selectedInFavor.length + selectedObstacles.length + selectedFeelings.length;
 
-  // Dynamic motivation cards based on check-in selections
-  type MotivationCard = {
-    id: string;
-    type: 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact';
-    icon: keyof typeof Ionicons.glyphMap;
-    iconBg: string;
-    iconColor: string;
-    title: string;
-    text: string;
-    priority: number; // Higher = shows first
-  };
-
-  const getMotivationCards = (): MotivationCard[] => {
-    const cards: MotivationCard[] = [];
-
-    // Feeling-based cards
-    if (selectedFeelings.includes('tired')) {
-      cards.push({
-        id: 'tired-gentle',
-        type: 'encouragement',
-        icon: 'heart-outline',
-        iconBg: '#fef3c7',
-        iconColor: '#d97706',
-        title: 'Be Gentle',
-        text: "Tired days are real. Even a tiny step counts - you don't have to be perfect today.",
-        priority: 10,
-      });
-      cards.push({
-        id: 'tired-energy',
-        type: 'tip',
-        icon: 'flash-outline',
-        iconBg: '#dbeafe',
-        iconColor: '#2563eb',
-        title: 'Quick Energy',
-        text: 'A 5-min walk or glass of cold water can boost alertness more than you think.',
-        priority: 8,
-      });
-    }
-
-    if (selectedFeelings.includes('stressed')) {
-      cards.push({
-        id: 'stressed-breathe',
-        type: 'strategy',
-        icon: 'leaf-outline',
-        iconBg: '#d1fae5',
-        iconColor: '#059669',
-        title: 'Pause First',
-        text: 'Try 3 deep breaths before deciding anything. Stress makes everything feel harder than it is.',
-        priority: 10,
-      });
-    }
-
-    if (selectedFeelings.includes('great') || selectedFeelings.includes('good')) {
-      cards.push({
-        id: 'good-momentum',
-        type: 'encouragement',
-        icon: 'rocket-outline',
-        iconBg: '#ede9fe',
-        iconColor: '#7c3aed',
-        title: 'Ride the Wave',
-        text: "You're in a good headspace - perfect time to build momentum!",
-        priority: 7,
-      });
-    }
-
-    // Obstacle-based cards
-    if (selectedObstacles.includes('cravings')) {
-      cards.push({
-        id: 'cravings-delay',
-        type: 'strategy',
-        icon: 'timer-outline',
-        iconBg: '#fce7f3',
-        iconColor: '#db2777',
-        title: '10-Min Rule',
-        text: "Cravings peak then fade. Wait 10 mins, drink water, then decide. You're in control.",
-        priority: 9,
-      });
-    }
-
-    if (selectedObstacles.includes('stressed')) {
-      cards.push({
-        id: 'stress-eating-reframe',
-        type: 'reframe',
-        icon: 'bulb-outline',
-        iconBg: '#fef3c7',
-        iconColor: '#d97706',
-        title: 'Stress Eating?',
-        text: "It's your brain seeking comfort, not hunger. What else might help? A walk, music, or texting a friend?",
-        priority: 9,
-      });
-    }
-
-    if (selectedObstacles.includes('social_eating')) {
-      cards.push({
-        id: 'social-strategy',
-        type: 'strategy',
-        icon: 'people-outline',
-        iconBg: '#dbeafe',
-        iconColor: '#2563eb',
-        title: 'Social Situations',
-        text: 'Eat a small healthy snack before. You\'ll feel less pressure and make calmer choices.',
-        priority: 8,
-      });
-    }
-
-    if (selectedObstacles.includes('busy')) {
-      cards.push({
-        id: 'busy-micro',
-        type: 'tip',
-        icon: 'time-outline',
-        iconBg: '#ccfbf1',
-        iconColor: '#0d9488',
-        title: 'Micro-Moments',
-        text: "Busy day? Look for 2-minute windows. Small actions add up more than you'd think.",
-        priority: 8,
-      });
-    }
-
-    if (selectedObstacles.includes('tired') || selectedObstacles.includes('no_healthy_options')) {
-      cards.push({
-        id: 'tired-easy-win',
-        type: 'strategy',
-        icon: 'checkmark-circle-outline',
-        iconBg: '#d1fae5',
-        iconColor: '#059669',
-        title: 'Easy Win',
-        text: "Lower the bar today. What's the easiest version of this you could do?",
-        priority: 8,
-      });
-    }
-
-    // In-favor reinforcement cards
-    if (selectedInFavor.includes('healthy_food') || selectedInFavor.includes('meal_prepped')) {
-      cards.push({
-        id: 'prepped-leverage',
-        type: 'encouragement',
-        icon: 'star-outline',
-        iconBg: '#fef3c7',
-        iconColor: '#d97706',
-        title: 'You Planned Ahead!',
-        text: "Past-you set up today-you for success. Use that prep - it's already done!",
-        priority: 7,
-      });
-    }
-
-    if (selectedInFavor.includes('motivated')) {
-      cards.push({
-        id: 'motivated-action',
-        type: 'tip',
-        icon: 'flash-outline',
-        iconBg: '#ede9fe',
-        iconColor: '#7c3aed',
-        title: 'Strike Now',
-        text: "Motivation fades - action creates more motivation. Start within the next 5 mins!",
-        priority: 8,
-      });
-    }
-
-    if (selectedInFavor.includes('support')) {
-      cards.push({
-        id: 'support-share',
-        type: 'tip',
-        icon: 'chatbubble-outline',
-        iconBg: '#dbeafe',
-        iconColor: '#2563eb',
-        title: 'Share Your Goal',
-        text: "Tell someone what you're trying today. Saying it out loud makes it more real.",
-        priority: 6,
-      });
-    }
-
-    // Only return cards if user has made check-in selections
-    // (the static cards Fun Fact, Quiz, Pro Tip, Community are always shown)
-    if (cards.length === 0) {
-      return [];
-    }
-
-    // Sort by priority (highest first) and return top 3 contextual cards
-    return cards.sort((a, b) => b.priority - a.priority).slice(0, 3);
-  };
-
-  const motivationCards = getMotivationCards();
+  // Get motivation cards from centralized data file
+  const area = tip?.area || 'nutrition';
+  const motivationCards = getMotivationCards(
+    selectedFeelings,
+    selectedObstacles,
+    selectedInFavor,
+    area
+  );
+  const activeMotivationCard = motivationCards.find(c => c.id === activeCard);
 
   // Load centralized completion count on mount
   useEffect(() => {
@@ -940,8 +797,14 @@ export default function ExperimentModeSwipe({
                       onPress={() => setShowPlan(true)}
                       style={styles.secondaryActionPill}
                     >
-                      <Ionicons name="calendar-outline" size={16} color="#92400e" />
-                      <Text style={styles.secondaryActionText}>Plan</Text>
+                      <View style={styles.planButtonContainer}>
+                        <Ionicons name="calendar-outline" size={16} color="#92400e" />
+                        <Text style={styles.secondaryActionText}>Plan</Text>
+                        {/* Show unread indicator when tip supports personalization but no plan is saved */}
+                        {tip.personalization_prompt && !hasSavedPlan && (
+                          <View style={styles.unreadIndicator} />
+                        )}
+                      </View>
                     </TouchableOpacity>
                     <Text style={styles.secondaryActionDivider}>•</Text>
                     <TouchableOpacity
@@ -985,7 +848,9 @@ export default function ExperimentModeSwipe({
                 // Plan view
                 <>
                   <View style={styles.planHeaderInHeader}>
-                    <Text style={styles.planTitleHeader}>Your 7-Day Plan</Text>
+                    <Text style={styles.planTitleHeader}>
+                      {hasSavedPlan ? 'Your Plan' : 'Make It Yours'}
+                    </Text>
                     <TouchableOpacity
                       onPress={() => setShowPlan(false)}
                       style={styles.backButtonHeader}
@@ -994,26 +859,38 @@ export default function ExperimentModeSwipe({
                       <Text style={styles.backButtonTextHeader}>Back</Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.planStepsHeader}>
-                    <View style={styles.planStepHeader}>
-                      <View style={[styles.planStepIndicatorHeader, styles.planStepCompleteHeader]}>
-                        <Text style={styles.planStepCheckmarkHeader}>✓</Text>
-                      </View>
-                      <Text style={styles.planStepTextHeader}>Days 1-4: Walk after one meal</Text>
+
+                  {/* Show PersonalizationCard if tip supports it */}
+                  {tip.personalization_prompt ? (
+                    <View style={styles.planPersonalizationContainer}>
+                      <PersonalizationCard
+                        tip={tip}
+                        savedData={savedPersonalizationData}
+                        onSave={onSavePersonalization}
+                        showHeader={false}
+                        theme={{
+                          primary: '#ea580c',
+                          primaryLight: '#fb923c',
+                          primaryLighter: '#fdba74',
+                          primaryLightest: '#fff7ed',
+                          gray900: '#1A1A1A',
+                          gray700: '#4A4A4A',
+                          gray500: '#767676',
+                          gray300: '#B8B8B8',
+                          gray100: '#F5F5F5',
+                          white: '#FFFFFF',
+                        }}
+                      />
                     </View>
-                    <View style={styles.planStepHeader}>
-                      <View style={[styles.planStepIndicatorHeader, styles.planStepCurrentHeader]}>
-                        <Text style={styles.planStepNumberHeader}>5</Text>
-                      </View>
-                      <Text style={styles.planStepTextHeader}>Days 5-6: Walk after two meals</Text>
+                  ) : (
+                    // Fallback for tips without personalization - show generic message
+                    <View style={styles.noPlanContainer}>
+                      <Ionicons name="bulb-outline" size={32} color="#92400e" />
+                      <Text style={styles.noPlanText}>
+                        Try this experiment today and see how it goes!
+                      </Text>
                     </View>
-                    <View style={styles.planStepHeader}>
-                      <View style={[styles.planStepIndicatorHeader, styles.planStepPendingHeader]}>
-                        <Text style={styles.planStepNumberPendingHeader}>7</Text>
-                      </View>
-                      <Text style={styles.planStepTextPendingHeader}>Day 7: Walk after every meal</Text>
-                    </View>
-                  </View>
+                  )}
                 </>
               )}
             </View>
@@ -1303,6 +1180,122 @@ export default function ExperimentModeSwipe({
           </ScrollView>
         </View>
       </ScrollView>
+
+      {/* Dynamic Motivation Modal */}
+      <Modal
+        visible={!!activeMotivationCard?.modalContent}
+        transparent
+        animationType="none"
+        onRequestClose={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+      >
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
+            <TouchableOpacity
+              style={StyleSheet.absoluteFill}
+              activeOpacity={1}
+              onPress={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
+            <View style={styles.bottomSheetHeader}>
+              <TouchableOpacity
+                onPress={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+                style={styles.closeButton}
+              >
+                <Ionicons name="close" size={20} color="#9ca3af" />
+              </TouchableOpacity>
+              <View style={styles.bottomSheetHandle} />
+              <View style={{ width: 32 }} />
+            </View>
+
+            {activeMotivationCard?.modalContent && (
+              <View style={styles.modalContent}>
+                <View style={[styles.modalIcon, { backgroundColor: activeMotivationCard.iconBg }]}>
+                  <Ionicons name={activeMotivationCard.icon} size={32} color={activeMotivationCard.iconColor} />
+                </View>
+                <Text style={styles.modalTitle}>{activeMotivationCard.modalContent.title}</Text>
+
+                {/* Description / Question */}
+                {activeMotivationCard.type === 'quiz' ? (
+                   <Text style={styles.quizQuestion}>{activeMotivationCard.modalContent.question}</Text>
+                ) : (
+                   <Text style={styles.modalDescription}>{activeMotivationCard.modalContent.description}</Text>
+                )}
+
+                {/* Content Body */}
+                {activeMotivationCard.type === 'quiz' ? (
+                   <>
+                     <View style={styles.quizOptions}>
+                       {activeMotivationCard.modalContent.options?.map((option) => (
+                         <TouchableOpacity
+                           key={option.id}
+                           onPress={() => setDynamicQuizAnswer(option.id)}
+                           disabled={dynamicQuizAnswer !== null}
+                           style={[
+                             styles.quizOption,
+                             dynamicQuizAnswer === null && styles.quizOptionDefault,
+                             dynamicQuizAnswer !== null && option.correct && styles.quizOptionCorrect,
+                             dynamicQuizAnswer === option.id && !option.correct && styles.quizOptionIncorrect,
+                             dynamicQuizAnswer !== null && !option.correct && dynamicQuizAnswer !== option.id && styles.quizOptionFaded
+                           ]}
+                         >
+                            <View style={[
+                              styles.quizOptionLetter,
+                              dynamicQuizAnswer === null && styles.quizOptionLetterDefault,
+                              dynamicQuizAnswer !== null && option.correct && styles.quizOptionLetterCorrect,
+                              dynamicQuizAnswer === option.id && !option.correct && styles.quizOptionLetterIncorrect
+                            ]}>
+                              <Text style={[
+                                styles.quizOptionLetterText,
+                                dynamicQuizAnswer !== null && option.correct && styles.quizOptionLetterTextCorrect
+                              ]}>
+                                {option.id === 'yes' ? 'A' : option.id === 'no' ? 'B' : option.id.toUpperCase()}
+                              </Text>
+                            </View>
+                            <Text style={[
+                              styles.quizOptionText,
+                              dynamicQuizAnswer !== null && option.correct && styles.quizOptionTextCorrect
+                            ]}>{option.text}</Text>
+                             {dynamicQuizAnswer !== null && option.correct && (
+                                <Ionicons name="checkmark" size={20} color="#22c55e" style={styles.quizCheckmark} />
+                              )}
+                         </TouchableOpacity>
+                       ))}
+                     </View>
+                     {dynamicQuizAnswer && (
+                        <View style={[styles.quizResult, styles.quizResultCorrect]}>
+                           <Text style={styles.quizResultText}>
+                             {activeMotivationCard.modalContent.answerExplanation}
+                           </Text>
+                        </View>
+                     )}
+                   </>
+                ) : (
+                   <View style={styles.modalBonus}>
+                      <Text style={styles.modalBonusText}>
+                        {activeMotivationCard.modalContent.mainText}
+                      </Text>
+                   </View>
+                )}
+
+                {/* Button */}
+                <TouchableOpacity
+                  onPress={() => closeSheet(() => { setActiveCard(null); setDynamicQuizAnswer(null); })}
+                  style={styles.quizDoneButton}
+                >
+                  <LinearGradient
+                    colors={[activeMotivationCard.iconColor, activeMotivationCard.iconColor]} // Or gradient
+                    style={styles.quizDoneButtonGradient}
+                  >
+                    <Text style={styles.quizDoneButtonText}>{activeMotivationCard.modalContent.buttonText || 'Got it'}</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+
+              </View>
+            )}
+          </Animated.View>
+        </View>
+      </Modal>
 
       {/* Help Menu Bottom Sheet */}
       <Modal
@@ -2335,6 +2328,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     flex: 1,
+  },
+  planPersonalizationContainer: {
+    width: '100%',
+    marginTop: 8,
+  },
+  noPlanContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+    gap: 12,
+  },
+  noPlanText: {
+    color: '#78350f',
+    fontSize: 15,
+    textAlign: 'center',
+    lineHeight: 22,
+    paddingHorizontal: 16,
+  },
+  planButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  unreadIndicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#ef4444',
+    marginLeft: 2,
   },
 
   // Secondary actions row (Details, Plan, Help)
