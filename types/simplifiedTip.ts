@@ -284,4 +284,11 @@ export interface SimplifiedTip {
 
   // For "I have zero time"
   micro_version?: string; // The 1-minute or 30-second version of the tip
+
+  // For "Make it easier or different"
+  variants?: {
+    id: string;
+    summary: string;
+    difficulty?: number;
+  }[];
 }

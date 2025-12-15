@@ -323,6 +323,55 @@ export default function ExperimentModeSwipe({
     }
   ];
 
+  const rootOptions = [
+    {
+      id: 'start_now',
+      emoji: '⚡',
+      label: 'Help me get started now',
+      description: 'Just the first simple step',
+      action: () => {
+        if (tip.micro_version) {
+          // If we have a specific micro version, go to resolution view directly
+          // We can reuse the resolution view by mocking a category/option selection or create a dedicated state
+          // For simplicity, let's reuse resolution with a special ID
+          setSelectedHelpCategory('schedule'); // Reuse schedule category as it likely has the "no time" option which maps to micro
+          setSelectedHelpSubOption('no_time');
+          setHelpView('resolution');
+        } else {
+          // Fallback if no micro version defined
+          setSelectedHelpCategory('schedule');
+          setSelectedHelpSubOption('no_time');
+          setHelpView('resolution');
+        }
+      }
+    },
+    {
+      id: 'easier',
+      emoji: '🔀',
+      label: 'Make it easier or different',
+      description: 'See 2-3 alternative options',
+      action: () => {
+        if (tip.variants && tip.variants.length > 0) {
+          setHelpView('variants');
+        } else {
+          // If no variants, maybe default to "I don't have equipment" or similar?
+          // Or show a message saying "No variants available"
+          setSelectedHelpCategory('logistics');
+          setHelpView('sub_options'); // Fallback to logistics
+        }
+      }
+    },
+    {
+      id: 'troubleshoot',
+      emoji: '🔧',
+      label: 'Troubleshoot',
+      description: "Something's getting in the way",
+      action: () => {
+        setHelpView('troubleshoot_categories');
+      }
+    }
+  ];
+
   // Area-specific check-in options
   const getCheckInOptions = () => {
     const area = tip?.area || 'nutrition';
@@ -1416,6 +1465,65 @@ export default function ExperimentModeSwipe({
 
             <View style={styles.bottomSheetContent}>
               {helpView === 'main' && (
+                <>
+                  <Text style={styles.bottomSheetTitle}>How can we help?</Text>
+                  <Text style={styles.bottomSheetSubtitle}>Pick an option to get moving</Text>
+
+                  <View style={styles.helpOptions}>
+                    {rootOptions.map((option) => (
+                      <TouchableOpacity
+                        key={option.id}
+                        onPress={option.action}
+                        style={styles.helpOption}
+                      >
+                        <Text style={styles.helpOptionEmoji}>{option.emoji}</Text>
+                        <View style={styles.helpOptionContent}>
+                          <Text style={styles.helpOptionLabel}>
+                            {option.id === 'start_now' ? (
+                              <Text>
+                                Help me get started <Text style={{fontStyle: 'italic'}}>now</Text>
+                              </Text>
+                            ) : option.label}
+                          </Text>
+                          <Text style={styles.helpOptionDescription}>{option.description}</Text>
+                        </View>
+                        <Ionicons name="chevron-forward" size={20} color="#d1d5db" />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              {helpView === 'variants' && (
+                <>
+                  <Text style={styles.bottomSheetTitle}>Try something else</Text>
+                  <Text style={styles.bottomSheetSubtitle}>Pick a variation that fits better today</Text>
+
+                  <View style={styles.helpOptions}>
+                    {tip.variants?.map((variant) => (
+                      <TouchableOpacity
+                        key={variant.id}
+                        onPress={() => {
+                          // In a real app, this would swap the active tip
+                          // For now, we'll just close the menu and show a toast/alert or just close
+                          closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); });
+                          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                        }}
+                        style={styles.helpOption}
+                      >
+                        <Text style={styles.helpOptionEmoji}>👉</Text>
+                        <View style={styles.helpOptionContent}>
+                          <Text style={styles.helpOptionLabel}>{variant.summary}</Text>
+                          <Text style={styles.helpOptionDescription}>Tap to switch to this tip</Text>
+                        </View>
+                        <Ionicons name="swap-horizontal" size={20} color="#d1d5db" />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              {helpView === 'troubleshoot_categories' && (
                 <>
                   <Text style={styles.bottomSheetTitle}>What's getting in the way?</Text>
                   <Text style={styles.bottomSheetSubtitle}>No judgment — let's figure it out together</Text>
