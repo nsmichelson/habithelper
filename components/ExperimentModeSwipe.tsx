@@ -365,14 +365,7 @@ export default function ExperimentModeSwipe({
       label: 'Make it easier or different',
       description: 'See 2-3 alternative options',
       action: () => {
-        if (tip.variants && tip.variants.length > 0) {
-          navigateToHelpView('variants');
-        } else {
-          // If no variants, maybe default to "I don't have equipment" or similar?
-          // Or show a message saying "No variants available"
-          setSelectedHelpCategory('logistics');
-          navigateToHelpView('sub_options'); // Fallback to logistics
-        }
+        navigateToHelpView('variants');
       }
     },
     {
@@ -1506,25 +1499,58 @@ export default function ExperimentModeSwipe({
                   <Text style={styles.bottomSheetSubtitle}>Pick a variation that fits better today</Text>
 
                   <View style={styles.helpOptions}>
-                    {tip.variants?.map((variant) => (
-                      <TouchableOpacity
-                        key={variant.id}
-                        onPress={() => {
-                          // In a real app, this would swap the active tip
-                          // For now, we'll just close the menu and show a toast/alert or just close
-                          closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); });
-                          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-                        }}
-                        style={styles.helpOption}
-                      >
-                        <Text style={styles.helpOptionEmoji}>👉</Text>
-                        <View style={styles.helpOptionContent}>
-                          <Text style={styles.helpOptionLabel}>{variant.summary}</Text>
-                          <Text style={styles.helpOptionDescription}>Tap to switch to this tip</Text>
-                        </View>
-                        <Ionicons name="swap-horizontal" size={20} color="#d1d5db" />
-                      </TouchableOpacity>
-                    ))}
+                    {tip.variants && tip.variants.length > 0 ? (
+                      tip.variants.map((variant) => (
+                        <TouchableOpacity
+                          key={variant.id}
+                          onPress={() => {
+                            // In a real app, this would swap the active tip
+                            // For now, we'll just close the menu and show a toast/alert or just close
+                            closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); });
+                            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                          }}
+                          style={styles.helpOption}
+                        >
+                          <Text style={styles.helpOptionEmoji}>👉</Text>
+                          <View style={styles.helpOptionContent}>
+                            <Text style={styles.helpOptionLabel}>{variant.summary}</Text>
+                            <Text style={styles.helpOptionDescription}>Tap to switch to this tip</Text>
+                          </View>
+                          <Ionicons name="swap-horizontal" size={20} color="#d1d5db" />
+                        </TouchableOpacity>
+                      ))
+                    ) : (
+                      <View style={{ padding: 20, alignItems: 'center', backgroundColor: '#f9fafb', borderRadius: 16 }}>
+                        <Ionicons name="search" size={32} color="#9ca3af" style={{ marginBottom: 12 }} />
+                        <Text style={{ fontWeight: '600', color: '#4b5563', marginBottom: 8, textAlign: 'center' }}>
+                          No specific variations found
+                        </Text>
+                        <Text style={{ color: '#6b7280', textAlign: 'center', marginBottom: 20, fontSize: 14 }}>
+                          We don't have alternative versions of this tip yet. You might find what you need in Troubleshooting.
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigateToHelpView('troubleshoot_categories');
+                          }}
+                          style={{
+                            backgroundColor: '#fff',
+                            paddingVertical: 12,
+                            paddingHorizontal: 24,
+                            borderRadius: 12,
+                            borderWidth: 1,
+                            borderColor: '#e5e7eb',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 8
+                          }}
+                        >
+                          <Ionicons name="construct-outline" size={16} color="#374151" />
+                          <Text style={{ fontWeight: '600', color: '#374151' }}>
+                            Go to Troubleshooting
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
                   </View>
                 </>
               )}
