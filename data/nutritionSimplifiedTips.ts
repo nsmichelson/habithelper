@@ -3,6 +3,7 @@ import { SimplifiedTip } from '../types/simplifiedTip';
 export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   {
     "tip_id": "e68d1c7c-216f-4ee8-bb97-d801ef62100e",
+    "micro_version": "Move one fruit bowl to the counter or put one bag of chips in a high cupboard.",
     "summary": "Put friction on junk; make the healthy option the default path.",
     "details_md": "**The Experiment:** Move all sweets and chips to a high, opaque bin; place fruit and nuts at eye level.\n\n**Why it Works:** Self-control is limited; environment beats willpower. Stable cues plus repeated responses form habits, and early wins build self-efficacy. Making unhealthy choices effortful and healthy choices obvious reduces exposure to temptation and conserves psychological resources.\n\n**How to Try It:**\n\u2022 Use an opaque container; store treats on the highest shelf.\n\u2022 Pre\u2011wash fruit; put a bowl on the counter.\n\u2022 Portion nuts into small bags for grab\u2011and\u2011go.",
     "area": "nutrition",
@@ -42,6 +43,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "111eb00c-8654-4f24-afa7-301b1a1acb9f",
+    "micro_version": "Open the menu on your phone right now and screenshot your healthy choice.",
     "summary": "Decide your restaurant order at home; star the menu pick now.",
     "details_md": "**The Experiment:** Check the restaurant menu beforehand and lock in a grilled/baked entr\u00e9e with vegetables.\n\n**Why it Works:** Pre\u2011commitment removes in\u2011the\u2011moment impulsivity when hunger and reward cues spike. Mixed dishes often hide sugar, sodium, and fat. Simple preparations reduce the fat\u2011sugar reward combo that amplifies overeating.\n\n**How to Try It:**\n\u2022 Read the menu online; write your choice in your notes.\n\u2022 Text a friend your plan for accountability.\n\u2022 Ask for sauces on the side when you order.",
     "area": "nutrition",
@@ -81,6 +83,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "98f559e4-7248-4b18-af68-1272bf5dcb4a",
+    "micro_version": "Set a \"Snack Alarm\" on your phone for 1 hour before your reservation time.",
     "summary": "Eat a mini protein\u2011fiber snack an hour before the reservation.",
     "details_md": "**The Experiment:** Have Greek yogurt or a boiled egg plus an apple 45\u201360 minutes pre\u2011meal.\n\n**Why it Works:** Protein and fiber slow digestion, stabilize glucose, and blunt crash\u2011driven cravings. Keeping levels steady reduces the urge for rapid\u2011energy sweets and the fat\u2011sugar reward loop.\n\n**How to Try It:**\n\u2022 Keep eggs, yogurt, or edamame ready in the fridge.\n\u2022 Pair fruit with nuts or string cheese.\n\u2022 Set a reminder one hour before leaving.",
     "area": "nutrition",
@@ -121,6 +124,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "57d0910c-aad9-40f4-8b3c-97bc8677669d",
+    "micro_version": "Say the phrase out loud once to practice: \"Could I get a box with the meal, please?\"",
     "summary": "Ask for a to\u2011go box upfront; halve portions immediately.",
     "details_md": "**The Experiment:** At restaurants, request a box with your entr\u00e9e and pack half right away.\n\n**Why it Works:** Large portions and rich preparations drive overeating. Pre\u2011portioning reframes the default, reduces exposure to hyper\u2011palatable fat\u2011sugar combos, and preserves self\u2011control for dessert decisions.\n\n**How to Try It:**\n\u2022 Tell the server: \u201cCould I get a box with the entr\u00e9e?\u201d\n\u2022 Move half the meal before eating anything.\n\u2022 Share plates when boxing isn\u2019t possible.",
     "area": "nutrition",
@@ -160,6 +164,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "25fb5013-9c16-4e11-aa4e-2ea4d71eab82",
+    "micro_version": "Decide your default rule now (e.g., \"I always ask for 3 spoons\" or \"I order berries\").",
     "summary": "Share a small dessert, or choose fruit\u2011forward options intentionally.",
     "details_md": "**The Experiment:** If you indulge, order one small dessert for the table or a fruit\u2011based option.\n\n**Why it Works:** Fat and sugar together hyper\u2011activate distinct reward pathways. Strategic indulgence keeps enjoyment without abandoning the plan and avoids the richest fat\u2011sugar combinations.\n\n**How to Try It:**\n\u2022 Suggest one dessert with four spoons.\n\u2022 Choose sorbet, baked apples, or fruit crumble.\n\u2022 Stop at three mindful bites; savor slowly.",
     "area": "nutrition",
@@ -199,6 +204,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "69e46c1f-504a-489a-b4db-21e6bbddb91c",
+    "micro_version": "Go to the kitchen and drink one full glass of water immediately.",
     "summary": "Drink a tall glass of water, then reassess the craving.",
     "details_md": "**The Experiment:** Before any sweet snack, drink 12\u201316 oz of water and wait five minutes.\n\n**Why it Works:** Hydration lapses and mineral needs can masquerade as sugar hunger. A brief pause lets protein/fiber timing and satiety signals catch up.\n\n**How to Try It:**\n\u2022 Keep a filled bottle at arm\u2019s reach.\n\u2022 Add a squeeze of lemon for appeal.\n\u2022 Set a \u201cwater first\u201d phone reminder.",
     "area": "nutrition",
@@ -238,6 +244,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "59a67139-9680-47c9-887f-b7b5c0ceae0f",
+    "micro_version": "Go to your pantry and find one protein source (nuts, cheese stick) to place next to your crackers.",
     "summary": "Never eat simple carbs alone; always pair with protein or fat.",
     "details_md": "**The Experiment:** If you eat bread, crackers, or fruit, add cheese, nuts, or yogurt.\n\n**Why it Works:** Simple carbs alone spike and crash glucose, intensifying cravings. Pairing slows absorption, steadies energy, and reduces the drive for quick sugar fixes.\n\n**How to Try It:**\n\u2022 Apple + peanut butter; crackers + tuna.\n\u2022 Oatmeal + Greek yogurt swirl.\n\u2022 Rice + edamame or eggs.",
     "area": "nutrition",
@@ -277,6 +284,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "c844ab65-d40b-4ae4-9d6c-6ef9e78376cb",
+    "micro_version": "Check your fridge for pickles, yogurt, or kimchi; if none, write \"Sauerkraut\" on your grocery list.",
     "summary": "Feed your gut; add kefir, kimchi, sauerkraut, or kombucha now.",
     "details_md": "**The Experiment:** Include one serving of fermented food with lunch or dinner.\n\n**Why it Works:** Emerging evidence links the gut\u2011brain axis to sugar preference. Microbial activity can influence GLP\u20111 signaling and sweet desire; supporting microbiota may reduce sugar\u2011seeking.\n\n**How to Try It:**\n\u2022 Top bowls with kimchi or sauerkraut.\n\u2022 Swap milk for a glass of kefir.\n\u2022 Choose low\u2011sugar kombucha with meals.",
     "area": "nutrition",
@@ -316,6 +324,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "595245fe-ef5f-4e19-bdf7-c4c66bfc943e",
+    "micro_version": "Check the freezer to see if you have berries; if yes, move them to the front shelf.",
     "summary": "Replace tonight\u2019s dessert with a colorful, vitamin\u2011rich fruit bowl.",
     "details_md": "**The Experiment:** Make dessert from frozen mango, kiwi, or raspberries with cinnamon.\n\n**Why it Works:** Whole fruit delivers fiber, water, and micronutrients, satisfying sweetness with better satiety than refined sweets and avoiding the fat\u2011sugar synergy of rich desserts.\n\n**How to Try It:**\n\u2022 Keep frozen fruit on hand for speed.\n\u2022 Add a spoon of applesauce and cinnamon.\n\u2022 Serve in a small bowl to anchor portions.",
     "area": "nutrition",
@@ -355,6 +364,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "c6bc23ef-273d-46c7-b9d2-a8053350ec6e",
+    "micro_version": "Peel one banana, slice it onto a plate, and put it in the freezer right now.",
     "summary": "Freeze cocoa\u2011dusted banana coins for a quick sweet fix.",
     "details_md": "**The Experiment:** Slice bananas, dust with unsweetened cocoa, freeze 30\u201360 minutes.\n\n**Why it Works:** You satisfy chocolate cravings with fiber and volume, not added fat\u2011sugar. This reduces reward overdrive while still feeling indulgent.\n\n**How to Try It:**\n\u2022 Use a zip bag and sheet pan.\n\u2022 Add a few crushed almonds for texture.\n\u2022 Portion 6\u20138 coins per serving.",
     "area": "nutrition",
@@ -394,6 +404,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "e5e956b6-ce4b-4689-a4b2-6d2eeb59f286",
+    "micro_version": "Grab a ziplock bag and put 1 handful of nuts and 1 beef jerky stick in it.",
     "summary": "Pack protein\u2011fiber snacks to prevent desperate airport or road choices.",
     "details_md": "**The Experiment:** Assemble a kit: nuts, jerky, fruit, yogurt (if chilled), and water.\n\n**Why it Works:** Going >5 hours without food heightens impulsivity and preference for ultra\u2011processed options. Planned protein/fiber stabilizes energy and curbs crash\u2011driven sweets.\n\n**How to Try It:**\n\u2022 Portion \u00bc cup almonds into bags.\n\u2022 Pack jerky or cheese sticks.\n\u2022 Refill a bottle past security.",
     "area": "nutrition",
@@ -433,6 +444,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "db1cfa99-afc9-4d1c-9935-41bf1d510b2d",
+    "micro_version": "Open your calendar app and create recurring events for \"Lunch\" and \"Dinner\" for the next 3 days.",
     "summary": "Keep breakfast\u2013lunch\u2013dinner timing consistent despite delays.",
     "details_md": "**The Experiment:** Choose three anchor times today and eat roughly within those windows.\n\n**Why it Works:** Routine supports circadian and metabolic regularity, buffering buffet or fast\u2011food environments. Predictability reduces decision fatigue and overeating risk.\n\n**How to Try It:**\n\u2022 Calendar reminders for meal windows.\n\u2022 Carry a backup snack for delays.\n\u2022 Avoid grazing between anchors.",
     "area": "nutrition",
@@ -471,6 +483,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "9dc8e1df-7f14-4501-9f93-725d4c24a173",
+    "micro_version": "Visualize yourself walking the entire buffet line without picking up a plate first.",
     "summary": "Survey first, then one plate: lean protein, vegetables, whole grains.",
     "details_md": "**The Experiment:** Walk the buffet before serving; build a single plate from basics.\n\n**Why it Works:** Scanning first avoids impulsive piling. Lean proteins and intact grains reduce the fat\u2011sugar reward pull and keep glucose steadier.\n\n**How to Try It:**\n\u2022 Fill half the plate with vegetables.\n\u2022 Choose grilled/roasted proteins.\n\u2022 Skip creamy sauces; add lemon or salsa.",
     "area": "nutrition",
@@ -509,6 +522,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "053c6170-9dad-4c6e-9250-f6ab1fece2e4",
+    "micro_version": "Find one simple recipe (like a quinoa salad) and save the link or screenshot it.",
     "summary": "Arrive with a colorful salad or low\u2011sugar dessert you\u2019ll enjoy.",
     "details_md": "**The Experiment:** Contribute a dish aligned with your goals to tonight\u2019s gathering.\n\n**Why it Works:** Shifting focus to connection rather than food reduces social pressure. Having one reliable option protects the plan and helps others, too.\n\n**How to Try It:**\n\u2022 Pre\u2011wash greens; add beans and seeds.\n\u2022 Make baked apples with oats and cinnamon.\n\u2022 Place your dish near your seat.",
     "area": "nutrition",
@@ -547,6 +561,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "dda6cf5a-8307-4b46-a93c-d909673722b2",
+    "micro_version": "Write down the names of 2 specific people you want to catch up with at the event.",
     "summary": "Lead with people, not plates; set a social engagement goal.",
     "details_md": "**The Experiment:** Pick three people to meaningfully connect with before any food.\n\n**Why it Works:** When attention centers on relationships, food is no longer the reward mechanism. This reduces environmental cues driving automatic eating.\n\n**How to Try It:**\n\u2022 Stand away from the snack table.\n\u2022 Hold a zero\u2011calorie drink as a prop.\n\u2022 Ask open\u2011ended questions to extend chats.",
     "area": "nutrition",
@@ -585,6 +600,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "12ed3810-2f03-4ff1-b782-b59adcfd5d24",
+    "micro_version": "Practice placing a glass of water on the table next to your coffee/drink right now.",
     "summary": "Quench thirst first; slow the pace before any alcohol.",
     "details_md": "**The Experiment:** Begin with sparkling water or diet soda before your first drink.\n\n**Why it Works:** Alcohol adds discretionary calories and health risks. Drinking with food and pacing slows absorption; starting non\u2011alcoholic reduces total intake.\n\n**How to Try It:**\n\u2022 Order sparkling water with lime.\n\u2022 Eat protein before sipping alcohol.\n\u2022 Alternate each alcoholic drink with water.",
     "area": "nutrition",
@@ -625,6 +641,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "52ccba48-276b-44ef-94f4-cfc654a8fae1",
+    "micro_version": "Go to the cupboard and move your tall glasses to the front and wide ones to the back.",
     "summary": "Visual cues matter; pour less without noticing in slender glassware.",
     "details_md": "**The Experiment:** Tonight, drink wine from a tall, narrow glass.\n\n**Why it Works:** Glass shape influences perceived volume. Subtle environmental tweaks reduce total alcohol consumed without relying on willpower.\n\n**How to Try It:**\n\u2022 Swap goblets for flutes/tall glasses.\n\u2022 Pour to a consistent marker line.\n\u2022 Put the bottle out of reach.",
     "area": "nutrition",
@@ -665,6 +682,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "840b1672-f7b9-4a88-91d6-c10811c442be",
+    "micro_version": "Take one bottle off the counter/bar cart and put it inside a cabinet door.",
     "summary": "Out of sight, out of sip; relocate bottles to a closed cabinet.",
     "details_md": "**The Experiment:** Move alcohol to a cabinet or secondary fridge today.\n\n**Why it Works:** Reducing visual cues lowers unplanned consumption. Environmental control conserves self\u2011control for more meaningful choices.\n\n**How to Try It:**\n\u2022 Clear the bar cart; add seltzers instead.\n\u2022 Keep a single bottle chilled, not multiples.\n\u2022 Use smaller purchase volumes.",
     "area": "nutrition",
@@ -704,6 +722,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "a0227ed3-f873-4f45-a6ea-b4df781de5b1",
+    "micro_version": "Decide your \"Last Call\" time (e.g., 8:00 PM) and set a phone alarm labeled \"Kitchen Closed\".",
     "summary": "Eat while drinking and set a time cap for the last pour.",
     "details_md": "**The Experiment:** Consume alcohol only with a meal and set a hard stop time.\n\n**Why it Works:** Food slows absorption; pacing curbs total intake. Respecting guideline limits reduces cardiometabolic and cancer risks tied to alcohol.\n\n**How to Try It:**\n\u2022 Start drinking mid\u2011meal, not pre\u2011meal.\n\u2022 Use a timer for a two\u2011hour window.\n\u2022 Switch to tea after the stop time.",
     "area": "nutrition",
@@ -743,6 +762,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "c5084aef-c366-4cdb-af0b-9db909c81399",
+    "micro_version": "Write down ONE specific habit (e.g., \"drink water with lunch\") and today's date.",
     "summary": "Ditch the 21\u2011day myth; plan for gradual, steady habit formation.",
     "details_md": "**The Experiment:** Pick one habit and set a 6\u201310\u2011week horizon with weekly check\u2011ins.\n\n**Why it Works:** Unrealistic timelines cause discouragement. Expectation management plus early, small wins builds self-efficacy and persistence.\n\n**How to Try It:**\n\u2022 Track a single daily action in a checklist.\n\u2022 Celebrate weekly streaks, not perfection.\n\u2022 Reduce the habit to a 2\u2011minute starter.",
     "area": "nutrition",
@@ -781,6 +801,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "72b786da-dfd5-430a-9ee7-191719e6a78e",
+    "micro_version": "Write \"If I'm bored, I will do 5 squats\" on a sticky note and put it on your monitor/TV.",
     "summary": "Pre\u2011decide: \u201cIf bored, then I\u2019ll do X,\u201d not snack.",
     "details_md": "**The Experiment:** Create one Implementation Intention to replace boredom eating today.\n\n**Why it Works:** Boredom seeks stimulation; If\u2011Then plans automate a goal-directed response. Habit stacking cements the new behavior onto an existing cue.\n\n**How to Try It:**\n\u2022 \u201cIf scrolling, then 10 bodyweight squats.\u201d\n\u2022 \u201cIf TV ads, then make tea.\u201d\n\u2022 \u201cIf waiting, then text a friend.\u201d",
     "area": "nutrition",
@@ -819,6 +840,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "b52b47e8-dba8-4119-b6c0-7a6667e42b96",
+    "micro_version": "Place an empty glass on your cutting board or next to the stove as a physical reminder.",
     "summary": "Tie a glass of water to every meal setup step.",
     "details_md": "**The Experiment:** Before plating, drink a full glass as part of the routine.\n\n**Why it Works:** Habit stacking uses stable cues to lock in beneficial actions. Hydration reduces misinterpreted sugar cravings and supports appetite control.\n\n**How to Try It:**\n\u2022 Place a glass on the counter before cooking.\n\u2022 Fill it before opening the fridge.\n\u2022 Keep a pitcher visible at the table.",
     "area": "nutrition",
@@ -837,6 +859,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "11ad5bd5-cdcf-403a-a105-592a4f4b4485",
+    "micro_version": "Set two alarms on your phone right now: one for 10:30 AM and one for 3:30 PM.",
     "summary": "Prevent crashes; add protein and fiber every 3\u20134 hours.",
     "details_md": "**The Experiment:** Schedule snacks or small meals to avoid >5 hours without food.\n\n**Why it Works:** Long gaps trigger crash-driven cravings and impulsive, ultra-processed choices. Steady intake stabilizes glucose and reduces sweet seeking.\n\n**How to Try It:**\n\u2022 Set reminders at 10:30 a.m. and 3 p.m.\n\u2022 Pair fruit with nuts or yogurt.\n\u2022 Keep shelf-stable protein at work.",
     "area": "nutrition",
@@ -855,6 +878,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "95f2dd05-cb49-452e-8f64-e2c32b93369f",
+    "micro_version": "Open a menu for a restaurant you frequent and identify 2 \"Grilled\" or \"Baked\" options.",
     "summary": "Choose grilled or baked basics; skip complex, hidden-calorie dishes.",
     "details_md": "**The Experiment:** Order straightforward entr\u00e9es and avoid stews, burritos, and creamy pastas.\n\n**Why it Works:** Mixed dishes hide added sugar, sodium, and fat. Choosing simple prep lowers exposure to fat-sugar reward synergy.\n\n**How to Try It:**\n\u2022 Ask for grilled fish/chicken with vegetables.\n\u2022 Replace fries with a side salad.\n\u2022 Request extra lemon, herbs, or salsa.",
     "area": "nutrition",
@@ -873,6 +897,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "e6270716-54f1-41ee-9358-1435c6b443d8",
+    "micro_version": "Decide what extra item you will add to tomorrow's breakfast (e.g., an extra egg or yogurt).",
     "summary": "Bigger breakfast or lunch; lighter, earlier dinner for circadian alignment.",
     "details_md": "**The Experiment:** Shift more calories to earlier meals and eat dinner on the light side.\n\n**Why it Works:** Late eating disrupts ghrelin-leptin balance, increases hunger, and impairs glucose handling. Chrononutrition favors earlier intake for metabolic efficiency.\n\n**How to Try It:**\n\u2022 Add eggs and oats to breakfast.\n\u2022 Move dessert to mid-afternoon fruit.\n\u2022 Keep dinner lean protein and vegetables.",
     "area": "nutrition",
@@ -891,6 +916,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "772ea316-6802-42ef-a8be-ef239101ff16",
+    "micro_version": "Set a repeating alarm for 8:00 PM (or your chosen time) labeled \"Kitchen Closed\".",
     "summary": "Set a nightly stop-eating time to support sleep and metabolism.",
     "details_md": "**The Experiment:** Choose a \u201ckitchen closed\u201d time tonight\u2014at least three hours pre-bed.\n\n**Why it Works:** Eating near biological night worsens glucose tolerance and increases hunger signals. A firm window reduces late-night snacking drivers.\n\n**How to Try It:**\n\u2022 Set an alarm for the cutoff.\n\u2022 Dim kitchen lights as a cue.\n\u2022 Brew non-caffeinated tea post-cutoff.",
     "area": "nutrition",
@@ -909,6 +935,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "f8086b16-d324-44f3-aa35-8905b5d7d387",
+    "micro_version": "Put a pack of gum, a fidget spinner, or a stress ball directly on your desk/coffee table.",
     "summary": "Replace snack stimulation with engaging non-food sensations.",
     "details_md": "**The Experiment:** Assemble items that occupy hands/mouth/attention to counter boredom.\n\n**Why it Works:** Boredom eating seeks sensation. Swapping in stimulating, non-food activities satisfies the drive without calories.\n\n**How to Try It:**\n\u2022 Stock gum or cinnamon tea.\n\u2022 Keep a stress ball or hand gripper.\n\u2022 Start a 5-minute puzzle timer.",
     "area": "nutrition",
@@ -928,6 +955,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "d4310b8f-630f-4e83-9b0a-79495e959d80",
+    "micro_version": "Check your pantry to see if you have almond flour or rolled oats; if not, add to grocery list.",
     "summary": "Use almond flour or oats for fiber and texture satisfaction.",
     "details_md": "**The Experiment:** If baking, replace white flour with almond flour or oats.\n\n**Why it Works:** Nutrient-dense bases increase fiber/protein, improving satiety while keeping desserts satisfying, and dampening the refined fat-sugar reward hit.\n\n**How to Try It:**\n\u2022 Make an apple-oat crumble.\n\u2022 Blend oats to flour for cookies.\n\u2022 Add nuts/seeds for crunch.",
     "area": "nutrition",
@@ -947,6 +975,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "61d83766-2239-40ad-ad62-020d36ca00b2",
+    "micro_version": "Go to the kitchen and verify you have plain yogurt; if yes, put a bowl on the counter for later.",
     "summary": "Choose unsweetened Greek yogurt with berries for a creamy sweet.",
     "details_md": "**The Experiment:** Build a bowl: yogurt, berries, cinnamon, and a few nuts.\n\n**Why it Works:** Protein, fiber, and volume satisfy cravings while stabilizing glucose, reducing rebound hunger versus candy or pastries.\n\n**How to Try It:**\n\u2022 Keep frozen berries for convenience.\n\u2022 Sweeten with a drizzle of maple if needed.\n\u2022 Portion to a small bowl.",
     "area": "nutrition",
@@ -966,6 +995,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "35e6f64f-b181-4194-8472-262fedaefbd5",
+    "micro_version": "Place a box of herbal tea bags on the kitchen counter so it's the first thing you see after dinner.",
     "summary": "Skip rich desserts after heavy meals; pick light or skip altogether.",
     "details_md": "**The Experiment:** If the entr\u00e9e is rich, choose tea or fruit instead of dessert.\n\n**Why it Works:** Combined fat and sugar amplify reward pathways, increasing overeating pressure. Avoiding stacked rewards limits reinforcement.\n\n**How to Try It:**\n\u2022 Order herbal tea post-meal.\n\u2022 Share a fruit plate for the table.\n\u2022 Take three mindful bites, then stop.",
     "area": "nutrition",
@@ -984,6 +1014,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "990b0579-274a-4cbb-a958-4e5b7f01eb48",
+    "micro_version": "Write down one combo for this week (e.g., Rice + Chicken + Broccoli).",
     "summary": "Cook one grain, one protein, one veg to streamline the week.",
     "details_md": "**The Experiment:** Make brown rice, roasted chicken thighs, and a sheet-pan of vegetables.\n\n**Why it Works:** Meal prep increases fruit/vegetable intake and diet quality while reducing reliance on ultra-processed convenience items.\n\n**How to Try It:**\n\u2022 Start rice first; roast protein/veg together.\n\u2022 Season simply; sauces later.\n\u2022 Portion into three containers.",
     "area": "nutrition",
@@ -1004,6 +1035,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "1272ea95-2ff7-4884-afaa-c46968d461fa",
+    "micro_version": "Take out the cutting board and one vegetable (onion/pepper) and place them on the counter.",
     "summary": "Chop vegetables and aromatics now; cut tomorrow\u2019s cook time in half.",
     "details_md": "**The Experiment:** Pre-chop onions, peppers, and broccoli; store in clear containers.\n\n**Why it Works:** Removing time-consuming steps lowers weekday friction, defeating decision fatigue that drives takeout.\n\n**How to Try It:**\n\u2022 Put a cutting board on the counter.\n\u2022 Batch chop; label containers by dish.\n\u2022 Pair with a ready protein (eggs, tofu).",
     "area": "nutrition",
@@ -1024,6 +1056,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "07cb4056-5348-4493-b2d2-d044b8c0ce8b",
+    "micro_version": "Put a mason jar or muffin tin on the counter so it's ready for prep time.",
     "summary": "Prep overnight oats or egg-muffins for fast, balanced mornings.",
     "details_md": "**The Experiment:** Prepare three breakfasts that include protein and fiber.\n\n**Why it Works:** Prepared options maintain your 3\u20134-hour fueling rhythm and prevent crash-driven pastry grabs.\n\n**How to Try It:**\n\u2022 Overnight oats + yogurt + berries.\n\u2022 Egg-muffins with spinach and feta.\n\u2022 Label jars for Mon/Wed/Fri.",
     "area": "nutrition",
@@ -1044,6 +1077,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "4088db5b-404d-4e40-bdff-ffd04a55e62b",
+    "micro_version": "Grab a post-it note and write down just tonight's dinner.",
     "summary": "Write a three-meal plan using your batch bases.",
     "details_md": "**The Experiment:** List tonight, tomorrow, and the next day\u2019s dinners using what you prepped.\n\n**Why it Works:** Micro-planning defeats decision fatigue and keeps you aligned with simple, low-hidden-calorie dishes.\n\n**How to Try It:**\n\u2022 Pick a protein, veg, and grain combo.\n\u2022 Assign sauces: salsa, pesto, yogurt-tahini.\n\u2022 Pin the plan on the fridge.",
     "area": "nutrition",
@@ -1062,6 +1096,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "db99ea21-f285-4a1b-a901-953c7ebc6ce6",
+    "micro_version": "Add \"Rotisserie Chicken\" and \"Bagged Salad\" to your digital grocery list immediately.",
     "summary": "Choose nutrient-dense ready-to-eat items over semi-convenience traps.",
     "details_md": "**The Experiment:** Buy rotisserie chicken, bagged salad, frozen vegetables, and microwave grains.\n\n**Why it Works:** Semi-convenience (needs more processing) often has high energy density and low nutrients. Ready-to-eat, higher-quality options keep meals balanced fast.\n\n**How to Try It:**\n\u2022 Pair chicken with salad kit + beans.\n\u2022 Use frozen veg to double plate volume.\n\u2022 Keep plain microwaveable brown rice.",
     "area": "nutrition",
@@ -1081,6 +1116,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "4d47915f-523e-414d-961b-d0627d2db33d",
+    "micro_version": "Go to the pantry, grab two boxes of cereal/crackers, and point to the \"Added Sugars\" line on both.",
     "summary": "Spend five minutes scanning labels; pick the cleaner option today.",
     "details_md": "**The Experiment:** Compare two similar items; choose the one with less sugar and sodium.\n\n**Why it Works:** Hidden sugars/fats in mixed products fuel cravings and calorie creep. Small swaps compound over time.\n\n**How to Try It:**\n\u2022 Check grams of sugar per serving.\n\u2022 Choose lower-sodium sauces/soups.\n\u2022 Favor short, recognizable ingredient lists.",
     "area": "nutrition",
@@ -1100,6 +1136,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "f339e207-337f-4cd2-9b81-deced326f44d",
+    "micro_version": "Write \"Buy Family Pack Chicken\" on your shopping list.",
     "summary": "Make double protein today; repurpose for tomorrow\u2019s lunch.",
     "details_md": "**The Experiment:** Cook extra salmon, tofu, or chicken and chill portions immediately.\n\n**Why it Works:** Prepared protein ensures balanced meals every 3\u20134 hours, preventing crash-driven snacking and takeout.\n\n**How to Try It:**\n\u2022 Shred chicken for wraps.\n\u2022 Flake salmon over greens.\n\u2022 Store portions in clear containers.",
     "area": "nutrition",
@@ -1120,6 +1157,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "addfee10-6e63-418d-8ffb-f1176b49093c",
+    "micro_version": "Open your calendar and block out 1 hour on Sunday labelled \"Power Cooking\".",
     "summary": "Calendar a 60\u201390-minute recurring cook session.",
     "details_md": "**The Experiment:** Block time this week for batch cooking and ingredient prep.\n\n**Why it Works:** Protected time reduces time scarcity\u2014the key barrier to home cooking linked to better diet quality and lower costs.\n\n**How to Try It:**\n\u2022 Set a recurring Sunday event.\n\u2022 Share tasks with a family member.\n\u2022 Prep high-yield bases first.",
     "area": "nutrition",
@@ -1138,6 +1176,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "92b3e4bb-91b8-41b5-a446-41d7ef9aa6cf",
+    "micro_version": "Search \"how to dice an onion\" on YouTube and watch the first 30 seconds.",
     "summary": "Ten minutes on safe, efficient chopping to speed future cooking.",
     "details_md": "**The Experiment:** Learn and practice a basic dice on a carrot or onion.\n\n**Why it Works:** Culinary skills programs increase confidence and fruit/vegetable intake. Skill reduces friction that otherwise drives convenience foods.\n\n**How to Try It:**\n\u2022 Tuck fingertips; use a claw grip.\n\u2022 Keep the tip anchored; rock the blade.\n\u2022 Batch chop and store for tomorrow.",
     "area": "nutrition",
@@ -1158,6 +1197,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "a0ad4a2c-5f17-47df-baad-0d04ad60e8ec",
+    "micro_version": "Open the fridge and move the fruit/veggie drawer contents to the middle shelf.",
     "summary": "Eye-level shelf with ready proteins, produce, and pre-portioned snacks.",
     "details_md": "**The Experiment:** Reorganize one fridge shelf with visible, ready-to-eat healthy options.\n\n**Why it Works:** Cue exposure shapes behavior. Making good choices obvious and convenient reduces reliance on willpower.\n\n**How to Try It:**\n\u2022 Front-row: yogurt, eggs, washed fruit.\n\u2022 Clear containers for chopped veg.\n\u2022 Pre-portion nuts and hummus.",
     "area": "nutrition",
@@ -1177,6 +1217,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "2d2f9b40-1472-4e92-be0f-0fe8e51b1a0a",
+    "micro_version": "Put a sticky note on the microwave door that says \"Squat while heating!\".",
     "summary": "While reheating food, do a tiny hydration and movement stack.",
     "details_md": "**The Experiment:** Every microwave cycle: drink water and do 30\u201360 seconds of movement.\n\n**Why it Works:** Habit stacking turns idle time into a cue for health behaviors, building small, reinforcing wins.\n\n**How to Try It:**\n\u2022 10 squats + a glass of water.\n\u2022 Calf raises at the counter.\n\u2022 Stretch while waiting.",
     "area": "nutrition",
@@ -1196,6 +1237,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "f66a6b33-273f-498c-8c02-679bfd2a1a20",
+    "micro_version": "Write \"0-10?\" on a post-it and stick it to the pantry door handle.",
     "summary": "Insert a mindful check: hunger or habit? Decide with clarity.",
     "details_md": "**The Experiment:** Take three slow breaths and rate hunger 0\u201310 before snacking.\n\n**Why it Works:** Mindfulness reduces eating driven by external/emotional cues and supports alignment with internal signals.\n\n**How to Try It:**\n\u2022 Set a sticky note on the pantry.\n\u2022 If <4 hunger, switch to tea or a walk.\n\u2022 If hungry, choose protein + fiber.",
     "area": "nutrition",
@@ -1214,6 +1256,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "6175364a-3034-48d5-aa26-fb2756a635ec",
+    "micro_version": "Draw 7 empty checkboxes on a piece of paper and tape it to your fridge.",
     "summary": "Track one daily action to build momentum and self-efficacy.",
     "details_md": "**The Experiment:** Create a visible tally for one behavior (e.g., fruit with lunch).\n\n**Why it Works:** Early successes fuel confidence and habit persistence. Seeing progress reduces reliance on willpower myths.\n\n**How to Try It:**\n\u2022 Use a whiteboard or phone widget.\n\u2022 Celebrate streaks weekly.\n\u2022 Reset quickly after misses.",
     "area": "nutrition",
@@ -1232,6 +1275,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "56c990ae-d28b-4f5f-b521-3607e43886a3",
+    "micro_version": "Go to the cabinet and take out your smallest bowl to leave on the counter.",
     "summary": "No bag grazing; serve, sit, savor, then stop.",
     "details_md": "**The Experiment:** Measure a single portion into a small bowl before eating any snack.\n\n**Why it Works:** Pre-portioning creates a clear stopping point and reduces passive overeating from large packages.\n\n**How to Try It:**\n\u2022 Use 1-cup bowls for chips or nuts.\n\u2022 Put the bag away before eating.\n\u2022 Sit at a table; avoid screens.",
     "area": "nutrition",
@@ -1251,6 +1295,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "569356cd-8f0d-4a04-8d4b-760025c5c991",
+    "micro_version": "Fill the kettle with water right now.",
     "summary": "Replace your usual sweet break with aromatic herbal tea.",
     "details_md": "**The Experiment:** At your craving hour, brew cinnamon or peppermint tea instead of sweets.\n\n**Why it Works:** Warmth, aroma, and ritual provide sensory engagement that boredom often seeks, while hydration curbs misread cravings.\n\n**How to Try It:**\n\u2022 Keep tea bags at desk and home.\n\u2022 Pair with a protein bite if hungry.\n\u2022 Sip for five minutes before deciding.",
     "area": "nutrition",
@@ -1271,6 +1316,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "8195ad60-8aa9-4acf-acff-01d6db502688",
+    "micro_version": "Decide exactly what time you will have your treat today (e.g., 3:00 PM).",
     "summary": "If indulging, move sweets earlier to reduce circadian penalties.",
     "details_md": "**The Experiment:** Have any dessert mid-afternoon, not near bedtime.\n\n**Why it Works:** Late eating increases hunger signaling and impairs glucose handling. Earlier intake aligns with better metabolic responses.\n\n**How to Try It:**\n\u2022 Plan a 3 p.m. fruit-forward treat.\n\u2022 Pair with yogurt or nuts.\n\u2022 Keep evenings tea-only.",
     "area": "nutrition",
@@ -1289,6 +1335,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "db848802-dd65-42ec-8955-d72924094a88",
+    "micro_version": "Decide on your \"go-to\" starter order (e.g., \"I will always order the garden salad\").",
     "summary": "Begin with water and a vegetable starter to downshift appetite.",
     "details_md": "**The Experiment:** Order water and a salad or vegetable side first.\n\n**Why it Works:** Hydration and low-energy-dense foods increase fullness before richer items arrive, reducing overeating.\n\n**How to Try It:**\n\u2022 Ask for dressing on the side.\n\u2022 Add beans or seeds for fiber.\n\u2022 Eat veg before the entr\u00e9e.",
     "area": "nutrition",
@@ -1308,6 +1355,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "7289f356-768e-4005-a147-4168fba2f66a",
+    "micro_version": "Open the Notes app on your phone and type the header: \"Stress Snacking Log\".",
     "summary": "Log the thought, rate the urge, ride it like a wave.",
     "details_md": "**The Experiment:** Before stress snacking, jot the trigger, thought, feeling, and an alternative action.\n\n**Why it Works:** CBT/Behavioral Activation decouples mood from eating and replaces avoidance with adaptive behaviors, reducing emotional-cue eating.\n\n**How to Try It:**\n\u2022 Use a notes template (Trigger \u2192 Thought \u2192 Action).\n\u2022 Set a 10-minute timer before eating.\n\u2022 Do a brief walk or call a friend.",
     "area": "nutrition",
@@ -1326,6 +1374,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "9f6f6dc9-33dd-4776-b085-dd3e599bd0d1",
+    "micro_version": "Close your eyes and take one deep mindful breath right now to practice.",
     "summary": "Slow down one snack; make the first three bites deliberate.",
     "details_md": "**The Experiment:** Eat three mindful bites\u2014notice aroma, texture, and sweetness\u2014before continuing.\n\n**Why it Works:** Mindfulness shifts control back to internal signals and lowers automatic, cue-driven intake.\n\n**How to Try It:**\n\u2022 Put utensils down between bites.\n\u2022 Rate fullness after three bites.\n\u2022 Stop at \u201csatisfied,\u201d not stuffed.",
     "area": "nutrition",
@@ -1344,6 +1393,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "f23a6c81-0928-4c27-a676-b5109f1d8627",
+    "micro_version": "Identify one new vegetable you are willing to try (e.g., bell peppers).",
     "summary": "One-bite exposure today; note ARFID signs and plan specialist follow-up.",
     "details_md": "**The Experiment:** Add one bite of a new food with a familiar dip or texture.\n\n**Why it Works:** Gentle exposure expands flexibility. Distinguish preference from ARFID (sensory aversion, fear of choking/vomiting, or low interest), which benefits from specialized CBT and rarely remits without care.\n\n**How to Try It:**\n\u2022 Pair a new veg with a preferred sauce.\n\u2022 Keep bites tiny and predictable.\n\u2022 If ARFID features fit, schedule a consult.",
     "area": "nutrition",
@@ -1363,6 +1413,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "505fcfb3-babe-4e03-a8a3-cb061d63d1a9",
+    "micro_version": "Say the phrase out loud: \"No bread basket for us, thanks.\"",
     "summary": "Ask the server not to bring bread; remove default grazing.",
     "details_md": "**The Experiment:** At sit-down meals, decline bread or chips before they land on the table.\n\n**Why it Works:** Removing tempting cues preserves limited self-control and avoids pre-meal simple carbs that spike/crash glucose, driving later cravings.\n\n**How to Try It:**\n\u2022 Say, \u201cNo bread for our table, please.\u201d\n\u2022 Order sparkling water instead.\n\u2022 If it arrives, push it out of reach.",
     "area": "nutrition",
@@ -1381,6 +1432,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "84bd3006-507b-4457-87d7-570f98f07b7f",
+    "micro_version": "Wash an apple or handful of grapes right now so they are ready for later.",
     "summary": "End meals with fruit to satisfy sweet desire nutritionally.",
     "details_md": "**The Experiment:** Replace pastries with sliced fruit and cinnamon after lunch or dinner.\n\n**Why it Works:** Fiber and water in fruit satisfy sweetness with better satiety and avoid fat-sugar reward synergy.\n\n**How to Try It:**\n\u2022 Keep oranges or grapes washed and ready.\n\u2022 Add a spoon of yogurt if hungry.\n\u2022 Plate it in a small bowl.",
     "area": "nutrition",
@@ -1400,6 +1452,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "2303f6b3-25c5-4be9-bd98-09d22fdc9041",
+    "micro_version": "Look at a menu online and find the \"Sides\" section to see if they have steamed veg.",
     "summary": "Ask for rubs, dry spices, or unsweetened sauces on entr\u00e9es.",
     "details_md": "**The Experiment:** Request no glazes or sweet sauces; choose herbs, lemon, or salsa.\n\n**Why it Works:** Mixed restaurant dishes hide sugars/fats. Simple seasonings reduce hidden calories and dampen reward activation.\n\n**How to Try It:**\n\u2022 \u201cGrilled, no glaze; lemon on the side.\u201d\n\u2022 Swap BBQ sauce for salsa.\n\u2022 Use fresh herbs or chili flakes.",
     "area": "nutrition",
@@ -1418,6 +1471,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "68a6d0c7-4eb4-458b-b1a0-3727e25d3b36",
+    "micro_version": "Visualize putting only half a spoonful of sugar in your mug.",
     "summary": "Halve added sugar today; retrain your palate gradually.",
     "details_md": "**The Experiment:** Reduce sweetener by 50% in coffee/tea and keep it that way.\n\n**Why it Works:** Gradual reduction lowers sugar exposure without withdrawal, easing cravings tied to rapid glucose swings.\n\n**How to Try It:**\n\u2022 Use a measuring spoon for accuracy.\n\u2022 Add milk/protein instead of syrup.\n\u2022 Sprinkle cinnamon for aroma.",
     "area": "nutrition",
@@ -1436,6 +1490,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "2ecddab2-1e8a-4fb7-aca7-c68d3bfdb6ca",
+    "micro_version": "Move your cinnamon shaker to stand right next to the coffee maker.",
     "summary": "Swap syrup for spice; brighten flavor without sugar.",
     "details_md": "**The Experiment:** Add cinnamon to coffee instead of flavored syrup.\n\n**Why it Works:** Aromatic stimulation delivers sensory satisfaction that boredom seeks, without adding sugar or fat.\n\n**How to Try It:**\n\u2022 Keep cinnamon near the coffeemaker.\n\u2022 Try cardamom or cocoa powder.\n\u2022 Pair with a protein snack if hungry.",
     "area": "nutrition",
@@ -1455,6 +1510,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "26fbb91b-1e22-4089-a9db-ff2edaa8809e",
+    "micro_version": "Locate your smallest dessert fork or spoon in the drawer.",
     "summary": "Cut desserts into tiny squares; take one mindful piece.",
     "details_md": "**The Experiment:** If dessert is served, pre-slice into bite-size pieces and choose one.\n\n**Why it Works:** Smaller units create natural stopping points and reduce the fat-sugar reward load per bite.\n\n**How to Try It:**\n\u2022 Use a small plate and fork.\n\u2022 Share the rest with others.\n\u2022 Move leftovers out of sight.",
     "area": "nutrition",
@@ -1473,6 +1529,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "aff9fd45-0e99-4f9d-aa0b-a3500936d50f",
+    "micro_version": "Open your cabinet and move the smaller salad plates to the bottom shelf for easy access.",
     "summary": "Use smaller plates and bowls to nudge portions down.",
     "details_md": "**The Experiment:** Serve meals in smaller dinnerware tonight.\n\n**Why it Works:** Environmental sizing cues influence intake. Smaller plates reduce automatic overeating without relying on willpower.\n\n**How to Try It:**\n\u2022 Swap 12-inch for 9-inch plates.\n\u2022 Use 1-cup bowls for snacks.\n\u2022 Plate in the kitchen, not family-style.",
     "area": "nutrition",
@@ -1492,6 +1549,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "8138eff6-e98a-4b4b-8f60-fd385bff9279",
+    "micro_version": "Take your favorite snack box and move it to the highest, hardest-to-reach shelf.",
     "summary": "Add a minor obstacle\u2014top shelf, step stool, or garage cabinet.",
     "details_md": "**The Experiment:** Relocate treats so access requires extra steps or tools.\n\n**Why it Works:** Even small friction cuts mindless eating; environment engineering preserves self-control for bigger decisions.\n\n**How to Try It:**\n\u2022 Store sweets in a garage bin.\n\u2022 Keep a step stool folded away.\n\u2022 Place healthy snacks front-and-center.",
     "area": "nutrition",
@@ -1510,6 +1568,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "e81257aa-bcd7-434a-a3a3-c73a7db9b52f",
+    "micro_version": "Write \"Hunger or Habit?\" on a sticky note and put it on the pantry door.",
     "summary": "Stick a \u201cHunger or Habit?\u201d note on the snack door.",
     "details_md": "**The Experiment:** Place a prompt on your pantry to trigger a quick check-in.\n\n**Why it Works:** Visual cues interrupt autopilot and return attention to internal hunger signals.\n\n**How to Try It:**\n\u2022 Add a 0\u201310 hunger scale on the note.\n\u2022 If <4, make tea or walk.\n\u2022 If hungry, choose protein + fiber.",
     "area": "nutrition",
@@ -1529,6 +1588,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "af88e84a-177f-4cbe-a7d0-79aadbc83bbe",
+    "micro_version": "Draft a text to a friend saying \"I'm going to order the salad tonight.\"",
     "summary": "Send your order plan to a friend; keep your promise public.",
     "details_md": "**The Experiment:** Text a buddy your menu choice before leaving.\n\n**Why it Works:** Pre-commitment plus social accountability lowers in-the-moment impulsivity and reward-driven ordering.\n\n**How to Try It:**\n\u2022 Share a screenshot of the menu item.\n\u2022 Ask them to check in post-meal.\n\u2022 Celebrate the follow-through.",
     "area": "nutrition",
@@ -1548,6 +1608,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "010fb6f9-1fd3-4d90-a14a-72ec764f42da",
+    "micro_version": "Decide right now: \"Tonight I pick dessert\" (or drink).",
     "summary": "Choose a single special item; keep the rest simple.",
     "details_md": "**The Experiment:** Pick either a small dessert or a richer entr\u00e9e\u2014never both.\n\n**Why it Works:** Avoiding stacked fat-sugar rewards reduces reinforcement that drives overeating, while honoring enjoyment via strategic indulgence.\n\n**How to Try It:**\n\u2022 Decide the splurge before you go.\n\u2022 Keep sides vegetable-focused.\n\u2022 Cap dessert at a few mindful bites.",
     "area": "nutrition",
@@ -1566,6 +1627,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "e66a41db-a51e-47cd-b430-bcffcfe6aa10",
+    "micro_version": "Google a restaurant menu and check if they have a broth-based soup.",
     "summary": "Begin with broth-based soup or salad to add volume first.",
     "details_md": "**The Experiment:** Order a light starter before the main dish.\n\n**Why it Works:** Low-energy-dense foods increase fullness and reduce the need for rich, hyper-palatable items.\n\n**How to Try It:**\n\u2022 Choose broth-based soups.\n\u2022 Go easy on creamy dressings.\n\u2022 Eat the starter before bread arrives.",
     "area": "nutrition",
@@ -1585,6 +1647,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "4a2b01c9-3775-4919-8968-bfdca1c6ee4a",
+    "micro_version": "Visualize yourself taking the top bun off your next burger.",
     "summary": "Remove one bun half; keep protein, cut refined flour.",
     "details_md": "**The Experiment:** With burgers or sandwiches, eat open-faced.\n\n**Why it Works:** Lowering simple carbs blunts glucose spikes and follow-up cravings while preserving satisfaction from protein.\n\n**How to Try It:**\n\u2022 Ask for extra lettuce/tomato.\n\u2022 Use a knife and fork.\n\u2022 Skip fries; add vegetables.",
     "area": "nutrition",
@@ -1603,6 +1666,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "3f0a7a48-193a-4fef-b404-8bcfa42fa063",
+    "micro_version": "Practice saying \"I'd like double broccoli instead of fries.\"",
     "summary": "Swap starch sides for extra veg at restaurants.",
     "details_md": "**The Experiment:** Request double vegetables instead of fries or creamy sides.\n\n**Why it Works:** Volume and fiber boost satiety and reduce fat-sugar exposure.\n\n**How to Try It:**\n\u2022 Ask for steamed or roasted veg.\n\u2022 Add beans for fiber/protein.\n\u2022 Season with lemon and herbs.",
     "area": "nutrition",
@@ -1622,6 +1686,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "d092a55f-95ba-415e-86a2-12ad0c87c699",
+    "micro_version": "Put a banana or apple on the kitchen counter for tomorrow morning.",
     "summary": "Replace hash browns or pastry with seasonal fruit.",
     "details_md": "**The Experiment:** Choose fruit as your breakfast side today.\n\n**Why it Works:** Simple carb sides alone spike/glucose and cravings; fruit adds fiber and hydration for steadier energy.\n\n**How to Try It:**\n\u2022 Request berries instead of toast.\n\u2022 Add eggs for protein.\n\u2022 Skip juice; eat whole fruit.",
     "area": "nutrition",
@@ -1640,6 +1705,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "7f23bc12-e1ab-42d4-b14a-0ffd68860e7b",
+    "micro_version": "Look up the food court map for your next airport visit.",
     "summary": "Make the terminal choice: greens plus a lean protein.",
     "details_md": "**The Experiment:** At airports, choose salad or grain bowl with chicken, tofu, or eggs.\n\n**Why it Works:** Balanced macros stabilize energy and deter sugary snacks during long waits.\n\n**How to Try It:**\n\u2022 Ask for dressing on the side.\n\u2022 Add beans; skip croutons.\n\u2022 Carry nuts for topping.",
     "area": "nutrition",
@@ -1659,6 +1725,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "a1e9a800-239a-416e-87a6-225320fa3acc",
+    "micro_version": "Practice rating your fullness (0-10) right now.",
     "summary": "Stop at \u201csatisfied,\u201d not stuffed; leave gentle room.",
     "details_md": "**The Experiment:** Pause mid-meal and aim to finish at 7/10 fullness.\n\n**Why it Works:** Mindful calibration reduces automatic overeating in large-portion settings.\n\n**How to Try It:**\n\u2022 Put utensils down mid-meal.\n\u2022 Box leftovers when you hit 7/10.\n\u2022 Rate hunger again 20 minutes later.",
     "area": "nutrition",
@@ -1677,6 +1744,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "6ea327eb-0549-4c0f-80b0-d0996a1f6fbd",
+    "micro_version": "Add \"bottled water & yogurt\" to your travel packing list.",
     "summary": "Stock the room with yogurt, fruit, and water immediately.",
     "details_md": "**The Experiment:** Upon check-in, buy simple protein and produce for the room.\n\n**Why it Works:** Availability shapes choices in unpredictable travel environments, preventing >5-hour hunger gaps.\n\n**How to Try It:**\n\u2022 Grab plain yogurt and berries.\n\u2022 Buy a large water bottle.\n\u2022 Keep nuts in the nightstand.",
     "area": "nutrition",
@@ -1696,6 +1764,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "fea3b9e3-425f-4765-817f-258381b21b3a",
+    "micro_version": "Put a bag of almonds in your work bag right now.",
     "summary": "Create a work stash of balanced, shelf-stable options.",
     "details_md": "**The Experiment:** Add nuts, tuna pouches, and fruit to your desk.\n\n**Why it Works:** Prepared protein/fiber prevents crash-driven vending choices and preserves your fueling rhythm.\n\n**How to Try It:**\n\u2022 Portion nuts in bags.\n\u2022 Keep a can opener if needed.\n\u2022 Add herbal tea for cravings.",
     "area": "nutrition",
@@ -1715,6 +1784,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "b8882fea-4560-4112-9afe-73ab672ca77d",
+    "micro_version": "Write \"PERIMETER FIRST\" at the top of your grocery list.",
     "summary": "Start with produce and proteins; limit time in snack aisles.",
     "details_md": "**The Experiment:** Shop the perimeter before entering center aisles.\n\n**Why it Works:** Cue exposure matters. Front-loading whole foods reduces impulsive ultra-processed grabs.\n\n**How to Try It:**\n\u2022 Make a list; stick to it.\n\u2022 Hit frozen veg before snacks.\n\u2022 Check out when the list is done.",
     "area": "nutrition",
@@ -1733,6 +1803,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "c777d977-ad5e-4ed6-a0ab-e5f447bf7166",
+    "micro_version": "Check your freezer space to see if you can fit a bag of broccoli.",
     "summary": "Stock frozen produce for instant, nutrient-dense volume.",
     "details_md": "**The Experiment:** Buy mixed vegetables and berries for quick sides and desserts.\n\n**Why it Works:** Having easy, wholesome options reduces reliance on semi-convenience traps and supports meal prep.\n\n**How to Try It:**\n\u2022 Microwave veg during protein cook.\n\u2022 Blend berries for \u201cnice cream.\u201d\n\u2022 Portion into single-meal bags.",
     "area": "nutrition",
@@ -1753,6 +1824,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "2c73ba62-4e0b-4617-aa9c-bc685fe4f4ca",
+    "micro_version": "Go to the pantry and throw away or donate ONE box of sugary snacks.",
     "summary": "Ditch snacks that combine high fat and sugar.",
     "details_md": "**The Experiment:** Identify and remove rich, fat-sugar combo items today.\n\n**Why it Works:** These trigger amplified reward responses and overeating; reducing availability lowers urges.\n\n**How to Try It:**\n\u2022 Donate unopened boxes.\n\u2022 Replace with nuts or fruit.\n\u2022 Store any keepers out of sight.",
     "area": "nutrition",
@@ -1772,6 +1844,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "5764d2a7-52df-4050-8113-a8368021122e",
+    "micro_version": "Move the candy jar from your desk surface into a drawer.",
     "summary": "Hide workplace sweets in a non-transparent container.",
     "details_md": "**The Experiment:** Move candies from clear bowls to opaque bins.\n\n**Why it Works:** Visual cues drive mindless grabbing; removing them preserves limited self-control.\n\n**How to Try It:**\n\u2022 Label \u201cFriday only\u201d if keeping.\n\u2022 Place it in a closed drawer.\n\u2022 Put fruit where candy used to be.",
     "area": "nutrition",
@@ -1792,6 +1865,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "d68c8da1-45cf-4703-9152-ac8c204d0943",
+    "micro_version": "Go to phone settings and set a 30-min limit for Instagram/TikTok.",
     "summary": "Block social apps during your typical snack-urge window.",
     "details_md": "**The Experiment:** Use an app timer to limit doom-scrolling when you normally graze.\n\n**Why it Works:** Boredom seeks stimulation; removing a cue reduces associative snacking and frees attention for an If-Then alternative.\n\n**How to Try It:**\n\u2022 Set a 30-minute daily block.\n\u2022 Pair with a 5-minute walk.\n\u2022 Keep tea bags at your desk.",
     "area": "nutrition",
@@ -1812,6 +1886,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "9d30426f-9d17-47e8-8dc5-ebe18c33658d",
+    "micro_version": "Check your freezer for a bag of frozen peas/corn to add.",
     "summary": "Swap a \u201cheat-and-add\u201d item for a better ready-to-eat option.",
     "details_md": "**The Experiment:** Replace a sauce-heavy meal kit with rotisserie chicken plus bagged salad.\n\n**Why it Works:** Semi-convenience often hides energy density. Higher-quality ready-to-eat keeps nutrients high with minimal effort.\n\n**How to Try It:**\n\u2022 Add canned beans for fiber.\n\u2022 Use lemon and olive oil.\n\u2022 Skip croutons; add seeds.",
     "area": "nutrition",
@@ -1831,6 +1906,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "badcb563-cccc-427b-aa03-5842d5159eda",
+    "micro_version": "Add \"Canned Lentils\" to your grocery list.",
     "summary": "Add instant legumes for fast fiber-protein boosts.",
     "details_md": "**The Experiment:** Pick up pre-cooked lentils for salads, soups, or bowls.\n\n**Why it Works:** Fiber/protein stabilize glucose and reduce sweet cravings; convenience removes prep barriers.\n\n**How to Try It:**\n\u2022 Mix with salsa and greens.\n\u2022 Warm with microwave rice.\n\u2022 Top with yogurt-tahini.",
     "area": "nutrition",
@@ -1850,6 +1926,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "df3fc00b-3ba8-46b8-8bd6-e2ffc0a5bd77",
+    "micro_version": "Buy a tub of plain yogurt (not vanilla).",
     "summary": "Control sweetness; add fruit instead of syrupy cups.",
     "details_md": "**The Experiment:** Buy plain Greek yogurt; sweeten with berries and cinnamon.\n\n**Why it Works:** Reduces added sugar exposure while keeping protein high for satiety.\n\n**How to Try It:**\n\u2022 Portion into jars for snacks.\n\u2022 Add nuts for crunch.\n\u2022 Drizzle a teaspoon of honey if needed.",
     "area": "nutrition",
@@ -1869,6 +1946,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "e338a24c-782a-404a-b02e-a16eecfe663a",
+    "micro_version": "Set out a bowl and a carton of eggs for tomorrow morning.",
     "summary": "Swap breakfast cereal for oatmeal with protein add-ins.",
     "details_md": "**The Experiment:** Make oats and stir in yogurt or eggs (savory oats).\n\n**Why it Works:** Lower sugar and more protein/fiber prevent mid-morning crashes and cravings.\n\n**How to Try It:**\n\u2022 Batch overnight oats.\n\u2022 Add chia or flax seeds.\n\u2022 Top with berries, not syrup.",
     "area": "nutrition",
@@ -1889,6 +1967,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "d00eb728-fd6e-4260-8ae3-be0e8d051fa6",
+    "micro_version": "Move one can of beans to the front-center of your pantry shelf.",
     "summary": "Make canned beans the default fast protein.",
     "details_md": "**The Experiment:** Place beans on the most visible pantry shelf.\n\n**Why it Works:** Cue placement nudges choices; legumes add fiber/protein for steadier energy.\n\n**How to Try It:**\n\u2022 Rinse and toss on salads.\n\u2022 Mash with spices for wraps.\n\u2022 Warm with frozen veg and rice.",
     "area": "nutrition",
@@ -1908,6 +1987,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "96412abe-57d4-4f52-a98a-dacc637a1fc3",
+    "micro_version": "Make a \"claw\" shape with your hand on the table right now.",
     "summary": "Ten minutes on knife safety and label reading today.",
     "details_md": "**The Experiment:** Practice a safe dice and read two labels side-by-side.\n\n**Why it Works:** Skills raise confidence; informed choices reduce hidden sugar/fat intake driving cravings.\n\n**How to Try It:**\n\u2022 Claw grip; rock the blade.\n\u2022 Compare sugar per serving.\n\u2022 Pick the cleaner option.",
     "area": "nutrition",
@@ -1928,6 +2008,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "a343f84c-3f0d-4609-aa45-28c5518dd257",
+    "micro_version": "Check if you have a can of beans and frozen spinach.",
     "summary": "Cook a basic, budget-friendly, fiber-rich dish tonight.",
     "details_md": "**The Experiment:** Make a beans-and-greens skillet with whole grains.\n\n**Why it Works:** Home cooking improves diet quality and lowers reliance on ultra-processed foods.\n\n**How to Try It:**\n\u2022 Saut\u00e9 garlic, onion, greens.\n\u2022 Add beans and spices.\n\u2022 Serve over brown rice.",
     "area": "nutrition",
@@ -1948,6 +2029,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "93c56217-4236-4ba3-b64c-59ae2129e333",
+    "micro_version": "Ask your partner right now: \"Can you be the veggie chopper tonight?\"",
     "summary": "Divide batch-cook tasks to cut time and stress.",
     "details_md": "**The Experiment:** Assign one person chopping, the other cooking and boxing.\n\n**Why it Works:** Spreading workload reduces time scarcity\u2014key barrier to home cooking\u2014and builds adherence.\n\n**How to Try It:**\n\u2022 Set a 45-minute timer.\n\u2022 Prep grain, protein, veg.\n\u2022 Create three meal containers.",
     "area": "nutrition",
@@ -1968,6 +2050,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "929547ef-2fbd-4213-a4c1-1488360c6da3",
+    "micro_version": "Mix oil, lemon, and herbs in a ziplock bag.",
     "summary": "Prep a basic marinade to cook once, eat twice.",
     "details_md": "**The Experiment:** Marinate chicken/tofu with lemon, herbs, and olive oil.\n\n**Why it Works:** Flavorful basics keep you satisfied with simpler, lower-hidden-calorie meals.\n\n**How to Try It:**\n\u2022 Mix lemon, garlic, oregano.\n\u2022 Marinate 20\u201330 minutes.\n\u2022 Cook extra for tomorrow.",
     "area": "nutrition",
@@ -1988,6 +2071,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "305dae85-12f2-4020-9998-e6841fbba02f",
+    "micro_version": "Say out loud: \"For dinner tonight, I am having [X].\"",
     "summary": "Pick tonight\u2019s reheatable meal by noon; remove decision fatigue.",
     "details_md": "**The Experiment:** Choose dinner early and set it to thaw or preheat.\n\n**Why it Works:** Advance decisions conserve self-control and prevent takeout when hunger peaks.\n\n**How to Try It:**\n\u2022 Move a container to the fridge.\n\u2022 Pre-set the oven timer.\n\u2022 Add a bagged salad side.",
     "area": "nutrition",
@@ -2006,6 +2090,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "3c9cb83b-4679-47c0-8646-4ad9aeb69ba3",
+    "micro_version": "Grab a scrap of paper and write down 5 ingredients to buy.",
     "summary": "List five items that build three balanced meals.",
     "details_md": "**The Experiment:** Write a micro-list: protein, grain, veg, fruit, yogurt.\n\n**Why it Works:** Focused shopping reduces exposure to tempting aisles and supports home-cooking adherence.\n\n**How to Try It:**\n\u2022 Rotisserie chicken, microwave grains.\n\u2022 Frozen mixed veg.\n\u2022 Berries and plain yogurt.",
     "area": "nutrition",
@@ -2025,6 +2110,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "65f55c78-f25a-45ab-81aa-d224f84f286d",
+    "micro_version": "Put a handful of spinach and fruit into a ziplock bag and freeze it.",
     "summary": "Portion freezer bags with fruit, greens, and seeds.",
     "details_md": "**The Experiment:** Assemble three smoothie packs; add yogurt or milk when blending.\n\n**Why it Works:** Convenient, nutrient-dense options reduce sugary drink cravings and maintain fueling rhythm.\n\n**How to Try It:**\n\u2022 Spinach, berries, flax seeds.\n\u2022 Label bags; freeze flat.\n\u2022 Blend with plain kefir.",
     "area": "nutrition",
@@ -2045,6 +2131,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "9994dee2-014a-4cad-8b5f-a44780459b83",
+    "micro_version": "Line up 3 empty jars on the counter.",
     "summary": "Layer hearty salads that keep crisp for days.",
     "details_md": "**The Experiment:** Build two mason-jar salads with dressing at the bottom.\n\n**Why it Works:** Ready lunches prevent >5-hour gaps and impulse sweets.\n\n**How to Try It:**\n\u2022 Dressing \u2192 beans \u2192 veg \u2192 greens.\n\u2022 Add protein morning of.\n\u2022 Shake and eat.",
     "area": "nutrition",
@@ -2065,6 +2152,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "062843bc-38c2-4c60-869f-845171513168",
+    "micro_version": "Choose 2 exercises (e.g., squats and pushups) to do later.",
     "summary": "Replace TV snack cues with a quick movement circuit.",
     "details_md": "**The Experiment:** During commercials, do a one-minute movement routine.\n\n**Why it Works:** Habit stacking links a stable cue to a non-food behavior, meeting boredom\u2019s need for stimulation.\n\n**How to Try It:**\n\u2022 10 squats, 10 pushups (wall).\n\u2022 30-second plank.\n\u2022 Drink water after.",
     "area": "nutrition",
@@ -2084,6 +2172,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "4e0f7b25-3a74-49b2-b0cc-84c351bcdd84",
+    "micro_version": "Decide the 3 steps of your routine (e.g., Wipe, Tea, Lights).",
     "summary": "Lights dimmed, counters cleared\u2014signal the food day is done.",
     "details_md": "**The Experiment:** Create a three-minute nightly shutdown routine.\n\n**Why it Works:** A fixed cue supports time-restricted feeding and reduces late-night snacking.\n\n**How to Try It:**\n\u2022 Wipe counters; put dishes away.\n\u2022 Make tea; set out breakfast bowl.\n\u2022 Turn off under-cabinet lights.",
     "area": "nutrition",
@@ -2103,6 +2192,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "fd80a05c-863b-4f8a-b408-80a1ad3d9b1e",
+    "micro_version": "Place your floss on the coffee table or kitchen counter.",
     "summary": "Minty mouth, fewer night snacks\u2014use hygiene as a cue.",
     "details_md": "**The Experiment:** Brush and floss within 10 minutes of finishing dinner.\n\n**Why it Works:** A clear \u201cclosed\u201d signal reduces cue-driven grazing during biological night.\n\n**How to Try It:**\n\u2022 Keep floss on the table.\n\u2022 Set a \u201cbrush now\u201d phone alarm.\n\u2022 Sip herbal tea if cravings hit.",
     "area": "nutrition",
@@ -2123,6 +2213,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "1d036f6b-76c2-4d7d-bea6-446e53898685",
+    "micro_version": "Put the TV remote in a drawer or under a book.",
     "summary": "Place TV controls far from snacks to break the pairing.",
     "details_md": "**The Experiment:** Store the remote outside the kitchen or dining area.\n\n**Why it Works:** Disrupting cue chains weakens boredom-snacking links and conserves self-control.\n\n**How to Try It:**\n\u2022 Keep the remote in a drawer.\n\u2022 Sit away from the snack table.\n\u2022 Pair shows with tea, not food.",
     "area": "nutrition",
@@ -2142,6 +2233,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "5b014177-80e6-42d9-8471-0867624e7125",
+    "micro_version": "Write your limit number (e.g., \"2\") on your hand or post-it.",
     "summary": "Write tonight\u2019s max: one (women) or two (men)\u2014then stick to it.",
     "details_md": "**The Experiment:** Decide and display your personal limit per national guidance.\n\n**Why it Works:** Pre-commitment plus clear limits aligns behavior with health risks and reduces discretionary calories.\n\n**How to Try It:**\n\u2022 Note your limit on your phone.\n\u2022 Start with water; drink with food.\n\u2022 Stop by a set time.",
     "area": "nutrition",
@@ -2163,6 +2255,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "583fd83a-818f-4505-af2c-5803fc94d4fb",
+    "micro_version": "Add \"Club Soda\" and \"Limes\" to your grocery list.",
     "summary": "Choose spirits with soda and citrus\u2014skip syrups and creamy mixers.",
     "details_md": "**The Experiment:** Order a highball with soda water and lime instead of sugary cocktails.\n\n**Why it Works:** Avoiding sugar-laden mixers lowers calorie load and reward synergy.\n\n**How to Try It:**\n\u2022 Vodka/soda + lime, not tonic.\n\u2022 Ask for half-sweet if needed.\n\u2022 Alternate with plain water.",
     "area": "nutrition",
@@ -2183,6 +2276,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "1814bbf6-ee1e-4f05-b4f7-13b2e71734af",
+    "micro_version": "Pour 5oz of water into your wine glass to see where the line is.",
     "summary": "Use a measuring cup once; learn the visual for standard pours.",
     "details_md": "**The Experiment:** Pour 5 oz into your chosen glass to set a visual anchor.\n\n**Why it Works:** Accurate portions reduce unintentional overconsumption guided by glass size illusions.\n\n**How to Try It:**\n\u2022 Mark the level with tape discreetly.\n\u2022 Pour only to the marker.\n\u2022 Put the bottle away after.",
     "area": "nutrition",
@@ -2203,6 +2297,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "d4041885-5176-4b93-a038-08bc305b9061",
+    "micro_version": "Drink one full glass of water right now to hydrate.",
     "summary": "Alternate alcohol with water to slow pace and total intake.",
     "details_md": "**The Experiment:** Follow each drink with a full glass of water.\n\n**Why it Works:** Pacing plus hydration reduce overall alcohol intake and slow absorption.\n\n**How to Try It:**\n\u2022 Order a water with each round.\n\u2022 Finish water before re-ordering.\n\u2022 Keep a glass in hand while chatting.",
     "area": "nutrition",
@@ -2223,6 +2318,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "6513c49b-24f5-43a0-8af3-a8c6e783637c",
+    "micro_version": "Text a friend: \"Want to go for a walk/hike instead of drinks?\"",
     "summary": "Make the night about people or activities, not pours.",
     "details_md": "**The Experiment:** Choose a conversation or activity goal that isn\u2019t drinking.\n\n**Why it Works:** Shifting reward focus away from alcohol reduces environmental prompts to keep sipping.\n\n**How to Try It:**\n\u2022 Start a group game or walk.\n\u2022 Ask two people deeper questions.\n\u2022 Offer to be the driver.",
     "area": "nutrition",
@@ -2241,6 +2337,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "5a9626b2-b3d6-4509-a1c5-b92df02323b2",
+    "micro_version": "Check the pantry for onions, garlic, or a can of beans.",
     "summary": "Add onions, garlic, or beans to one meal today.",
     "details_md": "**The Experiment:** Include a prebiotic-rich ingredient in lunch or dinner.\n\n**Why it Works:** Feeding gut microbes supports the gut-brain axis influencing cravings and satiety signals.\n\n**How to Try It:**\n\u2022 Add beans to salad or soup.\n\u2022 Saut\u00e9 onions/garlic with veg.\n\u2022 Choose whole-grain sides.",
     "area": "nutrition",
@@ -2261,6 +2358,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "b410e892-acfa-4317-a45e-be9f1f534d90",
+    "micro_version": "Check your bananas—choose the one with a little green on the stem.",
     "summary": "Slightly underripe banana plus nuts for steadier sweetness.",
     "details_md": "**The Experiment:** Pair a less-ripe banana with a small handful of nuts.\n\n**Why it Works:** Resistant starch and fat/protein pairing reduce glucose spikes and rebound cravings.\n\n**How to Try It:**\n\u2022 Keep bananas at different ripeness.\n\u2022 Portion \u00bc cup nuts.\n\u2022 Eat when 3\u20134/10 hungry.",
     "area": "nutrition",
@@ -2280,6 +2378,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "3edf3433-5753-48e5-a115-bbd514dc0bf3",
+    "micro_version": "Look at your dinner plate and mentally draw a line down the middle for veggies.",
     "summary": "Build a protein-veg-fiber plate; skip creamy sauces.",
     "details_md": "**The Experiment:** At dinner, prioritize lean protein, vegetables, and intact grains.\n\n**Why it Works:** Balanced macronutrients and fiber support satiety signaling and reduce sweet desire.\n\n**How to Try It:**\n\u2022 Grilled fish + quinoa + broccoli.\n\u2022 Season with herbs and lemon.\n\u2022 Keep sauces on the side.",
     "area": "nutrition",
@@ -2300,6 +2399,7 @@ export const NUTRITION_SIMPLIFIED_TIPS: SimplifiedTip[] = [
   },
   {
     "tip_id": "e3ef8beb-fcdb-4af9-8e78-3b0ce0878b38",
+    "micro_version": "Open your map app and find a route that avoids the specific trigger spot.",
     "summary": "Pre-decide a detour to avoid your biggest cue trap.",
     "details_md": "**The Experiment:** Choose a walking or driving route that skips the bakery window today.\n\n**Why it Works:** Minimizing cue exposure preserves finite self-control and prevents reward activation.\n\n**How to Try It:**\n\u2022 Map an alternate path in maps.\n\u2022 Put a sticky note on your steering wheel.\n\u2022 Reward detours with non-food treats.",
     "area": "nutrition",
