@@ -165,6 +165,9 @@ export default function ExperimentModeSwipe({
   const [showQuickComplete, setShowQuickComplete] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [showHelpMenu, setShowHelpMenu] = useState(false);
+  const [helpPath, setHelpPath] = useState<string[]>(['main']);
+  const [selectedHelpCategory, setSelectedHelpCategory] = useState<string | null>(null);
+  const [selectedHelpSubOption, setSelectedHelpSubOption] = useState<string | null>(null);
   const [showPlan, setShowPlan] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [viewedCards, setViewedCards] = useState<string[]>(['protip']);
@@ -237,6 +240,26 @@ export default function ExperimentModeSwipe({
     });
   };
 
+  const resetHelpMenu = () => {
+    setHelpPath(['main']);
+    setSelectedHelpCategory(null);
+    setSelectedHelpSubOption(null);
+  };
+
+  const navigateToHelpView = (view: string) => {
+    setHelpPath(prev => [...prev, view]);
+  };
+
+  const navigateBackHelp = () => {
+    if (helpPath.length > 1) {
+      setHelpPath(prev => prev.slice(0, -1));
+    } else {
+      closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); });
+    }
+  };
+
+  const currentHelpView = helpPath[helpPath.length - 1];
+
   // Open sheet when modals become visible
   useEffect(() => {
     if (showHelpMenu || activeCard || showCheckIn) {
@@ -244,11 +267,116 @@ export default function ExperimentModeSwipe({
     }
   }, [showHelpMenu, activeCard, showCheckIn]);
 
-  const helpOptions = [
-    { emoji: '😅', label: 'I forgot', description: 'Set a reminder for later' },
-    { emoji: '⏰', label: 'No time right now', description: 'Try a 2-min version instead' },
-    { emoji: '😔', label: 'Not feeling it', description: 'Get a motivation boost' },
-    { emoji: '🤔', label: "Something's in the way", description: "Let's problem-solve together" },
+  // Troubleshooting Tree Data
+  const helpCategories = [
+    {
+      id: 'forgot',
+      emoji: '😅',
+      label: 'I forgot or keep forgetting',
+      description: 'Memory & reminders',
+      options: [
+        { id: 'forgot_plain', label: 'I just plain forgot', action: 'reminder', content: "No problem. Let's set a reminder for a time that actually works." },
+        { id: 'distracted', label: 'I remembered but got distracted', action: 'habit_stack', content: "Distractions happen. Let's anchor this to something you already do (like brushing teeth)." },
+        { id: 'wrong_time', label: "It's hard to remember this time of day", action: 'reschedule', content: "Maybe this time doesn't fit your flow. Want to try doing it at a different time?" },
+      ]
+    },
+    {
+      id: 'logistics',
+      emoji: '🛠️',
+      label: "I don't have what I needed",
+      description: 'Missing ingredients or gear',
+      options: [
+        { id: 'missing_item', label: "I'm missing an ingredient/item", action: 'substitutions', content: (tip.substitutions && tip.substitutions.length > 0) ? "Here are some swaps you might have on hand:\n" + tip.substitutions.map(s => `• ${s.item}: Try ${s.swaps.join(' or ')}`).join('\n') : "Can you improvise with something similar, or do you want to skip today?" },
+        { id: 'no_equipment', label: "I don't have the equipment", action: 'low_tech', content: tip.low_tech_version ? `No fancy gear needed. Try this low-tech version:\n${tip.low_tech_version}` : "No worries. Let's pick a tip that uses what you have." },
+        { id: 'too_expensive', label: "It costs too much", action: 'budget', content: "Health shouldn't break the bank. Let's swap this for a zero-cost option." },
+      ]
+    },
+    {
+      id: 'schedule',
+      emoji: '📅',
+      label: 'My schedule changed',
+      description: 'Travel, emergencies, or busy days',
+      options: [
+        { id: 'no_time', label: 'I have zero time right now', action: 'micro', content: tip.micro_version ? `Do the 1-minute version instead:\n${tip.micro_version}` : "Just do the first tiny step. That counts!" },
+        { id: 'traveling', label: 'I\'m traveling / out of routine', action: 'adapt', content: "Travel mode on. Aim for 'good enough,' not perfect. Can you do 50% of it?" },
+        { id: 'emergency', label: 'An emergency came up', action: 'skip', content: "Life happens. Mark it as 'Life got in the way' and we'll reset for tomorrow. No streak penalty." },
+      ]
+    },
+    {
+      id: 'cravings',
+      emoji: '🍕',
+      label: 'Cravings or social stuff',
+      description: 'Parties, peer pressure, urges',
+      options: [
+        { id: 'social', label: "I'm at a restaurant/party", action: 'social_defense', content: "Social defense mode: 1. Order first. 2. Hold a drink (water). 3. Focus on the people." },
+        { id: 'craving', label: 'I have a strong craving', action: 'urge_surf', content: "Let's surf the urge. It usually peaks in 20 mins. Want to start a 5-minute timer?" },
+        { id: 'peer_pressure', label: 'Peer pressure / Family', action: 'script', content: "Try this script: 'I'm experimenting with something new for my digestion/energy right now.' People usually back off." },
+      ]
+    },
+    {
+      id: 'resistance',
+      emoji: '🫣',
+      label: 'Something feels off',
+      description: 'Physical or emotional barriers',
+      options: [
+        { id: 'physically_bad', label: 'I feel physically bad (bloated, tired)', action: 'rest', content: "Rest is productive too. Let's count 'Resting' as your win for today." },
+        { id: 'anxious', label: 'I feel anxious/overwhelmed by it', action: 'shrink', content: "The task might be too big. What's the tiniest first step? Just do that." },
+        { id: 'not_in_mood', label: "I'm just not in the mood", action: 'motivation', content: "Fair enough. Is it a 'hard no' or a 'maybe for 1 minute'?" },
+      ]
+    },
+    {
+      id: 'efficacy',
+      emoji: '🤔',
+      label: 'Tried but not working',
+      description: "didn't help or tasted bad",
+      options: [
+        { id: 'no_result', label: "I did it, but didn't get the result", action: 'patience', content: "Biology is slow. This usually takes time to feel a difference. Stick with it one more day?" },
+        { id: 'unpleasant', label: 'It was unpleasant / tasted bad', action: 'dislike', content: "Noted. We won't show you this one again. Let's try something different." },
+        { id: 'incomplete', label: "I couldn't finish it", action: 'partial', content: "Partial reps count! You did more than zero. That's a win." },
+      ]
+    }
+  ];
+
+  const rootOptions = [
+    {
+      id: 'start_now',
+      emoji: '⚡',
+      label: 'Help me get started now',
+      description: 'Just the first simple step',
+      action: () => {
+        if (tip.micro_version) {
+          // If we have a specific micro version, go to resolution view directly
+          // We can reuse the resolution view by mocking a category/option selection or create a dedicated state
+          // For simplicity, let's reuse resolution with a special ID
+          setSelectedHelpCategory('schedule'); // Reuse schedule category as it likely has the "no time" option which maps to micro
+          setSelectedHelpSubOption('no_time');
+          navigateToHelpView('resolution');
+        } else {
+          // Fallback if no micro version defined
+          setSelectedHelpCategory('schedule');
+          setSelectedHelpSubOption('no_time');
+          navigateToHelpView('resolution');
+        }
+      }
+    },
+    {
+      id: 'easier',
+      emoji: '🔀',
+      label: 'Make it easier or different',
+      description: 'See 2-3 alternative options',
+      action: () => {
+        navigateToHelpView('variants');
+      }
+    },
+    {
+      id: 'troubleshoot',
+      emoji: '🔧',
+      label: 'Troubleshoot',
+      description: "Something's getting in the way",
+      action: () => {
+        navigateToHelpView('troubleshoot_categories');
+      }
+    }
   ];
 
   // Area-specific check-in options
@@ -1302,55 +1430,222 @@ export default function ExperimentModeSwipe({
         visible={showHelpMenu}
         transparent
         animationType="none"
-        onRequestClose={() => closeSheet(() => setShowHelpMenu(false))}
+        onRequestClose={() => closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); })}
       >
         <View style={styles.modalContainer}>
           <Animated.View style={[styles.modalBackdrop, backdropAnimatedStyle]}>
             <TouchableOpacity
               style={StyleSheet.absoluteFill}
               activeOpacity={1}
-              onPress={() => closeSheet(() => setShowHelpMenu(false))}
+              onPress={() => closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); })}
             />
           </Animated.View>
           <Animated.View style={[styles.bottomSheet, sheetAnimatedStyle]}>
             <View style={styles.bottomSheetHeader}>
-              <TouchableOpacity
-                onPress={() => closeSheet(() => setShowHelpMenu(false))}
-                style={styles.closeButton}
-              >
-                <Ionicons name="close" size={20} color="#9ca3af" />
-              </TouchableOpacity>
+              {currentHelpView !== 'main' ? (
+                <TouchableOpacity
+                  onPress={navigateBackHelp}
+                  style={styles.closeButton}
+                >
+                  <Ionicons name="chevron-back" size={24} color="#374151" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); })}
+                  style={styles.closeButton}
+                >
+                  <Ionicons name="close" size={20} color="#9ca3af" />
+                </TouchableOpacity>
+              )}
+
               <View style={styles.bottomSheetHandle} />
               <View style={{ width: 32 }} />
             </View>
 
             <View style={styles.bottomSheetContent}>
-              <Text style={styles.bottomSheetTitle}>What's getting in the way?</Text>
-              <Text style={styles.bottomSheetSubtitle}>No judgment — let's figure it out together</Text>
+              {currentHelpView === 'main' && (
+                <>
+                  <Text style={styles.bottomSheetTitle}>How can we help?</Text>
+                  <Text style={styles.bottomSheetSubtitle}>Pick an option to get moving</Text>
 
-              <View style={styles.helpOptions}>
-                {helpOptions.map((option, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => closeSheet(() => setShowHelpMenu(false))}
-                    style={styles.helpOption}
-                  >
-                    <Text style={styles.helpOptionEmoji}>{option.emoji}</Text>
-                    <View style={styles.helpOptionContent}>
-                      <Text style={styles.helpOptionLabel}>{option.label}</Text>
-                      <Text style={styles.helpOptionDescription}>{option.description}</Text>
+                  <View style={styles.helpOptions}>
+                    {rootOptions.map((option) => (
+                      <TouchableOpacity
+                        key={option.id}
+                        onPress={option.action}
+                        style={styles.helpOption}
+                      >
+                        <Text style={styles.helpOptionEmoji}>{option.emoji}</Text>
+                        <View style={styles.helpOptionContent}>
+                          <Text style={styles.helpOptionLabel}>
+                            {option.id === 'start_now' ? (
+                              <Text>
+                                Help me get started <Text style={{fontStyle: 'italic'}}>now</Text>
+                              </Text>
+                            ) : option.label}
+                          </Text>
+                          <Text style={styles.helpOptionDescription}>{option.description}</Text>
+                        </View>
+                        <Ionicons name="chevron-forward" size={20} color="#d1d5db" />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              {currentHelpView === 'variants' && (
+                <>
+                  <Text style={styles.bottomSheetTitle}>Try something else</Text>
+                  <Text style={styles.bottomSheetSubtitle}>Pick a variation that fits better today</Text>
+
+                  <View style={styles.helpOptions}>
+                    {tip.variants && tip.variants.length > 0 ? (
+                      tip.variants.map((variant) => (
+                        <TouchableOpacity
+                          key={variant.id}
+                          onPress={() => {
+                            // In a real app, this would swap the active tip
+                            // For now, we'll just close the menu and show a toast/alert or just close
+                            closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); });
+                            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                          }}
+                          style={styles.helpOption}
+                        >
+                          <Text style={styles.helpOptionEmoji}>👉</Text>
+                          <View style={styles.helpOptionContent}>
+                            <Text style={styles.helpOptionLabel}>{variant.summary}</Text>
+                            <Text style={styles.helpOptionDescription}>Tap to switch to this tip</Text>
+                          </View>
+                          <Ionicons name="swap-horizontal" size={20} color="#d1d5db" />
+                        </TouchableOpacity>
+                      ))
+                    ) : (
+                      <View style={{ padding: 20, alignItems: 'center', backgroundColor: '#f9fafb', borderRadius: 16 }}>
+                        <Ionicons name="search" size={32} color="#9ca3af" style={{ marginBottom: 12 }} />
+                        <Text style={{ fontWeight: '600', color: '#4b5563', marginBottom: 8, textAlign: 'center' }}>
+                          No specific variations found
+                        </Text>
+                        <Text style={{ color: '#6b7280', textAlign: 'center', marginBottom: 20, fontSize: 14 }}>
+                          We don't have alternative versions of this tip yet. You might find what you need in Troubleshooting.
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigateToHelpView('troubleshoot_categories');
+                          }}
+                          style={{
+                            backgroundColor: '#fff',
+                            paddingVertical: 12,
+                            paddingHorizontal: 24,
+                            borderRadius: 12,
+                            borderWidth: 1,
+                            borderColor: '#e5e7eb',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 8
+                          }}
+                        >
+                          <Ionicons name="construct-outline" size={16} color="#374151" />
+                          <Text style={{ fontWeight: '600', color: '#374151' }}>
+                            Go to Troubleshooting
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  </View>
+                </>
+              )}
+
+              {currentHelpView === 'troubleshoot_categories' && (
+                <>
+                  <Text style={styles.bottomSheetTitle}>What's getting in the way?</Text>
+                  <Text style={styles.bottomSheetSubtitle}>No judgment — let's figure it out together</Text>
+
+                  <View style={styles.helpOptions}>
+                    {helpCategories.map((category) => (
+                      <TouchableOpacity
+                        key={category.id}
+                        onPress={() => {
+                          setSelectedHelpCategory(category.id);
+                          navigateToHelpView('sub_options');
+                        }}
+                        style={styles.helpOption}
+                      >
+                        <Text style={styles.helpOptionEmoji}>{category.emoji}</Text>
+                        <View style={styles.helpOptionContent}>
+                          <Text style={styles.helpOptionLabel}>{category.label}</Text>
+                          <Text style={styles.helpOptionDescription}>{category.description}</Text>
+                        </View>
+                        <Ionicons name="chevron-forward" size={20} color="#d1d5db" />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              {currentHelpView === 'sub_options' && selectedHelpCategory && (
+                <>
+                  <Text style={styles.bottomSheetTitle}>
+                    {helpCategories.find(c => c.id === selectedHelpCategory)?.label}
+                  </Text>
+                  <Text style={styles.bottomSheetSubtitle}>Select what best describes your situation</Text>
+
+                  <View style={styles.helpOptions}>
+                    {helpCategories.find(c => c.id === selectedHelpCategory)?.options.map((option) => (
+                      <TouchableOpacity
+                        key={option.id}
+                        onPress={() => {
+                          setSelectedHelpSubOption(option.id);
+                          navigateToHelpView('resolution');
+                        }}
+                        style={styles.helpOption}
+                      >
+                        <View style={styles.helpOptionContent}>
+                          <Text style={styles.helpOptionLabel}>{option.label}</Text>
+                        </View>
+                        <Ionicons name="chevron-forward" size={20} color="#d1d5db" />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              {currentHelpView === 'resolution' && selectedHelpCategory && selectedHelpSubOption && (
+                <>
+                  <View style={styles.resolutionContainer}>
+                    <View style={styles.resolutionIconContainer}>
+                      <Ionicons name="bulb-outline" size={32} color="#f59e0b" />
                     </View>
-                    <Ionicons name="chevron-forward" size={20} color="#d1d5db" />
-                  </TouchableOpacity>
-                ))}
-              </View>
+                    <Text style={styles.resolutionTitle}>Try this</Text>
+                    <Text style={styles.resolutionText}>
+                      {helpCategories
+                        .find(c => c.id === selectedHelpCategory)
+                        ?.options.find(o => o.id === selectedHelpSubOption)
+                        ?.content}
+                    </Text>
+                  </View>
 
-              <TouchableOpacity
-                onPress={() => closeSheet(() => setShowHelpMenu(false))}
-                style={styles.cancelButton}
-              >
-                <Text style={styles.cancelButtonText}>Never mind, I've got this</Text>
-              </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); })}
+                    style={styles.quizDoneButton}
+                  >
+                    <LinearGradient
+                      colors={['#f59e0b', '#d97706']}
+                      style={styles.quizDoneButtonGradient}
+                    >
+                      <Text style={styles.quizDoneButtonText}>Got it, thanks!</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                </>
+              )}
+
+              {currentHelpView === 'main' && (
+                <TouchableOpacity
+                  onPress={() => closeSheet(() => { setShowHelpMenu(false); resetHelpMenu(); })}
+                  style={styles.cancelButton}
+                >
+                  <Text style={styles.cancelButtonText}>Never mind, I've got this</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </Animated.View>
         </View>
@@ -2875,6 +3170,34 @@ const styles = StyleSheet.create({
   helpOptionDescription: {
     fontSize: 14,
     color: '#6b7280',
+  },
+  resolutionContainer: {
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#fffbeb',
+    borderRadius: 16,
+    marginBottom: 24,
+  },
+  resolutionIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#fef3c7',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  resolutionTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#92400e',
+    marginBottom: 8,
+  },
+  resolutionText: {
+    fontSize: 16,
+    color: '#78350f',
+    textAlign: 'center',
+    lineHeight: 24,
   },
   cancelButton: {
     marginTop: 16,

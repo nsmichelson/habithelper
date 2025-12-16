@@ -1,0 +1,941 @@
+{
+  "tips": {
+    "e68d1c7c-216f-4ee8-bb97-d801ef62100e": {
+      "summary": "Put friction on junk; make the healthy option the default path.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "111eb00c-8654-4f24-afa7-301b1a1acb9f": {
+      "summary": "Decide your restaurant order at home; star the menu pick now.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "98f559e4-7248-4b18-af68-1272bf5dcb4a": {
+      "summary": "Eat a mini protein\\u2011fiber snack an hour before the reservation.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "57d0910c-aad9-40f4-8b3c-97bc8677669d": {
+      "summary": "Ask for a to\\u2011go box upfront; halve portions immediately.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "25fb5013-9c16-4e11-aa4e-2ea4d71eab82": {
+      "summary": "Share a small dessert, or choose fruit\\u2011forward options intentionally.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "It was too loud/busy to ask the server for special accommodations.",
+        "I felt silly doing a breathing exercise before eating.",
+        "My friends ordered appetizers for the table and I didn't want to be rude."
+      ]
+    },
+    "69e46c1f-504a-489a-b4db-21e6bbddb91c": {
+      "summary": "Drink a tall glass of water, then reassess the craving.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I was too emotional/stressed to care in the moment.",
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one."
+      ]
+    },
+    "59a67139-9680-47c9-887f-b7b5c0ceae0f": {
+      "summary": "Never eat simple carbs alone; always pair with protein or fat.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I felt silly doing a breathing exercise before eating.",
+        "I was so hungry I just wanted to eat fast.",
+        "I was rushing and forgot to pause."
+      ]
+    },
+    "c844ab65-d40b-4ae4-9d6c-6ef9e78376cb": {
+      "summary": "Feed your gut; add kefir, kimchi, sauerkraut, or kombucha now.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I lost track of how many I'd had after the first one.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "The waiter kept refilling my glass before it was empty."
+      ]
+    },
+    "595245fe-ef5f-4e19-bdf7-c4c66bfc943e": {
+      "summary": "Replace tonight\\u2019s dessert with a colorful, vitamin\\u2011rich fruit bowl.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "I just didn't feel thirsty."
+      ]
+    },
+    "c6bc23ef-273d-46c7-b9d2-a8053350ec6e": {
+      "summary": "Freeze cocoa\\u2011dusted banana coins for a quick sweet fix.",
+      "obstacles": [
+        "I didn't have the necessary items on hand.",
+        "It felt like too much work for a small benefit.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "e5e956b6-ce4b-4689-a4b2-6d2eeb59f286": {
+      "summary": "Pack protein\\u2011fiber snacks to prevent desperate airport or road choices.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I just didn't feel thirsty.",
+        "I felt silly doing a breathing exercise before eating.",
+        "I was so hungry I just wanted to eat fast."
+      ]
+    },
+    "db1cfa99-afc9-4d1c-9935-41bf1d510b2d": {
+      "summary": "Keep breakfast\\u2013lunch\\u2013dinner timing consistent despite delays.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "My friends ordered appetizers for the table and I didn't want to be rude.",
+        "The restaurant menu didn't have the healthy option I expected.",
+        "The food came with a huge portion of fries I didn't ask for."
+      ]
+    },
+    "9dc8e1df-7f14-4501-9f93-725d4c24a173": {
+      "summary": "Survey first, then one plate: lean protein, vegetables, whole grains.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "My friends ordered appetizers for the table and I didn't want to be rude."
+      ]
+    },
+    "053c6170-9dad-4c6e-9250-f6ab1fece2e4": {
+      "summary": "Arrive with a colorful salad or low\\u2011sugar dessert you\\u2019ll enjoy.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "I got home late and just needed something instant.",
+        "I didn't want to offend the host by not eating their food.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "dda6cf5a-8307-4b46-a93c-d909673722b2": {
+      "summary": "Lead with people, not plates; set a social engagement goal.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "I lost track of how many I'd had after the first one.",
+        "I didn't want to offend the host by not eating their food.",
+        "I was stressed and the drink was my way to unwind."
+      ]
+    },
+    "12ed3810-2f03-4ff1-b782-b59adcfd5d24": {
+      "summary": "Quench thirst first; slow the pace before any alcohol.",
+      "obstacles": [
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one.",
+        "I forgot to drink before the meal.",
+        "The restaurant menu didn't have the healthy option I expected."
+      ]
+    },
+    "52ccba48-276b-44ef-94f4-cfc654a8fae1": {
+      "summary": "Visual cues matter; pour less without noticing in slender glassware.",
+      "obstacles": [
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one.",
+        "I was stressed and the drink was my way to unwind.",
+        "I felt social pressure to drink the same amount as my friends."
+      ]
+    },
+    "840b1672-f7b9-4a88-91d6-c10811c442be": {
+      "summary": "Out of sight, out of sip; relocate bottles to a closed cabinet.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I didn't have my water bottle with me.",
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one."
+      ]
+    },
+    "a0227ed3-f873-4f45-a6ea-b4df781de5b1": {
+      "summary": "Eat while drinking and set a time cap for the last pour.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I was too emotional/stressed to care in the moment.",
+        "I lost track of how many I'd had after the first one.",
+        "I felt silly doing a breathing exercise before eating."
+      ]
+    },
+    "c5084aef-c366-4cdb-af0b-9db909c81399": {
+      "summary": "Ditch the 21\\u2011day myth; plan for gradual, steady habit formation.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I felt silly doing a breathing exercise before eating.",
+        "I was so hungry I just wanted to eat fast.",
+        "I was rushing and forgot to pause."
+      ]
+    },
+    "72b786da-dfd5-430a-9ee7-191719e6a78e": {
+      "summary": "Pre\\u2011decide: \\u201cIf bored, then I\\u2019ll do X,\\u201d not snack.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan.",
+        "Everyone else was eating the cake/treats and I felt left out."
+      ]
+    },
+    "b52b47e8-dba8-4119-b6c0-7a6667e42b96": {
+      "summary": "Tie a glass of water to every meal setup step.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one."
+      ]
+    },
+    "11ad5bd5-cdcf-403a-a105-592a4f4b4485": {
+      "summary": "Prevent crashes; add protein and fiber every 3\\u20134 hours.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "It was a special occasion and I wanted to celebrate.",
+        "I didn't want to offend the host by not eating their food.",
+        "I knew where the hidden treats were and went to get them anyway."
+      ]
+    },
+    "95f2dd05-cb49-452e-8f64-e2c32b93369f": {
+      "summary": "Choose grilled or baked basics; skip complex, hidden-calorie dishes.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "e6270716-54f1-41ee-9358-1435c6b443d8": {
+      "summary": "Bigger breakfast or lunch; lighter, earlier dinner for circadian alignment.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "It was a special occasion and I wanted to celebrate.",
+        "I didn't want to offend the host by not eating their food.",
+        "I knew where the hidden treats were and went to get them anyway."
+      ]
+    },
+    "772ea316-6802-42ef-a8be-ef239101ff16": {
+      "summary": "Set a nightly stop-eating time to support sleep and metabolism.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I knew where the hidden treats were and went to get them anyway."
+      ]
+    },
+    "f8086b16-d324-44f3-aa35-8905b5d7d387": {
+      "summary": "Replace snack stimulation with engaging non-food sensations.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "My partner/kids brought junk food and left it out.",
+        "I felt silly doing a breathing exercise before eating.",
+        "I knew where the hidden treats were and went to get them anyway."
+      ]
+    },
+    "d4310b8f-630f-4e83-9b0a-79495e959d80": {
+      "summary": "Use almond flour or oats for fiber and texture satisfaction.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I made the plan but then didn't feel like eating that food.",
+        "The kitchen was messy and I couldn't face cleaning it first."
+      ]
+    },
+    "61d83766-2239-40ad-ad62-020d36ca00b2": {
+      "summary": "Choose unsweetened Greek yogurt with berries for a creamy sweet.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I didn't have the right storage containers.",
+        "I ran out of Tupperware/containers."
+      ]
+    },
+    "35e6f64f-b181-4194-8472-262fedaefbd5": {
+      "summary": "Skip rich desserts after heavy meals; pick light or skip altogether.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "It was too loud/busy to ask the server for special accommodations.",
+        "I felt silly doing a breathing exercise before eating.",
+        "My friends ordered appetizers for the table and I didn't want to be rude."
+      ]
+    },
+    "990b0579-274a-4cbb-a958-4e5b7f01eb48": {
+      "summary": "Cook one grain, one protein, one veg to streamline the week.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "1272ea95-2ff7-4884-afaa-c46968d461fa": {
+      "summary": "Chop vegetables and aromatics now; cut tomorrow\\u2019s cook time in half.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "07cb4056-5348-4493-b2d2-d044b8c0ce8b": {
+      "summary": "Prep overnight oats or egg-muffins for fast, balanced mornings.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I made the plan but then didn't feel like eating that food.",
+        "The kitchen was messy and I couldn't face cleaning it first."
+      ]
+    },
+    "4088db5b-404d-4e40-bdff-ffd04a55e62b": {
+      "summary": "Write a three-meal plan using your batch bases.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I knew where the hidden treats were and went to get them anyway."
+      ]
+    },
+    "db99ea21-f285-4a1b-a901-953c7ebc6ce6": {
+      "summary": "Choose nutrient-dense ready-to-eat items over semi-convenience traps.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good.",
+        "I didn't want to offend the host by not eating their food.",
+        "Everyone else was eating the cake/treats and I felt left out."
+      ]
+    },
+    "4d47915f-523e-414d-961b-d0627d2db33d": {
+      "summary": "Spend five minutes scanning labels; pick the cleaner option today.",
+      "obstacles": [
+        "I didn't have the necessary items on hand.",
+        "It felt like too much work for a small benefit.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "f339e207-337f-4cd2-9b81-deced326f44d": {
+      "summary": "Make double protein today; repurpose for tomorrow\\u2019s lunch.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "addfee10-6e63-418d-8ffb-f1176b49093c": {
+      "summary": "Calendar a 60\\u201390-minute recurring cook session.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "I lost track of how many I'd had after the first one.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "92b3e4bb-91b8-41b5-a446-41d7ef9aa6cf": {
+      "summary": "Ten minutes on safe, efficient chopping to speed future cooking.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I didn't want to offend the host by not eating their food."
+      ]
+    },
+    "a0ad4a2c-5f17-47df-baad-0d04ad60e8ec": {
+      "summary": "Eye-level shelf with ready proteins, produce, and pre-portioned snacks.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I knew where the hidden treats were and went to get them anyway."
+      ]
+    },
+    "2d2f9b40-1472-4e92-be0f-0fe8e51b1a0a": {
+      "summary": "While reheating food, do a tiny hydration and movement stack.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one.",
+        "I forgot to drink before the meal."
+      ]
+    },
+    "f66a6b33-273f-498c-8c02-679bfd2a1a20": {
+      "summary": "Insert a mindful check: hunger or habit? Decide with clarity.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I felt silly doing a breathing exercise before eating."
+      ]
+    },
+    "6175364a-3034-48d5-aa26-fb2756a635ec": {
+      "summary": "Track one daily action to build momentum and self-efficacy.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I felt silly doing a breathing exercise before eating.",
+        "I was so hungry I just wanted to eat fast.",
+        "I was rushing and forgot to pause."
+      ]
+    },
+    "56c990ae-d28b-4f5f-b521-3607e43886a3": {
+      "summary": "No bag grazing; serve, sit, savor, then stop.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "My partner/kids brought junk food and left it out.",
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good."
+      ]
+    },
+    "569356cd-8f0d-4a04-8d4b-760025c5c991": {
+      "summary": "Replace your usual sweet break with aromatic herbal tea.",
+      "obstacles": [
+        "I didn't have the necessary items on hand.",
+        "It felt like too much work for a small benefit.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "8195ad60-8aa9-4acf-acff-01d6db502688": {
+      "summary": "If indulging, move sweets earlier to reduce circadian penalties.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I didn't have the right storage containers.",
+        "I ran out of Tupperware/containers."
+      ]
+    },
+    "db848802-dd65-42ec-8955-d72924094a88": {
+      "summary": "Begin with water and a vegetable starter to downshift appetite.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "I just didn't feel thirsty.",
+        "My friends ordered appetizers for the table and I didn't want to be rude.",
+        "The restaurant menu didn't have the healthy option I expected."
+      ]
+    },
+    "7289f356-768e-4005-a147-4168fba2f66a": {
+      "summary": "Log the thought, rate the urge, ride it like a wave.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "It was a special occasion and I wanted to celebrate.",
+        "I didn't want to offend the host by not eating their food.",
+        "I felt silly doing a breathing exercise before eating."
+      ]
+    },
+    "9f6f6dc9-33dd-4776-b085-dd3e599bd0d1": {
+      "summary": "Slow down one snack; make the first three bites deliberate.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I got home late and just needed something instant.",
+        "I felt silly doing a breathing exercise before eating.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "f23a6c81-0928-4c27-a676-b5109f1d8627": {
+      "summary": "One-bite exposure today; note ARFID signs and plan specialist follow-up.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good.",
+        "I didn't want to offend the host by not eating their food.",
+        "Everyone else was eating the cake/treats and I felt left out."
+      ]
+    },
+    "505fcfb3-babe-4e03-a8a3-cb061d63d1a9": {
+      "summary": "Ask the server not to bring bread; remove default grazing.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "My partner/kids brought junk food and left it out.",
+        "I didn't have my water bottle with me.",
+        "I just didn't feel thirsty."
+      ]
+    },
+    "84bd3006-507b-4457-87d7-570f98f07b7f": {
+      "summary": "End meals with fruit to satisfy sweet desire nutritionally.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I just didn't feel thirsty.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I prefer the taste of soda/juice."
+      ]
+    },
+    "2303f6b3-25c5-4be9-bd98-09d22fdc9041": {
+      "summary": "Ask for rubs, dry spices, or unsweetened sauces on entr\\u00e9es.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "My friends ordered appetizers for the table and I didn't want to be rude."
+      ]
+    },
+    "68a6d0c7-4eb4-458b-b1a0-3727e25d3b36": {
+      "summary": "Halve added sugar today; retrain your palate gradually.",
+      "obstacles": [
+        "It felt like too much work for a small benefit.",
+        "I didn't have the necessary items on hand.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "2ecddab2-1e8a-4fb7-aca7-c68d3bfdb6ca": {
+      "summary": "Swap syrup for spice; brighten flavor without sugar.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I made the plan but then didn't feel like eating that food.",
+        "The kitchen was messy and I couldn't face cleaning it first."
+      ]
+    },
+    "26fbb91b-1e22-4089-a9db-ff2edaa8809e": {
+      "summary": "Cut desserts into tiny squares; take one mindful piece.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I felt silly doing a breathing exercise before eating."
+      ]
+    },
+    "aff9fd45-0e99-4f9d-aa0b-a3500936d50f": {
+      "summary": "Use smaller plates and bowls to nudge portions down.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "8138eff6-e98a-4b4b-8f60-fd385bff9279": {
+      "summary": "Add a minor obstacle\\u2014top shelf, step stool, or garage cabinet.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I didn't have the right storage containers.",
+        "I ran out of Tupperware/containers."
+      ]
+    },
+    "e81257aa-bcd7-434a-a3a3-c73a7db9b52f": {
+      "summary": "Stick a \\u201cHunger or Habit?\\u201d note on the snack door.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I knew where the hidden treats were and went to get them anyway."
+      ]
+    },
+    "af88e84a-177f-4cbe-a7d0-79aadbc83bbe": {
+      "summary": "Send your order plan to a friend; keep your promise public.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "It was too loud/busy to ask the server for special accommodations.",
+        "I felt silly doing a breathing exercise before eating.",
+        "My friends ordered appetizers for the table and I didn't want to be rude."
+      ]
+    },
+    "010fb6f9-1fd3-4d90-a14a-72ec764f42da": {
+      "summary": "Choose a single special item; keep the rest simple.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good.",
+        "I didn't want to offend the host by not eating their food."
+      ]
+    },
+    "e66a41db-a51e-47cd-b430-bcffcfe6aa10": {
+      "summary": "Begin with broth-based soup or salad to add volume first.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "My friends ordered appetizers for the table and I didn't want to be rude.",
+        "The restaurant menu didn't have the healthy option I expected.",
+        "The food came with a huge portion of fries I didn't ask for."
+      ]
+    },
+    "4a2b01c9-3775-4919-8968-bfdca1c6ee4a": {
+      "summary": "Remove one bun half; keep protein, cut refined flour.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good.",
+        "I didn't want to offend the host by not eating their food."
+      ]
+    },
+    "3f0a7a48-193a-4fef-b404-8bcfa42fa063": {
+      "summary": "Swap starch sides for extra veg at restaurants.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "My friends ordered appetizers for the table and I didn't want to be rude."
+      ]
+    },
+    "d092a55f-95ba-415e-86a2-12ad0c87c699": {
+      "summary": "Replace hash browns or pastry with seasonal fruit.",
+      "obstacles": [
+        "I didn't have the necessary items on hand.",
+        "It felt like too much work for a small benefit.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "7f23bc12-e1ab-42d4-b14a-0ffd68860e7b": {
+      "summary": "Make the terminal choice: greens plus a lean protein.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "a1e9a800-239a-416e-87a6-225320fa3acc": {
+      "summary": "Stop at \\u201csatisfied,\\u201d not stuffed; leave gentle room.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I felt silly doing a breathing exercise before eating.",
+        "I was so hungry I just wanted to eat fast.",
+        "I was rushing and forgot to pause."
+      ]
+    },
+    "6ea327eb-0549-4c0f-80b0-d0996a1f6fbd": {
+      "summary": "Stock the room with yogurt, fruit, and water immediately.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "I didn't have my water bottle with me.",
+        "I just didn't feel thirsty.",
+        "I didn't want to offend the host by not eating their food."
+      ]
+    },
+    "fea3b9e3-425f-4765-817f-258381b21b3a": {
+      "summary": "Create a work stash of balanced, shelf-stable options.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "b8882fea-4560-4112-9afe-73ab672ca77d": {
+      "summary": "Start with produce and proteins; limit time in snack aisles.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I made the plan but then didn't feel like eating that food.",
+        "The kitchen was messy and I couldn't face cleaning it first."
+      ]
+    },
+    "c777d977-ad5e-4ed6-a0ab-e5f447bf7166": {
+      "summary": "Stock frozen produce for instant, nutrient-dense volume.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I didn't want to offend the host by not eating their food."
+      ]
+    },
+    "2c73ba62-4e0b-4617-aa9c-bc685fe4f4ca": {
+      "summary": "Ditch snacks that combine high fat and sugar.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I didn't have the right storage containers.",
+        "I ran out of Tupperware/containers."
+      ]
+    },
+    "5764d2a7-52df-4050-8113-a8368021122e": {
+      "summary": "Hide workplace sweets in a non-transparent container.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I didn't have the right storage containers.",
+        "I ran out of Tupperware/containers."
+      ]
+    },
+    "d68c8da1-45cf-4703-9152-ac8c204d0943": {
+      "summary": "Block social apps during your typical snack-urge window.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good.",
+        "I didn't want to offend the host by not eating their food.",
+        "Everyone else was eating the cake/treats and I felt left out."
+      ]
+    },
+    "9d30426f-9d17-47e8-8dc5-ebe18c33658d": {
+      "summary": "Swap a \\u201cheat-and-add\\u201d item for a better ready-to-eat option.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "I didn't have the right storage containers.",
+        "I ran out of Tupperware/containers."
+      ]
+    },
+    "badcb563-cccc-427b-aa03-5842d5159eda": {
+      "summary": "Add instant legumes for fast fiber-protein boosts.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "I lost track of how many I'd had after the first one.",
+        "My groceries spoiled before I could use them."
+      ]
+    },
+    "df3fc00b-3ba8-46b8-8bd6-e2ffc0a5bd77": {
+      "summary": "Control sweetness; add fruit instead of syrupy cups.",
+      "obstacles": [
+        "It felt like too much work for a small benefit.",
+        "I didn't have the necessary items on hand.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "e338a24c-782a-404a-b02e-a16eecfe663a": {
+      "summary": "Swap breakfast cereal for oatmeal with protein add-ins.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I got home late and just needed something instant.",
+        "I felt silly doing a breathing exercise before eating.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "d00eb728-fd6e-4260-8ae3-be0e8d051fa6": {
+      "summary": "Make canned beans the default fast protein.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "96412abe-57d4-4f52-a98a-dacc637a1fc3": {
+      "summary": "Ten minutes on knife safety and label reading today.",
+      "obstacles": [
+        "It felt like too much work for a small benefit.",
+        "I didn't have the necessary items on hand.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "a343f84c-3f0d-4609-aa45-28c5518dd257": {
+      "summary": "Cook a basic, budget-friendly, fiber-rich dish tonight.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I didn't want to offend the host by not eating their food."
+      ]
+    },
+    "93c56217-4236-4ba3-b64c-59ae2129e333": {
+      "summary": "Divide batch-cook tasks to cut time and stress.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "I lost track of how many I'd had after the first one.",
+        "My groceries spoiled before I could use them."
+      ]
+    },
+    "929547ef-2fbd-4213-a4c1-1488360c6da3": {
+      "summary": "Prep a basic marinade to cook once, eat twice.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I made the plan but then didn't feel like eating that food.",
+        "The kitchen was messy and I couldn't face cleaning it first."
+      ]
+    },
+    "305dae85-12f2-4020-9998-e6841fbba02f": {
+      "summary": "Pick tonight\\u2019s reheatable meal by noon; remove decision fatigue.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "My partner/kids brought junk food and left it out.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "My friends ordered appetizers for the table and I didn't want to be rude."
+      ]
+    },
+    "3c9cb83b-4679-47c0-8646-4ad9aeb69ba3": {
+      "summary": "List five items that build three balanced meals.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "My family complained about the healthy meal plan.",
+        "I made the plan but then didn't feel like eating that food.",
+        "The kitchen was messy and I couldn't face cleaning it first."
+      ]
+    },
+    "65f55c78-f25a-45ab-81aa-d224f84f286d": {
+      "summary": "Portion freezer bags with fruit, greens, and seeds.",
+      "obstacles": [
+        "I lost track of how many I'd had after the first one.",
+        "I was stressed and the drink was my way to unwind.",
+        "I felt social pressure to drink the same amount as my friends.",
+        "I forgot to alternate with water."
+      ]
+    },
+    "9994dee2-014a-4cad-8b5f-a44780459b83": {
+      "summary": "Layer hearty salads that keep crisp for days.",
+      "obstacles": [
+        "I didn't have the necessary items on hand.",
+        "It felt like too much work for a small benefit.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "062843bc-38c2-4c60-869f-845171513168": {
+      "summary": "Replace TV snack cues with a quick movement circuit.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one.",
+        "I forgot to drink before the meal."
+      ]
+    },
+    "4e0f7b25-3a74-49b2-b0cc-84c351bcdd84": {
+      "summary": "Lights dimmed, counters cleared\\u2014signal the food day is done.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "I knew where the hidden treats were and went to get them anyway.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "fd80a05c-863b-4f8a-b408-80a1ad3d9b1e": {
+      "summary": "Minty mouth, fewer night snacks\\u2014use hygiene as a cue.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good.",
+        "I didn't want to offend the host by not eating their food.",
+        "Everyone else was eating the cake/treats and I felt left out."
+      ]
+    },
+    "1d036f6b-76c2-4d7d-bea6-446e53898685": {
+      "summary": "Place TV controls far from snacks to break the pairing.",
+      "obstacles": [
+        "My partner/kids brought junk food and left it out.",
+        "I got home late and just needed something instant.",
+        "My groceries spoiled before I could use them.",
+        "My family complained about the healthy meal plan."
+      ]
+    },
+    "5b014177-80e6-42d9-8471-0867624e7125": {
+      "summary": "Write tonight\\u2019s max: one (women) or two (men)\\u2014then stick to it.",
+      "obstacles": [
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one.",
+        "I was stressed and the drink was my way to unwind.",
+        "I felt social pressure to drink the same amount as my friends."
+      ]
+    },
+    "583fd83a-818f-4505-af2c-5803fc94d4fb": {
+      "summary": "Choose spirits with soda and citrus\\u2014skip syrups and creamy mixers.",
+      "obstacles": [
+        "It was too loud/busy to ask the server for special accommodations.",
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one.",
+        "The waiter kept refilling my glass before it was empty."
+      ]
+    },
+    "1814bbf6-ee1e-4f05-b4f7-13b2e71734af": {
+      "summary": "Use a measuring cup once; learn the visual for standard pours.",
+      "obstacles": [
+        "I was eating while working/watching TV and got distracted.",
+        "I was too emotional/stressed to care in the moment.",
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one."
+      ]
+    },
+    "d4041885-5176-4b93-a038-08bc305b9061": {
+      "summary": "Alternate alcohol with water to slow pace and total intake.",
+      "obstacles": [
+        "I just didn't feel thirsty.",
+        "I lost track of how many I'd had after the first one.",
+        "I forgot to drink before the meal.",
+        "The restaurant menu didn't have the healthy option I expected."
+      ]
+    },
+    "6513c49b-24f5-43a0-8af3-a8c6e783637c": {
+      "summary": "Make the night about people or activities, not pours.",
+      "obstacles": [
+        "I got home late and just needed something instant.",
+        "I lost track of how many I'd had after the first one.",
+        "My family complained about the healthy meal plan.",
+        "I was stressed and the drink was my way to unwind."
+      ]
+    },
+    "5a9626b2-b3d6-4509-a1c5-b92df02323b2": {
+      "summary": "Add onions, garlic, or beans to one meal today.",
+      "obstacles": [
+        "I didn't have the necessary items on hand.",
+        "It felt like too much work for a small benefit.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "b410e892-acfa-4317-a45e-be9f1f534d90": {
+      "summary": "Slightly underripe banana plus nuts for steadier sweetness.",
+      "obstacles": [
+        "It felt like too much work for a small benefit.",
+        "I didn't have the necessary items on hand.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    },
+    "3edf3433-5753-48e5-a115-bbd514dc0bf3": {
+      "summary": "Build a protein-veg-fiber plate; skip creamy sauces.",
+      "obstacles": [
+        "It was a special occasion and I wanted to celebrate.",
+        "The food was right in front of me and looked too good.",
+        "I didn't want to offend the host by not eating their food.",
+        "Everyone else was eating the cake/treats and I felt left out."
+      ]
+    },
+    "e3ef8beb-fcdb-4af9-8e78-3b0ce0878b38": {
+      "summary": "Pre-decide a detour to avoid your biggest cue trap.",
+      "obstacles": [
+        "I didn't have the necessary items on hand.",
+        "It felt like too much work for a small benefit.",
+        "I got distracted by my routine.",
+        "I was too stressed/tired to make the effort."
+      ]
+    }
+  },
+  "unique_obstacles_list": [
+    "Everyone else was eating the cake/treats and I felt left out.",
+    "I didn't have my water bottle with me.",
+    "I didn't have the necessary items on hand.",
+    "I didn't have the right storage containers.",
+    "I didn't want to offend the host by not eating their food.",
+    "I felt silly doing a breathing exercise before eating.",
+    "I felt social pressure to drink the same amount as my friends.",
+    "I forgot to alternate with water.",
+    "I forgot to drink before the meal.",
+    "I got distracted by my routine.",
+    "I got home late and just needed something instant.",
+    "I just didn't feel thirsty.",
+    "I knew where the hidden treats were and went to get them anyway.",
+    "I lost track of how many I'd had after the first one.",
+    "I made the plan but then didn't feel like eating that food.",
+    "I prefer the taste of soda/juice.",
+    "I ran out of Tupperware/containers.",
+    "I was eating while working/watching TV and got distracted.",
+    "I was rushing and forgot to pause.",
+    "I was so hungry I just wanted to eat fast.",
+    "I was stressed and the drink was my way to unwind.",
+    "I was too emotional/stressed to care in the moment.",
+    "I was too stressed/tired to make the effort.",
+    "It felt like too much work for a small benefit.",
+    "It was a special occasion and I wanted to celebrate.",
+    "It was too loud/busy to ask the server for special accommodations.",
+    "My family complained about the healthy meal plan.",
+    "My friends ordered appetizers for the table and I didn't want to be rude.",
+    "My groceries spoiled before I could use them.",
+    "My partner/kids brought junk food and left it out.",
+    "The food came with a huge portion of fries I didn't ask for.",
+    "The food was right in front of me and looked too good.",
+    "The kitchen was messy and I couldn't face cleaning it first.",
+    "The restaurant menu didn't have the healthy option I expected.",
+    "The waiter kept refilling my glass before it was empty."
+  ]
+}

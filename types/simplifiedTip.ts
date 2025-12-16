@@ -270,4 +270,25 @@ export interface SimplifiedTip {
   // weekly = good for weekly routine
   // occasional = use as needed/special situations
   // temporary = short-term intervention or bridge strategy
+
+  // ============ TROUBLESHOOTING ============
+
+  // For "I don't have what I needed"
+  substitutions?: {
+    item: string;
+    swaps: string[];
+  }[];
+
+  // For "I don't have equipment"
+  low_tech_version?: string; // Description of how to do it without gear
+
+  // For "I have zero time"
+  micro_version?: string; // The 1-minute or 30-second version of the tip
+
+  // For "Make it easier or different"
+  variants?: {
+    id: string;
+    summary: string;
+    difficulty?: number;
+  }[];
 }
