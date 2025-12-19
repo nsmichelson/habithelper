@@ -35,7 +35,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { SimplifiedTip } from '../types/simplifiedTip';
 import { DailyTip, QuickComplete, UserProfile } from '../types/tip';
 import QuickCompleteModal, { CompletionFeedback, CompletionFeedbackConfig } from './QuickComplete';
-import { ThemeKey } from '../constants/Themes';
+import { ThemeKey, getTheme } from '../constants/Themes';
 import TipHistoryModal from './TipHistoryModal';
 import PersonalizationCard from './PersonalizationCard';
 
@@ -155,6 +155,9 @@ export default function ExperimentModeSwipe({
   userProfile,
   themeKey = 'orange'
 }: Props) {
+  // Get theme colors
+  const theme = getTheme(themeKey);
+
   // Normalize personalization data - can come as raw { type, data } or nested { savedData: { type, data } }
   const savedPersonalizationData = personalizationData?.savedData ||
     (personalizationData?.type ? personalizationData : null);
@@ -1083,9 +1086,14 @@ export default function ExperimentModeSwipe({
                   </Text>
                 </>
               ) : (
-                <View style={styles.completedButtonOnGradient}>
-                  <Ionicons name="checkmark-sharp" size={36} color="#22c55e" />
-                  <Text style={styles.completedButtonTextOnGradient}>Done!</Text>
+                <View style={styles.completedStateContainer}>
+                  <View style={[styles.completedCircle, { backgroundColor: theme.primaryLightest }]}>
+                    <View style={[styles.completedInnerCircle, { backgroundColor: theme.primaryLight }]}>
+                      <Ionicons name="checkmark" size={32} color="#fff" />
+                    </View>
+                  </View>
+                  <Text style={[styles.completedText, { color: theme.primary }]}>Complete</Text>
+                  <Text style={styles.completedSubtext}>You did it today</Text>
                 </View>
               )}
             </Animated.View>
@@ -2736,19 +2744,35 @@ const styles = StyleSheet.create({
     left: 0,
   },
 
-  completedButtonOnGradient: {
-    flexDirection: 'row',
+  completedStateContainer: {
     alignItems: 'center',
-    gap: 10,
-    paddingVertical: 20,
-    paddingHorizontal: 40,
-    backgroundColor: 'rgba(255,255,255,0.95)',
-    borderRadius: 30,
+    justifyContent: 'center',
   },
-  completedButtonTextOnGradient: {
-    color: '#22c55e',
-    fontSize: 20,
-    fontWeight: '700',
+  completedCircle: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  completedInnerCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  completedText: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: 12,
+    letterSpacing: 0.3,
+  },
+  completedSubtext: {
+    fontSize: 13,
+    color: 'rgba(0,0,0,0.4)',
+    marginTop: 4,
+    fontWeight: '400',
   },
   actionHintOnGradient: {
     color: '#92400e',
