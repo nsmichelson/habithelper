@@ -11,52 +11,49 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
   interpolate,
-  FadeIn,
-  FadeOut,
 } from 'react-native-reanimated';
-import { QuizQuestion, QuizResponse } from '../types/quiz';
-import { NEW_QUIZ_QUESTIONS, getNextQuestions, mapQuizToProfile } from '../data/newQuizStructure';
+import { QuizQuestion } from '../types/quiz';
+import { getNextQuestions, mapQuizToProfile } from '../data/newQuizStructure';
 import StorageService from '../services/storage';
 import { UserProfile } from '../types/tip';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { ThemeKey, getTheme, getRandomThemeKey } from '../constants/Themes';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   onComplete: (profile: UserProfile) => void;
   existingProfile?: UserProfile;
   isRetake?: boolean;
   shouldPersistProfile?: boolean;
+  themeKey?: ThemeKey;
 }
 
-// Progress bar component
-const ProgressBar = ({ current, total }: { current: number; total: number }) => {
-  const progress = useSharedValue(0);
-
-  useEffect(() => {
-    progress.value = withSpring((current / total) * 100);
-  }, [current, total]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    width: `${progress.value}%`,
-  }));
-
+// Progress dots component
+const ProgressDots = ({ current, total, theme }: { current: number; total: number; theme: any }) => {
   return (
     <View style={styles.progressContainer}>
-      <View style={styles.progressTrack}>
-        <Animated.View style={[styles.progressFill, animatedStyle]} />
+      <View style={styles.progressDots}>
+        {Array.from({ length: total }).map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.progressDot,
+              {
+                backgroundColor: index <= current ? theme.primary : '#e0e0e0',
+                width: index === current ? 24 : 8,
+              }
+            ]}
+          />
+        ))}
       </View>
-      <Text style={styles.progressText}>
-        Step {current} of {total}
-      </Text>
     </View>
   );
 };
@@ -66,6 +63,7 @@ export default function OnboardingQuizNew({
   existingProfile,
   isRetake = false,
   shouldPersistProfile = true,
+  themeKey,
 }: Props) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState<Map<string, string[]>>(new Map());
@@ -73,7 +71,9 @@ export default function OnboardingQuizNew({
   const [textInput, setTextInput] = useState('');
   const [availableQuestions, setAvailableQuestions] = useState<QuizQuestion[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [activeThemeKey] = useState<ThemeKey>(themeKey || getRandomThemeKey());
 
+  const theme = getTheme(activeThemeKey);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const questionOpacity = useSharedValue(1);
 
@@ -86,7 +86,6 @@ export default function OnboardingQuizNew({
   // Load existing responses if retaking
   useEffect(() => {
     if (existingProfile && isRetake) {
-      // Pre-populate responses from existing profile
       const initialResponses = new Map<string, string[]>();
 
       if (existingProfile.primary_focus) {
@@ -107,7 +106,7 @@ export default function OnboardingQuizNew({
   }, [existingProfile, isRetake]);
 
   const currentQuestion = availableQuestions[currentQuestionIndex];
-  const totalSteps = 8; // Approximate number of main questions
+  const totalSteps = 8;
 
   // Initialize selected values when question changes
   useEffect(() => {
@@ -167,8 +166,8 @@ export default function OnboardingQuizNew({
 
     // Animate transition
     setIsTransitioning(true);
-    questionOpacity.value = withTiming(0, { duration: 200 }, () => {
-      questionOpacity.value = withTiming(1, { duration: 200 });
+    questionOpacity.value = withTiming(0, { duration: 150 }, () => {
+      questionOpacity.value = withTiming(1, { duration: 150 });
     });
 
     setTimeout(() => {
@@ -176,11 +175,10 @@ export default function OnboardingQuizNew({
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         scrollViewRef.current?.scrollTo({ y: 0, animated: false });
       } else {
-        // Complete quiz
         handleComplete(newResponses);
       }
       setIsTransitioning(false);
-    }, 250);
+    }, 200);
   };
 
   const handleBack = () => {
@@ -188,23 +186,21 @@ export default function OnboardingQuizNew({
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       setIsTransitioning(true);
 
-      questionOpacity.value = withTiming(0, { duration: 200 }, () => {
-        questionOpacity.value = withTiming(1, { duration: 200 });
+      questionOpacity.value = withTiming(0, { duration: 150 }, () => {
+        questionOpacity.value = withTiming(1, { duration: 150 });
       });
 
       setTimeout(() => {
         setCurrentQuestionIndex(currentQuestionIndex - 1);
         scrollViewRef.current?.scrollTo({ y: 0, animated: false });
         setIsTransitioning(false);
-      }, 250);
+      }, 200);
     }
   };
 
   const handleComplete = async (finalResponses: Map<string, string[]>) => {
-    // Convert responses to profile
     const profileData = mapQuizToProfile(finalResponses);
 
-    // Create or update user profile
     const profile: UserProfile = {
       ...existingProfile,
       ...profileData,
@@ -232,7 +228,7 @@ export default function OnboardingQuizNew({
         translateY: interpolate(
           questionOpacity.value,
           [0, 1],
-          [20, 0]
+          [10, 0]
         ),
       },
     ],
@@ -241,11 +237,12 @@ export default function OnboardingQuizNew({
   if (!currentQuestion) {
     return (
       <SafeAreaView style={styles.container}>
-        <LinearGradient colors={['#4A90E2', '#7B68EE']} style={styles.gradient}>
-          <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Loading questions...</Text>
+        <View style={styles.loadingContainer}>
+          <View style={[styles.loadingCircle, { backgroundColor: theme.primaryLightest }]}>
+            <View style={[styles.loadingInner, { backgroundColor: theme.primaryLight }]} />
           </View>
-        </LinearGradient>
+          <Text style={[styles.loadingText, { color: theme.primary }]}>Loading...</Text>
+        </View>
       </SafeAreaView>
     );
   }
@@ -256,110 +253,123 @@ export default function OnboardingQuizNew({
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <LinearGradient colors={['#4A90E2', '#7B68EE']} style={styles.gradient}>
-          {/* Header */}
-          <View style={styles.header}>
-            {currentQuestionIndex > 0 && (
-              <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-                <Ionicons name="arrow-back" size={24} color="#FFF" />
-              </TouchableOpacity>
-            )}
-            <Text style={styles.headerTitle}>
-              {isRetake ? 'Update Your Preferences' : 'Let\'s Get Started'}
+        {/* Header */}
+        <View style={styles.header}>
+          {currentQuestionIndex > 0 ? (
+            <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+              <Ionicons name="chevron-back" size={24} color={theme.primary} />
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.backButton} />
+          )}
+          <Text style={styles.headerTitle}>
+            {isRetake ? 'Update Preferences' : 'Welcome'}
+          </Text>
+          <View style={styles.backButton} />
+        </View>
+
+        {/* Progress */}
+        <ProgressDots current={currentQuestionIndex} total={totalSteps} theme={theme} />
+
+        <ScrollView
+          ref={scrollViewRef}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Animated.View style={[styles.questionContainer, animatedQuestionStyle]}>
+            {/* Question */}
+            <Text style={[styles.question, { color: theme.primary }]}>
+              {currentQuestion.question}
             </Text>
-            <View style={{ width: 40 }} />
-          </View>
+            {currentQuestion.helpText && (
+              <Text style={styles.helpText}>{currentQuestion.helpText}</Text>
+            )}
 
-          {/* Progress */}
-          <ProgressBar current={currentQuestionIndex + 1} total={totalSteps} />
-
-          <ScrollView
-            ref={scrollViewRef}
-            contentContainerStyle={styles.scrollContent}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-          >
-            <Animated.View style={[styles.questionContainer, animatedQuestionStyle]}>
-              {/* Question */}
-              <Text style={styles.questionNumber}>
-                Question {currentQuestionIndex + 1}
-              </Text>
-              <Text style={styles.question}>{currentQuestion.question}</Text>
-              {currentQuestion.helpText && (
-                <Text style={styles.helpText}>{currentQuestion.helpText}</Text>
-              )}
-
-              {/* Options or Input */}
-              <View style={styles.optionsContainer}>
-                {currentQuestion.type === 'text' ? (
-                  <TextInput
-                    style={styles.textInput}
-                    value={textInput}
-                    onChangeText={setTextInput}
-                    placeholder={currentQuestion.placeholder}
-                    placeholderTextColor="rgba(255,255,255,0.5)"
-                    multiline
-                    numberOfLines={4}
-                    textAlignVertical="top"
-                  />
-                ) : (
-                  currentQuestion.options?.map((option) => {
-                    const isSelected = selectedValues.includes(option.value);
-                    return (
-                      <TouchableOpacity
-                        key={option.value}
-                        style={[
-                          styles.optionButton,
-                          isSelected && styles.optionButtonSelected
-                        ]}
-                        onPress={() => {
-                          if (currentQuestion.type === 'single_choice') {
-                            handleSingleChoice(option.value);
-                          } else {
-                            handleMultipleChoice(option.value);
-                          }
-                        }}
-                        disabled={isTransitioning}
-                      >
-                        <Text style={[
-                          styles.optionText,
-                          isSelected && styles.optionTextSelected
-                        ]}>
-                          {option.label}
-                        </Text>
+            {/* Options or Input */}
+            <View style={styles.optionsContainer}>
+              {currentQuestion.type === 'text' ? (
+                <TextInput
+                  style={[styles.textInput, { borderColor: theme.primaryLighter }]}
+                  value={textInput}
+                  onChangeText={setTextInput}
+                  placeholder={currentQuestion.placeholder}
+                  placeholderTextColor="#bdbdbd"
+                  multiline
+                  numberOfLines={4}
+                  textAlignVertical="top"
+                />
+              ) : (
+                currentQuestion.options?.map((option) => {
+                  const isSelected = selectedValues.includes(option.value);
+                  return (
+                    <TouchableOpacity
+                      key={option.value}
+                      style={[
+                        styles.optionButton,
+                        isSelected && {
+                          backgroundColor: theme.primaryLightest,
+                          borderColor: theme.primary,
+                        }
+                      ]}
+                      onPress={() => {
+                        if (currentQuestion.type === 'single_choice') {
+                          handleSingleChoice(option.value);
+                        } else {
+                          handleMultipleChoice(option.value);
+                        }
+                      }}
+                      disabled={isTransitioning}
+                    >
+                      <View style={[
+                        styles.optionCheckCircle,
+                        {
+                          borderColor: isSelected ? theme.primary : '#e0e0e0',
+                          backgroundColor: isSelected ? theme.primary : 'transparent',
+                        }
+                      ]}>
                         {isSelected && (
-                          <Ionicons
-                            name="checkmark-circle"
-                            size={24}
-                            color="#FFF"
-                          />
+                          <Ionicons name="checkmark" size={14} color="#fff" />
                         )}
-                      </TouchableOpacity>
-                    );
-                  })
-                )}
-              </View>
+                      </View>
+                      <Text style={[
+                        styles.optionText,
+                        isSelected && { color: theme.primary, fontWeight: '600' }
+                      ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })
+              )}
+            </View>
+          </Animated.View>
+        </ScrollView>
 
-              {/* Continue Button */}
-              <TouchableOpacity
-                style={[
-                  styles.continueButton,
-                  !canContinue() && styles.continueButtonDisabled
-                ]}
-                onPress={handleContinue}
-                disabled={!canContinue() || isTransitioning}
-              >
-                <Text style={styles.continueButtonText}>
-                  {currentQuestionIndex === availableQuestions.length - 1
-                    ? 'Complete'
-                    : currentQuestion.required || selectedValues.length > 0 || textInput
-                      ? 'Continue'
-                      : 'Skip'}
-                </Text>
-              </TouchableOpacity>
-            </Animated.View>
-          </ScrollView>
-        </LinearGradient>
+        {/* Bottom Action */}
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity
+            style={[
+              styles.continueButton,
+              { backgroundColor: canContinue() ? theme.primary : '#e0e0e0' }
+            ]}
+            onPress={handleContinue}
+            disabled={!canContinue() || isTransitioning}
+          >
+            <Text style={styles.continueButtonText}>
+              {currentQuestionIndex === availableQuestions.length - 1
+                ? 'Get Started'
+                : currentQuestion.required || selectedValues.length > 0 || textInput
+                  ? 'Continue'
+                  : 'Skip'}
+            </Text>
+            <Ionicons
+              name={currentQuestionIndex === availableQuestions.length - 1 ? 'checkmark' : 'arrow-forward'}
+              size={20}
+              color="#fff"
+            />
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -368,140 +378,140 @@ export default function OnboardingQuizNew({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  gradient: {
-    flex: 1,
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 44,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: '600',
-    color: '#FFF',
+    color: '#424242',
   },
   progressContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
   },
-  progressTrack: {
-    height: 4,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    borderRadius: 2,
-    overflow: 'hidden',
+  progressDots: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
   },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#FFF',
-    borderRadius: 2,
-  },
-  progressText: {
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.7)',
-    marginTop: 5,
+  progressDot: {
+    height: 8,
+    borderRadius: 4,
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingHorizontal: 24,
+    paddingBottom: 24,
   },
   questionContainer: {
-    marginTop: 20,
-  },
-  questionNumber: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.7)',
-    marginBottom: 10,
+    marginTop: 16,
   },
   question: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFF',
-    marginBottom: 10,
-    lineHeight: 32,
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 12,
+    lineHeight: 34,
+    letterSpacing: -0.5,
   },
   helpText: {
-    fontSize: 16,
-    color: 'rgba(255,255,255,0.8)',
-    marginBottom: 30,
+    fontSize: 15,
+    color: '#757575',
+    marginBottom: 32,
     lineHeight: 22,
   },
   optionsContainer: {
-    marginBottom: 30,
+    marginTop: 8,
   },
   optionButton: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 12,
+    backgroundColor: '#fff',
+    borderRadius: 14,
     padding: 18,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 2,
-    borderColor: 'transparent',
+    borderWidth: 1.5,
+    borderColor: '#eeeeee',
   },
-  optionButtonSelected: {
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    borderColor: '#FFF',
+  optionCheckCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 14,
   },
   optionText: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.9)',
+    color: '#424242',
     flex: 1,
     lineHeight: 22,
   },
-  optionTextSelected: {
-    color: '#FFF',
-    fontWeight: '600',
-  },
   textInput: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 12,
+    backgroundColor: '#fafafa',
+    borderRadius: 14,
     padding: 18,
     fontSize: 16,
-    color: '#FFF',
+    color: '#424242',
     minHeight: 120,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderWidth: 1.5,
+    lineHeight: 24,
+  },
+  bottomContainer: {
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 24,
+    backgroundColor: '#fff',
   },
   continueButton: {
-    backgroundColor: '#FFF',
-    borderRadius: 25,
+    borderRadius: 14,
     paddingVertical: 16,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  continueButtonDisabled: {
-    opacity: 0.5,
+    justifyContent: 'center',
+    gap: 8,
   },
   continueButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#4A90E2',
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#fff',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  loadingCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  loadingInner: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
   },
   loadingText: {
-    fontSize: 18,
-    color: '#FFF',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
