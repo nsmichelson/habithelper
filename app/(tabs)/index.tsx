@@ -47,6 +47,7 @@ import { useAwards, useAwardTrigger } from '@/hooks/useAwards';
 import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete } from '@/types/tip';
 import { SimplifiedTip } from '@/types/simplifiedTip';
 import { getTipById } from '@/data/simplifiedTips';
+import { ThemeKey } from '@/constants/Themes';
 import { format } from 'date-fns';
 
 // Proper type definitions to prevent confusion
@@ -163,6 +164,7 @@ export default function HomeScreen() {
   const [showIdentityBuilder, setShowIdentityBuilder] = useState(false);
   const [recentlySurfacedSavedIds, setRecentlySurfacedSavedIds] = useState<string[]>([]);
   const [cycledTipIds, setCycledTipIds] = useState<string[]>([]);
+  const [cardThemeKey, setCardThemeKey] = useState<ThemeKey | undefined>(undefined);
 
   useEffect(() => {
     initializeApp();
@@ -1833,6 +1835,7 @@ export default function HomeScreen() {
             <DailyTipCardEnhanced
               tip={currentTip}
               onResponse={handleTipResponse}
+              onThemeChange={setCardThemeKey}
               onSavePersonalization={async (data) => {
                 try {
                   console.log('index.tsx - onSavePersonalization called with data:', data);
@@ -2140,6 +2143,7 @@ export default function HomeScreen() {
                   return history;
                 })()}
                 userProfile={userProfile}
+                themeKey={cardThemeKey}
               />
               )
             ) : rejectedTipInfo ? (
@@ -2205,6 +2209,7 @@ export default function HomeScreen() {
                   <DailyTipCardEnhanced
                     tip={currentTip}
                     onResponse={handleTipResponse}
+                    onThemeChange={setCardThemeKey}
                     onSavePersonalization={async (data) => {
                       // Save personalization data to the current daily tip
                       if (dailyTip) {

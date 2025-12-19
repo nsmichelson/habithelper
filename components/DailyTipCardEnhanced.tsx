@@ -148,6 +148,14 @@ interface Props {
    * Defaults to true.
    */
   randomizeThemeOnLoad?: boolean;
+  /**
+   * Controlled theme key. If provided, the component will use this theme.
+   */
+  themeKey?: keyof typeof THEMES;
+  /**
+   * Callback when the theme changes. Useful for syncing theme with parent.
+   */
+  onThemeChange?: (themeKey: keyof typeof THEMES) => void;
 }
 
 export default function DailyTipCardEnhanced({
@@ -161,21 +169,34 @@ export default function DailyTipCardEnhanced({
   onSavePersonalization,
   savedPersonalizationData,
   hideHeader = true,
-  randomizeThemeOnLoad = true // <--- New Prop Default
+  randomizeThemeOnLoad = true, // <--- New Prop Default
+  themeKey: controlledThemeKey,
+  onThemeChange
 }: Props) {
 
   // Get safe area insets for proper button positioning
   const insets = useSafeAreaInsets();
 
   // --- Theme State ---
-  // Initialize state with a random key if the prop is true
-  const [themeKey, setThemeKey] = useState<keyof typeof THEMES>(() => {
+  // Initialize state with a random key if the prop is true (uncontrolled mode)
+  const [internalThemeKey, setInternalThemeKey] = useState<keyof typeof THEMES>(() => {
+    if (controlledThemeKey) return controlledThemeKey;
     if (randomizeThemeOnLoad) {
       const randomIndex = Math.floor(Math.random() * THEME_KEYS.length);
       return THEME_KEYS[randomIndex];
     }
     return 'green';
   });
+
+  // Use controlled theme if provided, otherwise use internal state
+  const themeKey = controlledThemeKey ?? internalThemeKey;
+
+  // Notify parent of initial theme on mount (for uncontrolled mode)
+  useEffect(() => {
+    if (!controlledThemeKey && onThemeChange) {
+      onThemeChange(internalThemeKey);
+    }
+  }, []);
 
   // Derived theme object
   const theme = useMemo(() => ({
@@ -185,11 +206,11 @@ export default function DailyTipCardEnhanced({
 
   const cycleTheme = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setThemeKey(current => {
-      const currentIndex = THEME_KEYS.indexOf(current);
-      const nextIndex = (currentIndex + 1) % THEME_KEYS.length;
-      return THEME_KEYS[nextIndex];
-    });
+    const currentIndex = THEME_KEYS.indexOf(themeKey);
+    const nextIndex = (currentIndex + 1) % THEME_KEYS.length;
+    const newKey = THEME_KEYS[nextIndex];
+    setInternalThemeKey(newKey);
+    onThemeChange?.(newKey);
   };
 
   const [currentPage, setCurrentPage] = useState(0);

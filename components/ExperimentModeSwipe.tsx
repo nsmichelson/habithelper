@@ -35,6 +35,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { SimplifiedTip } from '../types/simplifiedTip';
 import { DailyTip, QuickComplete, UserProfile } from '../types/tip';
 import QuickCompleteModal from './QuickComplete';
+import { ThemeKey } from '../constants/Themes';
 import TipHistoryModal from './TipHistoryModal';
 import PersonalizationCard from './PersonalizationCard';
 
@@ -65,6 +66,7 @@ interface Props {
     daysTotal: number;
   };
   userProfile?: UserProfile | null;
+  themeKey?: ThemeKey;
 }
 
 // Confetti particle component
@@ -150,7 +152,8 @@ export default function ExperimentModeSwipe({
   onToggleHeaderStats,
   isInFocusMode = false,
   focusProgress,
-  userProfile
+  userProfile,
+  themeKey = 'orange'
 }: Props) {
   // Normalize personalization data - can come as raw { type, data } or nested { savedData: { type, data } }
   const savedPersonalizationData = personalizationData?.savedData ||
@@ -878,7 +881,7 @@ export default function ExperimentModeSwipe({
             {showCelebration && !hasSeenCelebration && (
               <Animated.View style={[styles.celebrationOverlay, celebrationAnimatedStyle]}>
                 <LinearGradient
-                  colors={['rgba(76, 175, 80, 0.95)', 'rgba(69, 178, 85, 0.95)']}
+                  colors={['rgba(249, 115, 22, 0.95)', 'rgba(234, 88, 12, 0.95)']}
                   style={styles.celebrationGradient}
                 >
                   <Ionicons name="rocket" size={72} color="#FFF" />
@@ -2151,6 +2154,7 @@ export default function ExperimentModeSwipe({
           onQuickComplete(note);
           setShowQuickComplete(false);
         }}
+        themeKey={themeKey}
       />
 
       {/* Tip History Modal */}

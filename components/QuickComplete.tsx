@@ -19,6 +19,7 @@ import Animated, {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { THEMES, ThemeKey, getTheme } from '../constants/Themes';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -26,14 +27,18 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
+  themeKey?: ThemeKey;
 }
 
-export default function QuickComplete({ visible, onClose, onQuickComplete }: Props) {
+export default function QuickComplete({ visible, onClose, onQuickComplete, themeKey = 'orange' }: Props) {
   const [selectedNote, setSelectedNote] = useState<'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me' | null>(null);
   const backdropOpacity = useSharedValue(0);
   const cardScale = useSharedValue(0);
   const checkScale = useSharedValue(0);
   const buttonsOpacity = useSharedValue(0);
+
+  // Get theme colors
+  const theme = getTheme(themeKey);
 
   useEffect(() => {
     if (visible) {
@@ -95,9 +100,9 @@ export default function QuickComplete({ visible, onClose, onQuickComplete }: Pro
   }));
 
   const noteOptions = [
-    { value: 'worked_great', label: 'Worked great', emoji: '🎉', color: '#4CAF50' },
-    { value: 'went_ok', label: 'Went ok', emoji: '👍', color: '#2196F3' },
-    { value: 'not_sure', label: 'Not sure', emoji: '🤔', color: '#FF9800' },
+    { value: 'worked_great', label: 'Worked great', emoji: '🎉', color: theme.primary },
+    { value: 'went_ok', label: 'Went ok', emoji: '👍', color: theme.primaryLight },
+    { value: 'not_sure', label: 'Not sure', emoji: '🤔', color: theme.primaryLighter },
     { value: 'not_for_me', label: 'Not for me', emoji: '👎', color: '#9E9E9E' },
   ];
 
@@ -117,12 +122,12 @@ export default function QuickComplete({ visible, onClose, onQuickComplete }: Pro
         
         <Animated.View style={[styles.card, cardAnimatedStyle]}>
           <LinearGradient
-            colors={['#E8F5E9', '#FFFFFF']}
+            colors={[theme.primaryLightest, '#FFFFFF']}
             style={styles.gradient}
           >
             {/* Success Check */}
             <Animated.View style={[styles.checkContainer, checkAnimatedStyle]}>
-              <View style={styles.checkCircle}>
+              <View style={[styles.checkCircle, { backgroundColor: theme.primaryLight }]}>
                 <Ionicons name="checkmark" size={48} color="#FFF" />
               </View>
             </Animated.View>
@@ -141,7 +146,7 @@ export default function QuickComplete({ visible, onClose, onQuickComplete }: Pro
                       styles.noteButton,
                       selectedNote === option.value && [
                         styles.noteButtonSelected,
-                        { borderColor: option.color }
+                        { borderColor: option.color, backgroundColor: theme.primaryLightest }
                       ]
                     ]}
                     onPress={() => setSelectedNote(option.value as any)}
@@ -165,7 +170,7 @@ export default function QuickComplete({ visible, onClose, onQuickComplete }: Pro
                 onPress={handleComplete}
               >
                 <LinearGradient
-                  colors={['#4CAF50', '#45B255']}
+                  colors={[theme.primaryLight, theme.primary]}
                   style={styles.buttonGradient}
                 >
                   <Text style={styles.completeButtonText}>Mark Complete</Text>
@@ -223,7 +228,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#4CAF50',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -265,7 +269,7 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0',
   },
   noteButtonSelected: {
-    backgroundColor: '#F8FFF8',
+    // backgroundColor set dynamically based on theme
   },
   noteEmoji: {
     fontSize: 24,
