@@ -192,18 +192,7 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
     ]
   },
 
-  // ========== STEP 3: VISION OF SUCCESS ==========
-  {
-    id: 'success_vision',
-    question: "If you were successful with this change, what would your life look like?",
-    type: 'text',
-    category: 'motivation',
-    required: true,
-    placeholder: "Describe in a few sentences what success looks like to you...",
-    helpText: "Paint a picture of your ideal outcome - be specific!"
-  },
-
-  // ========== STEP 4: AREA-SPECIFIC BLOCKERS ==========
+  // ========== STEP 3: AREA-SPECIFIC BLOCKERS ==========
 
   // Eating-specific blockers
   {
@@ -761,6 +750,17 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'mixed_textures', label: '🥗 Mixed textures in one dish' },
       { value: 'not_texture', label: '👅 It\'s more about taste than texture' },
     ]
+  },
+
+  // ========== FINAL STEP: VISION OF SUCCESS (OPTIONAL) ==========
+  {
+    id: 'success_vision',
+    question: "One last thing — if this change really stuck, what would life look like?",
+    type: 'text',
+    category: 'motivation',
+    required: false,
+    placeholder: "Describe what success looks like to you...",
+    helpText: "Optional, but can help keep you motivated!"
   },
 ];
 
