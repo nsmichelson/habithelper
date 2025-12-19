@@ -353,6 +353,10 @@ export interface UserProfile {
 export interface QuickComplete {
   completed_at: Date;
   quick_note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me';
+  follow_up_answers?: {
+    questionId: string;
+    selectedOptions: string[];
+  }[];
 }
 
 export interface DailyTip {

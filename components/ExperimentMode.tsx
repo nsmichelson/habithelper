@@ -25,7 +25,7 @@ import { QuickComplete } from '../types/tip';
 import { SimplifiedTip } from '../types/simplifiedTip';
 import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
-import QuickCompleteModal from './QuickComplete';
+import QuickCompleteModal, { CompletionFeedback } from './QuickComplete';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -33,7 +33,7 @@ interface Props {
   tip: SimplifiedTip;
   onViewDetails: () => void;
   timeUntilCheckIn: number; // hours until evening check-in
-  onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
+  onQuickComplete: (feedback: CompletionFeedback) => void;
   quickCompletions?: QuickComplete[];
 }
 
@@ -452,8 +452,8 @@ export default function ExperimentMode({
       <QuickCompleteModal
         visible={showQuickComplete}
         onClose={() => setShowQuickComplete(false)}
-        onQuickComplete={(note) => {
-          onQuickComplete(note);
+        onQuickComplete={(feedback) => {
+          onQuickComplete(feedback);
           setShowQuickComplete(false);
         }}
       />

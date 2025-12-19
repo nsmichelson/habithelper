@@ -32,7 +32,7 @@ export const selectLikedTips = createSelector(
     previousTips.forEach(tip => {
       if (tip.evening_check_in === 'went_great' || 
           tip.evening_check_in === 'went_ok' ||
-          tip.quick_completions?.some(qc => qc.feedback === 'went_great' || qc.feedback === 'went_ok')) {
+          tip.quick_completions?.some(qc => qc.quick_note === 'worked_great' || qc.quick_note === 'went_ok')) {
         likedTipIds.add(tip.tip_id);
       }
     });
@@ -64,7 +64,7 @@ export const selectTipsByGoal = createSelector(
           tipsByGoal[tag].tried += 1;
 
           if (dailyTip.evening_check_in === 'went_great' ||
-              dailyTip.quick_completions?.some(qc => qc.feedback === 'went_great')) {
+              dailyTip.quick_completions?.some(qc => qc.quick_note === 'worked_great')) {
             tipsByGoal[tag].successful += 1;
           }
         }
@@ -165,9 +165,9 @@ export const selectTipSuccessRate = createSelector(
     const tried = previousTips.filter(t => t.user_response === 'try_it');
     if (tried.length === 0) return 0;
 
-    const successful = tried.filter(t => 
+    const successful = tried.filter(t =>
       t.evening_check_in === 'went_great' ||
-      t.quick_completions?.some(qc => qc.feedback === 'went_great')
+      t.quick_completions?.some(qc => qc.quick_note === 'worked_great')
     );
 
     return Math.round((successful.length / tried.length) * 100);

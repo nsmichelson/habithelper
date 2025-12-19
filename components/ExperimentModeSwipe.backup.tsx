@@ -26,7 +26,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Tip, QuickComplete } from '../types/tip';
 import * as Haptics from 'expo-haptics';
-import QuickCompleteModal from './QuickComplete';
+import QuickCompleteModal, { CompletionFeedback } from './QuickComplete';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -34,7 +34,7 @@ interface Props {
   tip: Tip;
   onViewDetails: () => void;
   timeUntilCheckIn: number;
-  onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
+  onQuickComplete: (feedback: CompletionFeedback) => void;
   quickCompletions?: QuickComplete[];
 }
 
@@ -571,8 +571,8 @@ export default function ExperimentModeSwipe({
       <QuickCompleteModal
         visible={showQuickComplete}
         onClose={() => setShowQuickComplete(false)}
-        onQuickComplete={(note) => {
-          onQuickComplete(note);
+        onQuickComplete={(feedback) => {
+          onQuickComplete(feedback);
           setShowQuickComplete(false);
         }}
       />

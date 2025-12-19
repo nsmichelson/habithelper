@@ -34,7 +34,7 @@ import Animated, {
 import Svg, { Circle } from 'react-native-svg';
 import { SimplifiedTip } from '../types/simplifiedTip';
 import { DailyTip, QuickComplete, UserProfile } from '../types/tip';
-import QuickCompleteModal from './QuickComplete';
+import QuickCompleteModal, { CompletionFeedback, CompletionFeedbackConfig } from './QuickComplete';
 import { ThemeKey } from '../constants/Themes';
 import TipHistoryModal from './TipHistoryModal';
 import PersonalizationCard from './PersonalizationCard';
@@ -48,7 +48,7 @@ interface Props {
   personalizedPlan?: string | null;
   onViewDetails: () => void;
   timeUntilCheckIn: number;
-  onQuickComplete: (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => void;
+  onQuickComplete: (feedback: CompletionFeedback) => void;
   quickCompletions?: QuickComplete[];
   totalExperiments?: number;
   successfulExperiments?: number;
@@ -2150,11 +2150,12 @@ export default function ExperimentModeSwipe({
       <QuickCompleteModal
         visible={showQuickComplete}
         onClose={() => setShowQuickComplete(false)}
-        onQuickComplete={(note) => {
-          onQuickComplete(note);
+        onQuickComplete={(feedback) => {
+          onQuickComplete(feedback);
           setShowQuickComplete(false);
         }}
         themeKey={themeKey}
+        customQuestions={tip.completion_feedback_questions}
       />
 
       {/* Tip History Modal */}

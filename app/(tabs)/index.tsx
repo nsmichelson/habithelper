@@ -48,6 +48,7 @@ import { UserProfile, DailyTip, TipAttempt, TipFeedback, QuickComplete } from '@
 import { SimplifiedTip } from '@/types/simplifiedTip';
 import { getTipById } from '@/data/simplifiedTips';
 import { ThemeKey } from '@/constants/Themes';
+import { CompletionFeedback } from '@/components/QuickComplete';
 import { format } from 'date-fns';
 
 // Proper type definitions to prevent confusion
@@ -901,9 +902,11 @@ export default function HomeScreen() {
     not_for_me: 'not for me',
   };
 
-  const handleQuickComplete = async (note?: 'worked_great' | 'went_ok' | 'not_sure' | 'not_for_me') => {
+  const handleQuickComplete = async (feedback: CompletionFeedback) => {
+    const note = feedback.type;
     console.log('\n🎆 QUICK COMPLETE TRIGGERED');
     console.log('  Note:', note);
+    console.log('  Follow-up answers:', feedback.followUpAnswers);
     if (!dailyTip || !currentTip) {
       console.log('  ❌ No dailyTip or currentTip, returning early');
       return;
@@ -916,6 +919,7 @@ export default function HomeScreen() {
     const quickComplete: QuickComplete = {
       completed_at: currentDate,
       quick_note: note,
+      follow_up_answers: feedback.followUpAnswers,
     };
 
     const updatedCompletions = [...(dailyTip.quick_completions || []), quickComplete];

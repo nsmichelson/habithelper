@@ -291,4 +291,51 @@ export interface SimplifiedTip {
     summary: string;
     difficulty?: number;
   }[];
+
+  // ============ COMPLETION FEEDBACK ============
+
+  // Custom follow-up questions when user completes the tip
+  // If not provided, default questions are used
+  completion_feedback_questions?: {
+    worked_great?: Array<{
+      id: string;
+      question: string;
+      options: Array<{
+        id: string;
+        label: string;
+        emoji?: string;
+      }>;
+      multiSelect?: boolean;
+    }>;
+    went_ok?: Array<{
+      id: string;
+      question: string;
+      options: Array<{
+        id: string;
+        label: string;
+        emoji?: string;
+      }>;
+      multiSelect?: boolean;
+    }>;
+    not_sure?: Array<{
+      id: string;
+      question: string;
+      options: Array<{
+        id: string;
+        label: string;
+        emoji?: string;
+      }>;
+      multiSelect?: boolean;
+    }>;
+    not_for_me?: Array<{
+      id: string;
+      question: string;
+      options: Array<{
+        id: string;
+        label: string;
+        emoji?: string;
+      }>;
+      multiSelect?: boolean;
+    }>;
+  };
 }
