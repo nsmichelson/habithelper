@@ -67,6 +67,7 @@ interface Props {
   };
   userProfile?: UserProfile | null;
   themeKey?: ThemeKey;
+  onReflect?: () => void;
 }
 
 // Confetti particle component
@@ -153,7 +154,8 @@ export default function ExperimentModeSwipe({
   isInFocusMode = false,
   focusProgress,
   userProfile,
-  themeKey = 'orange'
+  themeKey = 'orange',
+  onReflect
 }: Props) {
   // Get theme colors
   const theme = getTheme(themeKey);
@@ -948,6 +950,18 @@ export default function ExperimentModeSwipe({
                       <Ionicons name="heart" size={16} color="#db2777" />
                       <Text style={styles.secondaryActionText}>Help</Text>
                     </TouchableOpacity>
+                    {onReflect && (
+                      <>
+                        <Text style={styles.secondaryActionDivider}>•</Text>
+                        <TouchableOpacity
+                          onPress={onReflect}
+                          style={styles.secondaryActionPill}
+                        >
+                          <Ionicons name="moon-outline" size={16} color={theme.primary} />
+                          <Text style={[styles.secondaryActionText, { color: theme.primary }]}>Reflect</Text>
+                        </TouchableOpacity>
+                      </>
+                    )}
                   </View>
                 </>
               ) : showDetails ? (

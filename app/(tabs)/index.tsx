@@ -1329,6 +1329,7 @@ export default function HomeScreen() {
         onCheckIn={handleCheckIn}
         onSkip={() => setShowCheckIn(false)}
         quickCompletions={dailyTip?.quick_completions || []}
+        themeKey={cardThemeKey}
       />
     );
   }
@@ -2148,6 +2149,7 @@ export default function HomeScreen() {
                 })()}
                 userProfile={userProfile}
                 themeKey={cardThemeKey}
+                onReflect={() => setShowCheckIn(true)}
               />
               )
             ) : rejectedTipInfo ? (
