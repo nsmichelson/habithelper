@@ -29,10 +29,11 @@ export const NEW_QUIZ_QUESTIONS: QuizQuestion[] = [
     options: [
       { value: 'eating', label: '🥗 Eating habits' },
       { value: 'sleeping', label: '😴 Sleeping better' },
-      { value: 'productivity', label: '📋 Productivity & organization' },
-      { value: 'exercise', label: '💪 Exercise & movement' },
-      { value: 'mindset', label: '🧠 Mindset & mental health' },
-      { value: 'relationships', label: '💝 Relationships & social life' },
+      { value: 'mindset', label: '🧠 Mindset & stress' },
+      // Temporarily hidden - keeping for future:
+      // { value: 'productivity', label: '📋 Productivity & organization' },
+      // { value: 'exercise', label: '💪 Exercise & movement' },
+      // { value: 'relationships', label: '💝 Relationships & social life' },
     ]
   },
 
