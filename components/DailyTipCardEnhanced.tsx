@@ -26,6 +26,7 @@ import Animated, {
   withDelay,
   Easing,
   useAnimatedStyle,
+  interpolate,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SimplifiedTip, TipHook } from '../types/simplifiedTip';
@@ -225,6 +226,11 @@ export default function DailyTipCardEnhanced({
   // --- Reveal State ---
   const [isRevealed, setIsRevealed] = useState(false);
 
+  // --- CTA Glow State (triggers after 30s or viewing all cards) ---
+  const [shouldGlowCTA, setShouldGlowCTA] = useState(false);
+  const [viewedPages, setViewedPages] = useState<Set<number>>(new Set([0]));
+  const ctaGlowAnim = useSharedValue(0);
+
   // --- Selected Hook (for A/B testing different hooks) ---
   const [selectedHook, setSelectedHook] = useState<TipHook | null>(() =>
     selectRandomHook(tip.hooks)
@@ -247,6 +253,48 @@ export default function DailyTipCardEnhanced({
     transform: [{ scale: pulseAnim.value }]
   }));
 
+  // CTA glow animation style
+  const ctaGlowStyle = useAnimatedStyle(() => ({
+    shadowOpacity: interpolate(ctaGlowAnim.value, [0, 1], [0.3, 0.8]),
+    shadowRadius: interpolate(ctaGlowAnim.value, [0, 1], [12, 24]),
+    transform: [{ scale: interpolate(ctaGlowAnim.value, [0, 1], [1, 1.02]) }],
+  }));
+
+  // Start glow animation when triggered
+  useEffect(() => {
+    if (shouldGlowCTA) {
+      ctaGlowAnim.value = withRepeat(
+        withSequence(
+          withTiming(1, { duration: 1000, easing: Easing.inOut(Easing.ease) }),
+          withTiming(0, { duration: 1000, easing: Easing.inOut(Easing.ease) })
+        ),
+        -1,
+        true
+      );
+    }
+  }, [shouldGlowCTA]);
+
+  // 30 second timer after reveal
+  useEffect(() => {
+    if (isRevealed && !shouldGlowCTA) {
+      const timer = setTimeout(() => {
+        setShouldGlowCTA(true);
+      }, 30000);
+      return () => clearTimeout(timer);
+    }
+  }, [isRevealed, shouldGlowCTA]);
+
+  // Track viewed pages and check if all viewed
+  useEffect(() => {
+    if (currentPage >= 0) {
+      setViewedPages(prev => {
+        const newSet = new Set(prev);
+        newSet.add(currentPage);
+        return newSet;
+      });
+    }
+  }, [currentPage]);
+
   const handleReveal = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setIsRevealed(true);
@@ -258,6 +306,9 @@ export default function DailyTipCardEnhanced({
     flatListRef.current?.scrollToIndex({ index: 0, animated: false });
     setIsRevealed(false); // Reset reveal state when tip changes
     setSelectedHook(selectRandomHook(tip.hooks)); // Select new random hook for A/B testing
+    setShouldGlowCTA(false); // Reset CTA glow
+    setViewedPages(new Set([0])); // Reset viewed pages
+    ctaGlowAnim.value = 0; // Reset animation
   }, [tip.tip_id]);
 
   // --- Parsing Logic ---
@@ -276,6 +327,15 @@ export default function DailyTipCardEnhanced({
   const detailsSections = parseDetailsContent();
   const relevantGoals = userGoals.filter(userGoal => tip.goals?.includes(userGoal));
   const shouldShowPersonalization = !!tip.personalization_prompt;
+
+  // Check if all pages have been viewed
+  // Base pages: summary, details, benefits, howto = 4, plus personalization if available
+  const totalPageCount = shouldShowPersonalization ? 5 : 4;
+  useEffect(() => {
+    if (viewedPages.size >= totalPageCount && totalPageCount > 0 && !shouldGlowCTA) {
+      setShouldGlowCTA(true);
+    }
+  }, [viewedPages, totalPageCount, shouldGlowCTA]);
 
   // --- Handlers ---
 
@@ -826,14 +886,19 @@ export default function DailyTipCardEnhanced({
             {/* 5. Action Buttons */}
             {!rejectionInfo && !maybeLaterInfo && (
               <View style={[styles.actionSection, { paddingBottom: 20 + insets.bottom }]}>
-                <TouchableOpacity
-                  style={[styles.primaryBtn, { backgroundColor: theme.primary, shadowColor: theme.primary }]}
-                  onPress={() => handleResponse('try_it')}
-                  activeOpacity={0.9}
-                >
-                  <Ionicons name="checkmark-circle-outline" size={24} color="white" />
-                  <Text style={styles.primaryBtnText}>I'll Try It!</Text>
-                </TouchableOpacity>
+                <Animated.View style={[
+                  { shadowColor: theme.primary, shadowOffset: { width: 0, height: 4 }, borderRadius: 14 },
+                  shouldGlowCTA && ctaGlowStyle
+                ]}>
+                  <TouchableOpacity
+                    style={[styles.primaryBtn, { backgroundColor: theme.primary }]}
+                    onPress={() => handleResponse('try_it')}
+                    activeOpacity={0.9}
+                  >
+                    <Ionicons name="checkmark-circle-outline" size={24} color="white" />
+                    <Text style={styles.primaryBtnText}>I'll Try It!</Text>
+                  </TouchableOpacity>
+                </Animated.View>
 
                 <View style={styles.secondaryActions}>
                   <TouchableOpacity
