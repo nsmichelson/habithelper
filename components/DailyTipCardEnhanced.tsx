@@ -344,7 +344,11 @@ export default function DailyTipCardEnhanced({
     const summaryImage = tip.media?.pages?.summary || tip.media?.cover;
 
     return (
-      <View style={styles.pageContainer}>
+      <TouchableOpacity
+        style={styles.pageContainer}
+        activeOpacity={0.95}
+        onPress={() => scrollToPage(1)}
+      >
         <View style={styles.mainCard}>
           {/* Full visual card - image or gradient fills the space */}
           {summaryImage ? (
@@ -416,13 +420,13 @@ export default function DailyTipCardEnhanced({
 
               {/* Swipe hint at bottom */}
               <View style={styles.swipeHint}>
-                <Text style={styles.swipeHintText}>Swipe for details</Text>
+                <Text style={styles.swipeHintText}>Tap or swipe for details</Text>
                 <Ionicons name="chevron-forward" size={16} color="rgba(255,255,255,0.7)" />
               </View>
             </LinearGradient>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -437,9 +441,11 @@ export default function DailyTipCardEnhanced({
             contentContainerStyle={{ flexGrow: 1 }}
             showsVerticalScrollIndicator={false}
           >
-            <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-              <CardVisualHeader title="Details" subtitle="Learn more" icon="information-circle-outline" />
-            </LinearGradient>
+            <TouchableOpacity activeOpacity={0.95} onPress={() => scrollToPage(2)}>
+              <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+                <CardVisualHeader title="Details" subtitle="Learn more" icon="information-circle-outline" />
+              </LinearGradient>
+            </TouchableOpacity>
             <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
               {/* Hook-based content structure when hooks are available */}
               {hasHook ? (
@@ -511,9 +517,11 @@ export default function DailyTipCardEnhanced({
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-            <CardVisualHeader title="The Science" subtitle="Why it works" icon="school-outline" />
-          </LinearGradient>
+          <TouchableOpacity activeOpacity={0.95} onPress={() => scrollToPage(3)}>
+            <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+              <CardVisualHeader title="The Science" subtitle="Why it works" icon="school-outline" />
+            </LinearGradient>
+          </TouchableOpacity>
           <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
             {detailsSections.whyItWorks ? (
                <Text style={styles.bodyText}>{detailsSections.whyItWorks}</Text>
@@ -543,9 +551,11 @@ export default function DailyTipCardEnhanced({
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-            <CardVisualHeader title="How To" subtitle="Step by Step" icon="list-outline" />
-          </LinearGradient>
+          <TouchableOpacity activeOpacity={0.95} onPress={() => scrollToPage(shouldShowPersonalization ? 4 : 0)}>
+            <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+              <CardVisualHeader title="How To" subtitle="Step by Step" icon="list-outline" />
+            </LinearGradient>
+          </TouchableOpacity>
           <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest }]}>
              {detailsSections.howToTry ? (
               <View>
@@ -577,9 +587,11 @@ export default function DailyTipCardEnhanced({
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
-            <CardVisualHeader title="Your Plan" subtitle="Customize It" icon="create-outline" />
-          </LinearGradient>
+          <TouchableOpacity activeOpacity={0.95} onPress={() => scrollToPage(0)}>
+            <LinearGradient colors={[theme.primary, theme.primaryLight]} style={styles.cardVisualGradient}>
+              <CardVisualHeader title="Your Plan" subtitle="Customize It" icon="create-outline" />
+            </LinearGradient>
+          </TouchableOpacity>
           <View style={[styles.cardContentScrollable, { backgroundColor: theme.primaryLightest, paddingHorizontal: 0 }]}>
              <PersonalizationCard
                 tip={tip}
