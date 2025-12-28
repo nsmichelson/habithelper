@@ -274,12 +274,12 @@ export default function DailyTipCardEnhanced({
     }
   }, [shouldGlowCTA]);
 
-  // 30 second timer after reveal
+  // 5 second timer after reveal
   useEffect(() => {
     if (isRevealed && !shouldGlowCTA) {
       const timer = setTimeout(() => {
         setShouldGlowCTA(true);
-      }, 30000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [isRevealed, shouldGlowCTA]);
