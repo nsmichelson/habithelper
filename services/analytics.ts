@@ -12,14 +12,22 @@ import {
   collection,
   doc,
   setDoc,
+  getDoc,
   addDoc,
   updateDoc,
   serverTimestamp,
-  increment
+  increment,
+  arrayUnion
 } from 'firebase/firestore';
 import { firebaseConfig, COLLECTION_NAMES } from '@/config/firebase';
 import { UserProfile, DailyTip, TipAttempt } from '@/types/tip';
 import { SimplifiedTip } from '@/types/simplifiedTip';
+import {
+  CardType,
+  CardFeedback,
+  CardShowContext,
+  CardEngagementRecord
+} from '@/types/cardEngagement';
 
 class AnalyticsService {
   private app: FirebaseApp | null = null;
@@ -292,6 +300,282 @@ class AnalyticsService {
   async trackEvent(eventName: string, parameters?: Record<string, any>) {
     if (!this.isInitialized || !this.analytics) return;
     logEvent(this.analytics, eventName, parameters);
+  }
+
+  // ==========================================
+  // CARD ENGAGEMENT TRACKING
+  // ==========================================
+
+  // Generate document ID for card engagement
+  private getCardEngagementDocId(cardId: string): string {
+    return `${this.userId}_${cardId}`;
+  }
+
+  // Track when a card is shown to user
+  async trackCardShown(cardId: string, cardType: CardType, context: CardShowContext = {}) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    // Log to Firebase Analytics
+    logEvent(this.analytics, 'card_shown', {
+      card_id: cardId,
+      card_type: cardType,
+      tip_area: context.tipArea || 'unknown',
+      time_of_day: context.timeOfDay || 'unknown'
+    });
+
+    // Update or create engagement record in Firestore
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        // Update existing record
+        const updates: any = {
+          lastShownAt: serverTimestamp(),
+          totalShownCount: increment(1),
+          ignoredCount: increment(1), // Assume ignored until tapped
+          updatedAt: serverTimestamp()
+        };
+
+        // Add context to arrays if provided
+        if (context.tipArea) {
+          updates.shownWithAreas = arrayUnion(context.tipArea);
+        }
+        if (context.feelings && context.feelings.length > 0) {
+          updates.shownAfterFeelings = arrayUnion(...context.feelings);
+        }
+        if (context.obstacles && context.obstacles.length > 0) {
+          updates.shownAfterObstacles = arrayUnion(...context.obstacles);
+        }
+
+        await updateDoc(docRef, updates);
+      } else {
+        // Create new record
+        const newRecord: Partial<CardEngagementRecord> = {
+          odId: docId,
+          cardId,
+          cardType,
+          firstShownAt: new Date(),
+          lastShownAt: new Date(),
+          totalShownCount: 1,
+          tappedCount: 0,
+          completedCount: 0,
+          ignoredCount: 1, // Assume ignored until tapped
+          totalTimeSpentMs: 0,
+          helpfulCount: 0,
+          notHelpfulCount: 0,
+          lastFeedback: null,
+          lastFeedbackAt: null,
+          shownWithAreas: context.tipArea ? [context.tipArea] : [],
+          shownAfterFeelings: context.feelings || [],
+          shownAfterObstacles: context.obstacles || [],
+          updatedAt: new Date()
+        };
+
+        await setDoc(docRef, {
+          ...newRecord,
+          firstShownAt: serverTimestamp(),
+          lastShownAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+      }
+    } catch (error) {
+      console.error('Failed to track card shown:', error);
+    }
+  }
+
+  // Track when user taps/opens a card
+  async trackCardTapped(cardId: string) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    logEvent(this.analytics, 'card_tapped', { card_id: cardId });
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+
+      await updateDoc(docRef, {
+        tappedCount: increment(1),
+        ignoredCount: increment(-1), // Decrement ignored since they engaged
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Failed to track card tapped:', error);
+    }
+  }
+
+  // Track when user completes reading/viewing a card
+  async trackCardCompleted(cardId: string, timeSpentMs: number) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    logEvent(this.analytics, 'card_completed', {
+      card_id: cardId,
+      time_spent_ms: timeSpentMs
+    });
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+
+      await updateDoc(docRef, {
+        completedCount: increment(1),
+        totalTimeSpentMs: increment(timeSpentMs),
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Failed to track card completed:', error);
+    }
+  }
+
+  // Track user feedback (helpful/not helpful)
+  async trackCardFeedback(cardId: string, helpful: boolean) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    const feedback: CardFeedback = helpful ? 'helpful' : 'not_helpful';
+
+    logEvent(this.analytics, 'card_feedback', {
+      card_id: cardId,
+      feedback: feedback
+    });
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+
+      const updates: any = {
+        lastFeedback: feedback,
+        lastFeedbackAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      };
+
+      if (helpful) {
+        updates.helpfulCount = increment(1);
+      } else {
+        updates.notHelpfulCount = increment(1);
+      }
+
+      await updateDoc(docRef, updates);
+    } catch (error) {
+      console.error('Failed to track card feedback:', error);
+    }
+  }
+
+  // Track when user starts a tool activity
+  async trackToolStarted(cardId: string) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    logEvent(this.analytics, 'tool_started', { card_id: cardId });
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+
+      await updateDoc(docRef, {
+        toolStartedCount: increment(1),
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Failed to track tool started:', error);
+    }
+  }
+
+  // Track when user completes a tool activity
+  async trackToolCompleted(cardId: string) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    logEvent(this.analytics, 'tool_completed', { card_id: cardId });
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+
+      await updateDoc(docRef, {
+        toolCompletedCount: increment(1),
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Failed to track tool completed:', error);
+    }
+  }
+
+  // Track quiz answer (for regular and progressive quizzes)
+  async trackQuizAnswer(cardId: string, correct: boolean, level?: number) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    logEvent(this.analytics, 'quiz_answered', {
+      card_id: cardId,
+      correct: correct ? 1 : 0,
+      level: level || 1
+    });
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+
+      const updates: any = {
+        quizAttempts: increment(1),
+        updatedAt: serverTimestamp()
+      };
+
+      if (correct) {
+        updates.quizCorrectCount = increment(1);
+      }
+
+      if (level !== undefined) {
+        updates.currentQuizLevel = level;
+      }
+
+      await updateDoc(docRef, updates);
+    } catch (error) {
+      console.error('Failed to track quiz answer:', error);
+    }
+  }
+
+  // Mark a quiz as mastered
+  async markQuizMastered(cardId: string) {
+    if (!this.isInitialized || !this.firestore || !this.userId) return;
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+
+      await updateDoc(docRef, {
+        quizMastered: true,
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Failed to mark quiz mastered:', error);
+    }
+  }
+
+  // Get card engagement record for a specific card
+  async getCardEngagement(cardId: string): Promise<CardEngagementRecord | null> {
+    if (!this.isInitialized || !this.firestore || !this.userId) return null;
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data() as CardEngagementRecord;
+      }
+      return null;
+    } catch (error) {
+      console.error('Failed to get card engagement:', error);
+      return null;
+    }
+  }
+
+  // Get user ID (for card selection service)
+  getUserId(): string | null {
+    return this.userId;
+  }
+
+  // Get Firestore instance (for card selection service)
+  getFirestore(): Firestore | null {
+    return this.firestore;
   }
 }
 

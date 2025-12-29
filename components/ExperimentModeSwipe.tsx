@@ -1,5 +1,7 @@
 import StorageService from '@/services/storage';
+import AnalyticsService from '@/services/analytics';
 import { getMotivationCards, MotivationCard } from '@/data/motivationCards';
+import { CardType } from '@/types/cardEngagement';
 import {
   NUTRITION_OBSTACLES,
   NUTRITION_HELPERS,
@@ -179,6 +181,7 @@ export default function ExperimentModeSwipe({
   const [showPlan, setShowPlan] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [viewedCards, setViewedCards] = useState<string[]>(['protip']);
+  const [cardFeedback, setCardFeedback] = useState<Record<string, 'helpful' | 'not_helpful' | null>>({});
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [quizAnswer, setQuizAnswer] = useState<string | null>(null);
   const [dynamicQuizAnswer, setDynamicQuizAnswer] = useState<string | null>(null);
@@ -836,11 +839,20 @@ export default function ExperimentModeSwipe({
     }
   };
 
-  const handleCardTap = (cardId: string) => {
+  const handleCardTap = (cardId: string, cardType?: CardType) => {
     setActiveCard(cardId);
     if (!viewedCards.includes(cardId)) {
       setViewedCards([...viewedCards, cardId]);
     }
+    // Track card tapped in analytics
+    AnalyticsService.trackCardTapped(cardId);
+  };
+
+  // Handle card feedback (helpful/not helpful)
+  const handleCardFeedback = (cardId: string, helpful: boolean) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setCardFeedback(prev => ({ ...prev, [cardId]: helpful ? 'helpful' : 'not_helpful' }));
+    AnalyticsService.trackCardFeedback(cardId, helpful);
   };
 
   const formatTimeRemaining = (hours: number) => {
@@ -1221,35 +1233,69 @@ export default function ExperimentModeSwipe({
 
             {/* Dynamic Motivation Cards based on check-in - show first if any */}
             {motivationCards.map((card) => (
-              <TouchableOpacity
-                key={card.id}
-                onPress={() => handleCardTap(card.id)}
-                style={[
-                  styles.insightCard,
-                  !viewedCards.includes(card.id) && styles.insightCardUnread
-                ]}
-              >
-                {!viewedCards.includes(card.id) && (
-                  <View style={[styles.unreadDot, { backgroundColor: card.iconColor }]} />
-                )}
-                <View style={styles.insightCardHeader}>
-                  <View style={[styles.insightIcon, { backgroundColor: card.iconBg }]}>
-                    <Ionicons name={card.icon} size={16} color={card.iconColor} />
+              <View key={card.id} style={styles.cardWithFeedback}>
+                <TouchableOpacity
+                  onPress={() => handleCardTap(card.id, card.type as CardType)}
+                  style={[
+                    styles.insightCard,
+                    !viewedCards.includes(card.id) && styles.insightCardUnread,
+                    { marginBottom: 0 }
+                  ]}
+                >
+                  {!viewedCards.includes(card.id) && (
+                    <View style={[styles.unreadDot, { backgroundColor: card.iconColor }]} />
+                  )}
+                  <View style={styles.insightCardHeader}>
+                    <View style={[styles.insightIcon, { backgroundColor: card.iconBg }]}>
+                      <Ionicons name={card.icon} size={16} color={card.iconColor} />
+                    </View>
+                    <Text style={[
+                      styles.insightCardTitle,
+                      viewedCards.includes(card.id) && styles.insightCardTitleViewed
+                    ]}>
+                      {card.title}
+                    </Text>
                   </View>
                   <Text style={[
-                    styles.insightCardTitle,
-                    viewedCards.includes(card.id) && styles.insightCardTitleViewed
+                    styles.insightCardText,
+                    viewedCards.includes(card.id) && styles.insightCardTextViewed
                   ]}>
-                    {card.title}
+                    {card.text}
                   </Text>
+                </TouchableOpacity>
+                {/* Feedback row */}
+                <View style={styles.cardFeedbackRow}>
+                  <Text style={styles.cardFeedbackLabel}>Helpful?</Text>
+                  <View style={styles.cardFeedbackButtons}>
+                    <TouchableOpacity
+                      onPress={() => handleCardFeedback(card.id, true)}
+                      style={[
+                        styles.cardFeedbackButton,
+                        cardFeedback[card.id] === 'helpful' && styles.cardFeedbackButtonActive
+                      ]}
+                    >
+                      <Ionicons
+                        name={cardFeedback[card.id] === 'helpful' ? 'thumbs-up' : 'thumbs-up-outline'}
+                        size={16}
+                        color={cardFeedback[card.id] === 'helpful' ? '#10b981' : '#9ca3af'}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handleCardFeedback(card.id, false)}
+                      style={[
+                        styles.cardFeedbackButton,
+                        cardFeedback[card.id] === 'not_helpful' && styles.cardFeedbackButtonActiveNegative
+                      ]}
+                    >
+                      <Ionicons
+                        name={cardFeedback[card.id] === 'not_helpful' ? 'thumbs-down' : 'thumbs-down-outline'}
+                        size={16}
+                        color={cardFeedback[card.id] === 'not_helpful' ? '#ef4444' : '#9ca3af'}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <Text style={[
-                  styles.insightCardText,
-                  viewedCards.includes(card.id) && styles.insightCardTextViewed
-                ]}>
-                  {card.text}
-                </Text>
-              </TouchableOpacity>
+              </View>
             ))}
 
             {/* Fun Fact Card */}
@@ -3130,6 +3176,43 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     fontWeight: '500',
+  },
+  // Card feedback styles
+  cardWithFeedback: {
+    marginBottom: 8,
+  },
+  cardFeedbackRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#f9fafb',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginTop: -8,
+    borderTopWidth: 1,
+    borderTopColor: '#f3f4f6',
+  },
+  cardFeedbackLabel: {
+    fontSize: 11,
+    color: '#9ca3af',
+    fontWeight: '500',
+  },
+  cardFeedbackButtons: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  cardFeedbackButton: {
+    padding: 6,
+    borderRadius: 8,
+    backgroundColor: '#f3f4f6',
+  },
+  cardFeedbackButtonActive: {
+    backgroundColor: '#d1fae5',
+  },
+  cardFeedbackButtonActiveNegative: {
+    backgroundColor: '#fee2e2',
   },
 
   // Bottom Sheet & Modal Styles
