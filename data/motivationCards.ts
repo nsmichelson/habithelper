@@ -67,7 +67,7 @@ export const MOTIVATION_CARDS: MotivationCardDefinition[] = [
     title: 'Be Gentle',
     text: "Tired days are real. Even a tiny step counts - you don't have to be perfect today.",
     priority: 10,
-    triggers: { feelings: ['tired'] },
+    triggers: { feelings: ['tired'], obstacles: ['tired', 'low_energy'] },
     modalContent: {
       title: "Be Gentle With Yourself",
       description: "Pushing through exhaustion often leads to burnout, not progress.",
@@ -84,7 +84,7 @@ export const MOTIVATION_CARDS: MotivationCardDefinition[] = [
     title: 'Quick Energy',
     text: 'A 5-min walk or glass of cold water can boost alertness more than you think.',
     priority: 8,
-    triggers: { feelings: ['tired'] },
+    triggers: { feelings: ['tired'], obstacles: ['tired', 'low_energy'] },
   },
   {
     id: 'stressed-breathe',
@@ -1090,7 +1090,9 @@ export function getMotivationCards(
   // For unknown areas, treat as nutrition for card matching
   const effectiveArea = isNutritionFallback(normalizedArea) ? 'nutrition' : normalizedArea;
 
-  const matchingCards = MOTIVATION_CARDS
+  // Calculate a relevance score for each matching card
+  // Prioritize cards that match user's current check-in selections
+  const scoredCards = MOTIVATION_CARDS
     .filter(card => cardMatchesSelections(
       card,
       selectedFeelings,
@@ -1100,11 +1102,49 @@ export function getMotivationCards(
       tipGoals,
       tipMechanisms
     ))
-    .map(({ triggers, ...cardWithoutTriggers }) => cardWithoutTriggers) // Remove triggers from output
-    .sort((a, b) => b.priority - a.priority)
-    .slice(0, maxCards);
+    .map(card => {
+      let score = card.priority || 0;
+      const { triggers } = card;
 
-  return matchingCards;
+      // Bonus for matching user's current feelings (highest priority - user told us how they feel)
+      if (triggers.feelings && selectedFeelings.length > 0) {
+        const feelingMatches = triggers.feelings.filter(f => selectedFeelings.includes(f)).length;
+        score += feelingMatches * 15; // +15 per feeling match
+      }
+
+      // Bonus for matching user's current obstacles (high priority - user identified challenges)
+      if (triggers.obstacles && selectedObstacles.length > 0) {
+        const obstacleMatches = triggers.obstacles.filter(o => selectedObstacles.includes(o)).length;
+        score += obstacleMatches * 12; // +12 per obstacle match
+      }
+
+      // Bonus for matching user's helpers
+      if (triggers.helpers && selectedHelpers.length > 0) {
+        const helperMatches = triggers.helpers.filter(h => selectedHelpers.includes(h)).length;
+        score += helperMatches * 8; // +8 per helper match
+      }
+
+      // Bonus for matching tip goals/mechanisms (lower priority than direct user input)
+      if (triggers.tipGoals && tipGoals && tipGoals.length > 0) {
+        const goalMatches = triggers.tipGoals.filter(g => tipGoals.includes(g)).length;
+        score += goalMatches * 5; // +5 per tip goal match
+      }
+
+      if (triggers.tipMechanisms && tipMechanisms && tipMechanisms.length > 0) {
+        const mechanismMatches = triggers.tipMechanisms.filter(m => tipMechanisms.includes(m)).length;
+        score += mechanismMatches * 5; // +5 per mechanism match
+      }
+
+      return { card, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxCards)
+    .map(({ card }) => {
+      const { triggers, ...cardWithoutTriggers } = card;
+      return cardWithoutTriggers;
+    });
+
+  return scoredCards;
 }
 
 // Export the type for use in components

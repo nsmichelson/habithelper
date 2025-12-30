@@ -722,15 +722,36 @@ export default function ExperimentModeSwipe({
   // Extract tip's goals and mechanisms for matching tip-specific cards
   const tipGoals = tip?.goals;
   const tipMechanisms = tip?.mechanisms;
+
+  // Debug: Log what we're passing to card selection
+  if (__DEV__) {
+    console.log('MotivationCards - area:', area);
+    console.log('MotivationCards - tipGoals:', tipGoals);
+    console.log('MotivationCards - tipMechanisms:', tipMechanisms);
+    console.log('MotivationCards - selectedFeelings:', selectedFeelings);
+    console.log('MotivationCards - selectedObstacles:', selectedObstacles);
+    console.log('MotivationCards - selectedInFavor:', selectedInFavor);
+  }
+
+  // Calculate dynamic maxCards based on check-in selections
+  // Show more cards when user has provided more context
+  const baseCards = 3;
+  const checkInBonus = Math.min(totalCheckInSelections, 3); // Up to 3 extra cards based on selections
+  const dynamicMaxCards = baseCards + checkInBonus;
+
   const motivationCards = getMotivationCards(
     selectedFeelings,
     selectedObstacles,
     selectedInFavor,
     area,
-    3, // maxCards
+    dynamicMaxCards,
     tipGoals,
     tipMechanisms
   );
+
+  if (__DEV__) {
+    console.log('MotivationCards - returned cards:', motivationCards.map(c => c.id));
+  }
   const activeMotivationCard = motivationCards.find(c => c.id === activeCard);
 
   // Load centralized completion count on mount
