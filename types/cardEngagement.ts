@@ -150,3 +150,63 @@ export const DEFAULT_FREQUENCY_RULES: CardFrequencyRules[] = [
   { cardType: 'reframe', minDaysBetweenShows: 4, maxShowsPerWeek: 3, refreshAfterDays: 14 },
   { cardType: 'tip', minDaysBetweenShows: 3, maxShowsPerWeek: 4 },
 ];
+
+// ============================================
+// NOT HELPFUL LOGGING FOR PATTERN DETECTION
+// ============================================
+
+// Card attributes captured when logging "not helpful"
+export interface NotHelpfulCardAttributes {
+  tone: 'gentle' | 'energizing' | 'neutral' | 'playful' | 'serious';
+  science_depth: 'light' | 'moderate' | 'deep';
+  duration: 'quick' | 'medium' | 'long';
+  category: string;               // e.g., 'breathing', 'distraction', 'reframe', 'education'
+  requires_privacy?: boolean;
+  requires_action?: boolean;      // Passive (read) vs active (do something)
+}
+
+// Context captured when a card is marked "not helpful"
+export interface NotHelpfulContext {
+  tipArea: string;
+  tipId: string;
+  userFeeling: string[];
+  userObstacles: string[];
+  userHelpers?: string[];
+  timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night';
+  dayOfWeek: number;
+}
+
+// Full log entry for "not helpful" feedback
+export interface NotHelpfulLogEntry {
+  id: string;                     // Unique log ID
+  userId: string;
+  cardId: string;
+  cardType: CardType;
+  cardAttributes: NotHelpfulCardAttributes;
+  context: NotHelpfulContext;
+  timestamp: Date;
+}
+
+// Aggregated pattern detection results
+export interface UserCardPatterns {
+  userId: string;
+
+  // Attributes the user consistently dislikes
+  dislikedTones?: ('gentle' | 'energizing' | 'neutral' | 'playful' | 'serious')[];
+  dislikedScienceDepths?: ('light' | 'moderate' | 'deep')[];
+  dislikedCategories?: string[];
+  dislikesActiveCards?: boolean;
+  dislikesPrivacyRequired?: boolean;
+
+  // Contexts where user often marks unhelpful
+  unhelpfulWhenTired?: boolean;
+  unhelpfulWhenStressed?: boolean;
+  unhelpfulTimeOfDay?: ('morning' | 'afternoon' | 'evening' | 'night')[];
+
+  // Card types to avoid
+  avoidCardTypes?: CardType[];
+
+  // Aggregate stats
+  totalNotHelpfulCount: number;
+  lastUpdated: Date;
+}

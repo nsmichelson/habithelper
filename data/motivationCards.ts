@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 
 // Types
-export type MotivationCardType = 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact' | 'quiz';
+export type MotivationCardType = 'tip' | 'encouragement' | 'reframe' | 'strategy' | 'fact' | 'quiz' | 'tool';
 
 export type TriggerCondition = {
   feelings?: string[];
@@ -9,6 +9,11 @@ export type TriggerCondition = {
   helpers?: string[];
   areas?: string[];  // If specified, card only shows for these areas. Empty/undefined = all areas
   excludeAreas?: string[]; // Areas where this card should NOT show
+  // NEW: Tip-based triggers
+  tipGoals?: string[];        // Match tip's goals (e.g., ['reduce_sugar', 'eat_more_vegetables'])
+  tipMechanisms?: string[];   // Match tip's mechanisms (e.g., ['dopamine_regulation', 'habit_stacking'])
+  tipDrivers?: string[];      // Match tip's drivers (e.g., ['driver:emotional_eating', 'driver:boredom'])
+  tipDifficulty?: number[];   // Match tip difficulty levels (e.g., [3, 4, 5] for harder tips)
 };
 
 export type ModalContent = {
@@ -19,6 +24,16 @@ export type ModalContent = {
   options?: Array<{ id: string; text: string; correct: boolean }>;
   answerExplanation?: string;
   buttonText?: string;
+};
+
+// Card attributes for pattern detection when marked "not helpful"
+export type CardAttributes = {
+  tone: 'gentle' | 'energizing' | 'neutral' | 'playful' | 'serious';
+  science_depth: 'light' | 'moderate' | 'deep';
+  duration: 'quick' | 'medium' | 'long';       // How long to read/do
+  category: string;                             // e.g., 'breathing', 'distraction', 'reframe', 'education'
+  requires_privacy?: boolean;                   // Can they do it in public?
+  requires_action?: boolean;                    // Is it passive (read) or active (do something)?
 };
 
 export type MotivationCardDefinition = {
@@ -32,6 +47,8 @@ export type MotivationCardDefinition = {
   priority: number;
   triggers: TriggerCondition;
   modalContent?: ModalContent;
+  // NEW: Attributes for pattern detection
+  attributes?: CardAttributes;
 };
 
 export type MotivationCard = Omit<MotivationCardDefinition, 'triggers'>;

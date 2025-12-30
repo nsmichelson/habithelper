@@ -36,5 +36,7 @@ export const COLLECTION_NAMES = {
   TIP_OUTCOMES: 'tip_outcomes',
   AGGREGATED_TIP_STATS: 'aggregated_tip_stats',
   USER_SESSIONS: 'user_sessions',
-  CARD_ENGAGEMENTS: 'card_engagements'
+  CARD_ENGAGEMENTS: 'card_engagements',
+  NOT_HELPFUL_LOGS: 'not_helpful_logs',
+  USER_CARD_PATTERNS: 'user_card_patterns'
 } as const;

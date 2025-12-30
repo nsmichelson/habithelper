@@ -300,6 +300,13 @@ export interface UserProfile {
   // Learning preferences
   wants_to_learn_cooking?: boolean;
   interested_in_nutrition_facts?: boolean;
+
+  // Science/detail preferences for motivation cards
+  // Determines depth of educational content shown
+  // 'low' = simple tips, encouragement, tools
+  // 'moderate' = balanced mix of everything
+  // 'high' = detailed science, research citations
+  science_interest?: 'low' | 'moderate' | 'high';
   
   // New fields from fun quiz
   difficulty_preference?: string;

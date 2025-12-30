@@ -26,7 +26,11 @@ import {
   CardType,
   CardFeedback,
   CardShowContext,
-  CardEngagementRecord
+  CardEngagementRecord,
+  NotHelpfulCardAttributes,
+  NotHelpfulContext,
+  NotHelpfulLogEntry,
+  UserCardPatterns
 } from '@/types/cardEngagement';
 
 class AnalyticsService {
@@ -576,6 +580,317 @@ class AnalyticsService {
   // Get Firestore instance (for card selection service)
   getFirestore(): Firestore | null {
     return this.firestore;
+  }
+
+  // ==========================================
+  // ENHANCED NOT HELPFUL LOGGING
+  // ==========================================
+
+  /**
+   * Track when user marks a card as "not helpful" with full context for pattern detection.
+   * This logs detailed attributes about the card and user's context to identify
+   * what types of cards don't work for specific users.
+   */
+  async trackNotHelpfulWithContext(
+    cardId: string,
+    cardType: CardType,
+    cardAttributes: NotHelpfulCardAttributes,
+    context: NotHelpfulContext
+  ) {
+    if (!this.isInitialized || !this.analytics || !this.firestore || !this.userId) return;
+
+    // Log to Firebase Analytics
+    logEvent(this.analytics, 'card_not_helpful', {
+      card_id: cardId,
+      card_type: cardType,
+      tone: cardAttributes.tone,
+      science_depth: cardAttributes.science_depth,
+      category: cardAttributes.category,
+      tip_area: context.tipArea,
+      time_of_day: context.timeOfDay
+    });
+
+    try {
+      // 1. Update the card engagement record (existing behavior)
+      const engagementDocId = this.getCardEngagementDocId(cardId);
+      const engagementDocRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, engagementDocId);
+
+      await updateDoc(engagementDocRef, {
+        lastFeedback: 'not_helpful',
+        lastFeedbackAt: serverTimestamp(),
+        notHelpfulCount: increment(1),
+        updatedAt: serverTimestamp()
+      });
+
+      // 2. Log detailed entry to NOT_HELPFUL_LOGS collection
+      const logId = `${this.userId}_${cardId}_${Date.now()}`;
+      const logEntry: Omit<NotHelpfulLogEntry, 'timestamp'> & { timestamp: any } = {
+        id: logId,
+        userId: this.userId,
+        cardId,
+        cardType,
+        cardAttributes,
+        context,
+        timestamp: serverTimestamp()
+      };
+
+      await addDoc(collection(this.firestore, COLLECTION_NAMES.NOT_HELPFUL_LOGS), logEntry);
+
+      // 3. Update user's pattern aggregates
+      await this.updateUserCardPatterns(cardAttributes, context);
+
+    } catch (error) {
+      console.error('Failed to track not helpful with context:', error);
+    }
+  }
+
+  /**
+   * Update user's card patterns based on new "not helpful" feedback.
+   * This aggregates patterns over time to identify what types of cards don't work for the user.
+   */
+  private async updateUserCardPatterns(
+    cardAttributes: NotHelpfulCardAttributes,
+    context: NotHelpfulContext
+  ) {
+    if (!this.firestore || !this.userId) return;
+
+    try {
+      const patternsDocRef = doc(this.firestore, COLLECTION_NAMES.USER_CARD_PATTERNS, this.userId);
+      const patternsSnap = await getDoc(patternsDocRef);
+
+      if (patternsSnap.exists()) {
+        // Update existing patterns
+        const updates: any = {
+          totalNotHelpfulCount: increment(1),
+          lastUpdated: serverTimestamp()
+        };
+
+        // Add to arrays for pattern detection
+        // Tone tracking
+        updates[`toneNotHelpfulCounts.${cardAttributes.tone}`] = increment(1);
+
+        // Science depth tracking
+        updates[`scienceDepthNotHelpfulCounts.${cardAttributes.science_depth}`] = increment(1);
+
+        // Category tracking
+        updates[`categoryNotHelpfulCounts.${cardAttributes.category}`] = increment(1);
+
+        // Time of day tracking
+        updates[`timeOfDayNotHelpfulCounts.${context.timeOfDay}`] = increment(1);
+
+        // Active card tracking
+        if (cardAttributes.requires_action) {
+          updates.activeCardNotHelpfulCount = increment(1);
+        }
+
+        // Privacy required tracking
+        if (cardAttributes.requires_privacy) {
+          updates.privacyRequiredNotHelpfulCount = increment(1);
+        }
+
+        // Feeling-based tracking (when tired, stressed, etc.)
+        if (context.userFeeling.includes('tired') || context.userFeeling.includes('exhausted')) {
+          updates.notHelpfulWhenTiredCount = increment(1);
+        }
+        if (context.userFeeling.includes('stressed') || context.userFeeling.includes('anxious')) {
+          updates.notHelpfulWhenStressedCount = increment(1);
+        }
+
+        await updateDoc(patternsDocRef, updates);
+      } else {
+        // Create new patterns record
+        const newPatterns = {
+          userId: this.userId,
+          totalNotHelpfulCount: 1,
+
+          // Initialize counts
+          toneNotHelpfulCounts: {
+            [cardAttributes.tone]: 1
+          },
+          scienceDepthNotHelpfulCounts: {
+            [cardAttributes.science_depth]: 1
+          },
+          categoryNotHelpfulCounts: {
+            [cardAttributes.category]: 1
+          },
+          timeOfDayNotHelpfulCounts: {
+            [context.timeOfDay]: 1
+          },
+          activeCardNotHelpfulCount: cardAttributes.requires_action ? 1 : 0,
+          privacyRequiredNotHelpfulCount: cardAttributes.requires_privacy ? 1 : 0,
+          notHelpfulWhenTiredCount: (context.userFeeling.includes('tired') || context.userFeeling.includes('exhausted')) ? 1 : 0,
+          notHelpfulWhenStressedCount: (context.userFeeling.includes('stressed') || context.userFeeling.includes('anxious')) ? 1 : 0,
+
+          lastUpdated: serverTimestamp()
+        };
+
+        await setDoc(patternsDocRef, newPatterns);
+      }
+    } catch (error) {
+      console.error('Failed to update user card patterns:', error);
+    }
+  }
+
+  /**
+   * Get user's card patterns for use in card selection.
+   * Returns computed patterns based on aggregated "not helpful" feedback.
+   */
+  async getUserCardPatterns(): Promise<UserCardPatterns | null> {
+    if (!this.isInitialized || !this.firestore || !this.userId) return null;
+
+    try {
+      const patternsDocRef = doc(this.firestore, COLLECTION_NAMES.USER_CARD_PATTERNS, this.userId);
+      const patternsSnap = await getDoc(patternsDocRef);
+
+      if (!patternsSnap.exists()) return null;
+
+      const data = patternsSnap.data();
+      const totalCount = data.totalNotHelpfulCount || 0;
+
+      // Only compute patterns if we have enough data (at least 5 not helpful marks)
+      if (totalCount < 5) {
+        return {
+          userId: this.userId,
+          totalNotHelpfulCount: totalCount,
+          lastUpdated: data.lastUpdated?.toDate() || new Date()
+        };
+      }
+
+      // Compute disliked tones (if > 40% of not helpful cards have this tone)
+      const dislikedTones: UserCardPatterns['dislikedTones'] = [];
+      const toneCounts = data.toneNotHelpfulCounts || {};
+      for (const tone of ['gentle', 'energizing', 'neutral', 'playful', 'serious'] as const) {
+        if ((toneCounts[tone] || 0) / totalCount > 0.4) {
+          dislikedTones.push(tone);
+        }
+      }
+
+      // Compute disliked science depths
+      const dislikedScienceDepths: UserCardPatterns['dislikedScienceDepths'] = [];
+      const depthCounts = data.scienceDepthNotHelpfulCounts || {};
+      for (const depth of ['light', 'moderate', 'deep'] as const) {
+        if ((depthCounts[depth] || 0) / totalCount > 0.4) {
+          dislikedScienceDepths.push(depth);
+        }
+      }
+
+      // Compute disliked categories
+      const dislikedCategories: string[] = [];
+      const categoryCounts = data.categoryNotHelpfulCounts || {};
+      for (const category in categoryCounts) {
+        if ((categoryCounts[category] || 0) / totalCount > 0.3) {
+          dislikedCategories.push(category);
+        }
+      }
+
+      // Compute unhelpful times of day
+      const unhelpfulTimeOfDay: UserCardPatterns['unhelpfulTimeOfDay'] = [];
+      const timeCounts = data.timeOfDayNotHelpfulCounts || {};
+      for (const time of ['morning', 'afternoon', 'evening', 'night'] as const) {
+        if ((timeCounts[time] || 0) / totalCount > 0.4) {
+          unhelpfulTimeOfDay.push(time);
+        }
+      }
+
+      return {
+        userId: this.userId,
+        dislikedTones: dislikedTones.length > 0 ? dislikedTones : undefined,
+        dislikedScienceDepths: dislikedScienceDepths.length > 0 ? dislikedScienceDepths : undefined,
+        dislikedCategories: dislikedCategories.length > 0 ? dislikedCategories : undefined,
+        dislikesActiveCards: (data.activeCardNotHelpfulCount || 0) / totalCount > 0.5,
+        dislikesPrivacyRequired: (data.privacyRequiredNotHelpfulCount || 0) / totalCount > 0.5,
+        unhelpfulWhenTired: (data.notHelpfulWhenTiredCount || 0) / totalCount > 0.4,
+        unhelpfulWhenStressed: (data.notHelpfulWhenStressedCount || 0) / totalCount > 0.4,
+        unhelpfulTimeOfDay: unhelpfulTimeOfDay.length > 0 ? unhelpfulTimeOfDay : undefined,
+        totalNotHelpfulCount: totalCount,
+        lastUpdated: data.lastUpdated?.toDate() || new Date()
+      };
+    } catch (error) {
+      console.error('Failed to get user card patterns:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Check if a specific card has been marked as not helpful by this user.
+   * Used to permanently suppress cards the user found unhelpful.
+   */
+  async isCardMarkedNotHelpful(cardId: string): Promise<boolean> {
+    if (!this.isInitialized || !this.firestore || !this.userId) return false;
+
+    try {
+      const docId = this.getCardEngagementDocId(cardId);
+      const docRef = doc(this.firestore, COLLECTION_NAMES.CARD_ENGAGEMENTS, docId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        return data.lastFeedback === 'not_helpful';
+      }
+      return false;
+    } catch (error) {
+      console.error('Failed to check if card is marked not helpful:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Check if card attributes match user's disliked patterns.
+   * Returns true if we should avoid showing this card based on detected patterns.
+   */
+  async shouldAvoidCardBasedOnPatterns(
+    cardAttributes: NotHelpfulCardAttributes,
+    context?: Partial<NotHelpfulContext>
+  ): Promise<boolean> {
+    const patterns = await this.getUserCardPatterns();
+    if (!patterns) return false;
+
+    // Check tone
+    if (patterns.dislikedTones?.includes(cardAttributes.tone)) {
+      return true;
+    }
+
+    // Check science depth
+    if (patterns.dislikedScienceDepths?.includes(cardAttributes.science_depth)) {
+      return true;
+    }
+
+    // Check category
+    if (patterns.dislikedCategories?.includes(cardAttributes.category)) {
+      return true;
+    }
+
+    // Check active cards
+    if (patterns.dislikesActiveCards && cardAttributes.requires_action) {
+      return true;
+    }
+
+    // Check privacy required
+    if (patterns.dislikesPrivacyRequired && cardAttributes.requires_privacy) {
+      return true;
+    }
+
+    // Check context-based patterns
+    if (context) {
+      // Check time of day
+      if (context.timeOfDay && patterns.unhelpfulTimeOfDay?.includes(context.timeOfDay)) {
+        return true;
+      }
+
+      // Check if user is tired
+      if (patterns.unhelpfulWhenTired &&
+          context.userFeeling?.some(f => f === 'tired' || f === 'exhausted')) {
+        return true;
+      }
+
+      // Check if user is stressed
+      if (patterns.unhelpfulWhenStressed &&
+          context.userFeeling?.some(f => f === 'stressed' || f === 'anxious')) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 

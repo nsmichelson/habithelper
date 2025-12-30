@@ -1,5 +1,34 @@
 // Simplified tip structure for all areas (nutrition, fitness, organization, relationships)
 
+// Tool that users can try in-the-moment while doing a tip
+export interface AssociatedTool {
+  tool_id: string;                    // Unique identifier
+  name: string;                       // Display name (e.g., "The Apple Test")
+  description: string;                // Brief explanation of what it does
+  instructions?: string[];            // Step-by-step instructions
+  duration: string;                   // How long it takes (e.g., "10 sec", "2 min")
+  difficulty: 'easy' | 'moderate';    // How much effort/focus needed
+  bestFor: string[];                  // What situations it helps with (e.g., ['cravings', 'stress'])
+  requiresPrivacy?: boolean;          // Can they do it in public?
+  requiresEquipment?: boolean;        // Needs any equipment?
+  timerSeconds?: number;              // If it's a timed activity
+  icon?: string;                      // Ionicon name
+  iconBg?: string;                    // Background color for icon
+  iconColor?: string;                 // Icon color
+}
+
+// Educational/science content that pairs with a tip
+export interface AssociatedScience {
+  card_id: string;                    // Unique identifier
+  title: string;                      // Display title
+  content: string;                    // The educational content
+  science_depth: 'light' | 'moderate' | 'deep';  // How detailed/technical
+  source?: string;                    // Citation or source
+  icon?: string;                      // Ionicon name
+  iconBg?: string;                    // Background color
+  iconColor?: string;                 // Icon color
+}
+
 export interface TipHook {
   hook: string;           // The attention-grabbing headline (e.g., "When thirst disguises itself as hunger")
   subtitle: string;       // The intriguing lead-in that builds curiosity
@@ -291,6 +320,15 @@ export interface SimplifiedTip {
     summary: string;
     difficulty?: number;
   }[];
+
+  // ============ ASSOCIATED CARDS & TOOLS ============
+
+  // Tools users can try in-the-moment while doing this tip
+  // Multiple tools allow users to discover what works for them
+  associated_tools?: AssociatedTool[];
+
+  // Educational/science content that pairs with this tip
+  associated_science?: AssociatedScience[];
 
   // ============ COMPLETION FEEDBACK ============
 
