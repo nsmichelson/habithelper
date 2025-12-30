@@ -719,11 +719,17 @@ export default function ExperimentModeSwipe({
 
   // Get motivation cards from centralized data file
   const area = tip?.area || 'nutrition';
+  // Extract tip's goals and mechanisms for matching tip-specific cards
+  const tipGoals = tip?.goals;
+  const tipMechanisms = tip?.mechanisms;
   const motivationCards = getMotivationCards(
     selectedFeelings,
     selectedObstacles,
     selectedInFavor,
-    area
+    area,
+    3, // maxCards
+    tipGoals,
+    tipMechanisms
   );
   const activeMotivationCard = motivationCards.find(c => c.id === activeCard);
 

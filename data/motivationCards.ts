@@ -997,7 +997,9 @@ function cardMatchesSelections(
   selectedFeelings: string[],
   selectedObstacles: string[],
   selectedHelpers: string[],
-  area: string
+  area: string,
+  tipGoals?: string[],
+  tipMechanisms?: string[]
 ): boolean {
   const { triggers } = card;
 
@@ -1033,12 +1035,26 @@ function cardMatchesSelections(
     }
   }
 
+  // Check tip-based triggers (goals and mechanisms from the current tip)
+  if (tipGoals && tipGoals.length > 0 && triggers.tipGoals && triggers.tipGoals.length > 0) {
+    if (triggers.tipGoals.some(g => tipGoals.includes(g))) {
+      hasMatch = true;
+    }
+  }
+
+  if (tipMechanisms && tipMechanisms.length > 0 && triggers.tipMechanisms && triggers.tipMechanisms.length > 0) {
+    if (triggers.tipMechanisms.some(m => tipMechanisms.includes(m))) {
+      hasMatch = true;
+    }
+  }
+
   return hasMatch;
 }
 
-// Normalize area name (handle 'exercise' -> 'fitness' mapping)
+// Normalize area name (handle mappings like 'exercise' -> 'fitness', 'eating' -> 'nutrition')
 function normalizeArea(area: string): string {
   if (area === 'exercise') return 'fitness';
+  if (area === 'eating') return 'nutrition';
   return area;
 }
 
@@ -1056,6 +1072,8 @@ function isNutritionFallback(area: string): boolean {
  * @param selectedHelpers - Array of selected helper IDs (e.g., ['healthy_food', 'hydrated'])
  * @param area - The current tip/experiment area (e.g., 'nutrition', 'fitness')
  * @param maxCards - Maximum number of cards to return (default: 3)
+ * @param tipGoals - Optional: goals from the current tip (e.g., ['craving_management', 'reduce_sugar'])
+ * @param tipMechanisms - Optional: mechanisms from the current tip (e.g., ['craving_substitution', 'sensory'])
  * @returns Array of matching MotivationCard objects, sorted by priority
  */
 export function getMotivationCards(
@@ -1063,7 +1081,9 @@ export function getMotivationCards(
   selectedObstacles: string[],
   selectedHelpers: string[],
   area: string,
-  maxCards: number = 3
+  maxCards: number = 3,
+  tipGoals?: string[],
+  tipMechanisms?: string[]
 ): MotivationCard[] {
   const normalizedArea = normalizeArea(area);
 
@@ -1076,7 +1096,9 @@ export function getMotivationCards(
       selectedFeelings,
       selectedObstacles,
       selectedHelpers,
-      effectiveArea
+      effectiveArea,
+      tipGoals,
+      tipMechanisms
     ))
     .map(({ triggers, ...cardWithoutTriggers }) => cardWithoutTriggers) // Remove triggers from output
     .sort((a, b) => b.priority - a.priority)
@@ -1087,3 +1109,1018 @@ export function getMotivationCards(
 
 // Export the type for use in components
 export type { MotivationCard as MotivationCardOutput };
+
+// ============================================
+// TIP-SPECIFIC MOTIVATION CARDS
+// These cards are designed to pair with specific nutrition tips
+// and include full CardAttributes for pattern detection
+// ============================================
+
+export const TIP_SPECIFIC_CARDS: MotivationCardDefinition[] = [
+  // ============================================
+  // CRAVINGS & CRUNCH-RELATED CARDS
+  // For tips about snack swaps, crunchy alternatives
+  // ============================================
+  {
+    id: 'craving-texture-quiz',
+    type: 'quiz',
+    icon: 'help-circle-outline',
+    iconBg: '#fce7f3',
+    iconColor: '#db2777',
+    title: 'Craving Detective',
+    text: "Is it the taste you want, or the texture? Let's figure it out.",
+    priority: 12,
+    triggers: {
+      obstacles: ['cravings', 'boredom'],
+      areas: ['nutrition'],
+      tipGoals: ['reduce_sugar', 'weight_loss', 'less_processed_food'],
+      tipMechanisms: ['sensory']
+    },
+    modalContent: {
+      title: "What Are You Really Craving?",
+      question: "Close your eyes and imagine eating chips. What part feels most satisfying?",
+      options: [
+        { id: 'crunch', text: "The satisfying CRUNCH", correct: true },
+        { id: 'salt', text: "The salty flavor", correct: false },
+        { id: 'hand', text: "Having something to do with my hands", correct: false },
+        { id: 'all', text: "All of the above!", correct: false }
+      ],
+      answerExplanation: "If it's the crunch, try carrots, snap peas, or air-popped popcorn. If it's salt, try pickles or seaweed snacks. If it's hand-to-mouth motion, try sunflower seeds in the shell - they slow you down!",
+      buttonText: "Now I know!"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'self-discovery',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+  {
+    id: 'crunch-satisfaction-fact',
+    type: 'fact',
+    icon: 'ear-outline',
+    iconBg: '#dbeafe',
+    iconColor: '#2563eb',
+    title: 'Crunch Science',
+    text: "The sound of crunching actually makes food taste better. Your brain is wired for it!",
+    priority: 9,
+    triggers: {
+      obstacles: ['cravings'],
+      areas: ['nutrition'],
+      tipMechanisms: ['sensory']
+    },
+    modalContent: {
+      title: "The Sound of Satisfaction",
+      description: "Researchers call it the 'crunch effect'.",
+      mainText: "Studies show the louder the crunch, the more satisfying the food feels. That's why chips are so addictive!\n\nGood news: Carrots, celery, apples, and snap peas deliver serious crunch with way more nutrition. Your brain gets the satisfaction without the regret.",
+      buttonText: "Mind blown"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'craving-delay-tool',
+    type: 'tool',
+    icon: 'timer-outline',
+    iconBg: '#d1fae5',
+    iconColor: '#059669',
+    title: '5-Minute Delay',
+    text: "Try this quick technique before giving in to a craving.",
+    priority: 11,
+    triggers: {
+      obstacles: ['cravings', 'urge_to_binge'],
+      areas: ['nutrition'],
+      tipGoals: ['reduce_sugar', 'weight_loss']
+    },
+    modalContent: {
+      title: "The 5-Minute Craving Delay",
+      description: "Cravings peak and pass. This tool helps you ride the wave.",
+      mainText: "1. Set a timer for 5 minutes\n2. Leave the room with the food\n3. Do something engaging (text a friend, scroll social media, stretch)\n4. When the timer goes off, check in: Still want it?\n\nIf yes, have a small portion mindfully. No guilt. The point is breaking the automatic response.",
+      buttonText: "Starting timer"
+    },
+    attributes: {
+      tone: 'gentle',
+      science_depth: 'light',
+      duration: 'medium',
+      category: 'distraction',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+
+  // ============================================
+  // HYDRATION & THIRST CARDS
+  // For tips about drinking water, water before meals
+  // ============================================
+  {
+    id: 'thirst-hunger-science',
+    type: 'fact',
+    icon: 'water-outline',
+    iconBg: '#dbeafe',
+    iconColor: '#2563eb',
+    title: 'Thirst in Disguise',
+    text: "37% of people mistake thirst for hunger. Your brain literally confuses the signals.",
+    priority: 10,
+    triggers: {
+      obstacles: ['thirsty', 'cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['improve_hydration', 'weight_loss']
+    },
+    modalContent: {
+      title: "The Hydration Hack",
+      description: "The hypothalamus controls both hunger and thirst - and sometimes gets them mixed up.",
+      mainText: "Before reaching for a snack, try this:\n\n1. Drink a full glass of water\n2. Wait 15 minutes\n3. Check in: Still hungry?\n\nOften the 'hunger' disappears! This simple test can prevent hundreds of unnecessary calories.",
+      buttonText: "I'll try it"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'water-timing-strategy',
+    type: 'strategy',
+    icon: 'time-outline',
+    iconBg: '#d1fae5',
+    iconColor: '#059669',
+    title: 'Water Timing',
+    text: "When you drink matters almost as much as how much you drink.",
+    priority: 8,
+    triggers: {
+      helpers: ['hydrated'],
+      areas: ['nutrition'],
+      tipGoals: ['improve_hydration']
+    },
+    modalContent: {
+      title: "Strategic Hydration",
+      description: "Timing your water can boost its benefits.",
+      mainText: "• Morning: Drink water before coffee to rehydrate after sleep\n• Before meals: Helps with portion control\n• During exercise: Sip every 15-20 minutes\n• Evening: Taper off 2 hours before bed\n\nYou're not just drinking water - you're optimizing it!",
+      buttonText: "Smart!"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+
+  // ============================================
+  // EMOTIONAL & BOREDOM EATING CARDS
+  // For tips about mindful eating, emotional triggers
+  // ============================================
+  {
+    id: 'emotional-eating-reframe',
+    type: 'reframe',
+    icon: 'heart-outline',
+    iconBg: '#fce7f3',
+    iconColor: '#db2777',
+    title: 'Food & Feelings',
+    text: "Using food for comfort isn't weakness - it's your brain trying to help you.",
+    priority: 10,
+    triggers: {
+      obstacles: ['emotional', 'stress_eating', 'comfort_food_pull'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "Why We Comfort Eat",
+      description: "It's biology, not weakness.",
+      mainText: "When stressed, your brain seeks dopamine - and food delivers. That's not a character flaw, it's evolution.\n\nThe goal isn't to never comfort eat. It's to:\n• Notice when you're doing it\n• Ask what you really need\n• Sometimes choose food anyway, mindfully\n\nCompassion works better than willpower.",
+      buttonText: "I needed that"
+    },
+    attributes: {
+      tone: 'gentle',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'reframe',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'boredom-eating-quiz',
+    type: 'quiz',
+    icon: 'game-controller-outline',
+    iconBg: '#ede9fe',
+    iconColor: '#7c3aed',
+    title: 'Boredom Check',
+    text: "Is your body asking for food, or is your brain asking for stimulation?",
+    priority: 11,
+    triggers: {
+      obstacles: ['boredom', 'mindless_eating'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "The Boredom Test",
+      question: "Would an apple sound good right now?",
+      options: [
+        { id: 'yes', text: "Yes, I'd eat an apple", correct: true },
+        { id: 'no', text: "No, I want something specific", correct: false }
+      ],
+      answerExplanation: "If you'd eat an apple, you're genuinely hungry - eat something! If only specific treats sound good, you're probably bored or craving stimulation. Try: a 5-minute walk, texting a friend, or a quick game on your phone.",
+      buttonText: "Makes sense"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'self-discovery',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+  {
+    id: 'mindless-eating-tool',
+    type: 'tool',
+    icon: 'eye-outline',
+    iconBg: '#fef3c7',
+    iconColor: '#d97706',
+    title: 'First Three Bites',
+    text: "A quick mindfulness technique that changes how you experience food.",
+    priority: 9,
+    triggers: {
+      obstacles: ['mindless_eating', 'speed_eating'],
+      areas: ['nutrition'],
+      tipMechanisms: ['sensory']
+    },
+    modalContent: {
+      title: "The First Three Bites",
+      description: "Most of our enjoyment happens in the first few bites. After that, we're often just... eating.",
+      mainText: "Try this:\n1. Before eating, take 3 deep breaths\n2. Really notice your first bite - temperature, texture, flavor\n3. Do the same for bites 2 and 3\n4. After that, eat normally\n\nThis 30-second practice often leads to eating less while enjoying more.",
+      buttonText: "I'll try it now"
+    },
+    attributes: {
+      tone: 'gentle',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'mindfulness',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+
+  // ============================================
+  // MEAL PREP & PLANNING CARDS
+  // For tips about batch cooking, leftovers, prep
+  // ============================================
+  {
+    id: 'meal-prep-motivation',
+    type: 'encouragement',
+    icon: 'restaurant-outline',
+    iconBg: '#dcfce7',
+    iconColor: '#16a34a',
+    title: 'Future You Thanks You',
+    text: "Every meal you prep is a gift to your future self. That's not cheesy, it's science.",
+    priority: 8,
+    triggers: {
+      helpers: ['leftovers', 'meal_prepped'],
+      areas: ['nutrition'],
+      tipMechanisms: ['convenience']
+    },
+    modalContent: {
+      title: "The Prep Payoff",
+      description: "Decision fatigue is real. You make ~200 food decisions daily.",
+      mainText: "When you prep ahead, you're not just saving time. You're:\n• Removing decisions when willpower is low\n• Making the healthy choice the easy choice\n• Protecting yourself from 'hangry' decisions\n\nThis is playing chess while everyone else plays checkers.",
+      buttonText: "Go me!"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'encouragement',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'batch-cooking-fact',
+    type: 'fact',
+    icon: 'layers-outline',
+    iconBg: '#dbeafe',
+    iconColor: '#2563eb',
+    title: 'Batch Power',
+    text: "People who meal prep are 2x more likely to maintain a healthy weight.",
+    priority: 8,
+    triggers: {
+      helpers: ['meal_prepped'],
+      areas: ['nutrition'],
+      tipGoals: ['weight_loss']
+    },
+    modalContent: {
+      title: "The Research Is Clear",
+      description: "Meal preppers consistently outperform non-preppers.",
+      mainText: "Studies show meal preppers:\n• Eat more fruits and vegetables\n• Consume less fast food\n• Have better diet quality overall\n• Spend less money on food\n\nYou're not just cooking - you're stacking the odds in your favor.",
+      buttonText: "Science win!"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+
+  // ============================================
+  // SUGAR & SWEET CRAVINGS CARDS
+  // For tips about reducing sugar, sweet alternatives
+  // ============================================
+  {
+    id: 'sugar-craving-science',
+    type: 'fact',
+    icon: 'cube-outline',
+    iconBg: '#fce7f3',
+    iconColor: '#db2777',
+    title: 'Sugar Brain',
+    text: "Sugar lights up the same brain regions as addictive substances. You're not weak - you're wired.",
+    priority: 10,
+    triggers: {
+      obstacles: ['sugar_cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['reduce_sugar']
+    },
+    modalContent: {
+      title: "Why Sugar Is So Hard to Resist",
+      description: "Sugar activates your brain's reward center - hard.",
+      mainText: "MRI studies show sugar triggers dopamine release similar to addictive drugs. That's not a metaphor - it's neuroscience.\n\nGood news: Your taste buds adapt. After 2-3 weeks of reduced sugar, foods taste sweeter and cravings decrease.\n\nYou're not fighting weakness. You're rewiring your brain.",
+      buttonText: "I can do this"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'deep',
+      duration: 'medium',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'sweet-swap-strategy',
+    type: 'strategy',
+    icon: 'swap-horizontal-outline',
+    iconBg: '#d1fae5',
+    iconColor: '#059669',
+    title: 'Sweet Swap Ladder',
+    text: "You don't have to go from candy to carrots. There's a ladder.",
+    priority: 9,
+    triggers: {
+      obstacles: ['sugar_cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['reduce_sugar']
+    },
+    modalContent: {
+      title: "The Sweetness Ladder",
+      description: "Gradual is sustainable. Cold turkey often fails.",
+      mainText: "Instead of eliminating sweets, try stepping down:\n\n• Candy → Dark chocolate\n• Ice cream → Frozen yogurt → Frozen banana\n• Soda → Juice + sparkling water → Flavored water\n• Cookies → Dates with nut butter → Apple with cinnamon\n\nEach step trains your taste buds while still satisfying the craving.",
+      buttonText: "Doable!"
+    },
+    attributes: {
+      tone: 'gentle',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+
+  // ============================================
+  // PORTION CONTROL CARDS
+  // For tips about eating less, hunger scales
+  // ============================================
+  {
+    id: 'portion-visual-fact',
+    type: 'fact',
+    icon: 'hand-right-outline',
+    iconBg: '#ffedd5',
+    iconColor: '#ea580c',
+    title: 'Plate Illusion',
+    text: "Smaller plates make portions look bigger. Your brain literally can't tell the difference.",
+    priority: 8,
+    triggers: {
+      obstacles: ['portion_control'],
+      areas: ['nutrition'],
+      tipGoals: ['weight_loss'],
+      tipMechanisms: ['decision_ease']
+    },
+    modalContent: {
+      title: "The Delboeuf Illusion",
+      description: "Your eyes deceive you at every meal.",
+      mainText: "The same portion looks:\n• Small on a 12-inch plate\n• Satisfying on a 9-inch plate\n\nStudies show people served themselves 22% less when using smaller plates - without feeling deprived.\n\nYou don't need more willpower. You need smaller plates.",
+      buttonText: "Mind hack!"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'hunger-scale-tool',
+    type: 'tool',
+    icon: 'thermometer-outline',
+    iconBg: '#e0e7ff',
+    iconColor: '#4f46e5',
+    title: 'Hunger Scale Check',
+    text: "Rate your hunger 1-10 before eating. It takes 30 seconds but changes everything.",
+    priority: 9,
+    triggers: {
+      helpers: ['listening_to_body'],
+      areas: ['nutrition'],
+      tipMechanisms: ['sensory']
+    },
+    modalContent: {
+      title: "The 1-10 Hunger Scale",
+      description: "Eat when you're at 3-4, stop at 6-7. Simple but powerful.",
+      mainText: "Before eating, ask: 'Where am I?'\n\n1-2: Ravenous, shaky\n3-4: Hungry, ready to eat ← Start here\n5: Neutral\n6-7: Satisfied, comfortable ← Stop here\n8-10: Stuffed, uncomfortable\n\nMost people eat at 1-2 and stop at 8-9. Shifting this window changes everything.",
+      buttonText: "Checking in now"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'self-discovery',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+
+  // ============================================
+  // VEGGIE & HEALTHY FOOD CARDS
+  // For tips about sneaking veggies, eating more plants
+  // ============================================
+  {
+    id: 'hidden-veggie-strategy',
+    type: 'strategy',
+    icon: 'leaf-outline',
+    iconBg: '#dcfce7',
+    iconColor: '#16a34a',
+    title: 'Veggie Stealth Mode',
+    text: "The best veggie is the one you don't notice. Here's how to hide them.",
+    priority: 8,
+    triggers: {
+      areas: ['nutrition'],
+      tipGoals: ['increase_veggies'],
+      tipMechanisms: ['convenience']
+    },
+    modalContent: {
+      title: "Sneaky Veggie Wins",
+      description: "You don't have to love vegetables. You just have to eat them.",
+      mainText: "Invisible veggie hacks:\n• Blend spinach into smoothies (you can't taste it)\n• Grate zucchini into pasta sauce\n• Add cauliflower to mac and cheese\n• Purée white beans into soups\n• Mash sweet potato into brownies\n\nNo one said you have to taste them to get the benefits!",
+      buttonText: "Sneaky!"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'fiber-fullness-fact',
+    type: 'fact',
+    icon: 'cellular-outline',
+    iconBg: '#d1fae5',
+    iconColor: '#059669',
+    title: 'Fiber Magic',
+    text: "Fiber is basically a cheat code for feeling full longer.",
+    priority: 8,
+    triggers: {
+      helpers: ['healthy_food'],
+      areas: ['nutrition'],
+      tipGoals: ['increase_veggies', 'improve_gut_health']
+    },
+    modalContent: {
+      title: "The Fullness Fiber",
+      description: "Fiber slows digestion, stabilizes blood sugar, and feeds good gut bacteria.",
+      mainText: "High-fiber foods keep you satisfied because:\n• They take longer to chew\n• They absorb water and expand in your stomach\n• They slow glucose absorption (no crash)\n• They feed bacteria that signal fullness\n\nBonus: Most people eat half the fiber they need. Easy win!",
+      buttonText: "Fiber it up"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+
+  // ============================================
+  // SOCIAL EATING CARDS
+  // For tips about eating at events, restaurants
+  // ============================================
+  {
+    id: 'social-eating-strategy',
+    type: 'strategy',
+    icon: 'people-outline',
+    iconBg: '#e0e7ff',
+    iconColor: '#4f46e5',
+    title: 'Party Survival',
+    text: "You can enjoy the party without derailing your progress. It's about strategy, not willpower.",
+    priority: 10,
+    triggers: {
+      obstacles: ['social_eating', 'celebration'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "The Social Eating Playbook",
+      description: "Events don't have to mean overeating.",
+      mainText: "Before: Eat a protein-rich snack. Never arrive starving.\n\nDuring:\n• Scout the food first, then choose\n• Hold a drink in your dominant hand\n• Stand away from the food table\n• Focus on people, not plates\n\nAfter: Return to normal immediately. One event doesn't define your week.",
+      buttonText: "Game plan ready"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'restaurant-ordering-tip',
+    type: 'tip',
+    icon: 'restaurant-outline',
+    iconBg: '#ffedd5',
+    iconColor: '#ea580c',
+    title: 'Order First',
+    text: "The person who orders first at a restaurant makes the healthiest choice. Be that person.",
+    priority: 8,
+    triggers: {
+      obstacles: ['social_eating'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "The First Order Effect",
+      description: "Social pressure is real. Use it to your advantage.",
+      mainText: "Research shows:\n• Ordering first prevents 'menu envy'\n• You're less influenced by others' choices\n• Saying it out loud commits you to it\n\nPro move: Check the menu online before you go. Decide in advance. Order first. Done.",
+      buttonText: "Power move"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+
+  // ============================================
+  // LATE NIGHT EATING CARDS
+  // For tips about night snacking
+  // ============================================
+  {
+    id: 'night-eating-reframe',
+    type: 'reframe',
+    icon: 'moon-outline',
+    iconBg: '#312e81',
+    iconColor: '#c7d2fe',
+    title: 'Night Owl Truth',
+    text: "Late night hunger often isn't hunger at all. It's procrastination, boredom, or tiredness in disguise.",
+    priority: 10,
+    triggers: {
+      obstacles: ['late_night_cravings'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "Decoding Night Cravings",
+      description: "Your body confuses signals at night.",
+      mainText: "Ask yourself:\n• Am I procrastinating sleep?\n• Am I actually tired?\n• Am I bored with what I'm watching/doing?\n• Did I eat enough during the day?\n\nOften the answer isn't food - it's bed, a better show, or a daytime eating fix.",
+      buttonText: "Good point"
+    },
+    attributes: {
+      tone: 'gentle',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'reframe',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'kitchen-closed-strategy',
+    type: 'strategy',
+    icon: 'lock-closed-outline',
+    iconBg: '#fee2e2',
+    iconColor: '#ef4444',
+    title: 'Kitchen Closed',
+    text: "Set a 'kitchen closes at X' time. It's not about willpower - it's about rules.",
+    priority: 9,
+    triggers: {
+      obstacles: ['late_night_cravings', 'night_snacking'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "The Kitchen Closes Rule",
+      description: "Decisions are easier when they're already made.",
+      mainText: "Pick a time (8pm, 9pm) when the kitchen 'closes'.\n\nAfter that:\n• Brush your teeth (signals 'eating done')\n• Tea or water only\n• If truly hungry, a small protein snack is okay\n\nThe point isn't perfection - it's removing the nightly negotiation with yourself.",
+      buttonText: "Setting my time"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+
+  // ============================================
+  // ENERGY & AFTERNOON SLUMP CARDS
+  // For tips about maintaining energy
+  // ============================================
+  {
+    id: 'afternoon-slump-science',
+    type: 'fact',
+    icon: 'sunny-outline',
+    iconBg: '#fef3c7',
+    iconColor: '#d97706',
+    title: '3pm Crash',
+    text: "That afternoon slump is predictable - and preventable. It's biology, not laziness.",
+    priority: 9,
+    triggers: {
+      obstacles: ['afternoon_slump'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "Why 3pm Hits Hard",
+      description: "Your circadian rhythm naturally dips in the afternoon.",
+      mainText: "The 'post-lunch dip' is caused by:\n• Natural circadian rhythm (siesta time!)\n• Blood sugar drop from lunch\n• Dehydration building up\n\nFixes:\n1. Drink water first\n2. Take a 5-min walk\n3. Have a protein snack, NOT sugar\n\nSugar gives a 15-min boost, then crashes you harder.",
+      buttonText: "Makes sense"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'energy-food-tip',
+    type: 'tip',
+    icon: 'flash-outline',
+    iconBg: '#dcfce7',
+    iconColor: '#16a34a',
+    title: 'Energy Foods',
+    text: "Not all foods give you energy. Some steal it. Here's the cheat sheet.",
+    priority: 8,
+    triggers: {
+      helpers: ['good_energy'],
+      areas: ['nutrition']
+    },
+    modalContent: {
+      title: "Energy Givers vs. Energy Takers",
+      description: "What you eat determines how you feel 2 hours later.",
+      mainText: "Energy GIVERS:\n• Protein (eggs, nuts, Greek yogurt)\n• Complex carbs (oats, whole grain)\n• Fiber + fat combos\n\nEnergy TAKERS:\n• Simple sugars (crash incoming)\n• Large portions (blood goes to digestion)\n• High-fat + high-carb combos\n\nPlan your energy, don't react to it.",
+      buttonText: "Energy cheat sheet"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  }
+];
+
+// ============================================
+// DOPPELGANGER TIP SPECIFIC CARDS
+// For the "Find a healthier doppelganger for your strongest craving" tip
+// Tip ID: 9f34f055-f5d0-434a-94c4-7127415321f6
+// ============================================
+
+export const DOPPELGANGER_TIP_CARDS: MotivationCardDefinition[] = [
+  {
+    id: 'doppelganger-decode-quiz',
+    type: 'quiz',
+    icon: 'search-outline',
+    iconBg: '#fce7f3',
+    iconColor: '#db2777',
+    title: 'Craving Decoder',
+    text: "What's the REAL reason you want that food? Let's decode it.",
+    priority: 12,
+    triggers: {
+      obstacles: ['cravings', 'sugar_cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management', 'less_processed_food'],
+      tipMechanisms: ['craving_substitution', 'sensory']
+    },
+    modalContent: {
+      title: "Decode Your Craving",
+      question: "Think about your craving. What's the MAIN thing that sounds satisfying?",
+      options: [
+        { id: 'texture', text: "The texture (crunchy, creamy, chewy)", correct: true },
+        { id: 'temp', text: "The temperature (cold, warm, hot)", correct: false },
+        { id: 'flavor', text: "The flavor (sweet, salty, savory)", correct: false },
+        { id: 'ritual', text: "The ritual (unwrapping, scooping, dipping)", correct: false }
+      ],
+      answerExplanation: "Great! Now you can find a healthier 'twin' that matches that same quality. Craving crunchy chips? Try snap peas or popcorn. Creamy ice cream? Try frozen banana 'nice cream'. The key is matching the sensory experience!",
+      buttonText: "Now I get it!"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'self-discovery',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+  {
+    id: 'doppelganger-swap-guide',
+    type: 'strategy',
+    icon: 'swap-horizontal-outline',
+    iconBg: '#d1fae5',
+    iconColor: '#059669',
+    title: 'Swap Cheat Sheet',
+    text: "The ultimate craving-to-doppelganger translation guide.",
+    priority: 11,
+    triggers: {
+      obstacles: ['cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management', 'less_processed_food'],
+      tipMechanisms: ['craving_substitution']
+    },
+    modalContent: {
+      title: "Craving → Doppelganger Swaps",
+      description: "Match the sensory experience, upgrade the nutrition.",
+      mainText: "🍦 COLD & CREAMY\nIce cream → Frozen banana 'nice cream'\nMilkshake → Protein smoothie\n\n🥨 CRUNCHY & SALTY\nChips → Air-popped popcorn, seaweed snacks\nPretzels → Roasted chickpeas, snap peas\n\n🍫 SWEET & RICH\nCandy → Frozen grapes, dark chocolate\nCookies → Dates with almond butter\n\n🧀 SAVORY & SATISFYING\nCheese puffs → Cheese crisps, nuts\nFries → Baked sweet potato wedges",
+      buttonText: "Saving this!"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'light',
+      duration: 'medium',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'doppelganger-science',
+    type: 'fact',
+    icon: 'bulb-outline',
+    iconBg: '#dbeafe',
+    iconColor: '#2563eb',
+    title: 'Why Swaps Work',
+    text: "Your brain cares more about the experience than the exact food. Science says so.",
+    priority: 10,
+    triggers: {
+      areas: ['nutrition'],
+      tipGoals: ['craving_management'],
+      tipMechanisms: ['craving_substitution', 'sensory']
+    },
+    modalContent: {
+      title: "The Science of Satisfaction",
+      description: "Cravings are often about sensory experiences, not specific foods.",
+      mainText: "Research shows that cravings have distinct 'signatures':\n\n• Texture cravings (crunch, creaminess)\n• Temperature cravings (cold, warm)\n• Flavor cravings (sweet, salty, umami)\n• Mouthfeel cravings (chewy, smooth)\n\nWhen you match 2-3 of these qualities with a healthier option, your brain often can't tell the difference! It gets the satisfaction without knowing it's been 'tricked'.",
+      buttonText: "Mind = blown"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'moderate',
+      duration: 'quick',
+      category: 'education',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'doppelganger-experiment-tool',
+    type: 'tool',
+    icon: 'flask-outline',
+    iconBg: '#ede9fe',
+    iconColor: '#7c3aed',
+    title: 'Swap Experiment',
+    text: "Try this 3-step method to find your perfect doppelganger.",
+    priority: 11,
+    triggers: {
+      obstacles: ['cravings', 'sugar_cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management'],
+      tipMechanisms: ['craving_substitution', 'autonomy']
+    },
+    modalContent: {
+      title: "The Doppelganger Experiment",
+      description: "Finding the right swap takes a little trial and error. Here's how:",
+      mainText: "Step 1: IDENTIFY\nWhat's the craving? Write down 2-3 qualities that make it satisfying (crunchy, salty, cold, etc.)\n\nStep 2: TEST\nTry 2-3 healthier options that match those qualities. Rate each 1-10 on satisfaction.\n\nStep 3: STOCK\nWhen you find one that scores 7+, keep it stocked! A good doppelganger only works if it's available.\n\nPro tip: It doesn't need to be a 10. A 7 that's always there beats a 10 you have to make.",
+      buttonText: "Starting my experiment"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'light',
+      duration: 'medium',
+      category: 'self-discovery',
+      requires_privacy: false,
+      requires_action: true
+    }
+  },
+  {
+    id: 'doppelganger-not-deprivation',
+    type: 'reframe',
+    icon: 'heart-outline',
+    iconBg: '#fef3c7',
+    iconColor: '#d97706',
+    title: "It's Not About 'Less'",
+    text: "Finding a doppelganger isn't about deprivation. It's about getting smarter.",
+    priority: 9,
+    triggers: {
+      obstacles: ['cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management'],
+      tipMechanisms: ['autonomy']
+    },
+    modalContent: {
+      title: "Swapping ≠ Suffering",
+      description: "This isn't about willpower or saying no. It's about saying yes... differently.",
+      mainText: "The goal isn't to never have what you crave. It's to:\n\n✓ Satisfy the craving more often with something better\n✓ Save the 'real thing' for when it really matters\n✓ Stop the guilt-craving-binge cycle\n\nA good doppelganger means you can say YES to the craving without the regret. That's freedom, not restriction.",
+      buttonText: "I like that"
+    },
+    attributes: {
+      tone: 'gentle',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'reframe',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'doppelganger-frozen-grape-hack',
+    type: 'tip',
+    icon: 'snow-outline',
+    iconBg: '#dbeafe',
+    iconColor: '#2563eb',
+    title: 'Frozen Grape Hack',
+    text: "The easiest doppelganger ever: frozen grapes taste like candy.",
+    priority: 8,
+    triggers: {
+      obstacles: ['sugar_cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management', 'reduce_sugar']
+    },
+    modalContent: {
+      title: "The 2-Minute Candy Doppelganger",
+      description: "No prep, no recipe, just freeze and eat.",
+      mainText: "Wash grapes, spread on a tray, freeze for 2 hours.\n\nWhy it works:\n• Cold intensifies sweetness\n• You have to eat them slowly (frozen!)\n• The 'pop' when you bite is satisfying\n• They feel like a treat, not health food\n\nBonus swaps:\n• Frozen banana slices = ice cream bites\n• Frozen mango = tropical candy\n• Frozen blueberries = mini popsicles",
+      buttonText: "Freezing some now!"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'doppelganger-crunch-alternatives',
+    type: 'tip',
+    icon: 'volume-high-outline',
+    iconBg: '#dcfce7',
+    iconColor: '#16a34a',
+    title: 'Crunch Without Chips',
+    text: "Missing that satisfying crunch? These swaps deliver.",
+    priority: 8,
+    triggers: {
+      obstacles: ['cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management', 'less_processed_food'],
+      tipMechanisms: ['sensory']
+    },
+    modalContent: {
+      title: "The Crunch Collection",
+      description: "Your chip-replacement lineup.",
+      mainText: "SALTY CRUNCH:\n• Seaweed snacks (crazy satisfying)\n• Rice cakes with everything bagel seasoning\n• Roasted chickpeas\n• Pickles (zero calories, max crunch)\n\nSWEET CRUNCH:\n• Apple slices with cinnamon\n• Freeze-dried fruit\n• Dark chocolate rice cakes\n\nVEGGIE CRUNCH:\n• Snap peas + hummus\n• Jicama sticks\n• Bell pepper strips\n• Cucumber with tajin",
+      buttonText: "Adding to grocery list"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'doppelganger-80-percent-rule',
+    type: 'strategy',
+    icon: 'pie-chart-outline',
+    iconBg: '#e0e7ff',
+    iconColor: '#4f46e5',
+    title: 'The 80% Rule',
+    text: "You don't need a perfect swap. 80% as good is good enough.",
+    priority: 9,
+    triggers: {
+      obstacles: ['cravings'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management']
+    },
+    modalContent: {
+      title: "Good Enough > Perfect",
+      description: "Waiting for the perfect doppelganger? Stop.",
+      mainText: "A swap that's 80% as satisfying works if:\n• It's always available\n• It's easy to grab\n• You actually like it\n\nThe math:\nPerfect swap you don't have = 0% satisfaction\n80% swap in your fridge = 80% satisfaction\n\nStock what's good enough. Save the 'real thing' for special occasions when it really matters.",
+      buttonText: "80% it is"
+    },
+    attributes: {
+      tone: 'neutral',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'doppelganger-name-it',
+    type: 'encouragement',
+    icon: 'pricetag-outline',
+    iconBg: '#fce7f3',
+    iconColor: '#db2777',
+    title: 'Name Your Swap',
+    text: "Give your doppelganger a fun name. It makes it feel more special.",
+    priority: 7,
+    triggers: {
+      helpers: ['simple_swaps'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management']
+    },
+    modalContent: {
+      title: "Make It Yours",
+      description: "A named swap becomes a thing you DO, not a thing you're missing.",
+      mainText: "Examples from real people:\n\n• 'Nice cream' (frozen banana ice cream)\n• 'Sir Crunch-a-Lot' (their go-to crunchy snack)\n• 'Choco-fix' (dark chocolate squares)\n• 'Frosty grapes' (frozen grape stash)\n• 'The good stuff' (their upgraded version)\n\nNaming it makes it YOUR thing - not a sad substitute. It's psychology in action!",
+      buttonText: "Love this"
+    },
+    attributes: {
+      tone: 'playful',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'encouragement',
+      requires_privacy: false,
+      requires_action: false
+    }
+  },
+  {
+    id: 'doppelganger-stock-strategy',
+    type: 'strategy',
+    icon: 'cube-outline',
+    iconBg: '#ffedd5',
+    iconColor: '#ea580c',
+    title: 'Stock the Swap',
+    text: "A swap only works if it's there when you need it. Here's how to stay ready.",
+    priority: 8,
+    triggers: {
+      helpers: ['healthy_food', 'meal_prepped'],
+      areas: ['nutrition'],
+      tipGoals: ['craving_management'],
+      tipMechanisms: ['convenience']
+    },
+    modalContent: {
+      title: "Always Be Stocked",
+      description: "The best swap in the world fails if it's not in your kitchen.",
+      mainText: "The Doppelganger Prep System:\n\n1. IDENTIFY your top 3 cravings\n2. FIND a swap for each one\n3. ADD them to your standard grocery list\n4. PREP them so they're grab-ready\n   (wash grapes, portion nuts, make popcorn)\n5. PLACE them where you'll see them first\n\nWhen the craving hits at 9pm, you won't have time to prep. Do it in advance.",
+      buttonText: "Prepping now"
+    },
+    attributes: {
+      tone: 'energizing',
+      science_depth: 'light',
+      duration: 'quick',
+      category: 'strategy',
+      requires_privacy: false,
+      requires_action: true
+    }
+  }
+];
+
+// Add tip-specific cards to the main array
+MOTIVATION_CARDS.push(...TIP_SPECIFIC_CARDS);
+MOTIVATION_CARDS.push(...DOPPELGANGER_TIP_CARDS);
