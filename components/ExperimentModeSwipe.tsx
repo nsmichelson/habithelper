@@ -1290,38 +1290,6 @@ export default function ExperimentModeSwipe({
                     {card.text}
                   </Text>
                 </TouchableOpacity>
-                {/* Feedback row */}
-                <View style={styles.cardFeedbackRow}>
-                  <Text style={styles.cardFeedbackLabel}>Helpful?</Text>
-                  <View style={styles.cardFeedbackButtons}>
-                    <TouchableOpacity
-                      onPress={() => handleCardFeedback(card.id, true)}
-                      style={[
-                        styles.cardFeedbackButton,
-                        cardFeedback[card.id] === 'helpful' && styles.cardFeedbackButtonActive
-                      ]}
-                    >
-                      <Ionicons
-                        name={cardFeedback[card.id] === 'helpful' ? 'thumbs-up' : 'thumbs-up-outline'}
-                        size={16}
-                        color={cardFeedback[card.id] === 'helpful' ? '#10b981' : '#9ca3af'}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => handleCardFeedback(card.id, false)}
-                      style={[
-                        styles.cardFeedbackButton,
-                        cardFeedback[card.id] === 'not_helpful' && styles.cardFeedbackButtonActiveNegative
-                      ]}
-                    >
-                      <Ionicons
-                        name={cardFeedback[card.id] === 'not_helpful' ? 'thumbs-down' : 'thumbs-down-outline'}
-                        size={16}
-                        color={cardFeedback[card.id] === 'not_helpful' ? '#ef4444' : '#9ca3af'}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
               </View>
             ))}
 
@@ -1516,6 +1484,39 @@ export default function ExperimentModeSwipe({
                     <Text style={styles.quizDoneButtonText}>{activeMotivationCard.modalContent.buttonText || 'Got it'}</Text>
                   </LinearGradient>
                 </TouchableOpacity>
+
+                {/* Feedback row inside modal */}
+                <View style={styles.modalFeedbackRow}>
+                  <Text style={styles.modalFeedbackLabel}>Was this helpful?</Text>
+                  <View style={styles.modalFeedbackButtons}>
+                    <TouchableOpacity
+                      onPress={() => handleCardFeedback(activeMotivationCard.id, true)}
+                      style={[
+                        styles.modalFeedbackButton,
+                        cardFeedback[activeMotivationCard.id] === 'helpful' && styles.modalFeedbackButtonActive
+                      ]}
+                    >
+                      <Ionicons
+                        name={cardFeedback[activeMotivationCard.id] === 'helpful' ? 'thumbs-up' : 'thumbs-up-outline'}
+                        size={20}
+                        color={cardFeedback[activeMotivationCard.id] === 'helpful' ? '#10b981' : '#9ca3af'}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handleCardFeedback(activeMotivationCard.id, false)}
+                      style={[
+                        styles.modalFeedbackButton,
+                        cardFeedback[activeMotivationCard.id] === 'not_helpful' && styles.modalFeedbackButtonActiveNegative
+                      ]}
+                    >
+                      <Ionicons
+                        name={cardFeedback[activeMotivationCard.id] === 'not_helpful' ? 'thumbs-down' : 'thumbs-down-outline'}
+                        size={20}
+                        color={cardFeedback[activeMotivationCard.id] === 'not_helpful' ? '#ef4444' : '#9ca3af'}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
 
               </View>
             )}
@@ -3239,6 +3240,38 @@ const styles = StyleSheet.create({
     backgroundColor: '#d1fae5',
   },
   cardFeedbackButtonActiveNegative: {
+    backgroundColor: '#fee2e2',
+  },
+
+  // Modal Feedback Styles (inside the modal)
+  modalFeedbackRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#f3f4f6',
+    gap: 12,
+  },
+  modalFeedbackLabel: {
+    fontSize: 14,
+    color: '#6b7280',
+    fontWeight: '500',
+  },
+  modalFeedbackButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  modalFeedbackButton: {
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: '#f3f4f6',
+  },
+  modalFeedbackButtonActive: {
+    backgroundColor: '#d1fae5',
+  },
+  modalFeedbackButtonActiveNegative: {
     backgroundColor: '#fee2e2',
   },
 
