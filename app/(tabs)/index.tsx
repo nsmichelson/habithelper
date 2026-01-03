@@ -1500,6 +1500,7 @@ export default function HomeScreen() {
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
+            display: 'none', // Hidden by default, can be enabled for testing
           }}
           onPress={() => {
             console.log('=== DEBUG BUTTON PRESSED ===');

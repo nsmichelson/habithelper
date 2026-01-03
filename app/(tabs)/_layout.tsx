@@ -54,21 +54,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="test-profile-creator"
-        options={{
-          title: 'Test Profile Creator',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="create" size={size || 28} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           title: 'My Why',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="heart" size={size || 28} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="test-profile-creator"
+        options={{
+          href: null,
         }}
       />
       <Tabs.Screen
@@ -80,10 +77,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="test"
         options={{
-          title: 'Test Profiles',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="flask" size={size || 28} color={color} />
-          ),
+          href: null,
         }}
       />
     </Tabs>
