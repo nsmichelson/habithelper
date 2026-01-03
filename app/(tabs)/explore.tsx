@@ -1094,36 +1094,6 @@ export default function ProgressScreen() {
         ))}
       </View>
       
-      {/* Test Education Cards Button */}
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          bottom: 100,
-          right: 20,
-          backgroundColor: '#E85D75',
-          paddingHorizontal: 20,
-          paddingVertical: 12,
-          borderRadius: 25,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 8,
-        }}
-        onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-          setShowEducationCards(true);
-        }}
-      >
-        <Ionicons name="school-outline" size={20} color="#FFF" />
-        <Text style={{ color: '#FFF', fontWeight: '600', fontSize: 14 }}>
-          Learn About Organization
-        </Text>
-      </TouchableOpacity>
-      
       {/* Education Cards Component */}
       <EducationCards
         content={organizationEducation}

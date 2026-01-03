@@ -490,6 +490,75 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
 
+          {/* Data & Legal */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Data & Legal</Text>
+
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => {
+                Alert.alert(
+                  'Privacy Policy',
+                  'Your privacy is important to us. We store your data locally on your device. We collect anonymous usage data to improve the app experience.\n\nFull policy available at: https://example.com/privacy',
+                  [{ text: 'OK' }]
+                );
+              }}
+            >
+              <LinearGradient
+                colors={['#F5F5F5', '#FAFAFA']}
+                style={styles.actionGradient}
+              >
+                <Ionicons name="shield-checkmark-outline" size={20} color="#4CAF50" />
+                <View style={styles.actionContent}>
+                  <Text style={styles.actionTitle}>Privacy Policy</Text>
+                  <Text style={styles.actionSubtext}>Read our privacy policy</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color="#999" />
+              </LinearGradient>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => {
+                Alert.alert(
+                  'Clear All Data',
+                  'Are you sure you want to delete all your data? This cannot be undone and you will lose all progress and history.',
+                  [
+                    { text: 'Cancel', style: 'cancel' },
+                    {
+                      text: 'Delete Everything',
+                      style: 'destructive',
+                      onPress: async () => {
+                        try {
+                          await StorageService.clearAllData();
+                          // Force a reload or exit
+                          setUserProfile(null);
+                          // This will trigger the app to go back to onboarding on next render
+                          Alert.alert('Data Cleared', 'All your data has been deleted. The app will restart.');
+                        } catch (error) {
+                          console.error('Failed to clear data:', error);
+                          Alert.alert('Error', 'Failed to clear data. Please try again.');
+                        }
+                      }
+                    }
+                  ]
+                );
+              }}
+            >
+              <LinearGradient
+                colors={['#FFF0F0', '#FFEBEE']}
+                style={styles.actionGradient}
+              >
+                <Ionicons name="trash-outline" size={20} color="#F44336" />
+                <View style={styles.actionContent}>
+                  <Text style={[styles.actionTitle, { color: '#D32F2F' }]}>Clear All Data</Text>
+                  <Text style={styles.actionSubtext}>Delete account and reset app</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color="#EF9A9A" />
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+
           {/* Motivational Quote */}
           <View style={styles.quoteCard}>
             <Text style={styles.quoteText}>

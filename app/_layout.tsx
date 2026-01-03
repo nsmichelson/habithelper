@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
 import { DateSimulationProvider } from '@/contexts/DateSimulationContext';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -21,16 +22,18 @@ export default function RootLayout() {
   }
 
   return (
-    <Provider store={store}>
-      <DateSimulationProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
-      </DateSimulationProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <DateSimulationProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </DateSimulationProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 }
